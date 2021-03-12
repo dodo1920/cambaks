@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cambak21.domain.CheckListVO;
+import com.cambak21.service.checkList.CheckListServiceImpl;
 
 /**
  * Handles requests for the application home page.
@@ -27,10 +28,7 @@ import com.cambak21.domain.CheckListVO;
 public class HomeController {
 	
 	@Inject
-	private CheckListVO checklist;
-	
-	
-	
+	private CheckListServiceImpl CheckListService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -51,7 +49,7 @@ public class HomeController {
 		return "home";
 	}
 	
-<<<<<<< HEAD
+
 	
 	/**
 	 * @Method Name : homeheader
@@ -88,13 +86,12 @@ public class HomeController {
 		return "checkList2";
 	}
 	
-	@RequestMapping(value="/ajaxCheckList{member_id}", method=RequestMethod.GET)
-	public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") int member_id){
+	@RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
+	public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){
 		// bno에 대한 전체 글 보기
 		ResponseEntity<List<CheckListVO>> entity = null;
-		SimpleDateFormat sDate2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 		try {
-			entity = new ResponseEntity<List<CheckListVO>>(service.listReply(bno), HttpStatus.OK);
+			entity = new ResponseEntity<List<CheckListVO>>(CheckListService.getCheckList(member_id), HttpStatus.OK);
 			System.out.println(entity.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -106,13 +103,7 @@ public class HomeController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-=======
+
 	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
 	public String cambak21home(Locale locale, Model model) {
 		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
@@ -120,10 +111,7 @@ public class HomeController {
 		
 		return "cambak21Main";
 	}
-	
->>>>>>> 50c6c1d1711a5cd070926beed1a12249edc892c7
-	
-	
+
 	
 	
 	

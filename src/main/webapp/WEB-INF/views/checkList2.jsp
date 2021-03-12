@@ -25,21 +25,39 @@ const presetValues = [{
   "title":"Drink coffee",
   "completed":false
 }]
+
 // Use localStorage
 const STORAGE_KEY = "todo-app";
+var todos = presetValues;
+
 const todoStorage = {
-  fetch: function() {
-    var todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || presetValues;
-    todos.forEach(function(todo, index) {
-      todo.id = index;
-    });
-    todoStorage.uid = todos.length;
-    return todos;
-  },
-  save: function(todos) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-  }
+		
+		$.getJSON("/ajaxCheckList/aaa", function(data){
+			console.log(data);
+			$(data).each(function(index, item){
+				todo.id = item;
+			});
+			
+			todoStorage.uid = 
+		
+		});
+		
 };
+		
+		
+//   fetch: function() {
+//     var todos = JSON.parse(localStorage.getItem(STORAGE_KEY)) || presetValues;
+//     todos.forEach(function(todo, index) {
+//       todo.id = index;
+//     });
+//     todoStorage.uid = todos.length;
+//     return todos;
+//   },
+//   save: function(todos) {
+//     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+//   }
+// };
+
 
 // visibility filters
 var filters = {
