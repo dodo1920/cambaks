@@ -43,10 +43,24 @@ public class HomeController {
 		
 		return "cambakMain/cambak21Main";
 	}
+
 	
+	/**
+	 * @Method Name : homeheader
+	 * @작성일 : 2021. 3. 12.
+	 * @작성자 : 박종진
+	 * @변경이력 : 캠박몰 메인 컨트롤러 - 맵핑 추가
+	 * @Method 설명 : 캠박몰 메인 URI 설정
+	 * @param locale
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/mall", method = RequestMethod.GET)
+	public String homeheader(Locale locale, Model model) {
+		logger.info("homeheader 작업중 . . . . .");
 	
-	
-	
-	
-	
+		
+		return "cambakMall/mall";
+	}
+
 }
