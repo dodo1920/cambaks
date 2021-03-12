@@ -16,6 +16,8 @@ public class MemberVO {
 	private String member_isAdmin;
 	private int member_totPoint;
 	private String member_password;
+	private String member_isDelete;
+	private String member_cookie;
 
 	public String getMember_id() {
 		return member_id;
@@ -121,13 +123,30 @@ public class MemberVO {
 		this.member_password = member_password;
 	}
 
+	public String getMember_isDelete() {
+		return member_isDelete;
+	}
+
+	public void setMember_isDelete(String member_isDelete) {
+		this.member_isDelete = member_isDelete;
+	}
+
+	public String getMember_cookie() {
+		return member_cookie;
+	}
+
+	public void setMember_cookie(String member_cookie) {
+		this.member_cookie = member_cookie;
+	}
+
 	@Override
 	public String toString() {
 		return "MemberVO [member_id=" + member_id + ", grade_name=" + grade_name + ", member_name=" + member_name
 				+ ", member_gender=" + member_gender + ", member_birth=" + member_birth + ", member_addr=" + member_addr
 				+ ", member_email=" + member_email + ", member_mobile=" + member_mobile + ", member_img=" + member_img
 				+ ", member_payment=" + member_payment + ", member_isAdmin=" + member_isAdmin + ", member_totPoint="
-				+ member_totPoint + ", member_password=" + member_password + "]";
+				+ member_totPoint + ", member_password=" + member_password + ", member_isDelete=" + member_isDelete
+				+ ", member_cookie=" + member_cookie + "]";
 	}
 
 }

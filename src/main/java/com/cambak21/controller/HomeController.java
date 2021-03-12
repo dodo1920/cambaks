@@ -51,6 +51,7 @@ public class HomeController {
 		return "home";
 	}
 	
+<<<<<<< HEAD
 	
 	/**
 	 * @Method Name : homeheader
@@ -111,6 +112,16 @@ public class HomeController {
 	
 	
 	
+=======
+	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
+	public String cambak21home(Locale locale, Model model) {
+		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
+	
+		
+		return "cambak21Main";
+	}
+	
+>>>>>>> 50c6c1d1711a5cd070926beed1a12249edc892c7
 	
 	
 	
