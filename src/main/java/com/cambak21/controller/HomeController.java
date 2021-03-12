@@ -1,7 +1,6 @@
 package com.cambak21.controller;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.service.checkList.CheckListServiceImpl;
 
 /**
  * Handles requests for the application home page.
@@ -28,7 +26,7 @@ import com.cambak21.service.checkList.CheckListServiceImpl;
 public class HomeController {
 	
 	@Inject
-	private CheckListServiceImpl CheckListService;
+	private com.cambak21.service.checkList.CheckListService CheckListService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -48,9 +46,7 @@ public class HomeController {
 		
 		return "home";
 	}
-	
-<<<<<<< HEAD
-=======
+
 	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
 	public String cambak21home(Locale locale, Model model) {
 		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
@@ -58,34 +54,20 @@ public class HomeController {
 		
 		return "cambakMain/cambak21Main";
 	}
->>>>>>> 32eb4c4cf33e3c5cc436fb385b0d217ca1817954
 
-	
-	/**
-	 * @Method Name : homeheader
-	 * @작성일 : 2021. 3. 12.
-	 * @작성자 : 박종진
-	 * @변경이력 : 캠박몰 메인 컨트롤러 - 맵핑 추가
-	 * @Method 설명 : 캠박몰 메인 URI 설정
-	 * @param locale
-	 * @param model
-	 * @return
-	 */
+		
 	@RequestMapping(value = "/mall", method = RequestMethod.GET)
 	public String homeheader(Locale locale, Model model) {
 		logger.info("JJONG homeheader 작업중 . . . . .");
 	
-		
-<<<<<<< HEAD
-		return "mall";
+		return "/cambakMall/mall";
 	}
 	
 	
 	@RequestMapping(value = "/boardNotice", method = RequestMethod.GET)
 	public String boardNotice(Locale locale, Model model) {
 		logger.info("JJONG boardNotice 작업중 . . . . .");
-	
-		
+			
 		return "boardNotice";
 	}
 	
@@ -100,6 +82,7 @@ public class HomeController {
 	@RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
 	public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){
 		// bno에 대한 전체 글 보기
+		
 		ResponseEntity<List<CheckListVO>> entity = null;
 		try {
 			entity = new ResponseEntity<List<CheckListVO>>(CheckListService.getCheckList(member_id), HttpStatus.OK);
@@ -111,24 +94,7 @@ public class HomeController {
 		}   
 		return entity;
 	}
-	
-	
-	
 
-	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
-	public String cambak21home(Locale locale, Model model) {
-		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
-	
-		
-		return "cambak21Main";
-	}
-
-	
-	
-	
-=======
-		return "cambakMall/mall";
-	}
-
->>>>>>> 32eb4c4cf33e3c5cc436fb385b0d217ca1817954
 }
+
+	

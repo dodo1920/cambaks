@@ -17,14 +17,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
 </head>
 <body>
 
@@ -587,20 +587,17 @@
 <%@include file="mallFooter.jsp" %>
 
 
-
-
-
 <!-- Js Plugins -->
-<script src="resources/js/jquery-3.3.1.min.js"></script>
-<script src="resources/js/bootstrap.min.js"></script>
-<script src="resources/js/jquery.magnific-popup.min.js"></script>
-<script src="resources/js/jquery-ui.min.js"></script>
-<script src="resources/js/mixitup.min.js"></script>
-<script src="resources/js/jquery.countdown.min.js"></script>
-<script src="resources/js/jquery.slicknav.js"></script>
-<script src="resources/js/owl.carousel.min.js"></script>
-<script src="resources/js/jquery.nicescroll.min.js"></script>
-<script src="resources/js/main.js"></script>
+<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../resources/mallMain/js/main.js"></script>
 
 
 </body>
