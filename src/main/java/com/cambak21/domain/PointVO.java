@@ -8,11 +8,12 @@ public class PointVO {
 	private String member_id;
 	private String grade_name;
 	private int buyProduct_totPrice;
-	private String reason;
+	private String point_reason;
 	private int point_usedPoint;
 	private int point_futurePoint;
 	private Date point_savingDate;
 	private Date  payment_date;
+	
 	public int getPoint_no() {
 		return point_no;
 	}
@@ -44,10 +45,10 @@ public class PointVO {
 		this.buyProduct_totPrice = buyProduct_totPrice;
 	}
 	public String getReason() {
-		return reason;
+		return point_reason;
 	}
 	public void setReason(String reason) {
-		this.reason = reason;
+		this.point_reason = reason;
 	}
 	public int getPoint_usedPoint() {
 		return point_usedPoint;
@@ -76,7 +77,7 @@ public class PointVO {
 	@Override
 	public String toString() {
 		return "PointVO [point_no=" + point_no + ", buyProduct_no=" + buyProduct_no + ", member_id=" + member_id
-				+ ", grade_name=" + grade_name + ", buyProduct_totPrice=" + buyProduct_totPrice + ", reason=" + reason
+				+ ", grade_name=" + grade_name + ", buyProduct_totPrice=" + buyProduct_totPrice + ", point_reason=" + point_reason
 				+ ", point_usedPoint=" + point_usedPoint + ", point_futurePoint=" + point_futurePoint
 				+ ", point_savingDate=" + point_savingDate + ", payment_date=" + payment_date + "]";
 	}
