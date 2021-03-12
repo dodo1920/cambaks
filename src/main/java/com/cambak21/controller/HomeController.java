@@ -1,21 +1,36 @@
 package com.cambak21.controller;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.cambak21.domain.CheckListVO;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
+	
+	@Inject
+	private CheckListVO checklist;
+	
+	
+	
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -49,17 +64,44 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/mall", method = RequestMethod.GET)
 	public String homeheader(Locale locale, Model model) {
-		logger.info("homeheader 작업중 . . . . .");
+		logger.info("JJONG homeheader 작업중 . . . . .");
 	
 		
 		return "mall";
 	}
 	
 	
+	@RequestMapping(value = "/boardNotice", method = RequestMethod.GET)
+	public String boardNotice(Locale locale, Model model) {
+		logger.info("JJONG boardNotice 작업중 . . . . .");
 	
+		
+		return "boardNotice";
+	}
 	
+	@RequestMapping(value="/checkList", method = RequestMethod.GET)
+	public String checkList() {
+		logger.info("JJONG ckeckList2 작업중 . . . . .");
 	
+		
+		return "checkList2";
+	}
 	
+	@RequestMapping(value="/ajaxCheckList{member_id}", method=RequestMethod.GET)
+	public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") int member_id){
+		// bno에 대한 전체 글 보기
+		ResponseEntity<List<CheckListVO>> entity = null;
+		SimpleDateFormat sDate2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		try {
+			entity = new ResponseEntity<List<CheckListVO>>(service.listReply(bno), HttpStatus.OK);
+			System.out.println(entity.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 예외가 발생하면 List<ReplyVO> 는 null 이므로 ...ResponseEntity<>
+		}   
+		return entity;
+	}
 	
 	
 	
