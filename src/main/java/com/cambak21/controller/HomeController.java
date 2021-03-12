@@ -49,6 +49,16 @@ public class HomeController {
 		return "home";
 	}
 	
+<<<<<<< HEAD
+=======
+	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
+	public String cambak21home(Locale locale, Model model) {
+		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
+	
+		
+		return "cambakMain/cambak21Main";
+	}
+>>>>>>> 32eb4c4cf33e3c5cc436fb385b0d217ca1817954
 
 	
 	/**
@@ -66,6 +76,7 @@ public class HomeController {
 		logger.info("JJONG homeheader 작업중 . . . . .");
 	
 		
+<<<<<<< HEAD
 		return "mall";
 	}
 	
@@ -115,4 +126,9 @@ public class HomeController {
 	
 	
 	
+=======
+		return "cambakMall/mall";
+	}
+
+>>>>>>> 32eb4c4cf33e3c5cc436fb385b0d217ca1817954
 }
