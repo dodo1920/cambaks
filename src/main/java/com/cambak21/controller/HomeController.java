@@ -41,7 +41,7 @@ public class HomeController {
 		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
 	
 		
-		return "cambak21Main";
+		return "cambakMain/cambak21Main";
 	}
 	
 	
