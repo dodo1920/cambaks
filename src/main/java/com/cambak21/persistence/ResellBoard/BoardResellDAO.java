@@ -1,10 +1,13 @@
-package com.cambak21.persistence.boardCampingReview;
+package com.cambak21.persistence.ResellBoard;
 
 import java.util.List;
 
 import com.cambak21.domain.ResellBoardVO;
 
 public interface BoardResellDAO {
+	
+	// C Ra R U D
+	
 	/**
 	 * @Method Name : ResellBoardInsert
 	 * @작성일 : 2021. 3. 12.

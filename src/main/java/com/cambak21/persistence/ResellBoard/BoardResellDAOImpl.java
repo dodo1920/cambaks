@@ -1,4 +1,4 @@
-package com.cambak21.persistence.boardCampingReview;
+package com.cambak21.persistence.ResellBoard;
 
 import java.util.List;
 

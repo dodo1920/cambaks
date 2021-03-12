@@ -1,1 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.mapper.MessageMapper">
+  <insert id="ResellBoardInsert">
+  	insert into ResellBoards
+  	 (member_id, resellBoard_title, 
+  	 resellBoard_content, resellBoard_price, 
+  	 resellBoard_addr,resellBoard_img1,
+  	 resellBoard_img2, resellBoard_img3, resellBoard_img4)
+	values (#{member_id},#{resellBoard_title},
+	#{resellBoard_content},#{resellBoard_price},
+	#{resellBoard_addr},#{resellBoard_img1},
+	#{resellBoard_img2},#{resellBoard_img3},
+	#{resellBoard_img4}
+);
+  </insert>
+  
+  	
+  </mapper>
