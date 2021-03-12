@@ -5,6 +5,8 @@ public class CheckListVO {
 	private String member_id;
 	private String checkList_checked;
 	private String checkList_content;
+	
+	
 	public int getCheckList_no() {
 		return checkList_no;
 	}
