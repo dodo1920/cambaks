@@ -15,12 +15,14 @@ public class CheckListDAOImpl implements CheckListDAO {
 	@Inject
 	private SqlSession ses;
 	
-	private static final String ns = "com.cambak21.mappers.checkListMapper";
+	private static String ns = "com.cambak21.mappers.checkListMapper";
 	
 	@Override
 	public List<CheckListVO> getCheckList(String member_id) throws Exception {
-				ses.selectList(ns + ".readCheckList", member_id);
-		return null;
+		
+		return ses.selectList(ns + ".readCheckList", member_id);
+
+		
 	}
 
 }
