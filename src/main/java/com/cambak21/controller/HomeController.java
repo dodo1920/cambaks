@@ -36,4 +36,17 @@ public class HomeController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
+	public String cambak21home(Locale locale, Model model) {
+		logger.info("백승권 / 캠박이일 홈페이지 테스트 진입");
+	
+		
+		return "cambak21Main";
+	}
+	
+	
+	
+	
+	
+	
 }
