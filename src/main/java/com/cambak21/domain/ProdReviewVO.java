@@ -14,9 +14,9 @@ public class ProdReviewVO {
 	private String prodReview_isDelete;
 	private Date prodReview_updateDate;
 	private int prodReview_likeCnt;
-	private int prodReview_viewCnt;
 	private int prodReview_replyCnt;
 	private int buyProduct_no;
+	
 	public int getProdReview_no() {
 		return prodReview_no;
 	}
@@ -83,12 +83,6 @@ public class ProdReviewVO {
 	public void setProdReview_likeCnt(int prodReview_likeCnt) {
 		this.prodReview_likeCnt = prodReview_likeCnt;
 	}
-	public int getProdReview_viewCnt() {
-		return prodReview_viewCnt;
-	}
-	public void setProdReview_viewCnt(int prodReview_viewCnt) {
-		this.prodReview_viewCnt = prodReview_viewCnt;
-	}
 	public int getProdReview_replyCnt() {
 		return prodReview_replyCnt;
 	}
@@ -101,6 +95,7 @@ public class ProdReviewVO {
 	public void setBuyProduct_no(int buyProduct_no) {
 		this.buyProduct_no = buyProduct_no;
 	}
+	
 	@Override
 	public String toString() {
 		return "ProdReviewVO [prodReview_no=" + prodReview_no + ", product_id=" + product_id + ", member_id="
@@ -108,8 +103,7 @@ public class ProdReviewVO {
 				+ ", prodReview_grade=" + prodReview_grade + ", prodReview_img=" + prodReview_img
 				+ ", prodReview_postDate=" + prodReview_postDate + ", prodReview_isDelete=" + prodReview_isDelete
 				+ ", prodReview_updateDate=" + prodReview_updateDate + ", prodReview_likeCnt=" + prodReview_likeCnt
-				+ ", prodReview_viewCnt=" + prodReview_viewCnt + ", prodReview_replyCnt=" + prodReview_replyCnt
-				+ ", buyProduct_no=" + buyProduct_no + "]";
+				+ ", prodReview_replyCnt=" + prodReview_replyCnt + ", buyProduct_no=" + buyProduct_no + "]";
 	}
 	
 	
