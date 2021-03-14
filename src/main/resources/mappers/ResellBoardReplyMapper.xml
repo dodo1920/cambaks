@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.mapper.ResellBoardReplyMapper">
+  <insert id="ResellBoardReplyInsert">
+  	insert into ResellReplyBoards (resellBoard_no,member_id,resellReplyBoard_content)
+	values(#{resellBoard_no},#{member_id},#{resellReplyBoard_content})
+  </insert>
+  <select id="ResellBoardReplyRead">
+  select member_id,resellReplyBoard_content,resellReplyBoard_updateDate
+   from ResellReplyBoards where resellBoard_no = #{bno}
+  </select>
+  <update id="ResellBoardUpadte">
+  update ResellReplyBoards set resellReplyBoard_content = #{resellReplyBoard_content}, resellReplyBoard_updateDate = now()
+  where resellReplyBoard_no = #{resellReplyBoard_no}
+  </update>
+  <delete id="ResellBoardReplyDelete">
+  delete from ResellReplyBoards where member_id = #{no}</delete>
+  
+  <select id="getResellBoardGetBnoBno" resultType="int">
+  		select resellBoard_no from ResellReplyBoards where no =#{no}
+  </select>
+  </mapper>
