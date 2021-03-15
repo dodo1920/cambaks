@@ -17,14 +17,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
 </head>
 <body>
 
@@ -61,24 +61,24 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
                             <a class="pt active" href="#product-1">
-                                <img src="../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-2">
-                                <img src="../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-3">
-                                <img src="../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-4">
-                                <img src="../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
                             </a>
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="../resources/mallMain/img/product/details/product-1.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="../resources/mallMain/img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="../resources/mallMain/img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="../resources/mallMain/img/product/details/product-4.jpg" alt="">
+                                <img data-hash="product-1" class="product__big__img" src="../../resources/mallMain/img/product/details/product-1.jpg" alt="">
+                                <img data-hash="product-2" class="product__big__img" src="../../resources/mallMain/img/product/details/product-3.jpg" alt="">
+                                <img data-hash="product-3" class="product__big__img" src="../../resources/mallMain/img/product/details/product-2.jpg" alt="">
+                                <img data-hash="product-4" class="product__big__img" src="../../resources/mallMain/img/product/details/product-4.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -208,9 +208,34 @@
                             <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>상품 문의</h6>
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
-                                <div>
-                                
-                                </div>
+								<div class="container">         
+								  <table class="table">
+								    <thead>
+								      <tr>
+								        <th>Firstname</th>
+								        <th>Lastname</th>
+								        <th>Email</th>
+								      </tr>
+								    </thead>
+								    <tbody>
+								      <tr>
+								        <td>John</td>
+								        <td>Doe</td>
+								        <td>john@example.com</td>
+								      </tr>
+								      <tr>
+								        <td>Mary</td>
+								        <td>Moe</td>
+								        <td>mary@example.com</td>
+								      </tr>
+								      <tr>
+								        <td>July</td>
+								        <td>Dooley</td>
+								        <td>july@example.com</td>
+								      </tr>
+								    </tbody>
+								  </table>
+								</div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
@@ -233,10 +258,10 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-1.jpg">
                             <div class="label new">New</div>
                             <ul class="product__hover">
-                                <li><a href="../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="../../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -256,9 +281,9 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-2.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-2.jpg">
                             <ul class="product__hover">
-                                <li><a href="../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="../../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -278,10 +303,10 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-3.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-3.jpg">
                             <div class="label stockout">out of stock</div>
                             <ul class="product__hover">
-                                <li><a href="../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="../../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -301,9 +326,9 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-4.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-4.jpg">
                             <ul class="product__hover">
-                                <li><a href="../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                <li><a href="../../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                                 <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                             </ul>
@@ -343,16 +368,16 @@
 
 
 <!-- Js Plugins -->
-<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-<script src="../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../../resources/mallMain/js/main.js"></script>
 
 
 </body>
