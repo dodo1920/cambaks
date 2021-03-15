@@ -157,7 +157,7 @@ $(document).ready(function() {
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="cambakMain/cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -322,7 +322,7 @@ $(document).ready(function() {
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<%@include file="cambakMain/cambak21Footer.jsp"%>
 
 </body>
 
