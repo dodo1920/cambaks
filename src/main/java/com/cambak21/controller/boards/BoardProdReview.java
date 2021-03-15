@@ -23,7 +23,7 @@ public class BoardProdReview {
 	private static final Logger logger = LoggerFactory.getLogger(BoardProdReview.class);
 	
 	//페이징 없는 전체 게시글 목록
-	@RequestMapping(value = "/cambakMall/prodReviewsTest", method=RequestMethod.GET)
+	@RequestMapping(value = "/cambakMall/prodReviews", method=RequestMethod.GET)
 	public void listAll(Model model) throws Exception {
 		logger.info("/prodReviewsTest 페이지 get방식 호출");
 		List<ProdReviewVO> lst = service.listProdBoard();
@@ -31,4 +31,6 @@ public class BoardProdReview {
 		model.addAttribute("boardList", lst);
 		
 	}
+	
+	
 }
