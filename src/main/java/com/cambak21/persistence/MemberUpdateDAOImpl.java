@@ -6,6 +6,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.MemberVO;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 581ceac08190d0ec5a44abc55271b64687e3a4a2
 @Repository
 public class MemberUpdateDAOImpl implements MemberUpdateDAO {
 	@Inject
