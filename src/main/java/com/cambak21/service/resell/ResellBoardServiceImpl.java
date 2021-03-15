@@ -1,17 +1,19 @@
-package com.cambak21.service.resellboard;
+package com.cambak21.service.resell;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import com.cambak21.domain.PagingCriteria;
+import org.springframework.stereotype.Service;
+
+import com.cambak21.util.PagingCriteria;
 import com.cambak21.domain.ResellBoardVO;
-import com.cambak21.domain.SerachCriteria;
+import com.cambak21.util.SearchCriteria;
 import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
-import com.cambak21.persistence.ResellBoard.ResellBoardDAO;
-
+import com.cambak21.persistence.resell.ResellBoardDAO;
+@Service
 public class ResellBoardServiceImpl implements ResellBoardService {
 	@Inject
 	private ResellBoardDAO dao;
@@ -38,13 +40,13 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 	}
 
 	@Override
-	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri, SerachCriteria scri) throws Exception {
+	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri, SearchCriteria scri) throws Exception {
 		
 		return dao.ResellBoardRead(cri,scri);
 	}
 
 	@Override
-	public int ResellBoardReadCnt(SerachCriteria scri) throws Exception {
+	public int ResellBoardReadCnt(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.ResellBoardReadCnt(scri);
 	}

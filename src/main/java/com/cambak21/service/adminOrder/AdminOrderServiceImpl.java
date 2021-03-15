@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.cambak21.domain.AdminRefundnExchangeVO;
-import com.cambak21.domain.PagingCriteria;
-import com.cambak21.persistence.adminOrder.AdminOrderDAO;
+import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.AdminRefundnExchangeVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.persistence.adminOrder.AdminOrderDAO;
+@Service
 public class AdminOrderServiceImpl implements AdminOrderService {
 	@Inject 
 	private AdminOrderDAO dao;

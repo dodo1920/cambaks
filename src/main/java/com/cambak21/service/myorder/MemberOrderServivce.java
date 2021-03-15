@@ -1,12 +1,12 @@
-package com.cambak21.persistence.orderlist;
+package com.cambak21.service.myorder;
 
 import java.util.List;
 
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
-import com.cambak21.domain.PagingCriteria;
+import com.cambak21.util.PagingCriteria;
 
-public interface MemberOrderDAO {
+public interface MemberOrderServivce {
 
 	/**
 	 * @Method Name : MemberLittleOrder
@@ -57,7 +57,7 @@ public interface MemberOrderDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int MemberPointAndpaymentUpdate(String userName)throws Exception;
+	public boolean MemberPointAndpaymentUpdate(String userName)throws Exception;
 	
 
 	/**
@@ -70,7 +70,7 @@ public interface MemberOrderDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int MemeberPointDateUpdate(String userName)throws Exception;
+	public boolean MemeberPointDateUpdate(String userName)throws Exception;
 	
 
 	/**
@@ -83,5 +83,5 @@ public interface MemberOrderDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int MemeberGradeUpdate(String userName)throws Exception;
+	public boolean MemeberGradeUpdate(String userName)throws Exception;
 }

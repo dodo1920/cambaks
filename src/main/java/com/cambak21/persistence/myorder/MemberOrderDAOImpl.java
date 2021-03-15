@@ -1,4 +1,4 @@
-package com.cambak21.persistence.orderlist;
+package com.cambak21.persistence.myorder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,11 +7,12 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
-import com.cambak21.domain.PagingCriteria;
-
+import com.cambak21.util.PagingCriteria;
+@Repository
 public class MemberOrderDAOImpl implements MemberOrderDAO {
 	@Inject
 	private SqlSession ses;

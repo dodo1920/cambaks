@@ -1,10 +1,12 @@
-package com.cambak21.service.resellboard;
+package com.cambak21.service.resell;
 
 import javax.inject.Inject;
 
-import com.cambak21.domain.ResellLikeBoardVO;
-import com.cambak21.persistence.ResellBoard.ResellBoardLikeDAO;
+import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.ResellLikeBoardVO;
+import com.cambak21.persistence.resell.ResellBoardLikeDAO;
+@Service
 public class ResellBoardLikeServiceImpl implements ResellBoardLikeService {
 	@Inject
 	private ResellBoardLikeDAO dao;

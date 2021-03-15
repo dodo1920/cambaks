@@ -3,7 +3,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cambak21.mappers.AdminOrderMapper">
-	<select id="AdminOrderList">
+	<select id="AdminOrderList" resultType="com.cambak21.domain.AdminRefundnExchangeVO">
 		select payment.member_id,
 		 refundnExchange.refundnExchange_reason ,
 		 refundnExchange.refundnExchange_date ,
@@ -15,7 +15,7 @@
 		order by payment.payment_serialNo  desc
 		limit #{pageStert} , #{pageNum};
 	</select>
-	<select id="AdminOrderListCnt">
+	<select id="AdminOrderListCnt" resultType="int">
 		select count(*) from 
 		(select payment.member_id,
 		 refundnExchange.refundnExchange_reason ,

@@ -1,4 +1,4 @@
-package com.cambak21.persistence.ResellBoard;
+package com.cambak21.persistence.resell;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,14 +7,15 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
-import com.cambak21.domain.PagingCriteria;
+import com.cambak21.util.PagingCriteria;
 import com.cambak21.domain.ResellBoardVO;
-import com.cambak21.domain.SerachCriteria;
+import com.cambak21.util.SearchCriteria;
 import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
-
+@Repository
 public class ResellBoardDAOImpl implements ResellBoardDAO {
 	@Inject
 	private SqlSession ses;
@@ -35,7 +36,7 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 		return ses.selectOne(namespace+".ResellBoardReadAllCnt");
 	}
 	@Override
-	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri, SerachCriteria scri) throws Exception {
+	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri, SearchCriteria scri) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchType", scri.getSearchType());
 		param.put("searchWord", scri.getSearchWord());
@@ -45,7 +46,7 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 		return ses.selectList(namespace+".ResellBoardRead",param);
 	}
 	@Override
-	public int ResellBoardReadCnt(SerachCriteria scri) throws Exception {
+	public int ResellBoardReadCnt(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
 		return ses.selectOne(namespace+".ResellBoardReadCnt",scri);
 	}

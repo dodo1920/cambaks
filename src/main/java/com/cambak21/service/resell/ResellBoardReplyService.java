@@ -1,4 +1,4 @@
-package com.cambak21.service.resellboard;
+package com.cambak21.service.resell;
 
 import java.util.List;
 

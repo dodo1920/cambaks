@@ -1,13 +1,15 @@
-package com.cambak21.service.resellboard;
+package com.cambak21.service.resell;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import com.cambak21.domain.ResellBoardVO;
-import com.cambak21.persistence.ResellBoard.ResellBoardDAO;
-import com.cambak21.persistence.ResellBoard.ResellBoardReplyDAO;
+import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.ResellBoardVO;
+import com.cambak21.persistence.resell.ResellBoardDAO;
+import com.cambak21.persistence.resell.ResellBoardReplyDAO;
+@Service
 public class ResellBoardReplyServiceImpl implements ResellBoardReplyService {
 	@Inject
 	private ResellBoardReplyDAO rdao;

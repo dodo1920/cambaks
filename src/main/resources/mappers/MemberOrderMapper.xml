@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.mapper.MemberOrderMapper">
-	<select id="MemberLittleOrder">
+	<select id="MemberLittleOrder" resultType="com.cambak21.domain.MemberLittleOrderVO">
 		select payment.payment_date,payment.payment_no
 		product.product_name,buyProduct.buyProduct_totPrice,
 		deliverie.delivery_status
@@ -17,7 +17,7 @@
 		 desc limit #{pageStert},#{pageNum};
 	</select>
 	
-	<select id="MemberLittleOrderCnt">
+	<select id="MemberLittleOrderCnt" resultType="int">
 		select count(*) from
 		(select payment.payment_date,payment.payment_no,
 		product.product_name,buyProduct.buyProduct_totPrice,
@@ -30,7 +30,7 @@
 		 group by payment.payment_serialNo) as OrderList
 	</select>
 	
-	<select id="MemberDetailOrder">
+	<select id="MemberDetailOrder" resultType="com.cambak21.domain.MemberOrderVO">
 		select payment.payment_no, payment.payment_date ,product.product_name, payment.member_id,destination.destination_address ,destination.destination_toUser ,
 		destination.destination_mobile ,payment.payment_deliveryMsg ,
 		product.product_factory ,poin.point_usedPoint ,buyProduct.buyProduct_deliveriPay,buyProduct.buyProduct_totPrice,
