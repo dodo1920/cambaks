@@ -2,8 +2,8 @@ package com.cambak21.domain;
 
 import java.util.Date;
 
-public class ProdReviewVO {
-	private int prodReview_no;
+public class SearchReviewVO {
+	private int prodReview_no; 
 	private int product_id;
 	private String member_id;
 	private String prodReview_title;
@@ -11,7 +11,6 @@ public class ProdReviewVO {
 	private int prodReview_grade;
 	private String prodReview_img;
 	private Date prodReview_postDate;
-	private String prodReview_isDelete;
 	private Date prodReview_updateDate;
 	private int prodReview_likeCnt;
 	private int prodReview_replyCnt;
@@ -65,12 +64,6 @@ public class ProdReviewVO {
 	public void setProdReview_postDate(Date prodReview_postDate) {
 		this.prodReview_postDate = prodReview_postDate;
 	}
-	public String getProdReview_isDelete() {
-		return prodReview_isDelete;
-	}
-	public void setProdReview_isDelete(String prodReview_isDelete) {
-		this.prodReview_isDelete = prodReview_isDelete;
-	}
 	public Date getProdReview_updateDate() {
 		return prodReview_updateDate;
 	}
@@ -98,14 +91,13 @@ public class ProdReviewVO {
 	
 	@Override
 	public String toString() {
-		return "ProdReviewVO [prodReview_no=" + prodReview_no + ", product_id=" + product_id + ", member_id="
+		return "SearchReview [prodReview_no=" + prodReview_no + ", product_id=" + product_id + ", member_id="
 				+ member_id + ", prodReview_title=" + prodReview_title + ", prodReview_content=" + prodReview_content
 				+ ", prodReview_grade=" + prodReview_grade + ", prodReview_img=" + prodReview_img
-				+ ", prodReview_postDate=" + prodReview_postDate + ", prodReview_isDelete=" + prodReview_isDelete
-				+ ", prodReview_updateDate=" + prodReview_updateDate + ", prodReview_likeCnt=" + prodReview_likeCnt
-				+ ", prodReview_replyCnt=" + prodReview_replyCnt + ", buyProduct_no=" + buyProduct_no + "]";
+				+ ", prodReview_postDate=" + prodReview_postDate + ", prodReview_updateDate=" + prodReview_updateDate
+				+ ", prodReview_likeCnt=" + prodReview_likeCnt + ", prodReview_replyCnt=" + prodReview_replyCnt
+				+ ", buyProduct_no=" + buyProduct_no + "]";
 	}
-	
 	
 	
 }

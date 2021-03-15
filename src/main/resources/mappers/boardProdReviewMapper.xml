@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.cambak21.mapper.BoardProdReviewMapper">
+  
+  	<select id="listProdBoard" resultType="com.cambak21.domain.ProdReviewVO">
+  		select * from goot6.ProdReviews order by prodReview_no desc
+  	</select>
+
+ </mapper>
