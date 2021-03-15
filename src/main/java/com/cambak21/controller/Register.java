@@ -37,7 +37,7 @@ public class Register {
     */
   
    
-   @RequestMapping(value="signup", method = RequestMethod.GET)
+   @RequestMapping(value="register", method = RequestMethod.GET)
    public String signup() {
       logger.info("회원가입   작업중 . . . . .");
    
@@ -46,7 +46,7 @@ public class Register {
       
       
       
-      return "signup";
+      return "register";
    }
    
 
