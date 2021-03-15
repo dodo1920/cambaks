@@ -12,7 +12,7 @@ import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 @Repository
-public class BoardHumorDAOImple implements BoardHumorDAO {
+public class BoardHumorDAOImpl implements BoardHumorDAO {
 	@Inject
 	private SqlSession ses;
 	private static String namespace = "com.cambak21.mapper.BoardHumor";
@@ -25,38 +25,40 @@ public class BoardHumorDAOImple implements BoardHumorDAO {
 
 	@Override
 	public BoardVO readBoardHumor(int no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return ses.selectOne(namespace + ".readBoardHumor", no);
 	}
 
 	@Override
 	public int updateBoardHumor(BoardVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(namespace + ".updateBoardHumor", vo);
 	}
 
 	@Override
 	public int deleteBoardHumor(int no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(namespace + ".deleteBoardHumor", no );
 	}
 
 	@Override
 	public List<BoardVO> listBoardHumor(int page) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(page <= 0) {
+			page = 1;
+		}
+		page = (page -1) * 10;
+		return ses.selectList(namespace + ".listBoardHumor", page);
 	}
 
 	@Override
 	public List<BoardVO> listBoardHumorCriteria(PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return ses.selectList(namespace + ".listBoardHumorCriteria", cri);
 	}
 
 	@Override
 	public int getTotalBoardHumorCnt() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return ses.delete(namespace + ".getToatalBoardHumorCnt") ;
 	}
 
 	@Override
@@ -79,7 +81,7 @@ public class BoardHumorDAOImple implements BoardHumorDAO {
 
 	@Override
 	public void updateViewCnt(int no) throws Exception {
-		// TODO Auto-generated method stub
+		ses.update(namespace + ".updateViewCnt", no);
 
 	}
 
