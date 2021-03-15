@@ -1,4 +1,4 @@
-package com.cambak21.persistence;
+package com.cambak21.aop;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class HomeController2 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(HomeController2.class);
 	
 	/**
 	 * Simply selects the home view to render by returning its name.

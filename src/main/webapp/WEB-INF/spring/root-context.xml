@@ -5,9 +5,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
-		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
@@ -25,6 +23,8 @@
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/myBatisConfig.xml"></property>
+		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
 	
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
@@ -38,9 +38,9 @@
 	
 	
 	<!-- @Repository 패키지 스캔(우리가 만든 빈 추가하기 위해)  => DAO패키지와 Service패키지를 자동 스캔하여 bean을 생성할 수 있도록-->
-	<context:component-scan base-package="com.dodo1920.persistence"></context:component-scan>
+	<context:component-scan base-package="com.cambak21.persistence"></context:component-scan>
 	<context:component-scan base-package="com.cambak21.persistence.checkList"></context:component-scan>
-	<context:component-scan base-package="com.dodo1920.service"></context:component-scan>
+	<context:component-scan base-package="com.cambak21.service"></context:component-scan>
 	<context:component-scan base-package="com.cambak21.service.checkList"></context:component-scan>
 	<context:component-scan base-package="com.cambak21.service.boardProdReview"></context:component-scan>
 	<context:component-scan base-package="com.cambak21.persistence.boardProdReview"></context:component-scan>	
