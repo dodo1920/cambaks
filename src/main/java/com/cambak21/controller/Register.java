@@ -1,4 +1,4 @@
-package com.cambak21.controller.boards;
+package com.cambak21.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,30 +25,30 @@ import com.cambak21.service.checkList.CheckListServiceImpl;
  * Handles requests for the application home page.
  */
 @Controller
-public class BoardCampingReview {
-
+public class Register {
    
    @Inject
    private CheckListServiceImpl CheckListService;
    
-   private static final Logger logger = LoggerFactory.getLogger(BoardCampingReview.class);
+   private static final Logger logger = LoggerFactory.getLogger(Register.class);
    
    /**
     * Simply selects the home view to render by returning its name.
     */
+  
    
-   @RequestMapping(value="camping_review", method = RequestMethod.GET)
-   public String campingreview() {
-      logger.info("Ä·ÇÎ¸®ºä   ÀÛ¾÷Áß . . . . .");
+   @RequestMapping(value="signup", method = RequestMethod.GET)
+   public String signup() {
+      logger.info("íšŒì›ê°€ì…   ì‘ì—…ì¤‘ . . . . .");
    
       
       
       
       
       
-      return "cambakMain/campingreview";
+      return "signup";
    }
-
+   
 
 }
 
