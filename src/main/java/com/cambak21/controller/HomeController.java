@@ -74,7 +74,7 @@ public class HomeController {
    public String homeheader(Locale locale, Model model) {
       logger.info("JJONG homeheader 작업중 . . . . .");
    
-      return "mall";
+      return "cambakMall/mall";
    }
    
    
@@ -107,6 +107,7 @@ public class HomeController {
       }   
       return entity;
    }
+   
 
 }
 
