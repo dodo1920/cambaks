@@ -106,6 +106,11 @@ public class HomeController {
       return entity;
    }
    
+   
+   
+   
+   
+   
    @RequestMapping(value="/camping-review", method = RequestMethod.GET)
    public String campingreview() {
       logger.info("캠핑리뷰   작업중 . . . . .");
