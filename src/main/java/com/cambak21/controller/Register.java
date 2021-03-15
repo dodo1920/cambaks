@@ -35,18 +35,7 @@ public class Register {
    /**
     * Simply selects the home view to render by returning its name.
     */
-   
-   @RequestMapping(value="camping-review", method = RequestMethod.GET)
-   public String campingreview() {
-      logger.info("캠핑리뷰   작업중 . . . . .");
-   
-      
-      
-      
-      
-      
-      return "cambakMain/camping-review";
-   }
+  
    
    @RequestMapping(value="signup", method = RequestMethod.GET)
    public String signup() {
