@@ -13,8 +13,8 @@
 	<update id="refOrderUpdate">
 		update ReplyBoards 
 		set replyBoard_refOrder = replyBoard_refOrder + 1 
-		where replyBoard_ref = #{replyBoard_ref}
-		and replyBoard_refOrder > #{replyBoard_refOrder} 
+		where replyBoard_ref = #{replyBoard_ref} <!-- 부모댓글의 ref -->
+		and replyBoard_refOrder > #{replyBoard_refOrder} <!-- 부모 댓글 refOrder -->
 		and board_no = ${board_no};
 	</update>
 	
