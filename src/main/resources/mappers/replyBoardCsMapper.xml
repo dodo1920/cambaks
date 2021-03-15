@@ -5,10 +5,39 @@
 
 <mapper namespace="com.cambak21.mapper.ReplyBoardCS">
 	<!-- 부모 댓글 max 구하기 -->
+	<select id="maxBoardNo">
+		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards)) from ReplyBoards;
+	</select>
+	
 	<!-- refOrder 업데이트 -->
+	<update id="refOrderUpdate">
+		update ReplyBoards 
+		set replyBoard_refOrder = replyBoard_refOrder + 1 
+		where replyBoard_ref = #{replyBoard_ref}
+		and replyBoard_refOrder > #{replyBoard_refOrder} 
+		and board_no = ${board_no};
+	</update>
+	
 	<!-- 댓글 작성 -->
+	<insert id="insertReply">
+		insert into ReplyBoards(board_no, member_id, replyBoard_content, replyBoard_ref, replyBoard_step, replyBoard_refOrder)
+		values(#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref}, #{replyBoard_step} + 1, #{replyBoard_refOrder} + 1);
+	</insert>
+	
 	<!-- 댓글 수정 -->
+	<update id="updateReply">
+		update ReplyBoards set replyBoard_content = #{replyBoard_content}
+		where replyBoard_no = #{replyBoard_no};
+	</update>
+	
 	<!-- 댓글 삭제 -->
+	<delete id="deleteReply">
+		delete from ReplyBoards where replyBoard_no = #{replyBoard_no};
+	</delete>
+	
 	<!-- 댓글 리스트 -->
+	<select id="replyList">
+		select * from ReplyBoards where board_no = #{board_no} order by replyBoard_ref asc, replyBoard_refOrder asc;
+	</select>
 	
 </mapper>
