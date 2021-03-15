@@ -16,15 +16,15 @@
 	#{resellBoard_img4}
 );
   </insert>
-  <select id="ResellBoardReadAll">
+  <select id="ResellBoardReadAll" resultType="com.cambak21.domain.ReplyResellVO">
   	select * from ResellBoards order by resellBoard_no desc limit #{pageStert} ,#{pageNum}
   </select>
   
-  <select id="ResellBoardReadAllCnt">
+  <select id="ResellBoardReadAllCnt" resultType="int">
   	select count(*) from ResellBoards
   </select>
   
-  <select id="ResellBoardRead">
+  <select id="ResellBoardRead" resultType="com.cambak21.domain.ReplyResellVO">
   	select * from ResellBoards where
   	<if test="searchType == 'member_id'">
   			member_id like concat('%',#{searchWord},'%')
@@ -38,7 +38,7 @@
   	order by resellBoard_no desc limit #{pageStert} ,#{pageNum}
   </select>
   
-  <select id="ResellBoardReadCnt">
+  <select id="ResellBoardReadCnt" resultType="int">
   	select count(*)  from ResellBoards where
   	<if test="searchType == 'member_id'">
   			member_id like concat('%',#{searchWord},'%')

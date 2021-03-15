@@ -46,7 +46,7 @@ public class HomeController {
       
       model.addAttribute("serverTime", formattedDate );
       
-      return "home";
+      return "home";	
    }
 
    @RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
@@ -74,7 +74,7 @@ public class HomeController {
    public String homeheader(Locale locale, Model model) {
       logger.info("JJONG homeheader 작업중 . . . . .");
    
-      return "cambakMall/mall";
+      return "mall";
    }
    
    
@@ -107,7 +107,6 @@ public class HomeController {
       }   
       return entity;
    }
-   
 
 }
 

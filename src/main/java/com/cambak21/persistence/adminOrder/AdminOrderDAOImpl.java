@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminRefundnExchangeVO;
-import com.cambak21.domain.PagingCriteria;
+import com.cambak21.util.PagingCriteria;
 @Repository
 public class AdminOrderDAOImpl implements AdminOrderDAO {
 	@Inject

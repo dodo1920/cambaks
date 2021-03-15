@@ -1,8 +1,8 @@
-package com.cambak21.persistence.ResellBoard;
+package com.cambak21.service.resell;
 
 import com.cambak21.domain.ResellLikeBoardVO;
 
-public interface ResellBoardLikeDAO {
+public interface ResellBoardLikeService {
 	/**
 	 * @Method Name : ResellBoardLikeInsert
 	 * @작성일 : 2021. 3. 14.
@@ -13,7 +13,7 @@ public interface ResellBoardLikeDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardLikeInsert(ResellLikeBoardVO vo) throws Exception;
+	public boolean ResellBoardLikeInsert(ResellLikeBoardVO vo) throws Exception;
 	
 
 	/**
@@ -26,7 +26,7 @@ public interface ResellBoardLikeDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int  ResellBoardLikeDelete(ResellLikeBoardVO vo)throws Exception;
+	public boolean  ResellBoardLikeDelete(ResellLikeBoardVO vo)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardLikeCnt
@@ -38,5 +38,5 @@ public interface ResellBoardLikeDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
+	public boolean ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
 }

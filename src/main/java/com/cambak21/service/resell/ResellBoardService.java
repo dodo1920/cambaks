@@ -1,18 +1,15 @@
-package com.cambak21.persistence.ResellBoard;
+package com.cambak21.service.resell;
 
 import java.util.List;
 
-import com.cambak21.domain.PagingCriteria;
+import com.cambak21.util.PagingCriteria;
 import com.cambak21.domain.ResellBoardVO;
-import com.cambak21.domain.SerachCriteria;
+import com.cambak21.util.SearchCriteria;
 import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
 
-public interface ResellBoardDAO {
-	
-	// C Ra R U D
-	
+public interface ResellBoardService {
 	/**
 	 * @Method Name : ResellBoardInsert
 	 * @작성일 : 2021. 3. 12.
@@ -23,7 +20,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardInsert(ResellLikeBoardInsertDTO dto)throws Exception;
+	public boolean ResellBoardInsert(ResellLikeBoardInsertDTO dto)throws Exception;
 	
 	
 	/**
@@ -60,7 +57,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri,SerachCriteria scri)throws Exception;
+	public List<ResellBoardVO> ResellBoardRead(PagingCriteria cri,SearchCriteria scri)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardReadAllCnt
@@ -71,7 +68,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardReadCnt(SerachCriteria scri)throws Exception;
+	public int ResellBoardReadCnt(SearchCriteria scri)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardUpdate
@@ -84,7 +81,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardUpdate(ResellBoardUpdateDTO dto)throws Exception;
+	public boolean ResellBoardUpdate(ResellBoardUpdateDTO dto)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardDelete
@@ -97,7 +94,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardDelete(ResellBoardDeteDTO dto)throws Exception;
+	public boolean ResellBoardDelete(ResellBoardDeteDTO dto)throws Exception;
 	
 	/**
 	 * @Method Name : viewcnt

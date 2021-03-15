@@ -1,4 +1,4 @@
-package com.cambak21.persistence.ResellBoard;
+package com.cambak21.persistence.resell;
 
 import javax.inject.Inject;
 

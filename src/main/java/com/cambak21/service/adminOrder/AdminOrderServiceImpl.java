@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminRefundnExchangeVO;
-import com.cambak21.domain.PagingCriteria;
+import com.cambak21.util.PagingCriteria;
 import com.cambak21.persistence.adminOrder.AdminOrderDAO;
 @Service
 public class AdminOrderServiceImpl implements AdminOrderService {

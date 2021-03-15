@@ -1,4 +1,4 @@
-package com.cambak21.service.orderlist;
+package com.cambak21.service.myorder;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
-import com.cambak21.domain.PagingCriteria;
-import com.cambak21.persistence.orderlist.MemberOrderDAO;
+import com.cambak21.persistence.myorder.MemberOrderDAO;
+import com.cambak21.util.PagingCriteria;
 @Service
 public class MemberOrderServivceImpl implements MemberOrderServivce {
 	@Inject 
