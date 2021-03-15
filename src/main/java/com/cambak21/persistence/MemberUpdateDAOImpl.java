@@ -3,9 +3,10 @@ package com.cambak21.persistence;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.MemberVO;
-
+@Repository
 public class MemberUpdateDAOImpl implements MemberUpdateDAO {
 	@Inject
 	private SqlSession ses;

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import com.cambak21.domain.PagingCriteria;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.domain.SerachCriteria;
@@ -11,7 +13,7 @@ import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
 import com.cambak21.persistence.ResellBoard.ResellBoardDAO;
-
+@Service
 public class ResellBoardServiceImpl implements ResellBoardService {
 	@Inject
 	private ResellBoardDAO dao;

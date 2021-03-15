@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.PagingCriteria;
 import com.cambak21.domain.ResellBoardVO;
@@ -14,7 +15,7 @@ import com.cambak21.domain.SerachCriteria;
 import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
-
+@Repository
 public class ResellBoardDAOImpl implements ResellBoardDAO {
 	@Inject
 	private SqlSession ses;

@@ -5,9 +5,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ResellBoardVO;
-
+@Repository
 public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
 	@Inject
 	private SqlSession ses;

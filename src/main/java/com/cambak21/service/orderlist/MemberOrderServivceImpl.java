@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.PagingCriteria;
 import com.cambak21.persistence.orderlist.MemberOrderDAO;
-
+@Service
 public class MemberOrderServivceImpl implements MemberOrderServivce {
 	@Inject 
 	private MemberOrderDAO dao;

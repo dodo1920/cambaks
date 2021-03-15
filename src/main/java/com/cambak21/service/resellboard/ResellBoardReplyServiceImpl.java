@@ -4,10 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.ResellBoard.ResellBoardDAO;
 import com.cambak21.persistence.ResellBoard.ResellBoardReplyDAO;
-
+@Service
 public class ResellBoardReplyServiceImpl implements ResellBoardReplyService {
 	@Inject
 	private ResellBoardReplyDAO rdao;
