@@ -46,7 +46,7 @@ public class HomeController {
       
       model.addAttribute("serverTime", formattedDate );
       
-      return "home";
+      return "cambakMall/mallDetail";
    }
 
    @RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
