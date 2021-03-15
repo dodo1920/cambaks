@@ -25,12 +25,12 @@ import com.cambak21.service.checkList.CheckListServiceImpl;
  * Handles requests for the application home page.
  */
 @Controller
-public class signupController {
+public class Register {
    
    @Inject
    private CheckListServiceImpl CheckListService;
    
-   private static final Logger logger = LoggerFactory.getLogger(signupController.class);
+   private static final Logger logger = LoggerFactory.getLogger(Register.class);
    
    /**
     * Simply selects the home view to render by returning its name.
