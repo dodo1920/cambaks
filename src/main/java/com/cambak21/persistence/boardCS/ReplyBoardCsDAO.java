@@ -1,0 +1,30 @@
+package com.cambak21.persistence.boardCS;
+
+import java.util.List;
+
+import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.dto.InsertReplyCSBoardDTO;
+import com.cambak21.dto.UpdateReplyCSBoardDTO;
+
+public interface ReplyBoardCsDAO {
+	// 부모댓글 max 구하기
+	int getRefMax() throws Exception;
+	
+	// refOrder Update
+	void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception;
+	
+	// 댓글 작성
+	void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception;
+	
+	// 댓글 수정
+	int updateReplyBoardCS(UpdateReplyCSBoardDTO dto) throws Exception;
+	
+	// 댓글 삭제
+	int deleteReplyBoardCS(int replyBoard_no) throws Exception;
+	
+	// 댓글 리스트 출력
+	List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception;
+	
+	// 댓글 갯수 (리스트에 출력용)
+	int totReplyBoardCS(int board_no) throws Exception;
+}
