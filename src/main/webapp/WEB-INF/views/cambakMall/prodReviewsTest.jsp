@@ -27,19 +27,25 @@
     <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
   
-  <script src="../resources/plugins/jquery/jquery.min.js"></script>  
-  
+  <!-- <script src="../resources/plugins/jquery/jquery.min.js"></script> -->  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
-  	
-  	
+	function showContent(obj) {
+		let test = $(obj).attr("id");
+		let showTest = "test" + test;
+		$("#test" + test).show()
+	}
+
+	
   </script>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 
 	<div class="content-wrapper">
 		<h1>체크</h1>
 		
-		<!-- 
+		
 		<c:choose>
 			<c:when test="${boardList != null}">
 				<table class="table table-condensed">
@@ -65,6 +71,7 @@
                         <td><strike><span class="sendTime" id="${status.count }"><fmt:formatDate
                                  value="${board.prodReview_postDate }" type="both"
                                  pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
+                        <td><strike>${board.prodReview_likeCnt }</strike></td>
                      </tr>
                   		</c:when>
                   	
@@ -72,17 +79,16 @@
                      <tr>
                         <td>${board.prodReview_no }</td>
                         <td>
-                        
-                        
-                        <a href="/board/read?no=${board.prodReview_no }">
-                         
-                           ${board.prodReview_title }
-                        
-                        </a></td>
+
+                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }
+                        <input type="text" id="test${board.prodReview_no}" value="${board.prodReview_content }" readonly="readonly" style="display: none"/>
+                        </div> 
+                        </td>
                         <td>${board.member_id }</td>
                         <td><span class="sendTime" id="${status.count }"><fmt:formatDate
                                  value="${board.prodReview_postDate }" type="both"
                                  pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
+                        <td>${board.prodReview_likeCnt }</td>
                      </tr>
                      </c:otherwise>
                      </c:choose>
@@ -100,7 +106,7 @@
 			게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
 		</c:otherwise>
 		</c:choose>
-		 -->
+		
 	</div>
 	
 </body>
