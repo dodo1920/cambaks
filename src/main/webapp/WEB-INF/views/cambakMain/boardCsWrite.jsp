@@ -37,6 +37,9 @@
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
 	rel="stylesheet">
 
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
+
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -52,20 +55,6 @@
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 
-.\34 u {
-	width: 100%;
-	margin: 0px;
-}
-
-p.category-title {
-	font-weight: bold;
-	text-align: center;
-	font-size: 20px;
-}
-
-#usr {
-	margin-bottom: 20px;
-}
 </style>
 
 <script>
@@ -87,13 +76,12 @@ p.category-title {
 
 				<!-- 사이드바 템플릿 -->
 				<%@include file="cambak21Aside2.jsp"%>
-				<div>
-
-					<form action="" method="post">
-						 <input type="text" class="form-control" id="usr" name="board_title">
-						<input type="text" id="summernote" name="board_content"/>
-						<input type="hidden" name="member_id" value="아이디 넣기">
-						<input type="hidden" name="board_category" value="카테고리 넣기">
+				<div id="content">
+					<form action="../cs/write" method="post">
+						<input type="text" class="form-control" id="usr" name="board_title">
+						<textarea id="summernote" name="board_content"></textarea>
+						<input type="hidden" name="member_id" value="ccc">
+						<input type="hidden" name="board_category" value="CS">
 						<button type="submit" class="btn btn-success">작성하기</button>
 					</form>
 
