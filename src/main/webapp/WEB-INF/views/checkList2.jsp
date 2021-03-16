@@ -22,7 +22,8 @@
 		$.getJSON("/ajaxCheckList/" + member_id, function(data){
 			console.log(data);
 			$(data).each(function(index, item){
-				todo.id = item;
+				index.id = item;
+				
 			});
 	
 		});
