@@ -8,13 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.service.BoardHumor.BoardHumorService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
 @Controller
-@RequestMapping("board/humor/*")
+@RequestMapping("cambakMain/board/humor/*")
 public class BoardHumor {
 	
 	@Inject
@@ -38,5 +41,28 @@ public class BoardHumor {
 		model.addAttribute("pagingParam", pp);
 		logger.info(pp.toString());
 		
+	}
+	
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String write(BoardVO vo, Model model) {
+		
+		return "cambakMain/board/humor/write";
+	}
+	
+	@RequestMapping(value = "/write", method = RequestMethod.POST)
+	public String wirtePost(BoardVO vo, RedirectAttributes rttr) throws Exception{
+		logger.info("register post 호출 ");
+		logger.debug(vo.toString());
+		
+		if(service.insertBoardHumor(vo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:cambakMain/board/humor/listAll";
+	}
+	
+	@RequestMapping(value = "/read", method = RequestMethod.GET)
+	public void readBoard(@RequestParam("no") int no, Model model) throws Exception{
+		model.addAttribute("board", service.readBoardHumor(no));
 	}
 }
