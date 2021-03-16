@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.mapper.ResellBoardLikeMapper">
+  <mapper namespace="com.cambak21.mapper.ResellBoardLikeMapper">
   	<insert id="ResellBoardLikeInsert">
   		insert into ResellLikeBoards(member_id,resellBoard_no) values(#{member_id},#{resellBoard_no});
   	</insert>

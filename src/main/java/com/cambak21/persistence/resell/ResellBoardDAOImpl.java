@@ -19,7 +19,7 @@ import com.cambak21.dto.ResellLikeBoardInsertDTO;
 public class ResellBoardDAOImpl implements ResellBoardDAO {
 	@Inject
 	private SqlSession ses;
-	private String namespace ="com.mapper.ResellBoardMapper";
+	private String namespace ="com.cambak21.mapper.ResellBoardMapper";
 	@Override
 	public int ResellBoardInsert(ResellLikeBoardInsertDTO dto) throws Exception {
 		// TODO Auto-generated method stub
