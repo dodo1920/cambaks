@@ -114,9 +114,13 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="" class="board-title-a">${item.board_title }</a> (2)</td>
+											<td><a href="" class="board-title-a">${item.board_title }</a> 
+												<c:if test="${item.replyCnt > 0 }">
+													(${item.replyCnt })
+												</c:if>
+											</td>
 											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-DD HH:mm:ss" type="DATE" /></td>
+											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 											<td>${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>

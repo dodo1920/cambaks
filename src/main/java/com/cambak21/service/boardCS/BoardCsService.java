@@ -2,7 +2,7 @@ package com.cambak21.service.boardCS;
 
 import java.util.List;
 
-import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
@@ -20,7 +20,7 @@ public interface BoardCsService {
 
 	// 게시글 리스트
 	// 페이징 제약조건 넘겨야댐
-	List<BoardVO> listBoardCS(PagingCriteria cri) throws Exception;
+	List<BoardCsVO> listBoardCS(PagingCriteria cri) throws Exception;
 
 	// 조회수 업데이트
 	void boardCSViewUpdate(int board_no) throws Exception;
@@ -36,7 +36,7 @@ public interface BoardCsService {
 
 	// 검색결과 게시글 리스트
 	// 페이징 제약조건 넘겨야댐
-	List<BoardVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception;
+	List<BoardCsVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception;
 
 	// 게시글 상세보기
 	void readBoardCS(int board_no) throws Exception;
