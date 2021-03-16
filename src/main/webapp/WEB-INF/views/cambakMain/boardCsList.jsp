@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -48,27 +49,25 @@
 }
 
 .pageBtn {
-    justify-content: center;
-    display: flex;
+	justify-content: center;
+	display: flex;
 }
 
 th.board-title {
-    width: 60%;
+	width: 60%;
 }
 
 p.category-title {
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 20px;
 }
-
-
 </style>
 
 <script>
 	$(document).ready(function() {
-		rolling();				
-		
+		rolling();
+
 	});
 </script>
 </head>
@@ -124,84 +123,17 @@ p.category-title {
 									</tr>
 								</thead>
 								<tbody>
+								
+								<c:forEach var="item" items="${boardList }">
 									<tr>
-										<td>1</td>
-										<td><a href="">일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오 (2)</a></td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
+										<td>${item.board_no }</td>
+										<td><a href="">${item.board_title } (2)</a></td>
+										<td>${item.member_id }</td>
+										<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-DD HH:mm:ss" type="DATE" /></td>
+										<td>${item.board_viewCnt }</td>
 									</tr>
-									<tr>
-										<td>1</td>
-										<td>25글자 넘으면 제목 뒤에 ... 찍히게 하기</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-
+								</c:forEach>
+									
 								</tbody>
 							</table>
 						</div>

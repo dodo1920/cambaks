@@ -5,9 +5,11 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cambak21.service.boardCS.BoardCsService;
+import com.cambak21.util.PagingCriteria;
 
 @Controller
 @RequestMapping("/board/cs")
@@ -19,14 +21,17 @@ public class BoardCsController {
 	private static Logger logger = LoggerFactory.getLogger(BoardCsController.class);
 	
 	@RequestMapping("/")
-	public String BoardCsList() {
-		logger.info("승권 / BoardCsController 호출");
+	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
+		logger.info("승권 / 게시글 메인 페이지 호출");
+		
+		model.addAttribute("boardList", service.listBoardCS(cri));
 		
 		return "cambakMain/boardCsList";
 	}
 	
 	@RequestMapping("/write")
 	public String BoardCsWrite() {
+		logger.info("승권 / 게시글 작성 페이지 호출");
 		
 		return "cambakMain/boardCsWrite";
 	}
