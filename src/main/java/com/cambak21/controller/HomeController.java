@@ -71,7 +71,7 @@ public class HomeController {
    public String homeheader(Locale locale, Model model) {
       logger.info("JJONG homeheader 작업중 . . . . .");
    
-      return "mall";
+      return "cambakMall/mall";
    }
    
    
@@ -90,6 +90,22 @@ public class HomeController {
       return "checkList2";
    }
    
- 
+//   @RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
+//   public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){
+//      // bno에 대한 전체 글 보기
+//	   
+//	  System.out.println("아작스 컨트롤러");
+//      System.out.println("member_id : " + member_id);
+//	  ResponseEntity<List<CheckListVO>> entity = null;
+//      try {
+//         entity = new ResponseEntity<List<CheckListVO>>(CheckListService.getCheckList(member_id), HttpStatus.OK);
+//         System.out.println(entity.toString());
+//      } catch (Exception e) {
+//         // TODO Auto-generated catch block
+//         e.printStackTrace();
+//         entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 예외가 발생하면 List<ReplyVO> 는 null 이므로 ...ResponseEntity<>
+//      }   
+//      return entity;
+//   }
 }
 
