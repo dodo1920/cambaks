@@ -17,14 +17,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="resources/mallMain/css/style.css" type="text/css">
 </head>
 <body>
 
@@ -48,7 +48,7 @@
             <div class="col-lg-6">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg" data-setbg="resources/mallMain/img/categories/category-2.jpg">
+                        <div class="categories__item set-bg" data-setbg="resources/category-1.jpg">
                             <div class="categories__text">
                                 <h4>텐트/타프</h4>
                                 <p>358 items</p>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 p-0">
-                        <div class="categories__item set-bg" data-setbg="resources/mallMain/img/categories/category-3.jpg">
+                        <div class="categories__item set-bg" data-setbg="resources/category-1.jpg">
                             <div class="categories__text">
                                 <h4>침낭/매트</h4>
                                 <p>273 items</p>
@@ -588,16 +588,16 @@
 
 
 <!-- Js Plugins -->
-<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-<script src="../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../resources/mallMain/js/main.js"></script>
+<script src="resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="resources/mallMain/js/bootstrap.min.js"></script>
+<script src="resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="resources/mallMain/js/mixitup.min.js"></script>
+<script src="resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="resources/mallMain/js/main.js"></script>
 
 
 </body>

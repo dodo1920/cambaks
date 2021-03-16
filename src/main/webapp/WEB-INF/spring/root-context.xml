@@ -10,35 +10,8 @@
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-<<<<<<< HEAD
    
-   <!-- Root Context: defines shared resources visible to all other web components -->
-   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-      <!-- <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>  -->
-      <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-      <!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Seoul"></property>  -->
-      <property name="url" value="jdbc:log4jdbc:mysql://goot6.cafe24.com:3306/goot6?serverTimezone=Asia/Seoul"></property>
-      <property name="username" value="goot6"></property>
-      <property name="password" value="goot6321"></property>
-   </bean>   
-   
-   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-      <property name="dataSource" ref="dataSource"></property>
-      <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
-      <property name="configLocation" value="classpath:/myBatisConfig.xml"></property>
-   </bean>
-   
-   <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
-      <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
-   </bean>
-   
-   <!-- 트랜잭션 처리 객체 설정 : 트랜잭션을 어노테이션으로 관리 하겠다 -->
-   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-      <property name="dataSource" ref="dataSource"></property>
-   </bean>   
-=======
-	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+   	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<!-- <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>  -->
 		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
@@ -62,7 +35,6 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>   
->>>>>>> cb2fb6e5d1386e3293b4c7852213cb914723b95e
    
    <!-- @Repository 패키지 스캔(우리가 만든 빈 추가하기 위해)  => DAO패키지와 Service패키지를 자동 스캔하여 bean을 생성할 수 있도록-->
    <context:component-scan base-package="com.cambak21.persistence"></context:component-scan>
@@ -73,12 +45,9 @@
    <context:component-scan base-package="com.cambak21.persistence.boardProdReview"></context:component-scan>   
    <context:component-scan base-package="com.cambak21.persistence.boardHumor"></context:component-scan>
    <context:component-scan base-package="com.cambak21.persistence.boardCS"></context:component-scan>
-<<<<<<< HEAD
    <context:component-scan base-package="com.cambak21.service.boardHumor"></context:component-scan>
    <context:component-scan base-package="com.cambak21.service.boardCS"></context:component-scan>
-
-=======
    <context:component-scan base-package="com.cambak21.service.boardCS"></context:component-scan>
->>>>>>> cb2fb6e5d1386e3293b4c7852213cb914723b95e
+
 </beans>
 

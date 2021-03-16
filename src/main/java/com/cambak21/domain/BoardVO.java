@@ -18,6 +18,8 @@ public class BoardVO {
 	private int board_likeCnt;
 	private int board_viewCnt;
 	private int camp_contentId;
+	
+	
 	public int getBoard_no() {
 		return board_no;
 	}
