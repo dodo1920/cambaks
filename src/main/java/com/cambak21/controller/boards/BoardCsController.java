@@ -22,7 +22,13 @@ public class BoardCsController {
 	public String BoardCsList() {
 		logger.info("승권 / BoardCsController 호출");
 		
-		return "cambakMain/cambak21Board";
+		return "cambakMain/boardCsList";
+	}
+	
+	@RequestMapping("/write")
+	public String BoardCsWrite() {
+		
+		return "cambakMain/boardCsWrite";
 	}
 	
 }
