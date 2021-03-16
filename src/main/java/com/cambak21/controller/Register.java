@@ -19,17 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.service.checkList.CheckListServiceImpl;
+
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class Register {
-   
-   @Inject
-   private CheckListServiceImpl CheckListService;
-   
+        
    private static final Logger logger = LoggerFactory.getLogger(Register.class);
    
    /**

@@ -19,17 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.service.checkList.CheckListServiceImpl;
-
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-   
-   @Inject
-   private CheckListServiceImpl CheckListService;
-   
+     
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
    
    /**
@@ -95,21 +90,6 @@ public class HomeController {
       return "checkList2";
    }
    
-   @RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
-   public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){
-      // bno에 대한 전체 글 보기
-      ResponseEntity<List<CheckListVO>> entity = null;
-      try {
-         entity = new ResponseEntity<List<CheckListVO>>(CheckListService.getCheckList(member_id), HttpStatus.OK);
-         System.out.println(entity.toString());
-      } catch (Exception e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-         entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 예외가 발생하면 List<ReplyVO> 는 null 이므로 ...ResponseEntity<>
-      }   
-      return entity;
-   }
-
-
+ 
 }
 
