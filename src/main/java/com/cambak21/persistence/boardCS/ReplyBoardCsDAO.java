@@ -13,7 +13,7 @@ public interface ReplyBoardCsDAO {
 	// refOrder Update
 	void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception;
 	
-	// 댓글 작성
+	// 대댓글 작성
 	void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception;
 	
 	// 댓글 수정
@@ -27,4 +27,6 @@ public interface ReplyBoardCsDAO {
 	
 	// 댓글 갯수 (리스트에 출력용)
 	int totReplyBoardCS(int board_no) throws Exception;
+	
+	
 }
