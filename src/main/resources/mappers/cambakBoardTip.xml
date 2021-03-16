@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cambak21.mapper.tipBoardMapper">
+	
+<!-- 	캠핑팁 게시판 전체 조회 -->
+	<select id="selectTipBoard" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_category = #{board_category} order by board_writeDate desc limit #{page}, #{perPage}
+	</select>
+	
+<!-- 	게시글 쓰기 insert -->
+	<insert id="writeTipBoard">
+		<if test="countThumbnail == 1">
+			insert into Boards (member_id, board_title, board_category, board_content, board_img1) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1})
+		</if>
+		<if test="countThumbnail == 2">
+			insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2})
+		</if>
+		<if test="countThumbnail == 3">
+			insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2, board_img3) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2}, #{board_img3})
+		</if>
+		<if test="countThumbnail == 4">
+				insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2, board_img3, board_img4) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2}, #{board_img3}, #{board_img4})
+		</if>
+	</insert>
+	
+<!-- 	게시글 수정 update -->
+	<update id="modifyTipBoard">
+		<if test="countThumbnail == 1">
+			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1} where board_no = #{board_no}
+		</if>
+		<if test="countThumbnail == 2">
+			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2} where board_no = #{board_no}
+		</if>
+		<if test="countThumbnail == 3">
+			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2}, board_img3 = #{board_img3} where board_no = #{board_no}
+		</if>
+		<if test="countThumbnail == 4">
+			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2}, board_img3 = #{board_img3}, board_img4 = #{board_img4} where board_no = #{board_no}
+		</if>
+	</update>
+	
+<!-- 	해당 게시글 삭제 -->
+	<delete id="deleteTipBoard">
+		delete from Boards where board_no = #{board_no}
+	</delete>
+	
+<!-- 	캠핑팁 게시판 검색어 별 조회 -->
+	<select id="searchTipBoard" resultType="com.cambak21.domain.BoardVO">
+		<if test="searchKeyword == 'writer'">
+			select * from Boards where board_category = #{board_category} and member_id = #{member_id} order by board_writeDate desc limit #{page}, #{perPage}
+		</if>
+		<if test="searchKeyword == 'totalSearch'">
+			select * from Boards where board_category = #{board_category} and (board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%')) order by board_writeDate desc limit #{page}, #{perPage}
+		</if>
+		<if test="searchKeyword == 'title'">
+			select * from Boards where board_category = #{board_category} and board_title like concat('%', #{searchWord}, '%') order by board_writeDate desc limit #{page}, #{perPage}
+		</if>
+		<if test="searchKeyword == 'content'">
+			select * from Boards where board_category = #{board_category} and board_content like concat('%', #{searchWord}, '%') order by board_writeDate desc limit #{page}, #{perPage}
+		</if>
+	</select>
+
+<!-- 	해당 게시글 조회(댓글) -->
+	<select id="detailTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
+		select * from Boards where board_category = #{board_category} and board_no = #{board_no}
+	</select>
+
+<!-- 	댓글은 더보기 버튼 -->
+	<select id="moreViewTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
+		select * from ReplyBoards where board_no = #{board_no} order by replyBoard_writeDate desc limit #{page}, #{perPage}
+	</select>
+
+<!-- 	해당 게시글 좋아요 -->
+	<update id="likeTipBoardUpdate">
+		update Boards set board_likeCnt = board_likeCnt + 1 where board_no = #{board_no}
+	</update>
+	<insert id="likeTipBoardInsert">
+		insert into LikeBoards (member_id, board_no) values (#{member_id}, #{board_no})
+	</insert>
+
+<!-- 	해당 게시글에 댓글 작성 -->
+
+	<insert id="saveReplyTipBoard">
+		insert into ReplyBoards (board_no, member_id, replyBoard_content, replyBoard_ref) values (#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref})
+	</insert>
+	<select id="searchMaxNo" resultType="int">
+		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards where board_no = #{board_no} and member_id = #{member_id})) from ReplyBoards;
+	</select>
+	<update id="updateReplyRef">
+		update ReplyBoards set replyBoard_ref = #{replyBoard_no} where replyBoard_no = #{replyBoard_no}
+	</update>
+
+<!-- 	해당 게시글의 댓글 수정 -->
+	<update id="modifyReplyTipBoard">
+		update ReplyBoards set replyBoard_content = #{replyBoard_content} where replyBoard_no = #{replyBoard_no}
+	</update>
+
+<!-- 	해당 게시글의 댓글 삭제 -->
+	<delete id="deleteReplyTipBoard">
+		delete from ReplyBoards where replyBoard_no = #{replyBoard_no}
+	</delete>
+
+<!-- 대댓글 작성 -->
+	<insert id="writeRereply">
+		insert into ReplyBoards (board_no, member_id, replyBoard_content, replyBoard_ref, replyBoard_refOrder) values (#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref}, #{replyBoard_refOrder})
+	</insert>
+
+<!-- 	대댓글 수정 -->
+	<update id="modifyRereply">
+		update ReplyBoards set replyBoard_content = #{replyBoard_content} where replyBoard_no = #{replyBoard_no}
+	</update>
+
+<!-- 	대댓글 삭제 -->
+	<delete id="deleteRereplyTipBoard">
+		delete from ReplyBoards where replyBoard_no = #{replyBoard_no}
+	</delete>
+
+</mapper>
