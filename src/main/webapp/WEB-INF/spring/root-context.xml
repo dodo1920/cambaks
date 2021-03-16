@@ -48,5 +48,7 @@
    <context:component-scan base-package="com.cambak21.persistence.boardProdReview"></context:component-scan>   
    <context:component-scan base-package="com.cambak21.persistence.boardHumor"></context:component-scan>
    <context:component-scan base-package="com.cambak21.persistence.boardCS"></context:component-scan>
+   <context:component-scan base-package="com.cambak21.service.boardHumor"></context:component-scan>
    <context:component-scan base-package="com.cambak21.service.boardCS"></context:component-scan>
+
 </beans>
