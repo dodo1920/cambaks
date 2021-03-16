@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "com.cambak21.mapper.ReplyProdReviewMapper">
+  
+  	<insert id="create">
+  		insert into ReplyProdReviews(prodReview_no, member_id, replyProdReview_content, replyProdReview_refOrder, replyProdReview_ref)
+  	</insert>
+  
+  </mapper>

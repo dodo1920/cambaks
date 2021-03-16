@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cambak21.mapper.BoardHumor">
+	<insert id="insertBoardHumor">
+		insert into Boards(member_id, board_title, board_category, board_content) values(#{member_id}, #{board_title}, #{board_category}, #{board_content})
+	</insert>
+	
+	<select id="readBoardHumor" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_no = #{board_no}
+	</select>
+	
+	<update id="updateBoardHumor">
+		update Boards set board_title = #{board_title}, board_content = #{board_content} where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteBoardHumor">
+		update Boards set board_isDelete = 'Y' where board_no = #{board_no}
+	</delete>
+	
+	<select id="listBoardHumorCriteria" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards order by board_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="getToatalBoardHumorCnt" resultType="int">
+		select Count(*) from Boards
+	</select>
+	
+	<update id="updateViewCnt">
+		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no}
+	</update>
+</mapper>

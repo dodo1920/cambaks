@@ -17,6 +17,7 @@ public class BoardVO {
 	private Date board_updateDate;
 	private int board_likeCnt;
 	private int board_viewCnt;
+	private int camp_contentId;
 	public int getBoard_no() {
 		return board_no;
 	}
@@ -95,14 +96,22 @@ public class BoardVO {
 	public void setBoard_viewCnt(int board_viewCnt) {
 		this.board_viewCnt = board_viewCnt;
 	}
+	public int getCamp_contentId() {
+		return camp_contentId;
+	}
+	public void setCamp_contentId(int camp_contentId) {
+		this.camp_contentId = camp_contentId;
+	}
 	@Override
 	public String toString() {
 		return "BoardVO [board_no=" + board_no + ", member_id=" + member_id + ", board_title=" + board_title
 				+ ", board_category=" + board_category + ", board_content=" + board_content + ", board_img1="
 				+ board_img1 + ", board_img2=" + board_img2 + ", board_img3=" + board_img3 + ", board_img4="
 				+ board_img4 + ", board_writeDate=" + board_writeDate + ", board_updateDate=" + board_updateDate
-				+ ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt + "]";
+				+ ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt + ", camp_contentId="
+				+ camp_contentId + "]";
 	}
+	
 	
 	
 }
