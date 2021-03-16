@@ -12,7 +12,7 @@ import com.cambak21.domain.ResellBoardVO;
 public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
 	@Inject
 	private SqlSession ses;
-	private String namespace ="com.mapper.ResellBoardReplyMapper";
+	private String namespace ="com.cambak21.mapper.ResellBoardReplyMapper";
 	@Override
 	public int ResellBoardReplyInsert(ResellBoardVO vo) throws Exception {
 		// TODO Auto-generated method stub

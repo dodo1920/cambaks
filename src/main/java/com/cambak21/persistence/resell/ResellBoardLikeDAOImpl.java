@@ -10,7 +10,7 @@ import com.cambak21.domain.ResellLikeBoardVO;
 public class ResellBoardLikeDAOImpl implements ResellBoardLikeDAO {
 	@Inject
 	private SqlSession ses;
-	private String namespace ="com.mapper.ResellBoardLikeMapper";
+	private String namespace ="com.cambak21.mapper.ResellBoardLikeMapper";
 	@Override
 	public int ResellBoardLikeInsert(ResellLikeBoardVO vo) throws Exception {
 		// TODO Auto-generated method stub
