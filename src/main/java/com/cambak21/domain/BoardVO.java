@@ -17,7 +17,7 @@ public class BoardVO {
 	private Date board_updateDate;
 	private int board_likeCnt;
 	private int board_viewCnt;
-	private int camp_contentId;
+	private int camping_contentId;
 	private String board_isDelete;
 	
 	public int getBoard_no() {
@@ -98,11 +98,11 @@ public class BoardVO {
 	public void setBoard_viewCnt(int board_viewCnt) {
 		this.board_viewCnt = board_viewCnt;
 	}
-	public int getCamp_contentId() {
-		return camp_contentId;
+	public int getCamping_contentId() {
+		return camping_contentId;
 	}
 	public void setCamp_contentId(int camp_contentId) {
-		this.camp_contentId = camp_contentId;
+		this.camping_contentId = camp_contentId;
 	}
 	public String getBoard_isDelete() {
 		return board_isDelete;
@@ -118,7 +118,7 @@ public class BoardVO {
 				+ board_img1 + ", board_img2=" + board_img2 + ", board_img3=" + board_img3 + ", board_img4="
 				+ board_img4 + ", board_writeDate=" + board_writeDate + ", board_updateDate=" + board_updateDate
 				+ ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt + ", camp_contentId="
-				+ camp_contentId + ", board_isDelete=" + board_isDelete + "]";
+				+ camping_contentId + ", board_isDelete=" + board_isDelete + "]";
 	}
 	
 	
