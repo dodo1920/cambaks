@@ -32,6 +32,14 @@
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 
+<!-- include summernote css/js -->
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+	rel="stylesheet">
+
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
+
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -41,31 +49,19 @@
 <script src="/resources/cambak21/js/rolling.js"></script>
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 
-.\34 u {
-	width: 100%;
-	margin: 0px;
-}
-
-p.category-title {
-	font-weight: bold;
-	text-align: center;
-	font-size: 20px;
-}
 </style>
 
 <script>
 	$(document).ready(function() {
-		rolling();	
-		
-		$(document).ready(function() {
-			  $('#summernote').summernote();
-			});
+		$('#summernote').summernote({
+			height: 500
+		});
 	});
 </script>
 </head>
@@ -80,8 +76,15 @@ p.category-title {
 
 				<!-- 사이드바 템플릿 -->
 				<%@include file="cambak21Aside2.jsp"%>
-				<div>
-					<div id="summernote"></div>
+				<div id="content">
+					<form action="../cs/write" method="post">
+						<input type="text" class="form-control" id="usr" name="board_title">
+						<textarea id="summernote" name="board_content"></textarea>
+						<input type="hidden" name="member_id" value="ccc">
+						<input type="hidden" name="board_category" value="CS">
+						<button type="submit" class="btn btn-success">작성하기</button>
+					</form>
+
 				</div>
 			</div>
 		</div>

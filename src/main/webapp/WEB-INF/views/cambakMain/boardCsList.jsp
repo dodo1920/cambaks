@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -32,6 +33,9 @@
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
+
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -39,36 +43,18 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/bbskJS.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
-
-.\34 u {
-	width: 100%;
-	margin: 0px;
-}
-
-.pageBtn {
-    justify-content: center;
-    display: flex;
-}
-
-th.board-title {
-    width: 60%;
-}
-
-p.category-title {
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
-}
-
-
 </style>
 
 <script>
 	$(document).ready(function() {
-		rolling();				
+		// 말 줄임 ...
+		textLimit();
 		
+		// 공지사항 롤링
+		rolling();
 	});
 </script>
 </head>
@@ -124,83 +110,20 @@ p.category-title {
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>1</td>
-										<td><a href="">일이삼사오육칠팔구십일이삼사오육칠팔구십일이삼사오 (2)</a></td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>25글자 넘으면 제목 뒤에 ... 찍히게 하기</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td>테스트 제목 (2)</td>
-										<td>고니</td>
-										<td>2015-03-16 13:16</td>
-										<td>8</td>
-									</tr>
+
+									<c:forEach var="item" items="${boardList }">
+										<tr>
+											<td>${item.board_no }</td>
+											<td><a href="" class="board-title-a">${item.board_title }</a> 
+												<c:if test="${item.replyCnt > 0 }">
+													(${item.replyCnt })
+												</c:if>
+											</td>
+											<td>${item.member_id }</td>
+											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											<td>${item.board_viewCnt }</td>
+										</tr>
+									</c:forEach>
 
 								</tbody>
 							</table>
