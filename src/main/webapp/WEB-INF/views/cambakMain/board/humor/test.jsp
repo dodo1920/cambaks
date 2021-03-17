@@ -40,8 +40,6 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 
@@ -75,37 +73,10 @@ p.category-title {
 
 				<!-- 사이드바 템플릿 -->
 				<%@include file="../../cambak21Aside2.jsp"%>
-				
+
 				<!-- Content -->
-				<form action="/cambakMain/board/humor/write" method="post">
-            <div class="form-group">
-               <label class="control-label col-sm-2" for="writer">작성자 :</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid }">
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2" for="title">제 목 :</label>
-               <div class="col-sm-10">
-                  <input type="text" class="form-control" id="board_title" name="board_title">
-               </div>
-            </div>
-            <div class="form-group">
-               <label class="control-label col-sm-2" for="board_content">내 용 :</label>
-               <div class="col-sm-10">
-                  <textarea rows="10" cols="30" class="form-control" id="board_content" name="board_content"></textarea>
-               </div>
-            </div>
-           
-            
-            <div class="form-group">
-               <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-success">저장</button>
-                  <button type="button" class="btn btn-danger" onclick="location.href='/cambakMain/board/humor/listAll?page=1';">취소</button>
-               </div>
-            </div>
-         </form>
 				
+
 			</div>
 		</div>
 	</div>

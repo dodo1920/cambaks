@@ -15,7 +15,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak/21js/skel-panels.min.js"></script>
+<script src="/resources/cambak21/js/skel-panels.min.js"></script>
 <script src="/resources/cambak21/js/init.js"></script>
 
 <link rel="icon" type="image/x-icon"
@@ -87,7 +87,7 @@ p.category-title {
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>유머게시판${pagingParam.startPage }</h2>
+							<h2>유머게시판</h2>
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
@@ -128,7 +128,7 @@ p.category-title {
 											<c:when test="${board != null }">
 												<tr>
 
-													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }">${board.board_title }</a></td>
+													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }&page=${param.page}">${board.board_title }</a></td>
 													<td>${board.member_id }</td>
 													<td><span><fmt:formatDate
 																pattern="yyyy-MM-dd HH:mm:ss"
