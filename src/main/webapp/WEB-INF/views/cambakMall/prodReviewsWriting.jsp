@@ -33,11 +33,16 @@
 	<!-- <script src="/resources/js/summernote-ko-KR.js"></script> -->
 	
 	<!-- Kim Jeong Min star rating bootStrap -->
- 
+ 	<meta name="description" content="">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../resources/mallMain/css/starrr.js"></script>
     
 	<script type="text/javascript">
 
 	</script>
+	
 </head>
 <body>
 
@@ -53,14 +58,33 @@
 		       	  <div class="my-5">
 		          	<h3>상품후기 작성</h3>
 		          	<div class="form-group">
-		               	  <div class="form-row float-left">
-		               	  	
+		               	  <div class="text-center">
+							    <div class='starrr' id='star1'></div>
+							    <div>&nbsp;
+							      <span class='your-choice-was' style='display: none;'>
+							        당신의 평가는 별 <span class='choice'></span>개 입니다.
+							      </span>
+							    </div>					  
+							  <!-- 별점 표시 적용 부분 -->
+							  <script>
+							    $('#star1').starrr({
+							      change: function(e, value){
+							        if (value) {
+							          $('.your-choice-was').show();
+							          $('.choice').text(value);
+							          $('.rating').val(value);
+							        } else {
+							          $('.your-choice-was').hide();
+							        }
+							      }
+							    });
+							  </script>
 		                  </div>
 		              </div>
 		          	<div class="form-group">
 		               	  <div class="form-row float-right">
 			                  <button type="submit" class="btn btn-success">저장하기</button>
-			                  <button type="button" class="btn btn-primary" onclick="location.href='/board/listAll'">목록</button>
+			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMall/prodReviews'">목록</button>
 		                  </div>
 		              </div>
 		          </div>
@@ -77,7 +101,7 @@
 					<input type="hidden" id="product_id" name="product_id" value=""/>
 					<input type="hidden" id="member_id" name="member_id" value=""/>
 					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value=""/>
-					
+					<input type="hidden" id="prodReview_grade" class='rating' value=""/>
 					<div class="form-group">
 		                  <input type="text" class="form-control" id="prodReview_title" name="prodReview_title" placeholder="제목을 입력해 주세요."/>
 		            </div>
