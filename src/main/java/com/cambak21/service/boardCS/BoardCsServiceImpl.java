@@ -2,11 +2,12 @@ package com.cambak21.service.boardCS;
 
 import java.util.List;
 
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
-import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.persistence.boardCS.BoardCsDAO;
@@ -45,7 +46,7 @@ public class BoardCsServiceImpl implements BoardCsService {
 	  * @throws Exception
 	  */
 	@Override
-	public List<BoardVO> listBoardCS(PagingCriteria cri) throws Exception {
+	public List<BoardCsVO> listBoardCS(PagingCriteria cri) throws Exception {
 		return dao.listBoardCS(cri);
 	}
 
@@ -71,7 +72,7 @@ public class BoardCsServiceImpl implements BoardCsService {
 	  * @throws Exception
 	  */
 	@Override
-	public List<BoardVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception {
+	public List<BoardCsVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception {
 		
 		return dao.searchListBoardCS(scri, cri);
 	}

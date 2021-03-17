@@ -29,7 +29,9 @@
 	<div id="sidebar" class="4u">
 		<div class="sidebar">
 			<div class="panel panel-success">
-				<div class="panel-heading"><p class="category-title" style=" margin-bottom: 0px;">Category</p></div>
+				<div class="panel-heading">
+					<p class="category-title" style="margin-bottom: 0px;">Category</p>
+				</div>
 			</div>
 			<ul class="nav nav-pills nav-stacked">
 				<li><a href="">캠핑 후기 게시판</a></li>
@@ -43,4 +45,6 @@
 			</ul>
 		</div>
 	</div>
+
+	
 </div>

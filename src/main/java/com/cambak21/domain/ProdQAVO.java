@@ -16,6 +16,9 @@ public class ProdQAVO {
 	private String prodQA_completed;
 	private int prodQA_likeCnt;
 	private int prodQA_viewCnt;
+	private String prodQA_isSecret;
+	private String prodQA_secretPassword;
+	private String prodQA_isDelete;
 	
 	public int getProdQA_no() {
 		return prodQA_no;
@@ -96,13 +99,34 @@ public class ProdQAVO {
 		this.prodQA_viewCnt = prodQA_viewCnt;
 	}
 	
+	public String getProdQA_isSecret() {
+		return prodQA_isSecret;
+	}
+	public void setProdQA_isSecret(String prodQA_isSecret) {
+		this.prodQA_isSecret = prodQA_isSecret;
+	}
+	public String getProdQA_secretPassword() {
+		return prodQA_secretPassword;
+	}
+	public void setProdQA_secretPassword(String prodQA_secretPassword) {
+		this.prodQA_secretPassword = prodQA_secretPassword;
+	}
+	public String getProdQA_isDelete() {
+		return prodQA_isDelete;
+	}
+	public void setProdQA_isDelete(String prodQA_isDelete) {
+		this.prodQA_isDelete = prodQA_isDelete;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProdQAVO [prodQA_no=" + prodQA_no + ", product_id=" + product_id + ", member_id=" + member_id
 				+ ", prodQA_title=" + prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_date="
 				+ prodQA_date + ", prodQA_ref=" + prodQA_ref + ", prodQA_refOrder=" + prodQA_refOrder + ", prodQA_step="
 				+ prodQA_step + ", prodQA_img=" + prodQA_img + ", prodQA_completed=" + prodQA_completed
-				+ ", prodQA_likeCnt=" + prodQA_likeCnt + ", prodQA_viewCnt=" + prodQA_viewCnt + "]";
-	}	
+				+ ", prodQA_likeCnt=" + prodQA_likeCnt + ", prodQA_viewCnt=" + prodQA_viewCnt + ", prodQA_isSecret="
+				+ prodQA_isSecret + ", prodQA_secretPassword=" + prodQA_secretPassword + ", prodQA_isDelete="
+				+ prodQA_isDelete + "]";
+	}
 	
 }

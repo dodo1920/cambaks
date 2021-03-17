@@ -1,6 +1,7 @@
 package com.cambak21.persistence.boardCS;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
@@ -40,7 +41,7 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	}
 
 	@Override
-	public List<BoardVO> listBoardCS(PagingCriteria cri) throws Exception {
+	public List<BoardCsVO> listBoardCS(PagingCriteria cri) throws Exception {
 		
 		return ses.selectList(ns + ".listBoardCS", cri);
 	}
@@ -64,7 +65,7 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	}
 
 	@Override
-	public List<BoardVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception {
+	public List<BoardCsVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("searchType", scri.getSearchType());
 		map.put("searchWord", scri.getSearchWord());
