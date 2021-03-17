@@ -33,11 +33,10 @@
 	<!-- <script src="/resources/js/summernote-ko-KR.js"></script> -->
 	
 	<!-- Kim Jeong Min star rating bootStrap -->
-	<script src="../resources/cambak21/lib/jquery.raty.js"></script>
  
     
 	<script type="text/javascript">
-	$('#star').raty();
+
 	</script>
 </head>
 <body>
@@ -55,10 +54,7 @@
 		          	<h3>상품후기 작성</h3>
 		          	<div class="form-group">
 		               	  <div class="form-row float-left">
-		               	  	<!-- use full stars only -->
-								<div class='rating-stars text-center'>
-								    <div id="star"></div>
-							  </div>
+		               	  	
 		                  </div>
 		              </div>
 		          	<div class="form-group">
