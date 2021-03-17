@@ -3,6 +3,7 @@ package com.cambak21.service.boardCS;
 import java.util.List;
 
 
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -78,8 +79,8 @@ public class BoardCsServiceImpl implements BoardCsService {
 	}
 
 	@Override
-	public void readBoardCS(int board_no) throws Exception {
-		dao.readBoardCS(board_no);
+	public BoardCsVO readBoardCS(int board_no) throws Exception {
+		return dao.readBoardCS(board_no);
 		
 	}
 

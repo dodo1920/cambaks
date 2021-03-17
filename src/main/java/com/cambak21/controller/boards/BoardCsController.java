@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
@@ -45,6 +46,19 @@ public class BoardCsController {
 		service.writeBoardCS(dto);
 		
 		return "redirect:/board/cs/"; // 게시글 번호로 보내기는 어떻게?
+	}
+	
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public String BoardCsDetail(@RequestParam int no, Model model) throws Exception {
+		logger.info("승권 / 게시글 detail GET 호출");
+		logger.info("========= 게시글 상세보기 : " + service.readBoardCS(no).toString());
+		
+		model.addAttribute("board", service.readBoardCS(no));
+		
+		
+		
+		
+		return "cambakMain/boardCsDetail"; // 게시글 번호로 보내기는 어떻게?
 	}
 	
 }

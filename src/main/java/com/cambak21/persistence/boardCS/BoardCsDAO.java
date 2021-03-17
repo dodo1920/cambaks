@@ -2,6 +2,7 @@ package com.cambak21.persistence.boardCS;
 
 import java.util.List;
 
+
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
@@ -45,7 +46,7 @@ public interface BoardCsDAO {
 	int searchBoardCStotalCnt(SearchCriteria scri) throws Exception;
 
 	// 게시글 상세보기
-	void readBoardCS(int board_no) throws Exception;
+	BoardCsVO readBoardCS(int board_no) throws Exception;
 	
 	// 댓글 갯수 구하기 (리스트에 출력용)
 	int getReplyCnt(int board_no) throws Exception;

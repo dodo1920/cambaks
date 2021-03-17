@@ -2,6 +2,7 @@ package com.cambak21.persistence.boardCS;
 
 import java.util.HashMap;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -85,8 +86,8 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	}
 
 	@Override
-	public void readBoardCS(int board_no) throws Exception {
-		ses.selectOne(ns + ".readBoardCS", board_no);
+	public BoardCsVO readBoardCS(int board_no) throws Exception {
+		return ses.selectOne(ns + ".readBoardCS", board_no);
 
 	}
 

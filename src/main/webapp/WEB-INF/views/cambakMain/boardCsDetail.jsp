@@ -52,7 +52,7 @@
 	$(document).ready(function() {
 		// 말 줄임 ...
 		textLimit();
-		
+
 		// 공지사항 롤링
 		rolling();
 	});
@@ -78,58 +78,67 @@
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
+						<!-- 검색창, 글쓰기 버튼 템플릿 -->
 						<%@include file="cambak21Search&Write.jsp"%>
 					</section>
-					<div>
-						<div>
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th>번호</th>
-										<th class="board-title">제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
-									</tr>
-								</thead>
-								<tbody>
 
-									<c:forEach var="item" items="${boardList }">
-										<tr>
-											<td>${item.board_no }</td>
-											<td><a href="../cs/detail?no=${item.board_no }" class="board-title-a">${item.board_title }</a> 
-												<c:if test="${item.replyCnt > 0 }">
-													(${item.replyCnt })
-												</c:if>
-											</td>
-											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-											<td>${item.board_viewCnt }</td>
-										</tr>
-									</c:forEach>
-
-								</tbody>
-							</table>
+					<!-- 컨텐츠 시작 -->
+					<div class="detail-wrap">
+						<div class="detail-top">
+							<div class="detail-top-title">
+								<p>${board.board_title }</p>
+								<p><fmt:formatDate value="${board.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></p>
+							</div>
+							<div class="detail-top-author">
+								<p>${board.member_id }</p>
+								<p>
+									조회수 <span>${board.board_viewCnt }</span>
+								</p>
+								<p>
+									추천수 <span>${board.board_likeCnt }</span>
+								</p>
+								<p>
+									댓글 <span>${board.replyCnt }</span>
+								</p>
+							</div>
 						</div>
-						<div class="pageBtn">
-							<ul class="pagination">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
+						<div class="detail-content">${board.board_content }</div>
+						<div class="recommend-btn">
+							<button type="button" class="btn btn-warning">추천</button>
+						</div>
+						<div class="detail-bottom">
+							<div class="detail-bottom-comment-wrap">
+								<ul class="detail-bottom-comment">
+									<li>
+										<p class="comment-id">큰형님이다</p>
+										<p class="comment-content">정말 부러워요 저도 삼겹살 먹고싶어요!</p>
+									</li>
+									<li>
+										<p class="comment-id">아들둘아빠</p>
+										<p class="comment-content">삼겹살에 소주한잔 좋죠!</p>
+									</li>
+									<li>
+										<p class="comment-id">종진아부지</p>
+										<p class="comment-content">부러워요! 오늘 저녁은 삼겹살 먹어야겠어요</p>
+									</li>
+									<li>
+										<p class="comment-id">막내태훈쓰</p>
+										<p class="comment-content">오늘저녁은 삼겹살이다!</p>
+									</li>
+								</ul>
+							</div>
+
 						</div>
 					</div>
-				</div>
 
+				</div>
 			</div>
+
 		</div>
 	</div>
 	<!-- /Main -->
 
 	<%@include file="cambak21Footer.jsp"%>
-
 </body>
 
 </html>
