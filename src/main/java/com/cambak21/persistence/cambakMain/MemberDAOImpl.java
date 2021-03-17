@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.FindIdVO;
-import com.cambak21.domain.FindPwdVO;
 import com.cambak21.domain.MemberVO;
-import com.cambak21.dto.UpdateMemberPwdDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -31,19 +29,19 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<String> findId(FindIdVO fid) throws Exception {
+	public List<String> findId(FindIdVO fId) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int findPwd(FindPwdVO fPwd) throws Exception {
+	public int findPwd(String member_id, String member_Mobile) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int updatePwd(UpdateMemberPwdDTO newPwd) throws Exception {
+	public int updatePwd(String member_id, String member_password) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}

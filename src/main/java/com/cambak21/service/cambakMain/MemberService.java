@@ -3,9 +3,7 @@ package com.cambak21.service.cambakMain;
 import java.util.List;
 
 import com.cambak21.domain.FindIdVO;
-import com.cambak21.domain.FindPwdVO;
 import com.cambak21.domain.MemberVO;
-import com.cambak21.dto.UpdateMemberPwdDTO;
 
 public interface MemberService {
 	
@@ -61,25 +59,25 @@ public interface MemberService {
 	 * @Method Name : findPwd
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
-	 * @변경이력 : 
+	 * @변경이력 : 2021. 3. 17 / 도연 / VO삭제로 인한 매개변수 변경
 	 * @Method 설명 : 비밀번호 찾기시, 유저 이름과 전화번호를 확인하여 일치하면 비밀번호 변경 페이지로 넘겨주는 메서드
 	 * @param fPwd
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean findPwd(FindPwdVO fPwd) throws Exception;
+	public boolean findPwd(String member_id, String member_Mobile) throws Exception;
 	
 	/**
 	 * @Method Name : updatePwd
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
-	 * @변경이력 : 
+	 * @변경이력 : 2021. 3. 17 / 도연 / DTO 삭제로 인한 매개변수 변경
 	 * @Method 설명 : 비밀번호 찾기시, 비밀번호를 변경해주는 메서드
 	 * @param newPwd
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean updatePwd(UpdateMemberPwdDTO newPwd) throws Exception;
+	public boolean updatePwd(String member_id, String member_password) throws Exception;
 	
 	/**
 	 * @Method Name : login
