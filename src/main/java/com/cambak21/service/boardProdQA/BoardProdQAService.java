@@ -1,13 +1,16 @@
-package com.cambak21.persistence.boardProdQA;
+package com.cambak21.service.boardProdQA;
 
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.util.PagingCriteria;
 
-public interface BoardProdQADAO {
+@Service
+public interface BoardProdQAService {
 	/**
 	 * @Method Name : prodQAListAll
 	 * @작성일 : 2021. 3. 16.
@@ -29,7 +32,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int insertProdQA(ProdQAInsertDTO insertQA) throws Exception;
+	public boolean insertProdQA(ProdQAInsertDTO insertQA) throws Exception;
 	
 	/**
 	 * @Method Name : checkSecretPwd
@@ -41,7 +44,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int checkSecretPwd(int prodQA_secretPassword) throws Exception; 
+	public boolean checkSecretPwd(int prodQA_secretPassword) throws Exception; 
 	
 	/**
 	 * @Method Name : deleteProdQA
@@ -53,7 +56,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int deleteProdQA(int prodQA_no) throws Exception;
+	public boolean deleteProdQA(int prodQA_no) throws Exception;
 	
 	/**
 	 * @Method Name : updateProdQA
@@ -116,5 +119,4 @@ public interface BoardProdQADAO {
 	 * @throws Exception
 	 */
 	public int prodQALikeCnt(int proQA_no) throws Exception;
-	 
 }
