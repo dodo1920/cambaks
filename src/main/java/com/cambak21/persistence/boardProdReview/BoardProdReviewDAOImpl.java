@@ -33,7 +33,14 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 	}
 
 
+	
+	@Override
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception {
+		return ses.selectList(namespace + ".listProdBoardCriteria", cri);
+	}
 
+	
+	
 	@Override
 	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception {
 		// TODO Auto-generated method stub
@@ -43,17 +50,8 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 
 	@Override
-	public List<ProdReviewVO> listBoardCriteria(PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
 	public int getTotalBoardCnt() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.selectOne(namespace + ".getTotalBoardCnt");
 	}
 
 

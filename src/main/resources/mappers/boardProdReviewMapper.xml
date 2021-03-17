@@ -13,4 +13,13 @@
 		insert into goot6.ProdReviews(product_id, member_id, prodReview_title, prodReview_content, prodReview_grade, prodReview_img, buyProduct_no) values(#{product_id}, #{member_id}, #{prodReview_title}, #{prodReview_content}, #{prodReview_grade}, #{prodReview_img}, #{buyProduct_no})
 	</insert>
 	
+	<select id="listProdBoardCriteria" resultType="com.cambak21.domain.ProdReviewVO">
+		select * from goot6.ProdReviews order by prodReview_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- 전체 게시물 수 가져오기 -->
+	<select id="getTotalBoardCnt" resultType="int">
+		select count(*) from goot6.ProdReviews
+	</select>
+	
  </mapper>

@@ -3,6 +3,7 @@ package com.cambak21.service.boardProdReview;
 import java.util.List;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface ProdReviewService {
 
@@ -22,12 +23,12 @@ public interface ProdReviewService {
 		public List<ProdReviewVO> listProdBoard() throws Exception;
 		
 		// 페이징
-		//public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
+		public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception;
 		
-		//public List<ProdReviewVO> listBoardCriteria(PagingCriteria cri) throws Exception;
-		
+		public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
+
 		// 전체 게시글 수 가져오기
-		//public int getTotalBoardCnt() throws Exception;
+		public int getTotalBoardCnt() throws Exception;
 		
 		
 		// 검색 결과 전체 글 수 가져오기

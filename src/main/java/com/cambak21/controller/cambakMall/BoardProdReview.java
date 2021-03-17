@@ -14,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.service.boardProdReview.ProdReviewService;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/cambakMall")
@@ -25,13 +27,13 @@ public class BoardProdReview {
 	private static final Logger logger = LoggerFactory.getLogger(BoardProdReview.class);
 	
 	//페이징 없는 전체 게시글 목록
-	@RequestMapping(value = "/prodReviews", method=RequestMethod.GET)
-	public void listAll(Model model) throws Exception {
-		logger.info("/prodReviewsTest 페이지 get방식 호출");
-		List<ProdReviewVO> lst = service.listProdBoard();
-		System.out.println("lst : " + lst);
-		model.addAttribute("boardList", lst);
-	}
+//	@RequestMapping(value = "/prodReviews", method=RequestMethod.GET)
+//	public void listAll(Model model) throws Exception {
+//		logger.info("/prodReviewsTest 페이지 get방식 호출");
+//		List<ProdReviewVO> lst = service.listProdBoard();
+//		System.out.println("lst : " + lst);
+//		model.addAttribute("boardList", lst);
+//	}
 	
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
 	public String writingProdReviewGet() throws Exception{
@@ -51,4 +53,23 @@ public class BoardProdReview {
 		
 		return "redirect:/cambakMall/prodReviews";
 	}
+	
+	// 페이징 처리한 전체 게시글 목록
+	@RequestMapping(value="/prodReviews", method=RequestMethod.GET )
+	public void prodReviewsPagingList(PagingCriteria cri, Model model) throws Exception {
+		logger.info("페이징을 이용한 전체 게시글 출력, GET 방식");
+		
+		model.addAttribute("boardList", service.listProdBoardCriteria(cri)); // 페이징 게시물을 바인딩
+		logger.info("cri.toString() : " + cri.toString());
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotalBoardCnt()); // 전체 게시물 개수를 가져온 후 세팅
+		
+		logger.info("pp.toString() : " + pp.toString());
+		
+		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체 바인딩
+	}
+	
+	
 }

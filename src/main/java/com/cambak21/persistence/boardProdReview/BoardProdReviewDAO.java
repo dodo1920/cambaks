@@ -23,9 +23,9 @@ public interface BoardProdReviewDAO {
 	public List<ProdReviewVO> listProdBoard() throws Exception;
 	
 	// 페이징
-	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception;
 	
-	public List<ProdReviewVO> listBoardCriteria(PagingCriteria cri) throws Exception;
+	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 	
 	// 전체 게시글 수 가져오기
 	public int getTotalBoardCnt() throws Exception;

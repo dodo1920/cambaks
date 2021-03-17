@@ -283,7 +283,6 @@
 									            	   readOnly: true
 									            	 })
 								               </script>
-								             <!-- 별점 표시를 위한 bootStrap 부분 -->
 								             
 						                     <tr id="test${board.prodReview_no}" style="display: none">
 							                     <td colspan="6">
@@ -299,6 +298,25 @@
 						                  </c:forEach>
 						               </table>
 						               
+						               <!-- 페이징 부분 -->
+						               <div class="text-center">
+						               <ul class="pagination">
+							               <li class="page-item">
+						            	     <a class="page-link" href="listCri?page=1">처음 페이지로</a>
+						            	   </li>
+						            	   <c:if test="${pagingParam.prev }">
+							                  <li class="page-item">
+							                     <a class="page-link" href="?page=${param.page -1 }">prev</a>
+							                  </li>
+							               </c:if>
+						            	   <c:forEach begin="${pagingParam.startPage }"
+							                     end="${pagingParam.endPage }" var="pageNo">
+							                     <li class="page-item"><a class="page-link" href="?page=${pageNo }">${pageNo }</a>
+							                      </li>
+						                   </c:forEach>
+						               </ul>
+						               </div>
+						               <!-- 글쓰기 버튼 -->
 						               <div class="form-row float-right">
 						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
 						               </div>

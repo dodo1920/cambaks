@@ -72,7 +72,7 @@
 							        if (value) {
 							          $('.your-choice-was').show();
 							          $('.choice').text(value);
-							          $('.rating').val(value);
+							          $('#prodReview_grade').val(value);
 							        } else {
 							          $('.your-choice-was').hide();
 							        }
@@ -92,17 +92,19 @@
         <div class="container">
             <div class="row">
 				<div class="col-lg-12">
-					<form action="" method="post">
+					<form action="/cambakMall/writingProdReviews" method="post">
+					
+					<input type="hidden" id="product_id" name="product_id" value="4"/>
+					<input type="hidden" id="member_id" name="member_id" value="fff"/>
+					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
+					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
+					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value=""/>
 					<div class="form-group">
 		               	  <div class="form-row float-right">
 			                  <button type="submit" class="btn btn-success">저장하기</button>
 			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMall/prodReviews'">목록</button>
 		                  </div>
-		              </div>
-					<input type="hidden" id="product_id" name="product_id" value="4"/>
-					<input type="hidden" id="member_id" name="member_id" value="fff"/>
-					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
-					<input type="hidden" id="prodReview_grade" class='rating' value=""/>
+		            </div>
 					<div class="form-group">
 		                  <input type="text" class="form-control" id="prodReview_title" name="prodReview_title" placeholder="제목을 입력해 주세요."/>
 		            </div>
