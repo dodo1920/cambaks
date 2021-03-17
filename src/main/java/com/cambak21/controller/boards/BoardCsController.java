@@ -43,22 +43,16 @@ public class BoardCsController {
 	public String BoardCsWrite(InsertCSBoardDTO dto) throws Exception {
 		logger.info("승권 / 게시글 작성 POST 호출");
 		
-		service.writeBoardCS(dto);
-		
-		return "redirect:/board/cs/"; // 게시글 번호로 보내기는 어떻게?
+		return "redirect:/board/cs/detail?no=" + service.writeBoardCS(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public String BoardCsDetail(@RequestParam int no, Model model) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
-		logger.info("========= 게시글 상세보기 : " + service.readBoardCS(no).toString());
 		
 		model.addAttribute("board", service.readBoardCS(no));
 		
-		
-		
-		
-		return "cambakMain/boardCsDetail"; // 게시글 번호로 보내기는 어떻게?
+		return "cambakMain/boardCsDetail";
 	}
 	
 }

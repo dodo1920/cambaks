@@ -17,6 +17,10 @@ p.category-title {
 	width: 83%
 }
 
+th.board-title {
+    width: 65%;
+}
+
 .pageBtn {
 	display: flex;
     justify-content: center;
@@ -73,12 +77,12 @@ p.category-title {
 	font-weight: bold;
 }
 
-.detail-top-author p:first-child {
+.detail-top-author > p:first-child {
 	padding-left: 15px;
 	width: 70%;
 }
 
-.detail-top-author p:nth-child(2), p:nth-child(3), p:nth-child(4) {
+.detail-top-author > .view, .like, .reply {
 	width: 10%;
 	text-align: center;
 }

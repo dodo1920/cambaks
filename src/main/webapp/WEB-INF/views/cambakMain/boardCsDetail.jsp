@@ -91,13 +91,13 @@
 							</div>
 							<div class="detail-top-author">
 								<p>${board.member_id }</p>
-								<p>
+								<p class="view">
 									조회수 <span>${board.board_viewCnt }</span>
 								</p>
-								<p>
+								<p class="like">
 									추천수 <span>${board.board_likeCnt }</span>
 								</p>
-								<p>
+								<p class="reply">
 									댓글 <span>${board.replyCnt }</span>
 								</p>
 							</div>

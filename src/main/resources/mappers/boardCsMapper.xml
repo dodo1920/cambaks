@@ -8,6 +8,10 @@
 		insert into Boards(member_id, board_title, board_category, board_content)
 		values(#{member_id}, #{board_title}, #{board_category}, #{board_content});
 	</insert>
+	
+	<select id="getBoardNo" resultType="int">
+		select max(board_no) from Boards where member_id = #{member_id}
+	</select>
 
 	<!-- 게시글 수정 -->
 	<update id="updateBoardCS">

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
@@ -21,9 +22,14 @@ public class BoardCsServiceImpl implements BoardCsService {
 	@Inject
 	private BoardCsDAO dao;
 	
+	@Transactional
 	@Override
-	public void writeBoardCS(InsertCSBoardDTO dto) throws Exception {
+	public int writeBoardCS(InsertCSBoardDTO dto) throws Exception {
+		// 글 작성
 		dao.writeBoardCS(dto);
+		
+		// 해당 글 번호 반환
+		return dao.getBoard_no(dto.getMember_id());
 	}
 
 	@Override

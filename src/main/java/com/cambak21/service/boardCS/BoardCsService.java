@@ -11,7 +11,7 @@ import com.cambak21.util.SearchCriteria;
 
 public interface BoardCsService {
 	// 게시글 작성
-	void writeBoardCS(InsertCSBoardDTO dto) throws Exception;
+	int writeBoardCS(InsertCSBoardDTO dto) throws Exception;
 
 	// 게시글 수정
 	int modiBoardCS(UpdateCSBoardDTO dto) throws Exception;

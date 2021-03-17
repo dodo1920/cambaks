@@ -13,6 +13,9 @@ public interface BoardCsDAO {
 	// 게시글 작성
 	void writeBoardCS(InsertCSBoardDTO dto) throws Exception;
 
+	// 게시글 insert 후 해당 게시글 번호 가져오기
+	int getBoard_no(String member_id) throws Exception;
+	
 	// 게시글 수정
 	int modiBoardCS(UpdateCSBoardDTO dto) throws Exception;
 
