@@ -26,7 +26,7 @@ th.board-title {
     justify-content: center;
 }
 
-/* 게시글 상세페이지 */
+/* ====================================================게시글 상세페이지 ========================================================*/
 .detail-wrap {
 	margin-top: 5%;
 	display: flex;
@@ -88,8 +88,8 @@ th.board-title {
 }
 
 .detail-content {
-	display: flex;
-	justify-content: flex-start;
+/* 	display: flex; */
+/* 	justify-content: flex-start; */
 	min-height: 300px;
 	padding: 1.5%;
 }
@@ -136,12 +136,10 @@ th.board-title {
 	margin-top: 20px;
 	border-radius: 10px;
 	background: #fcfcfc;
+	margin-bottom: 20px;
 }
 
-input.write-btn {
-	background: #FDC600;
-	border-radius: 0;
-	width: 10%;
-	color: white;
-	float: right;
+button.btn.btn-success {
+	margin-top: 10px;
+    float: right;
 }

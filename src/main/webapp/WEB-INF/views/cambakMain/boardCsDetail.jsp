@@ -87,7 +87,10 @@
 						<div class="detail-top">
 							<div class="detail-top-title">
 								<p>${board.board_title }</p>
-								<p><fmt:formatDate value="${board.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></p>
+								<p>
+									<fmt:formatDate value="${board.board_writeDate }"
+										pattern="yyyy-MM-dd HH:mm:ss" type="DATE" />
+								</p>
 							</div>
 							<div class="detail-top-author">
 								<p>${board.member_id }</p>
@@ -104,7 +107,15 @@
 						</div>
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
-							<button type="button" class="btn btn-warning">추천</button>
+							<button type="button" class="btn btn-danger">추천</button>
+						</div>
+						<div class="detail-bottom-comment-write">
+							<p>댓글 작성</p>
+							<!-- 댓글 작성 Ajax -->
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요">
+								<button type="button" class="btn btn-success" onclick="">댓글 작성</button>
+							</div>
 						</div>
 						<div class="detail-bottom">
 							<div class="detail-bottom-comment-wrap">
@@ -112,6 +123,7 @@
 									<li>
 										<p class="comment-id">큰형님이다</p>
 										<p class="comment-content">정말 부러워요 저도 삼겹살 먹고싶어요!</p>
+										<p>2020-00-00 17:55:44</p>
 									</li>
 									<li>
 										<p class="comment-id">아들둘아빠</p>
