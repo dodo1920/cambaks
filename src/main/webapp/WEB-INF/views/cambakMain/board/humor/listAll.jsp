@@ -49,27 +49,25 @@
 }
 
 .pageBtn {
-    justify-content: center;
-    display: flex;
+	justify-content: center;
+	display: flex;
 }
 
 th.board-title {
-    width: 60%;
+	width: 60%;
 }
 
 p.category-title {
-    font-weight: bold;
-    text-align: center;
-    font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 20px;
 }
-
-
 </style>
 
 <script>
 	$(document).ready(function() {
-		rolling();				
-		
+		rolling();
+
 	});
 </script>
 </head>
@@ -89,7 +87,7 @@ p.category-title {
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>유머게시판</h2>
+							<h2>유머게시판${pagingParam.startPage }</h2>
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
@@ -102,7 +100,7 @@ p.category-title {
 									<button type="button" class="btn btn-danger search"
 										onclick="sendKeyword();">Search</button>
 									<button class="btn btn-danger write">
-										<a href="cambakMain/board/humor/write">글쓰기</a>
+										<a href="/cambakMain/board/humor/write">글쓰기</a>
 									</button>
 								</div>
 							</div>
@@ -117,7 +115,7 @@ p.category-title {
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										
+
 										<th class="board-title">제목</th>
 										<th>작성자</th>
 										<th>작성일</th>
@@ -125,31 +123,41 @@ p.category-title {
 									</tr>
 								</thead>
 								<tbody>
-								<c:forEach var="board" items="${boardList }">
-									<c:choose>
-										<c:when test="${board != null }">
-											<tr>
-												
-												<td>${board.board_title }</td>
-												<td>${board.member_id }</td>
-												<td><span><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.board_writeDate }" /></span></td>
-												<td>${board.board_viewCnt }</td>
-											</tr>
-										</c:when>
-									</c:choose>
-								</c:forEach>
-									
+									<c:forEach var="board" items="${boardList }">
+										<c:choose>
+											<c:when test="${board != null }">
+												<tr>
+
+													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }">${board.board_title }</a></td>
+													<td>${board.member_id }</td>
+													<td><span><fmt:formatDate
+																pattern="yyyy-MM-dd HH:mm:ss"
+																value="${board.board_writeDate }" /></span></td>
+													<td>${board.board_viewCnt }</td>
+												</tr>
+											</c:when>
+										</c:choose>
+									</c:forEach>
+
 
 								</tbody>
 							</table>
 						</div>
 						<div class="pageBtn">
 							<ul class="pagination">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+							<c:if test="${pagingParam.prev }">
+									<li class="page-item"><a class="page-link"
+										href="listAll?page=${param.page -1}">prev</a></li>
+								</c:if>
+								<c:forEach begin="${pagingParam.startPage }"
+									end="${pagingParam.endPage }" var="pageNo">
+									<li class="page-item"><a class="page-link"
+										href="listAll?page=${pageNo}">${pageNo }</a></li>
+								</c:forEach>
+							<c:if test="${pagingParam.next }">
+									<li class="page-item"><a class="page-link"
+										href="listAll?page=${param.page +1}">next</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>

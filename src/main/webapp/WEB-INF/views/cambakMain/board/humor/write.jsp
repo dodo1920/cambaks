@@ -40,6 +40,8 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 
@@ -63,6 +65,11 @@ p.category-title {
 	font-size: 20px;
 }
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+	  $('#summernote').summernote();
+	});
+</script>
 </head>
 <body>
 	<%@include file="../../cambak21Header.jsp"%>
@@ -76,7 +83,12 @@ p.category-title {
 				
 				<!-- Content -->
 				
-				
+				<div id="summernote">Hello Summernote</div>
+				<div>
+				<form method="post">
+  					<textarea id="summernote" name="editordata"></textarea>
+				</form>
+				</div>
 			</div>
 		</div>
 	</div>

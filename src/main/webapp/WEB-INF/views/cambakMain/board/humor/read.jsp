@@ -76,7 +76,30 @@ p.category-title {
 				
 				<!-- Content -->
 				
-				
+			<label class="control-label col-sm-2" for="writer">글번호 :</label>
+			<div class="col-sm-10">${board.board_no }</div>
+	
+		
+			<label class="control-label col-sm-2" for="writer">작성자 :</label>
+			<div class="col-sm-10">${board.member_id }</div>
+	
+		
+			<label class="control-label col-sm-2" for="writer">조회수 :</label>
+			<div class="col-sm-10">${board.board_viewCnt }</div>
+		
+		
+			<label class="control-label col-sm-2" for="writer">작성일 :</label>
+			<div class="col-sm-10">
+				<fmt:formatDate value="${board.board_writeDate }" type="both"
+					pattern="yyyy-MM-dd HH:mm:ss" />
+		
+			<label class="control-label col-sm-2" for="title">제 목 :</label>
+			<div class="col-sm-10">${board.board_title }</div>
+		
+		
+			<label class="control-label col-sm-2" for="content">내 용 :</label>
+			<div class="col-sm-10">${board.board_content }</div>
+		
 			</div>
 		</div>
 	</div>

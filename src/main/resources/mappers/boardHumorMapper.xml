@@ -25,7 +25,7 @@
 	</select>
 	
 	<select id="getToatalBoardHumorCnt" resultType="int">
-		select Count(*) from Boards
+		select Count(*) from Boards where board_category = 'humor'
 	</select>
 	
 	<update id="updateViewCnt">
