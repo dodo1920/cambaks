@@ -15,6 +15,7 @@ import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.service.boardProdReview.ProdReviewService;
 
 @Controller
+@RequestMapping("/cambakMall")
 public class BoardProdReview {
 
 	@Inject
@@ -23,7 +24,7 @@ public class BoardProdReview {
 	private static final Logger logger = LoggerFactory.getLogger(BoardProdReview.class);
 	
 	//페이징 없는 전체 게시글 목록
-	@RequestMapping(value = "/cambakMall/prodReviews", method=RequestMethod.GET)
+	@RequestMapping(value = "/prodReviews", method=RequestMethod.GET)
 	public void listAll(Model model) throws Exception {
 		logger.info("/prodReviewsTest 페이지 get방식 호출");
 		List<ProdReviewVO> lst = service.listProdBoard();
@@ -32,5 +33,10 @@ public class BoardProdReview {
 		
 	}
 	
+	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
+	public String writingProdReview() throws Exception{
+	
+		return "cambakMall/prodReviewsWriting";
+	}
 	
 }

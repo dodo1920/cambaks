@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -33,9 +33,6 @@
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 
-<!-- bbskCSS -->
-<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
-
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -43,24 +40,42 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
-<script src="/resources/cambak21/js/bbskJS.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
+
+.\34 u {
+	width: 100%;
+	margin: 0px;
+}
+
+.pageBtn {
+    justify-content: center;
+    display: flex;
+}
+
+th.board-title {
+    width: 60%;
+}
+
+p.category-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
+}
+
+
 </style>
 
 <script>
 	$(document).ready(function() {
-		// 말 줄임 ...
-		textLimit();
+		rolling();				
 		
-		// 공지사항 롤링
-		rolling();
 	});
 </script>
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -68,13 +83,13 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside2.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
+							<h2>유머게시판</h2>
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
@@ -87,7 +102,7 @@
 									<button type="button" class="btn btn-danger search"
 										onclick="sendKeyword();">Search</button>
 									<button class="btn btn-danger write">
-										<a href="../cs/write">글쓰기</a>
+										<a href="cambakMain/board/humor/write">글쓰기</a>
 									</button>
 								</div>
 							</div>
@@ -102,7 +117,7 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th>번호</th>
+										
 										<th class="board-title">제목</th>
 										<th>작성자</th>
 										<th>작성일</th>
@@ -110,20 +125,20 @@
 									</tr>
 								</thead>
 								<tbody>
-
-									<c:forEach var="item" items="${boardList }">
-										<tr>
-											<td>${item.board_no }</td>
-											<td><a href="" class="board-title-a">${item.board_title }</a> 
-												<c:if test="${item.replyCnt > 0 }">
-													(${item.replyCnt })
-												</c:if>
-											</td>
-											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-											<td>${item.board_viewCnt }</td>
-										</tr>
-									</c:forEach>
+								<c:forEach var="board" items="${boardList }">
+									<c:choose>
+										<c:when test="${board != null }">
+											<tr>
+												
+												<td>${board.board_title }</td>
+												<td>${board.member_id }</td>
+												<td><span><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${board.board_writeDate }" /></span></td>
+												<td>${board.board_viewCnt }</td>
+											</tr>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+									
 
 								</tbody>
 							</table>
@@ -145,7 +160,7 @@
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<%@include file="../../cambak21Footer.jsp"%>
 
 </body>
 

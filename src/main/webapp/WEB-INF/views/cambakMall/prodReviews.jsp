@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
     
+    <!-- Kim Jeong Min Table Css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <script type="text/javascript">
 	function showContent(obj) {
 		let test = $(obj).attr("id");
@@ -211,10 +217,10 @@
                                 <!-- *********아래부터 상품평 내용 넣는 곳 *************************************************************-->
                                 <div>
                                 
-						     	<div class="content-wrapper">
+						     	<div class="container">
 								<c:choose>
 									<c:when test="${boardList != null}">
-										<table class="table table-condensed">
+										<table class="table table-hover">
 						                  <thead>
 						                     <tr>
 						                        <th>글번호</th>
@@ -251,15 +257,15 @@
 						                        </div> 
 						                        </td>
 						                        <td>${board.member_id }</td>
-						                        <td><span class="sendTime" id="${status.count }"><fmt:formatDate
-						                                 value="${board.prodReview_postDate }" type="both"
-						                                 pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
+						                        <td><span class="sendTime" id="${status.count }">
+						                        <fmt:formatDate value="${board.prodReview_postDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
+						                        </span></td>
 						                        <td>${board.prodReview_likeCnt }</td>
 						                        
 						                     </tr>
-						                     <tr>
+						                     <tr id="test${board.prodReview_no}" style="display: none">
 							                     <td colspan="5">
-							                     	 <div id="test${board.prodReview_no}" style="display: none">${board.prodReview_content }</div>
+							                     	 <div>${board.prodReview_content }</div>
 								                     <!-- <input type="text" id="test${board.prodReview_no}" value="${board.prodReview_content }" readonly="readonly" style="display: none"/> -->
 								                 </td>
 						                     </tr>
@@ -269,8 +275,8 @@
 						               </table>
 						               
 						               <div>
-						                  <button type="button" class="btn btn-info"
-						                     onclick="location.href='/board/register'">글쓰기</button>
+						                  <button type="button" class="btn btn-success" onclick="location.href='/board/register'">글쓰기</button>
+						                  <button type="button" class="btn btn-info" onclick="location.href='/board/register'">글쓰기</button>
 						               </div>
 						               
 						               
