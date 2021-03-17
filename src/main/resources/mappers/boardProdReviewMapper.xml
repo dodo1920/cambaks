@@ -8,5 +8,9 @@
   	<select id="listProdBoard" resultType="com.cambak21.domain.ProdReviewVO">
   		select * from goot6.ProdReviews order by prodReview_no desc
   	</select>
-
+	
+	<insert id="insertProdBoard">
+		insert into goot6.ProdReviews(product_id, member_id, prodReview_title, prodReview_content, prodReview_grade, prodReview_img, buyProduct_no) values(#{product_id}, #{member_id}, #{prodReview_title}, #{prodReview_content}, #{prodReview_grade}, #{prodReview_img}, #{buyProduct_no})
+	</insert>
+	
  </mapper>

@@ -1,4 +1,4 @@
-package com.cambak21.controller.boards;
+package com.cambak21.controller.cambakMall;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.service.boardProdReview.ProdReviewService;
@@ -30,13 +31,24 @@ public class BoardProdReview {
 		List<ProdReviewVO> lst = service.listProdBoard();
 		System.out.println("lst : " + lst);
 		model.addAttribute("boardList", lst);
-		
 	}
 	
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
-	public String writingProdReview() throws Exception{
-	
+	public String writingProdReviewGet() throws Exception{
+		logger.info("/writingProdReviews의 get방식 호출");
 		return "cambakMall/prodReviewsWriting";
 	}
 	
+	@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
+	public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
+		logger.info("/writingProdReviews의 post방식 호출");
+		logger.info(vo.toString());
+		
+		if(service.insert(vo) == 1) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/cambakMall/prodReviews";
+	}
 }

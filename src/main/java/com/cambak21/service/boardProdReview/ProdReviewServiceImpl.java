@@ -23,4 +23,12 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	}
 
 
+
+	@Override
+	public int insert(ProdReviewVO vo) throws Exception {
+		
+		return dao.insert(vo);
+	}
+
+
 }

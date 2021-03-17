@@ -7,7 +7,7 @@ import com.cambak21.domain.ProdReviewVO;
 public interface ProdReviewService {
 
 	// 게시글 작성
-		//public int insert(ProdReviewVO vo) throws Exception;
+		public int insert(ProdReviewVO vo) throws Exception;
 		
 		// 글번호로 게시글 상세 조회
 		//public ProdReviewVO readProdBoard(int no) throws Exception;

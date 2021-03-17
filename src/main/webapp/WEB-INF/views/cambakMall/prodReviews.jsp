@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -32,6 +33,13 @@
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
+    <!-- Kim Jeong Min star rating bootStrap -->
+ 	<meta name="description" content="">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../resources/mallMain/css/starrr.js"></script>
+    
     <script type="text/javascript">
 	function showContent(obj) {
 		let test = $(obj).attr("id");
@@ -39,6 +47,10 @@
 		$("#test" + test).show()
 	}
 
+	//$(function() {
+		//let check = $(".starsCnt").attr("value");
+		//console.log(check);
+			//});
     </script>
 </head>
 <body>
@@ -225,6 +237,7 @@
 						                     <tr>
 						                        <th>글번호</th>
 						                        <th>글제목</th>
+						                        <th>만족도</th>
 						                        <th>작성자</th>
 						                        <th>작성일</th>
 						                        <th>좋아요</th>
@@ -235,8 +248,8 @@
 						                  		<c:when test="${board.prodReview_isDelete == 'Y' }">
 						                  			<tr>
 						                        <td><strike>${board.prodReview_no }</strike></td>
+						                        <td><strike>${board.prodReview_grade }</strike></td>
 						                        <td>
-						                        
 						                        <strike>${board.prodReview_title}</strike>
 						                        </td>
 						                        <td><strike>${board.member_id }</strike></td>
@@ -251,32 +264,43 @@
 						                     <tr>
 						                        <td>${board.prodReview_no }</td>
 						                        <td>
-						
-						                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }
-						                        
-						                        </div> 
+						                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }</div> 
 						                        </td>
+						                        <td>
+						                        <div class="starrr"></div></td>
 						                        <td>${board.member_id }</td>
 						                        <td><span class="sendTime" id="${status.count }">
 						                        <fmt:formatDate value="${board.prodReview_postDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 						                        </span></td>
 						                        <td>${board.prodReview_likeCnt }</td>
-						                        
 						                     </tr>
+						                     
+						                     <!-- 별점 표시를 위한 bootStrap 부분 -->
+						                     <script>
+						                     var check = $(".starsCnt").attr("value");
+									               $('.starrr').starrr({
+									            	   rating: ${board.prodReview_grade },
+									            	   readOnly: true
+									            	 })
+								               </script>
+								             <!-- 별점 표시를 위한 bootStrap 부분 -->
+								             
 						                     <tr id="test${board.prodReview_no}" style="display: none">
-							                     <td colspan="5">
+							                     <td colspan="6">
 							                     	 <div>${board.prodReview_content }</div>
+							                     	 <div></div>
 								                     <!-- <input type="text" id="test${board.prodReview_no}" value="${board.prodReview_content }" readonly="readonly" style="display: none"/> -->
 								                 </td>
 						                     </tr>
+						                     
+						                     
 						                     </c:otherwise>
 						                     </c:choose>
 						                  </c:forEach>
 						               </table>
 						               
-						               <div>
-						                  <button type="button" class="btn btn-success" onclick="location.href='/board/register'">글쓰기</button>
-						                  <button type="button" class="btn btn-info" onclick="location.href='/board/register'">글쓰기</button>
+						               <div class="form-row float-right">
+						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
 						               </div>
 						               
 						               
