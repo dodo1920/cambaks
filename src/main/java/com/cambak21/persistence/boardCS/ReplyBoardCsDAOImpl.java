@@ -2,6 +2,9 @@ package com.cambak21.persistence.boardCS;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ReplyBoardVO;
@@ -11,6 +14,11 @@ import com.cambak21.dto.UpdateReplyCSBoardDTO;
 @Repository
 public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 
+	@Inject
+	private SqlSession ses;
+	
+	private static String ns = "com.cambak21.mapper.ReplyBoardCS";
+	
 	@Override
 	public int getRefMax() throws Exception {
 		// TODO Auto-generated method stub
@@ -43,8 +51,7 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 
 	@Override
 	public List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return ses.selectList(ns + ".replyList", board_no);
 	}
 
 	@Override

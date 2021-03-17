@@ -55,7 +55,74 @@
 
 		// 공지사항 롤링
 		rolling();
+
+		// 댓글 리스트 출력
+		replyList();
+	
 	});
+	
+	// 댓글 리스트 ajax 호출
+	function replyList() {
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/board/cs/reply/all/" + ${board.board_no}, // 서블릿 주소
+			success : function(data) {
+				listOutput(data);
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
+	// 댓글 리스트 출력 함수
+	function listOutput(data) {
+		let output = "";
+		let step = 50;
+		
+		$.each(data, function(index, item) {
+			
+			if(item.replyBoard_step >= 1) {
+				let step = 20 * item.replyBoard_step;
+				output += "<li id="+index+" style='margin-left:"+step+"px'>";
+			} else {
+				output += "<li id="+index+">";
+			}
+			
+			output += "<p class='comment-id'>"+item.member_id+"</p>";
+			output += "<p class='comment-content'>"+item.replyBoard_content+"</p>";
+			
+			let writeDate = new Date(item.replyBoard_writeDate);
+			output += "<p>" + date_to_str(writeDate); + "</p>";
+			output += "</li>";
+	
+			$(".detail-bottom-comment").html(output);
+	
+		});
+		
+		
+	}
+	
+	// Date format
+	function date_to_str(format) {
+		var year = format.getFullYear();
+		var month = format.getMonth() + 1;
+		if (month < 10) month = '0' + month;
+		var date = format.getDate();
+		if (date < 10) date = '0' + date;
+		var hour = format.getHours();
+		if (hour < 10) hour = '0' + hour;
+		var min = format.getMinutes();
+		if (min < 10) min = '0' + min;
+		var sec = format.getSeconds();
+		if (sec < 10) sec = '0' + sec;
+
+		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+	};
+
+	
 </script>
 </head>
 
@@ -114,29 +181,13 @@
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="댓글을 입력해주세요">
-								<button type="button" class="btn btn-success" onclick="">댓글 작성</button>
+								<button type="button" class="btn btn-success" onclick="">댓글
+									작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
 							<div class="detail-bottom-comment-wrap">
 								<ul class="detail-bottom-comment">
-									<li>
-										<p class="comment-id">큰형님이다</p>
-										<p class="comment-content">정말 부러워요 저도 삼겹살 먹고싶어요!</p>
-										<p>2020-00-00 17:55:44</p>
-									</li>
-									<li>
-										<p class="comment-id">아들둘아빠</p>
-										<p class="comment-content">삼겹살에 소주한잔 좋죠!</p>
-									</li>
-									<li>
-										<p class="comment-id">종진아부지</p>
-										<p class="comment-content">부러워요! 오늘 저녁은 삼겹살 먹어야겠어요</p>
-									</li>
-									<li>
-										<p class="comment-id">막내태훈쓰</p>
-										<p class="comment-content">오늘저녁은 삼겹살이다!</p>
-									</li>
 								</ul>
 							</div>
 

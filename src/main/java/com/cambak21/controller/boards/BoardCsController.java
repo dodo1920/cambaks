@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
@@ -47,12 +49,13 @@ public class BoardCsController {
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public String BoardCsDetail(@RequestParam int no, Model model) throws Exception {
+	public String BoardCsDetail(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
 		
 		model.addAttribute("board", service.readBoardCS(no));
 		
 		return "cambakMain/boardCsDetail";
 	}
+	
 	
 }
