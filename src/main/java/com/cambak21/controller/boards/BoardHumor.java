@@ -81,7 +81,13 @@ public class BoardHumor {
 		
 		return "redirect:/cambakMain/board/humor/listAll?page=1";
 	}
-	
+	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	public String delBoard(@RequestParam("no") int no, RedirectAttributes rttr) throws Exception{
+		if(service.removeBoardHumor(no)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/cambakMain/board/humor/listAll?page=1";
+	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {

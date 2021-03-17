@@ -21,7 +21,7 @@
 	</delete>
 	
 	<select id="listBoardHumorCriteria" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = 'humor' order by board_no desc limit #{pageStart}, #{perPageNum}
+		select * from Boards where board_category = 'humor' and board_isDelete = 'N' order by board_no desc limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="getToatalBoardHumorCnt" resultType="int">
