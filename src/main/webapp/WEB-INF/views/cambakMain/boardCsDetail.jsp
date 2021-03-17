@@ -98,9 +98,9 @@
 			output += "<p>" + date_to_str(writeDate); + "</p>";
 			output += "</li>";
 	
-			$(".detail-bottom-comment").html(output);
 	
 		});
+		$(".detail-bottom-comment").html(output);
 		
 		
 	}

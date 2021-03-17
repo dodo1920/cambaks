@@ -52,10 +52,26 @@
 	$(document).ready(function() {
 		// 말 줄임 ...
 		textLimit();
-		
+
 		// 공지사항 롤링
 		rolling();
+
+// 		let boardUri = searchUriAddress();
+		asideBarDraw(searchUriAddress());
+
 	});
+
+	// 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
+	function searchUriAddress() {
+		var url = location.href; //url주소
+		var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
+		return params[0]; // board/OO/??/??  OO만 반환
+	}
+
+	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
+	function asideBarDraw(boardUri) {
+		$("#" + boardUri + "Aside").attr("class", "active");
+	}
 </script>
 </head>
 
@@ -97,13 +113,14 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="../cs/detail?no=${item.board_no }" class="board-title-a">${item.board_title }</a> 
-												<c:if test="${item.replyCnt > 0 }">
+											<td><a href="../cs/detail?no=${item.board_no }"
+												class="board-title-a">${item.board_title }</a> <c:if
+													test="${item.replyCnt > 0 }">
 													(${item.replyCnt })
-												</c:if>
-											</td>
+												</c:if></td>
 											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											<td><fmt:formatDate value="${item.board_writeDate }"
+													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 											<td>${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
