@@ -24,7 +24,7 @@ public class BoardCsController {
 	
 	@RequestMapping("/")
 	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
-		logger.info("승권 / 게시글 메인 페이지 호출");
+		logger.info("�듅沅� / 寃뚯떆湲� 硫붿씤 �럹�씠吏� �샇異�");
 		
 		model.addAttribute("boardList", service.listBoardCS(cri));
 		
@@ -33,18 +33,18 @@ public class BoardCsController {
 	
 	@RequestMapping("/write")
 	public String BoardCsWrite() {
-		logger.info("승권 / 게시글 작성 페이지 호출");
+		logger.info("�듅沅� / 寃뚯떆湲� �옉�꽦 �럹�씠吏� �샇異�");
 		
 		return "cambakMain/boardCsWrite";
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String BoardCsWrite(InsertCSBoardDTO dto) throws Exception {
-		logger.info("승권 / 게시글 작성 POST 호출");
+		logger.info("�듅沅� / 寃뚯떆湲� �옉�꽦 POST �샇異�");
 		
 		service.writeBoardCS(dto);
 		
-		return "redirect:/board/cs/"; // 게시글 번호로 보내기는 어떻게?
+		return "redirect:/board/cs/"; // 寃뚯떆湲� 踰덊샇濡� 蹂대궡湲곕뒗 �뼱�뼸寃�?
 	}
 	
 }

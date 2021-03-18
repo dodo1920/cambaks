@@ -8,6 +8,34 @@
   		select * from goot6.Boards where board_category = 'camping' order by board_no desc
   	</select>
   	
+  	<insert id="insertCampReview">
+		insert into Boards(member_id, board_title, board_category, board_content) values(#{member_id}, #{board_title}, 'humor', #{board_content})
+	</insert>
+	
+	<select id="readCampReview" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_no = #{board_no}
+	</select>
+	
+	<update id="updateCampReview">
+		update Boards set board_title = #{board_title}, board_content = #{board_content} where board_no = #{board_no}
+	</update>
+	
+	<delete id="deleteCampReview">
+		update Boards set board_isDelete = 'Y' where board_no = #{board_no}
+	</delete>
+	
+	<select id="listCampReviewCriteria" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_category = 'humor' order by board_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="getToatalCampReviewCnt" resultType="int">
+		select Count(*) from Boards
+	</select>
+	
+	<update id="updateViewCnt">
+		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no}
+	</update>
+  	
   
   	
   </mapper>

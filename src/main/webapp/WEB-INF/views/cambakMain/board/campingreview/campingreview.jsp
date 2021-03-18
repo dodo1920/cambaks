@@ -39,7 +39,7 @@
 </head>
 
 <body>
-    <%@include file="cambak21Header.jsp"%>
+    <%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -47,7 +47,7 @@
 			<div class="row">
 			
 			<!-- 사이드바 템플릿 -->
-			<%@include file="cambak21Aside.jsp"%>
+			<%@include file="../../cambak21Aside.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -66,7 +66,7 @@
 	</div>
 	<!-- /Main -->
 
-    <%@include file="cambak21Footer.jsp"%>
+    <%@include file="../../cambak21Footer.jsp"%>
 	
 </body>
 
