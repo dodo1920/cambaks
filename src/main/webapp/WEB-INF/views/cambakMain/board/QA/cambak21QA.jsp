@@ -60,7 +60,7 @@
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -140,7 +140,7 @@
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<%@include file="../../cambak21Footer.jsp"%>
 
 </body>
 
