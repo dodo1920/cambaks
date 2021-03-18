@@ -60,7 +60,7 @@
 		replyList();
 		
 		// 글 작성 완료 알림 띄우기
-		writeOk();
+		statusOk();
 	
 	});
 	
@@ -108,11 +108,15 @@
 		
 	}
 	
-	// 댓글 작성 후 작성한 글로 올때, 작성 완료 되었다는 알림창 띄우기
-	function writeOk() {
+	// 글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
+	function statusOk() {
 		
 		if(${status == "writeOk"}) {
-			alert("글 작성이 완료 되었습니다");
+			$("#modalText").text("글 작성이 완료 되었습니다");
+			$("#myModal").modal();
+		} else if (${status == "modiOk"}) {
+			$("#modalText").text("글 수정이 완료 되었습니다");
+			$("#myModal").modal();
 		}
 	}
 	
@@ -138,7 +142,7 @@
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -146,7 +150,7 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside2.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -157,7 +161,7 @@
 									자리입니다.</a></span>
 						</header>
 						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="cambak21Search&Write.jsp"%>
+						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 
 					<!-- 컨텐츠 시작 -->
@@ -186,10 +190,21 @@
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
 							<button type="button" class="btn btn-danger">추천</button>
-							
+
+
+
+
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
-							<button type="button" class="btn btn-danger" onclick="location.href='../cs/delete?no=${board.board_no}'" >삭제하기</button>
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='../cs/delete?no=${board.board_no}'">삭제하기</button>
+							<!-- if문 로그인한 회원과 작성자와 비교 -->
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
+
+
+
 							
+
 						</div>
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
@@ -216,7 +231,26 @@
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<%@include file="../../cambak21Footer.jsp"%>
 </body>
 
 </html>

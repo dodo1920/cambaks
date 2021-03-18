@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.dto.InsertCSBoardDTO;
+import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
 import com.cambak21.util.PagingCriteria;
 
@@ -31,14 +32,14 @@ public class BoardCsController {
 		
 		model.addAttribute("boardList", service.listBoardCS(cri));
 		
-		return "cambakMain/boardCsList";
+		return "cambakMain/board/cs/boardCsList";
 	}
 	
 	@RequestMapping("/write")
 	public String BoardCsWrite() {
 		logger.info("승권 / 글 쓰기 폼 get 방식 호출");
 		
-		return "cambakMain/boardCsWrite";
+		return "cambakMain/board/cs/boardCsWrite";
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
@@ -56,16 +57,40 @@ public class BoardCsController {
 		
 		model.addAttribute("board", service.readBoardCS(no));
 		
-		return "cambakMain/boardCsDetail";
+		return "cambakMain/board/cs/boardCsDetail";
 	}
 	
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public String BoardCsDelete(@RequestParam("no") int board_no) throws Exception {
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public String BoardCsDelete(@RequestParam("no") int board_no, RedirectAttributes ra) throws Exception {
+		logger.info("승권 / 글 삭제 get방식 호출");
 		
 		service.deleteBoardCS(board_no);
+		
+		ra.addFlashAttribute("status", "deleteOk");
 		
 		return "redirect:/board/cs/";
 	}
 	
+	@RequestMapping("/modi")
+	public String BoardModi(@RequestParam("no") int no, Model model) throws Exception {
+		logger.info("승권 / 글 수정 get 방식 호출");
+		
+		model.addAttribute("board", service.readBoardCS(no));
+		
+		return "cambakMain/board/cs/boardCsModi";
+	}
+	
+	@RequestMapping(value="/modi", method=RequestMethod.POST)
+	public String BoardModi(UpdateCSBoardDTO dto, RedirectAttributes ra) throws Exception {
+		logger.info("승권 / 글 수정 post 방식 호출");
+		System.out.println("dto : " + dto.toString());
+		
+		service.modiBoardCS(dto);
+		
+		ra.addFlashAttribute("status", "modiOk");
+		
+		
+		return "redirect:/board/cs/detail?no=" + dto.getBoard_no();
+	}
 	
 }
