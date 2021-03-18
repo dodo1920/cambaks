@@ -59,6 +59,8 @@
     <context:component-scan base-package="com.cambak21.persistence.boardProdReview"></context:component-scan> 
      
 	<!-- **************************************** 서효원 패키지 스캔 ********************************************** -->
+	<context:component-scan base-package="com.cambak21.service.boardCampingTip"></context:component-scan>
+	<context:component-scan base-package="com.cambak21.persistence.boardCampingTip"></context:component-scan>
 	
 	<!-- **************************************** 백승권 패키지 스캔 ********************************************** -->
 	<context:component-scan base-package="com.cambak21.persistence.boardCS"></context:component-scan>
@@ -67,5 +69,5 @@
 	<!-- **************************************** 김태훈 패키지 스캔 ********************************************** -->
 	<context:component-scan base-package="com.cambak21.persistence.resell"></context:component-scan>
     <context:component-scan base-package="com.cambak21.service.resell"></context:component-scan> 
-    
+
 </beans>

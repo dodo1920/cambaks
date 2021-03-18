@@ -2,6 +2,8 @@ package com.cambak21.persistence.boardCampingTip;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
@@ -10,6 +12,7 @@ import com.cambak21.dto.CamBoardTipRereplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.util.PagingCriteria;
 
+@Repository
 public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 
 	@Override
