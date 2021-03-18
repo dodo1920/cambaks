@@ -41,16 +41,49 @@
     <script src="../../resources/mallMain/css/starrr.js"></script>
     
     <script type="text/javascript">
+    $(function() {
+		alert("!");
+		});
+
+    // 게시글 title 클릭 시, content를 보여주는 부분
 	function showContent(obj) {
 		let test = $(obj).attr("id");
 		let showTest = "test" + test;
 		$("#test" + test).show()
 	}
 
-	//$(function() {
-		//let check = $(".starsCnt").attr("value");
-		//console.log(check);
-			//});
+    // ajax로 게시판 게시글 출력 부분
+    function callProdReviewsList() {
+    	// 게시글 번호
+    	let product_no = 4;
+    	
+    	let output = '<div class="container">';
+        output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+		
+        $.ajax({
+			  method: "get",
+			  url: "/cambakMall/prodReviews1/" + product_no,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "GET"
+			  },
+			  dataType: "text" // 응답 받는 데이터 타입
+			  //data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
+				 //bno :  bno,
+				// replyer : replyer,
+				 //replytext : replytext
+			  }),
+			  success : function(entity) {
+				  console.log(entity);
+				
+			  }
+			  
+			});
+	}
+	
+	
+	
+	
     </script>
 </head>
 <body>
@@ -323,6 +356,8 @@
 						               <!-- 글쓰기 버튼 -->
 						               <div class="form-row float-right">
 						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
+						                  <button type="button" class="btn btn-success" onclick="callProdReviewsList();">테스트</button>
+						                  
 						               </div>
 						               
 						               

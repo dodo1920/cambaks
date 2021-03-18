@@ -39,19 +39,19 @@ public class BoardProdReview {
 //	}
 	
 	//ajax 이용 전체 게시글 목록
-//	@RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.GET)
-//	public ResponseEntity<List<ProdReviewVO>> prodReviewsList(@PathVariable("product_id") int product_id){
-//		ResponseEntity<List<ProdReviewVO>> entity = null;
-//		
-//		try {
-//			entity = new ResponseEntity<List<ProdReviewVO>>(service.listProdBoard(product_id), HttpStatus.OK);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			entity = new ResponseEntity<List<ProdReviewVO>>(HttpStatus.BAD_REQUEST);
-//		}
-//		
-//		return entity;
-//	}
+	@RequestMapping(value = "/prodReviews1/{product_id}", method=RequestMethod.GET)
+	public ResponseEntity<List<ProdReviewVO>> prodReviewsList(@PathVariable("product_id") int product_id){
+		ResponseEntity<List<ProdReviewVO>> entity = null;
+		
+		try {
+			entity = new ResponseEntity<List<ProdReviewVO>>(service.listProdBoard(product_id), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<ProdReviewVO>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
 	public String writingProdReviewGet() throws Exception{
