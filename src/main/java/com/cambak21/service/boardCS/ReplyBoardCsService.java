@@ -23,8 +23,5 @@ public interface ReplyBoardCsService {
 	// 댓글 리스트 출력
 	List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception;
 	
-	// 댓글 갯수 (리스트에 출력용)
-	int totReplyBoardCS(int board_no) throws Exception;
-	
 	
 }

@@ -86,25 +86,16 @@
 		let step = 50;
 		
 		$.each(data, function(index, item) {
-			
-			var reply = {
-				replyBoard_ref : item.replyBoard_ref,
-				replyBoard_refOrder : item.replyBoard_refOrder,
-				replyBoard_step : item.replyBoard_step,
-				board_no : item.replyBoard_no
-			}
-			
 			if(item.replyBoard_step >= 1) {
 				let step = 20 * item.replyBoard_step;
 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
 			} else {
 				output += "<li id="+item.replyBoard_no+">";
 			}
-			
 			output += "<p class='comment-id'>"+item.member_id+"</p>";
 			output += "<p class='comment-content'>"+item.replyBoard_content+"</p>";
 			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
-			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+", "+reply+");'>답글 달기</button></div>";
+			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button></div>";
 			output += "</li>";
 		});
 		$(".detail-bottom-comment").html(output);
@@ -140,25 +131,47 @@
 	};
 	
 	// 자식댓글 작성폼 열기
-	function childReply(replyno, reply) {
-		let replyNo = "." + replyno
+	function childReply(replyno) {
+		let replyBoard_no = "." + replyno
 		
-		console.log("========================================");
-		
-		let output = "<input type='text' class='form-control' placeholder='댓글을 입력해주세요'>";
-		output += "<button type='button' class='btn btn-success' onclick='childRelpyWrite("+reply+");'>답글 작성</button>";
-		$(replyNo).append(output);
-		
+		let output = "<div>";
+		output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"'>";
+		output += "<button type='button' class='btn btn-success' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
+		output += "</div>";
+		// 닫기 창 , css 수정
+		$(replyBoard_no).append(output);
 	}
 	
-	// 자식 댓글
-	function childRelpyWrite(reply) {
-		console.log(reply.board_no);
+	// 자식 댓글 작성
+	function childRelpyWrite(replyno) {
+		let replyId = "#replyId" + replyno;
 		
+		let replyBoard_content = $(replyId).val();
 		
+		// 나중에 멤버아이디 바꾸기
+		let member_id = "ggg";
+		// ===================================
+			
+		$.ajax({
+			type : "post",
+			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			url : "/board/cs/reply/insert", // 서블릿 주소
+			data : {
+				replyBoard_no : replyno,
+				replyBoard_content : replyBoard_content,
+				member_id : member_id
+			},
+			success : function(data) {
+				replyList();
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 	}
 	
-	// 글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
+	// 게시글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
 	function statusOk() {
 		
 		if(${status == "writeOk"}) {
@@ -170,7 +183,7 @@
 		}
 	}
 	
-	// 댓글 작성 후 스크롤 이동 함수
+	// 부모댓글 작성 후 스크롤 이동 함수
 	function scrollMove() {
 		let offset = $(".detail-bottom-comment li:last").offset();
 	 	$('html, body').animate({scrollTop : offset.top}, 400);

@@ -9,6 +9,17 @@
 		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards)) from ReplyBoards;
 	</select>
 	
+	<!-- 부모댓글 작성 -->
+	<insert id="parentReply">
+		insert into ReplyBoards(board_no, member_id, replyBoard_content, replyBoard_ref)
+		values(#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref});
+	</insert>
+	
+	<!-- 부모댓글 정보 가져오기 -->
+	<select id="getParentReply" resultType="com.cambak21.domain.GetReplyInfo">
+		select member_id, replyBoard_ref, replyBoard_refOrder, replyBoard_step, board_no from ReplyBoards where replyBoard_no = #{replyBoard_no};
+	</select>
+	
 	<!-- refOrder 업데이트 -->
 	<update id="refOrderUpdate">
 		update ReplyBoards 
@@ -17,12 +28,6 @@
 		and replyBoard_refOrder > #{replyBoard_refOrder} <!-- 부모 댓글 refOrder -->
 		and board_no = ${board_no};
 	</update>
-	
-	<!-- 부모댓글 작성 -->
-	<insert id="parentReply">
-		insert into ReplyBoards(board_no, member_id, replyBoard_content, replyBoard_ref)
-		values(#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref});
-	</insert>
 	
 	<!-- 자식 댓글 작성 -->
 	<insert id="insertReply">
