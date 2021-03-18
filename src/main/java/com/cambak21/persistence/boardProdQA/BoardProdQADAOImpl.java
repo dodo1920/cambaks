@@ -33,8 +33,7 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 
 	@Override
 	public int insertProdQA(ProdQAInsertDTO insertQA) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.insert(namespace + ".insertProdQA", insertQA);
 	}
 
 	@Override
@@ -50,15 +49,18 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	}
 
 	@Override
-	public ProdQAVO updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
+	public int updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public ProdQAVO prodQADetail(int product_id, int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ProdQAUpdateDTO prodQADetail(int product_id, int prodQA_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("product_id", product_id);
+		params.put("prodQA_no", prodQA_no);
+		
+		return ses.selectOne(namespace + ".prodQADetail", params);
 	}
 
 	@Override
@@ -80,6 +82,11 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	public int prodQALikeCnt(int proQA_no) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int getMaxNo() throws Exception {
+		return ses.selectOne(namespace + ".getMaxNo");
 	}
 
 }

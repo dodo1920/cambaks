@@ -36,7 +36,16 @@
 		let contentId = $(obj).attr("id");
 		$("#content" + contentId).show()
 	}
+	
+	function showHiddenSecret() {
+		$(".hiddenSecret").show()
+	}
 </script>
+<style>
+	.hiddenSecret {
+		display : none;
+	}
+</style>
 <body>
 
 
@@ -225,7 +234,7 @@
 										<table class="table table-hover">
 						                  <thead>
 						                     <tr>
-						                        <th>글번호</th>
+						                        <th>분류	</th>
 						                        <th>글제목</th>
 						                        <th>작성자</th>
 						                        <th>작성일</th>
@@ -238,7 +247,10 @@
 						                  		<c:when test="${prodQALst.prodQA_isDelete != 'Y'}">
 						                  			<c:if test="${prodQALst.prodQA_refOrder == 1}">
 						                 			<tr>
-							                        <td>${prodQALst.prodQA_no }</td>
+							                        	<td>
+							                        	<input type="hidden" value="${prodQALst.prodQA_no }"/>
+							                        	${prodQALst.prodQA_category }
+							                        	</td>
 								                        <td>								
 								                          <div id="${prodQALst.prodQA_no}" onclick="showContent(this);">${prodQALst.prodQA_title }</div> 
 								                        </td>
@@ -253,6 +265,12 @@
 								                     <tr id="content${prodQALst.prodQA_no}" style="display: none">
 									                     <td colspan="6">
 									                     	 <div>${prodQALst.prodQA_content }</div>
+									                     	 <div>
+									                     	 	<input type="button" id="modi" value="수정" onclick="location.href='/mall/prodDetail/prodQAModiForm?prodId=' + ${param.prodId } + '&no=' + ${prodQALst.prodQA_no}"/>
+									                     	 	<input type="button" id="del" onclick="showHiddenSecret();" value="삭제"/>
+									                     	 	<input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/> 
+									                     	 	<input type="button" class="hiddenSecret" id="checkSecretPwd" value="확인"/>
+									                     	 </div>
 										                 </td>
 								                     </tr>
 								                     </c:if>
@@ -279,7 +297,7 @@
 						                 		</li>
 						                 	</c:if>
 										 </ul>
-						                 <button type="button" class="btn btn-info" style="float: right;" onclick="location.href='/board/register';">글쓰기</button>
+						                 <button type="button" class="btn btn-info" style="float: right;" onclick="location.href='/mall/prodDetail/prodQAForm?prodId=${param.prodId}';">글쓰기</button>
 						               </div>
 									</c:when>
 								<c:otherwise>
