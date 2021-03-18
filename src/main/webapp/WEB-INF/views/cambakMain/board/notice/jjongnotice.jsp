@@ -92,7 +92,7 @@ table tr td{
 													pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
 									<td><strike>${noticeList.board_likeCnt }</strike></td>
 									<td><strike>${noticeList.board_viewCnt }</strike></td>
-									<td><strike>${noticeList.board_member_id }</strike></td>
+									<td><strike>${noticeList.member_id }</strike></td>
 								</tr>
 							</c:when>
 							<c:otherwise>
