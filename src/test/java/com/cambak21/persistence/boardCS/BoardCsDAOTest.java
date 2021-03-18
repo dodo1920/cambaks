@@ -7,6 +7,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.cambak21.persistence.resell.ResellBoardDAO;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
       locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"}
@@ -14,10 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class BoardCsDAOTest {
 	
 	@Inject
-	private BoardCsDAO dao;
+	private ResellBoardDAO dao;
 	
 	@Test
 	public void getTotalCnt() throws Exception {
-		System.out.println(dao.boardCStotalCnt());
+		System.out.println(dao.ResellBoardReadAllTest().toString());
 	}
 }

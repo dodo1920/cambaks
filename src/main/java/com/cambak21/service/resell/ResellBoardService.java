@@ -35,6 +35,7 @@ public interface ResellBoardService {
 	 */
 	public List<ResellBoardVO> ResellBoardReadAll(PagingCriteria cri)throws Exception;
 	
+	public List<ResellBoardVO> ResellBoardReadAllTest()throws Exception;
 	/**
 	 * @Method Name : ResellBoardReadAllCnt
 	 * @작성일 : 2021. 3. 14.
