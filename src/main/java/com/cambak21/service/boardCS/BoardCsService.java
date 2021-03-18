@@ -23,9 +23,6 @@ public interface BoardCsService {
 	// 페이징 제약조건 넘겨야댐
 	List<BoardCsVO> listBoardCS(PagingCriteria cri) throws Exception;
 
-	// 조회수 업데이트
-	void boardCSViewUpdate(int board_no) throws Exception;
-
 	// 좋아요 업데이트
 	void boardCSLikeUpdate(int board_no) throws Exception;
 

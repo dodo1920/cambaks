@@ -24,6 +24,15 @@ public class BoardCsReplyController {
 
 	private static Logger log = LoggerFactory.getLogger(BoardCsReplyController.class);
 	
+	/**
+	  * @Method Name : replyList
+	  * @작성일 : 2021. 3. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 댓글 리스트 ajax 호출 메서드
+	  * @param board_no : 해당 게시글 번호
+	  * @return
+	  */
 	@RequestMapping("/reply/all/{board_no}")
 	public ResponseEntity<List<ReplyBoardVO>> replyList(@PathVariable("board_no") int board_no ) {
 		log.info("댓글 리스트 get 방식 호출 ajax");
@@ -38,6 +47,7 @@ public class BoardCsReplyController {
 		}
 		
 		return entity;
-		
 	}
+	
+	
 }
