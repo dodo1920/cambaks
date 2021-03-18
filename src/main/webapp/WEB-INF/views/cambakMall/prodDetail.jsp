@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
+    <title>CambakMall</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -25,7 +26,17 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+<script type="text/javascript">
+	function showContent(obj) {
+		let contentId = $(obj).attr("id");
+		$("#content" + contentId).show()
+	}
+</script>
 <body>
 
 
@@ -171,20 +182,20 @@
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">상품평( 2 )</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">배송/교환/반품 안내</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="tab-pane " id="tabs-1" role="tabpanel">
                                 <h6>상품 상세</h6>
                                 <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
                                     quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
@@ -205,37 +216,78 @@
                                 </div>
                                 <!-- ******************************************************************************************** -->
                             </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                            <div class="tab-pane active" id="tabs-3" role="tabpanel">
                                 <h6>상품 문의</h6>
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
-								<div class="container">         
-								  <table class="table">
-								    <thead>
-								      <tr>
-								        <th>Firstname</th>
-								        <th>Lastname</th>
-								        <th>Email</th>
-								      </tr>
-								    </thead>
-								    <tbody>
-								      <tr>
-								        <td>John</td>
-								        <td>Doe</td>
-								        <td>john@example.com</td>
-								      </tr>
-								      <tr>
-								        <td>Mary</td>
-								        <td>Moe</td>
-								        <td>mary@example.com</td>
-								      </tr>
-								      <tr>
-								        <td>July</td>
-								        <td>Dooley</td>
-								        <td>july@example.com</td>
-								      </tr>
-								    </tbody>
-								  </table>
-								</div>
+						     	<div class="container">
+								<c:choose>
+									<c:when test="${prodQALst != null}">
+										<table class="table table-hover">
+						                  <thead>
+						                     <tr>
+						                        <th>글번호</th>
+						                        <th>글제목</th>
+						                        <th>작성자</th>
+						                        <th>작성일</th>
+						                        <th>좋아요</th>
+						                        <th>조회수</th>
+						                     </tr>
+						                  </thead>
+						                  <c:forEach var="prodQALst" items="${prodQALst }" varStatus="status">
+						                  	<c:choose>
+						                  		<c:when test="${prodQALst.prodQA_isDelete != 'Y'}">
+						                  			<c:if test="${prodQALst.prodQA_refOrder == 1}">
+						                 			<tr>
+							                        <td>${prodQALst.prodQA_no }</td>
+								                        <td>								
+								                          <div id="${prodQALst.prodQA_no}" onclick="showContent(this);">${prodQALst.prodQA_title }</div> 
+								                        </td>
+								                        <td>${prodQALst.member_id }</td>
+								                        <td><span class="sendTime">
+								                        <fmt:formatDate value="${prodQALst.prodQA_date }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
+								                        </span>
+								                        </td>
+								                        <td>${prodQALst.prodQA_likeCnt }</td>
+								                        <td>${prodQALst.prodQA_viewCnt }</td>
+								                     </tr>
+								                     <tr id="content${prodQALst.prodQA_no}" style="display: none">
+									                     <td colspan="6">
+									                     	 <div>${prodQALst.prodQA_content }</div>
+										                 </td>
+								                     </tr>
+								                     </c:if>
+						                  		</c:when>
+						                     </c:choose>
+						                  </c:forEach>
+						               </table>
+						               
+						               <div class="container">
+						                 <ul class="pagination">
+						                 	<c:if test="${pagingParam.prev }">
+						                 		<li>
+						                 			<a href="?no=${param.no }&page=${param.page - 1 }"> < </a>
+						                 		</li>
+						                 	</c:if>
+						                 <c:forEach begin="${pagingParam.startPage}" end="${pagingParam.endPage }" var="pageNo">
+						                 	<li>
+						                 		<a href="?no=${param.no }&page=${pageNo }">${pageNo }</a>
+						                 	</li>
+						                 </c:forEach>
+											<c:if test="${pagingParam.next }">
+						                 		<li>
+						                 			<a href="?no=${param.no }&page=${param.page + 1 }"> > </a>
+						                 		</li>
+						                 	</c:if>
+										 </ul>
+						                 <button type="button" class="btn btn-info" style="float: right;" onclick="location.href='/board/register';">글쓰기</button>
+						               </div>
+									</c:when>
+								<c:otherwise>
+									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
+								</c:otherwise>
+								</c:choose>
+								
+							</div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">

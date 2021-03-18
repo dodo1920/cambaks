@@ -2,6 +2,7 @@ package com.cambak21.persistence.boardCS;
 
 import java.util.HashMap;
 
+
 import java.util.List;
 import java.util.Map;
 
@@ -85,8 +86,8 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	}
 
 	@Override
-	public void readBoardCS(int board_no) throws Exception {
-		ses.selectOne(ns + ".readBoardCS", board_no);
+	public BoardCsVO readBoardCS(int board_no) throws Exception {
+		return ses.selectOne(ns + ".readBoardCS", board_no);
 
 	}
 
@@ -94,6 +95,22 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	public int getReplyCnt(int board_no) throws Exception {
 		
 		return ses.selectOne(ns + ".replyCnt", board_no);
+	}
+
+	/**
+	  * @Method Name : getBoard_no
+	  * @작성일 : 2021. 3. 17.
+	  * @작성자 : goott6
+	  * @변경이력 : 
+	  * @Method 설명 : 게시글 insert 후 해당 게시글 번호 가져오기, 리다이렉트 시키기 위함
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public int getBoard_no(String member_id) throws Exception {
+		
+		return ses.selectOne(ns + ".getBoardNo", member_id);
 	}
 
 }

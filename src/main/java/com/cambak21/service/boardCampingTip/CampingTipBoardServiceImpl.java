@@ -2,6 +2,8 @@ package com.cambak21.service.boardCampingTip;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
@@ -10,6 +12,7 @@ import com.cambak21.dto.CamBoardTipRereplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.util.PagingCriteria;
 
+@Service
 public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 
 	@Override

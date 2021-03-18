@@ -2,15 +2,21 @@ package com.cambak21.service.boardCS;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
+import com.cambak21.persistence.boardCS.ReplyBoardCsDAO;
 
 @Service
 public class ReplyBoardCsServiceImpl implements ReplyBoardCsService{
 
+	@Inject
+	private ReplyBoardCsDAO dao;
+	
 	@Override
 	public int getRefMax() throws Exception {
 		// TODO Auto-generated method stub
@@ -43,8 +49,7 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService{
 
 	@Override
 	public List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getReplyListBoardCS(board_no);
 	}
 
 	@Override

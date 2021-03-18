@@ -78,7 +78,7 @@ section.btwtitlecontent {
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -86,7 +86,7 @@ section.btwtitlecontent {
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside.jsp"%>
+				<%@include file="../../cambak21Aside.jsp"%>
 
 				<!-- Content -->
 				<div id="contentheader" class="searchbartopheader">
@@ -114,7 +114,7 @@ section.btwtitlecontent {
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<%@include file="../../cambak21Footer.jsp"%>
 
 </body>
 

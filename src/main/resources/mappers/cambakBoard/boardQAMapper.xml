@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.cambak21.mappers.cambakBoard.boardQAMapper">
+  	<!-- prodQA 게시판 전체 목록을 불러오는 쿼리문 -->
+  	<select id="prodQAListAll" resultType="com.cambak21.domain.ProdQAVO">
+  		select * from ProdQAs where product_id = #{product_id} 
+  		order by ProdQA_ref desc, prodQA_refOrder asc limit #{pageStart}, #{perPageNum}
+  	</select>
+  	
+  	<select id="totalProdQACnt" resultType="int">
+  		select count(*) from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder}
+  	</select>
+  	
+  </mapper>

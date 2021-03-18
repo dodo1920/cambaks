@@ -8,6 +8,10 @@
 		insert into Boards(member_id, board_title, board_category, board_content)
 		values(#{member_id}, #{board_title}, #{board_category}, #{board_content});
 	</insert>
+	
+	<select id="getBoardNo" resultType="int">
+		select max(board_no) from Boards where member_id = #{member_id}
+	</select>
 
 	<!-- 게시글 수정 -->
 	<update id="updateBoardCS">
@@ -85,8 +89,11 @@
 	</select>
 	
 	<!-- 게시글 상세보기 -->
-	<select id="readBoardCS" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_no = #{board_no};
+	<select id="readBoardCS" resultType="com.cambak21.domain.BoardCsVO">
+		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
+		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt
+		from Boards b
+		where board_no = #{board_no};
 	</select>
 
 	<!-- 댓글 갯수(리스트에 출력용) -->
