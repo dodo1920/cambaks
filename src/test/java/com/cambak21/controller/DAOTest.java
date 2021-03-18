@@ -1,5 +1,7 @@
 package com.cambak21.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Test;
@@ -9,7 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ResellLikeBoardVO;
+import com.cambak21.persistence.boardCampingReview.CampingReviewDAO;
 import com.cambak21.persistence.myorder.MemberOrderDAO;
 import com.cambak21.persistence.resell.ResellBoardDAO;
 import com.cambak21.persistence.resell.ResellBoardLikeDAO;
@@ -21,5 +25,10 @@ import com.cambak21.persistence.resell.ResellBoardLikeDAO;
 public class DAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(DAOTest.class);
 	@Inject
-	   private ResellBoardLikeDAO dao;
+	   private CampingReviewDAO dao;
+	
+	@Test
+	public void test() throws Exception {
+		System.out.print(dao.campingReviewAll().toString());
+	}
 }

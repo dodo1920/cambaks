@@ -15,13 +15,18 @@ public interface CampingReviewDAO {
 	public BoardVO readCampingReview(int no) throws Exception;
 	
 	// 캠핑리뷰 업데이트
-	public int updateCampingReview(BoardVO vo) throws Exception;
+	public int modifyCampingReview(BoardVO vo) throws Exception;
 	
 	// 캠핑리뷰 삭제
-	public int deleteCampingReview(int no) throws Exception;
+	public int removeCampingReview(int no) throws Exception;
 	
-	//페이징
-	public List<BoardVO> listCampingReview(int page) throws Exception;
+	
+	public List<BoardVO> campingReviewAll() throws Exception;
+	
+	
+	//페이징`
+//	public List<BoardVO> listCampingReviewPaging(int page) throws Exception;
+	
 	
 	public List<BoardVO> listCampingReviewCriteria(PagingCriteria cri) throws Exception;
 	
@@ -36,6 +41,8 @@ public interface CampingReviewDAO {
 	public void updateReply(int no, int amount) throws Exception;
 	
 	public void updateViewCnt(int no) throws Exception;
+
+	public List<BoardVO> listBoardPaging(int page) throws Exception;
 
 
 	
