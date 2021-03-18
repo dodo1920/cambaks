@@ -40,10 +40,15 @@ public class NoticeReplyServiceImpl implements NoticeReplyService {
 	}
 	@Transactional
 	@Override
-	public void dropReply(int no) throws Exception {
+	public boolean dropReply(int no) throws Exception {
+		boolean result = false;
 		
-		bdao.updateNoticeReivewCnt(rdao.getboard_no(no) , -1);
+		int i = bdao.removeNoticeBoard(no);
+		if(i == 1) {
+			result = true;
+		}
 		rdao.dropReply(no);
+		return result;
 	}
 
 }
