@@ -54,13 +54,12 @@
 
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
-
 </style>
 
 <script>
 	$(document).ready(function() {
 		$('#summernote').summernote({
-			height: 500
+			height : 500
 		});
 	});
 </script>
@@ -76,15 +75,17 @@
 
 				<!-- 사이드바 템플릿 -->
 				<%@include file="cambak21Aside2.jsp"%>
-				<div id="content">
-					<form action="../cs/write" method="post">
-						<input type="text" class="form-control" id="usr" name="board_title">
-						<textarea id="summernote" name="board_content"></textarea>
-						<input type="hidden" name="member_id" value="ccc">
-						<input type="hidden" name="board_category" value="CS">
-						<button type="submit" class="btn btn-success">작성하기</button>
-					</form>
 
+				<div id="content">
+					<div>
+						<form action="../cs/write" method="post">
+							<input type="text" class="form-control" id="usr" name="board_title">
+							<textarea id="summernote" name="board_content"></textarea>
+							<input type="hidden" name="member_id" value="ccc"> <input
+								type="hidden" name="board_category" value="CS">
+							<button type="submit" class="btn btn-success">작성하기</button>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

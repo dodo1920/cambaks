@@ -2,6 +2,7 @@ package com.cambak21.service.boardCS;
 
 import java.util.List;
 
+
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
@@ -10,7 +11,7 @@ import com.cambak21.util.SearchCriteria;
 
 public interface BoardCsService {
 	// 게시글 작성
-	void writeBoardCS(InsertCSBoardDTO dto) throws Exception;
+	int writeBoardCS(InsertCSBoardDTO dto) throws Exception;
 
 	// 게시글 수정
 	int modiBoardCS(UpdateCSBoardDTO dto) throws Exception;
@@ -39,7 +40,7 @@ public interface BoardCsService {
 	List<BoardCsVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception;
 
 	// 게시글 상세보기
-	void readBoardCS(int board_no) throws Exception;
+	BoardCsVO readBoardCS(int board_no) throws Exception;
 
 	// 게시글 총 수 구하기 (페이징 하기 위한)
 	int boardCStotalCnt() throws Exception;

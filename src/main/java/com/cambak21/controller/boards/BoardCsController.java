@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
@@ -42,9 +45,21 @@ public class BoardCsController {
 	public String BoardCsWrite(InsertCSBoardDTO dto) throws Exception {
 		logger.info("�듅沅� / 寃뚯떆湲� �옉�꽦 POST �샇異�");
 		
-		service.writeBoardCS(dto);
-		
-		return "redirect:/board/cs/"; // 寃뚯떆湲� 踰덊샇濡� 蹂대궡湲곕뒗 �뼱�뼸寃�?
+		return "redirect:/board/cs/detail?no=" + service.writeBoardCS(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
+	
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	public String BoardCsDetail(@RequestParam("no") int no, Model model) throws Exception {
+		logger.info("승권 / 게시글 detail GET 호출");
+		
+<<<<<<< HEAD
+		return "redirect:/board/cs/"; // 寃뚯떆湲� 踰덊샇濡� 蹂대궡湲곕뒗 �뼱�뼸寃�?
+=======
+		model.addAttribute("board", service.readBoardCS(no));
+		
+		return "cambakMain/boardCsDetail";
+>>>>>>> 10e5a19bbecc59d3e75bc901705aa3fafadd7863
+	}
+	
 	
 }
