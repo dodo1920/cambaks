@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.cambak21.domain.ResellLikeBoardVO;
+import com.cambak21.persistence.boardHumor.BoardHumorReplyDAO;
 import com.cambak21.persistence.myorder.MemberOrderDAO;
 import com.cambak21.persistence.resell.ResellBoardDAO;
 import com.cambak21.persistence.resell.ResellBoardLikeDAO;
@@ -21,5 +22,10 @@ import com.cambak21.persistence.resell.ResellBoardLikeDAO;
 public class DAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(DAOTest.class);
 	@Inject
-	   private ResellBoardLikeDAO dao;
+	   private BoardHumorReplyDAO dao;
+	@Test
+	public void Test() throws Exception {
+		System.out.println(dao.read(522).toString());
+		
+	}
 }
