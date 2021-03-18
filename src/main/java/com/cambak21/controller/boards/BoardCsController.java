@@ -52,13 +52,9 @@ public class BoardCsController {
 	public String BoardCsDetail(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
 		
-<<<<<<< HEAD
-		return "redirect:/board/cs/"; // 寃뚯떆湲� 踰덊샇濡� 蹂대궡湲곕뒗 �뼱�뼸寃�?
-=======
 		model.addAttribute("board", service.readBoardCS(no));
 		
 		return "cambakMain/boardCsDetail";
->>>>>>> 10e5a19bbecc59d3e75bc901705aa3fafadd7863
 	}
 	
 	
