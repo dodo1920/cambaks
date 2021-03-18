@@ -6,8 +6,11 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,6 +38,21 @@ public class BoardProdReview {
 //		model.addAttribute("boardList", lst);
 //	}
 	
+	//ajax 이용 전체 게시글 목록
+//	@RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.GET)
+//	public ResponseEntity<List<ProdReviewVO>> prodReviewsList(@PathVariable("product_id") int product_id){
+//		ResponseEntity<List<ProdReviewVO>> entity = null;
+//		
+//		try {
+//			entity = new ResponseEntity<List<ProdReviewVO>>(service.listProdBoard(product_id), HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			entity = new ResponseEntity<List<ProdReviewVO>>(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//		return entity;
+//	}
+	
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
 	public String writingProdReviewGet() throws Exception{
 		logger.info("/writingProdReviews의 get방식 호출");
@@ -55,11 +73,11 @@ public class BoardProdReview {
 	}
 	
 	// 페이징 처리한 전체 게시글 목록
-	@RequestMapping(value="/prodReviews", method=RequestMethod.GET )
-	public void prodReviewsPagingList(PagingCriteria cri, Model model) throws Exception {
+	@RequestMapping(value="/prodReviews/{product_id}", method=RequestMethod.GET )
+	public String prodReviewsPagingList(PagingCriteria cri, Model model, @PathVariable("product_id") int product_id) throws Exception {
 		logger.info("페이징을 이용한 전체 게시글 출력, GET 방식");
 		
-		model.addAttribute("boardList", service.listProdBoardCriteria(cri)); // 페이징 게시물을 바인딩
+		model.addAttribute("boardList", service.listProdBoardCriteria(cri, product_id)); // 페이징 게시물을 바인딩
 		logger.info("cri.toString() : " + cri.toString());
 		
 		PagingParam pp = new PagingParam();
@@ -69,6 +87,8 @@ public class BoardProdReview {
 		logger.info("pp.toString() : " + pp.toString());
 		
 		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체 바인딩
+		
+		return "/cambakMall/prodReviews";
 	}
 	
 	

@@ -1,6 +1,8 @@
 package com.cambak21.persistence.boardProdReview;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -21,8 +23,8 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 
 	@Override
-	public List<ProdReviewVO> listProdBoard() throws Exception {
-		return ses.selectList(namespace + ".listProdBoard");
+	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception {
+		return ses.selectList(namespace + ".listProdBoard", product_id);
 	}
 
 
@@ -35,8 +37,12 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 	
 	@Override
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception {
-		return ses.selectList(namespace + ".listProdBoardCriteria", cri);
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		params.put("product_id", product_id);
+		return ses.selectList(namespace + ".listProdBoardCriteria", params);
 	}
 
 	

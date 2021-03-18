@@ -20,10 +20,10 @@ public interface BoardProdReviewDAO {
 	//public int delete(int no) throws Exception;
 	
 	// 전체 글 출력
-	public List<ProdReviewVO> listProdBoard() throws Exception;
+	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 	
 	// 페이징
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception;
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception;
 	
 	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 	

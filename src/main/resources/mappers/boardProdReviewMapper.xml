@@ -6,7 +6,7 @@
  <mapper namespace="com.cambak21.mapper.BoardProdReviewMapper">
   
   	<select id="listProdBoard" resultType="com.cambak21.domain.ProdReviewVO">
-  		select * from goot6.ProdReviews order by prodReview_no desc
+  		select * from goot6.ProdReviews where product_id = #{product_id} order by prodReview_no desc
   	</select>
 	
 	<insert id="insertProdBoard">
@@ -14,7 +14,7 @@
 	</insert>
 	
 	<select id="listProdBoardCriteria" resultType="com.cambak21.domain.ProdReviewVO">
-		select * from goot6.ProdReviews order by prodReview_no desc limit #{pageStart}, #{perPageNum}
+		select * from goot6.ProdReviews where product_id = #{product_id} order by prodReview_no desc limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<!-- 전체 게시물 수 가져오기 -->

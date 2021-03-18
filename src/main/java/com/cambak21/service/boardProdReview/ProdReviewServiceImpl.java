@@ -19,8 +19,8 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 
 	@Override
-	public List<ProdReviewVO> listProdBoard() throws Exception {
-		return dao.listProdBoard();
+	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception {
+		return dao.listProdBoard(product_id);
 	}
 
 
@@ -33,8 +33,8 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 	
 	@Override
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri) throws Exception {
-		return dao.listProdBoardCriteria(cri);
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception {
+		return dao.listProdBoardCriteria(cri, product_id);
 	}
 	
 

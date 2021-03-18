@@ -18,14 +18,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
     
     <!-- Kim Jeong Min Table Css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -37,8 +37,8 @@
  	<meta name="description" content="">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/mallMain/css/starrr.css" type="text/css">
-    <script src="../resources/mallMain/css/starrr.js"></script>
+    <link rel="stylesheet" href="../../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../../resources/mallMain/css/starrr.js"></script>
     
     <script type="text/javascript">
 	function showContent(obj) {
@@ -88,24 +88,24 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
                             <a class="pt active" href="#product-1">
-                                <img src="../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-2">
-                                <img src="../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-3">
-                                <img src="../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-4">
-                                <img src="../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
                             </a>
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="../resources/mallMain/img/product/details/product-1.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="../resources/mallMain/img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="../resources/mallMain/img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="../resources/mallMain/img/product/details/product-4.jpg" alt="">
+                                <img data-hash="product-1" class="product__big__img" src="../../resources/mallMain/img/product/details/product-1.jpg" alt="">
+                                <img data-hash="product-2" class="product__big__img" src="../../resources/mallMain/img/product/details/product-3.jpg" alt="">
+                                <img data-hash="product-3" class="product__big__img" src="../../resources/mallMain/img/product/details/product-2.jpg" alt="">
+                                <img data-hash="product-4" class="product__big__img" src="../../resources/mallMain/img/product/details/product-4.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -316,6 +316,10 @@
 						                   </c:forEach>
 						               </ul>
 						               </div>
+						               
+						               
+						               
+						               
 						               <!-- 글쓰기 버튼 -->
 						               <div class="form-row float-right">
 						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
@@ -361,7 +365,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-1.jpg">
                             <div class="label new">New</div>
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
@@ -384,7 +388,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-2.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-2.jpg">
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -406,7 +410,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-3.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-3.jpg">
                             <div class="label stockout">out of stock</div>
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
@@ -429,7 +433,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-4.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-4.jpg">
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -471,16 +475,16 @@
 
 
 <!-- Js Plugins -->
-<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-<script src="../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../../resources/mallMain/js/main.js"></script>
 
 
 </body>
