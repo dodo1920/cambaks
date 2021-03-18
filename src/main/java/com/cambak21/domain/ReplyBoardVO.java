@@ -13,6 +13,7 @@ public class ReplyBoardVO {
 	private int replyBoard_step;
 	private int replyBoard_ref;
 	
+	
 	public int getReplyBoard_no() {
 		return replyBoard_no;
 	}
