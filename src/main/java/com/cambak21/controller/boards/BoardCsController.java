@@ -2,6 +2,7 @@ package com.cambak21.controller.boards;
 
 import javax.inject.Inject;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -9,8 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
@@ -27,7 +27,7 @@ public class BoardCsController {
 	
 	@RequestMapping("/")
 	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
-		logger.info("�듅沅� / 寃뚯떆湲� 硫붿씤 �럹�씠吏� �샇異�");
+		logger.info("승권 / 게시글 리스트 get방식 호출");
 		
 		model.addAttribute("boardList", service.listBoardCS(cri));
 		
@@ -36,14 +36,16 @@ public class BoardCsController {
 	
 	@RequestMapping("/write")
 	public String BoardCsWrite() {
-		logger.info("�듅沅� / 寃뚯떆湲� �옉�꽦 �럹�씠吏� �샇異�");
+		logger.info("승권 / 글 쓰기 폼 get 방식 호출");
 		
 		return "cambakMain/boardCsWrite";
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String BoardCsWrite(InsertCSBoardDTO dto) throws Exception {
-		logger.info("�듅沅� / 寃뚯떆湲� �옉�꽦 POST �샇異�");
+	public String BoardCsWrite(InsertCSBoardDTO dto, RedirectAttributes ra) throws Exception {
+		logger.info("승권 / 글 작성 POST 방식 호출");
+		
+		ra.addFlashAttribute("status", "writeOk");
 		
 		return "redirect:/board/cs/detail?no=" + service.writeBoardCS(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
@@ -55,6 +57,14 @@ public class BoardCsController {
 		model.addAttribute("board", service.readBoardCS(no));
 		
 		return "cambakMain/boardCsDetail";
+	}
+	
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public String BoardCsDelete(@RequestParam("no") int board_no) throws Exception {
+		
+		service.deleteBoardCS(board_no);
+		
+		return "redirect:/board/cs/";
 	}
 	
 	
