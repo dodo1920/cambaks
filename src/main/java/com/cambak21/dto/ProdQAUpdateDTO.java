@@ -1,6 +1,6 @@
 package com.cambak21.dto;
 
-public class UpdateProdQADTO {
+public class ProdQAUpdateDTO {
 	private int product_id;
 	private int prodQA_no;
 	private String prodQA_title;

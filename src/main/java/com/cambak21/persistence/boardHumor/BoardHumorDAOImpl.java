@@ -58,7 +58,7 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 	@Override
 	public int getTotalBoardHumorCnt() throws Exception {
 		
-		return ses.delete(namespace + ".getToatalBoardHumorCnt") ;
+		return ses.selectOne(namespace + ".getToatalBoardHumorCnt");
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.cambak21.dto;
 
-public class InsertintoProdQADTO {
+public class ProdQAInsertDTO {
 	private int product_id;
 	private String member_id;
 	private String prodQA_title;

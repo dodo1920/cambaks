@@ -75,7 +75,45 @@ p.category-title {
 				<%@include file="../../cambak21Aside2.jsp"%>
 				
 				<!-- Content -->
-				
+				<h1>게시판 수정 페이지</h1>
+		<hr />
+	
+		<form action="/cambakMain/board/humor/modi" method="post">
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="writer">글번호 :</label>
+			<div class="col-sm-10"><input type="text" name="board_no" value="${board.board_no }" readonly="readonly"/></div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="writer">작성자 :</label>
+			<div class="col-sm-10">${board.member_id }</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="writer">조회수 :</label>
+			<div class="col-sm-10">${board.board_viewCnt }</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="writer">작성일 :</label>
+			<div class="col-sm-10">
+				<fmt:formatDate value="${board.board_writeDate }" type="both"
+					pattern="yyyy-MM-dd HH:mm:ss" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="title">제 목 :</label>
+			<div class="col-sm-10"><input type="text" name="board_title" value="${board.board_title }"/></div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-sm-2" for="content">내 용 :</label>
+			<div class="col-sm-10"><input type="text" name=board_content value="${board.board_content }"/></div>
+		</div>
+
+		<div class="box-footer">
+			
+         <button type="submit" class="btn btn-success" id="modiBoardPost">수정하기</button>
+        
+         <button type="button" class="btn btn-primary" onclick="">리스트페이지로</button>
+		</div>
+	</form>
 				
 			</div>
 		</div>
