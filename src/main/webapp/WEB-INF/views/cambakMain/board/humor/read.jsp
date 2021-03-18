@@ -76,7 +76,40 @@ p.category-title {
 				
 				<!-- Content -->
 				
+			<label class="control-label col-sm-2" for="writer">글번호 :</label>
+			<div class="col-sm-10">${board.board_no }</div>
+	
+		
+			<label class="control-label col-sm-2" for="writer">작성자 :</label>
+			<div class="col-sm-10">${board.member_id }</div>
+	
+		
+			<label class="control-label col-sm-2" for="writer">조회수 :</label>
+			<div class="col-sm-10">${board.board_viewCnt }</div>
+		
+		
+			<label class="control-label col-sm-2" for="writer">작성일 :</label>
+			<div class="col-sm-10">
+				<fmt:formatDate value="${board.board_writeDate }" type="both"
+					pattern="yyyy-MM-dd HH:mm:ss" />
+		
+			<label class="control-label col-sm-2" for="title">제 목 :</label>
+			<div class="col-sm-10">${board.board_title }</div>
+		
+		
+			<label class="control-label col-sm-2" for="content">내 용 :</label>
+			<div class="col-sm-10">${board.board_content }</div>
+			
+			<button type="button" class="btn btn-success" id="rewriteBoard"
+				onclick="location.href='/cambakMain/board/humor/modi?no=${board.board_no}'">수정하기</button>
+			<button type="button" class="btn btn-info" id="deleteBoard"
+				onclick="location.href='/cambakMain/board/humor/remove?no=${board.board_no}'">삭제하기</button>
+				<button type="button" class="btn btn-primary"
+				onclick="location.href='/cambakMain/board/humor/listAll?page=${param.page}'">리스트페이지로</button>
 				
+			<button type="button" class="btn btn-success"
+				 onclick="showReplyBox();">댓글달기</button>
+		
 			</div>
 		</div>
 	</div>

@@ -58,11 +58,39 @@ public class BoardHumor {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		return "redirect:cambakMain/board/humor/listAll";
+		return "redirect:/cambakMain/board/humor/listAll?page=1";
 	}
 	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public void readBoard(@RequestParam("no") int no, Model model) throws Exception{
 		model.addAttribute("board", service.readBoardHumor(no));
+	}
+	
+	@RequestMapping(value = "/modi", method = RequestMethod.GET)
+	public void modiBoard(@RequestParam("no") int no, Model model) throws Exception{
+		model.addAttribute("board", service.readBoardHumor(no));
+	}
+	
+	@RequestMapping(value = "/modi", method = RequestMethod.POST)
+	public String modiBoardPost(BoardVO vo, RedirectAttributes rttr) throws Exception{
+		
+		System.out.println(vo.toString());
+		if(service.modifyBoardHumor(vo)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		
+		return "redirect:/cambakMain/board/humor/listAll?page=1";
+	}
+	@RequestMapping(value = "/remove", method = RequestMethod.GET)
+	public String delBoard(@RequestParam("no") int no, RedirectAttributes rttr) throws Exception{
+		if(service.removeBoardHumor(no)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return "redirect:/cambakMain/board/humor/listAll?page=1";
+	}
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public void test() {
+		
 	}
 }
