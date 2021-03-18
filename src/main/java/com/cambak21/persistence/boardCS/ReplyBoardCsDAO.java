@@ -13,8 +13,8 @@ public interface ReplyBoardCsDAO {
 	// refOrder Update
 	void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception;
 	
-	// 대댓글 작성
-	void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception;
+	// 부모 댓글 작성
+	void insertReplyBoardCS(InsertReplyCSBoardDTO dto, int replyBoard_ref) throws Exception;
 	
 	// 댓글 수정
 	int updateReplyBoardCS(UpdateReplyCSBoardDTO dto) throws Exception;

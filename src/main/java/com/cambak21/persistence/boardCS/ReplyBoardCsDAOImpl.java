@@ -1,6 +1,8 @@
 package com.cambak21.persistence.boardCS;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -21,8 +23,8 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 	
 	@Override
 	public int getRefMax() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return ses.selectOne(ns + ".maxBoardNo");
 	}
 
 	@Override
@@ -32,9 +34,14 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 	}
 
 	@Override
-	public void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
+	public void insertReplyBoardCS(InsertReplyCSBoardDTO dto, int replyBoard_ref) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("board_no", dto.getBoard_no());
+		map.put("member_id", dto.getMember_id());
+		map.put("replyBoard_content", dto.getReplyBoard_content());
+		map.put("replyBoard_ref", replyBoard_ref);
 		
+		ses.insert(ns + ".parentReply", map);
 	}
 
 	@Override

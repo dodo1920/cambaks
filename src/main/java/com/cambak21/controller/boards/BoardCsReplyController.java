@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.service.boardCS.ReplyBoardCsService;
 
 @RestController
@@ -49,5 +51,23 @@ public class BoardCsReplyController {
 		return entity;
 	}
 	
+	@RequestMapping(value="/reply/insert", method=RequestMethod.POST)
+	public ResponseEntity<String> insertReply(InsertReplyCSBoardDTO dto) {
+		log.info("승권 / 댓글 작성 ajax POST 호출");
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.insertReplyBoardCS(dto);
+			entity = new ResponseEntity<String>("ok", HttpStatus.OK);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
 	
 }

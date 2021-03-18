@@ -83,7 +83,6 @@ public class BoardCsController {
 	@RequestMapping(value="/modi", method=RequestMethod.POST)
 	public String BoardModi(UpdateCSBoardDTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("승권 / 글 수정 post 방식 호출");
-		System.out.println("dto : " + dto.toString());
 		
 		service.modiBoardCS(dto);
 		

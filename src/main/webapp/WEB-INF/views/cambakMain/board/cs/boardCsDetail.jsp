@@ -86,7 +86,6 @@
 		let step = 50;
 		
 		$.each(data, function(index, item) {
-			
 			if(item.replyBoard_step >= 1) {
 				let step = 20 * item.replyBoard_step;
 				output += "<li id="+index+" style='margin-left:"+step+"px'>";
@@ -100,13 +99,38 @@
 			let writeDate = new Date(item.replyBoard_writeDate);
 			output += "<p>" + date_to_str(writeDate); + "</p>";
 			output += "</li>";
-	
-	
 		});
 		$(".detail-bottom-comment").html(output);
+	};
+	
+	// 부모 댓글 작성 함수
+	function replyWrite() {
+		let board_no = "${board.board_no}";
+		//===================== 현재 로그인한 회원 으로 바꾸기
+		let member_id = "${board.member_id}";
+		//============================================
+		let replyBoard_content = $("#replyBoard_content").val();
 		
 		
-	}
+		$.ajax({
+			type : "post",
+			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			url : "/board/cs/reply/insert", // 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id,
+				replyBoard_content : replyBoard_content
+			},
+			success : function(data) {
+				replyList();
+				scrollMove();
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	};
 	
 	// 글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
 	function statusOk() {
@@ -120,18 +144,27 @@
 		}
 	}
 	
+	// 댓글 작성 후 스크롤 이동 함수
+	function scrollMove() {
+		let offset = $(".detail-bottom-comment li:last").offset();
+	 	$('html, body').animate({scrollTop : offset.top}, 400);
+	 	
+	 	// input 창 비우기
+		$("#replyBoard_content").val("");
+	}
+	
 	// Date format
 	function date_to_str(format) {
-		var year = format.getFullYear();
-		var month = format.getMonth() + 1;
+		let year = format.getFullYear();
+		let month = format.getMonth() + 1;
 		if (month < 10) month = '0' + month;
-		var date = format.getDate();
+		let date = format.getDate();
 		if (date < 10) date = '0' + date;
-		var hour = format.getHours();
+		let hour = format.getHours();
 		if (hour < 10) hour = '0' + hour;
-		var min = format.getMinutes();
+		let min = format.getMinutes();
 		if (min < 10) min = '0' + min;
-		var sec = format.getSeconds();
+		let sec = format.getSeconds();
 		if (sec < 10) sec = '0' + sec;
 
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
@@ -210,9 +243,8 @@
 							<p>댓글 작성</p>
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="댓글을 입력해주세요">
-								<button type="button" class="btn btn-success" onclick="">댓글
-									작성</button>
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
