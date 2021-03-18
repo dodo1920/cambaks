@@ -58,6 +58,9 @@
 
 		// 댓글 리스트 출력
 		replyList();
+		
+		// 글 작성 완료 알림 띄우기
+		writeOk();
 	
 	});
 	
@@ -103,6 +106,14 @@
 		$(".detail-bottom-comment").html(output);
 		
 		
+	}
+	
+	// 댓글 작성 후 작성한 글로 올때, 작성 완료 되었다는 알림창 띄우기
+	function writeOk() {
+		
+		if(${status == "writeOk"}) {
+			alert("글 작성이 완료 되었습니다");
+		}
 	}
 	
 	// Date format
@@ -175,6 +186,10 @@
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
 							<button type="button" class="btn btn-danger">추천</button>
+							
+							<!-- if문 로그인한 회원과 작성자와 비교 -->
+							<button type="button" class="btn btn-danger" onclick="location.href='../cs/delete?no=${board.board_no}'" >삭제하기</button>
+							
 						</div>
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
