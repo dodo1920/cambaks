@@ -212,6 +212,7 @@ input:focus {outline:none;}
 textarea:focus {outline: none;}
 
 form, form input{
+	border:none;
 	color:black;
 	font-weight: 500;
 } 
@@ -259,16 +260,18 @@ form, form input{
 				    <div>
 				    <input type="text" readonly style="font-size:25px; font-weight:900;max-width: 750px;" name="board_title" value="${noticeBoard.board_title }" />
 <%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
-         			<input type="submit" class="btn btn-success"/ >수정 완료
+         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/modi?no=${noticeBoard.board_no}'">수정</button>
 <%-- 				    </c:if> --%>
 		            </div>
 		              <div>
 		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 				    <span style="margin-left:15px;">작성자: <input readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				    </div>
+				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_viewCnt }" /> </span>
+				    <span style="float:right; ">댓글수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_replyCnt }" /> </span>
+			  		 </div>
 		               <div>
 		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <textarea readonly name="board_content"  class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
+				    <textarea readonly name="board_content" readonly class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
 				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
 		            </div>
 		               

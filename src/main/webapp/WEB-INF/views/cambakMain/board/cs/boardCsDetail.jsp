@@ -60,7 +60,7 @@
 		replyList();
 		
 		// 글 작성 완료 알림 띄우기
-		writeOk();
+		statusOk();
 	
 	});
 	
@@ -87,47 +87,110 @@
 		
 		$.each(data, function(index, item) {
 			
+			var reply = {
+				replyBoard_ref : item.replyBoard_ref,
+				replyBoard_refOrder : item.replyBoard_refOrder,
+				replyBoard_step : item.replyBoard_step,
+				board_no : item.replyBoard_no
+			}
+			
 			if(item.replyBoard_step >= 1) {
 				let step = 20 * item.replyBoard_step;
-				output += "<li id="+index+" style='margin-left:"+step+"px'>";
+				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
 			} else {
-				output += "<li id="+index+">";
+				output += "<li id="+item.replyBoard_no+">";
 			}
 			
 			output += "<p class='comment-id'>"+item.member_id+"</p>";
 			output += "<p class='comment-content'>"+item.replyBoard_content+"</p>";
-			
-			let writeDate = new Date(item.replyBoard_writeDate);
-			output += "<p>" + date_to_str(writeDate); + "</p>";
+			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
+			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+", "+reply+");'>답글 달기</button></div>";
 			output += "</li>";
-	
-	
 		});
 		$(".detail-bottom-comment").html(output);
+	};
+	
+	// 부모 댓글 작성 함수
+	function replyWrite() {
+		let board_no = "${board.board_no}";
+		//===================== 현재 로그인한 회원 으로 바꾸기
+		let member_id = "${board.member_id}";
+		//============================================
+		let replyBoard_content = $("#replyBoard_content").val();
+		
+		
+		$.ajax({
+			type : "post",
+			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			url : "/board/cs/reply/insert", // 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id,
+				replyBoard_content : replyBoard_content
+			},
+			success : function(data) {
+				replyList();
+				scrollMove();
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	};
+	
+	// 자식댓글 작성폼 열기
+	function childReply(replyno, reply) {
+		let replyNo = "." + replyno
+		
+		console.log("========================================");
+		
+		let output = "<input type='text' class='form-control' placeholder='댓글을 입력해주세요'>";
+		output += "<button type='button' class='btn btn-success' onclick='childRelpyWrite("+reply+");'>답글 작성</button>";
+		$(replyNo).append(output);
+		
+	}
+	
+	// 자식 댓글
+	function childRelpyWrite(reply) {
+		console.log(reply.board_no);
 		
 		
 	}
 	
-	// 댓글 작성 후 작성한 글로 올때, 작성 완료 되었다는 알림창 띄우기
-	function writeOk() {
+	// 글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
+	function statusOk() {
 		
 		if(${status == "writeOk"}) {
-			alert("글 작성이 완료 되었습니다");
+			$("#modalText").text("글 작성이 완료 되었습니다");
+			$("#myModal").modal();
+		} else if (${status == "modiOk"}) {
+			$("#modalText").text("글 수정이 완료 되었습니다");
+			$("#myModal").modal();
 		}
+	}
+	
+	// 댓글 작성 후 스크롤 이동 함수
+	function scrollMove() {
+		let offset = $(".detail-bottom-comment li:last").offset();
+	 	$('html, body').animate({scrollTop : offset.top}, 400);
+	 	
+	 	// input 창 비우기
+		$("#replyBoard_content").val("");
 	}
 	
 	// Date format
 	function date_to_str(format) {
-		var year = format.getFullYear();
-		var month = format.getMonth() + 1;
+		let year = format.getFullYear();
+		let month = format.getMonth() + 1;
 		if (month < 10) month = '0' + month;
-		var date = format.getDate();
+		let date = format.getDate();
 		if (date < 10) date = '0' + date;
-		var hour = format.getHours();
+		let hour = format.getHours();
 		if (hour < 10) hour = '0' + hour;
-		var min = format.getMinutes();
+		let min = format.getMinutes();
 		if (min < 10) min = '0' + min;
-		var sec = format.getSeconds();
+		let sec = format.getSeconds();
 		if (sec < 10) sec = '0' + sec;
 
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
@@ -138,7 +201,7 @@
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -146,7 +209,7 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside2.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -157,7 +220,7 @@
 									자리입니다.</a></span>
 						</header>
 						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="cambak21Search&Write.jsp"%>
+						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 
 					<!-- 컨텐츠 시작 -->
@@ -186,18 +249,28 @@
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
 							<button type="button" class="btn btn-danger">추천</button>
-							
+
+
+
+
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
-							<button type="button" class="btn btn-danger" onclick="location.href='../cs/delete?no=${board.board_no}'" >삭제하기</button>
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='../cs/delete?no=${board.board_no}'">삭제하기</button>
+							<!-- if문 로그인한 회원과 작성자와 비교 -->
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
+
+
+
 							
+
 						</div>
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="댓글을 입력해주세요">
-								<button type="button" class="btn btn-success" onclick="">댓글
-									작성</button>
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
@@ -216,7 +289,26 @@
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<%@include file="../../cambak21Footer.jsp"%>
 </body>
 
 </html>

@@ -14,4 +14,17 @@
   		select count(*) from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder}
   	</select>
   	
+  	<insert id="insertProdQA">
+  		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_img, prodQA_isSecret, prodQA_secretPassword, prodQA_category)
+		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, null, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category})
+  	</insert>
+  	
+  	<select id="getMaxNo" resultType="int">
+  		select max(prodQA_no) from ProdQAs
+  	</select>
+  	
+  	<select id="prodQADetail" resultType="com.cambak21.dto.ProdQAUpdateDTO">
+  		select * from ProdQAs where product_id = #{product_id} and prodQA_no = #{prodQA_no}
+  	</select>
+  	
   </mapper>

@@ -12,5 +12,5 @@ public interface NoticeReplyService {
 		
 		public void insertReplyBoard(ReplyBoardVO vo) throws Exception;
 		
-		public void dropReply(int no) throws Exception;
+		public boolean dropReply(int no) throws Exception;
 }

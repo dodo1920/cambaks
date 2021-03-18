@@ -9,11 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.cambak21.domain.ResellLikeBoardVO;
 import com.cambak21.persistence.boardHumor.BoardHumorReplyDAO;
-import com.cambak21.persistence.myorder.MemberOrderDAO;
-import com.cambak21.persistence.resell.ResellBoardDAO;
-import com.cambak21.persistence.resell.ResellBoardLikeDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
@@ -23,9 +19,11 @@ public class DAOTest {
 	private static final Logger logger = LoggerFactory.getLogger(DAOTest.class);
 	@Inject
 	   private BoardHumorReplyDAO dao;
-	@Test
-	public void Test() throws Exception {
-		System.out.println(dao.read(522).toString());
-		
-	}
+	
+		@Test
+		public void Test() throws Exception {
+			System.out.println(dao.read(522).toString());
+
+		}
+
 }

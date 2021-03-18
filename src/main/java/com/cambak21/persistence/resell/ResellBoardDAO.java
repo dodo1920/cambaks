@@ -37,7 +37,7 @@ public interface ResellBoardDAO {
 	 * @throws Exception
 	 */
 	public List<ResellBoardVO> ResellBoardReadAll(PagingCriteria cri)throws Exception;
-	
+
 	/**
 	 * @Method Name : ResellBoardReadAllCnt
 	 * @작성일 : 2021. 3. 14.

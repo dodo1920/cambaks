@@ -7,8 +7,6 @@ import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
 
 public interface ReplyBoardCsService {
-	// 부모댓글 max 구하기
-	int getRefMax() throws Exception;
 	
 	// refOrder Update
 	void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception;

@@ -32,6 +32,17 @@ public interface BoardProdQADAO {
 	public int insertProdQA(ProdQAInsertDTO insertQA) throws Exception;
 	
 	/**
+	 * @Method Name : getMaxNo
+	 * @작성일 : 2021. 3. 18.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : QA게시판 새 글의 prodQA_no오를 구하는 메서드
+	 * @return
+	 * @throws Exception
+	 */
+	public int getMaxNo() throws Exception;
+	
+	/**
 	 * @Method Name : checkSecretPwd
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
@@ -65,7 +76,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public ProdQAVO updateProdQA(ProdQAUpdateDTO updateQA) throws Exception;
+	public int updateProdQA(ProdQAUpdateDTO updateQA) throws Exception;
 	
 	/**
 	 * @Method Name : prodQADetail
@@ -78,7 +89,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public ProdQAVO prodQADetail(int product_id, int prodQA_no) throws Exception;
+	public ProdQAUpdateDTO prodQADetail(int product_id, int prodQA_no) throws Exception;
 	
 	/**
 	 * @Method Name : prodQACnt

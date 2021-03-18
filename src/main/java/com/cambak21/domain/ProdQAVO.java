@@ -19,6 +19,7 @@ public class ProdQAVO {
 	private String prodQA_isSecret;
 	private String prodQA_secretPassword;
 	private String prodQA_isDelete;
+	private String prodQA_category;
 	
 	public int getProdQA_no() {
 		return prodQA_no;
@@ -118,6 +119,13 @@ public class ProdQAVO {
 		this.prodQA_isDelete = prodQA_isDelete;
 	}
 	
+	public String getProdQA_category() {
+		return prodQA_category;
+	}
+	public void setProdQA_category(String prodQA_category) {
+		this.prodQA_category = prodQA_category;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProdQAVO [prodQA_no=" + prodQA_no + ", product_id=" + product_id + ", member_id=" + member_id
@@ -126,7 +134,7 @@ public class ProdQAVO {
 				+ prodQA_step + ", prodQA_img=" + prodQA_img + ", prodQA_completed=" + prodQA_completed
 				+ ", prodQA_likeCnt=" + prodQA_likeCnt + ", prodQA_viewCnt=" + prodQA_viewCnt + ", prodQA_isSecret="
 				+ prodQA_isSecret + ", prodQA_secretPassword=" + prodQA_secretPassword + ", prodQA_isDelete="
-				+ prodQA_isDelete + "]";
+				+ prodQA_isDelete + ", prodQA_category=" + prodQA_category + "]";
 	}
 	
 }

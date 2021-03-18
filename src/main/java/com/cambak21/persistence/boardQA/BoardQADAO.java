@@ -1,4 +1,4 @@
-package com.cambak21.service.boardQA;
+package com.cambak21.persistence.boardQA;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
-public interface BoardQAService {
+public interface BoardQADAO {
 	// 글쓰기
 	void writeBoardQA(InsertBoardQADTO idto) throws Exception;
 	
@@ -38,5 +38,4 @@ public interface BoardQAService {
 
 	// 댓글 갯수
 	int boardQAReplyCnt(int board_no) throws Exception;
-	
 }

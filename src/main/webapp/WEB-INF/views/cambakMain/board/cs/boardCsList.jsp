@@ -59,7 +59,17 @@
 // 		let boardUri = searchUriAddress();
 		asideBarDraw(searchUriAddress());
 
+		// 글 삭제 알림창 띄우기
+		deleteOk();
 	});
+	
+	// 글 삭제되면 리스트 페이지로 이동하면서, 삭제 알림창 띄우기
+	function deleteOk() {
+		
+		if(${status == "deleteOk"}) {
+			$("#myModal").modal();
+		}
+	}
 
 	// 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
 	function searchUriAddress() {
@@ -76,7 +86,7 @@
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -84,7 +94,7 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside2.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -94,7 +104,7 @@
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
-						<%@include file="cambak21Search&Write.jsp"%>
+						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 					<div>
 						<div>
@@ -144,8 +154,28 @@
 		</div>
 	</div>
 	<!-- /Main -->
+	
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body">
+					<p>글이 삭제 되었습니다</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
 
-	<%@include file="cambak21Footer.jsp"%>
+		</div>
+	</div>
+
+	<%@include file="../../cambak21Footer.jsp"%>
 
 </body>
 
