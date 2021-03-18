@@ -60,7 +60,6 @@ public class BoardNoticeServiceImpl implements BoardNoticeService {
 	@Override
 	public boolean removeNoticeBoard(int no) throws Exception {
 		boolean result = false;
-		12312313
 		int i = dao.removeNoticeBoard(no);
 		if(i == 1) {
 			result = true;
