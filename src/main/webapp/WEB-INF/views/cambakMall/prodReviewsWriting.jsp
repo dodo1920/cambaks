@@ -64,12 +64,16 @@
 							      <span class='your-choice-was' style='display: none;'>
 							        당신의 평가는 별 <span class='choice'></span>개 입니다.
 							      </span>
+							      <span class='your-choice-is'>
+							        상품후기 점수를 선택해주세요!
+							      </span>
 							    </div>					  
 							  <!-- 별점 표시 적용 부분 -->
 							  <script>
 							    $('#star1').starrr({
 							      change: function(e, value){
 							        if (value) {
+							          $('.your-choice-is').hide();
 							          $('.your-choice-was').show();
 							          $('.choice').text(value);
 							          $('#prodReview_grade').val(value);
@@ -98,7 +102,7 @@
 					<input type="hidden" id="member_id" name="member_id" value="fff"/>
 					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
 					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
-					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value=""/>
+					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value="3"/>
 					<div class="form-group">
 		               	  <div class="form-row float-right">
 			                  <button type="submit" class="btn btn-success">저장하기</button>
