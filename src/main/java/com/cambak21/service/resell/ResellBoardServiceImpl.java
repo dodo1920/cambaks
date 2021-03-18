@@ -86,10 +86,4 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 
 	}
 
-	@Override
-	public List<ResellBoardVO> ResellBoardReadAllTest() throws Exception {
-		// TODO Auto-generated method stub
-		return dao.ResellBoardReadAllTest();
-	}
-
 }

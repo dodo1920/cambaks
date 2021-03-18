@@ -68,7 +68,7 @@
 
 </script>
 <body>
-    <%@include file="cambak21Header.jsp"%>
+    <%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -76,7 +76,7 @@
 			<div class="row">
 			
 			<!-- 사이드바 템플릿 -->
-			<%@include file="cambak21BoardAside.jsp"%>
+			<%@include file="../../cambak21BoardAside.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important"style="width: 100%;float: revert;">
@@ -86,7 +86,7 @@
 						<tbody style="width: 100%">
 						<c:forEach var="board" items="${board }">
 							<tr class="bordListBox">
-							<td class="tdTotolStyle"><span>${board.resellBoard_no}</span></td>
+							<td class="tdTotolStyle"><span>${board.member_id}</span></td>
 							<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
 							<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
 							<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.resellBoard_content	}</span></td>
@@ -116,7 +116,7 @@
 	              
 	               <c:if test="${pagingParam.next }">
 	                  <li class="page-item">
-	                     <a class="page-link" href="listi?page=${pagingParam.cri.page+ 1 }">next</a>
+	                     <a class="page-link" href="list?page=${pagingParam.cri.page+ 1 }">next</a>
 	                  </li>
 	               </c:if>
 	
@@ -130,7 +130,7 @@
 	</div>
 	<!-- /Main -->
 
-    <%@include file="cambak21Footer.jsp"%>
+    <%@include file="../../cambak21Footer.jsp"%>
 	
 </body>
 

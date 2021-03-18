@@ -38,7 +38,12 @@ public class BoardResellController {
 		pp.setTotalCount(resellListService.ResellBoardReadAllCnt()); // 게시물 갯수
 		System.out.println(pp.toString());
 		model.addAttribute("pagingParam", pp);
-		return "cambakMain/boardResellList";
+		return "cambakMain/board/Resell/boardResellList";
 	}
-
+	@RequestMapping(value = "/detail")
+	public String boardResellDetail() throws Exception{
+		System.out.println("boardResellDetail 테스트");
+		return "cambakMain/board/Resell/boardResellDetail";
+	}
+	
 }

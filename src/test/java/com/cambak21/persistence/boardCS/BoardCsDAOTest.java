@@ -18,8 +18,5 @@ public class BoardCsDAOTest {
 	@Inject
 	private ResellBoardDAO dao;
 	
-	@Test
-	public void getTotalCnt() throws Exception {
-		System.out.println(dao.ResellBoardReadAllTest().toString());
-	}
+
 }
