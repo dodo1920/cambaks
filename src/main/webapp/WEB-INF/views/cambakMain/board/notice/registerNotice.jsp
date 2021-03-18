@@ -11,6 +11,8 @@
 
   
 </head>
+
+	<%@include file="../../cambak21Header.jsp"%>
 <body class="hold-transition sidebar-mini layout-fixed">
 
    <div class="content-wrapper">
@@ -45,6 +47,8 @@
          </form>
       </div>
    </div>
+   
+   <%@include file="../../cambak21Footer.jsp"%>
    
 </body>
 </html>

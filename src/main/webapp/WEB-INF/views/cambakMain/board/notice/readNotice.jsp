@@ -180,6 +180,9 @@
     
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
+	<%@include file="../../cambak21Header.jsp"%>
+	
    <div class="content-wrapper">
       <div class="container">
       <h1>게시판 상세보기 페이지</h1><hr />

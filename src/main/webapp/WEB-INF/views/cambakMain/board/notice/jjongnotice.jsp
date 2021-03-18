@@ -13,60 +13,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> 공지사항 </title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
- 
-  <style>
 
-#content {
-    min-height: 750px;
-    max-width: 1200px;
-    margin: 300px;
-    box-sizing: border-box;
-    vertical-align: top;
-}
+<link
+	href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900'
+	rel='stylesheet' type='text/css'>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/resources/cambak21/js/skel.min.js"></script>
+<script src="/resources/cambak21/js/skel-panels.min.js"></script>
+<script src="/resources/cambak21/js/init.js"></script>
 
-table {
-    table-layout: fixed;
-    width: 100%;
-    border: 0;
-    border-spacing: 0;
-    border-collapse: collapse;
-}
+<link rel="icon" type="image/x-icon"
+	href="/resources/cambak21/assets/favicon.ico" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato"
+	rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat"
+	rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
-table tr td{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
 
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
+<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-.NoticeBoard th, .NoticeBoard td{
-    padding: 10px;
-    text-align: center;
-}
-
-.pagination{
-	display:flex;
-	list-style: none;
-    place-content: center;
-}
-
+<!-- 템플릿 js, css 파일 -->
+<script src="/resources/cambak21/js/SHWtamplet.js"></script>
+<script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/bbskJS.js"></script>
+<style>
+@import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 
 </head>
 
 <body>
-<div id="content">
-  	<div class="headingArea">
-                <div class="mTitle">
-                    <h1>공지사항 글 보기 </h1>
-                </div>
-            </div>
-			 <div class="NoticeBoard">
-          <c:choose>
+
+<%@include file="../../cambak21Header.jsp"%>
+
+	<!-- Main -->
+	<div id="main">
+		<div class="container">
+			<div class="row">
+
+				<!-- 사이드바 템플릿 -->
+				<%@include file="../../cambak21Aside2.jsp"%>
+
+				<!-- Content -->
+				<div id="content" class="8u skel-cell-important">
+					<section>
+						<header>
+							<h2>고객센터</h2>
+							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+						</header>
+					
+					</section>
+					
+					
+					<div>
+						<div>
+					<c:choose>
 			<c:when test="${noticeList != null }">
-				<table border="1">
+				<table class="table table-hover" style="font-weight:bold;">
 					<thead>
 						<tr>
 							<th style="width: 7%;">번호</th>
@@ -85,7 +101,7 @@ table tr td{
 								<tr>
 									<td><strike>${noticeList.board_no }</strike></td>
 									<td><strike>${noticeList.board_category }</strike></td>
-									<td><a href="#" class="noticeTitle" name="board_no"><strike> ${noticeList.board_title } </strike></a></td>
+									<td><a href="#" class="noticeTitle" name="board_no"><strike> ${noticeList.board_title }</strike></a></td>
 									<td><strike><span class="sendTime"
 											id="${status.count }"><fmt:formatDate
 													value="${noticeList.board_writeDate }" type="both"
@@ -101,9 +117,9 @@ table tr td{
 										<td>${noticeList.board_category }</td>
 									<c:if test="${param.searchType != null}">
 											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page }" >
-																${noticeList.board_title } </a></td></c:if>
+																${noticeList.board_title } <span style="color: chocolate;">(${noticeList.board_replyCnt })</span> </a></td></c:if>
 										<c:if test="${param.searchType == null}">
-											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${param.page}" >${noticeList.board_title } </a></td>
+											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${param.page}" >${noticeList.board_title }  <span style="color: chocolate;">(${noticeList.board_replyCnt })</span></a></td>
 										</c:if>
 												<td><span class="sendTime"
 														id="${status.count }"><fmt:formatDate
@@ -118,12 +134,29 @@ table tr td{
 						</c:choose>
 					</c:forEach>
 				</table>
+				
+				<form action="/board/search" method="GET">
+				<select name="searchType" style="height:31px; width: 78px; color: chocolate;">
+					<option value="n">-----------------</option>
+					<option value="title"> 제목 </option>					
+					<option value="content"> 내용 </option>					
+					<option value="writer"> 작성자 </option>					
+				</select>
+				
+				<input type="text" name="searchWord" style="color: chocolate;" placeholder="검색어 입력..."/>
+				<input type="submit" id="goSearch" style="color: chocolate;" value="검색" />
+				<input type="hidden" name="page" value="1" />
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="#"/>
+				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/register'">글쓰기</button>
+				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
+			</form>
+			
 			<c:choose>
 						<c:when test='${param.searchWord != null }'>
 							<div class="text-center">
 					<ul class="pagination">
 						<c:if test="${pagingParam.prev }">
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item" ><a
 								class="page-link" href="search?searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page - 1 }">Prev</a>
 							</li>
 						</c:if>
@@ -131,14 +164,14 @@ table tr td{
 						<c:forEach begin="${pagingParam.startPage}"
 							end="${pagingParam.endPage }" var="pageNo">
 
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item"><a
 								class="page-link" href="search?searchType=${param.searchType }&searchWord=${param.searchWord }&page=${pageNo }">${pageNo }</a>
 							</li>
 
 						</c:forEach>
 
 						<c:if test="${pagingParam.next}">
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item"><a
 								class="page-link" href="search?searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page + 1 }">next</a>
 							</li>
 						</c:if>
@@ -149,11 +182,10 @@ table tr td{
 				</c:when>
 				<c:otherwise>
 
-
 				<div class="text-center">
 					<ul class="pagination">
 						<c:if test="${pagingParam.prev }">
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item"><a
 								class="page-link" href="listCri?page=${param.page - 1 }">Prev</a>
 							</li>
 						</c:if>
@@ -161,14 +193,14 @@ table tr td{
 						<c:forEach begin="${pagingParam.startPage}"
 							end="${pagingParam.endPage }" var="pageNo">
 
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item" ><a
 								class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
 							</li>
 
 						</c:forEach>
 
 						<c:if test="${pagingParam.next}">
-							<li class="page-item" style="padding: 15px"><a
+							<li class="page-item"><a
 								class="page-link" href="listCri?page=${param.page + 1 }">next</a>
 							</li>
 						</c:if>
@@ -179,21 +211,7 @@ table tr td{
 				</c:choose>
 			
 			
-			<form action="/board/search" method="GET">
-				<select name="searchType">
-					<option value="n">-----------------</option>
-					<option value="title"> 제목 </option>					
-					<option value="content"> 내용 </option>					
-					<option value="writer"> 작성자 </option>					
-				</select>
-				
-				<input type="text" name="searchWord" placeholder="검색어 입력..."/>
-				<input type="submit" id="goSearch" value="검색" />
-				<input type="hidden" name="page" value="1" />
-				<input type="button" value="전체보기" onclick="#"/>
-				<button type="button" class="btn btn-info" style="float: right;"
-				onclick="location.href='/board/notice/register'">글쓰기</button>
-			</form>
+			
 		
 			</div>
 		</c:when>
@@ -201,8 +219,17 @@ table tr td{
    				게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
    			</c:otherwise>
 		</c:choose>
+					</div>
+				</div>
+
+			</div>
 		</div>
-    </div>
+	</div>
+	<!-- /Main -->
+
+	<%@include file="../../cambak21Footer.jsp"%>
+
+
 </body>
 
 </html>

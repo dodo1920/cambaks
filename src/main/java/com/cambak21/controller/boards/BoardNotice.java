@@ -36,7 +36,7 @@ public class BoardNotice {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardHumor.class);
 	
-	
+	// 전체글 출력 ( Test용 )
 	@RequestMapping(value = "/listall", method = RequestMethod.GET)
 	public String listAll(Model model) throws Exception{
 		logger.info("종진 / listAll 전체 목록 출력");
@@ -44,11 +44,9 @@ public class BoardNotice {
 		List<BoardVO> lst = service.getNoticeAll();
 		System.out.println("lst : " + lst.toString());
 		model.addAttribute("noticeList", lst);
-		
 		return "cambakMain/board/notice/jjongnotice";
-		
 	}
-	
+	// 페이징 처리된 게시판 출력
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
 	public String listCri(PagingCriteria cri, Model model) throws Exception{
 		logger.info("종진 / listCri 페이징처리 목록 출력");
@@ -66,45 +64,37 @@ public class BoardNotice {
 		return "cambakMain/board/notice/jjongnotice";
 	}
 	
-	/**
-	 * @Method Name : noticehome
-	 * @작성일 : 2021. 3. 17.
-	 * @작성자 : 박종진
-	 * @변경이력 : 없음
-	 * @Method 설명 : notice/read 공지사항 상세 페이지로 이동 
-	 * @param no :  게시글 번호
-	 * @param model : BoardVO 
-	 * @return
-	 * @throws Exception
-	 */
+	// 게시판 상세 페이지 보기
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public String noticehome(@RequestParam("no") int no, Model model) throws Exception{
 		logger.info("종진 / read 게시판 상세 페이지 이동");
 	
 		model.addAttribute("noticeBoard", service.noticeRead(no));
 		
-		return "cambakMain/board/notice/readNotice";
+		return "cambakMain/board/notice/readNotice2";
 	}
-	
-	/**
-	 * @Method Name : modiNotice
-	 * @작성일 : 2021. 3. 17.
-	 * @작성자 : 박종진
-	 * @변경이력 : 없음
-	 * @Method 설명 : 수정하기 버튼 클릭시 공지사항 수정페이지로 이동 
-	 * @param no :  게시글 번호
-	 * @param model : BoardVO
-	 * @return
-	 * @throws Exception
-	 */
+	// 게시판 수정 클릭시 페이지로 이동
 	@RequestMapping(value = "/modi", method = RequestMethod.GET)
-	public String modiNotice(@RequestParam("no") int no, Model model) throws Exception{
+	public String modiNoticepage(@RequestParam("no") int no, Model model) throws Exception{
 		logger.info("종진 / 공지사항 수정 페이지 이동");
-	
+		System.out.println(no);
+			
 		model.addAttribute("noticeBoard", service.noticeRead(no));
 		
 		return "cambakMain/board/notice/modiNotice";
 	}
+	
+	// 게시판 수정된 VO 로 게시판 수정
+	@RequestMapping(value = "/modi", method = RequestMethod.POST)
+	public String modiNoticeBoard(BoardVO vo, RedirectAttributes rttr) throws Exception{
+		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
+		
+		
+		return "cambakMain/board/notice/modiNotice";
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String resisterNotice(BoardVO vo, RedirectAttributes rttr) throws Exception{
@@ -162,13 +152,13 @@ public class BoardNotice {
 	}
 	
 	@RequestMapping(value = "/dropReply/{no}", method = RequestMethod.GET)
-	public ResponseEntity<String> insertReplylst(@PathVariable("no") int no) throws Exception{
+	public String dropReplylst(@PathVariable("no") int no, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 댓글 삭제하기");
 		ResponseEntity<String> entity = null;
-		nrservice.dropReply(no);
-		entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-		
-		return entity;
+		if(nrservice.dropReply(no)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+		return"redirect:/board/notice/listCri";
 	}
 	
 		@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
