@@ -86,18 +86,25 @@
 		let step = 50;
 		
 		$.each(data, function(index, item) {
+			
+			var reply = {
+				replyBoard_ref : item.replyBoard_ref,
+				replyBoard_refOrder : item.replyBoard_refOrder,
+				replyBoard_step : item.replyBoard_step,
+				board_no : item.replyBoard_no
+			}
+			
 			if(item.replyBoard_step >= 1) {
 				let step = 20 * item.replyBoard_step;
-				output += "<li id="+index+" style='margin-left:"+step+"px'>";
+				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
 			} else {
-				output += "<li id="+index+">";
+				output += "<li id="+item.replyBoard_no+">";
 			}
 			
 			output += "<p class='comment-id'>"+item.member_id+"</p>";
 			output += "<p class='comment-content'>"+item.replyBoard_content+"</p>";
-			
-			let writeDate = new Date(item.replyBoard_writeDate);
-			output += "<p>" + date_to_str(writeDate); + "</p>";
+			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
+			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+", "+reply+");'>답글 달기</button></div>";
 			output += "</li>";
 		});
 		$(".detail-bottom-comment").html(output);
@@ -131,6 +138,25 @@
 			} // 통신 완료시
 		});
 	};
+	
+	// 자식댓글 작성폼 열기
+	function childReply(replyno, reply) {
+		let replyNo = "." + replyno
+		
+		console.log("========================================");
+		
+		let output = "<input type='text' class='form-control' placeholder='댓글을 입력해주세요'>";
+		output += "<button type='button' class='btn btn-success' onclick='childRelpyWrite("+reply+");'>답글 작성</button>";
+		$(replyNo).append(output);
+		
+	}
+	
+	// 자식 댓글
+	function childRelpyWrite(reply) {
+		console.log(reply.board_no);
+		
+		
+	}
 	
 	// 글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
 	function statusOk() {
