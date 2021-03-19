@@ -24,8 +24,15 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 
 	@Override
 	public boolean insertProdQA(ProdQAInsertDTO insertQA) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+				
+		int i = dao.insertProdQA(insertQA);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -41,15 +48,14 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	}
 
 	@Override
-	public ProdQAVO updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
+	public boolean updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override
-	public ProdQAVO prodQADetail(int product_id, int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ProdQAUpdateDTO prodQADetail(int product_id, int prodQA_no) throws Exception {
+		return dao.prodQADetail(product_id, prodQA_no);
 	}
 
 	@Override
@@ -67,6 +73,11 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	public int prodQALikeCnt(int proQA_no) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public int getMaxNo() throws Exception {
+		return dao.getMaxNo();
 	}
 
 }

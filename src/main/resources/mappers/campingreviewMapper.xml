@@ -4,38 +4,59 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace="com.cambak21.mapper.CampingreviewMapper">
-  	<select id="campingreviewlist"  resultType="com.cambak21.domain.BoardVO">
+  	<select id="campingReviewAll"  resultType="com.cambak21.domain.BoardVO">
   		select * from goot6.Boards where board_category = 'camping' order by board_no desc
   	</select>
   	
-  	<insert id="insertCampReview">
-		insert into Boards(member_id, board_title, board_category, board_content) values(#{member_id}, #{board_title}, 'humor', #{board_content})
+ <!-- 	<insert id="insertCampingReview">
+		insert into goot6.Boards(member_id, board_title, board_category, board_content) values(#{member_id}, #{board_title}, 'humor', #{board_content})
 	</insert>
 	
-	<select id="readCampReview" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_no = #{board_no}
+	<select id="readCampingReview" resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where board_no = #{board_no}
 	</select>
 	
-	<update id="updateCampReview">
+	<update id="modifyCampingReview">
 		update Boards set board_title = #{board_title}, board_content = #{board_content} where board_no = #{board_no}
 	</update>
 	
-	<delete id="deleteCampReview">
+	<delete id="removeCampingReview">
 		update Boards set board_isDelete = 'Y' where board_no = #{board_no}
 	</delete>
 	
-	<select id="listCampReviewCriteria" resultType="com.cambak21.domain.BoardVO">
+	<select id="listBoardPaging" resultType="com.glory.domain.BoardVO">
+  		select * from tbl_board where board_category = 'camping' order by no desc limit #{page}, 10
+  	</select>
+	
+	<select id="listCampingReviewCriteria" resultType="com.cambak21.domain.BoardVO">
 		select * from Boards where board_category = 'humor' order by board_no desc limit #{pageStart}, #{perPageNum}
 	</select>
 	
-	<select id="getToatalCampReviewCnt" resultType="int">
+	<select id="getTotalCampingReviewCnt" resultType="int">
 		select Count(*) from Boards
 	</select>
+	
+	<select id="goSearchCampingReview" resultType="com.glory.domain.BoardVO">
+  		select * from tbl_board where board_category = 'camping' and 
+  		<if test="searchType == 'title'" >
+  			board_title like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'content'" >
+  			board_content like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'writer'" >
+  			writer like concat('%', #{searchWord}, '%')
+  		</if>
+  		
+  		order by no desc limit #{pageStart}, #{perPageNum}
+  	</select>
+  	
+  	
 	
 	<update id="updateViewCnt">
 		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no}
 	</update>
   	
-  
+ -->   
   	
   </mapper>

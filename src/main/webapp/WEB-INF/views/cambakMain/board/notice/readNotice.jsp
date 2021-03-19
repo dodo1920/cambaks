@@ -12,24 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    
 	<script>
-	
-	
-// 	function callReplyList(){
-		
-// 		let bno = '${param.no}'
-// 		let output = '<ul class="list-group">';
-// 		$.getJSON("/replies/all/" + bno, function(data){
-// 			console.log(data);
-// 			$(data).each(function(index, item){
-// 				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.no + '"/><div>' + this.replytext + '</div><div><span>' 
-// 				+ new Date(this.updatedate) + '<img id="' + this.no + '" src="/resources/images/edit.png" onclick="goModify(' + this.no + ');" style="width:30px; height:30px; float:right;"><img src="/resources/images/star2.png" onclick="goDelete(' + this.no + ');" style="width:30px; height:30px; float:right;"></div></span>' + '<div><span>' + this.replyer + '</span></div></li>';
-// 			});
-// 			output += "</ul>";
-			
-// 			$("#replyBox").html(output);
-// 		});
-// 	}	
-	
+
 	function callReplyList(){
 		
 		let board_no = '${param.no}'
@@ -180,6 +163,9 @@
     
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+
+	<%@include file="../../cambak21Header.jsp"%>
+	
    <div class="content-wrapper">
       <div class="container">
       <h1>게시판 상세보기 페이지</h1><hr />

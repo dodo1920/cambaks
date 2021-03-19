@@ -9,6 +9,7 @@ public class ProdQAInsertDTO {
 	private String prodQA_img;
 	private String prodQA_isSecret;
 	private String prodQA_secretPassword;
+	private String prodQA_category;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -59,12 +60,19 @@ public class ProdQAInsertDTO {
 		this.prodQA_secretPassword = prodQA_secretPassword;
 	}
 	
+	public String getProdQA_category() {
+		return prodQA_category;
+	}
+	public void setProdQA_category(String prodQA_category) {
+		this.prodQA_category = prodQA_category;
+	}
+	
 	@Override
 	public String toString() {
-		return "InsertintoProdQADTO [product_id=" + product_id + ", member_id=" + member_id + ", prodQA_title="
+		return "ProdQAInsertDTO [product_id=" + product_id + ", member_id=" + member_id + ", prodQA_title="
 				+ prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_ref=" + prodQA_ref + ", prodQA_img="
 				+ prodQA_img + ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword="
-				+ prodQA_secretPassword + "]";
+				+ prodQA_secretPassword + ", prodQA_category=" + prodQA_category + "]";
 	}
 	
 }

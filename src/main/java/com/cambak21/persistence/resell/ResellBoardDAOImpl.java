@@ -73,6 +73,7 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 		ses.update(namespace+".ResellBoardUpdateReply",param);
 		
 	}
+
 	
 
 

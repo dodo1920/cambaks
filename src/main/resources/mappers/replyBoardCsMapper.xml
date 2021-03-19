@@ -5,7 +5,7 @@
 
 <mapper namespace="com.cambak21.mapper.ReplyBoardCS">
 	<!-- 부모 댓글 max 구하기 -->
-	<select id="maxBoardNo">
+	<select id="maxBoardNo" resultType="int">
 		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards)) from ReplyBoards;
 	</select>
 	
@@ -18,7 +18,13 @@
 		and board_no = ${board_no};
 	</update>
 	
-	<!-- 댓글 작성 -->
+	<!-- 부모댓글 작성 -->
+	<insert id="parentReply">
+		insert into ReplyBoards(board_no, member_id, replyBoard_content, replyBoard_ref)
+		values(#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref});
+	</insert>
+	
+	<!-- 자식 댓글 작성 -->
 	<insert id="insertReply">
 		insert into ReplyBoards(board_no, member_id, replyBoard_content, replyBoard_ref, replyBoard_step, replyBoard_refOrder)
 		values(#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref}, #{replyBoard_step} + 1, #{replyBoard_refOrder} + 1);
