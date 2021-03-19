@@ -119,6 +119,7 @@ th.board-title {
 .comment-id {
 	font-weight: bold;
 	padding-bottom: 10px;
+	font-size: 20px;
 }
 
 .comment-content {

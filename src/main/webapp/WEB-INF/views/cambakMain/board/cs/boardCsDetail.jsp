@@ -92,10 +92,15 @@
 			} else {
 				output += "<li id="+item.replyBoard_no+">";
 			}
-			output += "<p class='comment-id'>"+item.member_id+"</p>";
-			output += "<p class='comment-content'>"+item.replyBoard_content+"</p>";
+			
+			if(item.replyBoard_refOrder > 0) {
+				output += "<div style='display:flex'><img src='/resources/cambak21/img/replyimg.png' width='20px' height='20px'><p class='comment-id'>"+item.member_id+"</p></div>";
+			} else {
+				output += "<p class='comment-id'>"+item.member_id+"</p>";
+			}
+			output += "<p class='comment-content'>"+item.replyBoard_content+"</p></div>";
 			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
-			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button></div>";
+			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button>";
 			output += "</li>";
 		});
 		$(".detail-bottom-comment").html(output);
@@ -134,12 +139,13 @@
 	function childReply(replyno) {
 		let replyBoard_no = "." + replyno
 		
-		let output = "<div>";
+		let output = "<div class='inputForm' style='display:flex'>";
 		output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"'>";
-		output += "<button type='button' class='btn btn-success' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
+		output += "<button type='button' class='btn btn-default' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
+		output += "<button type='button' class='btn btn-default' onclick='replyList();'>닫기</button>";
 		output += "</div>";
 		// 닫기 창 , css 수정
-		$(replyBoard_no).append(output);
+		$(replyBoard_no).html(output);
 	}
 	
 	// 자식 댓글 작성
