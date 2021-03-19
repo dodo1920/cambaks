@@ -157,7 +157,7 @@ form, form input{
 					<section>
 						<header>
 							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+							<span class="byline" id="rollNot"><a href="#">공지사항 수정페이지</a></span>
 						</header>
 					
 					</section>
@@ -167,7 +167,7 @@ form, form input{
 					
 				    <div class="formContent"> 
 				    <div>
-				    <input type="text" style="font-size:25px; font-weight:900; width: 700px;" name="board_title" value="${noticeBoard.board_title }" />
+				    <span class="formTitle">Title</span> <input type="text" style="font-size:25px; font-weight:900; width: 650px;" name="board_title" value="${noticeBoard.board_title }" />
 				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" />
 <%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
          			
@@ -180,7 +180,7 @@ form, form input{
 				   </div>
 		               <div>
 		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <textarea name="board_content" class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
+				    <span class="formTitle">내용 </span><textarea name="board_content" class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
 				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
 		            </div>
 		               

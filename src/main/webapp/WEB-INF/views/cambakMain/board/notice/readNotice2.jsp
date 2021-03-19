@@ -289,7 +289,7 @@ form, form input{
 					<section>
 						<header>
 							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+							<span class="byline" id="rollNot"><a href="#">공지사항 상세페이지</a></span>
 						</header>
 					
 					</section>
