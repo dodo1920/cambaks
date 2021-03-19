@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.domain.ResellLikeBoardVO;
@@ -41,8 +41,9 @@ public class BoardResellController {
 		return "cambakMain/board/Resell/boardResellList";
 	}
 	@RequestMapping(value = "/detail")
-	public String boardResellDetail() throws Exception{
+	public String boardResellDetail(@RequestParam("no") int no, Model model) throws Exception{
 		System.out.println("boardResellDetail 테스트");
+		System.out.println("no : " + no);
 		return "cambakMain/board/Resell/boardResellDetail";
 	}
 	
