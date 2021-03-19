@@ -1,6 +1,8 @@
 package com.cambak21.persistence.boardQA;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,62 +25,62 @@ public class BoardQADAOImpl implements BoardQADAO {
 
 	@Override
 	public void writeBoardQA(InsertBoardQADTO idto) throws Exception {
-		// TODO Auto-generated method stub
-
+		ses.insert(ns + ".insertBoardQA", idto);
 	}
 
 	@Override
 	public int modiBoardQA(UpdateBoardQADTO udto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(ns + ".updateBoardQA", udto);
 	}
 
 	@Override
 	public int delBoardQA(BoardQAVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.delete(ns + ".deleteBoardQA", vo);
 	}
 
 	@Override
 	public List<BoardQAVO> listBoardQA(PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return ses.selectList(ns + ".listBoardQA", cri);
 	}
 
 	@Override
 	public void modiBoardQALike(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-
+		ses.selectOne(ns + ".updateQALike", board_no);
 	}
 
 	@Override
 	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchType", scri.getSearchType());
+		map.put("searchWord", scri.getSearchWord());
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".searchBoardQA", map);
 	}
 
 	@Override
 	public BoardQAVO readBoardQA(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return ses.selectOne(ns + ".readBoardQA", board_no);
 	}
 
 	@Override
 	public int boardQAtotalCnt() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.selectOne(ns + ".QAtotalCnt");
 	}
 
 	@Override
 	public int searchBoardQAtotalCnt(SearchCriteria scri) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchType", scri.getSearchType());
+		map.put("searchWord", scri.getSearchWord());
+		
+		return ses.selectOne(ns + ".searchQACnt", map);
 	}
 
 	@Override
 	public int boardQAReplyCnt(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.selectOne(ns + ".QAReplyCnt", board_no);
 	}
 
 }
