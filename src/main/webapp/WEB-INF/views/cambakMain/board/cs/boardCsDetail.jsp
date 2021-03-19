@@ -98,9 +98,15 @@
 			} else {
 				output += "<p class='comment-id'>"+item.member_id+"</p>";
 			}
+			
+			// 현재 로그인한 회원과 작성자가 같으면 버튼 보이기
+			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
+				output += "<button type='button' class='btn' style='float:right' onclick='deleteReply("+item.replyBoard_no+")'>삭제</button>";
+			}
+			
 			output += "<p class='comment-content'>"+item.replyBoard_content+"</p></div>";
 			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
-			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button>";
+			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button></div>";
 			output += "</li>";
 		});
 		$(".detail-bottom-comment").html(output);
@@ -169,6 +175,25 @@
 			},
 			success : function(data) {
 				replyList();
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
+	// 댓글 삭제
+	function deleteReply(replyBoard_no) {
+		$.ajax({
+			type : "post",
+			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			url : "/board/cs/reply/delete/" + replyBoard_no, // 서블릿 주소
+			success : function(data) {
+				replyList();
+				$("#modalText").text("댓글이 삭제 되었습니다");
+				$("#myModal").modal();
+				
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시

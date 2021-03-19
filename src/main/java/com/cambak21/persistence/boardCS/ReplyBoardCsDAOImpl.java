@@ -108,8 +108,8 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 
 	@Override
 	public int deleteReplyBoardCS(int replyBoard_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return ses.delete(ns + ".deleteReply", replyBoard_no);
 	}
 
 	@Override

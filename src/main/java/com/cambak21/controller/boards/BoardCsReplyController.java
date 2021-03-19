@@ -67,7 +67,25 @@ public class BoardCsReplyController {
 		}
 
 		return entity;
+	}
 
+	@RequestMapping(value = "/reply/delete/{replyBoard_no}", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteReply(@PathVariable("replyBoard_no") int replyBoard_no) {
+		log.info("승권 / 댓글 삭제 ajax POST 호출");
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			if(service.deleteReplyBoardCS(replyBoard_no) == 1){
+				entity = new ResponseEntity<String>("delteOk", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
 	}
 
 }

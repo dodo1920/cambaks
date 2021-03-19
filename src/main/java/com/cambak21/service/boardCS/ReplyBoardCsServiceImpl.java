@@ -66,8 +66,8 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 
 	@Override
 	public int deleteReplyBoardCS(int replyBoard_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return dao.deleteReplyBoardCS(replyBoard_no);
 	}
 
 	@Override
