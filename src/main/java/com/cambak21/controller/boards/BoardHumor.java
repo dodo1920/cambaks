@@ -1,17 +1,23 @@
 package com.cambak21.controller.boards;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.service.BoardHumor.BoardHumorService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -88,6 +94,8 @@ public class BoardHumor {
 		}
 		return "redirect:/cambakMain/board/humor/listAll?page=1";
 	}
+	
+	
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {

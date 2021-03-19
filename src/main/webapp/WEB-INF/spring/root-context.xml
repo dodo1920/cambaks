@@ -46,7 +46,8 @@
 	
 	<!-- **************************************** 김대기 패키지 스캔 ********************************************** -->
 	<context:component-scan base-package="com.cambak21.persistence.boardHumor"></context:component-scan>
-    <context:component-scan base-package="com.cambak21.service.boardHumor"></context:component-scan>
+	<context:component-scan base-package="com.cambak21.persistence.boardHumorReply"></context:component-scan>
+    
     
 	<!-- **************************************** 장원영 패키지 스캔 ********************************************** -->
 	
