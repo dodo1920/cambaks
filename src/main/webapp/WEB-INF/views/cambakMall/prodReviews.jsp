@@ -45,8 +45,6 @@
 		alert("!");
 		
 		callProdBoardList();
-		
-		showStars();
 		});
 
 	 // 게시글 title 클릭 시, content를 보여주는 부분
@@ -56,27 +54,39 @@
 			$("#test" + test).show()
 		}
 	 
-	 // 별점에 따른 별 개수를 표현하는 부분
-	 function showStars() {
-		 //별점 표시 부분
-		 var check = $(".starsCnt").attr("value");
-			$('.starrr').starrr({
-				 rating: 1,
-				 readOnly: true
-			})
-	}
+	 
+	 
+	 
+	 // ajax 방식 onclick 시 content 보여주는 부분
+	 function showContent1(obj) {
+		 	alert("!");
+			let reviewsContent = $(obj).attr("id");
+			$("#content" + reviewsContent).show()
+		}
+	 
+
 	 
     </script>
     
     
     <script type="text/javascript">
-	 
+	 // 별점에 따른 별 개수를 표현하는 부분
+	 function showStars(grade) {
+		let rating = grade;
+		console.log(rating)
+		 //별점 표시 부분
+		var check = $(".starsCnt").attr("value");
+			$('.starrr1').starrr({
+				 rating: rating,
+				 readOnly: true
+			});
+	} 	
 
     // ajax로 게시판 게시글 출력 부분
     function callProdBoardList() {
     let product_id = 4;
-    var counting = 0;
     
+
     
       let output = '<div class="container">';
       output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
@@ -84,14 +94,13 @@
          console.log(data)
          
          $(data).each(function(index, item) {
-            output += '<tr><td>' + item.prodReview_no + '</td><td><div id="' + item.prodReview_no + '" onclick="showContent(this);">' + item.prodReview_title; + '</div></td>';
-            output += '<td class="stars" id="star' + item.prodReview_no + '">' + item.prodReview_grade + '<div class="starrr"></div></td>';
+            output += '<tr><td>' + item.prodReview_no + '</td><td><div id=' + item.prodReview_no + ' onclick="showContent1(this);">' + item.prodReview_title; + '</div></td>';
+            output += '<td class="stars" id="star' + item.prodReview_no + '">' + showStars(item.prodReview_grade) + '<div class="starrr1">1</div></td>';
             output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
             output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
-            output += '<tr id="test' + item.prodReview_no +'" style="display: none">';
-            output += '<td colspan="6"><div>' + item.prodReview_content + '</div><div></div></td></tr>';
-            
-            counting += 1;
+            output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
+            output += '<td colspan="6"><div>' + item.prodReview_content + '</div></td></tr>';
+
          });
          
          output += '</table></div>';
@@ -99,6 +108,8 @@
          $("#prodBoardList").html(output);
       });
    }
+    
+    
     
     </script>
 </head>
@@ -324,14 +335,14 @@
 						                        <td>${board.prodReview_likeCnt }</td>
 						                     </tr>
 						                     
-						                     <!-- 별점 표시를 위한 bootStrap 부분 -->
+						                     <!-- 별점 표시를 위한 bootStrap 부분
 						                     <script>
 						                     var check = $(".starsCnt").attr("value");
 									               $('.starrr').starrr({
 									            	   rating: ${board.prodReview_grade },
 									            	   readOnly: true
 									            	 })
-								               </script>
+								               </script> -->
 								             
 						                     <tr id="test${board.prodReview_no}" style="display: none">
 							                     <td colspan="6">
@@ -526,7 +537,6 @@
 
 
 <!-- Js Plugins -->
-<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
 <script src="../../resources/mallMain/js/bootstrap.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
 <script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
