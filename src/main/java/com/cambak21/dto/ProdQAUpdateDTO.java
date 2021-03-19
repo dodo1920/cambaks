@@ -2,6 +2,7 @@ package com.cambak21.dto;
 
 public class ProdQAUpdateDTO {
 	private int product_id;
+	private int prodQA_no;
 	private String member_id;
 	private String prodQA_title;
 	private String prodQA_content;
@@ -15,6 +16,12 @@ public class ProdQAUpdateDTO {
 	}
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
+	}
+	public int getProdQA_no() {
+		return prodQA_no;
+	}
+	public void setProdQA_no(int prodQA_no) {
+		this.prodQA_no = prodQA_no;
 	}
 	public String getMember_id() {
 		return member_id;
@@ -61,10 +68,10 @@ public class ProdQAUpdateDTO {
 	
 	@Override
 	public String toString() {
-		return "ProdQAUpdateDTO [product_id=" + product_id + ", member_id=" + member_id + ", prodQA_title="
-				+ prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_img=" + prodQA_img
+		return "ProdQAUpdateDTO [product_id=" + product_id + ", prodQA_no=" + prodQA_no + ", member_id=" + member_id
+				+ ", prodQA_title=" + prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_img=" + prodQA_img
 				+ ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword=" + prodQA_secretPassword
 				+ ", prodQA_category=" + prodQA_category + "]";
-	}	
-	
+	}
+
 }

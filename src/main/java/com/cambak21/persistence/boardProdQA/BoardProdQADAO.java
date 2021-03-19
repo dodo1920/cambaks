@@ -52,7 +52,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int checkSecretPwd(int prodQA_secretPassword) throws Exception; 
+	public int checkSecretPwd(String prodQA_secretPassword, int prodQA_no) throws Exception; 
 	
 	/**
 	 * @Method Name : deleteProdQA

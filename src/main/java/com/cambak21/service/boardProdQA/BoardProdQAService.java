@@ -55,7 +55,7 @@ public interface BoardProdQAService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean checkSecretPwd(int prodQA_secretPassword) throws Exception; 
+	public boolean checkSecretPwd(String prodQA_secretPassword, int prodQA_no) throws Exception; 
 	
 	/**
 	 * @Method Name : deleteProdQA

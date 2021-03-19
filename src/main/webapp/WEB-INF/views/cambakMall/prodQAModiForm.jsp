@@ -72,7 +72,7 @@
 		               </div>
 		            </div>
 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="prodQA_title">제 목 :</label>
+		               <label class="control-label col-sm-2" for="prodQA_title">분 류 :</label>
 		               <div class="col-sm-10">
 		               	  <input type="hidden" class="form-control" id="prodQA_categoryVal" value="${prodQA.prodQA_category }">
 		                  <select id="prodQA_category" name="prodQA_category" class="form-control">
@@ -130,7 +130,7 @@
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
 		                  <button type="submit" class="btn btn-success">저장</button>
-		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=' + ${param.no}">취소</button>
+		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=' + ${param.prodId}">취소</button>
 		               </div>
 		            </div>
 		         </form>

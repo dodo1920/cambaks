@@ -46,7 +46,7 @@
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
 		
-		         <form action="/mall/prodDetail/prodQAForm?no=${param.prodId }" method="post">
+		         <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }" method="post">
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
@@ -54,7 +54,7 @@
 		               </div>
 		            </div>
 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="prodQA_title">제 목 :</label>
+		               <label class="control-label col-sm-2" for="prodQA_title">분 류 :</label>
 		               <div class="col-sm-10">
 		                  <select id="prodQA_category" name="prodQA_category" class="form-control">
 		                  	<option value="product">상품</option>

@@ -36,21 +36,42 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	}
 
 	@Override
-	public boolean checkSecretPwd(int prodQA_secretPassword) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean checkSecretPwd(String prodQA_secretPassword, int prodQA_no) throws Exception {
+		boolean result = false;
+		
+		int i = dao.checkSecretPwd(prodQA_secretPassword, prodQA_no);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public boolean deleteProdQA(int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		int i = dao.deleteProdQA(prodQA_no);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public boolean updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		int i = dao.updateProdQA(updateQA);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
