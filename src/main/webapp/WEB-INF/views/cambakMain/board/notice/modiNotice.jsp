@@ -56,17 +56,12 @@
 	function checkModiForm(){
 		
 		
-		if($(".boardtextArea").val() == $("#prevBoardContext").val()){
+		if($(".boardtextArea").val() == $("#prevBoardContext").val() && $("input[name=board_title]").val() == $("#prevBoardTitle").val()){
 			alert("수정할 내용이 없습니다.");
-		}else if($("input[name=board_title]").val() == $("#prevBoardTitle").val()){
-			alert("수정할 제목이 없습니다.");
-		}else{
-			
+		}else {
 			$("#modiBoardNotice").submit();
-		}
-		
-		
-		
+		}	
+				
 	}
 
 	
@@ -173,6 +168,7 @@ form, form input{
 				    <div class="formContent"> 
 				    <div>
 				    <input type="text" style="font-size:25px; font-weight:900; width: 700px;" name="board_title" value="${noticeBoard.board_title }" />
+				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" />
 <%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
          			
          			<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }'">수정 취소</button>

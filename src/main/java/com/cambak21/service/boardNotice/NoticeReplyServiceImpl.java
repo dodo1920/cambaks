@@ -38,16 +38,20 @@ public class NoticeReplyServiceImpl implements NoticeReplyService {
 		
 		
 	}
+	
+	
 	@Transactional
 	@Override
 	public boolean dropReply(int no) throws Exception {
 		boolean result = false;
 		
-		int i = bdao.removeNoticeBoard(no);
+		
+		int i = rdao.dropReply(no);
 		if(i == 1) {
 			result = true;
 		}
-		rdao.dropReply(no);
+		
+		
 		return result;
 	}
 

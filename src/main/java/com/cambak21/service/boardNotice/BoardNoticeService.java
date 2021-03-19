@@ -25,4 +25,11 @@ public interface BoardNoticeService {
 		public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception;
 		
 		public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception;
+		
+		public boolean modiNoticeBoard(BoardVO vo) throws Exception;
+		
+		public void downReplyCnt(int bno) throws Exception;
+		
+		
+		
 }
