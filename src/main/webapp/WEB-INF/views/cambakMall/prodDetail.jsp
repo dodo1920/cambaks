@@ -40,6 +40,36 @@
 	function showHiddenSecret() {
 		$(".hiddenSecret").show()
 	}
+	
+	function chcekSecretPwd(obj) {
+		let checkSecretPwd = $(obj).prev().val();
+		console.log(checkSecretPwd);
+		
+		let no = $("#produQA_no").val();
+		console.log(no);
+		
+		$.ajax({
+			url: '/mall/prodDetail/checkSecretPwd',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: no,
+				prodQA_secretPassword : checkSecretPwd
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				location.href = "../prodDetail/main?prodId=" + ${param.prodId};
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
 </script>
 <style>
 	.hiddenSecret {
@@ -245,10 +275,9 @@
 						                  <c:forEach var="prodQALst" items="${prodQALst }" varStatus="status">
 						                  	<c:choose>
 						                  		<c:when test="${prodQALst.prodQA_isDelete != 'Y'}">
-						                  			<c:if test="${prodQALst.prodQA_refOrder == 1}">
 						                 			<tr>
 							                        	<td>
-							                        	<input type="hidden" value="${prodQALst.prodQA_no }"/>
+							                        	<input type="hidden" id="produQA_no" value="${prodQALst.prodQA_no }"/>
 							                        	${prodQALst.prodQA_category }
 							                        	</td>
 								                        <td>								
@@ -269,11 +298,10 @@
 									                     	 	<input type="button" id="modi" value="수정" onclick="location.href='/mall/prodDetail/prodQAModiForm?prodId=' + ${param.prodId } + '&no=' + ${prodQALst.prodQA_no}"/>
 									                     	 	<input type="button" id="del" onclick="showHiddenSecret();" value="삭제"/>
 									                     	 	<input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/> 
-									                     	 	<input type="button" class="hiddenSecret" id="checkSecretPwd" value="확인"/>
+									                     	 	<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/>
 									                     	 </div>
 										                 </td>
 								                     </tr>
-								                     </c:if>
 						                  		</c:when>
 						                     </c:choose>
 						                  </c:forEach>

@@ -5,19 +5,24 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+
+<meta charset="utf-8" />
+<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
 <title>Cambark's</title>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="" />
-<meta name="keywords" content="" />
-<link
-	href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900'
-	rel='stylesheet' type='text/css'>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+<!-- jquery -->
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+
+<!-- bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<!-- tamplet js -->
 <script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/skel-panels.min.js"></script>
 <script src="/resources/cambak21/js/init.js"></script>
 
+<<<<<<< HEAD
 <link rel="icon" type="image/x-icon"
 	href="/resources/cambak21/assets/favicon.ico" />
 <meta charset="utf-8" />
@@ -29,50 +34,30 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat"
 	rel="stylesheet" type="text/css">
 
+=======
+<!-- tamplet css -->
+<link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
+>>>>>>> 06a458f5fe8701fb0d28346412f208f285a8170a
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
-<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-<!-- 템플릿 js, css 파일 -->
+<!-- 게시판 공통 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
-<script src="/resources/cambak21/js/rolling.js"></script>
-<script src="/resources/cambak21/js/bbskJS.js"></script>
-<style>
-@import url(/resources/cambak21/css/SHWtamplet.css);
-</style>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
+
+
 
 <script>
    $(document).ready(function() {
-      // 말 줄임 ...
-      textLimit();
-      
-      // 공지사항 롤링
-      rolling();
       
       let boardUri = searchUriAddress();
       asideBarDraw(boardUri);
-      
-      
-      
+
    });
-   
-   // 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
-   function searchUriAddress() {
-       var url = location.href; //url주소
-       var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
-      return params[0]; // board/OO/??/??  OO만 반환
-   }
-   
-   // 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
-   function asideBarDraw(boardUri) {
-       $("#" + boardUri + "Aside").attr("class", "active");
-   }
    
 </script>
 </head>
@@ -91,40 +76,18 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
-									자리입니다.</a></span>
-						</header>
-						<div class="research">
-							<!-- <form> -->
-							<div class="input-group">
-								<input type="text" class="form-control" size="50"
-									placeholder="Search" onkeypress="enterKey();">
-								<div class="input-group-btn">
-									<button type="button" class="btn btn-danger search"
-										onclick="sendKeyword();">Search</button>
-									<button class="btn btn-danger write">
-										<a href="../cs/write">글쓰기</a>
-									</button>
-								</div>
-							</div>
-							<!-- <div class="input-group-btn write">
-		                        <button class="btn btn-danger write"><a href="SHW_board.html">글쓰기</a></button>
-		                    </div> -->
-							<!-- </form> -->
-						</div>
 					</section>
 					<div>
 						<div>
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th>번호</th>
-										<th class="board-title">제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
+										<th style="text-align: center;">번호</th>
+										<th style="text-align: center;">작성자</th>
+										<th style="width: 416px; text-align: center;">제목</th>
+										<th style="text-align: center;">작성일</th>
+										<th style="text-align: center;">좋아요</th>
+										<th style="text-align: center;">조회수</th>
 									</tr>
 								</thead>
 								<tbody>

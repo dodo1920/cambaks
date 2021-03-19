@@ -24,4 +24,24 @@ public class BoardHumorReplyDAOImpl implements BoardHumorReplyDAO {
 		
 	}
 
+	@Override
+	public void create(ReplyBoardVO vo) throws Exception {
+		ses.insert(namespace + ".insert", vo);
+		
+	}
+
+	@Override
+	public void delete(int board_no) throws Exception {
+		System.out.println(board_no);
+		ses.delete(namespace + ".delete", board_no);
+		
+	}
+
+	@Override
+	public void update(ReplyBoardVO vo) throws Exception {
+		ses.update(namespace + ".update", vo);
+		
+		
+	}
+
 }

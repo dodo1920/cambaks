@@ -3,14 +3,19 @@ package com.cambak21.controller.cambakMall;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdQAVO;
@@ -71,7 +76,7 @@ public class prodDetail {
 		
 		insertQA.setProduct_id(prodId);
 		
-		if(insertQA.getProdQA_isSecret().equals("on")) {
+		if(insertQA.getProdQA_isSecret() != null) {
 			insertQA.setProdQA_isSecret("Y");
 		} else {
 			insertQA.setProdQA_isSecret("N");
@@ -103,21 +108,45 @@ public class prodDetail {
 	}
 	
 	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.POST)
-	public String modiProdQA(@RequestParam("prodId") int prodId, ProdQAUpdateDTO updateQA, RedirectAttributes rttr) throws Exception {
+	public String modiProdQA(@RequestParam("prodId") int prodId, @RequestParam("no") int no, ProdQAUpdateDTO updateQA, RedirectAttributes rttr) throws Exception {
+		updateQA.setProdQA_no(no);
+		
 		updateQA.setProduct_id(prodId);
 		
 		System.out.println(updateQA);
 		
-		if(updateQA.getProdQA_isSecret().equals("on")) {
+		if(updateQA.getProdQA_isSecret() != null) {
 			updateQA.setProdQA_isSecret("Y");
 		} else {
 			updateQA.setProdQA_isSecret("N");
 		}
 		
-//		if(QAService.updateProdQA(updateQA)) {
-//			rttr.addAttribute("result", "success");
-//		}
+		if(updateQA.getProdQA_secretPassword() == null) {
+			updateQA.setProdQA_secretPassword("");
+		}
+		
+		System.out.println(updateQA.toString());
+		
+		if(QAService.updateProdQA(updateQA)) {
+			rttr.addAttribute("result", "success");
+		}
 		
 		return "redirect:/mall/prodDetail/main?prodId=" + prodId;
+	}
+	
+	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
+	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
+			if(QAService.deleteProdQA(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+			}
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 }

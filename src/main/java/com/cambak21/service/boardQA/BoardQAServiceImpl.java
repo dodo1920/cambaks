@@ -77,40 +77,88 @@ public class BoardQAServiceImpl implements BoardQAService {
 		return dao.listBoardQA(cri);
 	}
 
+	/**
+	 * @Method Name : modiBoardQALike
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 좋아요 업데이트
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public void modiBoardQALike(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-
+		dao.modiBoardQALike(board_no);
 	}
 
+	/**
+	 * @Method Name : searchListBoardQA
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 검색목록 메서드
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.searchListBoardQA(scri, cri);
 	}
 
+	/**
+	 * @Method Name : readBoardQA
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 읽기 메서드 
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public BoardQAVO readBoardQA(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.readBoardQA(board_no);
 	}
 
+	/**
+	 * @Method Name : boardQAtotalCnt
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 게시글 수 카운트 메서드
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public int boardQAtotalCnt() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.boardQAtotalCnt();
 	}
 
+	/**
+	 * @Method Name : searchBoardQAtotalCnt
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 검색결과 게시글 수 카운트 메서드
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public int searchBoardQAtotalCnt(SearchCriteria scri) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.searchBoardQAtotalCnt(scri);
 	}
 
+	/**
+	 * @Method Name : boardQAReplyCnt
+	 * @작성일 : 2021. 3. 19.
+	 * @작성자 : 장원영 
+	 * @변경이력 : 
+	 * @Method 설명 : Q&A게시판 댓글 수 카운트 메서드
+	 * @return
+	 * @throws Exception
+	*/
 	@Override
 	public int boardQAReplyCnt(int board_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.boardQAReplyCnt(board_no);
 	}
 
 }

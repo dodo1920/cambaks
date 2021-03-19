@@ -30,7 +30,7 @@ public class BoardQAController {
 		
 		model.addAttribute("QAList", service.listBoardQA(cri));
 		
-		return "cambakMain/boardQAList";
+		return "cambakMain/board/QA/boardQAList";
 	}
 	
 	@RequestMapping("/write")

@@ -41,17 +41,48 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script>
+function gomodify(no) {
+	
+	$("replyno").val(no);
+	$("#modifyBox").show();
+}
+
+function goDel(replyBoard_no){
+	
+	$.ajax({
+		  method: "DELETE",
+		  url: "/cambakMain/board/humor/replies/" + replyBoard_no,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "DELETE"
+		  },
+		  dataType: "text", // 응답 받는 데이터 타입
+		  data : JSON.stringify({ // 요청하는 데이터
+			  replyBoard_no : replyBoard_no,
+			
+		  }),
+		  success : function(result){
+			  if(result == "success"){
+				  alert("삭제완료");
+				  
+			  }
+			  callReplyList();
+		  }
+		});
+	
+}
+
 function showReplyBox() {
 	$("#inputReplyBox").show();
 }
 
 function addReply(){
 	
-	let replyer = $("#newReplyWriter").val();
-	let replytext = $("#newReplyText").val();
-	let bno = ${param.no};
+	let member_id = $("#newReplyWriter").val();
+	let replyBoard_content = $("#newReplyText").val();
+	let board_no = ${param.no};
 	$.ajax({
-		  method: "post",
+		  method: "POST",
 		  url: "/cambakMain/board/humor/replies",
 		  headers : { // 요청하는 데이터의 헤더에 전송
 			  "Content-Type" : "application/json",
@@ -59,9 +90,9 @@ function addReply(){
 		  },
 		  dataType: "text", // 응답 받는 데이터 타입
 		  data : JSON.stringify({ // 요청하는 데이터
-			bno : bno,
-			replyer : replyer,
-			replytext : replytext
+			board_no : board_no,
+			member_id : member_id,
+			replyBoard_content : replyBoard_content
 		  }),
 		  success : function(result){
 			  if(result == "Success"){
@@ -84,10 +115,10 @@ function callReplyList(){
     $.getJSON("/cambakMain/board/humor/replies/all/" + bno, function(data){
        console.log(data);
        $(data).each(function(index, item){
-          output += '<li><input type="hidden" id="replyno" value="'+this.no +'"/><div>' + this.replytext + '</div><div><span>' 
-          + new Date(this.updatedate) + '</span>' + '<span>작성자' + this.replyer + '</span></div></li>';
-          output += '<li><span id=""' + item.no + '" onclick="gomodify(' + item.no + ');"><img id=' + item.no + ' src = "../resources/img/modify.png" width="50px"  /></span>' 
-          output +="<span id'"+ item.no+"' onclick='goDel("+ item.no +")'><img src='../resources/img/del.JPG' width='50px'/> </span></li><hr/>"
+          output += '<li><input type="hidden" id="replyno" value="'+this.replyBoard_no +'"/><div>' + this.replyBoard_content + '</div><div><span>' 
+          + new Date(this.replyBoard_writeDate) + '</span>' + '<span>작성자' + this.member_id + '</span></div></li>';
+          output += '<li><span id=""' + item.replyBoard_no + '" onclick="gomodify(' + item.replyBoard_no + ');"><img id=' + item.replyBoard_no + ' src = "../../../resources/img/modify.png" width="50px"  /></span>' 
+          output +="<span id'"+ item.replyBoard_no+"' onclick='goDel("+ item.replyBoard_no +")'><img src='../../../resources/img/delete.png' width='50px'/> </span></li><hr/>"
           
        });
        output += "</ul>";
@@ -96,7 +127,7 @@ function callReplyList(){
  }   
  
  $(function(){
-	 alert("!");
+	
 	 callReplyList(); 
  });
 </script>
@@ -122,6 +153,18 @@ p.category-title {
 	text-align: center;
 	font-size: 20px;
 }
+#modifyBox{
+		width:400px;
+		height : 150px;
+		background-color: gray;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -50px;
+		margin-left: -150px;
+		z-index: 999;
+		display: none;
+		padding: 15px;
 </style>
 </head>
 <body>
@@ -170,7 +213,18 @@ p.category-title {
 					<button type="button" class="btn btn-success"
 						onclick="showReplyBox();">댓글달기</button>
 
-			
+				<div id="modifyBox">
+					<div>댓글 수정</div>
+					<div>
+						<input type="text" id="replytext" />
+
+						<button type="button" id="replymodBtn" onclick="modiProc();">
+							수정</button>
+						<button type="button" id="replyModClose" onclick="modiBoxClose();">
+							닫기</button>
+					</div>
+				</div>
+
 				<div id="inputReplyBox"
 					style="margin: 15px; border: 1px dotted gray; display: none;">
 					<div>

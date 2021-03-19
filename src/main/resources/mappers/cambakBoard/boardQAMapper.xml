@@ -16,7 +16,7 @@
   	
   	<insert id="insertProdQA">
   		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_img, prodQA_isSecret, prodQA_secretPassword, prodQA_category)
-		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, null, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category})
+		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, #{prodQA_img}, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category})
   	</insert>
   	
   	<select id="getMaxNo" resultType="int">
@@ -26,5 +26,19 @@
   	<select id="prodQADetail" resultType="com.cambak21.dto.ProdQAUpdateDTO">
   		select * from ProdQAs where product_id = #{product_id} and prodQA_no = #{prodQA_no}
   	</select>
+  	
+  	<update id="updateProdQA">
+  		update ProdQAs set prodQA_title = #{prodQA_title}, prodQA_content = #{prodQA_content}, prodQA_img = #{prodQA_img}, 
+  		prodQA_isSecret = #{prodQA_isSecret}, prodQA_secretPassword = md5(sha1(#{prodQA_secretPassword}))
+		where product_id = #{product_id} and prodQA_no = #{prodQA_no}
+  	</update>
+  	
+  	<select id="checkSecretPwd" resultType="int">
+  		select count(member_id) from ProdQAs where prodQA_secretPassword = md5(sha1(#{prodQA_secretPassword})) and prodQA_no = #{prodQA_no}
+  	</select>
+  	
+  	<delete id="deleteProdQA">
+  		update ProdQAs set prodQA_isDelete = 'Y' where prodQA_no = #{prodQA_no}
+  	</delete>
   	
   </mapper>

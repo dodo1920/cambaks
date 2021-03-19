@@ -19,12 +19,6 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 	@Inject
 	private ReplyBoardCsDAO dao;
 
-	@Override
-	public void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
 	/**
 	 * @Method Name : insertReplyBoardCS
 	 * @작성일 : 2021. 3. 18.
@@ -60,14 +54,15 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 
 	@Override
 	public int updateReplyBoardCS(UpdateReplyCSBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return dao.updateReplyBoardCS(dto);
+		
 	}
 
 	@Override
 	public int deleteReplyBoardCS(int replyBoard_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return dao.deleteReplyBoardCS(replyBoard_no);
 	}
 
 	@Override

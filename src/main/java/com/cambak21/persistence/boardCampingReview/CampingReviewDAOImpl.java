@@ -17,7 +17,7 @@ import com.cambak21.util.SearchCriteria;
 public class CampingReviewDAOImpl implements CampingReviewDAO {
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mapper.CampingreviewMapper";
+	private static String namespace = "com.cambak21.mappers.CampingreviewMapper";
 	
 	@Override
 	public int insertCampingReview(BoardVO vo) throws Exception {

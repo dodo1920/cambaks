@@ -37,21 +37,21 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	}
 
 	@Override
-	public int checkSecretPwd(int prodQA_secretPassword) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int checkSecretPwd(String prodQA_secretPassword, int prodQA_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("prodQA_secretPassword", prodQA_secretPassword);
+		params.put("prodQA_no", prodQA_no);
+		return ses.selectOne(namespace + ".checkSecretPwd", params);
 	}
 
 	@Override
 	public int deleteProdQA(int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.delete(namespace + ".deleteProdQA", prodQA_no);
 	}
 
 	@Override
 	public int updateProdQA(ProdQAUpdateDTO updateQA) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(namespace + ".updateProdQA", updateQA);
 	}
 
 	@Override
