@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface BoardNoticeService {
 
@@ -20,4 +21,8 @@ public interface BoardNoticeService {
 		public BoardVO noticeRead(int no) throws Exception;
 		
 		public boolean removeNoticeBoard(int no) throws Exception;
+		
+		public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception;
+		
+		public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception;
 }

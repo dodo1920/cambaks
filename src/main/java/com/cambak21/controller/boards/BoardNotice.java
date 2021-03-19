@@ -23,6 +23,7 @@ import com.cambak21.service.boardNotice.BoardNoticeService;
 import com.cambak21.service.boardNotice.NoticeReplyService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping("/board/notice/*")
@@ -90,9 +91,23 @@ public class BoardNotice {
 		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
 		
 		
+		
+		
 		return "cambakMain/board/notice/modiNotice";
 	}
 	
+//	
+//	public String updateBoard(BoardVO vo, RedirectAttributes rttr) throws Exception{
+//		logger.info("/modifypage... POST 호출");
+//		System.out.println(vo.toString());
+//		String success = "success";
+//		if(service.modify(vo)) {
+//			rttr.addFlashAttribute("result", success);
+//		}
+//		return "redirect:/board/read?no=" + vo.getNo() ;
+//				
+//	}
+//	
 	
 	
 	
@@ -154,7 +169,7 @@ public class BoardNotice {
 	@RequestMapping(value = "/dropReply/{no}", method = RequestMethod.GET)
 	public String dropReplylst(@PathVariable("no") int no, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 댓글 삭제하기");
-		ResponseEntity<String> entity = null;
+		
 		if(nrservice.dropReply(no)) {
 			rttr.addFlashAttribute("result", "success");
 		}
@@ -171,6 +186,24 @@ public class BoardNotice {
 		return entity;
 	}
 	
+		
+		@RequestMapping(value="/search", method=RequestMethod.GET)
+		public String search(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
+				logger.info("세부 검색값에 따른 검색을 시작 합니다.");
+				model.addAttribute("noticeList", service.noticeSearch(scri, cri));
+				
+				PagingParam pp = new PagingParam();
+				pp.setCri(cri);
+				pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
+				System.out.println(pp.toString());
+				model.addAttribute("pagingParam", pp);
+				
+							
+				return "cambakMain/board/notice/jjongnotice";
+		}	
+	
+		
+		
 	
 	
 	

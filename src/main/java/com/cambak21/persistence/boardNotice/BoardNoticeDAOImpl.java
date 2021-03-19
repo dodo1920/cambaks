@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 
 @Repository
@@ -69,6 +70,22 @@ public class BoardNoticeDAOImpl implements BoardNoticeDAO {
 	@Override
 	public int removeNoticeBoard(int board_no) throws Exception {
 		return ses.delete(namespace + ".removeNoticeBoard", board_no);
+	}
+
+	@Override
+	public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchType", scri.getSearchType());
+		param.put("searchWord", scri.getSearchWord());
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(namespace + ".noticeSearch", param);
+	}
+
+	@Override
+	public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception {
+		return ses.selectOne(namespace + ".getSearchTotalNoticeBoardCnt", scri);
 	}
 	
 

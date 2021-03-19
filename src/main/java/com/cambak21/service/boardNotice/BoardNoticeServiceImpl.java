@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.persistence.boardNotice.BoardNoticeDAO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 
 @Service
@@ -65,6 +66,20 @@ public class BoardNoticeServiceImpl implements BoardNoticeService {
 			result = true;
 		}
 		return false;
+	}
+
+
+	@Override
+	public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception {
+			return dao.noticeSearch(scri, cri);
+			
+			
+	}
+
+
+	@Override
+	public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception {
+		return dao.getSearchTotalNoticeBoardCnt(scri);
 	}
 
 }
