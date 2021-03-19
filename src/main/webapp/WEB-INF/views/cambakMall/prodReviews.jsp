@@ -40,53 +40,63 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/starrr.css" type="text/css">
     <script src="../../resources/mallMain/css/starrr.js"></script>
     
+    <!-- Kim Jeong Min star rating w3school -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+		.fa {
+		  color: grey;
+		}
+		.checked {
+		  color: orange;
+		}
+	</style>
+	
     <script type="text/javascript">
     $(function() {
-		alert("!");
 		
 		callProdBoardList();
+		
 		});
 
 	 // 게시글 title 클릭 시, content를 보여주는 부분
-		function showContent(obj) {
+		/*function showContent(obj) {
 			let test = $(obj).attr("id");
 			let showTest = "test" + test;
 			$("#test" + test).show()
-		}
+		}*/
 	 
 	 
 	 
 	 
 	 // ajax 방식 onclick 시 content 보여주는 부분
 	 function showContent1(obj) {
-		 	alert("!");
 			let reviewsContent = $(obj).attr("id");
 			$("#content" + reviewsContent).show()
 		}
 	 
 
-	 
-    </script>
-    
-    
-    <script type="text/javascript">
+
 	 // 별점에 따른 별 개수를 표현하는 부분
 	 function showStars(grade) {
-		let rating = grade;
-		console.log(rating)
-		 //별점 표시 부분
-		var check = $(".starsCnt").attr("value");
-			$('.starrr1').starrr({
-				 rating: rating,
-				 readOnly: true
-			});
+		var output1 = '';
+		if(grade == 1){
+			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
+		} else if(grade == 2){
+			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
+		} else if (grade == 3){
+			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
+		} else if (grade == 4){
+			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span>';
+		} else {
+			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>';
+		}
+		 
+		return output1;
 	} 	
 
     // ajax로 게시판 게시글 출력 부분
     function callProdBoardList() {
     let product_id = 4;
-    
-
     
       let output = '<div class="container">';
       output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
@@ -95,11 +105,12 @@
          
          $(data).each(function(index, item) {
             output += '<tr><td>' + item.prodReview_no + '</td><td><div id=' + item.prodReview_no + ' onclick="showContent1(this);">' + item.prodReview_title; + '</div></td>';
-            output += '<td class="stars" id="star' + item.prodReview_no + '">' + showStars(item.prodReview_grade) + '<div class="starrr1">1</div></td>';
+            output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
             output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
             output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
             output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
             output += '<td colspan="6"><div>' + item.prodReview_content + '</div></td></tr>';
+			output += '<tr style="display: none"><td>' + item.prodReview_grade + '</td></tr>';
 
          });
          
@@ -335,14 +346,14 @@
 						                        <td>${board.prodReview_likeCnt }</td>
 						                     </tr>
 						                     
-						                     <!-- 별점 표시를 위한 bootStrap 부분
+						                     <!-- 별점 표시를 위한 bootStrap 부분 
 						                     <script>
-						                     var check = $(".starsCnt").attr("value");
+						                     //var check = $(".starsCnt").attr("value");
 									               $('.starrr').starrr({
 									            	   rating: ${board.prodReview_grade },
 									            	   readOnly: true
 									            	 })
-								               </script> -->
+								               </script>-->
 								             
 						                     <tr id="test${board.prodReview_no}" style="display: none">
 							                     <td colspan="6">

@@ -91,5 +91,7 @@ public class BoardProdReview {
 		return "/cambakMall/prodReviews";
 	}
 	
+	// ajax 이용 페이징 처리한 전체 게시글 목록
+	
 	
 }
