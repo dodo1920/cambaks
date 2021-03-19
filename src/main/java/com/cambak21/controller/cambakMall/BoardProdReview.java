@@ -69,7 +69,7 @@ public class BoardProdReview {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		return "redirect:/cambakMall/prodReviews";
+		return "redirect:/cambakMall/prodReviews/" + vo.getProduct_id();
 	}
 	
 	// 페이징 처리한 전체 게시글 목록

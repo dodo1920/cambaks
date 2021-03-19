@@ -29,7 +29,7 @@
     
     <!-- Kim Jeong Min Table Css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
@@ -43,47 +43,63 @@
     <script type="text/javascript">
     $(function() {
 		alert("!");
+		
+		callProdBoardList();
+		
+		showStars();
 		});
 
-    // 게시글 title 클릭 시, content를 보여주는 부분
-	function showContent(obj) {
-		let test = $(obj).attr("id");
-		let showTest = "test" + test;
-		$("#test" + test).show()
+	 // 게시글 title 클릭 시, content를 보여주는 부분
+		function showContent(obj) {
+			let test = $(obj).attr("id");
+			let showTest = "test" + test;
+			$("#test" + test).show()
+		}
+	 
+	 // 별점에 따른 별 개수를 표현하는 부분
+	 function showStars() {
+		 //별점 표시 부분
+		 var check = $(".starsCnt").attr("value");
+			$('.starrr').starrr({
+				 rating: 1,
+				 readOnly: true
+			})
 	}
+	 
+    </script>
+    
+    
+    <script type="text/javascript">
+	 
 
     // ajax로 게시판 게시글 출력 부분
-    function callProdReviewsList() {
-    	// 게시글 번호
-    	let product_no = 4;
-    	
-    	let output = '<div class="container">';
-        output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
-		
-        $.ajax({
-			  method: "get",
-			  url: "/cambakMall/prodReviews1/" + product_no,
-			  headers: {	// 요청하는 데이터의 헤더에 전송
-				  "Content-Type" : "application/json",
-				  "X-HTTP-Method-Override" : "GET"
-			  },
-			  dataType: "text" // 응답 받는 데이터 타입
-			  //data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
-				 //bno :  bno,
-				// replyer : replyer,
-				 //replytext : replytext
-			  }),
-			  success : function(entity) {
-				  console.log(entity);
-				
-			  }
-			  
-			});
-	}
-	
-	
-	
-	
+    function callProdBoardList() {
+    let product_id = 4;
+    var counting = 0;
+    
+    
+      let output = '<div class="container">';
+      output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+      $.getJSON("/cambakMall/prodReviews1/" + product_id, function(data) {
+         console.log(data)
+         
+         $(data).each(function(index, item) {
+            output += '<tr><td>' + item.prodReview_no + '</td><td><div id="' + item.prodReview_no + '" onclick="showContent(this);">' + item.prodReview_title; + '</div></td>';
+            output += '<td class="stars" id="star' + item.prodReview_no + '">' + item.prodReview_grade + '<div class="starrr"></div></td>';
+            output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
+            output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
+            output += '<tr id="test' + item.prodReview_no +'" style="display: none">';
+            output += '<td colspan="6"><div>' + item.prodReview_content + '</div><div></div></td></tr>';
+            
+            counting += 1;
+         });
+         
+         output += '</table></div>';
+         
+         $("#prodBoardList").html(output);
+      });
+   }
+    
     </script>
 </head>
 <body>
@@ -360,7 +376,7 @@
 						                  
 						               </div>
 						               
-						               
+						               <div id="prodBoardList"></div>
 									</c:when>
 								<c:otherwise>
 									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.

@@ -17,14 +17,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
     
     <!-- Kim Jeong Min board editor -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -36,8 +36,8 @@
  	<meta name="description" content="">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/mallMain/css/starrr.css" type="text/css">
-    <script src="../resources/mallMain/css/starrr.js"></script>
+    <link rel="stylesheet" href="../../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../../resources/mallMain/css/starrr.js"></script>
     
 	<script type="text/javascript">
 
