@@ -112,7 +112,7 @@
 							<th style="width: 10%;">분류</th>
 							<th style="width: 40%;">제목</th>
 							<th style="width: 15%;">작성일(수정일)</th>
-							<th style="width: 7%;">좋아요</th>
+							<th style="width: 7%;">댓글수</th>
 							<th style="width: 7%;">읽은수</th>
 							<th style="width: 10%;">작성자</th>
 						</tr>
@@ -129,7 +129,7 @@
 											id="${status.count }"><fmt:formatDate
 													value="${noticeList.board_writeDate }" type="both"
 													pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
-									<td><strike>${noticeList.board_likeCnt }</strike></td>
+									<td><strike>${noticeList.board_replyCnt }</strike></td>
 									<td><strike>${noticeList.board_viewCnt }</strike></td>
 									<td><strike>${noticeList.member_id }</strike></td>
 								</tr>
@@ -138,17 +138,28 @@
 								<tr>
 									<td>${noticeList.board_no }</td>
 										<td>${noticeList.board_category }</td>
-									<c:if test="${param.searchType != null}">
-											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${pageNo }" >
-																${noticeList.board_title } <span style="color: chocolate;">(${noticeList.board_replyCnt })</span> </a></td></c:if>
-										<c:if test="${param.searchType == null}">
-											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${pageNo }" >${noticeList.board_title }  <span style="color: chocolate;">(${noticeList.board_replyCnt })</span></a></td>
+									<c:if test="${param.searchType != null && param.page != null}">
+											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page }" >
+																${noticeList.board_title } </a></td>
+								   </c:if>
+									<c:if test="${param.searchType != null && param.page == null}">
+											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=1" >
+																${noticeList.board_title } </a></td>
+								   </c:if>
+								   
+								   
+								   
+										<c:if test="${param.searchType == null && param.page != null}">
+											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${param.page }" >${noticeList.board_title }  </a></td>
+										</c:if>
+										<c:if test="${param.searchType == null && param.page == null}">
+											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=1" >${noticeList.board_title } </a></td>
 										</c:if>
 												<td><span class="sendTime"
 														id="${status.count }"><fmt:formatDate
 																value="${noticeList.board_writeDate }" type="both"
 																pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
-												<td>${noticeList.board_likeCnt }</td>
+												<td>${noticeList.board_replyCnt }</td>
 												<td>${noticeList.board_viewCnt }</td>
 												<td>${noticeList.member_id }</td>
 								</tr>
