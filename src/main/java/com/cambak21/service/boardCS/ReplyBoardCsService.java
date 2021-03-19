@@ -8,9 +8,6 @@ import com.cambak21.dto.UpdateReplyCSBoardDTO;
 
 public interface ReplyBoardCsService {
 	
-	// refOrder Update
-	void updateRefOrder(InsertReplyCSBoardDTO dto) throws Exception;
-	
 	// 댓글 작성
 	void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception;
 	

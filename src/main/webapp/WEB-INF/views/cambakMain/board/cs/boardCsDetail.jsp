@@ -86,6 +86,7 @@
 		let step = 50;
 		
 		$.each(data, function(index, item) {
+			// step
 			if(item.replyBoard_step >= 1) {
 				let step = 20 * item.replyBoard_step;
 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
@@ -93,46 +94,57 @@
 				output += "<li id="+item.replyBoard_no+">";
 			}
 			
+			// 대댓글 이미지
 			if(item.replyBoard_refOrder > 0) {
-				output += "<div style='display:flex'><img src='/resources/cambak21/img/replyimg.png' width='20px' height='20px'><p class='comment-id'>"+item.member_id+"</p></div>";
+				output += "<div style='display:flex'><img src='/resources/cambak21/img/replyimg.png' width='15px' height='15px'><p class='comment-id'>"+item.member_id+"</p></div>";
 			} else {
 				output += "<p class='comment-id'>"+item.member_id+"</p>";
 			}
 			
-			// 현재 로그인한 회원과 작성자가 같으면 버튼 보이기
+			// 현재 로그인한 회원과 작성자가 같으면 버튼 보이기///////////////////
 			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
 				output += "<button type='button' class='btn' style='float:right' onclick='deleteReply("+item.replyBoard_no+")'>삭제</button>";
+				output += "<button type='button' class='btn' style='float:right' onclick='updateReplyForm("+item.replyBoard_no+")'>수정</button>";
+			}
+			//////////////////////////////////////////////////
+			
+			output += "<p class='comment-content' id='content"+item.replyBoard_no+"'>"+item.replyBoard_content+"</p></div>";
+			
+			// 작성날짜, 답글 버튼
+			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
+				output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
+				output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button></div>";	
 			}
 			
-			output += "<p class='comment-content'>"+item.replyBoard_content+"</p></div>";
-			output += "<p>" + date_to_str(new Date(item.replyBoard_writeDate)); + "</p>";
-			output += "<div class='"+item.replyBoard_no+"'><button type='button' class='btn' onclick='childReply("+item.replyBoard_no+");'>답글 달기</button></div>";
 			output += "</li>";
 		});
+		
 		$(".detail-bottom-comment").html(output);
 	};
 	
 	// 부모 댓글 작성 함수
 	function replyWrite() {
 		let board_no = "${board.board_no}";
+		
 		//===================== 현재 로그인한 회원 으로 바꾸기
 		let member_id = "${board.member_id}";
 		//============================================
 		let replyBoard_content = $("#replyBoard_content").val();
 		
-		
 		$.ajax({
 			type : "post",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			contentType : "application/json",
 			url : "/board/cs/reply/insert", // 서블릿 주소
-			data : {
+			data : JSON.stringify({
 				board_no : board_no,
 				member_id : member_id,
 				replyBoard_content : replyBoard_content
-			},
+			}),
 			success : function(data) {
 				replyList();
 				scrollMove();
+				ajaxStatus(data);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -167,14 +179,16 @@
 		$.ajax({
 			type : "post",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+			contentType : "application/json",
 			url : "/board/cs/reply/insert", // 서블릿 주소
-			data : {
+			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
 				member_id : member_id
-			},
+			}),
 			success : function(data) {
 				replyList();
+				ajaxStatus(data);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -186,14 +200,55 @@
 	// 댓글 삭제
 	function deleteReply(replyBoard_no) {
 		$.ajax({
-			type : "post",
+			type : "delete",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 			url : "/board/cs/reply/delete/" + replyBoard_no, // 서블릿 주소
 			success : function(data) {
 				replyList();
-				$("#modalText").text("댓글이 삭제 되었습니다");
-				$("#myModal").modal();
-				
+				ajaxStatus(data);
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
+	// 댓글 수정 폼 열기
+	function updateReplyForm(replyno) {
+		let replyBoard_no = "." + replyno;
+		let contentNo = "#content" + replyno;
+		let replyBoard_content = $(contentNo).text();
+		console.log(replyBoard_content);
+		
+		let output = "<div class='inputForm' style='display:flex'>";
+		output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"' value='"+replyBoard_content+"'>";
+		output += "<button type='button' class='btn btn-default' onclick='updateReply("+replyno+");'>댓글 수정</button>";
+		output += "<button type='button' class='btn btn-default' onclick='replyList();'>닫기</button>";
+		output += "</div>";
+		
+		$(replyBoard_no).html(output);
+	}
+	
+	// 댓글 수정 함수
+	function updateReply(replyno) {
+		// input창 id값
+		let replyId = "#replyId" + replyno;
+		// 위에 위치에 있는 input value 가져오기
+		let replyBoard_content = $(replyId).val();
+		
+		$.ajax({
+			type : "put",
+			dataType : "text", // 받을 데이터
+			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/board/cs/reply/update/" + replyno,// 서블릿 주소
+			data : JSON.stringify({
+				replyBoard_no : replyno,
+				replyBoard_content : replyBoard_content
+			}),
+			success : function(data) {
+				replyList();
+				ajaxStatus(data);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -204,12 +259,25 @@
 	
 	// 게시글 작성 후 작성한 글로 올때, 해당 작업 완료 알림창 띄우기
 	function statusOk() {
-		
 		if(${status == "writeOk"}) {
 			$("#modalText").text("글 작성이 완료 되었습니다");
 			$("#myModal").modal();
 		} else if (${status == "modiOk"}) {
 			$("#modalText").text("글 수정이 완료 되었습니다");
+			$("#myModal").modal();
+		}
+	}
+	
+	// 댓글 ajax 작업 후 Modal 띄우기
+	function ajaxStatus(msg) {
+		if(msg == "writeOk") {
+			$("#modalText").text("댓글 작성이 완료 되었습니다");
+			$("#myModal").modal();
+		} else if(msg == "deleteOk") {
+			$("#modalText").text("댓글이 삭제 되었습니다");
+			$("#myModal").modal();
+		} else if(msg == "updateOk") {
+			$("#modalText").text("댓글 수정이 완료 되었습니다");
 			$("#myModal").modal();
 		}
 	}

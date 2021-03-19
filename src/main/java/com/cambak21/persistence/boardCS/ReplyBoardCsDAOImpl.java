@@ -102,8 +102,8 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 
 	@Override
 	public int updateReplyBoardCS(UpdateReplyCSBoardDTO dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return ses.update(ns + ".updateReply", dto);
 	}
 
 	@Override
