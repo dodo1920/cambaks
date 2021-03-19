@@ -119,20 +119,4 @@ public class BoardCsServiceImpl implements BoardCsService {
 		return dao.searchBoardCStotalCnt(scri);
 	}
 
-	/**
-	  * @Method Name : getReplyCnt
-	  * @작성일 : 2021. 3. 15.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 게시글 리스트 제목옆에 댓글 수 출력을 위한...
-	  * @param board_no
-	  * @return
-	  * @throws Exception
-	  */
-	@Override
-	public int getReplyCnt(int board_no) throws Exception {
-		
-		return dao.getReplyCnt(board_no);
-	}
-	
 }

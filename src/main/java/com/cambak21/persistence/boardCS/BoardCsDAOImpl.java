@@ -91,12 +91,6 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 
 	}
 
-	@Override
-	public int getReplyCnt(int board_no) throws Exception {
-		
-		return ses.selectOne(ns + ".replyCnt", board_no);
-	}
-
 	/**
 	  * @Method Name : getBoard_no
 	  * @작성일 : 2021. 3. 17.

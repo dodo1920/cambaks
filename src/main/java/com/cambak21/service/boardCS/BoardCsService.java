@@ -44,7 +44,4 @@ public interface BoardCsService {
 
 	// 검색된 게시글 총 수 구하기 (페이징 하기 위한)
 	int searchBoardCStotalCnt(SearchCriteria scri) throws Exception;
-
-	// 댓글 갯수 구하기 (리스트에 출력용)
-	int getReplyCnt(int board_no) throws Exception;
 }

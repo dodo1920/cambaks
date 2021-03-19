@@ -50,8 +50,5 @@ public interface BoardCsDAO {
 
 	// 게시글 상세보기
 	BoardCsVO readBoardCS(int board_no) throws Exception;
-	
-	// 댓글 갯수 구하기 (리스트에 출력용)
-	int getReplyCnt(int board_no) throws Exception;
 
 }

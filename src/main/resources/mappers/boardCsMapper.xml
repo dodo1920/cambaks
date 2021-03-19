@@ -96,9 +96,4 @@
 		where board_no = #{board_no};
 	</select>
 
-	<!-- 댓글 갯수(리스트에 출력용) -->
-	<select id="replyCnt" resultType="int">
-		select count(*) from ReplyBoards where board_no = #{board_no};
-	</select>
-	
 </mapper>
