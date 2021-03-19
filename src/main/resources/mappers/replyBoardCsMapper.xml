@@ -42,9 +42,9 @@
 	</update>
 	
 	<!-- 댓글 삭제 -->
-	<delete id="deleteReply">
-		delete from ReplyBoards where replyBoard_no = #{replyBoard_no};
-	</delete>
+	<update id="deleteReply">
+		update ReplyBoards set replyBoard_content = '[삭제된 댓글입니다.]' where replyBoard_no = #{replyBoard_no};
+	</update>
 	
 	<!-- 댓글 리스트 -->
 	<select id="replyList" resultType="com.cambak21.domain.ReplyBoardVO">
