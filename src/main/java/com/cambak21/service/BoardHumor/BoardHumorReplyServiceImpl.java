@@ -24,4 +24,22 @@ public class BoardHumorReplyServiceImpl implements BoardHumorReplyService {
 		return rdao.read(board_no);
 	}
 
+	@Override
+	public void insert(ReplyBoardVO vo) throws Exception {
+		rdao.create(vo);
+		
+	}
+
+	@Override
+	public void delete(int board_no) throws Exception {
+		rdao.delete(board_no);
+		
+	}
+
+	@Override
+	public void update(ReplyBoardVO vo) throws Exception {
+		rdao.update(vo);
+		
+	}
+
 }
