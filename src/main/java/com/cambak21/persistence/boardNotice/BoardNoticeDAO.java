@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface BoardNoticeDAO {
 		// 공지사항 전체 불러오기
@@ -22,4 +23,8 @@ public interface BoardNoticeDAO {
 		public void updateNoticeReivewCnt(int no, int amount) throws Exception;
 		
 		public int removeNoticeBoard(int no) throws Exception;
+		
+		public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception;
+		
+		public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception;
 }

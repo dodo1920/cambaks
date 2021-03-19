@@ -10,7 +10,7 @@
   </select>
   
   <select id="getListCriteria" resultType="com.cambak21.domain.BoardVO">
-  		select * from Boards order by board_no desc limit #{pageStart}, #{perPageNum} 
+  		select * from Boards where board_category = 'notice' order by board_no desc limit #{pageStart}, #{perPageNum}
   </select>
   
   <select id="getTotalNoticeCnt" resultType="int">
@@ -18,7 +18,7 @@
   </select>
   
   <select id="noticeRead" resultType="com.cambak21.domain.BoardVO">
-  		select * from Boards where board_no = #{no}
+  		select * from Boards where board_no = #{no} 
   </select>
   
   <update id="noticeViewCnt">
@@ -56,6 +56,44 @@
   <delete id="removeNoticeBoard">
   		delete from Boards where board_no = #{board_no}
   </delete>
+  
+  <select id="noticeSearch" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where
+		
+		<if test="searchType == 'title'">
+			board_title like concat('%', #{searchWord}, '%')
+		</if>
+		
+		<if test="searchType == 'content'">
+			board_content like concat('%', #{searchWord}, '%')
+		</if>
+		
+		<if test="searchType == 'writer'">
+			member_id like concat('%', #{searchWord}, '%')
+		</if>
+		and board_category = 'notice' order by board_no desc limit #{pageStart}, #{perPageNum} 
+	</select>
+  
+	  <select id="getSearchTotalNoticeBoardCnt" resultType="int">
+			select count(*) from Boards where
+			
+		<if test="searchType == 'title'">
+			board_title like concat('%', #{searchWord}, '%')
+		</if>
+		
+		<if test="searchType == 'content'">
+			board_content like concat('%', #{searchWord}, '%')
+		</if>
+		
+		<if test="searchType == 'writer'">
+			member_id like concat('%', #{searchWord}, '%')
+		</if>
+			  
+	  </select>
+  
+  
+  
+  
   
   
 </mapper>

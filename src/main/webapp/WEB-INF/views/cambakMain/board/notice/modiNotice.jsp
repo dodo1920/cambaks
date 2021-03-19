@@ -49,141 +49,38 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 
 <script>
 
+	function checkModiForm(){
+		
+		
+		if($(".boardtextArea").val() == $("#prevBoardContext").val()){
+			alert("수정할 내용이 없습니다.");
+		}else if($("input[name=board_title]").val() == $("#prevBoardTitle").val()){
+			alert("수정할 제목이 없습니다.");
+		}else{
+			
+			$("#modiBoardNotice").submit();
+		}
+		
+		
+		
+	}
 
-function callReplyList(){
 	
-	let board_no = '${param.no}'
-	let output = '<ul class="list-group">';
-	
-	var date = new Date(1614677525000);
-	console.log(date.getFullYear());
-	console.log(date.getMonth());
-	console.log(date.getDay());
-	
-	var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDay();
-	
-	$.getJSON("/board/notice/getReply/" + board_no, function(data){
-		console.log(data[0].replyBoard_no);
-		$(data).each(function(index, item){
-			let go = Number(item.replyBoard_no);
-			$("#replyBoard_no").val(go);
-			let date111 = new Date(this.replyBoard_updateDate);
-			
-			output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
-			+ this.replyBoard_writeDate + '<img id="' + item.replyBoard_no + '" src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"><img src="/resources/cambak21/images/star2.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
-			'<div><span>' + this.member_id + '</span></div></li>';
-			
-		});
+	$(function(){
 		
-		output += "</ul>";
+		$("#prevBoardContext").val($(".boardtextArea").val());
+	  	$("#prevBoardTitle").val($("input[name=board_title]").val());
+	  
+	  
+	    let boardUri = searchUriAddress();
+	    asideBarDraw(boardUri);
+		 
 		
-		$("#replyBox").html(output);
 	});
-}	
-
-$(function(){
-	
-  	callReplyList();
-  	
-  	
-  });
-
-function goDelete(replyno){
-	
-	let no = replyno;
-		$.ajax({
-			method: "get",
-			url: "/board/notice/dropReply/" + no,
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-		"X-HTTP-Method-Override" : "DELETE"
-			},
-			dataType: "text", // 응답 받는 데이터 타입
-			data : no, 
-			success : function(result){
-				if(result == 'Success'){
-					alert('댓글 삭제 완료!');
-					callReplyList();
-				}
-			}
-		});
-	
-	
-}
-
-function modiProc(){
-		// 유효성 검사 하고...
-		
-		let replyBoard_content = $("#replyBoard_content").val();
-		let replyBoard_no = $("#replyBoard_no").val();
-		$.ajax({
-			method: "POST",
-			url: "/board/notice/modiReply/" + replyBoard_no,
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-		"Content-Type" : "application/json"
-			},
-		dataType: "text", // 응답 받는 데이터 타입
-			data : JSON.stringify({	// 요청하는 데이터
-		replyBoard_no : replyBoard_no,
-			replyBoard_content : replyBoard_content
-			}),
-			success : function(result){
-				console.log(result);
-				if(result == 'Success'){
-					alert('댓글 수정 완료!');
-					callReplyList();
-					modiboxclose();
-					
-				}
-			}
-		});
-		
-	};
-	
-function goModify(){
-	$("#modifyBox").show();
-}
-	
-function modiboxclose(){
-	$("#modifyBox").hide();
-}
-		
-function inputReplyBox1(){
-	$("#inputReplyBox").show();
-	
-	
-};
-
-
-function replyAddBtn(){
-		// 유효성 검사 하고...
-		let member_id = $("#newReplyMember").val();
-		let replyBoard_content = $("#newReplyContent").val();
-		let board_no = '${param.no}';
-		$.ajax({
-			method: "post",
-			url: "/board/notice/insertReply/",
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-			"Content-Type" : "application/json"
-			},
-			dataType: "text", // 응답 받는 데이터 타입
-			data : JSON.stringify({	// 요청하는 데이터
-		board_no : board_no,
-		member_id : member_id,
-			replyBoard_content : replyBoard_content
-			}),
-			success : function(result){
-				if(result == 'Success'){
-					alert('댓글 등록 완료!');
-					callReplyList();
-				}
-			}
-		});
-		
-	};
-
 
 </script>
 
@@ -208,13 +105,16 @@ function replyAddBtn(){
 	margin: 40px;
 
 }
+
 input:focus {outline:none;}
 textarea:focus {outline: none;}
 
 form, form input{
+	
 	color:black;
 	font-weight: 500;
 } 
+
 
 .boardtextArea{
     resize:none;
@@ -223,9 +123,24 @@ form, form input{
     color: black;
     resize: none;
     padding: 11px;
-    border: none;
+    border: solid 1px;
 }
    	
+#replyWindow{
+
+    width: 900px;
+    height: 400px;
+    margin: 40px;
+    overflow-x: hidden;
+
+}
+
+#buttonWindow{
+
+	margin: -45px 40px -15px;
+}
+
+
 </style>
 
 </head>
@@ -253,81 +168,30 @@ form, form input{
 					</section>
 				<!--  게시판 상세내용  -->	
 					<section>
-					<form>
+					<form id="modiBoardNotice" action="/board/notice/modi" method="post">
 					
 				    <div class="formContent"> 
 				    <div>
-				    <input type="text" readonly style="font-size:25px; font-weight:900;max-width: 750px;" name="board_title" value="${noticeBoard.board_title }" />
+				    <input type="text" style="font-size:25px; font-weight:900; width: 700px;" name="board_title" value="${noticeBoard.board_title }" />
 <%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
-         			<input type="submit" class="btn btn-success"/ >수정 완료
+         			
+         			<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }'">수정 취소</button>
+         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="checkModiForm();">수정 완료</button>
 <%-- 				    </c:if> --%>
 		            </div>
 		              <div>
-		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
-				    <span style="margin-left:15px;">작성자: <input readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				    </div>
+		            <span style="margin-left:15px;">작성자: <input style="border:none;" readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
+				   </div>
 		               <div>
 		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <textarea readonly name="board_content"  class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
+				    <textarea name="board_content" class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
 				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
 		            </div>
 		               
             </form>
         </section>   
         <!--  로그인 한 유저와 작성자가 같을 때만 수정하기 삭제하기 버튼이 보여짐  -->
-        <c:if test="${loginMember.uid == board.writer }">	
-         
-         <button type="button" class="btn btn-info" id="deleteBoard" onclick="location.href='/board/notice/remove/${noticeBoard.board_no}'">삭제하기</button>
-         </c:if>
-	
-		<c:choose>
-			<c:when test='${param.searchType != null }'>
-		<button type="button" class="btn btn-primary" onclick="location.href='search?searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page }'">리스트페이지로</button>
-		
-			</c:when>
-			<c:otherwise>
-				<button type="button" class="btn btn-primary" onclick="location.href='/board/notice/listCri?page=${param.page}'">리스트페이지로</button>
-				
-			</c:otherwise>
-		</c:choose>
-
-<%--       <c:if test="${loginMember != null }"> --%>
-      <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button>
-<%--       </c:if> --%>
-      <div id="inputReplyBox" style="board: 1px dotted black; display:none;">
-      	
-          <div>
-         	     
-      	댓글 입력 : <input type="text" name="replyBoard_content" id="newReplyContent" />
-      </div>
-        <div>
-<%--       	작성자 : <input type="text" name="replyer" id="newReplyWriter" value="${loginMember.uid }"/> --%>
-      	작성자 : <input type="text" name="member_id" id="newReplyMember" />
-      </div>
-      
-   
-      <button type="button" id="replyAddBtn" class="btn btn-primary" onclick="replyAddBtn();">ADD Reply</button>
-      
-      </div>
-    
-    
-      <div id="replyBox">
-      		
-      </div>
-      
-           <div id="modifyBox" style="display:none;">
-        	<div> 댓글 수정</div>
-        	<div>
-        		<input type="hidden" name="replyBoard_no" id="replyBoard_no" />
-        		<input type="text" id="replyBoard_content" name="replyBoard_content">
-        		<button type="button" id="replyModBtn" onclick="modiProc();">수정</button>
-        		<button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button>
-        	
-        	</div>
-        </div>
-      
-       <div id="replyBox12" style="padding : 10px; border-bottom : 1px solid black; height: 5px;"></div>
-	
+  
 					
 			</div>
 		</div>
@@ -337,6 +201,8 @@ form, form input{
 
 	<%@include file="../../cambak21Footer.jsp"%>
 
+	<input type="hidden" id="prevBoardTitle" />
+	<input type="hidden" id="prevBoardContext" />
 
 </body>
 
