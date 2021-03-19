@@ -15,7 +15,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/skel-panels.min.js"></script>
+<script src="/resources/cambak/21js/skel-panels.min.js"></script>
 <script src="/resources/cambak21/js/init.js"></script>
 
 <link rel="icon" type="image/x-icon"
@@ -49,32 +49,29 @@
 </style>
 
 <script>
-   $(document).ready(function() {
-      // 말 줄임 ...
-      textLimit();
-      
-      // 공지사항 롤링
-      rolling();
-      
-      let boardUri = searchUriAddress();
-      asideBarDraw(boardUri);
-      
-      
-      
-   });
-   
-   // 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
-   function searchUriAddress() {
-       var url = location.href; //url주소
-       var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
-      return params[0]; // board/OO/??/??  OO만 반환
-   }
-   
-   // 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
-   function asideBarDraw(boardUri) {
-       $("#" + boardUri + "Aside").attr("class", "active");
-   }
-   
+	$(document).ready(function() {
+		// 말 줄임 ...
+		textLimit();
+
+		// 공지사항 롤링
+		rolling();
+
+// 		let boardUri = searchUriAddress();
+		asideBarDraw(searchUriAddress());
+
+	});
+
+	// 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
+	function searchUriAddress() {
+		var url = location.href; //url주소
+		var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
+		return params[0]; // board/OO/??/??  OO만 반환
+	}
+
+	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
+	function asideBarDraw(boardUri) {
+		$("#" + boardUri + "Aside").attr("class", "active");
+	}
 </script>
 </head>
 
@@ -90,111 +87,61 @@
 				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
-				<div class="content-wrapper">
+				<div id="content" class="8u skel-cell-important">
+					<section>
+						<header>
+							<h2>고객센터</h2>
+							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
+									자리입니다.</a></span>
+						</header>
+						<%@include file="../../cambak21Search&Write.jsp"%>
+					</section>
+					<div>
+						<div>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th class="board-title">제목</th>
+										<th>작성자</th>
+										<th>작성일</th>
+										<th>조회수</th>
+									</tr>
+								</thead>
+								<tbody>
 
-		<c:choose>
-			<c:when test="${boardList != null }">
-				<table class="table table-condensed">
-					<thead>
-						<tr>
-							<th>글번호</th>
-							<th>글제목</th>
-							<th>작성자</th>
-							<th>작성일</th>
-							<th>조회수</th>
+									<c:forEach var="item" items="${boardList }">
+										<tr>
+											<td>${item.board_no }</td>
+											<td><a href="../campingreview/detail?no=${item.board_no }"
+												class="board-title-a">${item.board_title }</a> <c:if
+													test="${item.replyCnt > 0 }">
+													(${item.replyCnt })
+												</c:if></td>
+											<td>${item.member_id }</td>
+											<td><fmt:formatDate value="${item.board_writeDate }"
+													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											<td>${item.board_viewCnt }</td>
+										</tr>
+									</c:forEach>
 
-						</tr>
-					</thead>
-					<c:forEach var="board" items="${boardList }" varStatus="status">
-						<c:choose>
-							<c:when test='${board.isdelete == "Y" }'>
-								<tr>
-									<td><strike>${board.no }</strike></td>
-									<td><strike> ${board.title } </strike></td>
-									<td><strike>${board.writer }</strike></td>
-									<td><strike><span class="sendTime"
-											id="${status.count }"><fmt:formatDate
-													value="${board.regdate }" type="both"
-													pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
-									<td><strike>${board.viewcnt }</strike></td>
-
-								</tr>
-							</c:when>
-
-
-							<c:otherwise>
-								<tr>
-									<td>${board.no }</td>
-									<td><a href="/board/read?no=${board.no }&page=${param.page}">
-											${board.title } </a></td>
-									<td>${board.writer }</td>
-									<td><span class="sendTime" id="${status.count }"><fmt:formatDate
-												value="${board.regdate }" type="both"
-												pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
-									<td>${board.viewcnt }</td>
-
-								</tr>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</table>
-
-
-
-				<div>
-					<button type="button" class="btn btn-info" style="float: right;"
-						onclick="location.href='/board/register';">글쓰기</button>
-				</div>
-				
-				<div>
-					<form action="/board/search" method="GET">
-					<select name="searchType">
-						<option value="n">----------------------</option>
-						<option value="title">제목</option>
-						<option value="content">내용</option>
-						<option value="writer">작성자</option>
-					</select>
-					<input type="text" name="searchWord" placeholder="검색어 입력..."/>
-					<input type="submit" id="goSearch" value="검색"/>
-					
-					</form>
+								</tbody>
+							</table>
+						</div>
+						<div class="pageBtn">
+							<ul class="pagination">
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>
 
- 				<div class="text-center">
-				<ul class="pagination">
-					<c:if test="${pagingParam.prev }">
-						<li class="page-item">
-							<a class="page-link" href="listCri?page=${param.page - 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">prev</a>
-						</li>
-					</c:if>
-					
-						<c:forEach begin="${pagingParam.startPage }"
-							end="${pagingParam.endPage }" var="pageNo">
-							<li class="page-item"><a class="page-link"
-								href="listCri?page=${pageNo }&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a>
-							</li>
-						</c:forEach>
-					
-					<c:if test="${pagingParam.next }">
-						<li class="page-item">
-							<a class="page-link" href="listCri?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">next</a>
-						</li>
-					</c:if>
-					</ul>
-					
-				</div>
-
-			</c:when>
-			<c:otherwise>
-				게시물이 존재하지 않거나, 데이터를 얻오지 못했습니다.
-			
-			</c:otherwise>
-		</c:choose>
-
- </div>
- </div>
- </div>
-
+			</div>
+		</div>
 	</div>
 	<!-- /Main -->
 
