@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -17,28 +18,88 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
     
     <!-- Kim Jeong Min Table Css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
+    <!-- Kim Jeong Min star rating bootStrap -->
+ 	<meta name="description" content="">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../../resources/mallMain/css/starrr.js"></script>
+    
     <script type="text/javascript">
-	function showContent(obj) {
-		let test = $(obj).attr("id");
-		let showTest = "test" + test;
-		$("#test" + test).show()
-	}
+    $(function() {
+		alert("!");
+		
+		callProdBoardList();
+		
+		showStars();
+		});
 
+	 // 게시글 title 클릭 시, content를 보여주는 부분
+		function showContent(obj) {
+			let test = $(obj).attr("id");
+			let showTest = "test" + test;
+			$("#test" + test).show()
+		}
+	 
+	 // 별점에 따른 별 개수를 표현하는 부분
+	 function showStars() {
+		 //별점 표시 부분
+		 var check = $(".starsCnt").attr("value");
+			$('.starrr').starrr({
+				 rating: 1,
+				 readOnly: true
+			})
+	}
+	 
+    </script>
+    
+    
+    <script type="text/javascript">
+	 
+
+    // ajax로 게시판 게시글 출력 부분
+    function callProdBoardList() {
+    let product_id = 4;
+    var counting = 0;
+    
+    
+      let output = '<div class="container">';
+      output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+      $.getJSON("/cambakMall/prodReviews1/" + product_id, function(data) {
+         console.log(data)
+         
+         $(data).each(function(index, item) {
+            output += '<tr><td>' + item.prodReview_no + '</td><td><div id="' + item.prodReview_no + '" onclick="showContent(this);">' + item.prodReview_title; + '</div></td>';
+            output += '<td class="stars" id="star' + item.prodReview_no + '">' + item.prodReview_grade + '<div class="starrr"></div></td>';
+            output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
+            output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
+            output += '<tr id="test' + item.prodReview_no +'" style="display: none">';
+            output += '<td colspan="6"><div>' + item.prodReview_content + '</div><div></div></td></tr>';
+            
+            counting += 1;
+         });
+         
+         output += '</table></div>';
+         
+         $("#prodBoardList").html(output);
+      });
+   }
+    
     </script>
 </head>
 <body>
@@ -76,24 +137,24 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__left product__thumb nice-scroll">
                             <a class="pt active" href="#product-1">
-                                <img src="../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-2">
-                                <img src="../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-3">
-                                <img src="../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
                             </a>
                             <a class="pt" href="#product-4">
-                                <img src="../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
+                                <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
                             </a>
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="../resources/mallMain/img/product/details/product-1.jpg" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="../resources/mallMain/img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="../resources/mallMain/img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="../resources/mallMain/img/product/details/product-4.jpg" alt="">
+                                <img data-hash="product-1" class="product__big__img" src="../../resources/mallMain/img/product/details/product-1.jpg" alt="">
+                                <img data-hash="product-2" class="product__big__img" src="../../resources/mallMain/img/product/details/product-3.jpg" alt="">
+                                <img data-hash="product-3" class="product__big__img" src="../../resources/mallMain/img/product/details/product-2.jpg" alt="">
+                                <img data-hash="product-4" class="product__big__img" src="../../resources/mallMain/img/product/details/product-4.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -225,6 +286,7 @@
 						                     <tr>
 						                        <th>글번호</th>
 						                        <th>글제목</th>
+						                        <th>만족도</th>
 						                        <th>작성자</th>
 						                        <th>작성일</th>
 						                        <th>좋아요</th>
@@ -235,8 +297,8 @@
 						                  		<c:when test="${board.prodReview_isDelete == 'Y' }">
 						                  			<tr>
 						                        <td><strike>${board.prodReview_no }</strike></td>
+						                        <td><strike>${board.prodReview_grade }</strike></td>
 						                        <td>
-						                        
 						                        <strike>${board.prodReview_title}</strike>
 						                        </td>
 						                        <td><strike>${board.member_id }</strike></td>
@@ -251,35 +313,70 @@
 						                     <tr>
 						                        <td>${board.prodReview_no }</td>
 						                        <td>
-						
-						                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }
-						                        
-						                        </div> 
+						                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }</div> 
 						                        </td>
+						                        <td>
+						                        <div class="starrr"></div></td>
 						                        <td>${board.member_id }</td>
 						                        <td><span class="sendTime" id="${status.count }">
 						                        <fmt:formatDate value="${board.prodReview_postDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 						                        </span></td>
 						                        <td>${board.prodReview_likeCnt }</td>
-						                        
 						                     </tr>
+						                     
+						                     <!-- 별점 표시를 위한 bootStrap 부분 -->
+						                     <script>
+						                     var check = $(".starsCnt").attr("value");
+									               $('.starrr').starrr({
+									            	   rating: ${board.prodReview_grade },
+									            	   readOnly: true
+									            	 })
+								               </script>
+								             
 						                     <tr id="test${board.prodReview_no}" style="display: none">
-							                     <td colspan="5">
+							                     <td colspan="6">
 							                     	 <div>${board.prodReview_content }</div>
+							                     	 <div></div>
 								                     <!-- <input type="text" id="test${board.prodReview_no}" value="${board.prodReview_content }" readonly="readonly" style="display: none"/> -->
 								                 </td>
 						                     </tr>
+						                     
+						                     
 						                     </c:otherwise>
 						                     </c:choose>
 						                  </c:forEach>
 						               </table>
 						               
-						               <div>
-						                  <button type="button" class="btn btn-success" onclick="location.href='/board/register'">글쓰기</button>
-						                  <button type="button" class="btn btn-info" onclick="location.href='/board/register'">글쓰기</button>
+						               <!-- 페이징 부분 -->
+						               <div class="text-center">
+						               <ul class="pagination">
+							               <li class="page-item">
+						            	     <a class="page-link" href="listCri?page=1">처음 페이지로</a>
+						            	   </li>
+						            	   <c:if test="${pagingParam.prev }">
+							                  <li class="page-item">
+							                     <a class="page-link" href="?page=${param.page -1 }">prev</a>
+							                  </li>
+							               </c:if>
+						            	   <c:forEach begin="${pagingParam.startPage }"
+							                     end="${pagingParam.endPage }" var="pageNo">
+							                     <li class="page-item"><a class="page-link" href="?page=${pageNo }">${pageNo }</a>
+							                      </li>
+						                   </c:forEach>
+						               </ul>
 						               </div>
 						               
 						               
+						               
+						               
+						               <!-- 글쓰기 버튼 -->
+						               <div class="form-row float-right">
+						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
+						                  <button type="button" class="btn btn-success" onclick="callProdReviewsList();">테스트</button>
+						                  
+						               </div>
+						               
+						               <div id="prodBoardList"></div>
 									</c:when>
 								<c:otherwise>
 									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
@@ -319,7 +416,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-1.jpg">
                             <div class="label new">New</div>
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
@@ -342,7 +439,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-2.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-2.jpg">
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -364,7 +461,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-3.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-3.jpg">
                             <div class="label stockout">out of stock</div>
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
@@ -387,7 +484,7 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../resources/mallMain/img/product/related/rp-4.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-4.jpg">
                             <ul class="product__hover">
                                 <li><a href="../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
@@ -429,16 +526,16 @@
 
 
 <!-- Js Plugins -->
-<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-<script src="../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../../resources/mallMain/js/main.js"></script>
 
 
 </body>

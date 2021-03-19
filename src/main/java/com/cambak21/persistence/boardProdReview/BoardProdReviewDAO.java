@@ -3,11 +3,12 @@ package com.cambak21.persistence.boardProdReview;
 import java.util.List;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface BoardProdReviewDAO {
 
 	// 게시글 작성
-	//public int insert(ProdReviewVO vo) throws Exception;
+	public int insert(ProdReviewVO vo) throws Exception;
 	
 	// 글번호로 게시글 상세 조회
 	//public ProdReviewVO readProdBoard(int no) throws Exception;
@@ -19,15 +20,15 @@ public interface BoardProdReviewDAO {
 	//public int delete(int no) throws Exception;
 	
 	// 전체 글 출력
-	public List<ProdReviewVO> listProdBoard() throws Exception;
+	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 	
 	// 페이징
-	//public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception;
 	
-	//public List<ProdReviewVO> listBoardCriteria(PagingCriteria cri) throws Exception;
+	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 	
 	// 전체 게시글 수 가져오기
-	//public int getTotalBoardCnt() throws Exception;
+	public int getTotalBoardCnt() throws Exception;
 	
 	
 	// 검색 결과 전체 글 수 가져오기

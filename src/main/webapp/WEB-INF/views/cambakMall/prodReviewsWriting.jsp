@@ -17,14 +17,14 @@
     rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
     
     <!-- Kim Jeong Min board editor -->
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
@@ -33,12 +33,16 @@
 	<!-- <script src="/resources/js/summernote-ko-KR.js"></script> -->
 	
 	<!-- Kim Jeong Min star rating bootStrap -->
-	<script src="../resources/cambak21/lib/jquery.raty.js"></script>
- 
+ 	<meta name="description" content="">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/starrr.css" type="text/css">
+    <script src="../../resources/mallMain/css/starrr.js"></script>
     
 	<script type="text/javascript">
-	$('#star').raty();
+
 	</script>
+	
 </head>
 <body>
 
@@ -54,19 +58,34 @@
 		       	  <div class="my-5">
 		          	<h3>상품후기 작성</h3>
 		          	<div class="form-group">
-		               	  <div class="form-row float-left">
-		               	  	<!-- use full stars only -->
-								<div class='rating-stars text-center'>
-								    <div id="star"></div>
-							  </div>
+		               	  <div class="text-center">
+							    <div class='starrr' id='star1'></div>
+							    <div>&nbsp;
+							      <span class='your-choice-was' style='display: none;'>
+							        당신의 평가는 별 <span class='choice'></span>개 입니다.
+							      </span>
+							      <span class='your-choice-is'>
+							        상품후기 점수를 선택해주세요!
+							      </span>
+							    </div>					  
+							  <!-- 별점 표시 적용 부분 -->
+							  <script>
+							    $('#star1').starrr({
+							      change: function(e, value){
+							        if (value) {
+							          $('.your-choice-is').hide();
+							          $('.your-choice-was').show();
+							          $('.choice').text(value);
+							          $('#prodReview_grade').val(value);
+							        } else {
+							          $('.your-choice-was').hide();
+							        }
+							      }
+							    });
+							  </script>
 		                  </div>
 		              </div>
-		          	<div class="form-group">
-		               	  <div class="form-row float-right">
-			                  <button type="submit" class="btn btn-success">저장하기</button>
-			                  <button type="button" class="btn btn-primary" onclick="location.href='/board/listAll'">목록</button>
-		                  </div>
-		              </div>
+		          	
 		          </div>
 		       </div>
 		    </div>
@@ -77,11 +96,19 @@
         <div class="container">
             <div class="row">
 				<div class="col-lg-12">
-					<form action="" method="post">
-					<input type="hidden" id="product_id" name="product_id" value=""/>
-					<input type="hidden" id="member_id" name="member_id" value=""/>
-					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value=""/>
+					<form action="/cambakMall/writingProdReviews" method="post">
 					
+					<input type="hidden" id="product_id" name="product_id" value="4"/>
+					<input type="hidden" id="member_id" name="member_id" value="fff"/>
+					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
+					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
+					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value="3"/>
+					<div class="form-group">
+		               	  <div class="form-row float-right">
+			                  <button type="submit" class="btn btn-success">저장하기</button>
+			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMall/prodReviews'">목록</button>
+		                  </div>
+		            </div>
 					<div class="form-group">
 		                  <input type="text" class="form-control" id="prodReview_title" name="prodReview_title" placeholder="제목을 입력해 주세요."/>
 		            </div>
