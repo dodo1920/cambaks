@@ -54,7 +54,8 @@
     <script type="text/javascript">
     $(function() {
 		
-		callProdBoardList();
+		//callProdBoardList();
+		
 		
 		});
 
@@ -100,7 +101,7 @@
     
       let output = '<div class="container">';
       output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
-      $.getJSON("/cambakMall/prodReviews1/" + product_id, function(data) {
+      $.getJSON("/cambakMall/prodReviews/" + product_id, function(data) {
          console.log(data)
          
          $(data).each(function(index, item) {
@@ -120,7 +121,97 @@
       });
    }
     
-    
+    // 상품평 배너 클릭시 ajax로 기본 게시글 호출
+    function showProdList(pageNum) {
+    	let product_id = 4;
+    	
+    	let output = '<div class="container">';
+        output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+        
+    	$.ajax({
+	        type		: "get",
+	        url 		: "/cambakMall/prodReviews/" + product_id,
+	        //data		:  JSON.stringify(data), 
+	        contentType : "application/json",
+	        success 	: function(data) {
+	        	let prodList = data.prodList;
+	        	let pagingParam = data.pagingParam;
+	        	console.log(prodList);
+	        	console.log(pagingParam);
+	        	
+	        	 $(prodList).each(function(index, item) {
+	                 output += '<tr><td>' + item.prodReview_no + '</td><td><div id=' + item.prodReview_no + ' onclick="showContent1(this);">' + item.prodReview_title; + '</div></td>';
+	                 output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
+	                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
+	                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
+	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
+	                 output += '<td colspan="6"><div>' + item.prodReview_content + '</div></td></tr>';
+	     			 output += '<tr style="display: none"><td>' + item.prodReview_grade + '</td></tr>';
+					 
+	        	  });
+
+	              output += '</table>';
+	              
+	              
+	              
+	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
+	              
+	              $(pagingParam).each(function(index, item) {
+	            	  pageOutput += '<a class="page-link" onclick="showProdList(this);" id="1" >처음페이지로</a></li>';
+	            	  pageOutput += '<li class="page-item"><a class="page-link" href="?page=">prev</a></li>';
+	            	  
+	              });
+	              
+	              pageOutput += '</ul></div></div>';
+	              $("#prodBoardList").html(output);
+	              $("#prodBoardListPage").html(pageOutput);
+	              
+	        }, // end of Success
+	        error		: function(error) {
+	        	console.log(error);
+	        }
+	    });
+	}
+
+ 	// 페이지 번호 클릭시 해당 번호를 ajax-post로 호출
+    function pagingList(obj) {
+    	let clickPage = $(obj).attr("id");
+    	let product_id = 4;
+		console.log(clickPage);
+		let output = '<div class="container">';
+	      output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+	      
+		 $.ajax({
+		        type		: "post",
+		        url 		: "/cambakMall/prodReviews/" + product_id,
+		        //data		:  JSON.stringify(data), 
+		        contentType : "application/json",
+		        success 	: function(data) {
+		        	console.log(data);
+		        	
+		        	
+		        	
+		        	 $(data).each(function(index, item) {
+		                 output += '<tr><td>' + item.prodReview_no + '</td><td><div id=' + item.prodReview_no + ' onclick="showContent1(this);">' + item.prodReview_title; + '</div></td>';
+		                 output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
+		                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + item.prodReview_postDate + '</span></td>';
+		                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
+		                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
+		                 output += '<td colspan="6"><div>' + item.prodReview_content + '</div></td></tr>';
+		     			output += '<tr style="display: none"><td>' + item.prodReview_grade + '</td></tr>';
+
+		              });
+		              
+		              output += '</table></div>';
+		              
+		              $("#prodBoardList").html(output);
+		        },
+		        error		: function(error) {
+		        	console.log(error);
+		        }
+		    });
+		
+	}
     
     </script>
 </head>
@@ -272,7 +363,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">상품평( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();">상품평( 2 )</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
@@ -301,6 +392,9 @@
                                 <div>
                                 
 						     	<div class="container">
+						     	<div id="prodBoardList"></div>
+								<div id="prodBoardListPage"></div>
+								
 								<c:choose>
 									<c:when test="${boardList != null}">
 										<table class="table table-hover">
@@ -382,7 +476,7 @@
 							               </c:if>
 						            	   <c:forEach begin="${pagingParam.startPage }"
 							                     end="${pagingParam.endPage }" var="pageNo">
-							                     <li class="page-item"><a class="page-link" href="?page=${pageNo }">${pageNo }</a>
+							                     <li class="page-item"><a class="page-link" onclick="pagingList(this);" id="${pageNo }">${pageNo }</a>
 							                      </li>
 						                   </c:forEach>
 						               </ul>
@@ -398,7 +492,6 @@
 						                  
 						               </div>
 						               
-						               <div id="prodBoardList"></div>
 									</c:when>
 								<c:otherwise>
 									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
