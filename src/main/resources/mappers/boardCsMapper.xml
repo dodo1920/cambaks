@@ -91,5 +91,13 @@
 		from Boards b
 		where board_no = #{board_no};
 	</select>
+	
+	<select id="prevNo" resultType="String">
+		select board_no from Boards where board_no > #{board_no} and board_category = 'CS' order by board_no asc limit 1;
+	</select>
+	
+	<select id="nextNo" resultType="String">
+		select board_no from Boards where board_no &lt; #{board_no} and board_category = 'CS' order by board_no desc limit 1;
+	</select>
 
 </mapper>

@@ -318,7 +318,10 @@
 
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
-
+	
+	function checkNext(no) {
+		$("#nextBtn").attr("href", "../cs/detail?no=0");
+	}
 	
 </script>
 </head>
@@ -370,11 +373,27 @@
 							</div>
 						</div>
 						<div class="detail-content">${board.board_content }</div>
+
+						<div class="prevNextBtns">
+							<c:if test="${prev != null }">
+								<a href="../cs/detail?no=${prev }" id="prevBtn">
+									<button type="button" class="btn btn-default detailPrev">이전글</button>
+								</a>
+							</c:if>
+
+							<a href="../cs/detail?no=${next }" id="listBtn">
+									<button type="button" class="btn btn-default detailNext">목록보기</button>
+							</a>
+
+							<c:if test="${next != null }">
+								<a href="../cs/detail?no=${next }" id="nextBtn">
+									<button type="button" class="btn btn-default detailNext">다음글</button>
+								</a>
+							</c:if>
+						</div>
 						<div class="recommend-btn">
+
 							<button type="button" class="btn btn-danger">추천</button>
-
-
-
 
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
@@ -383,17 +402,16 @@
 							<button type="button" class="btn btn-danger"
 								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
 
-
-
-							
-
 						</div>
+
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
-								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요"
+									id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success"
+									onclick="replyWrite();">댓글 작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
@@ -421,8 +439,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">알림</h4>
 				</div>
-				<div class="modal-body" id="modalText">
-				</div>
+				<div class="modal-body" id="modalText"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
