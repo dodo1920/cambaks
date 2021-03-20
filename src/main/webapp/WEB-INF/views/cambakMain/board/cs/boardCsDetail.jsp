@@ -83,16 +83,27 @@
 	// 댓글 리스트 출력 함수
 	function listOutput(data) {
 		let output = "";
-		let step = 50;
+		let goStep = 20;
 		
 		$.each(data, function(index, item) {
 			// step
-			if(item.replyBoard_step >= 1) {
-				let step = 20 * item.replyBoard_step;
-				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
-			} else {
+			// 홀수 짝수 지그재그 출력을 위한...
+			let subStep = item.replyBoard_step.toString().substr(0, 1);
+			
+			if(item.replyBoard_step == 0) {
+				// 부모 댓글 일 때
 				output += "<li id="+item.replyBoard_no+">";
-			}
+			} else if(item.replyBoard_step <= 10) {
+				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(item.replyBoard_step * 2)+"%'>";
+			} else if(subStep % 2 != 0) {
+				// step의 10의 자리가 10, 30, 50 ... 홀수 일때
+				goStep = goStep - 2;
+ 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+goStep+"%'>";
+			} else if(subStep % 2 == 0) {
+				// step의 10의 자리가 20, 40, 60 ... 짝수 일때
+				goStep = goStep + 2;
+ 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+goStep+"%'>";
+			} 
 			
 			// 대댓글 이미지
 			if(item.replyBoard_refOrder > 0) {
@@ -143,8 +154,8 @@
 			}),
 			success : function(data) {
 				replyList();
-				scrollMove();
 				ajaxStatus(data);
+				scrollMove();
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
