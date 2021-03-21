@@ -9,6 +9,7 @@ import com.cambak21.dto.ResellBoardDeteDTO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.dto.ResellLikeBoardInsertDTO;
 
+
 public interface ResellBoardDAO {
 	
 	// C Ra R U D
@@ -23,7 +24,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardInsert(ResellLikeBoardInsertDTO dto)throws Exception;
+	public int ResellBoardInsert(ResellBoardVO vo)throws Exception;
 	
 	
 	/**
@@ -72,7 +73,18 @@ public interface ResellBoardDAO {
 	 * @throws Exception
 	 */
 	public int ResellBoardReadCnt(SearchCriteria scri)throws Exception;
-	
+
+	/**
+	 * @Method Name : ResellBoardRead
+	 * @작성일 : 2021. 3. 20.
+	 * @작성자 : ktehun
+	 * @변경이력 : 
+	 * @Method 설명 :ResellBoard안에 특정 글의 자세한 내용을 자져옴
+	 * @param no
+	 * @return
+	 * @throws Exception
+	 */
+	public ResellBoardVO ResellBoardReadDetail(int no)throws Exception;
 	/**
 	 * @Method Name : ResellBoardUpdate
 	 * @작성일 : 2021. 3. 12.
@@ -97,7 +109,7 @@ public interface ResellBoardDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardDelete(ResellBoardDeteDTO dto)throws Exception;
+	public int ResellBoardDelete(int no)throws Exception;
 	
 	/**
 	 * @Method Name : viewcnt

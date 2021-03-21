@@ -74,5 +74,7 @@
 <update id="ResellBoardUpdateReply">
 	update ResellBoards set resellBoard_replyCnt = #{amount} where resellBoard_no =#{no};
 </update>
-  
+  <select id="ResellBoardReadDetail" resultType="com.cambak21.domain.ResellBoardVO">
+  	select * FROM ResellBoards where resellBoard_no = #{no}
+  </select>
   </mapper>

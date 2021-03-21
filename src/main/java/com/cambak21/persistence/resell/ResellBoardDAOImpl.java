@@ -21,9 +21,9 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 	private SqlSession ses;
 	private String namespace ="com.cambak21.mapper.ResellBoardMapper";
 	@Override
-	public int ResellBoardInsert(ResellLikeBoardInsertDTO dto) throws Exception {
+	public int ResellBoardInsert(ResellBoardVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.insert(namespace+".ResellBoardInsert",dto);
+		return ses.insert(namespace+".ResellBoardInsert",vo);
 	}
 	@Override
 	public List<ResellBoardVO> ResellBoardReadAll(PagingCriteria cri) throws Exception {
@@ -52,13 +52,14 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 	}
 	@Override
 	public int ResellBoardUpdate(ResellBoardUpdateDTO dto) throws Exception {
+		System.out.println(dto);
 		// TODO Auto-generated method stub
 		return ses.update(namespace+".ResellBoardUpdate",dto);
 	}
 	@Override
-	public int ResellBoardDelete(ResellBoardDeteDTO dto) throws Exception {
+	public int ResellBoardDelete(int no) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.update(namespace+"ResellBoardDelete",dto);
+		return ses.update(namespace+".ResellBoardDelete",no);
 	}
 	@Override
 	public void ResellBoardViewcnt(int no) throws Exception {
@@ -72,6 +73,11 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 		param.put("no", no);
 		ses.update(namespace+".ResellBoardUpdateReply",param);
 		
+	}
+	@Override
+	public ResellBoardVO ResellBoardReadDetail(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(namespace+".ResellBoardReadDetail",no);
 	}
 
 	

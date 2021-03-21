@@ -2,6 +2,7 @@ package com.cambak21.service.resell;
 
 import java.util.List;
 
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 
 public interface ResellBoardReplyService {
@@ -15,7 +16,7 @@ public interface ResellBoardReplyService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean ResellBoardReplyInsert(ResellBoardVO vo)throws Exception;
+	public boolean ResellBoardReplyInsert(ReplyResellVO vo)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardReplyRead

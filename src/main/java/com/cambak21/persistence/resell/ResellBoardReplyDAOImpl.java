@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 @Repository
 public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
@@ -14,7 +15,7 @@ public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
 	private SqlSession ses;
 	private String namespace ="com.cambak21.mapper.ResellBoardReplyMapper";
 	@Override
-	public int ResellBoardReplyInsert(ResellBoardVO vo) throws Exception {
+	public int ResellBoardReplyInsert(ReplyResellVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return ses.insert(namespace+".ResellBoardReplyInsert",vo);
 	}

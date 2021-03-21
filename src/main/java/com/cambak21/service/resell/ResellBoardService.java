@@ -20,7 +20,7 @@ public interface ResellBoardService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean ResellBoardInsert(ResellLikeBoardInsertDTO dto)throws Exception;
+	public boolean ResellBoardInsert(ResellBoardVO vo)throws Exception;
 	
 	
 	/**
@@ -94,7 +94,7 @@ public interface ResellBoardService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean ResellBoardDelete(ResellBoardDeteDTO dto)throws Exception;
+	public boolean ResellBoardDelete(int no)throws Exception;
 	
 	/**
 	 * @Method Name : viewcnt
@@ -118,4 +118,15 @@ public interface ResellBoardService {
 	 * @throws Exception
 	 */
 	public void ResellBoardUpdateReply(int no,int amount) throws Exception;
+	/**
+	 * @Method Name : ResellBoardRead
+	 * @작성일 : 2021. 3. 20.
+	 * @작성자 : ktehun
+	 * @변경이력 : 
+	 * @Method 설명 :ResellBoard안에 특정 글의 자세한 내용을 자져옴
+	 * @param no
+	 * @return
+	 * @throws Exception
+	 */
+	public ResellBoardVO ResellBoardReadDetail(int no) throws Exception;
 }

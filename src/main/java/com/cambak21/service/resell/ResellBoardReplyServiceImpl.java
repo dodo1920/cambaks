@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.resell.ResellBoardDAO;
 import com.cambak21.persistence.resell.ResellBoardReplyDAO;
@@ -16,7 +17,8 @@ public class ResellBoardReplyServiceImpl implements ResellBoardReplyService {
 	@Inject
 	private ResellBoardDAO bdao;
 	@Override	
-	public boolean ResellBoardReplyInsert(ResellBoardVO vo) throws Exception {
+	public boolean ResellBoardReplyInsert(ReplyResellVO vo) throws Exception {
+		System.out.println("service : "+vo);
 		boolean result = false;
 		int i = rdao.ResellBoardReplyInsert(vo);
 		if (i == 1) {
