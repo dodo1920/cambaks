@@ -124,7 +124,10 @@
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(product_id, pageNum) {
     	product_id = 4;
-    	
+    	if(pageNum == null){
+    		pageNum =1;
+    	}
+    	console.log(pageNum);
     	let output = '<div class="container">';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
         
@@ -141,6 +144,7 @@
 	        	console.log(prodList);
 	        	console.log(pagingParam);
 	        	
+	        	// 기본 게시글 출력 부분
 	        	 $(prodList).each(function(index, item) {
 	                 output += '<tr><td>' + item.prodReview_no + '</td><td><div id=' + item.prodReview_no + ' onclick="showContent1(this);">' + item.prodReview_title; + '</div></td>';
 	                 output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
@@ -155,21 +159,45 @@
 	              output += '</table>';
 	              
 	              
+	              // 페이징 처리 부분
 	              let startPage;
 	              let endPage;
+	              let tempEndPage;
+	              let prev;
+	              let next;
 	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
             	  pageOutput += '<a class="page-link" onclick="showProdList();">처음페이지로</a></li>';
             	  
 	              $(pagingParam).each(function(index, item) {
-	            	  pageOutput += '<li class="page-item"><a class="page-link" href="?page=">prev</a></li>';
+	            	  
 	            	  startPage = item.startPage;
 	            	  endPage = item.endPage;
+	            	  tempEndPage = item.tempEndPage;
+	            	  
+	            	  if(pageNum > startPage){
+	            		  prev = pageNum - 1;
+	            	  }
+	            	  if(pageNum < tempEndPage){
+	            		  next = pageNum + 1; 
+	            	  } 
+	            	  else if (pageNum = tempEndPage){
+	            		  next = tempEndPage;
+	            	  }
+
+	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + prev + '); return false;">prev</a></li>';
+	            	  
 	              });
 	              console.log(startPage);
+	              console.log(endPage);
 
 	              for(var num = startPage; num <=endPage; num++){
-		              pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
+	            	  
+	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
             	  }
+	              
+	              pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + next + '); return false;">next</a></li>';
+	              pageOutput += '<li class="page-item"><a class="page-link" onclick="showProdList(' + product_id + ',' + tempEndPage +');">마지막페이지로</a></li>';
+	            	  
 	              
 	              pageOutput += '</ul></div></div>';
 	              $("#prodBoardList").html(output);
