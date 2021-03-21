@@ -17,8 +17,11 @@ public interface CampingTipBoardService {
 	// 캠핑팁 게시판 전체 조회
 	public List<BoardVO> listCampingTipBoard(PagingCriteria cri) throws Exception;
 	
+	// 캠핑팁 게시판 상세 조회
+	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception;
+	
 	// 게시글 쓰기 insert
-	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO, int countThumbnail) throws Exception;
+	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO) throws Exception;
 	
 	// 게시글 수정 update
 	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO, int countThumbnail) throws Exception;
@@ -34,7 +37,7 @@ public interface CampingTipBoardService {
 	public boolean addCountCampingTipBoard(String member_id, int board_no) throws Exception;
 	
 	// 게시글 상세 보기 시 댓글 select
-	public List<ReplyBoardVO> readReplyCampingTipBoard(int board_no, PagingCriteria cri) throws Exception;
+	public List<ReplyBoardVO> readReplyCampingTipBoard(int board_no) throws Exception;
 	
 	// 상세 게시글 댓글 작성 insert
 	public boolean saveCampingTipReply(CamBoardTipReplyDTO replyDTO) throws Exception;
@@ -46,6 +49,9 @@ public interface CampingTipBoardService {
 	
 	// 상세 게시글 댓글 삭제 delete
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception;
+	
+	// 상세 게시글 대댓글 보기 select
+	public List<ReplyBoardVO> readRereplyCampingTipBoard(int board_no) throws Exception;
 	
 	// 상세 게시글 대댓글 작성 insert
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception;

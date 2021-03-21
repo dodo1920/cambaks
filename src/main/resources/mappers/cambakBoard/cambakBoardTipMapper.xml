@@ -3,27 +3,21 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.cambak21.mapper.tipBoardMapper">
+<mapper namespace="com.cambak21.mapper.cambakBoard.tipBoardMapper">
 	
 <!-- 	캠핑팁 게시판 전체 조회 -->
 	<select id="selectTipBoard" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = #{board_category} order by board_writeDate desc limit #{page}, #{perPage}
+		select * from Boards where board_category = 'Tip' order by board_writeDate desc limit #{page}, #{perPageNum}
+	</select>
+	
+<!-- 	캠핑팀 게시판 상세보기 -->
+	<select id="viewTipBoard" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_category = #{board_category} and board_no = #{board_no};
 	</select>
 	
 <!-- 	게시글 쓰기 insert -->
 	<insert id="writeTipBoard">
-		<if test="countThumbnail == 1">
-			insert into Boards (member_id, board_title, board_category, board_content, board_img1) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1})
-		</if>
-		<if test="countThumbnail == 2">
-			insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2})
-		</if>
-		<if test="countThumbnail == 3">
-			insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2, board_img3) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2}, #{board_img3})
-		</if>
-		<if test="countThumbnail == 4">
-				insert into Boards (member_id, board_title, board_category, board_content, board_img1, board_img2, board_img3, board_img4) values (#{member_id}, #{board_title}, #{board_category}, #{board_content}, #{board_img1}, #{board_img2}, #{board_img3}, #{board_img4})
-		</if>
+			insert into Boards (member_id, board_title, board_category, board_content) values (#{member_id}, #{board_title}, #{board_category}, #{board_content})
 	</insert>
 	
 <!-- 	게시글 수정 update -->
@@ -65,12 +59,12 @@
 
 <!-- 	해당 게시글 조회(댓글) -->
 	<select id="detailTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
-		select * from Boards where board_category = #{board_category} and board_no = #{board_no}
+		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder = 0 order by replyBoard_ref desc;
 	</select>
 
 <!-- 	댓글은 더보기 버튼 -->
 	<select id="moreViewTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
-		select * from ReplyBoards where board_no = #{board_no} order by replyBoard_writeDate desc limit #{page}, #{perPage}
+		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder > 0 order by replyBoard_ref desc, replyBoard_refOrder desc;
 	</select>
 
 <!-- 	해당 게시글 좋아요 -->
