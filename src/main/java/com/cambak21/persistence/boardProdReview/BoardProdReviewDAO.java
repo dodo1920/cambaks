@@ -29,6 +29,16 @@ public interface BoardProdReviewDAO {
 	
 	// 전체 게시글 수 가져오기
 	public int getTotalBoardCnt(int product_id) throws Exception;
+
+	
+	// 게시글 상세 조회
+	public ProdReviewVO readProdBoard(int no) throws Exception;
+
+	// 게시글 수정
+	public int updateProdBoard(ProdReviewVO vo);
+
+	// 게시글 삭제
+	public int deleteProdBoard(int prodReview_no);
 	
 	
 	// 검색 결과 전체 글 수 가져오기

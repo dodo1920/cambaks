@@ -1,5 +1,6 @@
 package com.cambak21.domain;
 
+
 import java.util.Date;
 
 public class ProdReviewVO {
@@ -16,6 +17,7 @@ public class ProdReviewVO {
 	private int prodReview_likeCnt;
 	private int prodReview_replyCnt;
 	private int buyProduct_no;
+
 	
 	public int getProdReview_no() {
 		return prodReview_no;

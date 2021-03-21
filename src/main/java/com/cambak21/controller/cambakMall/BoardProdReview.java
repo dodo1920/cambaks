@@ -61,23 +61,7 @@ public class BoardProdReview {
 	   public void showProdMain() {
 		   
 	   }
-	
-	   // ajax이용 페이지 번호 클릭했을 때,
-	   @RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.POST)
-	   public @ResponseBody List<ProdReviewVO> prodReviewsListPaging(@PathVariable("product_id") int product_id) {
-	      System.out.println(product_id);
-	      logger.info("/prodReviews의 ajax-POST방식 호출");
-	      List<ProdReviewVO> prodList = null;
-	      
-	      try {
-	         prodList = service.listProdBoard(product_id);
-	      } catch (Exception e) {
-	         e.printStackTrace();
-	      }
-	      
-	      return prodList;
-	   }
-	   
+   
 	   // ajax이용 get방식 리스트 출력
 	   @RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.GET)
 	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("product_id") int product_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
@@ -106,12 +90,14 @@ public class BoardProdReview {
 	      return result;
 	   }
 	
+	// 상품후기 게시글 작성 페이지로 이동
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
 	public String writingProdReviewGet() throws Exception{
 		logger.info("/writingProdReviews의 get방식 호출");
 		return "cambakMall/prodReviewsWriting";
 	}
 	
+	// 상품후기 게시글 작성
 	@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
 	public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
 		// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
@@ -122,7 +108,42 @@ public class BoardProdReview {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		return "redirect:/cambakMall/prodReviews/" + vo.getProduct_id();
+		// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
+		return "cambakMall/prodReviews";
+	}
+	
+	// 상품후기 게시글 수정 페이지 출력
+	@RequestMapping(value="/prodReviewsModify", method=RequestMethod.GET)
+	public void modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
+		logger.info("/prodReviewsModify 페이지 GET 호출");
+		
+		model.addAttribute("board", service.readProdBoard(prodReview_no));
+		model.addAttribute("prodReview_no", prodReview_no);
+		
+	}
+	
+	// 상품후기 게시글 수정 업데이트
+	@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
+	public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		logger.info("/prodReviewsModify의 post방식 호출");
+		System.out.println("vo : " + vo);
+		System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
+		if(service.updateProdBoard(vo) == 1) {
+			rttr.addFlashAttribute("result", "updateSuccess");
+		}
+		return "cambakMall/prodReviews";
+	}
+	
+	
+	// 상품후기 게시글 삭제
+	@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
+	public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, RedirectAttributes rttr) throws Exception {
+		logger.info("/prodReviewsDelete의 post방식 호출");
+		if(service.deleteProdBoard(prodReview_no) ==1) {
+			rttr.addFlashAttribute("result", "deleteSuccess");
+		}
+
+		return "cambakMall/prodReviews";
 	}
 	
 	// 페이징 처리한 전체 게시글 목록

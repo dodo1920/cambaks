@@ -51,4 +51,26 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	}
 
 
+
+	@Override
+	public ProdReviewVO readProdBoard(int no) throws Exception {
+		return dao.readProdBoard(no);
+	}
+
+
+	// 게시판 수정
+	@Override
+	public int updateProdBoard(ProdReviewVO vo) throws Exception {
+		return dao.updateProdBoard(vo);
+	}
+
+
+	// 게시글 삭제
+	@Override
+	public int deleteProdBoard(int prodReview_no) throws Exception {
+		return dao.deleteProdBoard(prodReview_no);
+		
+	}
+
+
 }

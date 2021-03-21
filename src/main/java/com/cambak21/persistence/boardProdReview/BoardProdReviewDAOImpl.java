@@ -62,4 +62,25 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 
 
+	@Override
+	public ProdReviewVO readProdBoard(int no) throws Exception {
+		return ses.selectOne(namespace + ".getProdReview", no);
+	}
+
+
+	// 게시글 수정
+	@Override
+	public int updateProdBoard(ProdReviewVO vo) {
+		return ses.update(namespace + ".updateProdReview", vo);
+	}
+
+
+	// 게시글 삭제
+	@Override
+	public int deleteProdBoard(int prodReview_no) {
+		return ses.delete(namespace + ".deleteProdReview", prodReview_no);
+	}
+
+
+
 }
