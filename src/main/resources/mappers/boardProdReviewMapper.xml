@@ -19,7 +19,7 @@
 	
 	<!-- 전체 게시물 수 가져오기 -->
 	<select id="getTotalBoardCnt" resultType="int">
-		select count(*) from goot6.ProdReviews
+		select count(*) from goot6.ProdReviews where product_id = #{product_id}
 	</select>
 	
  </mapper>

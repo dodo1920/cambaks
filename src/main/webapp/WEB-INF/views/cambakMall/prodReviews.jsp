@@ -122,8 +122,8 @@
    }
     
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
-    function showProdList(pageNum) {
-    	let product_id = 4;
+    function showProdList(product_id, pageNum) {
+    	product_id = 4;
     	
     	let output = '<div class="container">';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
@@ -131,7 +131,9 @@
     	$.ajax({
 	        type		: "get",
 	        url 		: "/cambakMall/prodReviews/" + product_id,
-	        //data		:  JSON.stringify(data), 
+	        data		:  {
+	        		'page' : pageNum
+	        }, 
 	        contentType : "application/json",
 	        success 	: function(data) {
 	        	let prodList = data.prodList;
@@ -153,14 +155,21 @@
 	              output += '</table>';
 	              
 	              
-	              
+	              let startPage;
+	              let endPage;
 	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
-	              
+            	  pageOutput += '<a class="page-link" onclick="showProdList();">처음페이지로</a></li>';
+            	  
 	              $(pagingParam).each(function(index, item) {
-	            	  pageOutput += '<a class="page-link" onclick="showProdList(this);" id="1" >처음페이지로</a></li>';
 	            	  pageOutput += '<li class="page-item"><a class="page-link" href="?page=">prev</a></li>';
-	            	  
+	            	  startPage = item.startPage;
+	            	  endPage = item.endPage;
 	              });
+	              console.log(startPage);
+
+	              for(var num = startPage; num <=endPage; num++){
+		              pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
+            	  }
 	              
 	              pageOutput += '</ul></div></div>';
 	              $("#prodBoardList").html(output);
@@ -198,7 +207,7 @@
 		                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
 		                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
 		                 output += '<td colspan="6"><div>' + item.prodReview_content + '</div></td></tr>';
-		     			output += '<tr style="display: none"><td>' + item.prodReview_grade + '</td></tr>';
+		     			 output += '<tr style="display: none"><td>' + item.prodReview_grade + '</td></tr>';
 
 		              });
 		              

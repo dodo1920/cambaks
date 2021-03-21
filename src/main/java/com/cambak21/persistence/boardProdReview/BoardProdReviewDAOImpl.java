@@ -56,8 +56,8 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 
 	@Override
-	public int getTotalBoardCnt() throws Exception {
-		return ses.selectOne(namespace + ".getTotalBoardCnt");
+	public int getTotalBoardCnt(int product_id) throws Exception {
+		return ses.selectOne(namespace + ".getTotalBoardCnt", product_id);
 	}
 
 

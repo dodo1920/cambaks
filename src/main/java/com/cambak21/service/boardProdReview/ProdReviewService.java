@@ -28,7 +28,7 @@ public interface ProdReviewService {
 		public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 
 		// 전체 게시글 수 가져오기
-		public int getTotalBoardCnt() throws Exception;
+		public int getTotalBoardCnt(int product_id) throws Exception;
 		
 		
 		// 검색 결과 전체 글 수 가져오기

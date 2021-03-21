@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -79,20 +80,23 @@ public class BoardProdReview {
 	   
 	   // ajax이용 get방식 리스트 출력
 	   @RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.GET)
-	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("product_id") int product_id) {
+	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("product_id") int product_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
 	      System.out.println(product_id);
+	      System.out.println(page);
 	      logger.info("/prodReviews의 ajax-GET방식 호출");
 	      Map<String, Object> result = new HashMap<String, Object>();
 	      
 	      List<ProdReviewVO> prodList = null;
+	      
 	      PagingCriteria cri = new PagingCriteria();
 	      PagingParam pp = new PagingParam();
 	      pp.setCri(cri);
+	      cri.setPage(page);
 	      
 	      
 	      try {
 	         prodList = service.listProdBoardCriteria(cri, product_id);
-	         pp.setTotalCount(product_id);
+	         pp.setTotalCount(service.getTotalBoardCnt(product_id));
 	         result.put("prodList", prodList);
 	         result.put("pagingParam", pp);
 	      } catch (Exception e) {

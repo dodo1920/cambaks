@@ -46,8 +46,8 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 
 	@Override
-	public int getTotalBoardCnt() throws Exception {
-		return dao.getTotalBoardCnt();
+	public int getTotalBoardCnt(int product_id) throws Exception {
+		return dao.getTotalBoardCnt(product_id);
 	}
 
 
