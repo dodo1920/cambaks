@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface BoardHumorService {
 	public boolean insertBoardHumor(BoardVO vo) throws Exception;
@@ -17,5 +18,9 @@ public interface BoardHumorService {
 	public List<BoardVO> listBoardHumorCriteria(PagingCriteria cri) throws Exception;
 	
 	public int getTotalBoardHumorCnt() throws Exception;
+
+	public List<BoardVO> goSearch(SearchCriteria scri, PagingCriteria cri) throws Exception;
+
+	public int searchBoardCnt(SearchCriteria scri) throws Exception;
 
 }
