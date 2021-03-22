@@ -46,7 +46,7 @@
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
 		
-		         <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }" method="post">
+		         <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post">
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
@@ -110,7 +110,7 @@
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
 		                  <button type="submit" class="btn btn-success">저장</button>
-		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=' + ${param.no}">취소</button>
+		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&page=${param.page}'">취소</button>
 		               </div>
 		            </div>
 		         </form>

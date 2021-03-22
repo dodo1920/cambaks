@@ -3,6 +3,7 @@ package com.cambak21.persistence.boardProdQA;
 import java.util.List;
 
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.util.PagingCriteria;
@@ -127,5 +128,10 @@ public interface BoardProdQADAO {
 	 * @throws Exception
 	 */
 	public int prodQALikeCnt(int proQA_no) throws Exception;
+	
+	public int prodQAInsertLike(ProdQAsLikeVO vo) throws Exception;
+	
+	public int prodQADeleteLike(ProdQAsLikeVO vo) throws Exception;
+	
 	 
 }

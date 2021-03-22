@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.util.PagingCriteria;
@@ -46,7 +47,7 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 
 	@Override
 	public int deleteProdQA(int prodQA_no) throws Exception {
-		return ses.delete(namespace + ".deleteProdQA", prodQA_no);
+		return ses.update(namespace + ".deleteProdQA", prodQA_no);
 	}
 
 	@Override
@@ -74,19 +75,27 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 
 	@Override
 	public int prodQAViewCnt(int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(namespace + ".prodQAViewCnt", prodQA_no);
 	}
 
 	@Override
-	public int prodQALikeCnt(int proQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int prodQALikeCnt(int prodQA_no) throws Exception {
+		return ses.update(namespace + ".prodQALikeCnt", prodQA_no);
 	}
 
 	@Override
 	public int getMaxNo() throws Exception {
 		return ses.selectOne(namespace + ".getMaxNo");
+	}
+
+	@Override
+	public int prodQAInsertLike(ProdQAsLikeVO vo) throws Exception {
+		return ses.insert(namespace + ".prodQAInsertLike", vo);
+	}
+
+	@Override
+	public int prodQADeleteLike(ProdQAsLikeVO vo) throws Exception {
+		return ses.delete(namespace + ".prodQADeleteLike", vo);
 	}
 
 }

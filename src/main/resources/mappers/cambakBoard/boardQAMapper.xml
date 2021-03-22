@@ -6,7 +6,7 @@
   <mapper namespace="com.cambak21.mappers.cambakBoard.boardQAMapper">
   	<!-- prodQA 게시판 전체 목록을 불러오는 쿼리문 -->
   	<select id="prodQAListAll" resultType="com.cambak21.domain.ProdQAVO">
-  		select * from ProdQAs where product_id = #{product_id} 
+  		select * from ProdQAs where product_id = #{product_id} and prodQA_isDelete = 'N'
   		order by ProdQA_ref desc, prodQA_refOrder asc limit #{pageStart}, #{perPageNum}
   	</select>
   	
@@ -37,8 +37,26 @@
   		select count(member_id) from ProdQAs where prodQA_secretPassword = md5(sha1(#{prodQA_secretPassword})) and prodQA_no = #{prodQA_no}
   	</select>
   	
-  	<delete id="deleteProdQA">
+  	<update id="deleteProdQA">
   		update ProdQAs set prodQA_isDelete = 'Y' where prodQA_no = #{prodQA_no}
+  	</update>
+  	
+  	<update id="prodQAViewCnt">
+  		update ProdQAs set prodQA_viewCnt = prodQA_viewCnt + 1 where prodQA_no = #{prodQA_no}
+  	</update>
+  	
+  	<insert id="prodQAInsertLike">
+  		insert into ProdQAsLike(member_id, prodQA_no) 
+  		values(#{member_id}, #{prodQA_no})
+  	</insert>
+  	
+  	<update id="prodQALikeCnt">
+  		update ProdQAs set prodQA_likeCnt = (select count(*) from ProdQAsLike where prodQA_no = #{prodQA_no}) 
+  		where prodQA_no = #{prodQA_no}
+  	</update>
+  	
+  	<delete id="prodQADeleteLike">
+  		delete from ProdQAsLike where member_id = #{member_id} and prodQA_no = #{prodQA_no}
   	</delete>
   	
   </mapper>
