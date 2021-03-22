@@ -49,15 +49,20 @@
 		.checked {
 		  color: orange;
 		}
+		
+		textarea{
+			width: 1070px; 
+			height:200px; 
+		    resize:none;/* 크기고정 */ 
+		    margin-top: 30px;
+		/*   resize: horizontal; // 가로크기만 조절가능 
+			resize: vertical;  세로크기만 조절가능  */
+		}
 	</style>
 	
     <script type="text/javascript">
-    $(function() {
-		
-		//callProdBoardList();
-		
-		
-		});
+
+    let totalCount;
 
 	 
 	 
@@ -87,7 +92,7 @@
 		return output1;
 	} 	
 
-    
+
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(product_id, pageNum, member_id) {
     	product_id = 4;
@@ -129,18 +134,26 @@
 	                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
 	                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
 	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
-	                 output += '<td colspan="6"><div>' + item.prodReview_content + '</div><div class="form-row float-right">';
-	            	 
+	                 output += '<td colspan="6">';
 	                 
 	                 if(member_id == item.member_id){
-	                	 output += '<button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
-	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div></td></tr>';
+	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
+	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
 	                 
+	                 output += '<div>' + item.prodReview_content + '</div>';
+	            	 
+	                 
+	                 
+	                 
+	                 if(member_id != null){
+	                	 output += '<div class ="row"><div class="col-md-12 "><textarea id="replyProdReview_content" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea></div></div>';
+	                	 output += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews();">댓글등록</button></div></td>'
+	                 }
 	                 
 	        	  });
 
-	              output += '</table>';
+	              output += '</tr></table>';
 	              
 	              
 	              // 페이징 처리 부분
@@ -157,6 +170,7 @@
 	            	  startPage = item.startPage;
 	            	  endPage = item.endPage;
 	            	  tempEndPage = item.tempEndPage;
+	            	  totalCount = item.totalCount;
 	            	  
 	            	  if(pageNum > 1){
 	            		  prev = pageNum - 1;
@@ -188,15 +202,53 @@
 	              pageOutput += '</ul></div></div>';
 	              $("#prodBoardList").html(output);
 	              $("#prodBoardListPage").html(pageOutput);
+	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
 	        }, // end of Success
 	        error		: function(error) {
 	        	console.log(error);
 	        }
 	    });
-	}
+	} // end of showProdList
 
-    
+	//addReplyProdReviews 댓글처리 부분
+	function addReplyProdReviews() {
+				// 댓글 작성 시 필요한 변수들
+				let replyProdReview_content = $("#replyProdReview_content").val();
+				let member_id = 'fff'
+				let prodReview_no = '4'
+				
+				$.ajax({
+					  method: "post",
+					  url: "/replies",
+					  headers: {	// 요청하는 데이터의 헤더에 전송
+						  "Content-Type" : "application/json",
+						  "X-HTTP-Method-Override" : "POST"
+					  },
+					  dataType: "text", // 응답 받는 데이터 타입
+					  data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
+						 bno :  bno,
+						 replyer : replyer,
+						 replytext : replytext
+					  }),
+					  success : function(result) {
+						if(result == "Success"){
+							callReplyList();
+						}
+						
+					  }
+					  
+					});
+				
+
+	};
+	
+	
+	
+		$(function() {
+			showProdList();
+		
+		});
     </script>
 </head>
 <body>
@@ -347,7 +399,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();">상품평( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평( 2 )</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
