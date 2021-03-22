@@ -1,6 +1,7 @@
 package com.cambak21.dto;
 
 public class ResellBoardUpdateDTO {
+	private int resellBoard_no;
 	private String resellBoard_title;
 	private String resellBoard_content;
 	private int resellBoard_price;
@@ -58,13 +59,21 @@ public class ResellBoardUpdateDTO {
 		this.resellBoard_img4 = resellBoard_img4;
 	}
 	
+	public int getResellBoard_no() {
+		return resellBoard_no;
+	}
+	public void setResellBoard_no(int resellBoard_no) {
+		this.resellBoard_no = resellBoard_no;
+	}
 	@Override
 	public String toString() {
-		return "ResellBoardUpdate [resellBoard_title=" + resellBoard_title + ", resellBoard_content="
-				+ resellBoard_content + ", resellBoard_price=" + resellBoard_price + ", resellBoard_addr="
-				+ resellBoard_addr + ", resellBoard_img1=" + resellBoard_img1 + ", resellBoard_img2=" + resellBoard_img2
-				+ ", resellBoard_img3=" + resellBoard_img3 + ", resellBoard_img4=" + resellBoard_img4 + "]";
+		return "ResellBoardUpdateDTO [resellBoard_no=" + resellBoard_no + ", resellBoard_title=" + resellBoard_title
+				+ ", resellBoard_content=" + resellBoard_content + ", resellBoard_price=" + resellBoard_price
+				+ ", resellBoard_addr=" + resellBoard_addr + ", resellBoard_img1=" + resellBoard_img1
+				+ ", resellBoard_img2=" + resellBoard_img2 + ", resellBoard_img3=" + resellBoard_img3
+				+ ", resellBoard_img4=" + resellBoard_img4 + "]";
 	}
+	
 	
 	
 }

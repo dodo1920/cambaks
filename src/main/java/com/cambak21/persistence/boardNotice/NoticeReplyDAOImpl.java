@@ -46,9 +46,15 @@ public class NoticeReplyDAOImpl implements NoticeReplyDAO {
 
 
 	@Override
-	public void dropReply(int replyBoard_no) throws Exception {
-		ses.delete(namespace + ".dropReply", replyBoard_no);
+	public int dropReply(int replyBoard_no) throws Exception {
+		return ses.delete(namespace + ".dropReply", replyBoard_no);
 		
+	}
+
+
+	@Override
+	public void dropReplyAll(int board_no) throws Exception {
+			ses.delete(namespace + ".dropReplyAll", board_no);
 	}
 
 }

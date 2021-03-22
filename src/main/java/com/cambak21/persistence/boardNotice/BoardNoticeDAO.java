@@ -15,16 +15,20 @@ public interface BoardNoticeDAO {
 		public int getTotalNoticeCnt() throws Exception;
 		// 공지시항 상세글 보기
 		public BoardVO noticeRead(int no) throws Exception;
-		
+		// 게시글 상세페이지 이동시 읽은 수 증가
 		public void noticeViewCnt(int no, int amount) throws Exception;
-		
+		// 게시글 작성
 		public int insertNotice(BoardVO vo) throws Exception;
-		
+		// 댓글 달리면 원게시글 댓글 증가
 		public void updateNoticeReivewCnt(int no, int amount) throws Exception;
-		
+		// 공지사항 삭제
 		public int removeNoticeBoard(int no) throws Exception;
-		
+		// 공지사항 검색글 페이징
 		public List<BoardVO> noticeSearch(SearchCriteria scri, PagingCriteria cri) throws Exception;
-		
+		// 공지사항 검색글 총 수
 		public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception;
+		// 공지사항 수정하기
+		public int modiNoticeBoard(BoardVO vo) throws Exception;
+		
+		public void downReplyCnt(int bno, int amount) throws Exception;
 }

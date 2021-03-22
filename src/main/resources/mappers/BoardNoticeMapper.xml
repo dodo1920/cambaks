@@ -45,6 +45,10 @@
   		update Boards set board_replyCnt = board_replyCnt + #{amount} where board_no = #{board_no}
   </update>
   
+  <update id="downReplyCnt">
+  		update Boards set board_replyCnt = board_replyCnt - #{amount} where board_no = #{board_no}
+  </update>
+      
   <select id="getboard_no" resultType="int">
   		select board_no from ReplyBoards where replyBoard_no = #{replyBoard_no}
   </select>
@@ -55,6 +59,10 @@
   
   <delete id="removeNoticeBoard">
   		delete from Boards where board_no = #{board_no}
+  </delete>
+  
+  <delete id="dropReplyAll">
+  		delete from ReplyBoards where board_no = #{board_no}
   </delete>
   
   <select id="noticeSearch" resultType="com.cambak21.domain.BoardVO">
@@ -90,6 +98,10 @@
 		</if>
 			  
 	  </select>
+	  
+	  <update id="modiNoticeBoard">
+	  		update Boards set board_title = #{board_title}, board_content = #{board_content} where board_no = #{board_no}
+	  </update>
   
   
   

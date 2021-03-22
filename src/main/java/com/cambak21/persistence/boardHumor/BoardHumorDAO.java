@@ -28,7 +28,7 @@ public interface BoardHumorDAO {
 	// 페이징을 위해 총 게시물 수
 	public int getTotalBoardHumorCnt() throws Exception;
 	
-	public List<BoardVO> goSearchBoardHumor(SearchCriteria scri, PagingCriteria cir) throws Exception;
+	public List<BoardVO> goSearchBoardHumor(SearchCriteria scri, PagingCriteria cri) throws Exception;
 	
 	public int searchBoardHumorCnt(SearchCriteria scri) throws Exception;
 	

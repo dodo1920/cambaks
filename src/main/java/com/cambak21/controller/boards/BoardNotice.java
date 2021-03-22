@@ -90,10 +90,13 @@ public class BoardNotice {
 	public String modiNoticeBoard(BoardVO vo, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
 		
+		if(service.modiNoticeBoard(vo)) {
+			rttr.addFlashAttribute("result", "succeess");
+		}
 		
 		
 		
-		return "cambakMain/board/notice/modiNotice";
+		return "redirect:/board/notice/read?no=" + vo.getBoard_no();
 	}
 	
 //	
@@ -166,9 +169,11 @@ public class BoardNotice {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/dropReply/{no}", method = RequestMethod.GET)
-	public String dropReplylst(@PathVariable("no") int no, RedirectAttributes rttr) throws Exception{
+	@RequestMapping(value = "/dropReply/{no}/{bno}", method = RequestMethod.GET)
+	public String dropReplylst(@PathVariable("no") int no, @PathVariable("bno") int bno, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 댓글 삭제하기");
+		System.out.println(bno);
+		service.downReplyCnt(bno);
 		
 		if(nrservice.dropReply(no)) {
 			rttr.addFlashAttribute("result", "success");
@@ -177,13 +182,14 @@ public class BoardNotice {
 	}
 	
 		@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
-	public ResponseEntity<String> removeNoticeBoard(@PathVariable("no") int no) throws Exception{
+	public String removeNoticeBoard(@PathVariable("no") int no, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 상세글 삭제하기");
-		ResponseEntity<String> entity = null;
-		service.removeNoticeBoard(no);
-		entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-		
-		return entity;
+				
+		if(service.removeNoticeBoard(no)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+	
+		return "redirect:/board/notice/listCri";
 	}
 	
 		

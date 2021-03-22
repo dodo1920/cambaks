@@ -15,6 +15,8 @@ public interface NoticeReplyDAO {
 		// 댓글 삭제시 게시판 목록 출력할 때 댓글 수를 출력하기 위한...
 		public int getboard_no(int replyBoard_no) throws Exception;
 		
-		public void dropReply(int replyBoard_no) throws Exception;
+		public int dropReply(int replyBoard_no) throws Exception;
+		
+		public void dropReplyAll(int board_no) throws Exception;
 		
 }

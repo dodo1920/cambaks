@@ -18,9 +18,9 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 	@Inject
 	private ResellBoardDAO dao;
 	@Override
-	public boolean ResellBoardInsert(ResellLikeBoardInsertDTO dto) throws Exception {
+	public boolean ResellBoardInsert(ResellBoardVO vo) throws Exception {
 		boolean result = false;
-		int i = dao.ResellBoardInsert(dto);
+		int i = dao.ResellBoardInsert(vo);
 		if (i == 1) {
 			result = true;
 		}
@@ -63,9 +63,9 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 	}
 
 	@Override
-	public boolean ResellBoardDelete(ResellBoardDeteDTO dto) throws Exception {
+	public boolean ResellBoardDelete(int no) throws Exception {
 		boolean result = false;
-		int i = dao.ResellBoardDelete(dto);
+		int i = dao.ResellBoardDelete(no);
 		if (i == 1) {
 			result = true;
 		}
@@ -84,6 +84,12 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 		dao.ResellBoardUpdateReply(no,amount);
 
 
+	}
+
+	@Override
+	public ResellBoardVO ResellBoardReadDetail(int no) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.ResellBoardReadDetail(no);
 	}
 
 }

@@ -65,6 +65,27 @@
 	</style>
 </head>
 <script type="text/javascript">
+function test(no) {
+	window.location.href="/board/resell/detail?no="+no+"&page=${pagingParam.cri.page}"
+}
+function like() {
+	$.ajax({
+		method : "post",
+		url : "/like",
+		dataType : "text", // 응답 받는 데이터 타입
+		data : JSON.stringify({ // 요청하는 데이터
+		}),
+		success : function(result) {
+			if (result == 'Success') {
+				//alert('댓글 등록 완료!');
+				callReplyList(); // 댓글 다시 호출
+			}
+			
+		
+		}
+	});
+	
+}
 
 </script>
 <body>
@@ -85,18 +106,36 @@
 				
 						<tbody style="width: 100%">
 						<c:forEach var="board" items="${board }">
-							<tr class="bordListBox">
-							<td class="tdTotolStyle"><span>${board.member_id}</span></td>
-							<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
-							<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
-							<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.resellBoard_content	}</span></td>
-							<td class="tdTotolStyle"><div><a href="like"><span>좋아요수 :${board.resellBoard_likeCnt}</span></a><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></div></td>
-							<td class="tdTotolStyle"><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></td>
-							</tr>
+						<c:choose>
+                  			<c:when test='${board.resellBoard_isDelete == "Y"}'>
+								<tr class="bordListBox">
+								
+								<td class="tdTotolStyle"><del><span>${board.member_id}</span></del></td>
+								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
+								<td class="tdTotolStyle"><del><span>${board.resellBoard_title}</span></del></td>
+								<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">${board.resellBoard_content}</span></del></td>
+								<td class="tdTotolStyle"><del><div><span>좋아요수 :${board.resellBoard_likeCnt}</span></a><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></del></td>
+								<td class="tdTotolStyle"><del><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></del></td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr class="bordListBox" onclick="test(${board.resellBoard_no});">
+								
+								<td class="tdTotolStyle"><span>${board.member_id}</span></td>
+								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
+								<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
+								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.resellBoard_content	}</span></td>
+								<td class="tdTotolStyle"><div><span>좋아요수 :${board.resellBoard_likeCnt}</span onclick="like();"><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></div></td>
+								<td class="tdTotolStyle"><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></td>
+								</tr>
+							</c:otherwise>
+							</c:choose>
+							
 							</c:forEach>
 
 							</tbody>
 						</table>
+				<div><a href="write">글쓰기</a></div>
 				<div class="text-center">
 				     <ul class="pagination"style="text-align: center;">
 	      
@@ -122,7 +161,7 @@
 	
 	                </ul>
             </div>
-
+			
 			</div>
 		</div>
 		

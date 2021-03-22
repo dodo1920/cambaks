@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.persistence.boardHumor.BoardHumorDAO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Service
 public class BoardHumorServiceImpl implements BoardHumorService{
@@ -68,6 +69,19 @@ public class BoardHumorServiceImpl implements BoardHumorService{
 	public int getTotalBoardHumorCnt() throws Exception {
 		
 		return dao.getTotalBoardHumorCnt();
+	}
+
+	@Override
+	public List<BoardVO> goSearch(SearchCriteria scri, PagingCriteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("검색기능 ");
+		return dao.goSearchBoardHumor(scri, cri);
+	}
+
+	@Override
+	public int searchBoardCnt(SearchCriteria scri) throws Exception {
+		System.out.println("검색기능 총 게시물 수  ");
+		return dao.searchBoardHumorCnt(scri);
 	}
 
 	

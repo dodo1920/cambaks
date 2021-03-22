@@ -1,6 +1,8 @@
 package com.cambak21.persistence.boardHumor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -62,15 +64,21 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 	}
 
 	@Override
-	public List<BoardVO> goSearchBoardHumor(SearchCriteria scri, PagingCriteria cir) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<BoardVO> goSearchBoardHumor(SearchCriteria scri, PagingCriteria cri) throws Exception {
+		System.out.println("검색기능 ");
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchType", scri.getSearchType());
+		param.put("searchWord", scri.getSearchWord());
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		return ses.selectList(namespace + ".searchBoard", param);
 	}
 
 	@Override
 	public int searchBoardHumorCnt(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		System.out.println("검색기능 총게시물 수 ");
+		return ses.selectOne(namespace + ".searchBoardCnt", scri);
 	}
 
 	@Override

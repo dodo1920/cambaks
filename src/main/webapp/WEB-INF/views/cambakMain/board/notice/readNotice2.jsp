@@ -58,7 +58,7 @@
 
 function callReplyList(){
 	
-	let board_no = '${param.no}'
+	let board_no = '${param.no}';
 	let output = '<ul class="list-group">';
 	
 	
@@ -97,21 +97,20 @@ $(function(){
   });
 
 function goDelete(replyno){
-	
+	let bno = '${param.no}';
 	let no = replyno;
 		$.ajax({
 			method: "get",
-			url: "/board/notice/dropReply/" + no,
+			url: "/board/notice/dropReply/" + no + "/" + bno,
 			headers: {	// 요청 하는 데이터의 헤더에 전송
-		"X-HTTP-Method-Override" : "DELETE"
+			"X-HTTP-Method-Override" : "DELETE"
 			},
 			dataType: "text", // 응답 받는 데이터 타입
 			data : no, 
 			success : function(result){
-				if(result == 'Success'){
 					alert('댓글 삭제 완료!');
 					callReplyList();
-				}
+				
 			}
 		});
 	
@@ -179,6 +178,7 @@ function inputReplyBox1(){
 	$("#inputReplyBox").show();
 	
 	
+	
 };
 
 
@@ -195,15 +195,16 @@ function replyAddBtn(){
 			},
 			dataType: "text", // 응답 받는 데이터 타입
 			data : JSON.stringify({	// 요청하는 데이터
-		board_no : board_no,
-		member_id : member_id,
+				board_no : board_no,
+				member_id : member_id,
 			replyBoard_content : replyBoard_content
 			}),
 			success : function(result){
-				if(result == 'Success'){
 					alert('댓글 등록 완료!');
 					callReplyList();
-				}
+					$("#inputReplyBox").css('display', 'none');
+					
+				
 			}
 		});
 		
@@ -339,7 +340,7 @@ form, form input{
       <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button>
       </div>
 <%--       </c:if> --%>
-      <div id="inputReplyBox" style="board: 1px dotted black; display:none;">
+      <div id="inputReplyBox" style="board: 1px dotted black; margin-top: 20px; display:none;">
       	
           <div>
          	     

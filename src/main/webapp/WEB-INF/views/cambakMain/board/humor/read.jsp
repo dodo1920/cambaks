@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -33,6 +33,9 @@
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
+
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -40,7 +43,41 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/bbskJS.js"></script>
+<style>
+@import url(/resources/cambak21/css/SHWtamplet.css);
+</style>
+
 <script>
+
+function modiProc(){
+	$("#modifyBox").hide();
+	let no = $("#replyno").val();
+	let replytext = $("#replytext").val();
+	
+	$.ajax({
+		  method: "PUT",
+		  url: "/cambakMain/board/humor/replies/" + no,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "PUT"
+		  },
+		  dataType: "text", // 응답 받는 데이터 타입
+		  data : JSON.stringify({ // 요청하는 데이터
+			replyBoard_no : no,
+			replyBoard_content : replytext
+		  }),
+		  success : function(result){
+			  if(result == "success"){
+				  alert('댓글 수정 완료');
+				  
+			  }
+			  callReplyList();
+		  }
+		});
+	
+}
+
 function gomodify(no) {
 	
 	$("replyno").val(no);
@@ -79,7 +116,7 @@ function showReplyBox() {
 function addReply(){
 	
 	let member_id = $("#newReplyWriter").val();
-	let replyBoard_content = $("#newReplyText").val();
+	let replyBoard_content = $("#replyBoard_content").val();
 	let board_no = ${param.no};
 	$.ajax({
 		  method: "POST",
@@ -178,42 +215,58 @@ p.category-title {
 				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
+			<div id="content" class="8u skel-cell-important">
+					<section>
+						<header>
+							<h2>고객센터</h2>
+							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
+									자리입니다.</a></span>
+						</header>
+						<!-- 검색창, 글쓰기 버튼 템플릿 -->
+						<%@include file="../../cambak21Search&Write.jsp"%>
+					</section>
 			
-				<label class="control-label col-sm-2" for="writer">글번호 :</label>
-				<div class="col-sm-10">${board.board_no }</div>
-
-
-				<label class="control-label col-sm-2" for="writer">작성자 :</label>
-				<div class="col-sm-10">${board.member_id }</div>
-
-
-				<label class="control-label col-sm-2" for="writer">조회수 :</label>
-				<div class="col-sm-10">${board.board_viewCnt }</div>
-
-
-				<label class="control-label col-sm-2" for="writer">작성일 :</label>
-				<div class="col-sm-10">
+			<div class="detail-wrap">
+						<div class="detail-top">
+							<div class="detail-top-title">
+							
+					<p>${board.board_title }</p>
+					<p>
 					<fmt:formatDate value="${board.board_writeDate }" type="both"
 						pattern="yyyy-MM-dd HH:mm:ss" />
+						</p>
+					</div>
+					</div>
+			
+					<div class="detail-top-author">
+								<p>${board.member_id }</p>
+								<p class="view">
+									조회수 <span>${board.board_viewCnt }</span>
+								</p>
+								<p class="like">
+									추천수 <span>${board.board_likeCnt }</span>
+								</p>
+								<!--  
+								<p class="reply">
+									댓글 <span>${board.board_replyCnt }</span>
+								</p>
+								-->
+							</div>
+				
+						<div class="detail-content">${board.board_content }</div>
+						<div class="recommend-btn">
+							<button type="button" class="btn btn-danger">추천</button>
 
-					<label class="control-label col-sm-2" for="title">제 목 :</label>
-					<div class="col-sm-10">${board.board_title }</div>
-
-
-					<label class="control-label col-sm-2" for="content">내 용 :</label>
-					<div class="col-sm-10">${board.board_content }</div>
-				</div>
-					<button type="button" class="btn btn-success" id="rewriteBoard"
-						onclick="location.href='/cambakMain/board/humor/modi?no=${board.board_no}'">수정하기</button>
-					<button type="button" class="btn btn-info" id="deleteBoard"
-						onclick="location.href='/cambakMain/board/humor/remove?no=${board.board_no}'">삭제하기</button>
-					<button type="button" class="btn btn-primary"
+<!-- if문 로그인한 회원과 작성자와 비교 -->
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='/cambakMain/board/humor/remove?no=${board.board_no}'">삭제하기</button>
+							<!-- if문 로그인한 회원과 작성자와 비교 -->
+							<button type="button" class="btn btn-danger"
+								onclick="location.href='/cambakMain/board/humor/modi?no=${board.board_no}'">수정하기</button>
+							<button type="button" class="btn btn-primary"
 						onclick="location.href='/cambakMain/board/humor/listAll?page=${param.page}'">리스트페이지로</button>
 
-					<button type="button" class="btn btn-success"
-						onclick="showReplyBox();">댓글달기</button>
-
-				<div id="modifyBox">
+<div id="modifyBox">
 					<div>댓글 수정</div>
 					<div>
 						<input type="text" id="replytext" />
@@ -224,6 +277,41 @@ p.category-title {
 							닫기</button>
 					</div>
 				</div>
+							
+
+						</div>
+				<div class="detail-bottom-comment-write">
+							<p>댓글 작성</p>
+							<!-- 댓글 작성 Ajax -->
+							<div class="form-group">
+								<div id="replyBox"></div>
+								작성자 : <input type="text" name="member_id" id="newReplyWriter" value="" />
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success" onclick="addReply();" >댓글 작성</button>
+							</div>
+						</div>
+						
+						
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+					
+
+<!-- 
+					
+					
+
+					<button type="button" class="btn btn-success"
+						onclick="showReplyBox();">댓글달기</button>
+
+				
 
 				<div id="inputReplyBox"
 					style="margin: 15px; border: 1px dotted gray; display: none;">
@@ -247,8 +335,12 @@ p.category-title {
 			</div>
 		</div>
 	</div>
+	-->
 	<!-- /Main -->
+	
 
 	<%@include file="../../cambak21Footer.jsp"%>
+	
+	
 </body>
 </html>

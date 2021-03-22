@@ -87,6 +87,21 @@ public class BoardNoticeDAOImpl implements BoardNoticeDAO {
 	public int getSearchTotalNoticeBoardCnt(SearchCriteria scri) throws Exception {
 		return ses.selectOne(namespace + ".getSearchTotalNoticeBoardCnt", scri);
 	}
+
+	@Override
+	public int modiNoticeBoard(BoardVO vo) throws Exception {
+		return ses.update(namespace + ".modiNoticeBoard", vo);
+	}
+
+	@Override
+	public void downReplyCnt(int board_no, int amount) throws Exception {
+		Map<String, Object> para = new HashMap<String, Object>();
+		para.put("board_no", board_no);
+		para.put("amount", amount);
+		
+			ses.update(namespace + ".downReplyCnt", para);
+		
+	}
 	
 
 }

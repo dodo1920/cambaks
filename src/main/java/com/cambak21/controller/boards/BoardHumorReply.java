@@ -75,4 +75,21 @@ public class BoardHumorReply {
 		System.out.println(entity);
 		return entity;
 	}
+	
+	@RequestMapping(value = "/{no}", method=RequestMethod.PUT)
+	public ResponseEntity<String> update(@PathVariable("no") int no, @RequestBody ReplyBoardVO vo){
+		System.out.println(no);
+		ResponseEntity<String> entity = null;
+		vo.setBoard_no(no);
+		try {
+			service.update(vo);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 }

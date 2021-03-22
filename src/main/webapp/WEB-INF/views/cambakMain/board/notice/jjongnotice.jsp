@@ -66,21 +66,11 @@
 	}
 
 	 $(document).ready(function() {
-	      
 	      let boardUri = searchUriAddress();
 	      asideBarDraw(boardUri);
-
 	   });
-	   
-	
-	
-	
+		
 </script>
-
-
-
-
-
 
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
