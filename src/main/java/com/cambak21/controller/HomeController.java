@@ -42,7 +42,7 @@ public class HomeController {
       model.addAttribute("serverTime", formattedDate );
       
 
-      return "cambakMall/prodQAForm";
+      return "cambakMain/findIdnPwd";
 
    }
 

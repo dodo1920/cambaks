@@ -32,10 +32,11 @@
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
 	<style>
 		@import url(/resources/cambak21/css/SHWtamplet.css);
+		hr {
+			margin : 0px;
+			padding : 0px;
+		}
 	</style>
-
-
-
 </head>
 
 <body>
@@ -50,10 +51,43 @@
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>제목입니다~</h2>
-							<span class="byline">소제목 입니다~/span>
+							<h2>아이디/비밀번호 찾기</h2>
+							<span class="byline">아이디 찾기</span>
 						</header>
-						<p>본문 내용 입니다~</p>
+						<div>
+						  <form action="/action_page.php">
+						    <div class="form-group">
+						      <label for="member_name">이름 :</label>
+						      <input type="text" class="form-control" id="member_name" placeholder="Enter name" name="member_name">
+						    </div>
+						    <div class="form-group">
+						      <label for="email">이메일 :</label>
+						      <input type="email" class="form-control" id="member_email" placeholder="Enter email" name="member_email">
+						    </div>
+						    <button type="submit" class="btn btn-default">찾기</button>
+						    <button type="button" class="btn btn-default">취소</button>
+						  </form>
+						</div>
+					</section>
+					<hr/>
+					<section>
+						<header>
+							<span class="byline">비밀번호 찾기</span>
+						</header>
+						<div>
+						  <form action="/action_page.php">
+						    <div class="form-group">
+						      <label for="member_id">아이디 :</label>
+						      <input type="text" class="form-control" id="member_id" placeholder="Enter name" name="member_id">
+						    </div>
+						    <div class="form-group">
+						      <label for="email">이메일 :</label>
+						      <input type="email" class="form-control" id="member_email" placeholder="Enter email" name="member_email">
+						    </div>
+						    <button type="submit" class="btn btn-default">찾기</button>
+						    <button type="button" class="btn btn-default">취소</button>
+						  </form>
+						</div>
 
 					</section>
 				</div>
