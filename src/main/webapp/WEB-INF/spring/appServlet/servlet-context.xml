@@ -21,6 +21,25 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	
+	<beans:bean id="loginInterceptor" class="com.cambak21.interceptor.loginInterceptor"></beans:bean>
+	<beans:bean id="authInterceptor" class="com.cambak21.interceptor.AuthInterceptor"></beans:bean>
+	
+	
+		<interceptors>
+		<interceptor>
+			<mapping path="/user/login"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/board/notice/listCri"/>   <!--  글 쓰기  -->
+<!-- 			<mapping path="/board/modi"/>	 글 수정 -->
+<!-- 			<mapping path="/board/remove" /> -->
+			<beans:ref bean="authInterceptor"/>
+		</interceptor>
+	</interceptors>
+	
+	
 	<context:component-scan base-package="com.cambak21.controller" />
 	<context:component-scan base-package="com.cambak21.controller.boards" />
 
