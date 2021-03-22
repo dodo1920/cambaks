@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.domain.SearchCampingTipVO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
@@ -16,6 +17,12 @@ public interface CampingTipBoardService {
 	
 	// 캠핑팁 게시판 전체 조회
 	public List<BoardVO> listCampingTipBoard(PagingCriteria cri) throws Exception;
+	
+	// 캠핑팁 게시판 전체 게시물 개수 가져오기
+	public int totalTipBoard() throws Exception;
+	
+	// 캠핑팁 게시판 검색
+	public List<BoardVO> tipBoardSearch(SearchCampingTipVO word, PagingCriteria cri) throws Exception;
 	
 	// 캠핑팁 게시판 상세 조회
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception;

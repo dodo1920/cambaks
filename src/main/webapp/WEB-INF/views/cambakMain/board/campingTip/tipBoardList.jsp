@@ -129,6 +129,10 @@
 	color: #fff;
 }
 
+.moveBtn {
+    width: 30px;
+}
+
 </style>
 
 </head>
@@ -180,26 +184,50 @@
 						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write'">글작성</button>
 						</div>
 						<div class="numBoard">
-						<div>
-							<ul class="numBoardLine">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-							</ul>
-						</div>
+						
+						<c:choose>
+							<c:when test="${param.searchWord == null }">
+								<div>
+									<ul class="numBoardLine">
+										<c:if test="${pagingParam.prev }">
+											<li style="width: 30px;"><a href="campingTip?page=${param.page -1}">이전</a></li>
+										</c:if>
+										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+											<li><a href="campingTip?page=${pageNo }">${pageNo }</a></li>
+										</c:forEach>
+										<c:if test="${pagingParam.next }">
+											<li style="width: 30px;"><a href="campingTip?page=${param.page +1}">다음</a></li>
+										</c:if>
+									</ul>
+								</div>
+							</c:when>
+							<c:when test="${param.searchWord != null }">
+								<div>
+									<ul class="numBoardLine">
+										<c:if test="${pagingParam.prev }">
+											<li style="width: 30px;"><a href="campingTip?page=${param.page -1}">이전</a></li>
+										</c:if>
+										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+											<li><a href="campingTip?page=${pageNo }">${pageNo }</a></li>
+										</c:forEach>
+										<c:if test="${pagingParam.next }">
+											<li style="width: 30px;"><a href="campingTip?page=${param.page +1}">다음</a></li>
+										</c:if>
+									</ul>
+								</div>
+							</c:when>
+						</c:choose>
 						<div class="searchBar">
-							<form action="">
-							<select class="keySelect">
-								<option>=====</option>
-								<option>제목+내용</option>
-								<option>제목</option>
-								<option>내용</option>
-								<option>작성자</option>
+							<form action="campingTip/search" method="GET">
+							<select class="keySelect" name="searchType">
+								<option value="null">=====</option>
+								<option value="totalSearch">제목+내용</option>
+								<option value="title">제목</option>
+								<option value="content">내용</option>
+								<option value="writer">작성자</option>
 							</select>
-					    	<input type="text" class="inputKeyword">
-					    	<button class="searchBtn">검색</button>
+					    	<input type="text" class="inputKeyword" name="searchWord">
+					    	<button type="submit" class="searchBtn">검색</button>
 					    	</form>
 						</div>
 						</div>
