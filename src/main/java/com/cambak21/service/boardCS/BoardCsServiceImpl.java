@@ -83,7 +83,7 @@ public class BoardCsServiceImpl implements BoardCsService {
 	@Override
 	public BoardCsVO readBoardCS(int board_no) throws Exception {
 		dao.boardCSViewUpdate(board_no);
-		
+
 		return dao.readBoardCS(board_no);
 		
 	}
@@ -117,6 +117,16 @@ public class BoardCsServiceImpl implements BoardCsService {
 	public int searchBoardCStotalCnt(SearchCriteria scri) throws Exception {
 		
 		return dao.searchBoardCStotalCnt(scri);
+	}
+
+	@Override
+	public String prevNo(int board_no) throws Exception {
+		return dao.prevNo(board_no);
+	}
+
+	@Override
+	public String nextNo(int board_no) throws Exception {
+		return dao.nextNo(board_no);
 	}
 
 }

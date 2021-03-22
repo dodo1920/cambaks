@@ -83,15 +83,31 @@
 	// 댓글 리스트 출력 함수
 	function listOutput(data) {
 		let output = "";
-		let step = 50;
+		let step = 20;
 		
 		$.each(data, function(index, item) {
 			// step
-			if(item.replyBoard_step >= 1) {
-				let step = 20 * item.replyBoard_step;
-				output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"px'>";
-			} else {
+			// 홀수 짝수 지그재그 출력을 위한...
+			let fristStep = item.replyBoard_step.toString().substr(0, 1);
+			let secStep = item.replyBoard_step.toString().substr(1, 2);
+			
+			if(item.replyBoard_step == 0) {
 				output += "<li id="+item.replyBoard_no+">";
+			} else if (item.replyBoard_step < 11) {
+				// 1 ~ 10
+				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(item.replyBoard_step * 2)+"%'>";
+			} else if (fristStep % 2 != 0) {
+				// 10 ~ 19
+				// 30 ~ 39
+				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2))+"%'>";
+			} else if (fristStep % 2 == 0) {
+				// 20 ~ 29
+				// 40 ~ 49
+				if (secStep == 0 ) {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+4+"%'>";	
+				} else {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+(secStep * 2 + 4)+"%'>";
+				}
 			}
 			
 			// 대댓글 이미지
@@ -143,8 +159,8 @@
 			}),
 			success : function(data) {
 				replyList();
-				scrollMove();
 				ajaxStatus(data);
+				scrollMove();
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -307,7 +323,10 @@
 
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
-
+	
+	function checkNext(no) {
+		$("#nextBtn").attr("href", "../cs/detail?no=0");
+	}
 	
 </script>
 </head>
@@ -359,11 +378,27 @@
 							</div>
 						</div>
 						<div class="detail-content">${board.board_content }</div>
+
+						<div class="prevNextBtns">
+							<c:if test="${prev != null }">
+								<a href="../cs/detail?no=${prev }" id="prevBtn">
+									<button type="button" class="btn btn-default detailPrev">이전글</button>
+								</a>
+							</c:if>
+
+							<a href="../cs/detail?no=${next }" id="listBtn">
+									<button type="button" class="btn btn-default detailNext">목록보기</button>
+							</a>
+
+							<c:if test="${next != null }">
+								<a href="../cs/detail?no=${next }" id="nextBtn">
+									<button type="button" class="btn btn-default detailNext">다음글</button>
+								</a>
+							</c:if>
+						</div>
 						<div class="recommend-btn">
+
 							<button type="button" class="btn btn-danger">추천</button>
-
-
-
 
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
@@ -372,17 +407,16 @@
 							<button type="button" class="btn btn-danger"
 								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
 
-
-
-							
-
 						</div>
+
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
-								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요"
+									id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success"
+									onclick="replyWrite();">댓글 작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
@@ -410,8 +444,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">알림</h4>
 				</div>
-				<div class="modal-body" id="modalText">
-				</div>
+				<div class="modal-body" id="modalText"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>

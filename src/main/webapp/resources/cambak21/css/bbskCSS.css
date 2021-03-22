@@ -144,3 +144,8 @@ button.btn.btn-success {
 	margin-top: 10px;
     float: right;
 }
+
+.prevNextBtns {
+    display: flex;
+    justify-content: space-between;
+}

@@ -40,7 +40,7 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 		
 		if (dto.getBoard_no() == 0) {
 			// replyBoard_no(부모댓글의no)로 부모댓글의 작성자, ref, reforder, step, board_no 가져온다
-			GetReplyInfo parentReplyInfo = dao.getParentReplyInfo(dto.getReplyBoard_no()); 
+			GetReplyInfo parentReplyInfo = dao.getParentReplyInfo(dto.getReplyBoard_no());
 			// 부모댓글의 정보가 담긴 객체를 보내서 reforder를 업데이트 시켜준다
 			dao.updateRefOrder(parentReplyInfo);
 			// 부모댓글의 정보가 담긴객체와 컨트롤러단에서 넘어온 dto(대댓글 댓글내용, 대댓글 작성자)를 보내줌

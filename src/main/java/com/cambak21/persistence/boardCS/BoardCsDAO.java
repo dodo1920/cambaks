@@ -2,7 +2,6 @@ package com.cambak21.persistence.boardCS;
 
 import java.util.List;
 
-
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
@@ -15,7 +14,7 @@ public interface BoardCsDAO {
 
 	// 게시글 insert 후 해당 게시글 번호 가져오기
 	int getBoard_no(String member_id) throws Exception;
-	
+
 	// 게시글 수정
 	int modiBoardCS(UpdateCSBoardDTO dto) throws Exception;
 
@@ -50,5 +49,11 @@ public interface BoardCsDAO {
 
 	// 게시글 상세보기
 	BoardCsVO readBoardCS(int board_no) throws Exception;
+
+	// 이전 게시글 번호 가져오기
+	String prevNo(int board_no) throws Exception;
+
+	// 이전 게시글 번호 가져오기
+	String nextNo(int board_no) throws Exception;
 
 }

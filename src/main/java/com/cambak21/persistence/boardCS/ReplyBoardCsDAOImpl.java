@@ -55,7 +55,7 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 
 		ses.update(ns + ".refOrderUpdate", map);
 	}
-
+	
 	/**
 	  * @Method Name : insertReplyBoardCS
 	  * @작성일 : 2021. 3. 18.
@@ -96,7 +96,8 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 		map.put("replyBoard_ref", vo.getReplyBoard_ref());
 		map.put("replyBoard_refOrder", vo.getReplyBoard_refOrder());
 		map.put("replyBoard_step", vo.getReplyBoard_step());
-		
+		System.out.println("다오단 vo : " + vo.toString());
+		System.out.println("다오단 dto : " + dto.toString());
 		ses.insert(ns + ".insertReply", map);
 	}
 
