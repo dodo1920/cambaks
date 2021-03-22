@@ -17,7 +17,9 @@
 	</delete>
 	
 	<update id="update">
-		update ReplyBoards set replyBoard_content = #{replyBoard_content}, replyBoard_upadateDate = now() where replyBoard_no = #{replyBoard_no}
+		update ReplyBoards set replyBoard_content = #{replyBoard_content}, replyBoard_updateDate = now() where replyBoard_no = #{replyBoard_no}
 	</update>
+	
+	
 
 </mapper>

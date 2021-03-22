@@ -21,6 +21,7 @@ import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.service.BoardHumor.BoardHumorService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping("cambakMain/board/humor/*")
@@ -95,6 +96,22 @@ public class BoardHumor {
 		return "redirect:/cambakMain/board/humor/listAll?page=1";
 	}
 	
+	@RequestMapping(value = "search", method = RequestMethod.GET)
+	public String search(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception{
+		System.out.println("검색기능 ");
+		model.addAttribute("boardList", service.goSearch(scri,cri));
+		
+		PagingParam pp = new PagingParam();
+		SearchCriteria sc = new SearchCriteria();
+		
+		pp.setCri(cri);
+		pp.setTotalCount(service.searchBoardCnt(scri));
+		
+		model.addAttribute("pagingParam", pp);
+		model.addAttribute("search", sc);
+		
+		return "/cambakMain/board/humor/listAll";
+	}
 	
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
