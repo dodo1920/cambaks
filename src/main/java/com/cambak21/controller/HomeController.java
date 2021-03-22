@@ -89,7 +89,7 @@ public class HomeController {
       
       return "checkList2";
    }
-   
+   	
 //   @RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
 //   public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){
 //      // bno에 대한 전체 글 보기

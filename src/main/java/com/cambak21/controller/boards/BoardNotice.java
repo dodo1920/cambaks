@@ -37,30 +37,42 @@ public class BoardNotice {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardHumor.class);
 	
-	// 전체글 출력 ( Test용 )
+	// 전체글 출력 10번까지만.. 롤링 쓰려고 ( Test용 )
 	@RequestMapping(value = "/listall", method = RequestMethod.GET)
-	public String listAll(Model model) throws Exception{
+	public  ResponseEntity<List<BoardVO>> listAll(Model model) throws Exception{
 		logger.info("종진 / listAll 전체 목록 출력");
-		
-		List<BoardVO> lst = service.getNoticeAll();
-		System.out.println("lst : " + lst.toString());
-		model.addAttribute("noticeList", lst);
-		return "cambakMain/board/notice/jjongnotice";
+	
+		ResponseEntity<List<BoardVO>> entity = null;
+		entity = new ResponseEntity<List<BoardVO>>(service.getNoticeAll(), HttpStatus.OK);
+	
+		return entity;
 	}
+//	
+//	@RequestMapping(value = "/getReply/{bno}", method = RequestMethod.GET)
+//	public ResponseEntity<List<ReplyBoardVO>> lst(@PathVariable("bno") int bno) throws Exception{
+//		logger.info("종진 / 공지사항 해당 댓글 불러오기");
+//			
+//		ResponseEntity<List<ReplyBoardVO>> entity = null;
+//		entity = new ResponseEntity<List<ReplyBoardVO>>(nrservice.listNoticeReply(bno), HttpStatus.OK);
+//		
+//		return entity;
+//	}
+	
+	
+	
 	// 페이징 처리된 게시판 출력
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
 	public String listCri(PagingCriteria cri, Model model) throws Exception{
 		logger.info("종진 / listCri 페이징처리 목록 출력");
 		
 		List<BoardVO> lst = service.getListCriteria(cri);
-		System.out.println(lst.toString());
-		
+	
 		model.addAttribute("noticeList", lst); // 게시물 데이터
 	
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(service.getTotalNoticeCnt());
-		System.out.println(pp.toString());
+		
 		model.addAttribute("pagingParam", pp);
 		return "cambakMain/board/notice/jjongnotice";
 	}
@@ -163,7 +175,6 @@ public class BoardNotice {
 		System.out.println(vo.toString());
 		
 		nrservice.insertReplyBoard(vo);
-		
 		
 		
 		return entity;

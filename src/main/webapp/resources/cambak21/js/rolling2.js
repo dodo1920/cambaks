@@ -1,3 +1,4 @@
+
 		let index = 0;
 		let notices = new Array();
 		
@@ -17,7 +18,8 @@
 					function() {
 						for (let j = 0; j < 10; j++) {
 							if (index == j) {
-								$("#rollNot").html(notices[j]).fadeIn(3000);
+								$("#rollNot")
+									.html(notices[j]).fadeIn(3000);
 							};
 						};
 						index++;
@@ -26,15 +28,4 @@
 							index = 0;
 						}
 					});
-					
-		$(".row").on("click", ".heartIcon", function() {
-			fix(this);
-		});
-	
-		$(".row").on("click", ".commentIcon", function() {
-			fix2(this);
-		});
-					
-	}
-
-
+		}

@@ -68,6 +68,9 @@
 	 $(document).ready(function() {
 	      let boardUri = searchUriAddress();
 	      asideBarDraw(boardUri);
+	      rolling();
+
+	 
 	   });
 		
 </script>
@@ -95,7 +98,7 @@
 					<section>
 						<header>
 							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 						</header>
 					
 					</section>
@@ -180,7 +183,7 @@
 				<input type="text" name="searchWord" style="color: chocolate;" id="searchWord" placeholder="검색어 입력..."/>
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="chechSearchInput();" />
 				<input type="hidden" name="page" value="1" />
-				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri'"/>
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri?page=1'"/>
 				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/register'">글쓰기</button>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
@@ -228,10 +231,10 @@
 							end="${pagingParam.endPage }" var="pageNo">
 
 							<li class="page-item" >
-							<c:if test="${pageNo == param.page }">
+							<c:if test="${pageNo == param.page}">
 							<a class="page-link" style="background-color: aquamarine;" href="listCri?page=${pageNo }">${pageNo }</a>
 							</c:if>
-							<c:if test="${pageNo != param.page }">
+							<c:if test="${pageNo != param.page}">
 							<a class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
 							</c:if>
 							

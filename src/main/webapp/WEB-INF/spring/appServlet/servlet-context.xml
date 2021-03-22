@@ -23,6 +23,6 @@
 	
 	<context:component-scan base-package="com.cambak21.controller" />
 	<context:component-scan base-package="com.cambak21.controller.boards" />
-	
+
 	
 </beans:beans>

@@ -6,7 +6,7 @@
 <mapper namespace="com.cambak21.mappers.BoardNotice">
   
   <select id="getNoticeAll" resultType="com.cambak21.domain.BoardVO">
-  		select * from Boards where board_category = 'notice' order by board_no desc
+  		select * from Boards where board_category = 'notice' order by board_no desc limit 0, 9
   </select>
   
   <select id="getListCriteria" resultType="com.cambak21.domain.BoardVO">
