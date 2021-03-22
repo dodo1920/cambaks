@@ -180,7 +180,7 @@
 				<input type="text" name="searchWord" style="color: chocolate;" id="searchWord" placeholder="검색어 입력..."/>
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="chechSearchInput();" />
 				<input type="hidden" name="page" value="1" />
-				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri?page=${pageNo }'"/>
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri'"/>
 				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/register'">글쓰기</button>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
@@ -227,8 +227,16 @@
 						<c:forEach begin="${pagingParam.startPage}"
 							end="${pagingParam.endPage }" var="pageNo">
 
-							<li class="page-item" ><a
-								class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+							<li class="page-item" >
+							<c:if test="${pageNo == param.page }">
+							<a class="page-link" style="background-color: aquamarine;" href="listCri?page=${pageNo }">${pageNo }</a>
+							</c:if>
+							<c:if test="${pageNo != param.page }">
+							<a class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+							</c:if>
+							
+						
+								
 							</li>
 
 						</c:forEach>

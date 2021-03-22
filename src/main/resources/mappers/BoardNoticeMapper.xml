@@ -6,7 +6,7 @@
 <mapper namespace="com.cambak21.mappers.BoardNotice">
   
   <select id="getNoticeAll" resultType="com.cambak21.domain.BoardVO">
-  		select * from Boards order by board_no desc
+  		select * from Boards where board_category = 'notice' order by board_no desc
   </select>
   
   <select id="getListCriteria" resultType="com.cambak21.domain.BoardVO">
@@ -14,7 +14,7 @@
   </select>
   
   <select id="getTotalNoticeCnt" resultType="int">
-  		select count(*) from Boards
+  		select count(*) from Boards where board_category = 'notice'
   </select>
   
   <select id="noticeRead" resultType="com.cambak21.domain.BoardVO">
@@ -66,7 +66,7 @@
   </delete>
   
   <select id="noticeSearch" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where
+		select * from Boards where 
 		
 		<if test="searchType == 'title'">
 			board_title like concat('%', #{searchWord}, '%')
@@ -96,7 +96,7 @@
 		<if test="searchType == 'writer'">
 			member_id like concat('%', #{searchWord}, '%')
 		</if>
-			  
+			  and board_category = 'notice'
 	  </select>
 	  
 	  <update id="modiNoticeBoard">

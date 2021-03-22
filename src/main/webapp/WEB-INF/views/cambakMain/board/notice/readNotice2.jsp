@@ -69,15 +69,16 @@ function callReplyList(){
 		$(data).each(function(index, item){
 			
 			let date = new Date(this.replyBoard_writeDate);
-			var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDay() + "     " + date.getHours() + ":" + date.getMinutes();
-				
+			console.log(date);
+			var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+			console.log(now);
 			
 			let go = Number(item.replyBoard_no);
 			$("#replyBoard_no").val(go);
 			let date111 = new Date(this.replyBoard_updateDate);
 			
 			output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
-			+ now + '<img src="/resources/cambak21/images/star2.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"><img id="' + item.replyBoard_no + '" src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
+			+ now + '<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img id="' + item.replyBoard_no + '" src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
 			'<div><span>' + this.member_id + '</span></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
 			
 		});
@@ -177,9 +178,11 @@ function goModify(replyBoard_no){
 function inputReplyBox1(){
 	$("#inputReplyBox").show();
 	
-	
-	
 };
+
+function replycancleBtn(){
+	$("#inputReplyBox").hide();	
+}
 
 
 function replyAddBtn(){
@@ -340,7 +343,7 @@ form, form input{
       <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button>
       </div>
 <%--       </c:if> --%>
-      <div id="inputReplyBox" style="board: 1px dotted black; margin-top: 20px; display:none;">
+      <div id="inputReplyBox" style="board: 1px dotted black; margin-top: 20px; margin-left:45px; display:none;">
       	
           <div>
          	     
@@ -353,6 +356,7 @@ form, form input{
       
    
       <button type="button" id="replyAddBtn" class="btn btn-primary" onclick="replyAddBtn();">ADD Reply</button>
+      <button type="button" id="cancleAddBtn" class="btn btn-info" onclick="replycancleBtn();">취소</button>
       
       </div>
     
