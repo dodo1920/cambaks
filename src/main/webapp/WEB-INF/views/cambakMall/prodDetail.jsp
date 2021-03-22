@@ -62,10 +62,13 @@
 		        $(data).each(function(index, item){
 		        	
 		        	if(item.prodQA_refOrder == 1) {
+		        		let date = new Date(item.prodQA_date);
+		        		let dateFormat = date.toLocaleString();
+		        		
 		        		output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
 	                    output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
 	                    output += '<td>' + item.member_id + '</td>';
-	                    output += '<td>' + item.prodQA_date + '</td>';
+	                    output += '<td>' + dateFormat + '</td>';
 	                    output += '<td>' + item.prodQA_likeCnt + '</td>';
 	                    output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
 	                    
@@ -74,7 +77,7 @@
 	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
 	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 	                    output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
-	                    output += '<div class="hiddenSecretDiv"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+	                    output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 		        	} else {
 		        		output += '<tr id="prodQA' + item.prodQA_no + '" class="prodQA' + item.prodQA_ref + '" style="display:none" ><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
@@ -88,7 +91,7 @@
 	                    output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
 	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
 	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-	                    output += '<div class="hiddenSecretDiv"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+	                    output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 		        	}
 		        });	
@@ -251,7 +254,7 @@
 	}
 	
 	function showHiddenSecret(obj) {
-		let hiddenSecretAddr = $(obj).next();
+		let hiddenSecretAddr = $(obj).next().next();
 		console.log(hiddenSecretAddr);
 		$(hiddenSecretAddr).show()
 	}
@@ -266,7 +269,7 @@
 		let checkSecretPwd = $(obj).prev().val();
 		console.log(checkSecretPwd);
 		
-		let no = $("#produQA_no").val();
+		let no = $(obj).prev().parent().attr("id");
 		console.log(no);
 		
 		$.ajax({
