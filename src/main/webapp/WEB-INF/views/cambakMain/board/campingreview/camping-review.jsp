@@ -59,7 +59,17 @@
 // 		let boardUri = searchUriAddress();
 		asideBarDraw(searchUriAddress());
 
+		// 글 삭제 알림창 띄우기
+		deleteOk();
 	});
+	
+	// 글 삭제되면 리스트 페이지로 이동하면서, 삭제 알림창 띄우기
+	function deleteOk() {
+		
+		if(${status == "deleteOk"}) {
+			$("#myModal").modal();
+		}
+	}
 
 	// 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
 	function searchUriAddress() {
@@ -90,7 +100,7 @@
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
+							<h2>캠핑 후기 게시판</h2>
 							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
 									자리입니다.</a></span>
 						</header>
@@ -115,8 +125,8 @@
 											<td>${item.board_no }</td>
 											<td><a href="../campingreview/detail?no=${item.board_no }"
 												class="board-title-a">${item.board_title }</a> <c:if
-													test="${item.replyCnt > 0 }">
-													(${item.replyCnt })
+													test="${item.board_replyCnt > 0 }">
+													(${item.board_replyCnt })
 												</c:if></td>
 											<td>${item.member_id }</td>
 											<td><fmt:formatDate value="${item.board_writeDate }"
@@ -144,6 +154,26 @@
 		</div>
 	</div>
 	<!-- /Main -->
+	
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body">
+					<p>글이 삭제 되었습니다</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 	<%@include file="../../cambak21Footer.jsp"%>
 
