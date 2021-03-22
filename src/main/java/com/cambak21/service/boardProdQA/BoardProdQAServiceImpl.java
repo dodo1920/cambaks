@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.persistence.boardProdQA.BoardProdQADAO;
@@ -85,20 +86,60 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	}
 
 	@Override
-	public int prodQAViewCnt(int prodQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean prodQAViewCnt(int prodQA_no) throws Exception {
+		boolean result = false;
+		
+		int i = dao.prodQAViewCnt(prodQA_no);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
-	public int prodQALikeCnt(int proQA_no) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean prodQALikeCnt(int prodQA_no) throws Exception {
+boolean result = false;
+		
+		int i = dao.prodQALikeCnt(prodQA_no);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int getMaxNo() throws Exception {
 		return dao.getMaxNo();
+	}
+
+	@Override
+	public boolean prodQAInsertLike(ProdQAsLikeVO vo) throws Exception {
+		boolean result = false;
+		
+		int i = dao.prodQAInsertLike(vo);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean prodQADeleteLike(ProdQAsLikeVO vo) throws Exception {
+		boolean result = false;
+		
+		int i = dao.prodQADeleteLike(vo);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 }

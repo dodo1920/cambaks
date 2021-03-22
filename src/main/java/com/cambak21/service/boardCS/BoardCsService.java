@@ -44,4 +44,11 @@ public interface BoardCsService {
 
 	// 검색된 게시글 총 수 구하기 (페이징 하기 위한)
 	int searchBoardCStotalCnt(SearchCriteria scri) throws Exception;
+	
+	// 이전 게시글 번호 가져오기
+	String prevNo(int board_no) throws Exception;
+
+	// 이전 게시글 번호 가져오기
+	String nextNo(int board_no) throws Exception;
+
 }

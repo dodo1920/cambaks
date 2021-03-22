@@ -2,6 +2,7 @@ package com.cambak21.persistence.resell;
 
 import java.util.List;
 
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 
 public interface ResellBoardReplyDAO {
@@ -15,7 +16,7 @@ public interface ResellBoardReplyDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int ResellBoardReplyInsert(ResellBoardVO vo)throws Exception;
+	public int ResellBoardReplyInsert(ReplyResellVO vo)throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardReplyRead

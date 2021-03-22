@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.util.PagingCriteria;
@@ -117,17 +118,21 @@ public interface BoardProdQAService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int prodQAViewCnt(int prodQA_no) throws Exception;
+	public boolean prodQAViewCnt(int prodQA_no) throws Exception;
 	
 	/**
 	 * @Method Name : prodQALikeCnt
 	 * @작성일 : 2021. 3. 17.
 	 * @작성자 : 김도연
-	 * @변경이력 : 
+	 * @변경이력 : 2021 . 3. 22 / 김도연 / int => boolean으로 return값 변경
 	 * @Method 설명 : 게시글의 좋아요 수를 카운팅 하는 메서드
 	 * @param proQA_no
 	 * @return
 	 * @throws Exception
 	 */
-	public int prodQALikeCnt(int proQA_no) throws Exception;
+	public boolean prodQALikeCnt(int proQA_no) throws Exception;
+	
+	public boolean prodQAInsertLike(ProdQAsLikeVO vo) throws Exception;
+	
+	public boolean prodQADeleteLike(ProdQAsLikeVO vo) throws Exception;
 }

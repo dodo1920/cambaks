@@ -145,6 +145,9 @@ p.category-title {
 						</div>
 						<div class="pageBtn">
 							<ul class="pagination">
+							<c:choose>
+							<c:when
+								test="${param.searchType == null && param.searchWord == null }">
 							<c:if test="${pagingParam.prev }">
 									<li class="page-item"><a class="page-link"
 										href="listAll?page=${param.page -1}">prev</a></li>
@@ -158,8 +161,38 @@ p.category-title {
 									<li class="page-item"><a class="page-link"
 										href="listAll?page=${param.page +1}">next</a></li>
 								</c:if>
+								</c:when>
+								<c:otherwise>
+								<c:if test="${pagingParam.prev }">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${param.page -1}">prev</a></li>
+								</c:if>
+								<c:forEach begin="${pagingParam.startPage }"
+									end="${pagingParam.endPage }" var="pageNo">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${pageNo}&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a>
+									</li>
+								</c:forEach>
+
+								<c:if test="${pagingParam.next }">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${param.page +1}&searchType=${param.searchType}&searchWord=${param.searchWord}">next</a>
+									</li>
+								</c:if>
+							</c:otherwise>
+								</c:choose>
 							</ul>
 						</div>
+						<div>
+					<form action="/cambakMain/board/humor/search" method="GET">
+						<select name="searchType">
+							<option value="board_title">제목</option>
+							<option value="board_content">내용</option>
+							<option value="member_id">작성자</option>
+						</select> <input type="text" name="searchWord" placeholder="검색어 입력.." /> <input
+							type="submit" id="goSearch" value="검색" />
+					</form>
+				</div>
 					</div>
 				</div>
 

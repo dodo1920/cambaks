@@ -32,16 +32,237 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <script type="text/javascript">
-	function showContent(obj) {
-		let contentId = $(obj).attr("id");
-		$("#content" + contentId).show()
+	
+	$(function() {
+		let prodId = $("#product_id").val();
+		console.log(prodId);
+		
+		let page = $("#page").val();
+		console.log(page);
+		
+		prodQAListAll(prodId, page);
+	    prodQAPagingParam(prodId, page);
+	});
+	
+	function prodQAListAll(prodId, page, flag, no) {
+	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId + "&page=" + page, function(data){
+	    	if(data.length == 0) {
+	    		console.log("데이터 없음")
+	    	} else {
+	    		console.log(data);
+	    		
+	    		let output = '<table class="table table-hover">';
+	    		output += ' <thead><tr><th>분류</th>';
+	    		output += '<th>글제목</th>';
+	    		output += '<th>작성자</th>';
+	    		output += '<th>작성일</th>';
+	    		output += '<th>좋아요</th>';
+	    		output += '<th>조회수</th></tr></thead><tbody>';
+	    		
+		        $(data).each(function(index, item){
+		        	
+		        	if(item.prodQA_refOrder == 1) {
+		        		output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
+	                    output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
+	                    output += '<td>' + item.member_id + '</td>';
+	                    output += '<td>' + item.prodQA_date + '</td>';
+	                    output += '<td>' + item.prodQA_likeCnt + '</td>';
+	                    output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
+	                    
+	                    output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
+	                    output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
+	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
+	                    output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
+	                    output += '<div class="hiddenSecretDiv"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+		        	} else {
+		        		output += '<tr id="prodQA' + item.prodQA_no + '" class="prodQA' + item.prodQA_ref + '" style="display:none" ><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
+	                    output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
+	                    output += '<td>' + item.member_id + '</td>';
+	                    output += '<td>' + item.prodQA_date + '</td>';
+	                    output += '<td>' + item.prodQA_likeCnt + '</td>';
+	                    output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
+	                    
+	                    output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
+	                    output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
+	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
+	                    output += '<div class="hiddenSecretDiv"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+		        	}
+		        });	
+		        
+		        output+= '</tbody></table>';
+		        
+		        $("#prodQATb").html(output);
+		        
+		        if(flag == 2) {
+		        	$("#content" + no).show();
+		        	$(".prodQA" + no).show();
+		        } else if(flag == 3) {
+		        	$("#content" + no).show();
+		        	$(".prodQA" + no).show();
+		        	console.log($("#likeCnt" + no).html());
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="40px" height="40px" onclick="deleteLike(' + no + ');" />');	
+		        } else {
+		        	$("#content" + no).show();
+		        	$(".prodQA" + no).show();
+		        	console.log($("#likeCnt" + no).html());
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ');"/>');	
+		        }
+		        
+	    	}
+	     });
 	}
 	
-	function showHiddenSecret() {
-		$(".hiddenSecret").show()
+	function prodQAPagingParam(prodId, page) {
+		$.getJSON("/mall/prodDetail/prodQAPP?prodId=" + prodId , function(data){
+	    	if(data.length == 0) {
+	    		console.log("데이터 없음")
+	    	} else {
+	    		let prev = Number(page) - 1;
+	    		let next = Number(page) + 1;
+	    		
+	    		let output = '<ul class="pagination">';
+	    		
+	    		if(page > 1) {
+	    			output += '<li><a href="?prodId=' + prodId + '&page=' + prev + '"> < </a></li>';
+	    		}
+	    		
+	    		for(let i = 1; i < data.endPage + 1; i++) {
+	    			output += '<li><a href="?prodId=' + prodId + '&page=' + i + '">' + i + '</a></li>';
+	    		}
+	    		
+	    		if(page < data.endPage) {
+	    			output += '<li><a href="?prodId=' + prodId + '&page=' + next + '"> > </a></li>';
+	    		}
+	    		
+	    		output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';
+	    		
+	    		$("#pagingParamTb").html(output);
+
+	    	}
+	     });
+	}
+	
+	function showContent(obj, no) {
+		let contentId = $(obj).attr("id");
+		$("#content" + contentId).show();
+		
+		console.log(no);
+		
+		$(".prodQA" + no).show();
+		
+		updateView(no);
+	}
+	
+	function updateView(prodQA_no) {
+		let prodId = $("#product_id").val();
+		console.log(prodId);
+		
+		let page = $("#page").val();
+		console.log(page);
+		
+		$.ajax({
+			url: '/mall/prodDetail/updateViewCnt',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: prodQA_no,
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				prodQAListAll(prodId, page, 2, prodQA_no);
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function updateLike(prodQA_no) {
+		let prodId = $("#product_id").val();
+		console.log(prodId);
+		
+		let page = $("#page").val();
+		console.log(page);
+		
+		let member_id = 'fff';
+		
+		$.ajax({
+			url: '/mall/prodDetail/updateLikeCnt',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: prodQA_no,
+				member_id: member_id
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				prodQAListAll(prodId, page, 3, prodQA_no);
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function deleteLike(prodQA_no) {
+		let prodId = $("#product_id").val();
+		console.log(prodId);
+		
+		let page = $("#page").val();
+		console.log(page);
+		
+		let member_id = 'fff';
+		
+		$.ajax({
+			url: '/mall/prodDetail/deleteLike',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: prodQA_no,
+				member_id: member_id
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				prodQAListAll(prodId, page, 4, prodQA_no);
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function showHiddenSecret(obj) {
+		let hiddenSecretAddr = $(obj).next();
+		console.log(hiddenSecretAddr);
+		$(hiddenSecretAddr).show()
 	}
 	
 	function chcekSecretPwd(obj) {
+		let prodId = $("#product_id").val();
+		console.log(prodId);
+		
+		let page = $("#page").val();
+		console.log(page);
+		
 		let checkSecretPwd = $(obj).prev().val();
 		console.log(checkSecretPwd);
 		
@@ -62,7 +283,7 @@
 			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
-				location.href = "../prodDetail/main?prodId=" + ${param.prodId};
+				prodQAListAll(prodId, page);
 			},
 			fail : function(result) {
 				alert(result);
@@ -70,10 +291,26 @@
 		});	
 	}
 	
+	
+	
 </script>
 <style>
-	.hiddenSecret {
+	.hiddenSecretDiv {
 		display : none;
+	}
+	
+	.nav-tabs {
+		border-bottom : none;
+	}
+	
+	.nav-tabs .nav-item {
+		background-color: white;
+		z-index : 999;
+	}
+	
+	.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+		border : none;
+		color : #ca1515;
 	}
 </style>
 <body>
@@ -227,7 +464,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">상품평( 2 )</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab"><span onclick="showProdQA();">상품 문의</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">배송/교환/반품 안내</a>
@@ -258,82 +495,15 @@
                             <div class="tab-pane active" id="tabs-3" role="tabpanel">
                                 <h6>상품 문의</h6>
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
-						     	<div class="container">
-								<c:choose>
-									<c:when test="${prodQALst != null}">
-										<table class="table table-hover">
-						                  <thead>
-						                     <tr>
-						                        <th>분류	</th>
-						                        <th>글제목</th>
-						                        <th>작성자</th>
-						                        <th>작성일</th>
-						                        <th>좋아요</th>
-						                        <th>조회수</th>
-						                     </tr>
-						                  </thead>
-						                  <c:forEach var="prodQALst" items="${prodQALst }" varStatus="status">
-						                  	<c:choose>
-						                  		<c:when test="${prodQALst.prodQA_isDelete != 'Y'}">
-						                 			<tr>
-							                        	<td>
-							                        	<input type="hidden" id="produQA_no" value="${prodQALst.prodQA_no }"/>
-							                        	${prodQALst.prodQA_category }
-							                        	</td>
-								                        <td>								
-								                          <div id="${prodQALst.prodQA_no}" onclick="showContent(this);">${prodQALst.prodQA_title }</div> 
-								                        </td>
-								                        <td>${prodQALst.member_id }</td>
-								                        <td><span class="sendTime">
-								                        <fmt:formatDate value="${prodQALst.prodQA_date }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
-								                        </span>
-								                        </td>
-								                        <td>${prodQALst.prodQA_likeCnt }</td>
-								                        <td>${prodQALst.prodQA_viewCnt }</td>
-								                     </tr>
-								                     <tr id="content${prodQALst.prodQA_no}" style="display: none">
-									                     <td colspan="6">
-									                     	 <div>${prodQALst.prodQA_content }</div>
-									                     	 <div>
-									                     	 	<input type="button" id="modi" value="수정" onclick="location.href='/mall/prodDetail/prodQAModiForm?prodId=' + ${param.prodId } + '&no=' + ${prodQALst.prodQA_no}"/>
-									                     	 	<input type="button" id="del" onclick="showHiddenSecret();" value="삭제"/>
-									                     	 	<input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/> 
-									                     	 	<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/>
-									                     	 </div>
-										                 </td>
-								                     </tr>
-						                  		</c:when>
-						                     </c:choose>
-						                  </c:forEach>
-						               </table>
+						     	<input type="hidden" id="product_id" value="${param.prodId }"/>
+						     	<input type="hidden" id="page" value="${param.page }" />
+						     	
+						     	<div class="container" id="prodQATb">
 						               
-						               <div class="container">
-						                 <ul class="pagination">
-						                 	<c:if test="${pagingParam.prev }">
-						                 		<li>
-						                 			<a href="?no=${param.no }&page=${param.page - 1 }"> < </a>
-						                 		</li>
-						                 	</c:if>
-						                 <c:forEach begin="${pagingParam.startPage}" end="${pagingParam.endPage }" var="pageNo">
-						                 	<li>
-						                 		<a href="?no=${param.no }&page=${pageNo }">${pageNo }</a>
-						                 	</li>
-						                 </c:forEach>
-											<c:if test="${pagingParam.next }">
-						                 		<li>
-						                 			<a href="?no=${param.no }&page=${param.page + 1 }"> > </a>
-						                 		</li>
-						                 	</c:if>
-										 </ul>
-						                 <button type="button" class="btn btn-info" style="float: right;" onclick="location.href='/mall/prodDetail/prodQAForm?prodId=${param.prodId}';">글쓰기</button>
-						               </div>
-									</c:when>
-								<c:otherwise>
-									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
-								</c:otherwise>
-								</c:choose>
-								
-							</div>
+								</div>
+								<div class="container" id="pagingParamTb">
+									
+						    	</div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">

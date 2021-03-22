@@ -107,4 +107,14 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 		return ses.selectOne(ns + ".getBoardNo", member_id);
 	}
 
+	@Override
+	public String prevNo(int board_no) throws Exception {
+		return ses.selectOne(ns + ".prevNo", board_no);
+	}
+
+	@Override
+	public String nextNo(int board_no) throws Exception {
+		return ses.selectOne(ns + ".nextNo", board_no);
+	}
+
 }

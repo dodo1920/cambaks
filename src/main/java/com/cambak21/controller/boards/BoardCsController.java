@@ -56,6 +56,8 @@ public class BoardCsController {
 		logger.info("승권 / 게시글 detail GET 호출");
 		
 		model.addAttribute("board", service.readBoardCS(no));
+		model.addAttribute("prev", service.prevNo(no));
+		model.addAttribute("next", service.nextNo(no));
 		
 		return "cambakMain/board/cs/boardCsDetail";
 	}

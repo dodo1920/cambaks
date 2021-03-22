@@ -38,7 +38,7 @@
 				<li id="humorAside"><a href="">유머 게시판</a></li>
 				<li id="QnAAside"><a href="">Q&A 게시판</a></li>
 				<li id="resellAside"><a href="">중고거래 게시판</a></li>
-				<li id="campingTipAside"><a href="">캠핑 Tip 게시판</a></li>
+				<li id="campingTipAside"><a href="/board/campingTip">캠핑 Tip 게시판</a></li>
 				<li id="noticeAside"><a href="/board/notice/listCri?page=1">공지사항</a></li>
 				<li id="csAside"><a href="">고객센터</a></li>
 			</ul>

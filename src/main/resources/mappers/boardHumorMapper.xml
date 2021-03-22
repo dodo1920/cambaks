@@ -31,4 +31,32 @@
 	<update id="updateViewCnt">
 		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no}
 	</update>
+	
+	<select id="searchBoardCnt" resultType="int">
+		select count(*) from Boards where
+  		<if test="searchType == 'board_title'">
+  			board_title like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'board_content'">
+  			board_content like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'member_id'">
+  			member_id like concat('%', #{searchWord}, '%')
+  		</if>
+	</select>
+	
+	<select id="searchBoard" resultType="com.cambak21.domain.BoardVO">
+  		select * from Boards where 
+  		<if test="searchType == 'board_title'">
+  			board_title like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'board_content'">
+  			board_content like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'member_id'">
+  			member_id like concat('%', #{searchWord}, '%')
+  		</if>
+  		
+  		order by board_no desc limit #{pageStart}, #{perPageNum}
+  	</select>
 </mapper>
