@@ -21,6 +21,7 @@ public class BoardQAServiceImpl implements BoardQAService {
 	private BoardQADAO dao;
 
 	/**
+	 * @return 
 	 * @Method Name : writeBoardQA
 	 * @작성일 : 2021. 3. 18.
 	 * @작성자 : 장원영 
@@ -31,8 +32,9 @@ public class BoardQAServiceImpl implements BoardQAService {
 	*/
 	@Transactional
 	@Override
-	public void writeBoardQA(InsertBoardQADTO idto) throws Exception {
+	public int writeBoardQA(InsertBoardQADTO idto) throws Exception {
 		dao.writeBoardQA(idto);
+		return dao.getBoard_no(idto.getMember_id());
 	}
 
 	/**
@@ -59,8 +61,8 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @throws Exception
 	*/
 	@Override
-	public int delBoardQA(BoardQAVO vo) throws Exception {
-		return dao.delBoardQA(vo);
+	public int delBoardQA(int board_no) throws Exception {
+		return dao.delBoardQA(board_no);
 	}
 
 	/**
@@ -68,7 +70,7 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @작성일 : 2021. 3. 18.
 	 * @작성자 : 장원영 
 	 * @변경이력 : 
-	 * @Method 설명 : Q&A게시판 글목록 메서드
+	 * @Method 설명 : Q&A게시판 리시트 페이징 메서드
 	 * @return
 	 * @throws Exception
 	*/
@@ -82,7 +84,7 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @작성일 : 2021. 3. 19.
 	 * @작성자 : 장원영 
 	 * @변경이력 : 
-	 * @Method 설명 : Q&A게시판 좋아요 업데이트
+	 * @Method 설명 : Q&A게시판 좋아요 업데이트 메서드
 	 * @return
 	 * @throws Exception
 	*/
@@ -96,7 +98,7 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @작성일 : 2021. 3. 19.
 	 * @작성자 : 장원영 
 	 * @변경이력 : 
-	 * @Method 설명 : Q&A게시판 검색목록 메서드
+	 * @Method 설명 : Q&A게시판 검색목록 페이징 메서드
 	 * @return
 	 * @throws Exception
 	*/
@@ -105,17 +107,11 @@ public class BoardQAServiceImpl implements BoardQAService {
 		return dao.searchListBoardQA(scri, cri);
 	}
 
-	/**
-	 * @Method Name : readBoardQA
-	 * @작성일 : 2021. 3. 19.
-	 * @작성자 : 장원영 
-	 * @변경이력 : 
-	 * @Method 설명 : Q&A게시판 읽기 메서드 
-	 * @return
-	 * @throws Exception
-	*/
+	@Transactional
 	@Override
 	public BoardQAVO readBoardQA(int board_no) throws Exception {
+		dao.boardQAViewUpdate(board_no);
+		
 		return dao.readBoardQA(board_no);
 	}
 

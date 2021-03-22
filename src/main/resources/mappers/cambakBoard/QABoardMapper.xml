@@ -30,14 +30,14 @@
 		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
 		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt
 		from Boards b
-		where board_category = 'CS'
+		where board_category = 'QA'
 		order by board_no desc
 		limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<!-- 게시글 리스트 cnt -->
 	<select id="totalCnt" resultType="int">
-		select count(*) from Boards where board_category = 'CS';
+		select count(*) from Boards where board_category = 'QA';
 	</select>
 	
 	<!-- 조회수 업데이트 -->
@@ -51,9 +51,9 @@
 	</update>
 	
 	<!-- 검색 리스트 -->
-	<select id="searchBoard" resultType="com.cambak21.domain.BoardVO">
+	<select id="searchBoard" resultType="com.cambak21.domain.BoardQAVO">
 		select * from Boards
-		where board_category = 'CS'
+		where board_category = 'QA'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')
 		</if>
@@ -72,7 +72,7 @@
 	
 	<!-- 검색 리스트 cnt -->
 	<select id="searchBoardCnt">
-		select count(*) from Boards where board_category = 'CS'
+		select count(*) from Boards where board_category = 'QA'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')
 		</if>

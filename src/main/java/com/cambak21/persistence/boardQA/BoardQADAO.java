@@ -16,7 +16,7 @@ public interface BoardQADAO {
 	int modiBoardQA(UpdateBoardQADTO udto) throws Exception;
 	
 	// 삭제
-	int delBoardQA(BoardQAVO vo) throws Exception;
+	int delBoardQA(int board_no) throws Exception;
 	
 	// 리스트
 	List<BoardQAVO> listBoardQA(PagingCriteria cri) throws Exception;
@@ -38,4 +38,9 @@ public interface BoardQADAO {
 
 	// 댓글 갯수
 	int boardQAReplyCnt(int board_no) throws Exception;
+	
+	// 게시글 insert 후 해당 게시글 번호 가져오기
+	int getBoard_no(String member_id) throws Exception;
+
+	void boardQAViewUpdate(int board_no);
 }

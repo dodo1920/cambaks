@@ -36,7 +36,7 @@
 			<ul class="nav nav-pills nav-stacked">
 				<li id="campingReviewAside"><a href="">캠핑 후기 게시판</a></li>
 				<li id="humorAside"><a href="">유머 게시판</a></li>
-				<li id="QnAAside"><a href="">Q&A 게시판</a></li>
+				<li id="QnAAside"><a href="/board/qa/">Q&A 게시판</a></li>
 				<li id="resellAside"><a href="">중고거래 게시판</a></li>
 				<li id="campingTipAside"><a href="/board/campingTip">캠핑 Tip 게시판</a></li>
 				<li id="noticeAside"><a href="/board/notice/listCri?page=1">공지사항</a></li>

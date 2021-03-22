@@ -50,12 +50,34 @@
 
 <script>
 	$(document).ready(function() {
-		// 말 줄임 ...
+		// 말 줄임
 		textLimit();
 		
 		// 공지사항 롤링
 		rolling();
+		
+		asideBarDraw(searchUriAddress());
+		// 글 삭제 알림창
+		deleteOk();
 	});
+	
+	// 글 삭제(리스트 페이지로 이동)
+	function deleteOk() {
+		
+		if(${status == "deleteOk"}) {
+			$("#myModal").modal();
+		}
+	}
+	// uri 게시판이름 가져오는 기능
+	function searchUriAddress() {
+		var url = location.href; //url주소
+		var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
+		return params[0]; // board/??/
+	}
+	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
+	function asideBarDraw(boardUri) {
+		$("#" + boardUri + "Aside").attr("class", "active");
+	}
 </script>
 </head>
 
@@ -68,25 +90,16 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21AsideBoardQA.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
 							<h2>Q&A 게시판</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항 자리</a></span>
+							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
 						</header>
-						<div class="research">
-							<!-- <form> -->
-							<div class="input-group">
-								<input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
-								<div class="input-group-btn">
-									<button type="button" class="btn btn-danger search"	onclick="sendKeyword();">Search</button>
-									<button class="btn btn-danger write"><a href="../cs/boardQAWrite">글쓰기</a></button>
-								</div>
-							</div>
-						</div>
+						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 					<div>
 						<div>
@@ -105,13 +118,14 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="" class="board-title-a">${item.board_title }</a> 
-												<c:if test="${item.replyCnt > 0 }">
-													(${item.replyCnt })
+											<td><a href="../qa/detail?no=${item.board_no }" class="board-title-a">${item.board_title }</a>
+												<c:if test="${item.board_replyCnt > 0 }">
+													(${item.board_replyCnt })
 												</c:if>
 											</td>
 											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											<td><fmt:formatDate value="${item.board_writeDate }"
+													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 											<td>${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
@@ -135,6 +149,26 @@
 		</div>
 	</div>
 	<!-- /Main -->
+	
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body">
+					<p>글이 삭제 되었습니다</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 	<%@include file="../../cambak21Footer.jsp"%>
 
