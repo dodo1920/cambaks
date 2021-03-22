@@ -5,41 +5,43 @@ public class CamBoardTipWriteDTO {
 	private String board_title;
 	private String board_category;
 	private String board_content;
-	private String board_img1;
-	private String board_img2;
-	private String board_img3;
-	private String board_img4;
 	
 	public String getMember_id() {
 		return member_id;
 	}
+
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
+	}
+
 	public String getBoard_title() {
 		return board_title;
 	}
+
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
+	}
+
 	public String getBoard_category() {
 		return board_category;
 	}
+
+	public void setBoard_category(String board_category) {
+		this.board_category = board_category;
+	}
+
 	public String getBoard_content() {
 		return board_content;
 	}
-	public String getBoard_img1() {
-		return board_img1;
+
+	public void setBoard_content(String board_content) {
+		this.board_content = board_content;
 	}
-	public String getBoard_img2() {
-		return board_img2;
-	}
-	public String getBoard_img3() {
-		return board_img3;
-	}
-	public String getBoard_img4() {
-		return board_img4;
-	}
-	
+
 	@Override
 	public String toString() {
 		return "CamBoardTipWriteDTO [member_id=" + member_id + ", board_title=" + board_title + ", board_category="
-				+ board_category + ", board_content=" + board_content + ", board_img1=" + board_img1 + ", board_img2="
-				+ board_img2 + ", board_img3=" + board_img3 + ", board_img4=" + board_img4 + "]";
+				+ board_category + ", board_content=" + board_content + "]";
 	}
 	
 }

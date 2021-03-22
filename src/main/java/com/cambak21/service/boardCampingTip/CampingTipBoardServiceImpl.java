@@ -2,6 +2,8 @@ package com.cambak21.service.boardCampingTip;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BoardVO;
@@ -10,21 +12,28 @@ import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
+import com.cambak21.persistence.boardCampingTip.CampingTipBoardDAO;
 import com.cambak21.util.PagingCriteria;
 
 @Service
 public class CampingTipBoardServiceImpl implements CampingTipBoardService {
-
+	
+	@Inject
+	private CampingTipBoardDAO dao;
+	
 	@Override
 	public List<BoardVO> listCampingTipBoard(PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.listCampingTipBoard(cri);
 	}
 
 	@Override
-	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO, int countThumbnail) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception {
+		return dao.viewCampingTipBoard(board_no, board_category);
+	}
+	
+	@Override
+	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO) throws Exception {
+		return dao.writeCampingTipBoard(writeDTO);
 	}
 
 	@Override
@@ -58,9 +67,8 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 
 	@Override
-	public List<ReplyBoardVO> readReplyCampingTipBoard(int board_no, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyBoardVO> readReplyCampingTipBoard(int board_no) throws Exception {
+		return dao.readReplyCampingTipBoard(board_no);
 	}
 
 	@Override
@@ -93,6 +101,11 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 		return false;
 	}
 
+	@Override
+	public List<ReplyBoardVO> readRereplyCampingTipBoard(int board_no) throws Exception {
+		return dao.readRereplyCampingTipBoard(board_no);
+	}
+	
 	@Override
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception {
 		// TODO Auto-generated method stub
