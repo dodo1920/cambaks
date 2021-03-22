@@ -32,11 +32,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	private void login(LoginDTO dto, HttpSession session, Model model) throws Exception {
+	private String login(LoginDTO dto, HttpSession session, Model model) throws Exception {
 		MemberVO vo = service.login(dto);
 		System.out.println("유저 컨트롤러 : " + vo.toString());
 					if(vo == null) {
-						return;
+						System.out.println("회원이름 못찾음");
+						return "user/login";
 					}
 		model.addAttribute("loginMember", vo);
 		
@@ -50,7 +51,7 @@ public class UserController {
 			service.keepLogin(dto.getMember_id(), session.getId(), sesLimit);
 		
 		}
-		
+		return "/user/login";
 	}
 	
 	

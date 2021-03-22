@@ -37,7 +37,10 @@
 
 <link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
-
+<!-- include summernote css/js -->
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
@@ -50,30 +53,22 @@
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
+<!-- include summernote css/js -->
+<script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <script>
 
-	function checkModiForm(){
-		
-		
-		if($(".boardtextArea").val() == $("#prevBoardContext").val() && $("input[name=board_title]").val() == $("#prevBoardTitle").val()){
-			alert("수정할 내용이 없습니다.");
-		}else {
-			$("#modiBoardNotice").submit();
-		}	
-				
-	}
-
+	
 	
 	$(function(){
 		
-		$("#prevBoardContext").val($(".boardtextArea").val());
-	  	$("#prevBoardTitle").val($("input[name=board_title]").val());
-	  
-	  
+			$('#summernote').summernote({
+				height : 500
+			});
+		
 	    let boardUri = searchUriAddress();
 	    asideBarDraw(boardUri);
-		 
+	    rolling();
 		
 	});
 
@@ -141,7 +136,6 @@ form, form input{
 </head>
 
 <body>
-
 <%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
@@ -152,54 +146,23 @@ form, form input{
 				<!-- 사이드바 템플릿 -->
 				<%@include file="../../cambak21Aside2.jsp"%>
 
-				<!-- Content -->
-				<div id="content" class="8u skel-cell-important">
-					<section>
-						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항 작성 페이지</a></span>
-						</header>
-					
-					</section>
-				<!--  게시판 상세내용  -->	
-					<section>
-					<form id="modiBoardNotice" action="/board/notice/modi" method="post">
-					
-				    <div class="formContent"> 
-				    <div>
-				    <span class="formTitle">Title</span> <input type="text" style="font-size:25px; font-weight:900; width: 650px; height:40px;" name="board_title" value="${noticeBoard.board_title }" />
-				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" />
-<%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
-         			
-         			<button type="button" style="float:right; margin-left:10px; margin-top:3px" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/listCri'">등록 취소</button>
-         			<button type="button" style="float:right; margin-left:10px; margin-top:3px" class="btn btn-success" id="rewriteBoard" onclick="checkModiForm();">등록 완료</button>
-<%-- 				    </c:if> --%>
-		            </div>
-		              <div>
-		            <span style="margin-left:15px;">작성자: <input style="border:none;" readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				   </div>
-		               <div>
-		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <span class="formTitle">내용 </span><textarea name="board_content" class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
-				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-		            </div>
-		               
-            </form>
-        </section>   
-        <!--  로그인 한 유저와 작성자가 같을 때만 수정하기 삭제하기 버튼이 보여짐  -->
-  
-					
+				<div id="content">
+					<div>
+						<form action="/board/notice/register" method="post">
+							<input type="text" class="form-control" id="usr" name="board_title">
+							<textarea id="summernote" name="board_content"></textarea>
+							<input type="hidden" name="member_id" value="ccc"> <input
+								type="hidden" name="board_category" value="CS">
+							<button type="submit" class="btn btn-success">작성하기</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 	<!-- /Main -->
 
 	<%@include file="../../cambak21Footer.jsp"%>
-
-	<input type="hidden" id="prevBoardTitle" />
-	<input type="hidden" id="prevBoardContext" />
-
 </body>
 
 </html>

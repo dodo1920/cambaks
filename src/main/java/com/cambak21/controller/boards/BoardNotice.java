@@ -40,25 +40,13 @@ public class BoardNotice {
 	// 전체글 출력 10번까지만.. 롤링 쓰려고 ( Test용 )
 	@RequestMapping(value = "/listall", method = RequestMethod.GET)
 	public  ResponseEntity<List<BoardVO>> listAll(Model model) throws Exception{
-		logger.info("종진 / listAll 전체 목록 출력");
+		logger.info("종진 / listAll 전체 목록 롤링 js 로 전달");
 	
 		ResponseEntity<List<BoardVO>> entity = null;
 		entity = new ResponseEntity<List<BoardVO>>(service.getNoticeAll(), HttpStatus.OK);
 	
 		return entity;
 	}
-//	
-//	@RequestMapping(value = "/getReply/{bno}", method = RequestMethod.GET)
-//	public ResponseEntity<List<ReplyBoardVO>> lst(@PathVariable("bno") int bno) throws Exception{
-//		logger.info("종진 / 공지사항 해당 댓글 불러오기");
-//			
-//		ResponseEntity<List<ReplyBoardVO>> entity = null;
-//		entity = new ResponseEntity<List<ReplyBoardVO>>(nrservice.listNoticeReply(bno), HttpStatus.OK);
-//		
-//		return entity;
-//	}
-	
-	
 	
 	// 페이징 처리된 게시판 출력
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
@@ -74,17 +62,17 @@ public class BoardNotice {
 		pp.setTotalCount(service.getTotalNoticeCnt());
 		
 		model.addAttribute("pagingParam", pp);
-		return "cambakMain/board/notice/jjongnotice";
+		return "cambakMain/board/notice/noticeMain";
 	}
 	
 	// 게시판 상세 페이지 보기
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
 	public String noticehome(@RequestParam("no") int no, Model model) throws Exception{
 		logger.info("종진 / read 게시판 상세 페이지 이동");
-	
+
 		model.addAttribute("noticeBoard", service.noticeRead(no));
 		
-		return "cambakMain/board/notice/readNotice2";
+		return "cambakMain/board/notice/noticeDetail";
 	}
 	// 게시판 수정 클릭시 페이지로 이동
 	@RequestMapping(value = "/modi", method = RequestMethod.GET)
@@ -94,7 +82,7 @@ public class BoardNotice {
 			
 		model.addAttribute("noticeBoard", service.noticeRead(no));
 		
-		return "cambakMain/board/notice/modiNotice";
+		return "cambakMain/board/notice/noticeModify";
 	}
 	
 	// 게시판 수정된 VO 로 게시판 수정
@@ -106,29 +94,13 @@ public class BoardNotice {
 			rttr.addFlashAttribute("result", "succeess");
 		}
 		
-		
-		
 		return "redirect:/board/notice/read?no=" + vo.getBoard_no();
 	}
-	
-//	
-//	public String updateBoard(BoardVO vo, RedirectAttributes rttr) throws Exception{
-//		logger.info("/modifypage... POST 호출");
-//		System.out.println(vo.toString());
-//		String success = "success";
-//		if(service.modify(vo)) {
-//			rttr.addFlashAttribute("result", success);
-//		}
-//		return "redirect:/board/read?no=" + vo.getNo() ;
-//				
-//	}
-//	
-	
 	
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String resisterNotice(BoardVO vo, RedirectAttributes rttr) throws Exception{
-		logger.info("종진 / 공지사항 작성 페이지 이동");
+		logger.info("종진 / 공지사항 작성 하고 결과 알려주기");
 	
 			if(service.insertNotice(vo)) {
 				rttr.addFlashAttribute("result", "success");
@@ -189,7 +161,7 @@ public class BoardNotice {
 		if(nrservice.dropReply(no)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return"redirect:/board/notice/listCri";
+		return"redirect:/board/notice/noticeMain";
 	}
 	
 		@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
@@ -200,7 +172,7 @@ public class BoardNotice {
 			rttr.addFlashAttribute("result", "success");
 		}
 	
-		return "redirect:/board/notice/listCri";
+		return "redirect:/board/notice/noticeMain";
 	}
 	
 		
@@ -216,7 +188,7 @@ public class BoardNotice {
 				model.addAttribute("pagingParam", pp);
 				
 							
-				return "cambakMain/board/notice/jjongnotice";
+				return "cambakMain/board/notice/noticeMain";
 		}	
 	
 		

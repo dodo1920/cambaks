@@ -53,9 +53,6 @@
 
 <script>
 
-
-
-
 function callReplyList(){
 	
 	let board_no = '${param.no}';
@@ -63,9 +60,7 @@ function callReplyList(){
 	
 	
 	$.getJSON("/board/notice/getReply/" + board_no, function(data){
-		
-		
-	
+					
 		$(data).each(function(index, item){
 			
 			let date = new Date(this.replyBoard_writeDate);
@@ -90,7 +85,7 @@ function callReplyList(){
 }	
 
 $(function(){
-	
+	 rolling();
   	callReplyList();
     let boardUri = searchUriAddress();
     asideBarDraw(boardUri);
@@ -124,10 +119,6 @@ function enterkey() {
        modiProc();
     }
 }
-
-
-
-
 
 function modiProc(){
 		// 유효성 검사 하고...
@@ -217,14 +208,11 @@ function replyAddBtn(){
 </script>
 
 
-
-
-
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 
 #modifyBox{
-	width: 400px;  		height: 100px;
+	width: 400px;  height: 100px;
 	background-color: lightgray;;
 	top: 50%;  		left: 50%;
 	margin: -50px 0p 0px -150px;
@@ -232,11 +220,7 @@ function replyAddBtn(){
 	padding: 15px;
 	}
 
-.formContent{
-
-	margin: 40px;
-
-}
+.formContent{ margin: 40px;}
 
 input:focus {outline:none;}
 textarea:focus {outline: none;}
@@ -259,12 +243,7 @@ form, form input{
 
 #replyWindow{
 
-    width: 900px;
-    height: 400px;
-    margin: 40px;
-    overflow-x: hidden;
-
-}
+    width: 900px;  height: 400px;  margin: 40px;  overflow-x: hidden; }
 
 #buttonWindow{
 
@@ -303,9 +282,9 @@ form, form input{
 				    <div class="formContent"> 
 				    <div>
 				    <input type="text" readonly style="font-size:25px; font-weight:900;max-width: 750px;" name="board_title" value="${noticeBoard.board_title }" />
-<%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
+				    <c:if test="${loginMember.member_id == noticeBoard.member_id }">	
          			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/modi?no=${noticeBoard.board_no}'">수정</button>
-<%-- 				    </c:if> --%>
+				    </c:if>
 		            </div>
 		              <div>
 		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
@@ -323,8 +302,7 @@ form, form input{
         </section>   
         <!--  로그인 한 유저와 작성자가 같을 때만 수정하기 삭제하기 버튼이 보여짐  -->
         <div id="buttonWindow">
-        <c:if test="${loginMember.uid == board.writer }">	
-         
+        <c:if test="${loginMember.member_id == noticeBoard.member_id }">	
          <button type="button" class="btn btn-info" id="deleteBoard" onclick="location.href='/board/notice/remove/${noticeBoard.board_no}'">삭제하기</button>
          </c:if>
 	

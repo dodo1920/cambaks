@@ -25,10 +25,10 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
 		logger.info("로그인 하기 전 . . . . . . . . . .");
 		HttpSession ses = request.getSession();
 		
-		if(ses.getAttribute("loginMember") != null) {    // 이전 로그인 정보가 세션에 남아 있다면
-				ses.removeAttribute("loginMember");   // 로그인 정보 삭제
-		}
-		
+//		if(ses.getAttribute("loginMember") != null) {    // 이전 로그인 정보가 세션에 남아 있다면
+//				ses.removeAttribute("loginMember");   // 로그인 정보 삭제
+//		}
+//		
 		return true;	// 이후 인터셉터 또는 컨트롤러에게 제어권을 넘김
 	}
 	
@@ -60,7 +60,6 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
 				}
 		
 				String dest = (String)ses.getAttribute("dest");
-				
 				response.sendRedirect((dest != null)? dest : "/");
 			}
 	}

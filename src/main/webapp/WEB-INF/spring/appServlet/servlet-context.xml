@@ -31,12 +31,12 @@
 			<mapping path="/user/login"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
-		<interceptor>
-			<mapping path="/board/notice/listCri"/>   <!--  글 쓰기  -->
-<!-- 			<mapping path="/board/modi"/>	 글 수정 -->
-<!-- 			<mapping path="/board/remove" /> -->
-			<beans:ref bean="authInterceptor"/>
-		</interceptor>
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/board/notice/listCri"/>    글 쓰기  -->
+<!-- 			<mapping path="/board/modi"/>	 글 수정 --> 
+<!--  			<mapping path="/board/remove" /> --> 
+<!-- 			<beans:ref bean="authInterceptor"/> -->
+<!-- 		</interceptor> -->
 	</interceptors>
 	
 	

@@ -70,7 +70,7 @@
 		$("#prevBoardContext").val($(".boardtextArea").val());
 	  	$("#prevBoardTitle").val($("input[name=board_title]").val());
 	  
-	  
+	  	 rolling();
 	    let boardUri = searchUriAddress();
 	    asideBarDraw(boardUri);
 		 
