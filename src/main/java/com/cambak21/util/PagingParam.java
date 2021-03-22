@@ -8,7 +8,7 @@ public class PagingParam {
 	private boolean prev; // 이전페이지
 	private boolean next; // 다음 페이지로
 	private int displayPageNum = 10; //보여줄 페이지 수 (block)
-	
+	private int tempEndPage;
 	private PagingCriteria cri;
 	
 	public void setCri(PagingCriteria cri) {
@@ -26,7 +26,7 @@ public class PagingParam {
 		this.endPage = (int)(Math.ceil(cri.getPage() / (double)this.displayPageNum) * displayPageNum);
 		
 		//게시물 수에 따른 실제 endPage
-		int tempEndPage = (int)(Math.ceil(this.totalCount / (double)cri.getPerPageNum()));
+		tempEndPage = (int)(Math.ceil(this.totalCount / (double)cri.getPerPageNum()));
 		
 		this.startPage = (this.endPage - this.displayPageNum) +1;
 		
@@ -37,6 +37,10 @@ public class PagingParam {
 		this.prev = (cri.getPage() == 1)? false:true;
 		this.next = ((cri.getPage() * cri.getPerPageNum()) >= this.totalCount)? false:true;
 		
+	}
+
+	public int getTempEndPage() {
+		return tempEndPage;
 	}
 
 	public int getTotalCount() {
