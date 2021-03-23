@@ -12,4 +12,6 @@ public interface UserService {
 	
 	public void keepLogin(String member_id, String sesId, Date cookieAge) throws Exception;
 	
+	public boolean memberDelete(String member_id) throws Exception;
+	
 }

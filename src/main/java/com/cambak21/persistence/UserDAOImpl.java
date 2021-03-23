@@ -41,4 +41,10 @@ public class UserDAOImpl implements UserDAO {
 		
 	}
 
+	@Override
+	public int memberDel(String member_id) throws Exception {
+		return ses.update(namespace + ".MemberDelete", member_id);
+		
+	}
+
 }

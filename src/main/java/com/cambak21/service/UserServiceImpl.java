@@ -33,4 +33,16 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public boolean memberDelete(String member_id) throws Exception {
+		boolean result = false;
+		int i = dao.memberDel(member_id);
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+		
+	}
+
 }

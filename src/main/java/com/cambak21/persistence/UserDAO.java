@@ -15,5 +15,6 @@ public interface UserDAO {
 		 // 로그인 유지하기 위해 
 		 public void keepLogin(String uid, String sesId, Date cookieAge) throws Exception;
 		 
+		 public int memberDel(String member_id) throws Exception;
 		 
 }

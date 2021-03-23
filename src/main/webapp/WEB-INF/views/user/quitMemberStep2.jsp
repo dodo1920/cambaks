@@ -48,14 +48,14 @@
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 <script>
-		function checkPw() {
+		/* function checkPw() {
 			
 			let chkPw = document.getElementById('chkPw').value;
 			if (chkPw.length < 8 || chkPw.length > 20) { // 잘못된 패스워드
 				document.getElementById("checkPwMessage").innerHTML = "잘못된 패스워드 양식입니다.";
 				document.getElementById("chkPw").focus()
 			} 
-		}
+		} */
 	</script>
 
 <body>
@@ -153,9 +153,9 @@
 							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
 						</header>
 						<div>
-						<form action="" method="POST">
-							<input type="hidden" value = "${loginMember.member_id }"/>
-							<input type="password" id="chkPw" size="25" onblur="checkPw();">
+						<form action="/user/quitMemberStep2" method="POST">
+							<input type="hidden" name="member_id" value = "${loginMember.member_id }"/>
+							<input type="password" name="member_password" id="chkPw" size="25" onblur="checkPw();">
 							<input type="submit" value="확인">
 							<span id="checkPwMessage"></span>
 						</form>
