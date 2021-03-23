@@ -59,4 +59,12 @@
   		
   		order by board_no desc limit #{pageStart}, #{perPageNum}
   	</select>
+
+	<update id="updateReplyCnt">
+		update Boards set board_replyCnt = board_replyCnt + 1 where board_no = #{board_no}
+	</update>
+	
+	<update id="minusReplyCnt">
+		update Boards set board_replyCnt = board_replyCnt - 1 where board_no = #{board_no}
+	</update>
 </mapper>
