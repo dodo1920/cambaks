@@ -25,7 +25,7 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("product_id", product_id);
-//		params.put("prodQA_refOrder", prodQA_refOrder);
+		params.put("prodQA_refOrder", prodQA_refOrder);
 		params.put("pageStart", cri.getPageStart());
 		params.put("perPageNum", cri.getPerPageNum());
 		

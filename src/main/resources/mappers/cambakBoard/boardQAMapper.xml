@@ -6,7 +6,7 @@
   <mapper namespace="com.cambak21.mappers.cambakBoard.boardQAMapper">
   	<!-- prodQA 게시판 전체 목록을 불러오는 쿼리문 -->
   	<select id="prodQAListAll" resultType="com.cambak21.domain.ProdQAVO">
-  		select * from ProdQAs where product_id = #{product_id} and prodQA_isDelete = 'N'
+  		select * from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder} and prodQA_isDelete = 'N'
   		order by ProdQA_ref desc, prodQA_refOrder asc limit #{pageStart}, #{perPageNum}
   	</select>
   	
@@ -15,8 +15,8 @@
   	</select>
   	
   	<insert id="insertProdQA">
-  		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_img, prodQA_isSecret, prodQA_secretPassword, prodQA_category)
-		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, #{prodQA_img}, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category})
+  		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_img1, prodQA_isSecret, prodQA_secretPassword, prodQA_category, prodQA_img2, prodQA_img3)
+		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, #{prodQA_img1}, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category}, #{prodQA_img2}, #{prodQA_img3})
   	</insert>
   	
   	<select id="getMaxNo" resultType="int">
