@@ -131,7 +131,7 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="cpreview_title">제 목 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="cpreview_title" name="cpreview_title" >
+		          s        <input type="text" class="form-control" id="cpreview_title" name="cpreview_title" >
 		               </div>
 		            </div>
 		            <div class="form-group">
