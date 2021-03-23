@@ -60,7 +60,7 @@
 					<div><h2>${board.resellBoard_no }번페이지 수정</h2></div>
 							<form action="modi" method="post">
 							아이디 :
-							<input type="text" class="form-control" id="userId" name="member_id" value="${board.member_id }">
+							<input type="text" class="form-control" id="userId" name="member_id" value="${board.member_id }" readonly="readonly">
 							제목 : 
 							<input type="text" class="form-control" id="title" name="resellBoard_title" value="${board.resellBoard_title }">
 							본문 :
@@ -71,7 +71,10 @@
 							<input type="text" class="form-control" id="addr" name="resellBoard_addr" value="${board.resellBoard_addr }">
 							<button type="submit" class="btn btn-success">작성하기</button>
 							<input type="text" style="display: none;" name="resellBoard_no"value="${board.resellBoard_no }">
+							<button type="button" class="btn btn-danger"
+							onclick="location.href='/board/resell/list?perPageNum=9';">취소</button>
 						</form>
+						
 				</div>
 
 			</div>

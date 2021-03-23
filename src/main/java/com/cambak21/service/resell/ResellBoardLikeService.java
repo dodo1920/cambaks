@@ -39,4 +39,6 @@ public interface ResellBoardLikeService {
 	 * @throws Exception
 	 */
 	public boolean ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
+	
+	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception;
 }

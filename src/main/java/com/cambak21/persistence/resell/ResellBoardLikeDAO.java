@@ -39,4 +39,7 @@ public interface ResellBoardLikeDAO {
 	 * @throws Exception
 	 */
 	public int ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
+	
+	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo)throws Exception;
+	
 }

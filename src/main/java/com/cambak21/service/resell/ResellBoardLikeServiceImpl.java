@@ -43,4 +43,10 @@ public class ResellBoardLikeServiceImpl implements ResellBoardLikeService {
 		return result;
 	}
 
+	@Override
+	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception {
+		System.out.println("service : "+vo);
+		return dao.ResellBoardlikeRead(vo);
+	}
+
 }
