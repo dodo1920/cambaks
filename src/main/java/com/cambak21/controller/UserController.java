@@ -78,6 +78,21 @@ public class UserController {
 	}
 	
 	
+//	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	@RequestMapping(value = "/quitMember", method = RequestMethod.GET)
+	public String quitMember() {
+		
+		
+		return "/user/quitMember";
+	}
+	
+	@RequestMapping(value = "/quitMemberStep2", method = RequestMethod.GET)
+	public void quitMemberStep2() {
+		
+	}
+	
+//	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<김대기 멤버 탈퇴
+	
 	
 	
 	

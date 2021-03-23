@@ -94,15 +94,19 @@ p.category-title {
 						<div class="research">
 							<!-- <form> -->
 							<div class="input-group">
-								<input type="text" class="form-control" size="50"
+								<!-- 검색버튼 -->
+								<form action="/cambakMain/board/humor/search" method="GET">
+								<input type="text" name="searchWord" class="form-control" size="50"
 									placeholder="Search" onkeypress="enterKey();">
 								<div class="input-group-btn">
-									<button type="button" class="btn btn-danger search"
-										onclick="sendKeyword();">Search</button>
+									<input type="submit" id="goSearch" value="검색" />
+								
 									<button class="btn btn-danger write">
+								
 										<a href="/cambakMain/board/humor/write">글쓰기</a>
 									</button>
 								</div>
+								</form>
 							</div>
 							<!-- <div class="input-group-btn write">
 		                        <button class="btn btn-danger write"><a href="SHW_board.html">글쓰기</a></button>
@@ -184,14 +188,15 @@ p.category-title {
 							</ul>
 						</div>
 						<div>
+						<!-- 
 					<form action="/cambakMain/board/humor/search" method="GET">
 						<select name="searchType">
 							<option value="board_title">제목</option>
 							<option value="board_content">내용</option>
 							<option value="member_id">작성자</option>
-						</select> <input type="text" name="searchWord" placeholder="검색어 입력.." /> <input
-							type="submit" id="goSearch" value="검색" />
+						</select> <input type="text" name="searchWord" placeholder="검색어 입력.." /> 
 					</form>
+					 -->
 				</div>
 					</div>
 				</div>
