@@ -10,15 +10,6 @@ public interface BoardProdReviewDAO {
 	// 게시글 작성
 	public int insert(ProdReviewVO vo) throws Exception;
 	
-	// 글번호로 게시글 상세 조회
-	//public ProdReviewVO readProdBoard(int no) throws Exception;
-	
-	// 글 수정
-	//public int update(ProdReviewVO vo) throws Exception;
-	
-	// 글 삭제
-	//public int delete(int no) throws Exception;
-	
 	// 전체 글 출력
 	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 	

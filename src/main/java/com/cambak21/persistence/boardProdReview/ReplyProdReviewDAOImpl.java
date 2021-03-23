@@ -1,4 +1,4 @@
-package com.cambak21.persistence.replyProdReviews;
+package com.cambak21.persistence.boardProdReview;
 
 import java.util.List;
 
@@ -17,8 +17,8 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 	private static final String namespace = "com.cambak21.mapper.ReplyProdReviewMapper";
 	
 	@Override
-	public void create(ReplyProdReviewVO vo) throws Exception {
-		ses.insert(namespace + ".create", vo);
+	public int addProdReply(ReplyProdReviewVO vo) throws Exception {
+		return ses.insert(namespace + ".addProdReply", vo);
 	}
 
 	@Override
@@ -55,6 +55,13 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 	public void updateReforder(int ref, int reforder) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ReplyProdReviewVO> getListReply(int prodReview_no) throws Exception {
+		System.out.println("DaoImpl");
+		System.out.println(ses.selectList(namespace + ".getListReply", prodReview_no));
+		return ses.selectList(namespace + ".getListReply", prodReview_no);
 	}
 
 }

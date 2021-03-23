@@ -4,9 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   <mapper namespace = "com.cambak21.mapper.ReplyProdReviewMapper">
+  	<select id="getMaxNo" resultType="int">
+  		select if(max(no) is not null, (select max(no) from test.tbl_reply) + 1, 1) from test.tbl_reply
+  	</select>
   
-  	<insert id="create">
+  	<insert id="addProdReply">
   		insert into ReplyProdReviews(prodReview_no, member_id, replyProdReview_content, replyProdReview_refOrder, replyProdReview_ref)
   	</insert>
   
+  	<select id="getListReply" resultType="com.cambak21.domain.ReplyProdReviewVO">
+  		select * from ReplyProdReviews where prodReview_no = #{prodReview_no}
+  	</select>
   </mapper>

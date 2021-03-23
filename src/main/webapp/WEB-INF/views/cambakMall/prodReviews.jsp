@@ -141,14 +141,17 @@
 	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
 	                 
+	                 // Content 내용
 	                 output += '<div>' + item.prodReview_content + '</div>';
-	            	 
-	                 
-	                 
+	                 // 댓글 내용
+	                 output += '<div id="replyBox' + item.prodReview_no + '"></div>';
+
+	                 output += '<div>' + showProdReplyList(item.prodReview_no) + '</div>';
+	                  
 	                 
 	                 if(member_id != null){
 	                	 output += '<div class ="row"><div class="col-md-12 "><textarea id="replyProdReview_content" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea></div></div>';
-	                	 output += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews();">댓글등록</button></div></td>'
+	                	 output += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></td>'
 	                 }
 	                 
 	        	  });
@@ -211,29 +214,30 @@
 	    });
 	} // end of showProdList
 
+	
 	//addReplyProdReviews 댓글처리 부분
-	function addReplyProdReviews() {
+	function addReplyProdReviews(prodReview_no) {
 				// 댓글 작성 시 필요한 변수들
 				let replyProdReview_content = $("#replyProdReview_content").val();
-				let member_id = 'fff'
-				let prodReview_no = '4'
+				let member_id = 'fff';
+				prodReview_no = prodReview_no;
 				
 				$.ajax({
 					  method: "post",
-					  url: "/replies",
+					  url: "/cambakMall/prodReviewReply",
 					  headers: {	// 요청하는 데이터의 헤더에 전송
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "POST"
 					  },
 					  dataType: "text", // 응답 받는 데이터 타입
 					  data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
-						 bno :  bno,
-						 replyer : replyer,
-						 replytext : replytext
+						  replyProdReview_content :  replyProdReview_content,
+						  member_id : member_id,
+						  prodReview_no : prodReview_no
 					  }),
 					  success : function(result) {
 						if(result == "Success"){
-							callReplyList();
+							showProdReplyList(prodReview_no);
 						}
 						
 					  }
@@ -243,11 +247,29 @@
 
 	};
 	
+	// showProdReplyList
+	function showProdReplyList(prodReview_no) {
+		prodReview_no = prodReview_no;
+		console.log("prodReview_no : " + prodReview_no);
+		let replyContent = "댓글이 없습니다.";
+		/*$("#replyBox").empty();
+		
+		
+			$("#replyBox").html(output);*/
+			
+			
+			$.getJSON("/cambakMall/getProdReviewReply/" + prodReview_no, function(data) {
+				console.log(data)
+				
+			});
+			
+			return "체크중";
+		};
 	
-	
+		
+		
 		$(function() {
 			showProdList();
-		
 		});
     </script>
 </head>

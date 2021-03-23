@@ -1,4 +1,4 @@
-package com.cambak21.persistence.replyProdReviews;
+package com.cambak21.persistence.boardProdReview;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface ReplyProdReviewDAO {
 	
 	
 	// 상품후기 게시글에 대한 댓글 생성
-	public void create(ReplyProdReviewVO vo) throws Exception;
+	public int addProdReply(ReplyProdReviewVO vo) throws Exception;
 	
 	// 상품후기 게시글에 대한 댓글 전체 목록 조회
 	public List<ReplyProdReviewVO> read(int bno) throws Exception;
@@ -31,6 +31,8 @@ public interface ReplyProdReviewDAO {
 	
 	// 상품후기 게시글에 대한 댓글 삭제(update처리)
 	public void delete(int no) throws Exception;
+
+	public List<ReplyProdReviewVO> getListReply(int prodReview_no) throws Exception;
 	
 
 	
