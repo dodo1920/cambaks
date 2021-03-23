@@ -45,8 +45,8 @@
  		<div class="content-wrapper">
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
-		
-		         <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post">
+		      
+				 <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post" enctype="multipart/form-data" id="prodQAForm">	
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">

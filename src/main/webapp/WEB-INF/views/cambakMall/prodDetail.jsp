@@ -60,61 +60,39 @@
 	    		output += '<th>조회수</th></tr></thead><tbody>';
 	    		
 		        $(data).each(function(index, item){
-		        	
-		        	if(item.prodQA_refOrder == 1) {
-		        		let date = new Date(item.prodQA_date);
-		        		let dateFormat = date.toLocaleString();
+		        	let date = new Date(item.prodQA_date);
+		        	let dateFormat = date.toLocaleString();
 		        		
-		        		output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-	                    output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
-	                    output += '<td>' + item.member_id + '</td>';
-	                    output += '<td>' + dateFormat + '</td>';
-	                    output += '<td>' + item.prodQA_likeCnt + '</td>';
-	                    output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
+		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
+	                output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
+	                output += '<td>' + item.member_id + '</td>';
+	                output += '<td>' + dateFormat + '</td>';
+	                output += '<td>' + item.prodQA_likeCnt + '</td>';
+	                output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
 	                    
-	                    output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
-	                    output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
-	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
-	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-	                    output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
-	                    output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
-	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
-		        	} else {
-		        		output += '<tr id="prodQA' + item.prodQA_no + '" class="prodQA' + item.prodQA_ref + '" style="display:none" ><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-	                    output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
-	                    output += '<td>' + item.member_id + '</td>';
-	                    output += '<td>' + item.prodQA_date + '</td>';
-	                    output += '<td>' + item.prodQA_likeCnt + '</td>';
-	                    output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
-	                    
-	                    output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
-	                    output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
-	                    output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
-	                    output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-	                    output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
-	                    output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
-		        	}
+	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
+	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
+	                
+	                output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+	                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
+	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
+	                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+	                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 		        });	
 		        
 		        output+= '</tbody></table>';
 		        
-		        $("#prodQATb").html(output);
+		        $("#prodQATb").html(output);    
 		        
-		        if(flag == 2) {
+		        if(flag == 1) {
 		        	$("#content" + no).show();
-		        	$(".prodQA" + no).show();
-		        } else if(flag == 3) {
+		        } else if(flag == 2) {
 		        	$("#content" + no).show();
-		        	$(".prodQA" + no).show();
-		        	console.log($("#likeCnt" + no).html());
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="40px" height="40px" onclick="deleteLike(' + no + ');" />');	
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ');"/>');
 		        } else {
 		        	$("#content" + no).show();
-		        	$(".prodQA" + no).show();
-		        	console.log($("#likeCnt" + no).html());
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ');"/>');	
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ');"/>')
 		        }
-		        
 	    	}
 	     });
 	}
@@ -181,7 +159,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
-				prodQAListAll(prodId, page, 2, prodQA_no);
+				prodQAListAll(prodId, page, 1, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);
@@ -213,7 +191,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
-				prodQAListAll(prodId, page, 3, prodQA_no);
+				prodQAListAll(prodId, page, 2, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);
@@ -245,7 +223,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
-				prodQAListAll(prodId, page, 4, prodQA_no);
+				prodQAListAll(prodId, page, 3, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);

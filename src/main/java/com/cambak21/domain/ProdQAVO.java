@@ -12,7 +12,7 @@ public class ProdQAVO {
 	private int prodQA_ref;
 	private int prodQA_refOrder;
 	private int prodQA_step;
-	private String prodQA_img;
+	private String prodQA_img1;
 	private String prodQA_completed;
 	private int prodQA_likeCnt;
 	private int prodQA_viewCnt;
@@ -20,6 +20,8 @@ public class ProdQAVO {
 	private String prodQA_secretPassword;
 	private String prodQA_isDelete;
 	private String prodQA_category;
+	private String prodQA_prodQA_img2;
+	private String prodQA_prodQA_img3;
 	
 	public int getProdQA_no() {
 		return prodQA_no;
@@ -75,11 +77,11 @@ public class ProdQAVO {
 	public void setProdQA_step(int prodQA_step) {
 		this.prodQA_step = prodQA_step;
 	}
-	public String getProdQA_img() {
-		return prodQA_img;
+	public String getProdQA_img1() {
+		return prodQA_img1;
 	}
-	public void setProdQA_img(String prodQA_img) {
-		this.prodQA_img = prodQA_img;
+	public void setProdQA_img1(String prodQA_img1) {
+		this.prodQA_img1 = prodQA_img1;
 	}
 	public String getProdQA_completed() {
 		return prodQA_completed;
@@ -99,7 +101,6 @@ public class ProdQAVO {
 	public void setProdQA_viewCnt(int prodQA_viewCnt) {
 		this.prodQA_viewCnt = prodQA_viewCnt;
 	}
-	
 	public String getProdQA_isSecret() {
 		return prodQA_isSecret;
 	}
@@ -118,12 +119,23 @@ public class ProdQAVO {
 	public void setProdQA_isDelete(String prodQA_isDelete) {
 		this.prodQA_isDelete = prodQA_isDelete;
 	}
-	
 	public String getProdQA_category() {
 		return prodQA_category;
 	}
 	public void setProdQA_category(String prodQA_category) {
 		this.prodQA_category = prodQA_category;
+	}
+	public String getProdQA_prodQA_img2() {
+		return prodQA_prodQA_img2;
+	}
+	public void setProdQA_prodQA_img2(String prodQA_prodQA_img2) {
+		this.prodQA_prodQA_img2 = prodQA_prodQA_img2;
+	}
+	public String getProdQA_prodQA_img3() {
+		return prodQA_prodQA_img3;
+	}
+	public void setProdQA_prodQA_img3(String prodQA_prodQA_img3) {
+		this.prodQA_prodQA_img3 = prodQA_prodQA_img3;
 	}
 	
 	@Override
@@ -131,10 +143,11 @@ public class ProdQAVO {
 		return "ProdQAVO [prodQA_no=" + prodQA_no + ", product_id=" + product_id + ", member_id=" + member_id
 				+ ", prodQA_title=" + prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_date="
 				+ prodQA_date + ", prodQA_ref=" + prodQA_ref + ", prodQA_refOrder=" + prodQA_refOrder + ", prodQA_step="
-				+ prodQA_step + ", prodQA_img=" + prodQA_img + ", prodQA_completed=" + prodQA_completed
+				+ prodQA_step + ", prodQA_img1=" + prodQA_img1 + ", prodQA_completed=" + prodQA_completed
 				+ ", prodQA_likeCnt=" + prodQA_likeCnt + ", prodQA_viewCnt=" + prodQA_viewCnt + ", prodQA_isSecret="
 				+ prodQA_isSecret + ", prodQA_secretPassword=" + prodQA_secretPassword + ", prodQA_isDelete="
-				+ prodQA_isDelete + ", prodQA_category=" + prodQA_category + "]";
+				+ prodQA_isDelete + ", prodQA_category=" + prodQA_category + ", prodQA_prodQA_img2="
+				+ prodQA_prodQA_img2 + ", prodQA_prodQA_img3=" + prodQA_prodQA_img3 + "]";
 	}
 	
 }

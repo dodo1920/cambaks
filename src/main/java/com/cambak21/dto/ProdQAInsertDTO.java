@@ -6,10 +6,12 @@ public class ProdQAInsertDTO {
 	private String prodQA_title;
 	private String prodQA_content;
 	private int prodQA_ref;
-	private String prodQA_img;
+	private String prodQA_img1;
 	private String prodQA_isSecret;
 	private String prodQA_secretPassword;
 	private String prodQA_category;
+	private String prodQA_img2;
+	private String prodQA_img3;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -41,11 +43,11 @@ public class ProdQAInsertDTO {
 	public void setProdQA_ref(int prodQA_ref) {
 		this.prodQA_ref = prodQA_ref;
 	}
-	public String getProdQA_img() {
-		return prodQA_img;
+	public String getProdQA_img1() {
+		return prodQA_img1;
 	}
-	public void setProdQA_img(String prodQA_img) {
-		this.prodQA_img = prodQA_img;
+	public void setProdQA_img1(String prodQA_img1) {
+		this.prodQA_img1 = prodQA_img1;
 	}
 	public String getProdQA_isSecret() {
 		return prodQA_isSecret;
@@ -59,20 +61,32 @@ public class ProdQAInsertDTO {
 	public void setProdQA_secretPassword(String prodQA_secretPassword) {
 		this.prodQA_secretPassword = prodQA_secretPassword;
 	}
-	
 	public String getProdQA_category() {
 		return prodQA_category;
 	}
 	public void setProdQA_category(String prodQA_category) {
 		this.prodQA_category = prodQA_category;
 	}
+	public String getProdQA_img2() {
+		return prodQA_img2;
+	}
+	public void setProdQA_img2(String prodQA_img2) {
+		this.prodQA_img2 = prodQA_img2;
+	}
+	public String getProdQA_img3() {
+		return prodQA_img3;
+	}
+	public void setProdQA_img3(String prodQA_img3) {
+		this.prodQA_img3 = prodQA_img3;
+	}
 	
 	@Override
 	public String toString() {
 		return "ProdQAInsertDTO [product_id=" + product_id + ", member_id=" + member_id + ", prodQA_title="
-				+ prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_ref=" + prodQA_ref + ", prodQA_img="
-				+ prodQA_img + ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword="
-				+ prodQA_secretPassword + ", prodQA_category=" + prodQA_category + "]";
+				+ prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_ref=" + prodQA_ref + ", prodQA_img1="
+				+ prodQA_img1 + ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword="
+				+ prodQA_secretPassword + ", prodQA_category=" + prodQA_category + ", prodQA_img2=" + prodQA_img2
+				+ ", prodQA_img3=" + prodQA_img3 + "]";
 	}
 	
 }

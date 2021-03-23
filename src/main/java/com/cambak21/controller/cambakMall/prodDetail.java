@@ -1,22 +1,33 @@
 package com.cambak21.controller.cambakMall;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdQAVO;
@@ -24,6 +35,8 @@ import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
+import com.cambak21.util.FileUploadProdcess;
+import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
@@ -88,12 +101,33 @@ public class prodDetail {
 		
 		return "cambakMall/prodQAForm";
 	}
-	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public String InsertProdQA(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr) throws Exception {
+	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, HttpServletRequest request, MultipartFile file1, MultipartFile file2, MultipartFile file3, Model model) throws Exception {
 		logger.info("QA 글쓰기 저장");
 		
+		System.out.println("업로드 파일 이름 : " + file1.getOriginalFilename());
+		System.out.println("업로드 파일 사이즈 : " + file1.getSize());
+		System.out.println("업로드 파일 : " + Arrays.toString(file1.getBytes()));
+		System.out.println("업로드 파일의 타입 : " + file1.getContentType()); // 파일의 MIME type (못 바꾸기 때문에 이미지인지 판별할때 사용)
+		System.out.println(file2.getOriginalFilename());
+		System.out.println(file3.getOriginalFilename());
+		System.out.println(insertQA.toString());
+		
+		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads"));
+		System.out.println(request.getRealPath("resources/uploads"));
+		
+		String path = request.getSession().getServletContext().getRealPath("resources/uploads");
+		
+		String saveFileName1 = FileUploadProdcess.uploadFile(path, file1.getOriginalFilename(), file1.getBytes());
+		String saveFileName2 = FileUploadProdcess.uploadFile(path, file2.getOriginalFilename(), file1.getBytes());
+		String saveFileName3 = FileUploadProdcess.uploadFile(path, file3.getOriginalFilename(), file1.getBytes());
+		
 		insertQA.setProduct_id(prodId);
+		insertQA.setProdQA_img1(saveFileName1);
+		insertQA.setProdQA_img2(saveFileName2);
+		insertQA.setProdQA_img3(saveFileName3);
+		
+		System.out.println(insertQA.toString());
 		
 		if(insertQA.getProdQA_isSecret() != null) {
 			insertQA.setProdQA_isSecret("Y");
@@ -115,6 +149,49 @@ public class prodDetail {
 		
 		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 	}
+	
+	@ResponseBody // byte[]의 데이터(파일 데이터)가 web에 그대로 전송 되도록
+	@RequestMapping("/displayFile")
+	   public ResponseEntity<byte[]> displayFile(HttpServletRequest request, String fileName) throws IOException {
+	      InputStream in = null;
+	      ResponseEntity<byte[]> entity = null;
+	      
+	      try {
+	         String ext = fileName.substring(fileName.lastIndexOf(".") + 1); // 확장자 추출
+	         
+	         MediaType mType = MediaConfirm.getMediaType(ext); // 이미지 파일인지 아닌지를 검사하기 위해
+	         
+	         HttpHeaders header = new HttpHeaders();
+	         
+	         
+	         
+	         String path = request.getSession().getServletContext().getRealPath("resources/uploads");
+//	         String uploadPath = path + "/2021/03/05";
+	         fileName = fileName.replace('/', File.separatorChar);
+	         logger.info(path + fileName);
+	         System.out.println(path + fileName);
+	         
+	         in = new FileInputStream(path + fileName);
+	         
+	         if (mType != null) {
+	            header.setContentType(mType); 
+	         } else {
+	            fileName = fileName.substring(fileName.indexOf("_") + 1); // UUID_ 다음 originalFileName을 얻어옴
+	            header.setContentType(MediaType.APPLICATION_OCTET_STREAM); // 다운로드 가능한 파일임
+	            header.add("Content-Disposition", "attachment; filename=\"" + new String(fileName.getBytes("UTF-8"), "ISO-8859-1") + "\""); // 다운로드 될 수 있도록 일종의 링크 제공
+	         }
+	      
+	      
+	         entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), header, HttpStatus.CREATED); // 파일을 읽은 뒤 데이터를 그대로 전송
+	      } catch (IOException e) {
+	         e.printStackTrace();
+	         entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	      } finally {
+	         in.close();
+	      }
+	      
+	      return entity;
+	   }
 	
 	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.GET)
 	public String showModiProdQA(@RequestParam("no") int no, @RequestParam("prodId") int prodId, Model model) throws Exception {
@@ -191,7 +268,7 @@ public class prodDetail {
 	
 	@RequestMapping(value="/updateLikeCnt", method=RequestMethod.POST)
 	public ResponseEntity<String> updateLikeCnt(@RequestBody ProdQAsLikeVO vo) throws Exception {
-		logger.info("QA 조회수 +1 ");
+		logger.info("QA 좋아요 +1 ");
 		
 		System.out.println(vo.toString());
 		ResponseEntity<String> entity = null;
@@ -209,7 +286,7 @@ public class prodDetail {
 	
 	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
 	public ResponseEntity<String> deleteLike(@RequestBody ProdQAsLikeVO vo) throws Exception {
-		logger.info("QA 조회수 +1 ");
+		logger.info("QA 좋아요 -1 ");
 		
 		System.out.println(vo.toString());
 		ResponseEntity<String> entity = null;
@@ -223,5 +300,5 @@ public class prodDetail {
 		}
 		
 		return entity;
-	}
+	}		
 }
