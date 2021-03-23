@@ -32,9 +32,10 @@ public interface CampingTipBoardDAO {
 	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO) throws Exception;
 	
 	// 게시글 수정 update
-	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO, int countThumbnail) throws Exception;
+	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception;
 	
 	// 게시글 삭제 delete
+	public int deleteCampingTipBoardReply(int board_no) throws Exception;
 	public boolean deleteCampingTipBoard(int board_no) throws Exception;
 	
 	// 게시글 상세 보기 select

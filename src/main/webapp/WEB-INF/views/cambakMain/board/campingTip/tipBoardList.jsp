@@ -38,16 +38,41 @@
 
 <script>
    $(document).ready(function() {
-      
 	  
-	  
+	  movePageNum();
       let boardUri = searchUriAddress();
       asideBarDraw(boardUri);
       getSearchPage();
       changeCheckbox();
+      writeBoardInfo();
       
    });
    
+   // page번호 없을 시 강제로 page번호로 이동
+   function movePageNum() {
+	   let page = getParameter("page");
+	   let searchWord = getParameter("searchWord");
+	   let searchType = getParameter("searchType");
+	   
+	   if (page == -1 && searchWord == -1 && searchType == -1) {
+		   location.href="/board/campingTip/list?page=1";
+	   } else if (page == -1 && searchWord != -1 && searchType != -1) {
+		   location.href="/board/campingTip/list/search?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
+	   }
+	   
+   }
+   
+   // 글 등록 후 알럿 남겨주기
+   function writeBoardInfo() {
+	   let result = getParameter("result");
+	   if (result == "success") {
+		   alert("글 등록 성공!");
+	   } else if (result == "fail") {
+		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+	   }
+   }
+   
+   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
    function changeCheckbox(){
 	   
 	      $("#searchCheckbox").on("click", function() {
@@ -67,7 +92,8 @@
 	      });
 	   
    }
-     
+   
+   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
    function getSearchPage() {
 	   let searchType = getParameter("searchType");
 	   if (searchType != -1) {
@@ -76,8 +102,7 @@
 	   }
    }
    
-		
-   
+    // 파라메터 값 가져오기
 	function getParameter(param) {
 		var returnVal; //리턴할 값을 저장하는 변수
 		var url = location.href; //url주소
@@ -90,7 +115,6 @@
 				return decodeURIComponent(returnVal);
 			}
 		}
-	
 		return -1; // 모든 배열 요소를 다 검색해도 매개변수가 없을때
 	}
    
@@ -201,7 +225,7 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<h1 id="boardTitle">캠핑 Tip 게시판</h1>
+						<h1 id="boardTitle"><a href="/board/campingTip/list?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
 					</section>
 					<div>
 						<div>
@@ -228,7 +252,10 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
-											<td><a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title }</a></td>
+											<td>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title } </a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">[${item.board_replyCnt }]</a>
+											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
 											<td>${item.board_viewCnt }</td>

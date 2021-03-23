@@ -59,15 +59,21 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 
 	@Override
-	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO, int countThumbnail) throws Exception {
+	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception {
 		// 게시글 수정 update
-		return false;
+		return dao.modifyCampingTipBoard(modifyDTO);
 	}
 
 	@Override
+	public int deleteCampingTipBoardReply(int board_no) throws Exception {
+		// 게시글 삭제 시 해당 게시글의 댓글 먼저 모두 삭제 delete
+		return dao.deleteCampingTipBoardReply(board_no);
+	}
+	
+	@Override
 	public boolean deleteCampingTipBoard(int board_no) throws Exception {
 		// 게시글 삭제 delete
-		return false;
+		return dao.deleteCampingTipBoard(board_no);
 	}
 
 	@Override

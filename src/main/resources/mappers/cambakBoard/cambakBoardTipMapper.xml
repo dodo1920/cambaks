@@ -26,21 +26,13 @@
 	
 <!-- 	게시글 수정 update -->
 	<update id="modifyTipBoard">
-		<if test="countThumbnail == 1">
-			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1} where board_no = #{board_no}
-		</if>
-		<if test="countThumbnail == 2">
-			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2} where board_no = #{board_no}
-		</if>
-		<if test="countThumbnail == 3">
-			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2}, board_img3 = #{board_img3} where board_no = #{board_no}
-		</if>
-		<if test="countThumbnail == 4">
-			update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content}, board_img1 =#{board_img1}, board_img2 = #{board_img2}, board_img3 = #{board_img3}, board_img4 = #{board_img4} where board_no = #{board_no}
-		</if>
+		update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content} where board_no = #{board_no}
 	</update>
 	
 <!-- 	해당 게시글 삭제 -->
+	<delete id="deleteTipBoardReply">
+		delete from ReplyBoards where board_no = #{board_no}
+	</delete>
 	<delete id="deleteTipBoard">
 		delete from Boards where board_no = #{board_no}
 	</delete>
