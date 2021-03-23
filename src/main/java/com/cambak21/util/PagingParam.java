@@ -21,6 +21,10 @@ public class PagingParam {
 		this.calcParam();
 	}
 
+	public void setDisplayPageNum(int displayPageNum) {
+		this.displayPageNum = displayPageNum;
+	}
+	
 	private void calcParam() {
 		//블럭화를 했을 경우 실제 endPage
 		this.endPage = (int)(Math.ceil(cri.getPage() / (double)this.displayPageNum) * displayPageNum);
