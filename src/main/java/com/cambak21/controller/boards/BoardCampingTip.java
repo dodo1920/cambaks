@@ -27,7 +27,7 @@ public class BoardCampingTip {
 	@Inject
 	private CampingTipBoardService service;
 	
-	@RequestMapping(value="/campingTip", method=RequestMethod.GET)
+	@RequestMapping(value="/campingTip/list", method=RequestMethod.GET)
 	public String listAll(PagingCriteria cri, Model model) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
 		
@@ -42,7 +42,7 @@ public class BoardCampingTip {
 		return "cambakMain/board/campingTip/tipBoardList";
 	}
 	
-	@RequestMapping(value="/campingTip/search", method=RequestMethod.GET)
+	@RequestMapping(value="/campingTip/list/search", method=RequestMethod.GET)
 	public String tipBoardSearch(SearchCampingTipVO word, Model model, PagingCriteria cri) throws Exception {
 		// 캠핑팁 게시판 검색어별 결과 출력
 		
@@ -53,8 +53,9 @@ public class BoardCampingTip {
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setDisplayPageNum(5);
-		pp.setTotalCount(service.totalTipBoard());
+		pp.setTotalCount(service.totalTipBoardSearch(word));
 		model.addAttribute("pagingParam", pp);
+		model.addAttribute("search", word);
 		return "cambakMain/board/campingTip/tipBoardList";
 	}
 	
@@ -74,13 +75,13 @@ public class BoardCampingTip {
 	}
 	
 	@RequestMapping(value="/campingTip/write", method=RequestMethod.POST)
-	public String writeBoardTip(CamBoardTipWriteDTO dto, Model model) throws Exception {
+	public String writeBoardTip(CamBoardTipWriteDTO dto, Model model, RedirectAttributes rttr) throws Exception {
 		// 캠핑팁 작성된 게시글 저장
 		
 		if(service.writeCampingTipBoard(dto)) {
 			System.out.println("글 등록 성공!!");
 		}
-		return "cambakMain/board/campingTip/tipBoardList";
+		return "redirect:list?page=1";
 	}
 	
 	@ResponseBody

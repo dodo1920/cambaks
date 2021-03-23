@@ -41,6 +41,12 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
+	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception {
+		// 캠핑팁 게시판 검색 결과 개수 가져오기
+		return dao.totalTipBoardSearch(word);
+	}
+	
+	@Override
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception {
 		// 캠핑팁 게시판 상세 조회
 		return dao.viewCampingTipBoard(board_no, board_category);

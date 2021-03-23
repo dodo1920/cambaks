@@ -7,7 +7,7 @@
 	
 <!-- 	캠핑팁 게시판 전체 조회 -->
 	<select id="selectTipBoard" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = 'Tip' order by board_writeDate desc limit #{page}, #{perPageNum}
+		select * from Boards where board_category = 'Tip' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="totalTipBoard" resultType="int">
@@ -60,7 +60,24 @@
 		<if test="searchType == 'content'">
 			board_content like concat('%', #{searchWord}, '%')
 		</if>
-		 order by board_writeDate desc limit #{page}, #{perPageNum}
+		 order by board_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+<!-- 	캠핑팁 게시판 검색 결과 개수 가져오기 -->
+	<select id="searchTipBoardSearch" resultType="int">
+		select count(*) from Boards where board_category = 'Tip' and 
+		<if test="searchType == 'writer'">
+			member_id = #{searchWord}
+		</if>
+		<if test="searchType == 'totalSearch'">
+			(board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%'))
+		</if>
+		<if test="searchType == 'title'">
+			board_title like concat('%', #{searchWord}, '%')
+		</if>
+		<if test="searchType == 'content'">
+			board_content like concat('%', #{searchWord}, '%')
+		</if>
 	</select>
 
 <!-- 	해당 게시글 조회(댓글) -->

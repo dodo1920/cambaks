@@ -24,6 +24,9 @@ public interface CampingTipBoardService {
 	// 캠핑팁 게시판 검색
 	public List<BoardVO> tipBoardSearch(SearchCampingTipVO word, PagingCriteria cri) throws Exception;
 	
+	// 캠핑팁 게시판 검색 결과 개수 가져오기
+	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception;
+	
 	// 캠핑팁 게시판 상세 조회
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception;
 	
