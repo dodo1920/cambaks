@@ -1,7 +1,5 @@
 package com.cambak21.controller.boards;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -34,7 +32,7 @@ public class BoardHumor {
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 	public void listAll(PagingCriteria cri, Model model) throws Exception{
-		logger.info("전체 목록 출력!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
 		
 		model.addAttribute("boardList", service.listBoardHumorCriteria(cri));
 		
@@ -98,7 +96,7 @@ public class BoardHumor {
 	
 	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String search(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception{
-		System.out.println("검색기능 ");
+		
 		model.addAttribute("boardList", service.goSearch(scri,cri));
 		
 		PagingParam pp = new PagingParam();

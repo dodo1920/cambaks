@@ -27,12 +27,13 @@ public class BoardHumorReplyServiceImpl implements BoardHumorReplyService {
 	@Override
 	public void insert(ReplyBoardVO vo) throws Exception {
 		rdao.create(vo);
-		
+		bdao.updateReply(vo.getBoard_no());
 	}
 
 	@Override
 	public void delete(int board_no) throws Exception {
 		rdao.delete(board_no);
+		bdao.minusReply(board_no);
 		
 	}
 

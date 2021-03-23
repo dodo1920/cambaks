@@ -33,8 +33,10 @@ public interface BoardHumorDAO {
 	public int searchBoardHumorCnt(SearchCriteria scri) throws Exception;
 	
 	// 검색결과 글 수 가져오기
-	public void updateReply(int no, int amount) throws Exception;
+	public void updateReply(int no) throws Exception;
 	
 	public void updateViewCnt(int no) throws Exception;
+	
+	public void minusReply(int no) throws Exception;
 	
 }
