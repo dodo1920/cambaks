@@ -10,6 +10,10 @@
 		select * from Boards where board_category = 'Tip' order by board_writeDate desc limit #{page}, #{perPageNum}
 	</select>
 	
+	<select id="totalTipBoard" resultType="int">
+		select count(*) from Boards where board_category = 'Tip'
+	</select>
+	
 <!-- 	캠핑팀 게시판 상세보기 -->
 	<select id="viewTipBoard" resultType="com.cambak21.domain.BoardVO">
 		select * from Boards where board_category = #{board_category} and board_no = #{board_no};
@@ -43,18 +47,20 @@
 	
 <!-- 	캠핑팁 게시판 검색어 별 조회 -->
 	<select id="searchTipBoard" resultType="com.cambak21.domain.BoardVO">
-		<if test="searchKeyword == 'writer'">
-			select * from Boards where board_category = #{board_category} and member_id = #{member_id} order by board_writeDate desc limit #{page}, #{perPage}
+		select * from Boards where board_category = 'Tip' and 
+		<if test="searchType == 'writer'">
+			member_id = #{searchWord}
 		</if>
-		<if test="searchKeyword == 'totalSearch'">
-			select * from Boards where board_category = #{board_category} and (board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%')) order by board_writeDate desc limit #{page}, #{perPage}
+		<if test="searchType == 'totalSearch'">
+			(board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%'))
 		</if>
-		<if test="searchKeyword == 'title'">
-			select * from Boards where board_category = #{board_category} and board_title like concat('%', #{searchWord}, '%') order by board_writeDate desc limit #{page}, #{perPage}
+		<if test="searchType == 'title'">
+			board_title like concat('%', #{searchWord}, '%')
 		</if>
-		<if test="searchKeyword == 'content'">
-			select * from Boards where board_category = #{board_category} and board_content like concat('%', #{searchWord}, '%') order by board_writeDate desc limit #{page}, #{perPage}
+		<if test="searchType == 'content'">
+			board_content like concat('%', #{searchWord}, '%')
 		</if>
+		 order by board_writeDate desc limit #{page}, #{perPageNum}
 	</select>
 
 <!-- 	해당 게시글 조회(댓글) -->

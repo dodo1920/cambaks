@@ -128,7 +128,7 @@ p.category-title {
 											<c:when test="${board != null }">
 												<tr>
 
-													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }&page=${param.page}">${board.board_title }</a></td>
+													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }&page=${param.page}">${board.board_title }</a><span>[${board.board_replyCnt }]</span></td>
 													<td>${board.member_id }</td>
 													<td><span><fmt:formatDate
 																pattern="yyyy-MM-dd HH:mm:ss"

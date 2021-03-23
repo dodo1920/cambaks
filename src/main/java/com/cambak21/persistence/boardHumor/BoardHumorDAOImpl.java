@@ -65,7 +65,7 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 
 	@Override
 	public List<BoardVO> goSearchBoardHumor(SearchCriteria scri, PagingCriteria cri) throws Exception {
-		System.out.println("검색기능 ");
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("searchType", scri.getSearchType());
 		param.put("searchWord", scri.getSearchWord());
@@ -77,13 +77,13 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 	@Override
 	public int searchBoardHumorCnt(SearchCriteria scri) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("검색기능 총게시물 수 ");
+	
 		return ses.selectOne(namespace + ".searchBoardCnt", scri);
 	}
 
 	@Override
-	public void updateReply(int no, int amount) throws Exception {
-		// TODO Auto-generated method stub
+	public void updateReply(int no) throws Exception {
+		ses.update(namespace+ ".updateReplyCnt", no);
 
 	}
 
@@ -91,6 +91,13 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 	public void updateViewCnt(int no) throws Exception {
 		ses.update(namespace + ".updateViewCnt", no);
 
+	}
+
+	@Override
+	public void minusReply(int no) throws Exception {
+		System.out.println("여기가 마이너스 리플 다오");
+		ses.update(namespace + ".minusReplyCnt" , no);
+		
 	}
 
 }

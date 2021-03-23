@@ -45,9 +45,6 @@
 	<div id="main">
 		<div class="container">
 			<div class="row">
-			
-			<!-- 사이드바 템플릿 -->
-			<%@include file="cambak21Aside.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">

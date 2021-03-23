@@ -68,6 +68,9 @@
 	 $(document).ready(function() {
 	      let boardUri = searchUriAddress();
 	      asideBarDraw(boardUri);
+	      rolling();
+
+	 
 	   });
 		
 </script>
@@ -95,7 +98,7 @@
 					<section>
 						<header>
 							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 						</header>
 					
 					</section>
@@ -109,10 +112,10 @@
 					<thead>
 						<tr>
 							<th style="width: 7%;">번호</th>
-							<th style="width: 10%;">분류</th>
+<!-- 							<th style="width: 10%;">분류</th> -->
 							<th style="width: 40%;">제목</th>
 							<th style="width: 15%;">작성일(수정일)</th>
-							<th style="width: 7%;">좋아요</th>
+							<th style="width: 7%;">댓글수</th>
 							<th style="width: 7%;">읽은수</th>
 							<th style="width: 10%;">작성자</th>
 						</tr>
@@ -123,13 +126,13 @@
 							<c:when test='${noticeList.board_isDelete == "Y" }'>
 								<tr>
 									<td><strike>${noticeList.board_no }</strike></td>
-									<td><strike>${noticeList.board_category }</strike></td>
+<%-- 									<td><strike>${noticeList.board_category }</strike></td> --%>
 									<td><a href="#" class="noticeTitle" name="board_no"><strike> ${noticeList.board_title }</strike></a></td>
 									<td><strike><span class="sendTime"
 											id="${status.count }"><fmt:formatDate
 													value="${noticeList.board_writeDate }" type="both"
 													pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
-									<td><strike>${noticeList.board_likeCnt }</strike></td>
+									<td><strike>${noticeList.board_replyCnt }</strike></td>
 									<td><strike>${noticeList.board_viewCnt }</strike></td>
 									<td><strike>${noticeList.member_id }</strike></td>
 								</tr>
@@ -137,18 +140,29 @@
 							<c:otherwise>
 								<tr>
 									<td>${noticeList.board_no }</td>
-										<td>${noticeList.board_category }</td>
-									<c:if test="${param.searchType != null}">
-											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${pageNo }" >
-																${noticeList.board_title } <span style="color: chocolate;">(${noticeList.board_replyCnt })</span> </a></td></c:if>
-										<c:if test="${param.searchType == null}">
-											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${pageNo }" >${noticeList.board_title }  <span style="color: chocolate;">(${noticeList.board_replyCnt })</span></a></td>
+<%-- 										<td>${noticeList.board_category }</td> --%>
+									<c:if test="${param.searchType != null && param.page != null}">
+											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page }" >
+																${noticeList.board_title } </a></td>
+								   </c:if>
+									<c:if test="${param.searchType != null && param.page == null}">
+											<td><a style="overflow: hidden;" href="/board/notice/read?no=${noticeList.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=1" >
+																${noticeList.board_title } </a></td>
+								   </c:if>
+								   
+								   
+								   
+										<c:if test="${param.searchType == null && param.page != null}">
+											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=${param.page }" >${noticeList.board_title }  </a></td>
+										</c:if>
+										<c:if test="${param.searchType == null && param.page == null}">
+											<td><a href="/board/notice/read?no=${noticeList.board_no }&page=1" >${noticeList.board_title } </a></td>
 										</c:if>
 												<td><span class="sendTime"
 														id="${status.count }"><fmt:formatDate
 																value="${noticeList.board_writeDate }" type="both"
 																pattern="yyyy-MM-dd HH:mm:ss" /></span></td>
-												<td>${noticeList.board_likeCnt }</td>
+												<td>${noticeList.board_replyCnt }</td>
 												<td>${noticeList.board_viewCnt }</td>
 												<td>${noticeList.member_id }</td>
 								</tr>
@@ -169,8 +183,10 @@
 				<input type="text" name="searchWord" style="color: chocolate;" id="searchWord" placeholder="검색어 입력..."/>
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="chechSearchInput();" />
 				<input type="hidden" name="page" value="1" />
-				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri?page=${pageNo }'"/>
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri?page=1'"/>
+				<c:if test="${loginMember.member_id == 'admin' }">
 				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/register'">글쓰기</button>
+				</c:if>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
 			
@@ -216,8 +232,16 @@
 						<c:forEach begin="${pagingParam.startPage}"
 							end="${pagingParam.endPage }" var="pageNo">
 
-							<li class="page-item" ><a
-								class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+							<li class="page-item" >
+							<c:if test="${pageNo == param.page}">
+							<a class="page-link" style="background-color: aquamarine;" href="listCri?page=${pageNo }">${pageNo }</a>
+							</c:if>
+							<c:if test="${pageNo != param.page}">
+							<a class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+							</c:if>
+							
+						
+								
 							</li>
 
 						</c:forEach>

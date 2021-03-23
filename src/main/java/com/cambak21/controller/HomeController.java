@@ -41,9 +41,7 @@ public class HomeController {
       
       model.addAttribute("serverTime", formattedDate );
       
-
-      return "cambakMall/prodQAForm";
-
+      return "user/login";
    }
 
    @RequestMapping(value = "/testcambak21", method = RequestMethod.GET)
@@ -89,6 +87,7 @@ public class HomeController {
       
       return "checkList2";
    }
+   	
    
 //   @RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
 //   public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){

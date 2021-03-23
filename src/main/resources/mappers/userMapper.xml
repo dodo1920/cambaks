@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.cambak21.mapper.userMapper">
+	  	<select id="login" resultType="com.cambak21.domain.MemberVO">
+	  		select * from Members where member_id = #{member_id} and member_password = #{member_password}
+	  	</select>
+	  	
+	  <update id="keepLogin">
+	  		update Members set member_cookie = #{member_cookie}, member_cookieAge = #{member_cookieAge} where member_id = #{member_id}
+	  </update>
+	  	
+	  <select id="checkUserWithSesKey" resultType="com.cambak21.domain.MemberVO">
+	  		select * from Members where member_cookie = #{member_cookie} and member_cookieAge > now()
+	  </select>
+	  	
+	  		  	
+	  </mapper>

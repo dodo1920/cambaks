@@ -10,13 +10,13 @@ import com.cambak21.util.SearchCriteria;
 
 public interface BoardQAService {
 	// 글쓰기
-	void writeBoardQA(InsertBoardQADTO idto) throws Exception;
+	int writeBoardQA(InsertBoardQADTO idto) throws Exception;
 	
 	// 수정
 	int modiBoardQA(UpdateBoardQADTO udto) throws Exception;
 	
 	// 삭제
-	int delBoardQA(BoardQAVO vo) throws Exception;
+	int delBoardQA(int board_no) throws Exception;
 	
 	// 리스트
 	List<BoardQAVO> listBoardQA(PagingCriteria cri) throws Exception;

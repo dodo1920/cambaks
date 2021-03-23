@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.domain.SearchCampingTipVO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping(value="/board/*")
@@ -28,9 +31,30 @@ public class BoardCampingTip {
 	public String listAll(PagingCriteria cri, Model model) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
 		
-		List<BoardVO> lst = service.listCampingTipBoard(cri);
-		model.addAttribute("boardList", lst);
+		model.addAttribute("boardList", service.listCampingTipBoard(cri));
 		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setDisplayPageNum(5);
+		pp.setTotalCount(service.totalTipBoard());
+		
+		model.addAttribute("pagingParam", pp);
+		return "cambakMain/board/campingTip/tipBoardList";
+	}
+	
+	@RequestMapping(value="/campingTip/search", method=RequestMethod.GET)
+	public String tipBoardSearch(SearchCampingTipVO word, Model model, PagingCriteria cri) throws Exception {
+		// 캠핑팁 게시판 검색어별 결과 출력
+		
+		List<BoardVO> vo = service.tipBoardSearch(word, cri);
+		
+		model.addAttribute("boardList", vo);
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setDisplayPageNum(5);
+		pp.setTotalCount(service.totalTipBoard());
+		model.addAttribute("pagingParam", pp);
 		return "cambakMain/board/campingTip/tipBoardList";
 	}
 	

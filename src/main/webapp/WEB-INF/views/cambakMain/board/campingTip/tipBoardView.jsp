@@ -46,6 +46,20 @@
 
    });
    
+   function getDateParam(millisecond) {
+	   let date = new Date(millisecond);
+       let month = date.getMonth() + 1;
+       
+       if (month < 10) {
+          month = "0" + String(month);
+       }
+       
+       let now = date.getFullYear() + "-" + month  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes()
+       
+       return now;
+   }
+   
+   
    // 댓글 가져오기
    function readReply() {
 	   
@@ -58,17 +72,15 @@
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
-				  console.log(data);
 				  
 				  for (let i = 0; i < data.length; i++) {
 					  
-					  let date = new Date(data[i].replyBoard_writeDate);
-					  var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDay() + "     " + date.getHours() + ":" + date.getMinutes();
+					  let date = getDateParam(data[i].replyBoard_writeDate);
 					  
 					  output += '<ul class="replyListUl"><li class="replyListLi"><div class="replyView">' +
 					  '<div class="replyViewWriter">' + data[i].member_id + '</div>' +
 					  '<div class="replyViewContent">' + data[i].replyBoard_content + '</div>' + 
-					  '<div class="replyViewDate">' + now + '</div></div>' +
+					  '<div class="replyViewDate">' + date + '</div></div>' +
 					  '<div class="replyMoreView"><div class="replyMoreView_info">';
 					  
 					  // 대댓글 보기, 작성
@@ -99,11 +111,13 @@
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
-				  console.log(data);
 				  for (let i = 0; i < data.length; i++) {
+					  
+					  let date = getDateParam(data[i].replyBoard_writeDate);
+					  
 					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer">' + data[i].member_id +
 					  '</div><div>' + data[i].replyBoard_content + '</div></div>' +
-					  '<div class="reReplyView_writeDate">' + data[i].replyBoard_writeDate + '</div></div>' +
+					  '<div class="reReplyView_writeDate">' + date + '</div></div>' +
 					  '<div class="reReplyModify"><div class="reReplyModify_info">답글 수정 답글 삭제</div></div>';
 					  $("#replyList" + data[i].replyBoard_ref).append(output);
 					  $("#" + data[i].replyBoard_ref).css("display", "inline");

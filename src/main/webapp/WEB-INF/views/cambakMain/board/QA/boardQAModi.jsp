@@ -14,7 +14,7 @@
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak/21js/skel-panels.min.js"></script>
+<script src="/resources/cambak21js/skel-panels.min.js"></script>
 <script src="/resources/cambak21/js/init.js"></script>
 
 <link rel="icon" type="image/x-icon"
@@ -28,8 +28,17 @@
 <link href="https://fonts.googleapis.com/css?family=Montserrat"
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
+
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
+
+<!-- include summernote css/js -->
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css"
+	rel="stylesheet">
+
+<!-- bbskCSS -->
+<link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
@@ -37,16 +46,27 @@
 
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
+<script src="/resources/cambak21/js/rolling.js"></script>
+
+<!-- include summernote css/js -->
+<script
+	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 
-
-
+<script>
+	$(document).ready(function() {
+		$('#summernote').summernote({
+			height : 500,
+		});
+	});
+</script>
 </head>
 
 <body>
-	<%@include file="cambak21Header.jsp"%>
+	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -54,56 +74,24 @@
 			<div class="row">
 
 				<!-- 사이드바 템플릿 -->
-				<%@include file="cambak21Aside.jsp"%>
+				<%@include file="../../cambak21Aside2.jsp"%>
 
-				<!-- Content -->
-				<div id="content" class="8u skel-cell-important">
-					<section>
-						<header>
-							<h2>Hover Rows</h2>
-							<p>The .table-hover class enables a hover state on table
-								rows:</p>
-						</header>
-						<div class="container">
-
-
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th>Firstname</th>
-										<th>Lastname</th>
-										<th>Email</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>John</td>
-										<td>Doe</td>
-										<td>john@example.com</td>
-									</tr>
-									<tr>
-										<td>Mary</td>
-										<td>Moe</td>
-										<td>mary@example.com</td>
-									</tr>
-									<tr>
-										<td>July</td>
-										<td>Dooley</td>
-										<td>july@example.com</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
-					</section>
+				<div id="content">
+					<div>
+						<form action="../qa/modi" method="post">
+							<input type="text" class="form-control" id="usr" name="board_title" value="${board.board_title }">
+							<textarea id="summernote" name="board_content" >${board.board_content }</textarea>
+							<input type="hidden" value="${board.board_no }" name="board_no">
+							<button type="submit" class="btn btn-success">수정하기</button>
+						</form>
+					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
 	<!-- /Main -->
 
-	<%@include file="cambak21Footer.jsp"%>
+	<%@include file="../../cambak21Footer.jsp"%>
 
 </body>
 

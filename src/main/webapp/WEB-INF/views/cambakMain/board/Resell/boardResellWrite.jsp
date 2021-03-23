@@ -72,6 +72,7 @@
 			<%@include file="../../cambak21BoardAside.jsp"%>
 
 				<!-- Content -->
+				
 				<div id="content" class="8u skel-cell-important">
 							<form action="write" method="post" onsubmit="return writeControll();">
 							아이디 :
@@ -85,7 +86,10 @@
 							주소 :
 							<input type="text" class="form-control" id="addr" name="resellBoard_addr">
 							<input type="submit" class="btn btn-success" value="작성하기">
+							<button type="button" class="btn btn-danger"
+							onclick="location.href='/board/resell/list?perPageNum=9';">취소</button>
 						</form>
+						
 				</div>
 
 			</div>

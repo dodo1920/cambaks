@@ -71,12 +71,66 @@ p.category-title {
 	<!-- Main -->
 	<div id="main">
 		<div class="container">
+		
 			<div class="row">
-
+<%@include file="../../cambak21Aside2.jsp"%>
 				<!-- 사이드바 템플릿 -->
-				<%@include file="../../cambak21Aside2.jsp"%>
 				
+				
+				 	<!-- 상품후기 작성 Section Begin -->
+				 	<div id="content">
+				 	<h1>유머글 작성</h1>
+    <section class="product-details spad">
+    
+       
+				<div class="col-lg-12">
+					<form action="/cambakMain/board/humor/write" method="post">
+					
+					
+					<input type="hidden" id="member_id" name="member_id" value="fff"/>
+					
+					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
+					
+					<div class="form-group">
+		               	  
+		            </div>
+					<div class="form-group">
+		                  <input type="text" class="form-control" id="board_title" name="board_title" placeholder="제목을 입력해 주세요."/>
+		            </div>
+					  <textarea id="summernote" id="board_content" name="board_content"></textarea>
+					  <div class="form-row float-right">
+			                  <button type="submit" class="btn btn-success">저장하기</button>
+			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMain/board/humor/listAll?page=1'">목록</button>
+		                  </div>
+					</form>
+				   <script>
+				      $('#summernote').summernote({
+				        placeholder: '내용을 입력하세요.',
+				        tabsize: 2,
+				        height: 450,
+				        focus: true,
+				        toolbar: [
+				          ['style', ['style']],
+				          ['font', ['bold', 'underline', 'clear']],
+				          ['color', ['color']],
+				          ['para', ['ul', 'ol', 'paragraph']],
+				          ['table', ['table']],
+				          ['insert', ['link', 'picture', 'video']],
+				          ['view', ['fullscreen', 'codeview', 'help']]
+				        ]
+				      });
+				    </script>
+				    
+				</div>
+			
+	</section>
+	</div>
+
+
+
+
 				<!-- Content -->
+				<!-- 
 				<form action="/cambakMain/board/humor/write" method="post">
             <div class="form-group">
                <label class="control-label col-sm-2" for="writer">작성자 :</label>
@@ -105,12 +159,25 @@ p.category-title {
                </div>
             </div>
          </form>
-				
+				 -->
 			</div>
-		</div>
+				</div>
+		
 	</div>
+	
 	<!-- /Main -->
 
 	<%@include file="../../cambak21Footer.jsp"%>
+	<!-- Js Plugins -->
+<script src="../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../resources/mallMain/js/main.js"></script>
 </body>
 </html>
