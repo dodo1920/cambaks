@@ -53,7 +53,7 @@
 							<h2>제목입니다~</h2>
 							<span class="byline">소제목 입니다~/span>
 						</header>
-						<p>본문 내용 입니다~</p>
+						<p>본문 내용 입니다~ ${loginMember.member_id } </p>
 
 					</section>
 				</div>
