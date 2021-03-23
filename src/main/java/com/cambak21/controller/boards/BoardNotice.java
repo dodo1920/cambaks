@@ -35,12 +35,13 @@ public class BoardNotice {
 	@Inject
 	private NoticeReplyService nrservice;
 	
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(BoardHumor.class);
 	
 	// 전체글 출력 10번까지만.. 롤링 쓰려고 ( Test용 )
 	@RequestMapping(value = "/listall", method = RequestMethod.GET)
 	public  ResponseEntity<List<BoardVO>> listAll(Model model) throws Exception{
-		logger.info("종진 / listAll 전체 목록 롤링 js 로 전달");
 	
 		ResponseEntity<List<BoardVO>> entity = null;
 		entity = new ResponseEntity<List<BoardVO>>(service.getNoticeAll(), HttpStatus.OK);
@@ -148,7 +149,6 @@ public class BoardNotice {
 		
 		nrservice.insertReplyBoard(vo);
 		
-		
 		return entity;
 	}
 	
@@ -161,7 +161,7 @@ public class BoardNotice {
 		if(nrservice.dropReply(no)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return"redirect:/board/notice/noticeMain";
+		return "redirect:/board/notice/read?no=" + bno;
 	}
 	
 		@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
@@ -186,12 +186,10 @@ public class BoardNotice {
 				pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
 				System.out.println(pp.toString());
 				model.addAttribute("pagingParam", pp);
-				
 							
 				return "cambakMain/board/notice/noticeMain";
 		}	
 	
-		
 		
 	
 	

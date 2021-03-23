@@ -77,5 +77,9 @@
 	<context:component-scan base-package="com.cambak21.persistence.resell"></context:component-scan>
     <context:component-scan base-package="com.cambak21.service.resell"></context:component-scan> 
 
+	<!-- ************************************* 캠박메인 공용 패키지 스캔 ******************************************* -->
+		<context:component-scan base-package="com.cambak21.persistence.cambakMain"></context:component-scan>
+    <context:component-scan base-package="com.cambak21.service.cambakMain"></context:component-scan> 
+
 
 </beans>
