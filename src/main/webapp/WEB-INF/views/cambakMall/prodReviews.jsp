@@ -50,6 +50,10 @@
 		  color: orange;
 		}
 		
+		.replyBox{
+		 margin-top: 27px;
+		}
+		
 		textarea{
 			width: 1070px; 
 			height:200px; 
@@ -146,7 +150,7 @@
 	                 // Content 내용
 	                 output += '<div>' + item.prodReview_content + '</div>';
 	                 // 댓글 내용
-	                 output += '<div id="replyBox' + item.prodReview_no + '"></div>';
+	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 
 	                 //output += '<div>' + item.prodReview_no + '</div>';
 	                 //output += '<div>' + showProdReplyList(item.prodReview_no) + '</div>';
@@ -197,7 +201,6 @@
 	              //console.log(endPage);
 
 	              for(var num = startPage; num <=endPage; num++){
-	            	  
 	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
             	  }
 	              
@@ -232,16 +235,19 @@
 							  console.log(result);
 
 						  $(result).each(function(index, item) {
-
-							  var replyOutput = '<div>';
+							  console.log(result);
+							  let replyOutput = '<div class="card mb-2"><div class="card-header bg-light"><i class="fa fa-user-circle-o fa-2x"></i>';
 							  //댓글의 날짜 형식 변경 부분
-					          var showDate = new Date(item.replyProdReview_date);
-					          var showThisDate = showDate.toLocaleString();
+					          let showDate = new Date(item.replyProdReview_date);
+					          let showThisDate = showDate.toLocaleString();
 					          
 					          //댓글 생성 부분
-				              replyOutput += '<div><br>' + item.member_id + '</br></div>';
+				              replyOutput += item.member_id + '<div>' + showThisDate + '</div>' + '</div><div class="card-body"><ul class="list-group list-group-flush">';
+				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
 				              replyOutput += '<div>' + item.replyProdReview_content + '<div>';
-				              replyOutput += '<div>' + showThisDate + '</div>';
+				              replyOutput += '<button type="button" class="btn btn-dark mt-3" onClick="javascript:addReply();">post reply</button></li></ul></div>';
+				              
+				              
 				              
 				              replyOutput += '</div>';
 				              
@@ -329,7 +335,7 @@
 	<%@include file="mallHeader.jsp" %>
 
 
-<!-- Page Preloder -->
+	<!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
