@@ -88,24 +88,42 @@
 		let resellBoard_no = ${param.no};
 		console.log(member_id+" : "+resellReplyBoard_content+" : "+resellBoard_no)
 		$.ajax({
-			method : "post",
-			url : "/utile",
-			dataType : "text", // 응답 받는 데이터 타입
-			data : JSON.stringify({ // 요청하는 데이터
+			type : "post",
+			dataType : "text",
+			contentType : "application/json",
+			url : "/utile", 
+			data : JSON.stringify({
 				resellBoard_no : resellBoard_no,
 				member_id : member_id,
 				resellReplyBoard_content : resellReplyBoard_content
 			}),
-			success : function(result) {
-				if (result == 'Success') {
-					//alert('댓글 등록 완료!');
-					callReplyList(); // 댓글 다시 호출
-				}
-				
-			
-			}
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
 		});
-		
+	}
+	function like() {
+		let member_id = "aaa";
+		let resellBoard_no = ${board.resellBoard_no};
+		$.ajax({
+			type : "post",
+			dataType : "text",
+			contentType : "application/json",
+			url : "/utile/like", 
+			data : JSON.stringify({
+				resellBoard_no : resellBoard_no,
+				member_id : member_id
+			}),
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 	}
 	</script>
 </head>
@@ -131,7 +149,7 @@
 							<div><span style="font-size: 22px;color: black;">${board.resellBoard_price}원</span></div>
 							</div>
 							<hr style="margin: 5px;padding: 0;"/>
-							<div style="margin-bottom: 15px"><span>좋아요수 :${board.resellBoard_likeCnt}</span><span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
+							<div style="margin-bottom: 15px"><span onclick="like()">좋아요수 :${board.resellBoard_likeCnt}</span><span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
 							<div><span style="word-break:normal;margin-bottom: 15px">${board.resellBoard_content	}</span></div>
 							<div><span style="margin-bottom: 15px">${board.resellBoard_addr }</span></div>
 						</div>
@@ -153,7 +171,7 @@
 						작성자 : <input type="text" name="replyer" id="newReplyWriter" "/> 
 						댓글 입력 : <input type="text" name="replytext" id="newReplyText" />
 
-						<button id="replyAddBtn" onclick="addReply();">ADD Reply</button>
+						<button id="replyAddBtn" onclick="addReply(); window.location.reload();">ADD Reply</button>
 					
 					</div>
 					<div id="replyBox"

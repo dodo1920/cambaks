@@ -59,19 +59,29 @@ public class BoardResellUtilController {
 		}
 		return entity;
 	}
-	@RequestMapping(value = "like",method=RequestMethod.POST)
-	public ResponseEntity<String> like(@RequestBody ResellLikeBoardVO vo) {
+	@RequestMapping(value = "/like",method=RequestMethod.POST)
+	public ResponseEntity<String> like(@RequestBody ResellLikeBoardVO vo) throws Exception {
 		System.out.println("like.........POST방식 연결");
-		System.out.println(vo);
 		ResponseEntity<String> entity = null;
-//		try {
-//			LikeService.ResellBoardLikeInsert(vo);
-//			entity = new ResponseEntity<String>("Success",HttpStatus.OK);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
-//		}
+		ResellLikeBoardVO readVo = LikeService.ResellBoardlikeRead(vo);
+		if (readVo != null) {
+			LikeService.ResellBoardLikeDelete(vo);
+			System.out.println("값 나옴");
+		}else {
+			
+			LikeService.ResellBoardLikeInsert(vo);
+			System.out.println("값 들어감");
+			
+		}
+		
+		try {
+			;
+			entity = new ResponseEntity<String>("Success",HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
 		return entity;
 	}
 }

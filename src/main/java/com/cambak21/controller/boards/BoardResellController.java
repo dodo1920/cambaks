@@ -21,6 +21,7 @@ import com.cambak21.service.resell.ResellBoardLikeService;
 import com.cambak21.service.resell.ResellBoardService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 
 @Controller
@@ -39,15 +40,18 @@ public class BoardResellController {
 		model.addAttribute("board",resellListService.ResellBoardReadAll(cri));
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
+		
 		pp.setTotalCount(resellListService.ResellBoardReadAllCnt()); // 게시물 갯수
 		System.out.println(pp.toString());
 		model.addAttribute("pagingParam", pp);
+		
 		return "cambakMain/board/Resell/boardResellList";
 	}
 	@RequestMapping(value = "/detail",method = RequestMethod.GET)
 	public String boardResellDetail(@RequestParam("no") int no, Model model) throws Exception{
 		System.out.println("boardResellDetail 테스트");
 		System.out.println("no : "+no);
+		resellListService.ResellBoardViewcnt(no);
 		System.out.println(resellListService.ResellBoardReadDetail(no));
 		model.addAttribute("board",resellListService.ResellBoardReadDetail(no));
 		return "cambakMain/board/Resell/boardResellDetail";
@@ -98,5 +102,21 @@ public class BoardResellController {
 		}
 		
 		return "redirect:/board/resell/list";
+	}
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String seach(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
+		System.out.println("검색을 시작합니다....");
+		System.out.println(scri.toString());
+		model.addAttribute("board", resellListService.ResellBoardRead(cri,scri));
+		System.out.println(cri.toString());
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(resellListService.ResellBoardReadCnt(scri));
+		System.out.println(pp.toString());
+		model.addAttribute("pagingParam", pp);  // 페이징 처리를 위한 파라메터 객체
+		
+		return "cambakMain/board/Resell/boardResellList";
+		
 	}
 }

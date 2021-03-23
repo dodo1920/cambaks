@@ -29,4 +29,10 @@ public class ResellBoardLikeDAOImpl implements ResellBoardLikeDAO {
 		return ses.selectOne(namespace+".ResellBoardLikeCnt",vo);
 	}
 
+	@Override
+	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception {
+		System.out.println("DAO : "+vo);
+		return ses.selectOne(namespace+".ResellBoardlikeRead",vo);
+	}
+
 }

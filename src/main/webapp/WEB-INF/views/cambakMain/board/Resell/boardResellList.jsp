@@ -101,7 +101,12 @@ function like() {
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important"style="width: 100%;float: revert;">
-
+				<section>
+					<header>
+						<h2>중고거래</h2>
+						<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
+					</header>
+				</section>
 						<table style="width: 100%x">
 				
 						<tbody style="width: 100%">
@@ -135,7 +140,22 @@ function like() {
 
 							</tbody>
 						</table>
-				<div><a href="write">글쓰기</a></div>
+				<div>
+					<form action="/board/resell/search" method="GET">
+						<select name="searchType">
+							<option value="n">---------------------</option>
+							<option value="resellBoard_title">제목</option>
+							<option value="resellBoard_content">내용</option>
+							<option value="member_id">작성자</option>
+							<option value="like">좋아요</option>
+							<option value="view">조회수</option>
+						</select>
+						
+						<input type="text" name="searchWord" placeholder="검색어 입력..."/>
+						<input type="submit" id="goSearch" value="검색" />
+					</form>
+				</div>
+			<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
 				<div class="text-center">
 				     <ul class="pagination"style="text-align: center;">
 	      
