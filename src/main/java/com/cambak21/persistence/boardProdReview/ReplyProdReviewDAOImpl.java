@@ -59,8 +59,6 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 
 	@Override
 	public List<ReplyProdReviewVO> getListReply(int prodReview_no) throws Exception {
-		System.out.println("DaoImpl");
-		System.out.println(ses.selectList(namespace + ".getListReply", prodReview_no));
 		return ses.selectList(namespace + ".getListReply", prodReview_no);
 	}
 

@@ -63,12 +63,14 @@
     <script type="text/javascript">
 
     let totalCount;
-
+    
 	 
 	 
-	 // ajax 방식 onclick 시 content 보여주는 부분
+	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(obj) {
-			let reviewsContent = $(obj).attr("id");
+		 	let reviewsContent
+			reviewsContent = $(obj).attr("id");
+			// 접이식 보여주기
 				$("#content" + reviewsContent).toggle();
 		}
 	 
@@ -114,8 +116,8 @@
 	        success 	: function(data) {
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
-	        	console.log(prodList);
-	        	console.log(pagingParam);
+	        	//console.log(prodList);
+	        	//console.log(pagingParam);
 	        	
 	        	// 날짜 출력 방식 변경을 위한 변수 설정
 	        	let showDate;
@@ -146,7 +148,8 @@
 	                 // 댓글 내용
 	                 output += '<div id="replyBox' + item.prodReview_no + '"></div>';
 
-	                 output += '<div>' + showProdReplyList(item.prodReview_no) + '</div>';
+	                 //output += '<div>' + item.prodReview_no + '</div>';
+	                 //output += '<div>' + showProdReplyList(item.prodReview_no) + '</div>';
 	                  
 	                 
 	                 if(member_id != null){
@@ -190,8 +193,8 @@
 	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + prev + '); return false;">prev</a></li>';
 	            	  
 	              });
-	              console.log(startPage);
-	              console.log(endPage);
+	              //console.log(startPage);
+	              //console.log(endPage);
 
 	              for(var num = startPage; num <=endPage; num++){
 	            	  
@@ -210,13 +213,60 @@
 	        }, // end of Success
 	        error		: function(error) {
 	        	console.log(error);
-	        }
+	        	
+	        }, complete : function(data) {
+	            //alert("complete!");    
+	            let prodList = data.responseJSON.prodList;
+	            //console.log(prodList);
+	            
+	            
+            	//댓글 작성을 위한 파트
+	            $(prodList).each(function(index, item) {
+	            	prodReview_no = item.prodReview_no;
+	            	
+	            	$.ajax({
+						  type: "post",
+						  url: "/cambakMall/getProdReviewReply/"+prodReview_no,
+						  contentType : "application/json",
+						  success : function(result) {
+							  console.log(result);
+
+						  $(result).each(function(index, item) {
+
+							  var replyOutput = '<div>';
+							  //댓글의 날짜 형식 변경 부분
+					          var showDate = new Date(item.replyProdReview_date);
+					          var showThisDate = showDate.toLocaleString();
+					          
+					          //댓글 생성 부분
+				              replyOutput += '<div><br>' + item.member_id + '</br></div>';
+				              replyOutput += '<div>' + item.replyProdReview_content + '<div>';
+				              replyOutput += '<div>' + showThisDate + '</div>';
+				              
+				              replyOutput += '</div>';
+				              
+							  $("#replyBox" + item.prodReview_no).append(replyOutput);
+
+						 	 });
+						  }
+	            }); // ajax
+	            	
+	            
+	            }); // end of each.function
+	            
+	            	
+				
+	        }// end of complete
+				
+					//
+	        
+
 	    });
 	} // end of showProdList
 
 	
 	//addReplyProdReviews 댓글처리 부분
-	function addReplyProdReviews(prodReview_no) {
+	/*function addReplyProdReviews(prodReview_no) {
 				// 댓글 작성 시 필요한 변수들
 				let replyProdReview_content = $("#replyProdReview_content").val();
 				let member_id = 'fff';
@@ -245,17 +295,17 @@
 					});
 				
 
-	};
+	};*/
 	
 	// showProdReplyList
-	function showProdReplyList(prodReview_no) {
+	/*function showProdReplyList(prodReview_no) {
 		prodReview_no = prodReview_no;
 		console.log("prodReview_no : " + prodReview_no);
 		let replyContent = "댓글이 없습니다.";
-		/*$("#replyBox").empty();
+		$("#replyBox").empty();
 		
 		
-			$("#replyBox").html(output);*/
+			$("#replyBox").html(output);
 			
 			
 			$.getJSON("/cambakMall/getProdReviewReply/" + prodReview_no, function(data) {
@@ -264,7 +314,7 @@
 			});
 			
 			return "체크중";
-		};
+		};*/
 	
 		
 		
@@ -421,7 +471,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
