@@ -120,7 +120,7 @@
 					
 					<div>
 						<form action="/board/campingTip/write" method="post">
-							<input type="hidden" name="member_id" value="aaa">
+							<input type="hidden" name="member_id" value="${loginMember.member_id }">
 							<input type="hidden" name="board_category" value="Tip">
 							<input type="text" class="form-control" name="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>

@@ -57,7 +57,51 @@ public class CheckListController {
 		return entity;
 	}
 	
+	@RequestMapping(value = "/ajax/deleteThis/{checkList_no}", method = RequestMethod.GET)
+	public ResponseEntity<String> deleteCheckList(@PathVariable("checkList_no") int checkList_no) throws Exception{
+		logger.info("종진 / 체크리스트 체크여부 수정하기");
+		ResponseEntity<String> entity = null;
+		
+		if(ckservice.deleteThis(checkList_no)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+		}else {
 
+			entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value = "/ajax/deleteThis/{member_id}", method = RequestMethod.POST)
+	public ResponseEntity<String> deleteCheckListAll(@PathVariable("member_id") String member_id) throws Exception{
+		logger.info("종진 / 체크리스트 체크여부 수정하기");
+		ResponseEntity<String> entity = null;
+		
+		if(ckservice.deleteThisAll(member_id)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+		}else {
+
+			entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	@RequestMapping(value = "/ajax/saveList", method = RequestMethod.GET)
+	public ResponseEntity<String> saveList(@RequestBody CheckListVO vo) throws Exception{
+		logger.info("종진 / 체크리스트 체크여부 수정하기");
+		ResponseEntity<String> entity = null;
+		
+		if(ckservice.saveList(vo)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+		}else {
+
+			entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 		
 	
 

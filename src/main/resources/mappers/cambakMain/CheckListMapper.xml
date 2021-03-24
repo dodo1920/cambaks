@@ -19,9 +19,19 @@
 		<if test='checkList_checked == "N"'>
 			checkList_checked = 'Y'
 		</if>
-		
 		 where checkList_no = #{checkList_no} 
-		
-    	</update>	
+		</update>	
+    	
+    	<delete id="deleteThis">
+    		delete from CheckLists where checkList_no = #{checkList_no}
+    	</delete>
+    	
+    	<insert id="saveList">
+    		insert into CheckLists(member_id, checkList_content) values(#{member_id}, #{checkList_content}) 
+    	</insert>
+    	
+    	<delete id="deleteThisAll">
+    		delete from CheckLists where member_id = #{member_id} and checkList_checked = 'Y'
+    	</delete>
     	
     </mapper>

@@ -87,15 +87,15 @@ public class BoardNotice {
 	}
 	
 	// 게시판 수정된 VO 로 게시판 수정
-	@RequestMapping(value = "/modi", method = RequestMethod.POST)
-	public String modiNoticeBoard(BoardVO vo, RedirectAttributes rttr) throws Exception{
+	@RequestMapping(value = "/modi/{page}", method = RequestMethod.POST)
+	public String modiNoticeBoard(BoardVO vo, @PathVariable("page") int page, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
 		
 		if(service.modiNoticeBoard(vo)) {
 			rttr.addFlashAttribute("result", "succeess");
 		}
 		
-		return "redirect:/board/notice/read?no=" + vo.getBoard_no();
+		return "redirect:/board/notice/read?no=" + vo.getBoard_no() + "&page=" + page;
 	}
 	
 	
@@ -172,7 +172,7 @@ public class BoardNotice {
 			rttr.addFlashAttribute("result", "success");
 		}
 	
-		return "redirect:/board/notice/noticeMain";
+		return "redirect:/board/notice/listCri";
 	}
 	
 		

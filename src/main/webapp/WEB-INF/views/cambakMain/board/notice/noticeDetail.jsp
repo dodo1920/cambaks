@@ -50,6 +50,8 @@
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
+<!-- include summernote css/js -->
+<script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <script>
 let replyCnt = 0;
@@ -89,6 +91,11 @@ $(function(){
     let boardUri = searchUriAddress();
     asideBarDraw(boardUri);
   	
+	$('#summernote').summernote({
+		height : 500
+	});
+	
+	
   });
 
 function goDelete(replyno){
@@ -226,7 +233,6 @@ function replyAddBtn(){
 .formContent{ margin: 40px;}
 
 input:focus {outline:none;}
-textarea:focus {outline: none;}
 
 form, form input{
 	border:none;
@@ -234,15 +240,7 @@ form, form input{
 	font-weight: 500;
 } 
 
-.boardtextArea{
-    resize:none;
-    margin: 5px;
-    font-weight: 500;
-    color: black;
-    resize: none;
-    padding: 11px;
-    border: none;
-}
+
 
 #replyWindow{
 
@@ -286,7 +284,7 @@ form, form input{
 				    <div>
 				    <input type="text" readonly style="font-size:25px; font-weight:900;max-width: 750px;" name="board_title" value="${noticeBoard.board_title }" />
 				    <c:if test="${loginMember.member_id == noticeBoard.member_id }">	
-         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/modi?no=${noticeBoard.board_no}'">수정</button>
+         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/modi?no=${noticeBoard.board_no}&page=${param.page}'">수정</button>
 				    </c:if>
 		            </div>
 		              <div>

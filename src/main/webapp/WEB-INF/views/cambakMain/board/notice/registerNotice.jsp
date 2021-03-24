@@ -151,8 +151,8 @@ form, form input{
 						<form action="/board/notice/register" method="post">
 							<input type="text" class="form-control" id="usr" name="board_title">
 							<textarea id="summernote" name="board_content"></textarea>
-							<input type="hidden" name="member_id" value="ccc"> <input
-								type="hidden" name="board_category" value="CS">
+							<input type="hidden" name="member_id" value="${loginMember.member_id }"> <input
+								type="hidden" name="board_category" value="notice">
 							<button type="submit" class="btn btn-success">작성하기</button>
 						</form>
 					</div>

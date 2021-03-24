@@ -32,4 +32,19 @@ public class CheckListDAOImpl implements CheckListDAO {
 		return ses.update(namespace + ".changeCheckList", para);
 	}
 
+	@Override
+	public int deleteThis(int checkList_no) throws Exception {
+		return ses.delete(namespace + ".deleteThis", checkList_no);
+	}
+
+	@Override
+	public int saveList(CheckListVO vo) throws Exception {
+		return ses.insert(namespace + ".saveList", vo);
+	}
+
+	@Override
+	public int deleteThisAll(String member_id) throws Exception {
+		return ses.delete(namespace + ".deleteThisAll", member_id);
+	}
+
 }
