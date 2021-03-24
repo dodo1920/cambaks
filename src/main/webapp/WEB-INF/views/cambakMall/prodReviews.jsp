@@ -66,7 +66,6 @@
 	
     <script type="text/javascript">
 
-    let totalCount;
     
 	 
 	 
@@ -169,6 +168,7 @@
 	              let startPage;
 	              let endPage;
 	              let tempEndPage;
+	              let totalCount;
 	              let prev;
 	              let next;
 	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
@@ -296,13 +296,15 @@
 						  replyProdReview_ref : replyProdReview_ref
 					  }),
 					  success : function(result) {
-						  console.log(result)
-						
-						
-					  }
+						  console.log(prodReview_no);
+						  
+						  
+					  }, complete : function (result) {
+						alert("!");
+						//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
+					}
 					  
 					});
-				
 
 	};
 	

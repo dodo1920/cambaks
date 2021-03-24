@@ -31,39 +31,55 @@ public class BoardProdReviewReply {
 
 			//대댓글이 아닌 경우, ref=자기 자신의 댓글. reforder는 입력하지 않아 0으로 처리한다.
 			if(dto.getReplyProdReview_ref() == 0) {
-				dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
-			} 
-			
-			
-			else {
-				//대댓글인 경우, 제일 첫부모 댓글의 ReplyProdReview_no=자신의 ref로 설정.
-				dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
-				
-				//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
+				//System.out.println(dto);
 				try {
-					dto.setReplyProdReview_refOrder(service.getMaxReforder(dto.getReplyProdReview_no()));
+					System.out.println("ReplyProdReview_no : " + service.getMaxNo());
+					int getMaxReplyProdReview_no = service.getMaxNo();
+					dto.setReplyProdReview_no(getMaxReplyProdReview_no);
+					dto.setReplyProdReview_ref(getMaxReplyProdReview_no);
+					System.out.println(dto);
+					if(service.addProdReply(dto) == 1) {
+						System.out.println("인서트 성공");
+					}
 				} catch (Exception e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			} // end of else
+			} 
+//			
+//			
+//			else {
+//				//대댓글인 경우, 제일 첫부모 댓글의 ReplyProdReview_no=자신의 ref로 설정.
+//				dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
+//				
+//				//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
+//				try {
+//					dto.setReplyProdReview_refOrder(service.getMaxReforder(dto.getReplyProdReview_no()));
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			} // end of else
+			
+			
+			
 			
 			//pk 번호 set
-			try {
-				System.out.println("ReplyProdReview_no : " + service.getMaxNo());
-
-				dto.setReplyProdReview_no(service.getMaxNo());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			try {
+//				System.out.println("ReplyProdReview_no : " + service.getMaxNo());
+//				int getMaxReplyProdReview_no = service.getMaxNo();
+//				dto.setReplyProdReview_no(getMaxReplyProdReview_no);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 			
 			
-			try {
-				if(service.addProdReply(dto) == 1) {
-					System.out.println("인서트 성공");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			try {
+//				if(service.addProdReply(dto) == 1) {
+//					System.out.println("인서트 성공");
+//				}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
 		}
 		
 		// 댓글 출력
