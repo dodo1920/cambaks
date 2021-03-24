@@ -157,8 +157,10 @@ public class BoardCampingTip {
 			// 댓글 저장 성공 시
 			if(service.saveCampingTipReply(replyDTO)) {
 				if(service.updateCampingTipReplyRef(service.getCampingTipReplyNextNum(replyDTO))) {
-					// 최종적으로 저장 성공 시 성공 메세지 전달
-					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+					if (service.updateCampingTipReplyCnt(replyDTO.getBoard_no())) {
+						// 최종적으로 저장 성공 시 성공 메세지 전달
+						entity = new ResponseEntity<String>("success", HttpStatus.OK);
+					}
 				}
 			}
 		} catch (Exception e) {

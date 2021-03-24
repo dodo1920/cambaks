@@ -332,6 +332,7 @@
 	font-weight: bold;
 	font-size: 20px;
 	margin: 20px 0px 10px 0px;
+	border-top: 2px solid #525eaa;
 }
 
 .replyWrite {
@@ -482,6 +483,7 @@
 .boardManageBtn {
 	padding: 9px 0px 7px 0px;
 	margin-bottom: 30px;
+	border-top: 1px solid #ddd;
 }
 
 .boardModifyBtn {
@@ -542,21 +544,6 @@
 						${viewBoard.board_content }
 					</div>
 					
-					<!-- 댓글 작성 창 -->
-					<div class="writeReplyTab">
-						댓글
-					</div>
-					
-					<div class="replyWrite">
-						<textarea class="replyWriteBar" id="writeReplyContent"></textarea>
-						<div class="replyWriteBtnSite">
-							<button type="button" class="btn btn-default" style="float: right;" onclick="writeReply();">댓글작성</button>
-						</div>
-					</div>
-					
-					<!-- 댓글 리스트 창 -->
-					<div class="replyList" id="reply_box"></div>
-					
 					<!-- 글 삭제, 수정, 리스트로 가기 버튼 -->
 					<div class="boardManageBtn">
 						<div class="boardModifyBtn">
@@ -593,15 +580,36 @@
 							      
 							      </div>
 							    </div> <!-- modal end -->
-							</c:if>
 							</div>
+						</c:if>
 							<div class="backListBtn">
-							<button type="button" class="btn btn-default" onclick="history.back();">목록보기</button>
+							<c:choose>
+								<c:when test="${param.page != null }">
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${param.page }';">목록보기</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${campingTipPage }';">목록보기</button>
+								</c:otherwise>
+							</c:choose>
 							</div>
 						</div>
 					</div>
+					
+					<!-- 댓글 작성 창 -->
+					<div class="writeReplyTab">
+						댓글
+					</div>
+					
+					<div class="replyWrite">
+						<textarea class="replyWriteBar" id="writeReplyContent"></textarea>
+						<div class="replyWriteBtnSite">
+							<button type="button" class="btn btn-default" style="float: right;" onclick="writeReply();">댓글작성</button>
+						</div>
+					</div>
+					
+					<!-- 댓글 리스트 창 -->
+					<div class="replyList" id="reply_box"></div>
 				</div>
-
 			</div>
 		</div>
 	</div>

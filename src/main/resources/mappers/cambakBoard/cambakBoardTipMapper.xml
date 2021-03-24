@@ -100,6 +100,9 @@
 	<update id="updateReplyRef">
 		update ReplyBoards set replyBoard_ref = #{replyBoard_no} where replyBoard_no = #{replyBoard_no}
 	</update>
+	<update id="updateReplyCnt">
+		update Boards set board_replyCnt = board_replyCnt + 1 where board_no = #{board_no}
+	</update>
 
 <!-- 	해당 게시글의 댓글 수정 -->
 	<update id="modifyReplyTipBoard">

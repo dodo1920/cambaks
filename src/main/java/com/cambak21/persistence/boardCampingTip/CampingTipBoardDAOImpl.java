@@ -155,6 +155,17 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
+		boolean result = false;
+		
+		if (session.update(nameSpace + "updateReplyCnt", replyBoard_no) == 1) {
+			result = true;
+		}
+		return result;
+	}
 
 	@Override
 	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception {

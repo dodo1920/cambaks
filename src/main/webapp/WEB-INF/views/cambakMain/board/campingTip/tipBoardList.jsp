@@ -271,8 +271,8 @@
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
 											<td>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title } </a>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }" style="font-weight: 600;">[${item.board_replyCnt }]</a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}">${item.board_title } </a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}" style="font-weight: 600;">[${item.board_replyCnt }]</a>
 											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
@@ -288,7 +288,7 @@
 						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write'">글작성</button>
 						</div>
 						<div class="numBoard">
-						
+						<c:set var="campingTipPage" value="${param.page }" scope="session" />
 						<c:choose>
 							<c:when test="${param.searchWord == null }">
 								<div>

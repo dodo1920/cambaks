@@ -117,7 +117,13 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 		// 상세 게시글 댓글 작성 insert
 		return dao.updateCampingTipReplyRef(replyBoard_no);
 	}
-
+	
+	@Override
+	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
+		return dao.updateCampingTipReplyCnt(replyBoard_no);
+	}
+	
 	@Override
 	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 댓글 수정 update
