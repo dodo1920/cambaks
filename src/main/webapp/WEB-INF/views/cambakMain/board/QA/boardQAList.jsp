@@ -97,7 +97,7 @@
 					<section>
 						<header>
 							<h2>Q&A 게시판</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
+							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 						</header>
 						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
