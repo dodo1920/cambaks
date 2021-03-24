@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdReviewVO;
@@ -33,30 +34,7 @@ public class BoardProdReview {
 	private ProdReviewService service;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardProdReview.class);
-	
-	//페이징 없는 전체 게시글 목록
-//	@RequestMapping(value = "/prodReviews", method=RequestMethod.GET)
-//	public void listAll(Model model) throws Exception {
-//		logger.info("/prodReviewsTest 페이지 get방식 호출");
-//		List<ProdReviewVO> lst = service.listProdBoard();
-//		System.out.println("lst : " + lst);
-//		model.addAttribute("boardList", lst);
-//	}
-	
-	//ajax 이용 전체 게시글 목록
-//	@RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.POST)
-//	public ResponseEntity<List<ProdReviewVO>> prodReviewsList(@PathVariable("product_id") int product_id){
-//		ResponseEntity<List<ProdReviewVO>> entity = null;
-//		
-//		try {
-//			entity = new ResponseEntity<List<ProdReviewVO>>(service.listProdBoard(product_id), HttpStatus.OK);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			entity = new ResponseEntity<List<ProdReviewVO>>(HttpStatus.BAD_REQUEST);
-//		}
-//		
-//		return entity;
-//	}
+
 	   @RequestMapping("/prodReviews")
 	   public void showProdMain() {
 		   
@@ -146,26 +124,6 @@ public class BoardProdReview {
 		return "cambakMall/prodReviews";
 	}
 	
-	// 페이징 처리한 전체 게시글 목록
-//	@RequestMapping(value="/prodReviews/{product_id}", method=RequestMethod.GET )
-//	public String prodReviewsPagingList(PagingCriteria cri, Model model, @PathVariable("product_id") int product_id) throws Exception {
-//		logger.info("페이징을 이용한 전체 게시글 출력, GET 방식");
-//		
-//		model.addAttribute("boardList", service.listProdBoardCriteria(cri, product_id)); // 페이징 게시물을 바인딩
-//		logger.info("cri.toString() : " + cri.toString());
-//		
-//		PagingParam pp = new PagingParam();
-//		pp.setCri(cri);
-//		pp.setTotalCount(service.getTotalBoardCnt()); // 전체 게시물 개수를 가져온 후 세팅
-//		
-//		logger.info("pp.toString() : " + pp.toString());
-//		
-//		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체 바인딩
-//		
-//		return "/cambakMall/prodReviews";
-//	}
-	
-	// ajax 이용 페이징 처리한 전체 게시글 목록
-	
-	
+	// 상품후기 게시글에 대한 댓글 작성
+
 }

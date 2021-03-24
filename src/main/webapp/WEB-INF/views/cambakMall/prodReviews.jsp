@@ -49,21 +49,32 @@
 		.checked {
 		  color: orange;
 		}
+		
+		.replyBox{
+		 margin-top: 27px;
+		}
+		
+		textarea{
+			width: 1070px; 
+			height:200px; 
+		    resize:none;/* 크기고정 */ 
+		    margin-top: 30px;
+		/*   resize: horizontal; // 가로크기만 조절가능 
+			resize: vertical;  세로크기만 조절가능  */
+		}
 	</style>
 	
     <script type="text/javascript">
-    $(function() {
-		
-		//callProdBoardList();
-		
-		
-		});
 
+    let totalCount;
+    
 	 
 	 
-	 // ajax 방식 onclick 시 content 보여주는 부분
+	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(obj) {
-			let reviewsContent = $(obj).attr("id");
+		 	let reviewsContent
+			reviewsContent = $(obj).attr("id");
+			// 접이식 보여주기
 				$("#content" + reviewsContent).toggle();
 		}
 	 
@@ -87,7 +98,7 @@
 		return output1;
 	} 	
 
-    
+
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(product_id, pageNum, member_id) {
     	product_id = 4;
@@ -109,8 +120,8 @@
 	        success 	: function(data) {
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
-	        	console.log(prodList);
-	        	console.log(pagingParam);
+	        	//console.log(prodList);
+	        	//console.log(pagingParam);
 	        	
 	        	// 날짜 출력 방식 변경을 위한 변수 설정
 	        	let showDate;
@@ -129,18 +140,29 @@
 	                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
 	                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
 	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
-	                 output += '<td colspan="6"><div>' + item.prodReview_content + '</div><div class="form-row float-right">';
-	            	 
+	                 output += '<td colspan="6">';
 	                 
 	                 if(member_id == item.member_id){
-	                	 output += '<button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
-	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div></td></tr>';
+	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
+	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
 	                 
+	                 // Content 내용
+	                 output += '<div>' + item.prodReview_content + '</div>';
+	                 // 댓글 내용
+	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
+	                  
+	                 
+	                 if(member_id != null){
+	                	 output += '<div class="card mb-2"><div class="card-header bg-light">댓글 작성</div>';
+	                	 output += '<div class="card-body"><ul class="list-group list-group-flush"><li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
+	                	 output += '<div><p class="card-text"><textarea id="replyProdReview_content' + item.prodReview_no + '" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea><div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></p></li></ul></div>';
+	                	 output += '</td>';
+	                 }
 	                 
 	        	  });
 
-	              output += '</table>';
+	              output += '</tr></table>';
 	              
 	              
 	              // 페이징 처리 부분
@@ -157,6 +179,7 @@
 	            	  startPage = item.startPage;
 	            	  endPage = item.endPage;
 	            	  tempEndPage = item.tempEndPage;
+	            	  totalCount = item.totalCount;
 	            	  
 	            	  if(pageNum > 1){
 	            		  prev = pageNum - 1;
@@ -173,11 +196,10 @@
 	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + prev + '); return false;">prev</a></li>';
 	            	  
 	              });
-	              console.log(startPage);
-	              console.log(endPage);
+	              //console.log(startPage);
+	              //console.log(endPage);
 
 	              for(var num = startPage; num <=endPage; num++){
-	            	  
 	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
             	  }
 	              
@@ -188,15 +210,123 @@
 	              pageOutput += '</ul></div></div>';
 	              $("#prodBoardList").html(output);
 	              $("#prodBoardListPage").html(pageOutput);
+	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
 	        }, // end of Success
 	        error		: function(error) {
 	        	console.log(error);
-	        }
-	    });
-	}
+	        	
+	        }, complete : function(data) {
+	            //alert("complete!");    
+	            let prodList = data.responseJSON.prodList;
+	            //console.log(prodList);
+	            
+	            
+            	//댓글 작성을 위한 파트
+	            $(prodList).each(function(index, item) {
+	            	prodReview_no = item.prodReview_no;
+	            	
+	            	$.ajax({
+						  type: "post",
+						  url: "/cambakMall/getProdReviewReply/"+prodReview_no,
+						  contentType : "application/json",
+						  success : function(result) {
+							  console.log(result);
 
-    
+						  $(result).each(function(index, item) {
+							  console.log(result);
+							  let replyOutput = '<div class="card mb-2"><div class="card-header bg-light"><i class="fa fa-user-circle-o fa-2x"></i>';
+							  //댓글의 날짜 형식 변경 부분
+					          let showDate = new Date(item.replyProdReview_date);
+					          let showThisDate = showDate.toLocaleString();
+					          
+					          //댓글 생성 부분
+				              replyOutput += item.member_id + '<div>' + showThisDate + '</div>' + '</div><div class="card-body"><ul class="list-group list-group-flush">';
+				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
+				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
+				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
+				              
+				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
+				              
+				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no + ');">대댓글등록</button></div></div>';
+				              
+				              replyOutput += '</div>';
+				              
+							  $("#replyBox" + item.prodReview_no).append(replyOutput);
+
+						 	 });
+						  }
+	            }); // ajax
+	            	
+	            
+	            }); // end of each.function
+	            
+	            	
+				
+	        }// end of complete
+				
+					//
+	        
+
+	    });
+	} // end of showProdList
+
+	
+	//addReplyProdReviews 댓글 처리 부분
+	function addReplyProdReviews(prodReview_no) {
+				console.log("prodReview_no : " + prodReview_no);
+				// 댓글 작성 시 필요한 변수들
+				let replyProdReview_content = $("#replyProdReview_content" + prodReview_no).val();
+				let member_id = 'fff';
+				prodReview_no = prodReview_no;
+				let replyProdReview_ref = 0;
+				
+				$.ajax({
+					  method: "post",
+					  url: "/cambakMall/insertProdReviewReply",
+					  headers: {	// 요청하는 데이터의 헤더에 전송
+						  "Content-Type" : "application/json",
+						  "X-HTTP-Method-Override" : "POST"
+					  },
+					  dataType: "text", // 응답 받는 데이터 타입
+					  data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
+						  replyProdReview_content :  replyProdReview_content,
+						  member_id : member_id,
+						  prodReview_no : prodReview_no,
+						  replyProdReview_ref : replyProdReview_ref
+					  }),
+					  success : function(result) {
+						  console.log(result)
+						
+						
+					  }
+					  
+					});
+				
+
+	};
+	
+	//댓글 작성란 보여주기
+	function showReply(replyProdReview_no) {
+		$("#reply" + replyProdReview_no).toggle();
+	}
+	
+	//addReply 대댓글 처리 부분
+	function addReply(replyProdReview_no) {
+		// replyProdReview_content 수정 필요
+		let replyProdReview_content;
+		let member_id = 'fff';
+		replyProdReview_no = replyProdReview_no;
+		let replyProdReview_ref = replyProdReview_no;
+		
+		console.log("replyProdReview_no : " + replyProdReview_no);
+	}
+	
+		
+		
+		$(function() {
+			showProdList();
+		});
     </script>
 </head>
 <body>
@@ -205,7 +335,7 @@
 	<%@include file="mallHeader.jsp" %>
 
 
-<!-- Page Preloder -->
+	<!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
@@ -347,7 +477,7 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();">상품평( 2 )</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의</a>
@@ -382,110 +512,9 @@
 						     	<div id="prodBoardList"></div>
 								<div id="prodBoardListPage"></div>
 								
-								<c:choose>
-									<c:when test="${boardList != null}">
-										<table class="table table-hover">
-						                  <thead>
-						                     <tr>
-						                        <th>글번호</th>
-						                        <th>글제목</th>
-						                        <th>만족도</th>
-						                        <th>작성자</th>
-						                        <th>작성일</th>
-						                        <th>좋아요</th>
-						                     </tr>
-						                  </thead>
-						                  <c:forEach var="board" items="${boardList }" varStatus="status">
-						                  	<c:choose>
-						                  		<c:when test="${board.prodReview_isDelete == 'Y' }">
-						                  			<tr>
-						                        <td><strike>${board.prodReview_no }</strike></td>
-						                        <td><strike>${board.prodReview_grade }</strike></td>
-						                        <td>
-						                        <strike>${board.prodReview_title}</strike>
-						                        </td>
-						                        <td><strike>${board.member_id }</strike></td>
-						                        <td><strike><span class="sendTime" id="${status.count }"><fmt:formatDate
-						                                 value="${board.prodReview_postDate }" type="both"
-						                                 pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
-						                        <td><strike>${board.prodReview_likeCnt }</strike></td>
-						                     </tr>
-						                  		</c:when>
-						                  	
-						                  	<c:otherwise>
-						                     <tr>
-						                        <td>${board.prodReview_no }</td>
-						                        <td>
-						                          <div id="${board.prodReview_no}" onclick="showContent(this);">${board.prodReview_title }</div> 
-						                        </td>
-						                        <td>
-						                        <div class="starrr"></div></td>
-						                        <td>${board.member_id }</td>
-						                        <td><span class="sendTime" id="${status.count }">
-						                        <fmt:formatDate value="${board.prodReview_postDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
-						                        </span></td>
-						                        <td>${board.prodReview_likeCnt }</td>
-						                     </tr>
-						                     
-						                     <!-- 별점 표시를 위한 bootStrap 부분 
-						                     <script>
-						                     //var check = $(".starsCnt").attr("value");
-									               $('.starrr').starrr({
-									            	   rating: ${board.prodReview_grade },
-									            	   readOnly: true
-									            	 })
-								               </script>-->
-								             
-						                     <tr id="test${board.prodReview_no}" style="display: none">
-							                     <td colspan="6">
-							                     	 <div>${board.prodReview_content }</div>
-							                     	 <div></div>
-								                     <!-- <input type="text" id="test${board.prodReview_no}" value="${board.prodReview_content }" readonly="readonly" style="display: none"/> -->
-								                 </td>
-						                     </tr>
-						                     
-						                     
-						                     </c:otherwise>
-						                     </c:choose>
-						                  </c:forEach>
-						               </table>
-						               
-						               <!-- 페이징 부분 -->
-						               <div class="text-center">
-						               <ul class="pagination">
-							               <li class="page-item">
-						            	     <a class="page-link" href="listCri?page=1">처음 페이지로</a>
-						            	   </li>
-						            	   <c:if test="${pagingParam.prev }">
-							                  <li class="page-item">
-							                     <a class="page-link" href="?page=${param.page -1 }">prev</a>
-							                  </li>
-							               </c:if>
-						            	   <c:forEach begin="${pagingParam.startPage }"
-							                     end="${pagingParam.endPage }" var="pageNo">
-							                     <li class="page-item"><a class="page-link" onclick="pagingList(this);" id="${pageNo }">${pageNo }</a>
-							                      </li>
-						                   </c:forEach>
-						               </ul>
-						               </div>
-						               
-						               
-						               
-						               
-						               <!-- 글쓰기 버튼 -->
-						               <div class="form-row float-right">
-						                  <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
-						                  <button type="button" class="btn btn-success" onclick="callProdReviewsList();">테스트</button>
-						                  
-						               </div>
-						               
-									</c:when>
-								<c:otherwise>
-									게시물이 존재하지 않거나, 데이터를 얻어오지 못했습니다.
-								</c:otherwise>
-								</c:choose>
 								
-							</div>
+								
+								</div>
                                 
                                 </div>
                                 <!-- ******************************************************************************************** -->

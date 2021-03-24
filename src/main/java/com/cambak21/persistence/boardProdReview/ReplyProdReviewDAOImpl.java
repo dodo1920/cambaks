@@ -1,4 +1,4 @@
-package com.cambak21.persistence.replyProdReviews;
+package com.cambak21.persistence.boardProdReview;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ReplyProdReviewVO;
+import com.cambak21.dto.InsertReplyProdReviewDTO;
 
 @Repository
 public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
@@ -17,8 +18,8 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 	private static final String namespace = "com.cambak21.mapper.ReplyProdReviewMapper";
 	
 	@Override
-	public void create(ReplyProdReviewVO vo) throws Exception {
-		ses.insert(namespace + ".create", vo);
+	public int addProdReply(InsertReplyProdReviewDTO dto) throws Exception {
+		return ses.insert(namespace + ".addProdReply", dto);
 	}
 
 	@Override
@@ -47,14 +48,23 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 
 	@Override
 	public int getMaxNo() throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.selectOne(namespace + ".getMaxNo");
 	}
 
 	@Override
 	public void updateReforder(int ref, int reforder) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<ReplyProdReviewVO> getListReply(int prodReview_no) throws Exception {
+		return ses.selectList(namespace + ".getListReply", prodReview_no);
+	}
+
+	@Override
+	public int getMaxReforder(int replyProdReview_no) throws Exception {
+		return ses.selectOne(namespace + ".getMaxReforder", replyProdReview_no);
 	}
 
 }
