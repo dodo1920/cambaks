@@ -33,11 +33,39 @@
 </head>
 <style>
 	@media (min-width: 768px) {
+			#fDrop {
+				width : 80.7%;
+				height :200px;
+				border : 1px dotted gray;
+				margin-left : 15px;
+				margin-right : 15px;
+			}
 		.col-sm-2  {
 			width : 8.5%;
 			}
-	}		
+	}
 </style>
+<script>
+	$(function() {
+		$("#fDrop").on("dragenter dragover", function(evt) {
+			evt.preventDefault();
+		});
+		
+		$("#fDrop").on("drop", function(evt) {
+			evt.preventDefault();
+			
+			let formData = new FormData();
+			
+			let files = evt.originalEvent.dataTransfer.files; // 드래그 이벤트의 파일 데이터 전송 기능은 처리되도록
+			console.log(files);
+			
+			for(let i = 0; i < files.length; i++) {
+				formData.append("file[]", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
+			}
+			console.log(formData);
+		});
+	});
+</script>
 <body>
 
 <%@include file="mallHeader.jsp" %>
@@ -78,30 +106,18 @@
 		               </div>
 		            </div>
 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file1">파 일1 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file1" name="file1">
-		               </div>
-		            </div>
-		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file2">파 일2 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file2" name="file2">
-		               </div>
-		            </div>
-		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file3">파 일3 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file3" name="file3">
-		               </div>
-		            </div>
-		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="prodQA_secretPassword">비밀번호 :</label>
 		               <div class="col-sm-10">
 		                  <input type="password" class="form-control" id="prodQA_secretPassword" name="prodQA_secretPassword">
 		               </div>
 		            </div>
-		           	<div class="form-group">
+		            <div class="form-group">
+		               <label class="control-label col-sm-2" for="file1">파 일1 :</label>
+		               <div class="col-sm-10" id="fDrop">
+		                  <input type=file mulit/>
+		               </div>
+		            </div>
+		           	<div class="form-group" id="fileDrop">
 		               <label class="control-label col-sm-2" for="prodQA_isSecret">비밀글 :</label>
 		               <div class="col-sm-10">
 		                  <input type="checkbox" class="form-control" id="prodQA_isSecret" name="prodQA_isSecret">

@@ -101,34 +101,38 @@ public class prodDetail {
 		
 		return "cambakMall/prodQAForm";
 	}
+	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, HttpServletRequest request, MultipartFile file1, MultipartFile file2, MultipartFile file3, Model model) throws Exception {
+	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, HttpServletRequest request, MultipartFile[] files, Model model) throws Exception {
 		logger.info("QA 글쓰기 저장");
-		
-		System.out.println("업로드 파일 이름 : " + file1.getOriginalFilename());
-		System.out.println("업로드 파일 사이즈 : " + file1.getSize());
-		System.out.println("업로드 파일 : " + Arrays.toString(file1.getBytes()));
-		System.out.println("업로드 파일의 타입 : " + file1.getContentType()); // 파일의 MIME type (못 바꾸기 때문에 이미지인지 판별할때 사용)
-		System.out.println(file2.getOriginalFilename());
-		System.out.println(file3.getOriginalFilename());
-		System.out.println(insertQA.toString());
 		
 		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads"));
 		System.out.println(request.getRealPath("resources/uploads"));
 		
 		String path = request.getSession().getServletContext().getRealPath("resources/uploads");
 		
-		String saveFileName1 = FileUploadProdcess.uploadFile(path, file1.getOriginalFilename(), file1.getBytes());
-		String saveFileName2 = FileUploadProdcess.uploadFile(path, file2.getOriginalFilename(), file1.getBytes());
-		String saveFileName3 = FileUploadProdcess.uploadFile(path, file3.getOriginalFilename(), file1.getBytes());
+		String saveFileName = "";
+		
+		for(int i = 0; i < files.length; i++) {
+			System.out.println("업로드 파일 이름 : " + files[i].getOriginalFilename());
+			System.out.println("업로드 파일 사이즈 : " + files[i].getSize());
+			System.out.println("업로드 파일의 타입 : " + files[i].getContentType()); // 파일의 MIME type (못 바꾸기 때문에 이미지인지 판별할때 사용)
+			
+			saveFileName = FileUploadProdcess.uploadFile(path, files[i].getOriginalFilename(), files[i].getBytes());
+			
+			if(i == 0) {
+				insertQA.setProdQA_img1(saveFileName);
+			} else if(i == 1) {
+				insertQA.setProdQA_img2(saveFileName);
+			} else if(i == 2) {
+				insertQA.setProdQA_img3(saveFileName);
+			}
+		}
 		
 		insertQA.setProduct_id(prodId);
-		insertQA.setProdQA_img1(saveFileName1);
-		insertQA.setProdQA_img2(saveFileName2);
-		insertQA.setProdQA_img3(saveFileName3);
 		
 		System.out.println(insertQA.toString());
-		
+
 		if(insertQA.getProdQA_isSecret() != null) {
 			insertQA.setProdQA_isSecret("Y");
 		} else {
@@ -172,6 +176,7 @@ public class prodDetail {
 	         System.out.println(path + fileName);
 	         
 	         in = new FileInputStream(path + fileName);
+	         System.out.println(in);
 	         
 	         if (mType != null) {
 	            header.setContentType(mType); 
