@@ -223,7 +223,7 @@ p.category-title {
 									자리입니다.</a></span>
 						</header>
 						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="../../cambak21Search&Write.jsp"%>
+						
 					</section>
 			
 			<div class="detail-wrap">
@@ -302,41 +302,7 @@ p.category-title {
 
 
 
-					
-
-<!-- 
-					
-					
-
-					<button type="button" class="btn btn-success"
-						onclick="showReplyBox();">댓글달기</button>
-
-				
-
-				<div id="inputReplyBox"
-					style="margin: 15px; border: 1px dotted gray; display: none;">
-					<div>
-						작성자 : <input type="text" name="replyer" id="newReplyWriter"
-							value="" />
-
-					</div>
-					<div>
-						댓글 입력 : <input type="text" name="replytext" id="newReplyText" />
-
-					</div>
-					<div>
-						<button type="button" class="btn btn-info" id="replyAddBtn"
-							onclick='addReply();'>ADD Reply</button>
-					</div>
-				</div>
-				<div id="replyBox" style="padding : 10px; border-bottom : 1px solid gray;">
-			
-				</div>
-			</div>
-		</div>
-	</div>
-	-->
-	<!-- /Main -->
+		
 	
 
 	<%@include file="../../cambak21Footer.jsp"%>

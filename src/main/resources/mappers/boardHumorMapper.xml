@@ -33,31 +33,11 @@
 	</update>
 	
 	<select id="searchBoardCnt" resultType="int">
-		select count(*) from Boards where
-  		<if test="searchType == 'board_title'">
-  			board_title like concat('%', #{searchWord}, '%')
-  		</if>
-  		<if test="searchType == 'board_content'">
-  			board_content like concat('%', #{searchWord}, '%')
-  		</if>
-  		<if test="searchType == 'member_id'">
-  			member_id like concat('%', #{searchWord}, '%')
-  		</if>
+		select count(*) from Boards where (board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%') or member_id like concat('%', #{searchWord}, '%')) and board_category = 'humor' and board_isDelete = 'N'
 	</select>
 	
 	<select id="searchBoard" resultType="com.cambak21.domain.BoardVO">
-  		select * from Boards where 
-  		<if test="searchType == 'board_title'">
-  			board_title like concat('%', #{searchWord}, '%')
-  		</if>
-  		<if test="searchType == 'board_content'">
-  			board_content like concat('%', #{searchWord}, '%')
-  		</if>
-  		<if test="searchType == 'member_id'">
-  			member_id like concat('%', #{searchWord}, '%')
-  		</if>
-  		
-  		order by board_no desc limit #{pageStart}, #{perPageNum}
+		select * from Boards where (board_title like concat('%', #{searchWord}, '%') or board_content like concat('%', #{searchWord}, '%') or member_id like concat('%', #{searchWord}, '%')) and board_category = 'humor' and board_isDelete = 'N' order by board_no desc limit #{pageStart}, #{perPageNum}
   	</select>
 
 	<update id="updateReplyCnt">

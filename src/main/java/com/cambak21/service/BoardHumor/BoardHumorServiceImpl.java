@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.persistence.boardHumor.BoardHumorDAO;
+import com.cambak21.persistence.boardHumor.BoardHumorReplyDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -18,6 +19,9 @@ public class BoardHumorServiceImpl implements BoardHumorService{
 
 	@Inject
 	private BoardHumorDAO dao;
+	
+	@Inject
+	private BoardHumorReplyDAO rdao;
 	
 	@Override
 	public boolean insertBoardHumor(BoardVO vo) throws Exception {
@@ -53,6 +57,7 @@ public class BoardHumorServiceImpl implements BoardHumorService{
 		boolean result = false;
 		
 		int i = dao.deleteBoardHumor(no);
+		rdao.deleteAll(no);
 		if(i == 1) {
 			result = true;
 		}

@@ -12,4 +12,6 @@ public interface BoardHumorReplyDAO {
 	public void delete(int board_no) throws Exception;
 	
 	public void update(ReplyBoardVO vo) throws Exception;
+	
+	public void deleteAll(int board_no) throws Exception;
 }

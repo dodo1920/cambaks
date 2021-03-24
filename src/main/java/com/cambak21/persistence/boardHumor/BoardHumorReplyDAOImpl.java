@@ -44,4 +44,10 @@ public class BoardHumorReplyDAOImpl implements BoardHumorReplyDAO {
 		
 	}
 
+	@Override
+	public void deleteAll(int board_no) throws Exception {
+		ses.delete(namespace + ".deleteAll", board_no);
+		
+	}
+
 }
