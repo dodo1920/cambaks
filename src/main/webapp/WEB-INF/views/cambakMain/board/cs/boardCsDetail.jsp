@@ -98,8 +98,12 @@
 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(item.replyBoard_step * 2)+"%'>";
 			} else if (fristStep % 2 != 0) {
 				// 10 ~ 19
-				// 30 ~ 39
-				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2))+"%'>";
+				
+				if (secStep == 0 ) {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+18+"%'>";	
+				} else {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2 + 2))+"%'>";
+				}
 			} else if (fristStep % 2 == 0) {
 				// 20 ~ 29
 				// 40 ~ 49
@@ -381,17 +385,17 @@
 
 						<div class="prevNextBtns">
 							<c:if test="${prev != null }">
-								<a href="../cs/detail?no=${prev }" id="prevBtn">
+								<a href="/board/cs/detail?no=${prev }" id="prevBtn">
 									<button type="button" class="btn btn-default detailPrev">이전글</button>
 								</a>
 							</c:if>
 
-							<a href="../cs/detail?no=${next }" id="listBtn">
+							<a href="/board/cs/detail?no=${next }" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 							</a>
 
 							<c:if test="${next != null }">
-								<a href="../cs/detail?no=${next }" id="nextBtn">
+								<a href="/board/cs/detail?no=${next }" id="nextBtn">
 									<button type="button" class="btn btn-default detailNext">다음글</button>
 								</a>
 							</c:if>
@@ -402,10 +406,10 @@
 
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../cs/delete?no=${board.board_no}'">삭제하기</button>
+								onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
+								onclick="location.href='/board/cs/modi?no=${board.board_no}'">수정하기</button>
 
 						</div>
 
