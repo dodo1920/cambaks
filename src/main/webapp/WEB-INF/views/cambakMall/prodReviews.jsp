@@ -151,14 +151,13 @@
 	                 output += '<div>' + item.prodReview_content + '</div>';
 	                 // 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
-
-	                 //output += '<div>' + item.prodReview_no + '</div>';
-	                 //output += '<div>' + showProdReplyList(item.prodReview_no) + '</div>';
 	                  
 	                 
 	                 if(member_id != null){
-	                	 output += '<div class ="row"><div class="col-md-12 "><textarea id="replyProdReview_content" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea></div></div>';
-	                	 output += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></td>'
+	                	 output += '<div class="card mb-2"><div class="card-header bg-light">댓글 작성</div>';
+	                	 output += '<div class="card-body"><ul class="list-group list-group-flush"><li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
+	                	 output += '<div><p class="card-text"><textarea id="replyProdReview_content' + item.prodReview_no + '" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea><div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></p></li></ul></div>';
+	                	 output += '</td>';
 	                 }
 	                 
 	        	  });
@@ -244,10 +243,12 @@
 					          //댓글 생성 부분
 				              replyOutput += item.member_id + '<div>' + showThisDate + '</div>' + '</div><div class="card-body"><ul class="list-group list-group-flush">';
 				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
-				              replyOutput += '<div>' + item.replyProdReview_content + '<div>';
-				              replyOutput += '<button type="button" class="btn btn-dark mt-3" onClick="javascript:addReply();">post reply</button></li></ul></div>';
+				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
+				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
 				              
+				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
 				              
+				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no + ');">대댓글등록</button></div></div>';
 				              
 				              replyOutput += '</div>';
 				              
@@ -271,16 +272,18 @@
 	} // end of showProdList
 
 	
-	//addReplyProdReviews 댓글처리 부분
-	/*function addReplyProdReviews(prodReview_no) {
+	//addReplyProdReviews 댓글 처리 부분
+	function addReplyProdReviews(prodReview_no) {
+				console.log("prodReview_no : " + prodReview_no);
 				// 댓글 작성 시 필요한 변수들
-				let replyProdReview_content = $("#replyProdReview_content").val();
+				let replyProdReview_content = $("#replyProdReview_content" + prodReview_no).val();
 				let member_id = 'fff';
 				prodReview_no = prodReview_no;
+				let replyProdReview_ref = 0;
 				
 				$.ajax({
 					  method: "post",
-					  url: "/cambakMall/prodReviewReply",
+					  url: "/cambakMall/insertProdReviewReply",
 					  headers: {	// 요청하는 데이터의 헤더에 전송
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "POST"
@@ -289,38 +292,35 @@
 					  data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
 						  replyProdReview_content :  replyProdReview_content,
 						  member_id : member_id,
-						  prodReview_no : prodReview_no
+						  prodReview_no : prodReview_no,
+						  replyProdReview_ref : replyProdReview_ref
 					  }),
 					  success : function(result) {
-						if(result == "Success"){
-							showProdReplyList(prodReview_no);
-						}
+						  console.log(result)
+						
 						
 					  }
 					  
 					});
 				
 
-	};*/
+	};
 	
-	// showProdReplyList
-	/*function showProdReplyList(prodReview_no) {
-		prodReview_no = prodReview_no;
-		console.log("prodReview_no : " + prodReview_no);
-		let replyContent = "댓글이 없습니다.";
-		$("#replyBox").empty();
+	//댓글 작성란 보여주기
+	function showReply(replyProdReview_no) {
+		$("#reply" + replyProdReview_no).toggle();
+	}
+	
+	//addReply 대댓글 처리 부분
+	function addReply(replyProdReview_no) {
+		// replyProdReview_content 수정 필요
+		let replyProdReview_content;
+		let member_id = 'fff';
+		replyProdReview_no = replyProdReview_no;
+		let replyProdReview_ref = replyProdReview_no;
 		
-		
-			$("#replyBox").html(output);
-			
-			
-			$.getJSON("/cambakMall/getProdReviewReply/" + prodReview_no, function(data) {
-				console.log(data)
-				
-			});
-			
-			return "체크중";
-		};*/
+		console.log("replyProdReview_no : " + replyProdReview_no);
+	}
 	
 		
 		
