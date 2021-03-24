@@ -116,7 +116,7 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid}">
+		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.member_id}">
 		               </div>
 		            </div>
 		            <div class="form-group">
