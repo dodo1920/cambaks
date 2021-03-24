@@ -103,8 +103,8 @@
 									<option value="write">작성자</option>
 									<option value="title+content">제목+내용</option>
 								</select> <input type="text" class="form-control" size="50"
-									placeholder="Search" onkeypress="enterKey();" name="searchWord">
-								<button type="submit" class="btn btn-danger search">Search</button>
+									placeholder="Search" onkeypress="enterKey();" name="searchWord" id="searchWord">
+								<button type="submit" class="btn btn-danger search" onclick="check">Search</button>
 							</div>
 						</form>
 					</section>
@@ -125,11 +125,39 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="/board/cs/detail?no=${item.board_no }"
-												class="board-title-a">${item.board_title }</a> <c:if
-													test="${item.replyCnt > 0 }">
+											<td>
+											<!-- 목록보기 구현위한 문장 -->
+											<c:choose>
+												<c:when test="${param.page == null }">
+													<!-- page가 null이고 searchType도 null이면.. -->
+													<!-- 1페이지이고 검색을 안했으면... -->
+													<c:if test="${param.searchType == null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=1" class="board-title-a">${item.board_title }</a>	
+													</c:if>
+													<!-- 1페이지고 검색을 했으면... -->
+													<c:if test="${param.searchType != null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+												</c:when>
+												<c:otherwise>
+													<!-- page가 null이 아니면... 최소 2페이지 -->
+													<!-- 검색을 했으면...  -->
+													<c:if test="${param.searchType != null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+													<!-- 검색을 안했으면 ... -->
+													<c:if test="${param.searchType == null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+												</c:otherwise>
+											</c:choose>
+											
+											<!-- 좋아요 수가 0보다 크면 출력 -->
+											<c:if test="${item.replyCnt > 0 }">
 													(${item.replyCnt })
-												</c:if></td>
+											</c:if>
+											</td>
+											
 											<td>${item.member_id }</td>
 											<td><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
@@ -144,15 +172,18 @@
 							<ul class="pagination">
 								<c:choose>
 									<c:when test="${param.searchType == null }">
+										<!-- 이전 버튼 -->
 										<c:if test="${pp.prev }">
 											<li><a href="/board/cs?page=${param.page - 1 }">이전</a></li>
 										</c:if>
 
+										<!-- 페이징 버튼 -->
 										<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
 											var="pageNo">
 											<li><a href="/board/cs?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 
+										<!-- 다음 버튼 -->
 										<c:if test="${pp.next }">
 											<c:choose>
 												<c:when test="${param.page != null }">

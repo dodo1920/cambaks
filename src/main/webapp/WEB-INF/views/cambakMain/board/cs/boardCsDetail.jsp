@@ -349,13 +349,27 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
-									자리입니다.</a></span>
-						</header>
-						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="../../cambak21Search&Write.jsp"%>
+						<section>
+							<header>
+								<h2>고객센터</h2>
+								<span class="byline" id="rollNot"><a
+									href="../notice/listCri">공지가 들어갈 자리입니다.</a></span>
+							</header>
+							<form action="/board/cs/search" method="get">
+								<div class="research">
+									<!-- <form> -->
+									<select class="searchType" name="searchType">
+										<option value="title">제목</option>
+										<option value="content">내용</option>
+										<option value="write">작성자</option>
+										<option value="title+content">제목+내용</option>
+									</select> <input type="text" class="form-control" size="50"
+										placeholder="Search" onkeypress="enterKey();"
+										name="searchWord">
+									<button type="submit" class="btn btn-danger search">Search</button>
+								</div>
+							</form>
+						</section>
 					</section>
 
 					<!-- 컨텐츠 시작 -->
@@ -389,10 +403,19 @@
 									<button type="button" class="btn btn-default detailPrev">이전글</button>
 								</a>
 							</c:if>
-
-							<a href="/board/cs/detail?no=${next }" id="listBtn">
+							
+							<!-- 검색하지 않았을 시 전 주소 -->
+							<c:if test="${param.searchType == null }">
+								<a href="/board/cs?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
-							</a>
+								</a>
+							</c:if>
+							<!-- 검색 했을 시 전 주소 -->
+							<c:if test="${param.searchType != null }">
+								<a href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
+									<button type="button" class="btn btn-default detailNext">목록보기</button>
+								</a>
+							</c:if>
 
 							<c:if test="${next != null }">
 								<a href="/board/cs/detail?no=${next }" id="nextBtn">
