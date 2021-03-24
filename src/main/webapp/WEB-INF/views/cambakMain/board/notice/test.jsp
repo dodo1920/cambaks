@@ -12,7 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
    
 	<script>
-
+		let replyCnt = 0;
 	function callReplyList(){
 		
 		let board_no = '${param.no}'
@@ -29,6 +29,7 @@
 		$.getJSON("/board/notice/getReply/" + board_no, function(data){
 			console.log(data[0].replyBoard_no);
 			$(data).each(function(index, item){
+				replyCnt++;
 				let go = Number(item.replyBoard_no);
 				$("#replyBoard_no").val(go);
 				console.log(go);
@@ -39,7 +40,7 @@
 				'<div><span>' + this.member_id + '</span></div></li>';
 				
 			});
-			
+			console.log(replyCnt);
 			output += "</ul>";
 			
 			$("#replyBox").html(output);
@@ -237,7 +238,7 @@
       </div>
         <div>
 <%--       	작성자 : <input type="text" name="replyer" id="newReplyWriter" value="${loginMember.uid }"/> --%>
-      	작성자 : <input type="text" name="member_id" id="newReplyMember" />
+      	작성자 : <input type="text" readonly name="member_id" id="newReplyMember" value="${loginMember.uid }"/>
       </div>
       
    

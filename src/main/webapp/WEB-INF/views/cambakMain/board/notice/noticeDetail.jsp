@@ -52,6 +52,7 @@
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
 
 <script>
+let replyCnt = 0;
 
 function callReplyList(){
 	
@@ -62,12 +63,9 @@ function callReplyList(){
 	$.getJSON("/board/notice/getReply/" + board_no, function(data){
 					
 		$(data).each(function(index, item){
-			
+			replyCnt++;
 			let date = new Date(this.replyBoard_writeDate);
-			console.log(date);
 			var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
-			console.log(now);
-			
 			let go = Number(item.replyBoard_no);
 			$("#replyBoard_no").val(go);
 			let date111 = new Date(this.replyBoard_updateDate);
@@ -79,8 +77,9 @@ function callReplyList(){
 		});
 		
 		output += "</ul>";
-		
+		$("#responsereplyCnt").val(replyCnt);
 		$("#replyBox").html(output);
+		replyCnt = 0;
 	});
 }	
 
@@ -167,7 +166,12 @@ function goModify(replyBoard_no){
 
 		
 function inputReplyBox1(){
-	$("#inputReplyBox").show();
+	if(${loginMember.member_id == null}){
+		alert("로그인 후 이용 가능합니다.");
+	}else{
+		$("#inputReplyBox").show();	
+	}
+	
 	
 };
 
@@ -197,7 +201,6 @@ function replyAddBtn(){
 					alert('댓글 등록 완료!');
 					callReplyList();
 					$("#inputReplyBox").css('display', 'none');
-					
 				
 			}
 		});
@@ -290,11 +293,11 @@ form, form input{
 		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 				    <span style="margin-left:15px;">작성자: <input readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
 				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_viewCnt }" /> </span>
-				    <span style="float:right; ">댓글수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_replyCnt }" /> </span>
+				    <span style="float:right; ">댓글수 <input readonly id="responsereplyCnt" type="text" style="width:20px;" value="${noticeBoard.board_replyCnt }" /> </span>
 			  		 </div>
 		               <div>
 		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <textarea readonly name="board_content" readonly class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
+				    <div name="board_content" style="min-width:895px; min-height:500px;" >${noticeBoard.board_content }</div>
 				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
 		            </div>
 		               
@@ -329,7 +332,7 @@ form, form input{
       </div>
         <div>
 <%--       	작성자 : <input type="text" name="replyer" id="newReplyWriter" value="${loginMember.uid }"/> --%>
-      	작성자 : <input type="text" name="member_id" id="newReplyMember" />
+      	작성자 : <input type="text" name="member_id"  style="border:none;" readonly id="newReplyMember" value="${loginMember.member_id }"/>
       </div>
       
    

@@ -14,378 +14,151 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <script>
-//localStorage.clear();
-	let member_id = 'aaa';
 
-	$(function() {
-		
-		$.getJSON("/ajaxCheckList/" + member_id, function(data){
-			console.log(data);
-			$(data).each(function(index, item){
-				index.id = item;
-				
-			});
+	let member_id = '${loginMember.member_id}';
+	let checkList_no = 0;
+	let output = "";
+	let checkList_checked = "";
+	let checkedCnt = 0;
+	let noncheckedCnt = 0;
 	
+	function changeCheck(checkList_no){
+		checkList_checked = $("#checkcheck" + checkList_no).val();
+		checkedCnt = 0;
+		nencheckedCnt = 0;
+		
+		$.ajax({
+	 		type: "get", // method(토신 방식, get / post)
+	 		dataType: "text", // 응답을 어떤 형식으로 받을지	
+	 		url: "/checkList/ajax/change/" + checkList_checked  + "/" + checkList_no, // 서블릿 주소
+	 		headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+			},success: function(data){
+				getAjaxCheckListAll();
+	 		
+	 	}, // 통신 성공시
+	 		error: function(data){     
+	 		}, // 통신 실패시
+	 		complete: function(data){
+	 		} // 통신 완료시
+	 	});
+	}
+	
+	$(function() {
+		getAjaxCheckListAll();
+		
+		$(".filters li").click(function(){
+				$(".filters li").removeClass("selected");
+				$(this).addClass("selected");
 		});
+	
 
 	});
 
+	
+	
+	function getAjaxCheckListAll(){
+	
+	$.getJSON("/checkList/ajax/" + member_id, function(data){
+	
+		output = "";
+		output += "<ul class='listCheck'>"
+		$(data).each(function(index, item){
+			let R = Math.floor(Math.random()*255);
+			let G = Math.floor(Math.random()*255);
+			let B = Math.floor(Math.random()*255);
+			
+			if(this.checkList_checked == 'Y'){
+				output += "<li><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></li>";
+				checkedCnt++;
+				console.log(checkedCnt);
+				
+			}else{
+				output += "<li><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></li>";
+				noncheckedCnt++;
+			}
+			
+//				output += "<li><label for='check_box'><img name='checkimg'style='width:30px; height:30px; margin-right:20px;' src='../resources/img/noncheck.png'><input type='checkbox' id='check_box" + this.checkList_no + "'/></label><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><span>"  + this.checkList_checked + "</span></li>";
+		    
+		});
+		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>items left<ul class='filters'><li>All</li><li>Actice</li><li>Completed</li><li style='margin-left: 60px;'>Clear completed</li></ul></li>";
+		<!--       <li><a href="#" >완료</a></li> -->
+		<!--     </ul> -->
+		output += "</ul>";
+	     	
+			$("#inputTodo").html (output);
 
+
+	});
+
+	}
 
 </script>
 
 
 <style>
 
-html,
-body {
-  margin: 0;
-  padding: 0;
+body{
+
 }
 
-a, button {
-  transition: color .3s ease;
-}
-
-input[type=checkbox], a, button {
-  cursor: pointer;
-}
-
-button {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font-size: 100%;
-  vertical-align: baseline;
-  font-family: inherit;
-  font-weight: inherit;
-  color: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  font-family: 'Noto Sans HK', sans-serif;
-  font-size: 12px;
-  line-height: 1.4em;
-  background: #d5d7de;
-  color: #000;
-  min-width: 230px;
-  max-width: 550px;
-  margin: 0 auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-weight: 300;
-}
-
-:focus {
-  outline: 0;
-}
-
-.hidden {
-  display: none;
-}
-
-.header {
-  &:before {
-    content: '';
-    display: block;
+.checklist{
+    width: 100%;
+	margin-top:200px;
+    left: 50%;
     position: absolute;
-    top: 13px;
-    left: 13px;
-    width: 65px;
-    height: 65px;
-    z-index: 1;
-    opacity: 1;
-    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNiAxMmgxMHYxaC0xMHYtMXptNy44MTYtM2gtNy44MTZ2MWg5LjA0N2MtLjQ1LS4yODMtLjg2My0uNjE4LTEuMjMxLTF6bS03LjgxNi0yaDYuNWMtLjEzNC0uMzItLjIzNy0uNjU2LS4zMTktMWgtNi4xODF2MXptMTMgMy45NzV2Mi41NjhjMCA0LjEwNy02IDIuNDU3LTYgMi40NTdzMS41MTggNi0yLjYzOCA2aC03LjM2MnYtMjBoOS41Yy4zMTItLjc0OS43NjMtMS40MjQgMS4zMTYtMmgtMTIuODE2djI0aDEwLjE4OWMzLjE2MyAwIDkuODExLTcuMjIzIDkuODExLTkuNjE0di0zLjg4NmMtLjYyMy4yNi0xLjI5Ny40MjEtMiAuNDc1em00LTYuNDc1YzAgMi40ODUtMi4wMTUgNC41LTQuNSA0LjVzLTQuNS0yLjAxNS00LjUtNC41IDIuMDE1LTQuNSA0LjUtNC41IDQuNSAyLjAxNSA0LjUgNC41em0tMi4xNTYtLjg4MmwtLjY5Ni0uNjk2LTIuMTE2IDIuMTY5LS45OTItLjk0MS0uNjk2LjY5NyAxLjY4OCAxLjYzNyAyLjgxMi0yLjg2NnoiLz48L3N2Zz4=");
-    background-repeat: no-repeat;
-    background-position: center;
-  }
 }
 
-.todoapp {
-  background: #fff;
-  padding: 13px;
-  margin: 130px 0 40px 0;
-  position: relative;
-  border-radius: 10px;
-  box-shadow: 0 0 13px rgba(0, 0, 0, 0.2)
+.listCheck{
+    border-style: ridge;
+    text-decoration: none;
+    list-style: none;
+    padding: 10px;
+    margin-top: 1px;
+    width: 500px;
 }
 
-.todoapp input::-webkit-input-placeholder {
-  font-weight: 400;
-  color: #ddd;
+.listCheck li{
+    font-weight: bold;
+    padding: 3px;
+    font-size: 17px;
+    border-style: ridge;
+    border-color: mintcream;
 }
 
-.todoapp input::-moz-placeholder {
-  font-weight: 400;
-  color: #ddd;
+
+
+
+
+
+/* #selected li {background-color:blue;} */
+
+
+.listCheck li:select {
+	
 }
 
-.todoapp input::input-placeholder {
-  font-weight: 400;
-  color: #ddd;
-}
 
-.new-todo,
-.edit {
-  position: relative;
-  margin: 0;
-  width: 100%;
-  font-size: 24px;
-  font-weight: bold;
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: 1.4em;
-  border: 0;
-  color: inherit;
-  box-sizing: border-box;
-}
-
-.new-todo {
-  padding: 16px 60px 16px 60px;
-  border-radius: 10px;
-  border: none;
-  background: #efefef;
-  transition: background .3s ease;
-  &:focus {
-    background: #ddd;
-  }
-}
-
-.new-todo-button {
-  position: absolute;
-  display: inline-block;
-  width: 65px;
-  height: 65px;
-  right: 13px;
-  top: 13px;
-  transition: opacity .3s ease;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem02IDEzaC01djVoLTJ2LTVoLTV2LTJoNXYtNWgydjVoNXYyeiIvPjwvc3ZnPg==");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.main {
-  position: relative;
-  z-index: 2;
-}
-
-.completed-wrapper {
-  border-bottom: 1px solid #e6e6e6;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.toggle-all {
-  width: 1px;
-  height: 1px;
-  border: none; /* Mobile Safari */
-  opacity: 0;
-  position: absolute;
-  right: 100%;
-  bottom: 100%;
-}
-
-.toggle-all + label {
-  font-size: 12px;
-  top: 13px;
-  left: 13px;
-  z-index: 99;
-  cursor: pointer;
-  color: #999;
-  transition: color .3s ease;
-  &:hover {
-    color: #000;
-  }
-}
-
-.toggle-all + label:before {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yNCA2LjI3OGwtMTEuMTYgMTIuNzIyLTYuODQtNiAxLjMxOS0xLjQ5IDUuMzQxIDQuNjg2IDkuODY1LTExLjE5NiAxLjQ3NSAxLjI3OHptLTIyLjY4MSA1LjIzMmw2LjgzNSA2LjAxLTEuMzE0IDEuNDgtNi44NC02IDEuMzE5LTEuNDl6bTkuMjc4LjIxOGw1LjkyMS02LjcyOCAxLjQ4MiAxLjI4NS01LjkyMSA2Ljc1Ni0xLjQ4Mi0xLjMxM3oiLz48L3N2Zz4=");
-  background-repeat: no-repeat;
-  background-position: center;
-  content: '';
-  font-size: 22px;
-  opacity: .2;
-  width: 57px;
-  height: 40px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.toggle-all:checked + label:before {
-  opacity: 1;
-}
-
-.todo-list {
-  margin: 13px 0;
-  padding: 0;
-  list-style: none;
-}
-
-.todo-list li {
-  position: relative;
-  font-size: 24px;
-  border-radius: 10px;
-  transition: background .3s ease;
-  &:hover {
-    background: #f8f8f8;
-  }
-}
-
-.todo-list li:last-child {
-  border-bottom: none;
-}
-
-.todo-list li.editing {
-  border-bottom: none;
-  padding: 0;
-  background: #fff;
-}
-
-.todo-list li.editing .edit {
-  display: block;
-  width: calc(100% - 43px);
-  padding: 12px 16px;
-  margin: 0 0 0 43px;
-}
-
-.todo-list li.editing .view {
-  display: none;
-}
-
-.todo-list li .toggle {
-  text-align: center;
-  width: 40px;
-  /* auto, since non-WebKit browsers doesn't support input styling */
-  height: auto;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-  border: none; /* Mobile Safari */
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.todo-list li .toggle {
-  opacity: 0;
-}
-
-.todo-list li .toggle + label {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyeiIvPjwvc3ZnPg==");
-  background-repeat: no-repeat;
-  background-position: 15px center;
-}
-
-.todo-list li .toggle:checked + label {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem00LjM5MyA3LjVsLTUuNjQzIDUuNzg0LTIuNjQ0LTIuNTA2LTEuODU2IDEuODU4IDQuNSA0LjM2NCA3LjUtNy42NDMtMS44NTctMS44NTd6Ii8+PC9zdmc+");
-}
-
-.todo-list li label {
-  word-break: break-all;
-  padding: 15px 15px 15px 60px;
-  display: block;
-  line-height: 1.2;
-  transition: color 0.4s;
-}
-
-.todo-list li.completed label {
-  text-decoration: line-through;
-}
-
-.todo-list li .destroy {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 10px;
-  bottom: 0;
-  width: 40px;
-  height: 40px;
-  margin: auto 0;
-  font-size: 30px;
-  color: #cc9a9a;
-  margin-bottom: 11px;
-  transition: color 0.2s ease-out;
-}
-
-.todo-list li .destroy:hover {
-  color: #af5b5e;
-}
-
-.todo-list li .destroy:after {
-  content: '';
-  width: 40px;
-  height: 40px;
-  display: inline-block;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem01IDE1LjUzOGwtMy41OTItMy41NDggMy41NDYtMy41ODctMS40MTYtMS40MDMtMy41NDUgMy41ODktMy41ODgtMy41NDMtMS40MDUgMS40MDUgMy41OTMgMy41NTItMy41NDcgMy41OTIgMS40MDUgMS40MDUgMy41NTUtMy41OTYgMy41OTEgMy41NSAxLjQwMy0xLjQxNnoiLz48L3N2Zz4=");
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.todo-list li:hover .destroy {
-  display: block;
-}
-
-.todo-list li .edit {
-  display: none;
-}
-
-.footer {
-  color: #999;
-  padding: 10px 0 0 17px;
-  border-top: 1px solid #e6e6e6;
-  display: flex;
-  justify-content: space-between;
-}
-
-.todo-count {
-  text-align: left;
-}
-
-.todo-count strong {
-  font-weight: bold;
-  color: #555;
-}
 
 .filters {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  right: 0;
-  left: 0;
-  li {
-    display: inline-block;
-    padding: 0 3px;
-    a {
-      color: inherit;
-      text-decoration: none;
-      &:hover, &.selected {
-        color: #000;
-      }
-    }
-  }
+  display: inline-flex; padding: 0; list-style: none; right: 0; left: 0; margin: 0px 0px 0px 45px;
 }
 
-.clear-completed {
-  display: inline-block;
-  line-height: 40px;
-  color: #999;
+.filters li{
+	text-decoration: none;
+    border: none;
+    margin: 0px 5px;
+    font-size: 12px;
+    
+    
 }
 
-.clear-completed,
-html .clear-completed:active {
-  text-decoration: none;
-  cursor: pointer;
-}
 
-.clear-completed:hover {
-  color: #000;
-}
+
+
+
+
+
 
 </style>
 
@@ -393,56 +166,53 @@ html .clear-completed:active {
 
 </head>
 <body>
-<section class="todoapp">
-  <header class="header">
-    <input class="new-todo"
-        autocomplete="off"
-        placeholder="Type your todo list"
-        v-model="newTodo"
-        @keyup.enter="addTodo">
-      <button class="new-todo-button"
-        @click="addTodo"  
-        v-show="newTodo.length > 0"
-      ></button>
-  </header>
-  <section class="main" v-show="todos.length" v-cloak>
-    <div class="completed-wrapper">
-      <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone">
-      <label for="toggle-all">Complete all tasks</label>
-      <button class="clear-completed" @click="removeCompleted">
-        Clear completed
-      </button>
-    </div>
-    <ul class="todo-list">
-      <li v-for="todo in filteredTodos"
-        class="todo"
-        :key="todo.id"
-        :class="{ completed: todo.completed, editing: todo == editedTodo }">
-        <div class="view">
-          <input class="toggle" type="checkbox" v-model="todo.completed">
-          <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-          <button class="destroy" @click="removeTodo(todo)"></button>
-        </div>
-        <input class="edit" type="text"
-          v-model="todo.title"
-          v-todo-focus="todo == editedTodo"
-          @blur="doneEdit(todo)"
-          @keyup.enter="doneEdit(todo)"
-          @keyup.esc="cancelEdit(todo)">
-      </li>
-    </ul>
-  </section>
-  <footer class="footer" v-show="todos.length" v-cloak>
-    <span class="todo-count">
-      <strong>{{ remaining }}</strong> {{ remaining | pluralize }} left
-    </span>
-    <ul class="filters">
-      <li><a href="#/all" :class="{ selected: visibility == 'all' }">All</a></li>
-      <li><a href="#/active" :class="{ selected: visibility == 'active' }">Uncomplete</a></li>
-      <li><a href="#/completed" :class="{ selected: visibility == 'completed' }">Completed</a></li>
-    </ul>
-  </footer>
-</section>
+	<section class='checklist'>
+	<h1>캠박이일 체크리스트</h1>
+	<div>
+	<input type="text" style="width:300px; width: 500px;  height: 40px; opacity: 0.8; border-color: cadetblue;;" placeholder="           해야할 일, 준비해야할 물건"/>
+	<div id="inputTodo" ></div>
+	</div>
+	</section>
+	<hr />
+
+<!-- <section class="todoapp"> -->
+<!--   <header class="header"> -->
+<!--     <input class="new-todo" autocomplete="off" placeholder="Type your todo list" v-model="newTodo" @keyup.enter="addTodo"> -->
+<!--       <button class="new-todo-button"  @click="addTodo"  v-show="newTodo.length > 0" ></button> -->
+<!--   </header> -->
+<!--   <section class="main" v-show="todos.length" v-cloak> -->
+<!--     <div class="completed-wrapper"> -->
+<!--       <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone"> -->
+<!--       <label for="toggle-all">Complete all tasks</label> -->
+<!--       <button class="clear-completed" @click="removeCompleted"> -->
+<!--         Clear completed -->
+<!--       </button> -->
+<!--     </div> -->
+<!--     <ul class="todo-list"> -->
+<!--       <li v-for="todo in filteredTodos"  class="todo" :key="todo.id"  :class="{ completed: todo.completed, editing: todo == editedTodo }"> -->
+<!--         <div class="view"> -->
+<!--           <input class="toggle" type="checkbox" v-model="todo.completed"> -->
+<!--           <label @dblclick="editTodo(todo)">{{ todo.title }}</label> -->
+<!--           <button class="destroy" @click="removeTodo(todo)"></button> -->
+<!--         </div> -->
+<!--         <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)"  @keyup.esc="cancelEdit(todo)"> -->
+<!--       </li> -->
+<!--     </ul> -->
+<!--   </section> -->
+<!--   <footer class="footer" v-show="todos.length" v-cloak> -->
+<!--     <span class="todo-count"> -->
+<!--       <strong>{{ remaining }}</strong>  -->
+<!--     </span> -->
+<!--     <ul class="filters"> -->
+<!--       <li><a href="#" >전체</a></li> -->
+<!--       <li><a href="#" >미완료</a></li> -->
+<!--       <li><a href="#" >완료</a></li> -->
+<!--     </ul> -->
+    
+<!--         <span>완료 삭제</span> -->
+    
+<!--   </footer> -->
+<!-- </section> -->
 
 
 
