@@ -38,11 +38,85 @@
 
 <script>
    $(document).ready(function() {
-      
+	  
+	  movePageNum();
       let boardUri = searchUriAddress();
       asideBarDraw(boardUri);
-
+      getSearchPage();
+      changeCheckbox();
+      writeBoardInfo();
+      
    });
+   
+   // page번호 없을 시 강제로 page번호로 이동
+   function movePageNum() {
+	   let page = getParameter("page");
+	   let searchWord = getParameter("searchWord");
+	   let searchType = getParameter("searchType");
+	   
+	   if (page == -1 && searchWord == -1 && searchType == -1) {
+		   location.href="/board/campingTip/list?page=1";
+	   } else if (page == -1 && searchWord != -1 && searchType != -1) {
+		   location.href="/board/campingTip/list/search?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
+	   }
+	   
+   }
+   
+   // 글 등록 후 알럿 남겨주기
+   function writeBoardInfo() {
+	   let result = getParameter("result");
+	   if (result == "success") {
+		   alert("글 등록 성공!");
+	   } else if (result == "fail") {
+		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+	   }
+   }
+   
+   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
+   function changeCheckbox(){
+	   
+	      $("#searchCheckbox").on("click", function() {
+	    	  clickResult = $("#searchCheckbox").prop("checked");
+	    	  console.log(typeof(clickResult));
+	    	  
+	    	  if (clickResult) {
+	    		  $("#searchWord").attr("placeholder", "");
+	    		  $("#searchTipBtn").attr("type", "button");
+	    		  $("#searchTipBtn").attr("onclick", "searchMore();");
+	    	  } else {
+	    		  $("#searchWord").attr("placeholder", "전체검색");
+	    		  $("#searchTipBtn").attr("type", "submit");
+	    		  $("#searchTipBtn").attr("onclick", "");
+	    	  }
+	    	  
+	      });
+	   
+   }
+   
+   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
+   function getSearchPage() {
+	   let searchType = getParameter("searchType");
+	   if (searchType != -1) {
+		   $("#formAction").attr("action", "search");
+		   $(".searchBar").append('<div><input type="checkbox" id="searchCheckbox"> 검색 내 재검색</div>');
+	   }
+   }
+   
+    // 파라메터 값 가져오기
+	function getParameter(param) {
+		var returnVal; //리턴할 값을 저장하는 변수
+		var url = location.href; //url주소
+		var params = url.slice(url.indexOf("?") + 1, url.length).split("&");
+	
+		for ( var i in params) {
+			var paraName = params[i].split("=")[0]; // 매개변수명 얻음
+			if (param.toLowerCase() == paraName.toLowerCase()) {
+				returnVal = params[i].split("=")[1];
+				return decodeURIComponent(returnVal);
+			}
+		}
+		return -1; // 모든 배열 요소를 다 검색해도 매개변수가 없을때
+	}
    
 </script>
 
@@ -151,7 +225,7 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<h1 id="boardTitle">캠핑 Tip 게시판</h1>
+						<h1 id="boardTitle"><a href="/board/campingTip/list?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
 					</section>
 					<div>
 						<div>
@@ -166,17 +240,29 @@
 									</tr>
 								</thead>
 								<tbody>
-
+							<c:choose>
+								<c:when test="${empty boardList}">
+									<tr>
+										<td colspan="10" style="padding-top: 185px; padding-bottom: 185px; text-align: center;">
+											<p>"<em style="color: #fa3830;">${search.searchWord }</em>"에 대한 검색 결과가 없습니다.</p>
+										</td>
+									</tr>							
+								</c:when>
+								<c:otherwise>
 									<c:forEach var="item" items="${boardList }">
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
-											<td><a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title }</a></td>
+											<td>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title } </a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">[${item.board_replyCnt }]</a>
+											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
 											<td>${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
-
+								</c:otherwise>
+							</c:choose>
 								</tbody>
 							</table>
 						</div>
@@ -190,13 +276,13 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="campingTip?page=${param.page -1}">이전</a></li>
+											<li style="width: 30px;"><a href="list?page=${param.page -1}">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="campingTip?page=${pageNo }">${pageNo }</a></li>
+											<li><a href="list?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="campingTip?page=${param.page +1}">다음</a></li>
+											<li style="width: 30px;"><a href="list?page=${param.page +1}">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
@@ -205,29 +291,28 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="campingTip?page=${param.page -1}">이전</a></li>
+											<li style="width: 30px;"><a href="search?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="campingTip?page=${pageNo }">${pageNo }</a></li>
+											<li><a href="search?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="campingTip?page=${param.page +1}">다음</a></li>
+											<li style="width: 30px;"><a href="search?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
 							</c:when>
 						</c:choose>
-						<div class="searchBar">
-							<form action="campingTip/search" method="GET">
-							<select class="keySelect" name="searchType">
-								<option value="null">=====</option>
+						<div class="searchBar">						
+							<form action="list/search" method="GET" id="formAction">
+							<select class="keySelect" name="searchType" id="searchType">
 								<option value="totalSearch">제목+내용</option>
 								<option value="title">제목</option>
 								<option value="content">내용</option>
 								<option value="writer">작성자</option>
 							</select>
-					    	<input type="text" class="inputKeyword" name="searchWord">
-					    	<button type="submit" class="searchBtn">검색</button>
+					    	<input type="text" class="inputKeyword" name="searchWord" id="searchWord" placeholder="전체검색">
+					    	<button type="submit" class="searchBtn" id="searchTipBtn" onclick="">검색</button>
 					    	</form>
 						</div>
 						</div>

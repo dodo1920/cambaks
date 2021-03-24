@@ -40,15 +40,18 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	@Override
 	public List<BoardVO> tipBoardSearch(SearchCampingTipVO word, PagingCriteria cri) throws Exception {
 		// 캠핑팁 게시판 검색
-		
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("member_id", word.getMember_id());
 		param.put("searchWord", word.getSearchWord());
 		param.put("searchType", word.getSearchType());
-		param.put(("page"), cri.getPage());
+		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
-		System.out.println(session.selectList(nameSpace + "searchTipBoard", param).toString());
 		return session.selectList(nameSpace + "searchTipBoard", param);
+	}
+	
+	@Override
+	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception {
+		// 캠핑팁 게시판 검색 결과 개수 가져오기
+		return session.selectOne(nameSpace + "searchTipBoardSearch", word);
 	}
 	
 	@Override
@@ -72,15 +75,33 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	}
 
 	@Override
-	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO, int countThumbnail) throws Exception {
+	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception {
 		// 게시글 수정 update
-		return false;
+		boolean result = false;
+		
+		if (session.update(nameSpace + "modifyTipBoard", modifyDTO) == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
+	public int deleteCampingTipBoardReply(int board_no) throws Exception {
+		// 게시글 삭제 시 해당 게시글의 댓글 먼저 모두 삭제 delete
+		return session.delete(nameSpace + "deleteTipBoardReply", board_no);
+	}
+	
+	@Override
 	public boolean deleteCampingTipBoard(int board_no) throws Exception {
 		// 게시글 삭제 delete
-		return false;
+		boolean result = false;
+		
+		if (session.update(nameSpace + "deleteTipBoard", board_no) == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override

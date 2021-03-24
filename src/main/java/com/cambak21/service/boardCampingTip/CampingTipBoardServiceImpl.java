@@ -41,6 +41,12 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
+	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception {
+		// 캠핑팁 게시판 검색 결과 개수 가져오기
+		return dao.totalTipBoardSearch(word);
+	}
+	
+	@Override
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception {
 		// 캠핑팁 게시판 상세 조회
 		return dao.viewCampingTipBoard(board_no, board_category);
@@ -53,15 +59,21 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 
 	@Override
-	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO, int countThumbnail) throws Exception {
+	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception {
 		// 게시글 수정 update
-		return false;
+		return dao.modifyCampingTipBoard(modifyDTO);
 	}
 
 	@Override
+	public int deleteCampingTipBoardReply(int board_no) throws Exception {
+		// 게시글 삭제 시 해당 게시글의 댓글 먼저 모두 삭제 delete
+		return dao.deleteCampingTipBoardReply(board_no);
+	}
+	
+	@Override
 	public boolean deleteCampingTipBoard(int board_no) throws Exception {
 		// 게시글 삭제 delete
-		return false;
+		return dao.deleteCampingTipBoard(board_no);
 	}
 
 	@Override
