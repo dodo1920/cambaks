@@ -124,7 +124,7 @@
 							<input type="hidden" name="board_category" value="Tip">
 							<input type="text" class="form-control" name="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>
-							<button type="button" class="btn btn-default"style="float:right;" onclick="history.back();">취소</button>
+							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list?page=1'">취소</button>
 							<button type="submit" class="btn btn-success" style="margin: 0 10px 0 0;float:right;">글등록</button>
 						</form>
 					</div>

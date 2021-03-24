@@ -3,6 +3,8 @@ package com.cambak21.controller.boards;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
+import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
 import com.cambak21.util.PagingCriteria;
@@ -31,8 +34,10 @@ public class BoardCampingTip {
 	private CampingTipBoardService service;
 	
 	@RequestMapping(value="/campingTip/list", method=RequestMethod.GET)
-	public String listAll(PagingCriteria cri, Model model) throws Exception {
+	public String listAll(PagingCriteria cri, Model model, HttpServletRequest request) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
+		
+		HttpSession ses = request.getSession();
 		
 		model.addAttribute("boardList", service.listCampingTipBoard(cri));
 		
@@ -118,8 +123,8 @@ public class BoardCampingTip {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/campingTip/delete", method=RequestMethod.GET)
-	public ResponseEntity<String> deleteBoardTip(@RequestParam("no") int no, RedirectAttributes rttr) {
+	@RequestMapping(value="/campingTip/delete", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteBoardTip(@RequestParam("no") int no) {
 		// 캠핑팁 작성된 게시글 삭제
 		ResponseEntity<String> entity = null;
 		
@@ -139,6 +144,28 @@ public class BoardCampingTip {
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/writeReply", method=RequestMethod.POST)
+	public ResponseEntity<String> writeBoardReply(CamBoardTipReplyDTO replyDTO) {
+		// 캠핑팁 상세글 작성된 댓글 저장
+		ResponseEntity<String> entity = null;
+		
+		try {
+			// 댓글 저장 성공 시
+			if(service.saveCampingTipReply(replyDTO)) {
+				if(service.updateCampingTipReplyRef(service.getCampingTipReplyNextNum(replyDTO))) {
+					// 최종적으로 저장 성공 시 성공 메세지 전달
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+			}
+		} catch (Exception e) {
+			// 댓글 저장 실패 시 실패 메세지 전달
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		return entity;
 	}
 	

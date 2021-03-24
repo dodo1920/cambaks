@@ -52,7 +52,7 @@ public interface CampingTipBoardService {
 	
 	// 상세 게시글 댓글 작성 insert
 	public boolean saveCampingTipReply(CamBoardTipReplyDTO replyDTO) throws Exception;
-	public int getCampingTipReplyNextNum(int board_no, String member_id) throws Exception;
+	public int getCampingTipReplyNextNum(CamBoardTipReplyDTO replyDTO) throws Exception;
 	public boolean updateCampingTipReplyRef(int replyBoard_no) throws Exception;
 	
 	// 상세 게시글 댓글 수정 update
