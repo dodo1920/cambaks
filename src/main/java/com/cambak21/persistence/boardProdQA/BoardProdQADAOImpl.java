@@ -22,10 +22,11 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	private String namespace = "com.cambak21.mappers.cambakBoard.boardQAMapper";
 	
 	@Override
-	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri) throws Exception {
+	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri, String prodQA_category) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("product_id", product_id);
 		params.put("prodQA_refOrder", prodQA_refOrder);
+		params.put("prodQA_category", prodQA_category);
 		params.put("pageStart", cri.getPageStart());
 		params.put("perPageNum", cri.getPerPageNum());
 		
@@ -96,6 +97,11 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	@Override
 	public int prodQADeleteLike(ProdQAsLikeVO vo) throws Exception {
 		return ses.delete(namespace + ".prodQADeleteLike", vo);
+	}
+
+	@Override
+	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception {
+		return ses.selectList(namespace + ".prodQAReplyListAll", prodQA_no);
 	}
 
 }

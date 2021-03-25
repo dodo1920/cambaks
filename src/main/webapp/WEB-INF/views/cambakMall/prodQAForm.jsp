@@ -60,11 +60,82 @@
 			console.log(files);
 			
 			for(let i = 0; i < files.length; i++) {
-				formData.append("file[]", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
+				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
 			}
-			console.log(formData);
+			
+			for (let value of formData.values()) {
+				  console.log(value);
+				}
+			
+			$.ajax({
+				url: '/mall/prodDetail/uploadFile',
+				data : formData,
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+					
+					let output = '';
+					output += "<div>";
+					$(result).each(function(index, item){
+						if(checkImgType(item)) {
+							output += "<img id='" + index + "' src='displayFile?fileName=" + item + "'/>";
+							output += "<span id='" + item + "' onclick='deleteFile(this)'>X</span>"; 
+							if(index == 0) {
+								$("#prodQA_img1").attr("value", item);
+							} else if(index == 1) {
+								$("#prodQA_img2").attr("value", item);
+							} else {
+								$("#prodQA_img3").attr("value", item);
+							}
+						}		
+					});
+					
+					output += "</div>";
+					
+					$("#fDrop").append(output);
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});
 		});
 	});
+	
+	// 파일 이름을 넘겨 받아 확장자가 패턴에 있는지 없는지 참/거짓 반환
+	function checkImgType(fileName) {
+		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
+		
+		return fileName.match(imgPattern);
+	}
+	
+	function deleteFile(obj) {
+		let fileName = $(obj).attr('id');
+		let imgId = $(obj).prev().attr('id');
+		let pordQA_imgNum = Number(imgId) + 1;
+		
+		console.log(fileName);
+		console.log(imgId);
+		console.log(pordQA_imgNum);
+		
+		$.ajax({
+			url: '/mall/prodDetail/deleteFile',
+			data : {"fileName" : fileName},
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			success : function(result) {
+				if(result == 'success') {
+					$("#" + imgId).hide();
+					$(obj).hide();
+					$("#prodQA_img" + pordQA_imgNum).attr("value", null)
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});
+	}
 </script>
 <body>
 
@@ -112,9 +183,11 @@
 		               </div>
 		            </div>
 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file1">파 일1 :</label>
+		               <label class="control-label col-sm-2" for="file1">파 일 :</label>
 		               <div class="col-sm-10" id="fDrop">
-		                  <input type=file mulit/>
+		                  <input type="hidden" id="prodQA_img1" name="prodQA_img1" />
+		                  <input type="hidden" id="prodQA_img2" name="prodQA_img2" />
+		                  <input type="hidden" id="prodQA_img3" name="prodQA_img3" />
 		               </div>
 		            </div>
 		           	<div class="form-group" id="fileDrop">

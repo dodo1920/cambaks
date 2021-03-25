@@ -59,4 +59,8 @@
   		delete from ProdQAsLike where member_id = #{member_id} and prodQA_no = #{prodQA_no}
   	</delete>
   	
+  	<select id="prodQAReplyListAll" resultType="com.cambak21.domain.ProdQAVO">
+  		select * from ProdQAs where prodQA_ref = #{prodQA_no} and prodQA_refOrder > any(select prodQA_refOrder from ProdQAs where prodQA_no = #{prodQA_no})
+  	</select>
+  	
   </mapper>

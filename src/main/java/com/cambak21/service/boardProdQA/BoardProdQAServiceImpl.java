@@ -19,8 +19,8 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	private BoardProdQADAO dao;
 
 	@Override
-	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri) throws Exception {
-		return dao.prodQAListAll(product_id, prodQA_refOrder, cri);
+	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri, String prodQA_category) throws Exception {
+		return dao.prodQAListAll(product_id, prodQA_refOrder, cri, prodQA_category);
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 
 	@Override
 	public boolean prodQALikeCnt(int prodQA_no) throws Exception {
-boolean result = false;
+		boolean result = false;
 		
 		int i = dao.prodQALikeCnt(prodQA_no);
 		
@@ -140,6 +140,11 @@ boolean result = false;
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception {
+		return dao.prodQAReplyListAll(prodQA_no);
 	}
 
 }
