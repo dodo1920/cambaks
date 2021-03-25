@@ -360,10 +360,11 @@
 
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../QA/delete?no=${board.board_no}'">삭제하기</button>
+								onclick="location.href='../qa/delete?no=${board.board_no}'">삭제하기</button>
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../QA/modi?no=${board.board_no}'">수정하기</button>
+								onclick="location.href='../qa/modi?no=${board.board_no}'">수정하기</button>
+							<button type="button" class="btn btn-danger" onclick="location.href='../qa/?page=1'">글목록</button>
 
 
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.BoardQAVO;
+import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.persistence.boardQA.BoardQADAO;
@@ -70,7 +71,7 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @작성일 : 2021. 3. 18.
 	 * @작성자 : 장원영 
 	 * @변경이력 : 
-	 * @Method 설명 : Q&A게시판 리시트 페이징 메서드
+	 * @Method 설명 : Q&A게시판 리스트 페이징 메서드
 	 * @return
 	 * @throws Exception
 	*/
@@ -103,8 +104,8 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @throws Exception
 	*/
 	@Override
-	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
-		return dao.searchListBoardQA(scri, cri);
+	public List<BoardQAVO> searchListBoardQA(SearchBoardQAVO vo, PagingCriteria cri) throws Exception {
+		return dao.searchListBoardQA(vo, cri);
 	}
 
 	@Transactional

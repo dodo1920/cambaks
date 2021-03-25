@@ -76,7 +76,7 @@
 	}
 	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
 	function asideBarDraw(boardUri) {
-		$("#" + boardUri + "Aside").attr("class", "active");
+		$("#QnAAside" + boardUri + "Aside").attr("class", "active");
 	}
 </script>
 </head>
@@ -135,11 +135,21 @@
 						<%@include file="boardQASearch&Write.jsp"%>
 						<div class="pageBtn">
 							<ul class="pagination">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+								<c:if test="${pagingParam.prev }">
+									<li class="page-item">
+										<a class="page-link" href="?page=${param.page - 1}&searchType=${map.searchType}&searchWord=${map.searchWord}">prev</a>
+									</li>
+								</c:if>
+								<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+              						<li class="page-item">
+										<a class="page-link" href="?page=${pageNo }">${pageNo }</a>
+                     				</li>
+               					</c:forEach>
+               					<c:if test="${pagingParam.next}">
+	               					<li class="page-item">
+	              						<a class="page-link" href="?page=${param.page + 1}">next</a>
+	                    			</li>
+	               				</c:if>
 							</ul>
 						</div>
 					</div>
