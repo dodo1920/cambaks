@@ -62,6 +62,10 @@
 		/*   resize: horizontal; // 가로크기만 조절가능 
 			resize: vertical;  세로크기만 조절가능  */
 		}
+		/*대댓글 textarea 부분*/
+		.reReply{
+		    border: none;
+		}
 	</style>
 	
     <script type="text/javascript">
@@ -269,7 +273,7 @@
 				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
 				              
-				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
+				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
 				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>'
 
 				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no+ "," + item.replyProdReview_ref + "," + item.prodReview_no + ');">대댓글등록</button></div></div>';
