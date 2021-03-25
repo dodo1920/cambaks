@@ -62,7 +62,9 @@
 				  dataType: "text",
 				  data : {replyBoard_no : replyBoard_no},
 				  success : function(data) {
-					  console.log(data)
+					  alert("댓글이 삭제되었습니다!");
+					  $("#reply_box").empty(); // 댓글 비우기
+					  readReply(); // 댓글 다시 리로드
 				  }, error : function(data) {
 		        	  alert("댓글 삭제가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 		          }
@@ -213,18 +215,31 @@
 					  
 					  let date = getDateParam(data[i].replyBoard_writeDate);
 					  
-					  output += '<ul class="replyListUl"><li class="replyListLi"><div class="replyView">' +
-					  '<div class="replyViewWriter" id="replyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id + '</div>' +
-					  '<div class="replyViewContent">' + data[i].replyBoard_content + '</div>' + 
-					  '<div class="replyViewDate">' + date + '</div></div>' +
-					  '<div class="replyMoreView"><div class="replyMoreView_info">';
+					  if (data[i].replyBoard_isdelete == 'Y') {
+						  
+						  output += '<ul class="replyListUl"><li class="replyListLi"><div class="deleteReplyView">' +
+						  
+						  '<div class="replyViewContent">[삭제된 댓글입니다.]</div>' + 
+						  '</div>' +
+						  '<div class="replyMoreView"><div class="replyMoreView_info">';
+						  
+					  } else {
+						  
+						  output += '<ul class="replyListUl"><li class="replyListLi"><div class="replyView">' +
+						  '<div class="replyViewWriter" id="replyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id + '</div>' +
+						  '<div class="replyViewContent">' + data[i].replyBoard_content + '</div>' + 
+						  '<div class="replyViewDate">' + date + '</div></div>' +
+						  '<div class="replyMoreView"><div class="replyMoreView_info">';
+						  
+					  }
+
 					  
 					  // 대댓글 보기, 작성
 					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 보기</a>' +
 					  '<a onclick="replyWriteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
 					  
 // 					  가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
-					  if (loginMember == data[i].member_id) {
+					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
 						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
 					  }
 					  
@@ -255,7 +270,7 @@
 				  for (let i = 0; i < data.length; i++) {
 					  
 					  let date = getDateParam(data[i].replyBoard_writeDate);
-					  console.log(data[i].replyBoard_updateDate);
+					  
 					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer">' + data[i].member_id +
 					  '</div><div>' + data[i].replyBoard_content + '</div></div>' +
 					  '<div class="reReplyView_writeDate">' + date + '</div></div>' +
@@ -431,6 +446,14 @@
 	padding: 9px 3px 7px 3px;
     border-bottom: 1px solid #eee;
 	display: inline-block;
+}
+
+.deleteReplyView {
+	padding: 9px 3px 7px 3px;
+    border-bottom: 1px solid #eee;
+	display: inline-block;
+	width: 861px;
+    padding-left: 165px;
 }
 
 .replyViewWriter {

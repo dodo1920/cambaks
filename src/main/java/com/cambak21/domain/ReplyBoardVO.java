@@ -12,7 +12,7 @@ public class ReplyBoardVO {
 	private int replyBoard_refOrder;
 	private int replyBoard_step;
 	private int replyBoard_ref;
-	
+	private String replyBoard_isdelete;
 	
 	public int getReplyBoard_no() {
 		return replyBoard_no;
@@ -68,13 +68,20 @@ public class ReplyBoardVO {
 	public void setReplyBoard_ref(int replyBoard_ref) {
 		this.replyBoard_ref = replyBoard_ref;
 	}
+	public String getReplyBoard_isdelete() {
+		return replyBoard_isdelete;
+	}
+	public void setReplyBoard_isdelete(String replyBoard_isdelete) {
+		this.replyBoard_isdelete = replyBoard_isdelete;
+	}
 	
 	@Override
 	public String toString() {
 		return "ReplyBoardVO [replyBoard_no=" + replyBoard_no + ", board_no=" + board_no + ", member_id=" + member_id
-				+ ", replyBoard_content=" + replyBoard_content + ", replyBoard_refOrder=" + replyBoard_refOrder
-				+ ", replyBoard_step=" + replyBoard_step + ", replyBoard_ref=" + replyBoard_ref + "]";
+				+ ", replyBoard_content=" + replyBoard_content + ", replyBoard_writeDate=" + replyBoard_writeDate
+				+ ", replyBoard_updateDate=" + replyBoard_updateDate + ", replyBoard_refOrder=" + replyBoard_refOrder
+				+ ", replyBoard_step=" + replyBoard_step + ", replyBoard_ref=" + replyBoard_ref
+				+ ", replyBoard_isdelete=" + replyBoard_isdelete + "]";
 	}
-	
 	
 }

@@ -116,7 +116,7 @@
 
 <!-- 	해당 게시글의 댓글 삭제 -->
 	<update id="deleteReplyTipBoard">
-		update ReplyBoards set replyBoard_updateDate = 0 where replyBoard_no = #{replyBoard_no};
+		update ReplyBoards set replyBoard_isdelete = 'Y' where replyBoard_no = #{replyBoard_no};
 	</update>
 
 <!-- 대댓글 작성 -->
