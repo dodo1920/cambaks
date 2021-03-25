@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
- <mapper namespace="com.cambak21.mapper.BoardProdReviewMapper">
+ <mapper namespace="com.cambak21.mappers.cambakBoard.BoardProdReviewMapper">
   
   	<select id="listProdBoard" resultType="com.cambak21.domain.ProdReviewVO">
   		select * from goot6.ProdReviews where product_id = #{product_id} order by prodReview_no desc

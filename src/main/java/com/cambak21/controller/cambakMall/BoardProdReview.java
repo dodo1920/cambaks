@@ -54,7 +54,7 @@ public class BoardProdReview {
 	      PagingParam pp = new PagingParam();
 	      pp.setCri(cri);
 	      cri.setPage(page);
-	      System.out.println("pp" + pp);
+	      //System.out.println("pp" + pp);
 	      
 	      try {
 	         prodList = service.listProdBoardCriteria(cri, product_id);
