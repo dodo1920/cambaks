@@ -36,6 +36,7 @@
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="/resources/cambak21/js/cambakBoard.js"></script> 
 
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
@@ -67,6 +68,10 @@ p.category-title {
 <script>
 	$(document).ready(function() {
 		rolling();
+		
+		let boardUri = searchUriAddress();
+	      asideBarDraw(boardUri);
+
 
 	});
 </script>

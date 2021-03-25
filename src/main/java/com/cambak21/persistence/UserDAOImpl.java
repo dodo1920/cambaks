@@ -18,7 +18,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mapper.userMapper";
+	private static String namespace = "com.mappers.cambakMain.memeberMapper";
 	
 	@Override
 	public MemberVO login(LoginDTO dto) throws Exception {
@@ -42,8 +42,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public int memberDel(String member_id) throws Exception {
-		return ses.update(namespace + ".MemberDelete", member_id);
+	public int memberDel(LoginDTO dto) throws Exception {
+		return ses.update(namespace + ".MemberDelete", dto);
 		
 	}
 

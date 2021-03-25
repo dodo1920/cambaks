@@ -17,11 +17,7 @@
     	Insert into Members(member_id, member_name, member_gender, member_birth, member_addr, member_email, member_mobile, member_password) 
     	values(#{member_id}, #{member_name}, member_gender}, #{member_birth}, #{member_addr}, #{member_email}, #{member_mobile}, #{member_password}); 
     </insert>
-    
-    <select id="MemberLogin">
-    	select member_id from Members where member_id='aaa' and member_password=md5(sha1('1234'))
-    </select>
-    	
+        	
     <select id="FindId">
     	select member_id from Members where member_name = '백승권' and member_email = 'abc@naver.com'
     </select>
@@ -33,4 +29,19 @@
     <update id="UpdatePwd">
     	update Members set member_password = md5(sha1('5678')) where member_id= 'bbb' and member_mobile = '010-1111-2222'
     </update>
+
+	  	<select id="login" resultType="com.cambak21.domain.MemberVO">
+	  		select * from Members where member_id = #{member_id} and member_password = #{member_password} and member_isDelete = 'N'
+	  	</select>
+	  	
+	  <update id="keepLogin">
+	  		update Members set member_cookie = #{member_cookie}, member_cookieAge = #{member_cookieAge} where member_id = #{member_id}
+	  </update>
+	  	
+	  <select id="checkUserWithSesKey" resultType="com.cambak21.domain.MemberVO">
+	  		select * from Members where member_cookie = #{member_cookie} and member_cookieAge > now()
+	  </select>
+	  	
+
+
   </mapper>
