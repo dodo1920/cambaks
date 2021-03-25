@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
+import com.cambak21.util.BoardCsFileUpload;
 import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -132,16 +133,10 @@ public class BoardCsController {
 		
 		try {
 			// 파일 업로드 될 서버 경로
-			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads");
-			System.out.println("uploadPath : " + uploadPath);
-			System.out.println("오리지널 파일이름 : " + file.getOriginalFilename());
-			System.out.println("파일 크기 : " + file.getBytes());
-			
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/boardCs");
 			// 파일 저장
-			String uploadFile = FileUploadProdcess.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+			String uploadFile = BoardCsFileUpload.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 			
-			System.out.println("uploadFile : " + uploadFile);
-
 			return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,21 +1,17 @@
 package com.cambak21.util;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
-import javax.imageio.ImageIO;
-
-import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 
-public class FileUploadProdcess {
-	private static final Logger logger = LoggerFactory.getLogger(FileUploadProdcess.class);
+public class BoardCsFileUpload {
+	private static final Logger logger = LoggerFactory.getLogger(BoardCsFileUpload.class);
 	
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
 		UUID uuid = UUID.randomUUID();
@@ -30,12 +26,10 @@ public class FileUploadProdcess {
 		
 		String uploadFileName = null;
 		if(MediaConfirm.getMediaType(ext) != null) {
-			uploadFileName = makeThumbnail(uploadPath, savePath, savedName); // 이미지 파일이므로 썸네일 생성
+			uploadFileName = savePath + "\\" + savedName; // 이미지 파일이므로 썸네일 생성
 		} else {
 			uploadFileName = makeIcon(uploadPath, savePath, savedName); // 이미지 파일이 아니므로 파일 이름으로 생성
 		}
-		
-		System.out.println("uploadFileName : " + uploadFileName);
 		
 		return uploadFileName;
 	}
@@ -62,26 +56,8 @@ public class FileUploadProdcess {
 		return datePath; // "/2021/03/04"
 	}
 	
-	private static String makeThumbnail(String uploadPath, String path, String fileName) throws IOException {
-		System.out.println(new File(uploadPath + path, fileName));
-		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
-		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100); // 높이 100px 리사이징
-		
-		String thumbnailName = uploadPath + path + File.separator + "thumb_" + fileName; // 썸네일 이미지의 경로와 이름
-		File newThumbFile = new File(thumbnailName);
-		
-		String ext = fileName.substring(fileName.lastIndexOf(".") + 1); // 확장자명 얻어오기
-		
-		ImageIO.write(destImg, ext.toLowerCase(), newThumbFile); // 실제 저장
-		
-		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
-	}
-	
 	private static void makeDir(String uploadPath, String... paths) { 
-		// String... paths는 가변인자. 동일한 String 타입의 yearpath, monthPath, datePath의 변수 값을 paths의 배열 값으로 받음
-//		for(String s : paths) {
-//			System.out.println(s);
-//		}
+
 		if(new File(uploadPath + paths[paths.length - 1]).exists()) { // 해당 경로에 해당 폴더가 존재한다면, 돌아가
 			return;
 		}

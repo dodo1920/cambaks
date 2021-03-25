@@ -74,10 +74,12 @@
 	});
 	
 	function sendFile(file, el) {
-		let path = "C:\\Users\\goott6\\Desktop\\TeamProjectVer2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\cambak21\\resources\\uploads";
+		let path = "/resources/uploads/boardCs";
 		
 	    var form_data = new FormData();
+	    
 	    form_data.append('file', file);
+	    
 	    $.ajax({
 	      data: form_data,
 	      type: "POST",
@@ -88,8 +90,6 @@
 	      processData: false,
 	      success: function(url) {
 	        $(el).summernote('editor.insertImage', path + url);
-// 	        $('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
-			console.log(path + url);
 	      }
 	   });
 	}
