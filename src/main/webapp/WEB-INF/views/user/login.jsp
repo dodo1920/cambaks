@@ -80,7 +80,7 @@
 				<!-- 사이드바 템플릿 -->
 				<%@include file="../cambakMain/cambak21Aside2.jsp"%>
 
-				<c:if test="${loginMember == null}">
+	<c:if test="${loginMember == null}">
 
 	<form action="/user/login" method="post">
 		아이디 : <input type="text" name="member_id" /> <br />

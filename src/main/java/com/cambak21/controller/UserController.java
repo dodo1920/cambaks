@@ -32,6 +32,12 @@ public class UserController {
 		return "/cambakMain/login1";
 	}
 	
+	@RequestMapping(value="/login/yet", method=RequestMethod.GET)
+	private String loginyet() {
+		return "/cambakMain/login1";
+	}
+	
+	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	private String login(LoginDTO dto, HttpSession session, Model model) throws Exception {
 		MemberVO vo = service.login(dto);
@@ -42,29 +48,30 @@ public class UserController {
 					}
 		model.addAttribute("loginMember", vo);
 		
+		System.out.println();
+		
 		if(dto.isMember_cookie()) { // 자동 로그인을 눌렀을 경우
 			System.out.println("***** 자동 로그인 체크 ***** ");
 			int amount = 60 * 60 * 24 * 7; // 일주일의 milliSecond
-			
 			Date sesLimit = new Date(System.currentTimeMillis() + (amount * 1000)); 
 			// 로그인 쿠키 값이 유지 되는 시간, sessionID를 로그인한 유저의 정보에 update 
 			System.out.println("테스트! " + session.getId());
 			service.keepLogin(dto.getMember_id(), session.getId(), sesLimit);
 		
 		}
-		return "home";
+		return "/cambakMain/login1";
 	}
 	
 	
 
 	@RequestMapping(value="/logout", method=RequestMethod.POST)
-	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
 		MemberVO vo = (MemberVO)session.getAttribute("loginMember");
-	
+		System.out.println("로그아웃 하러 왔나");
 		if(vo != null) {
 			session.removeAttribute("loginMember");
 			session.invalidate();
-			 Cookie loginCook = WebUtils.getCookie(request, "ssid");
+			Cookie loginCook = WebUtils.getCookie(request, "ssid");
 		
 		 if(loginCook != null) {
 			 loginCook.setPath("/");
@@ -75,7 +82,7 @@ public class UserController {
 		 }
 		
 		}
-			return "/home";
+			return "redirect:/user/login";
 	}
 	
 	

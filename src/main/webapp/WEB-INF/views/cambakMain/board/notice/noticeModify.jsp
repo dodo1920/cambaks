@@ -35,8 +35,8 @@
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
-<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
-<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style-desktop.css" />
 
 <!-- include summernote css/js -->
 <link
@@ -61,6 +61,16 @@
 
 <script>
 
+function checkPage() {
+    var url = location.href; //url주소
+    var ispage = url.indexOf("page=");
+    
+     if(ispage == -1){
+	 location.href='/board/notice/listCri?page=1';
+	 }  
+
+}
+
 	function checkModiForm(){
 		
 		
@@ -69,21 +79,26 @@
 		}else {
 			$("#modiBoardNotice").submit();
 		}	
-				
 	}
 
-	
 	$(function(){
 		
+		checkPage();
+		if('${noticeBoard.member_id}' != '${loginMember.member_id}'){
+			alert("잘못된 경로입니다.");
+			location.href='/board/notice/listCri?page=1';
+		}
+				
 		$('#summernote').summernote({
 			height : 500
 		});
 		
 		
+		
 		$("#prevBoardContext").val($(".boardtextArea").val());
 	  	$("#prevBoardTitle").val($("input[name=board_title]").val());
 	  
-	  	 rolling();
+	  	rolling();
 	    let boardUri = searchUriAddress();
 	    asideBarDraw(boardUri);
 		 
@@ -169,14 +184,14 @@ form, form input{
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항 수정페이지</a></span>
+							<h2>최근 공지사항</h2>
+							<span class="byline" id="rollNot">공지사항 수정페이지</span>
 						</header>
 					
 					</section>
 				<!--  게시판 상세내용  -->	
 					<section>
-					<form id="modiBoardNotice" action="/board/notice/modi/${param.page }" method="post">
+					<form id="modiBoardNotice" action="/board/notice/user/modi/${param.page }" method="post">
 				
 <%-- 				    <span class="formTitle">Title</span> <input type="text" style="font-size:25px; font-weight:900; width: 650px;" name="board_title" value="${noticeBoard.board_title }" /> --%>
 <%-- 				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" /> --%>

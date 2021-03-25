@@ -91,7 +91,6 @@
 	    	}else{
 	    		
 	    		$("#searchFormGo").submit();
-	    		
 	    		getAjaxCheckListAll();
 	    	}
 	    	
@@ -188,7 +187,6 @@ body{
     list-style: none;
     padding: 10px;
     margin-top: 1px;
-    width: 500px;
 }
 
 .listCheck li{
@@ -236,9 +234,7 @@ body{
 .checkListInputBox{
     font-weight: bold;
     font-size: 20px;
-    width: 300px;
-    width: 450px;
-    height: 40px;
+ 	height: 40px;
     opacity: 0.8;
     background-color: whitesmoke;
     padding: 5px;
@@ -246,9 +242,7 @@ body{
     outline: none;
     font-weight: bold;
     font-size: 20px;
-    width: 300px;
-    width: 450px;
-    height: 40px;
+  	height: 40px;
     opacity: 0.8;
     background-color: whitesmoke;
     padding: 5px;
@@ -270,10 +264,12 @@ body{
 	<section class='checklist'>
 	<h1>캠박이일 체크리스트</h1>
 	<div class="checkListBox">
-	<div style="margin: -1px 8px -3px 0px; border-style:ridge;">
-	
+	<div style="margin: -1px 0px -3px 0px; border-style:ridge;">
+	<form id="searchFormGo" action="/ajax/deleteThis/{member_id}">
 	<input type="text" name="checkList_content" class="checkListInputBox" onkeydown="enterkey();" placeholder="해야할 일, 준비해야할 물건"/>
-
+	<input type="hidden" name ="member_id" value="${loginMember.member_id }"/>
+	</form>
+	
 	</div>
 	
 	<div id="inputTodo" ></div>

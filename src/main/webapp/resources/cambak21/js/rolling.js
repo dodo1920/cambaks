@@ -4,7 +4,7 @@
 	$(function(){
 				$.getJSON("/board/notice/listall", function(data){
 				$(data).each(function(index, item){
-					notices.push("<a href='/board/notice/read?no=" + item.board_no + "'>"	+ item.board_title + "<a>");
+					notices.push("<a href='/board/notice/read?no=" + item.board_no + "&page=1'>" + item.board_title + "<a>");
 					
 				});
 			});

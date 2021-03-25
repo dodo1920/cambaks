@@ -51,7 +51,7 @@ public class BoardNotice {
 	
 	// 페이징 처리된 게시판 출력
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
-	public String listCri(PagingCriteria cri, Model model) throws Exception{
+	public String listCri(PagingCriteria cri, Model model, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / listCri 페이징처리 목록 출력");
 		
 		List<BoardVO> lst = service.getListCriteria(cri);
@@ -76,7 +76,7 @@ public class BoardNotice {
 		return "cambakMain/board/notice/noticeDetail";
 	}
 	// 게시판 수정 클릭시 페이지로 이동
-	@RequestMapping(value = "/modi", method = RequestMethod.GET)
+	@RequestMapping(value = "user/modi", method = RequestMethod.GET)
 	public String modiNoticepage(@RequestParam("no") int no, Model model) throws Exception{
 		logger.info("종진 / 공지사항 수정 페이지 이동");
 		System.out.println(no);
@@ -87,7 +87,7 @@ public class BoardNotice {
 	}
 	
 	// 게시판 수정된 VO 로 게시판 수정
-	@RequestMapping(value = "/modi/{page}", method = RequestMethod.POST)
+	@RequestMapping(value = "user/modi/{page}", method = RequestMethod.POST)
 	public String modiNoticeBoard(BoardVO vo, @PathVariable("page") int page, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
 		
@@ -99,25 +99,25 @@ public class BoardNotice {
 	}
 	
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "user/register", method = RequestMethod.POST)
 	public String resisterNotice(BoardVO vo, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항 작성 하고 결과 알려주기");
 	
 			if(service.insertNotice(vo)) {
-				rttr.addFlashAttribute("result", "success");
+				rttr.addFlashAttribute("writeresult", "success");
 			}
 			
 		return "redirect:/board/notice/listCri";
 	}
 	
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "user/register", method = RequestMethod.GET)
 	public String goResisterNotice(BoardVO vo, Model model) throws Exception{
 		logger.info("종진 / 공지사항 등록 페이지로 이동");
 			
 		return "cambakMain/board/notice/registerNotice";
 	}
 	
-	@RequestMapping(value = "/getReply/{bno}", method = RequestMethod.GET)
+	@RequestMapping(value = "user/getReply/{bno}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyBoardVO>> lst(@PathVariable("bno") int bno) throws Exception{
 		logger.info("종진 / 공지사항 해당 댓글 불러오기");
 			
@@ -127,7 +127,7 @@ public class BoardNotice {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/modiReply/{replyBoard_no}", method = RequestMethod.POST)
+	@RequestMapping(value = "user/modiReply/{replyBoard_no}", method = RequestMethod.POST)
 	public ResponseEntity<String> Replylst(@PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo) throws Exception{
 		logger.info("종진 / 공지사항 해당 댓글 수정하기");
 		ResponseEntity<String> entity = null;
@@ -141,7 +141,7 @@ public class BoardNotice {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/insertReply/", method = RequestMethod.POST)
+	@RequestMapping(value = "user/insertReply/", method = RequestMethod.POST)
 	public ResponseEntity<String> insertReplylst(@RequestBody ReplyBoardVO vo) throws Exception{
 		logger.info("종진 / 공지사항에 댓글 작성하기");
 		ResponseEntity<String> entity = null;
@@ -152,7 +152,7 @@ public class BoardNotice {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/dropReply/{no}/{bno}", method = RequestMethod.GET)
+	@RequestMapping(value = "user/dropReply/{no}/{bno}", method = RequestMethod.GET)
 	public String dropReplylst(@PathVariable("no") int no, @PathVariable("bno") int bno, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 댓글 삭제하기");
 		System.out.println(bno);
@@ -164,7 +164,7 @@ public class BoardNotice {
 		return "redirect:/board/notice/read?no=" + bno;
 	}
 	
-		@RequestMapping(value = "/remove/{no}", method = RequestMethod.GET)
+		@RequestMapping(value = "user/remove/{no}", method = RequestMethod.GET)
 	public String removeNoticeBoard(@PathVariable("no") int no, RedirectAttributes rttr) throws Exception{
 		logger.info("종진 / 공지사항에 상세글 삭제하기");
 				
