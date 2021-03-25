@@ -16,7 +16,7 @@
   		select max(replyProdReview_refOrder) + 1 from goot6.ReplyProdReviews where replyProdReview_ref = #{replyProdReview_ref}
   	</select>
   	
-	<!-- 대댓글 처리 후 댓글 작성 부분 -->  
+	<!-- 댓글 작성 부분 -->  
   	<insert id="addProdReply">
   		insert into goot6.ReplyProdReviews(replyProdReview_no, prodReview_no, member_id, replyProdReview_content, replyProdReview_refOrder, replyProdReview_ref) values (#{replyProdReview_no}, #{prodReview_no}, #{member_id}, #{replyProdReview_content}, #{replyProdReview_refOrder}, #{replyProdReview_ref})
   	</insert>

@@ -60,12 +60,13 @@ public class BoardProdReviewReply {
 					System.out.println("ref : " + dto.getReplyProdReview_ref());
 					//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
 					//ReplyProdReview_refOrder
+					
 					int ref = dto.getReplyProdReview_ref();
-					System.out.println(ref);
+					System.out.println("int ref : " + ref);
+					System.out.println(dto);
 					int reforder = service.getMaxReforder(ref);
-					System.out.println(service.getMaxReforder(ref));
+					System.out.println("reforder : " + reforder);
 					dto.setReplyProdReview_refOrder(reforder);
-					System.out.println("reforder : " + dto.getReplyProdReview_refOrder());
 					System.out.println(dto);
 					if(service.addProdReply(dto)==1) {
 						System.out.println("대댓글 인서트 성공");
