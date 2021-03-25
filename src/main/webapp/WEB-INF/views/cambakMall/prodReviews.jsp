@@ -126,8 +126,8 @@
 	        	currentPage = pagingParam.cri.page;
 	        	//console.log(currentPage);
 	        	//onsole.log(prodList);
-	        	//console.log(pagingParam.cri);
-	        	//console.log(pagingParam);
+	        	console.log(pagingParam.cri);
+	        	console.log(pagingParam);
 	        	
 	        	// 날짜 출력 방식 변경을 위한 변수 설정
 	        	let showDate;
@@ -182,7 +182,6 @@
             	  pageOutput += '<a class="page-link" onclick="showProdList();">처음페이지로</a></li>';
             	  
 	              $(pagingParam).each(function(index, item) {
-	            	  
 	            	  startPage = item.startPage;
 	            	  endPage = item.endPage;
 	            	  tempEndPage = item.tempEndPage;

@@ -19,7 +19,7 @@
 	
 	<!-- 전체 게시물 수 가져오기 -->
 	<select id="getTotalBoardCnt" resultType="int">
-		select count(*) from goot6.ProdReviews where product_id = #{product_id}
+		select count(*) from goot6.ProdReviews where product_id = #{product_id} and prodReview_isDelete = 'N'
 	</select>
 	
 	<!-- 게시글 번호로 해당 게시글 상세 조회 -->
