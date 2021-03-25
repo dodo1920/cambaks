@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cambak21.mappers.BoardCsMapper">
+<mapper namespace="com.cambak21.mappers.cambakMain.BoardCsMapper">
 
 	<!-- 게시글 작성 -->
 	<insert id="insertBoardCS">
@@ -36,6 +36,11 @@
 		limit #{pageStart}, #{perPageNum};
 	</select>
 	
+	<!-- 페이징을 위한 글 토탈 수 구하기 -->
+	<select id="totalCnt" resultType="int">
+		select count(*) from Boards where board_category = 'CS';
+	</select>
+	
 	<!-- 조회수 업데이트 -->
 	<update id="updateView">
 		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no};
@@ -47,8 +52,10 @@
 	</update>
 	
 	<!-- 검색 리스트 -->
-	<select id="searchBoard" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards
+	<select id="searchBoard" resultType="com.cambak21.domain.BoardCsVO">
+		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
+		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt
+		from Boards b
 		where board_category = 'CS'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')
@@ -63,11 +70,11 @@
 			and board_content like concat('%', #{searchWord}, '%')
 			or board_title like concat('%', #{searchWord}, '%')
 		</if>
-		order by board_writeDate desc limit #{pageStart}, #{perPageNum};
+		order by board_no desc limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<!-- 검색 리스트 cnt -->
-	<select id="searchBoardCnt">
+	<select id="searchBoardCnt" resultType="int">
 		select count(*) from Boards where board_category = 'CS'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')
@@ -92,10 +99,12 @@
 		where board_no = #{board_no};
 	</select>
 	
+	<!-- 이전글 -->
 	<select id="prevNo" resultType="String">
 		select board_no from Boards where board_no > #{board_no} and board_category = 'CS' order by board_no asc limit 1;
 	</select>
 	
+	<!-- 다음글 -->
 	<select id="nextNo" resultType="String">
 		select board_no from Boards where board_no &lt; #{board_no} and board_category = 'CS' order by board_no desc limit 1;
 	</select>

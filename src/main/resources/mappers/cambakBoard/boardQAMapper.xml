@@ -11,7 +11,7 @@
   	</select>
   	
   	<select id="totalProdQACnt" resultType="int">
-  		select count(*) from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder}
+  		select count(*) from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder} and prodQA_isDelete = 'N'
   	</select>
   	
   	<insert id="insertProdQA">

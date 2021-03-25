@@ -26,6 +26,14 @@ th.board-title {
     justify-content: center;
 }
 
+.searchType {
+	height: 35px;
+}
+
+.research {
+    display: flex;
+}
+
 /* ====================================================게시글 상세페이지 ========================================================*/
 .detail-wrap {
 	margin-top: 5%;
@@ -149,3 +157,8 @@ button.btn.btn-success {
     display: flex;
     justify-content: space-between;
 }
+
+button.btn.btn-danger.write {
+    float: right;
+}
+

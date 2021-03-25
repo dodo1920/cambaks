@@ -103,21 +103,27 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	@Override
 	public boolean saveCampingTipReply(CamBoardTipReplyDTO replyDTO) throws Exception {
 		// 상세 게시글 댓글 작성 insert
-		return false;
+		return dao.saveCampingTipReply(replyDTO);
 	}
 
 	@Override
-	public int getCampingTipReplyNextNum(int board_no, String member_id) throws Exception {
+	public int getCampingTipReplyNextNum(CamBoardTipReplyDTO replyDTO) throws Exception {
 		// 상세 게시글 댓글 작성 insert
-		return 0;
+		return dao.getCampingTipReplyNextNum(replyDTO);
 	}
 
 	@Override
 	public boolean updateCampingTipReplyRef(int replyBoard_no) throws Exception {
 		// 상세 게시글 댓글 작성 insert
-		return false;
+		return dao.updateCampingTipReplyRef(replyBoard_no);
 	}
-
+	
+	@Override
+	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
+		return dao.updateCampingTipReplyCnt(replyBoard_no);
+	}
+	
 	@Override
 	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 댓글 수정 update

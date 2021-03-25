@@ -81,8 +81,9 @@
 						<form action="../cs/write" method="post">
 							<input type="text" class="form-control" id="usr" name="board_title">
 							<textarea id="summernote" name="board_content"></textarea>
-							<input type="hidden" name="member_id" value="ccc"> <input
+							<input type="hidden" name="member_id" value="${loginMember.member_id}"> <input
 								type="hidden" name="board_category" value="CS">
+							<button type="button" class="btn btn-danger" onclick="history.back();">취소</button>
 							<button type="submit" class="btn btn-success">작성하기</button>
 						</form>
 					</div>

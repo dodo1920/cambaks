@@ -40,18 +40,36 @@
 
 <script>
    $(document).ready(function() {
-      
-      let boardUri = searchUriAddress();
+
+	  let boardUri = searchUriAddress();
       asideBarDraw(boardUri);
       $('#summernote').summernote({
           height : 400
       });
+      
 
    });
+	
+	$(document).ready(function() {
+		memberCheck();
+	});
    
+	function memberCheck() {
+		
+		let member_id = '${modiBoard.member_id }';
+		let entrerMember = '${loginMember.member_id}';
+		
+		console.log(member_id);
+		console.log(entrerMember);
+		
+		if (member_id != entrerMember) {
+			alert("게시글 작성자만 수정이 가능합니다.");
+			location.href='/board/campingTip/list?page=1';
+		}
+		
+	}
 
-
-
+	
 </script>
 
 <style type="text/css">
@@ -128,7 +146,7 @@
 							<input type="hidden" name="board_category" value="${modiBoard.board_category }">
 							<input type="text" class="form-control" name="board_title" placeholder="제목을 입력해주세요." value="${modiBoard.board_title }">
 							<textarea id="summernote" name="board_content">${modiBoard.board_content }</textarea>
-							<button type="button" class="btn btn-default"style="float:right;" onclick="history.back();">취소</button>
+							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/view?id=${modiBoard.board_category }&no=${modiBoard.board_no }'">취소</button>
 							<button type="submit" class="btn btn-success" style="margin: 0 10px 0 0;float:right;">수정하기</button>
 						</form>
 					</div>

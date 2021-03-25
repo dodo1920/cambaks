@@ -174,7 +174,10 @@
 				</div>
 
 				<!-- Content -->
+				
 				<div id="content" class="8u skel-cell-important" style="padding-bottom: 200px;">
+				<c:choose>
+				<c:when test="${loginMember != null }">
 					<section>
 						<header>
 							<h2>회원탈퇴 안내</h2>
@@ -194,13 +197,28 @@
 							</ul>
 						</div>
 						<div>
-							<input type="button" value="회원탈퇴" onclick="withdrawal();">
-							<input type="button" value="되돌아가기" onclick="prevPg();">
+						<form action="/user/quitMemberStep2" method="POST">
+						<input type="submit" class="btn btn-info" value="회원탈퇴">
+							<input type="button" class="btn btn-info" value="되돌아가기" onclick="history.back()">
+							
+						</form>
+							
 						</div>
 
 					</section>
-				</div>
-
+					</c:when>
+				<c:otherwise>
+				
+				
+				
+				<div>로그인이 필요한 서비스 입니다.</div>
+				<br/>
+				
+				<input type="button" onclick="location.href='/user/login'" value="로그인페이지로 이동하기">
+				
+				</c:otherwise>
+				</c:choose>
+</div>
 			</div>
 		</div>
 	</div>

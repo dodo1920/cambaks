@@ -91,10 +91,22 @@
 					<section>
 						<header>
 							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
-									자리입니다.</a></span>
+							<span class="byline" id="rollNot"><a
+								href="../notice/listCri">공지가 들어갈 자리입니다.</a></span>
 						</header>
-						<%@include file="../../cambak21Search&Write.jsp"%>
+						<form action="/board/cs/search" method="get">
+							<div class="research">
+								<!-- <form> -->
+								<select class="searchType" name="searchType">
+									<option value="title">제목</option>
+									<option value="content">내용</option>
+									<option value="write">작성자</option>
+									<option value="title+content">제목+내용</option>
+								</select> <input type="text" class="form-control" size="50"
+									placeholder="Search" onkeypress="enterKey();" name="searchWord" id="searchWord">
+								<button type="submit" class="btn btn-danger search" onclick="check">Search</button>
+							</div>
+						</form>
 					</section>
 					<div>
 						<div>
@@ -113,11 +125,39 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="../cs/detail?no=${item.board_no }"
-												class="board-title-a">${item.board_title }</a> <c:if
-													test="${item.replyCnt > 0 }">
+											<td>
+											<!-- 목록보기 구현위한 문장 -->
+											<c:choose>
+												<c:when test="${param.page == null }">
+													<!-- page가 null이고 searchType도 null이면.. -->
+													<!-- 1페이지이고 검색을 안했으면... -->
+													<c:if test="${param.searchType == null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=1" class="board-title-a">${item.board_title }</a>	
+													</c:if>
+													<!-- 1페이지고 검색을 했으면... -->
+													<c:if test="${param.searchType != null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+												</c:when>
+												<c:otherwise>
+													<!-- page가 null이 아니면... 최소 2페이지 -->
+													<!-- 검색을 했으면...  -->
+													<c:if test="${param.searchType != null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+													<!-- 검색을 안했으면 ... -->
+													<c:if test="${param.searchType == null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
+													</c:if>
+												</c:otherwise>
+											</c:choose>
+											
+											<!-- 좋아요 수가 0보다 크면 출력 -->
+											<c:if test="${item.replyCnt > 0 }">
 													(${item.replyCnt })
-												</c:if></td>
+											</c:if>
+											</td>
+											
 											<td>${item.member_id }</td>
 											<td><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
@@ -130,12 +170,67 @@
 						</div>
 						<div class="pageBtn">
 							<ul class="pagination">
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+								<c:choose>
+									<c:when test="${param.searchType == null }">
+										<!-- 이전 버튼 -->
+										<c:if test="${pp.prev }">
+											<li><a href="/board/cs?page=${param.page - 1 }">이전</a></li>
+										</c:if>
+
+										<!-- 페이징 버튼 -->
+										<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
+											var="pageNo">
+											<li><a href="/board/cs?page=${pageNo }">${pageNo }</a></li>
+										</c:forEach>
+
+										<!-- 다음 버튼 -->
+										<c:if test="${pp.next }">
+											<c:choose>
+												<c:when test="${param.page != null }">
+													<li><a href="/board/cs?page=${param.page + 1 }">다음</a></li>
+												</c:when>
+												<c:otherwise>
+													<li><a href="/board/cs?page=${param.page + 2 }">다음</a></li>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+									</c:when>
+
+									<c:otherwise>
+										<!-- 이전 버튼 -->
+										<c:if test="${searchPP.prev }">
+											<li><a
+												href="/board/cs/search?page=${param.page - 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">이전</a></li>
+										</c:if>
+
+										<!-- 페이징 버튼 -->
+										<c:forEach begin="${searchPP.startPage }" end="${searchPP.endPage }" var="pageNo">
+												<li><a href="/board/cs/search?page=${pageNo }&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a></li>	
+										</c:forEach>
+
+										<!-- 다음 버튼 -->
+										<c:if test="${searchPP.next }">
+											<c:choose>
+												<c:when test="${param.page != null }">
+													<li><a
+														href="/board/cs/search?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+												</c:when>
+												<c:otherwise>
+													<li><a
+														href="/board/cs/search?page=${param.page + 2 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+												</c:otherwise>
+											</c:choose>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+
 							</ul>
+
+						</div>
+						<div class="writeBtn">
+							<button class="btn btn-danger write">
+								<a href="/board/cs/write">글쓰기</a>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -144,7 +239,7 @@
 		</div>
 	</div>
 	<!-- /Main -->
-	
+
 	<!-- modal -->
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">

@@ -45,8 +45,26 @@
       getSearchPage();
       changeCheckbox();
       writeBoardInfo();
+      cautionSearch();
       
    });
+   
+   // 검색어를 작성하지 않고 검색을 누를 경우 입력 요청
+   function cautionSearch() {
+	   
+	   $("#searchTipBtn").on("click", function() {
+			  let searchWord = $("#searchWord").val();
+			   console.log(searchWord.length);
+			   if (searchWord.length <= 0) {
+				   alert("검색어를 입력해주세요");
+				   return false;
+			   } else {
+				   return ture;
+			   }
+			   
+		   });
+	   
+   }
    
    // page번호 없을 시 강제로 page번호로 이동
    function movePageNum() {
@@ -235,7 +253,7 @@
 										<th>작성일</th>
 										<th style="width: 416px;">제목</th>
 										<th>작성자</th>
-										<th>좋아요</th>
+										<th>추천</th>
 										<th>조회수</th>
 									</tr>
 								</thead>
@@ -253,8 +271,8 @@
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
 											<td>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">${item.board_title } </a>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }">[${item.board_replyCnt }]</a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}">${item.board_title } </a>
+											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}" style="font-weight: 600;">[${item.board_replyCnt }]</a>
 											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
@@ -270,7 +288,7 @@
 						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write'">글작성</button>
 						</div>
 						<div class="numBoard">
-						
+						<c:set var="campingTipPage" value="${param.page }" scope="session" />
 						<c:choose>
 							<c:when test="${param.searchWord == null }">
 								<div>

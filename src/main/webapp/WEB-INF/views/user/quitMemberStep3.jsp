@@ -48,15 +48,8 @@
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 <script>
-		/* function checkPw() {
-			
-			let chkPw = document.getElementById('chkPw').value;
-			if (chkPw.length < 8 || chkPw.length > 20) { // 잘못된 패스워드
-				document.getElementById("checkPwMessage").innerHTML = "잘못된 패스워드 양식입니다.";
-				document.getElementById("chkPw").focus()
-			} 
-		} */
-	</script>
+		
+</script>
 
 <body>
 
@@ -144,34 +137,23 @@
 				</div>
 
 				<!-- Content -->
-				<div id="content" class="8u skel-cell-important" style="padding-bottom: 200px;">
-				<c:choose>
-				<c:when test="${loginMember != null }">
-					<section>
-						<header>
-							
-							<h2>비밀번호 재확인</h2>
-							<span class="byline">${loginMember.member_id }님</span>
-							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
-						</header>
-						<div>
-						<form action="/user/quitMemberStep3" method="POST">
-							<input type="hidden" name="member_id" value = "${loginMember.member_id }"/>
-							<input type="password" name="member_password" id="chkPw" size="25" onblur="checkPw();">
-							<input type="submit" value="확인">
-							<span id="checkPwMessage"></span>
-						</form>
-					</div>
-
-					</section>
-					</c:when>
-					<c:otherwise>
-						<h2>로그인이 필요한 서비스입니다</h2>
-						<input type="button" onclick="location.href='/user/login'" value="로그인페이지로 이동하기">
-					</c:otherwise>
-					</c:choose>
-				</div>
-
+				<!-- Main -->
+	<div id="main">
+		<div id="content" class="container" style="padding-bottom: 200px;">
+			<section>
+				<header>
+                    <h3 style="text-align: center;">성공적으로 탈퇴 처리가 되었습니다.</h3>
+                    <h3 style="text-align: center;">다음에도 고객님을 뵐 수 있기를 기원하겠습니다.</h3>
+					<!-- <span class="byline">공지사항</span> -->
+                </header>
+            </section>
+            <div style="text-align: center;">
+                <input type="button" style="border-radius: 0.5em;" value="메인페이지로 이동" onclick="location.href='http://localhost:8081/'">
+            </div>
+		</div>
+	</div>
+	<!-- /Main -->
+				
 			</div>
 		</div>
 	</div>

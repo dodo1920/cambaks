@@ -91,15 +91,17 @@
 	</insert>
 
 <!-- 	해당 게시글에 댓글 작성 -->
-
 	<insert id="saveReplyTipBoard">
-		insert into ReplyBoards (board_no, member_id, replyBoard_content, replyBoard_ref) values (#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref})
+		insert into ReplyBoards (board_no, member_id, replyBoard_content) values (#{board_no}, #{member_id}, #{replyBoard_content})
 	</insert>
 	<select id="searchMaxNo" resultType="int">
 		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards where board_no = #{board_no} and member_id = #{member_id})) from ReplyBoards;
 	</select>
 	<update id="updateReplyRef">
 		update ReplyBoards set replyBoard_ref = #{replyBoard_no} where replyBoard_no = #{replyBoard_no}
+	</update>
+	<update id="updateReplyCnt">
+		update Boards set board_replyCnt = board_replyCnt + 1 where board_no = #{board_no}
 	</update>
 
 <!-- 	해당 게시글의 댓글 수정 -->

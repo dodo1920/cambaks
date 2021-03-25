@@ -99,7 +99,6 @@
 							<h2>Q&A 게시판</h2>
 							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 						</header>
-						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 					<div>
 						<div>
@@ -133,6 +132,7 @@
 								</tbody>
 							</table>
 						</div>
+						<%@include file="boardQASearch&Write.jsp"%>
 						<div class="pageBtn">
 							<ul class="pagination">
 								<li><a href="#">1</a></li>
