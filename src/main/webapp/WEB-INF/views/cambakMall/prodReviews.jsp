@@ -116,12 +116,12 @@
 	        }, 
 	        contentType : "application/json",
 	        success 	: function(data) {
-	        	console.log(data);
+	        	//console.log(data);
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
 	        	currentPage = pagingParam.cri.page;
-	        	console.log(currentPage);
-	        	console.log(prodList);
+	        	//console.log(currentPage);
+	        	//onsole.log(prodList);
 	        	//console.log(pagingParam.cri);
 	        	//console.log(pagingParam);
 	        	
@@ -241,7 +241,7 @@
 						  url: "/cambakMall/getProdReviewReply/"+prodReview_no,
 						  contentType : "application/json",
 						  success : function(result) {
-							  console.log(result);
+							  //console.log(result);
 
 						  $(result).each(function(index, item) {
 							  console.log(result);
