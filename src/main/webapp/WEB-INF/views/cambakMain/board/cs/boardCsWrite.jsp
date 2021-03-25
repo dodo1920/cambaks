@@ -59,9 +59,43 @@
 <script>
 	$(document).ready(function() {
 		$('#summernote').summernote({
-			height : 500
+			height : 300,
+			minHeight : null,
+			maxHeight : null,
+			focus : true,
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable) {
+					for (var i = files.length - 1; i >= 0; i--) {
+						sendFile(files[i], this);
+					}
+				}
+			}
 		});
 	});
+	
+	function sendFile(file, el) {
+		let path = "C:\\Users\\goott6\\Desktop\\TeamProjectVer2\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\cambak21\\resources\\uploads";
+		
+	    var form_data = new FormData();
+	    form_data.append('file', file);
+	    $.ajax({
+	      data: form_data,
+	      type: "POST",
+	      url: '/board/cs/image',
+	      cache: false,
+	      contentType: false,
+	      enctype: 'multipart/form-data',
+	      processData: false,
+	      success: function(url) {
+	        $(el).summernote('editor.insertImage', path + url);
+// 	        $('#imageBoard > ul').append('<li><img src="'+url+'" width="480" height="auto"/></li>');
+			console.log(path + url);
+	      }
+	   });
+	}
+
+
+
 </script>
 </head>
 
@@ -79,11 +113,14 @@
 				<div id="content">
 					<div>
 						<form action="../cs/write" method="post">
-							<input type="text" class="form-control" id="usr" name="board_title">
+							<input type="text" class="form-control" id="usr"
+								name="board_title">
 							<textarea id="summernote" name="board_content"></textarea>
-							<input type="hidden" name="member_id" value="${loginMember.member_id}"> <input
-								type="hidden" name="board_category" value="CS">
-							<button type="button" class="btn btn-danger" onclick="history.back();">취소</button>
+							<input type="hidden" name="member_id"
+								value="${loginMember.member_id}"> <input type="hidden"
+								name="board_category" value="CS">
+							<button type="button" class="btn btn-danger"
+								onclick="history.back();">취소</button>
 							<button type="submit" class="btn btn-success">작성하기</button>
 						</form>
 					</div>

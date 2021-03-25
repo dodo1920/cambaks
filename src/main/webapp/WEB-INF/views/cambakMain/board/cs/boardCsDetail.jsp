@@ -410,28 +410,27 @@
 						<div class="detail-content">${board.board_content }</div>
 
 						<div class="prevNextBtns">
-							<c:if test="${prev != null }">
-								<a href="/board/cs/detail?no=${prev }" id="prevBtn">
-									<button type="button" class="btn btn-default detailPrev">이전글</button>
-								</a>
-							</c:if>
-							
-							<!-- 검색하지 않았을 시 전 주소 -->
+							<!-- 검색하지 않았을 시 -->
 							<c:if test="${param.searchType == null }">
+								<c:if test="${prev != null }">
+									<a href="/board/cs/detail?no=${prev }&page=${param.page}" id="prevBtn">
+										<button type="button" class="btn btn-default detailPrev">이전글</button>
+									</a>
+								</c:if>
 								<a href="/board/cs?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
+								<c:if test="${next != null }">
+									<a href="/board/cs/detail?no=${next }&page=${param.page}" id="nextBtn">
+										<button type="button" class="btn btn-default detailNext">다음글</button>
+									</a>
+								</c:if>
 							</c:if>
-							<!-- 검색 했을 시 전 주소 -->
+							
+							<!-- 검색 했을 시  -->
 							<c:if test="${param.searchType != null }">
 								<a href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
-								</a>
-							</c:if>
-
-							<c:if test="${next != null }">
-								<a href="/board/cs/detail?no=${next }" id="nextBtn">
-									<button type="button" class="btn btn-default detailNext">다음글</button>
 								</a>
 							</c:if>
 						</div>
