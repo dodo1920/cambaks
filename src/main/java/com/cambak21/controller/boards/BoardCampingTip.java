@@ -86,16 +86,18 @@ public class BoardCampingTip {
 	public String writeBoardTip(CamBoardTipWriteDTO dto, RedirectAttributes rttr) throws Exception {
 		// 캠핑팁 작성된 게시글 저장
 		String result;
+		int no = 0;
 		
 		if(service.writeCampingTipBoard(dto)) {
+			no = service.searchBoardLastNum(dto);
 			result = "success";
-			rttr.addAttribute("result", result);
+			rttr.addAttribute("write", result);
 		} else {
 			result = "fail";
-			rttr.addAttribute("result", result);
+			rttr.addAttribute("write", result);
 		}
 		
-		return "redirect:list?page=1";
+		return "redirect:view?id=Tip&no=" + no + "&page=1";
 	}
 	
 	@RequestMapping(value="/campingTip/modify", method=RequestMethod.GET)
@@ -178,6 +180,22 @@ public class BoardCampingTip {
 		
 		List<ReplyBoardVO> voReply = service.readReplyCampingTipBoard(no);
 		return voReply;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/deleteReply", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteBoardReply(@RequestParam("replyBoard_no") int replyBoard_no) {
+		// 캠핑팁 상세글 댓글 조회
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.deleteCampingTipReply(replyBoard_no);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	
 	@ResponseBody

@@ -73,6 +73,12 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public int searchBoardLastNum(CamBoardTipWriteDTO writeDTO) throws Exception {
+		// 방금 작성한 게시글번호 가져오기
+		return session.selectOne(nameSpace + "searchBoardNum", writeDTO);
+	}
 
 	@Override
 	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception {
@@ -176,7 +182,12 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	@Override
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception {
 		// 상세 게시글 댓글 삭제 delete
-		return false;
+		boolean result = false;
+		
+		if (session.update(nameSpace + "deleteReplyTipBoard", replyBoard_no) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

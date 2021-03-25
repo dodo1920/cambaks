@@ -43,9 +43,37 @@
       let boardUri = searchUriAddress(); // 사이드바에 해당 게시판 색상 지정해주기
       asideBarDraw(boardUri); // 사이드바에 해당 게시판 색상 지정해주기
       readReply(); // 댓글 로딩
-      writeBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
-
+      writeBoardInfo(); // 글 등록 완료 후 성공 여부 알려주기
+      modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
+	
    });
+   
+   // 댓글 삭제
+   function replyDeleteBar(obj) {
+		let replyBoard_no = $(obj).attr("id");
+		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+		let writeMember = $("#replyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
+		
+		if(loginMember == writeMember ) {
+			// 작성자와 삭제 요청자가 동일한 경우에만 실행
+			$.ajax({
+				  method: "POST",
+				  url: "/board/campingTip/deleteReply",
+				  dataType: "text",
+				  data : {replyBoard_no : replyBoard_no},
+				  success : function(data) {
+					  console.log(data)
+				  }, error : function(data) {
+		        	  alert("댓글 삭제가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		          }
+				  
+				});
+			
+		} else {
+			alert("댓글 작성자만 삭제가 가능합니다.");
+		}
+	   
+   }
    
    // 댓글 작성
    function writeReply() {
@@ -82,6 +110,11 @@
 	   
    }
    
+   
+   
+   
+   
+   
 	// 댓글 삭제 시 본인이 작성한 댓글이 맞는지 확인
 	function deleteMemberCheck() {
 		
@@ -98,6 +131,11 @@
 		
 	}
    
+	
+	
+	
+	
+	
    // 삭제 또는 없는 게시글 접근 시 리스트로 이동
    function noBoardPage() {
 	   if (${empty viewBoard}) {
@@ -106,10 +144,20 @@
 	   }
    }
    
+   // 글 등록 후 알럿 남겨주기
+   function writeBoardInfo() {
+	   let result = getParameter("write");
+	   if (result == "success") {
+		   alert("글 등록 성공!");
+	   } else if (result == "fail") {
+		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+	   }
+   }
+   
    // 게시물 삭제
    function deleteBoard(obj) {
 	   let no = getParameter("no");
-	   
+	   $("#myModal").hide();
 		$.ajax({
 			  method: "POST",
 			  url: "/board/campingTip/delete",
@@ -152,6 +200,7 @@
 	   
 	   let no = getParameter("no");
 	   let output = "";
+	   let loginMember = '${loginMember.member_id}';
 	   
 		$.ajax({
 			  method: "POST",
@@ -165,16 +214,21 @@
 					  let date = getDateParam(data[i].replyBoard_writeDate);
 					  
 					  output += '<ul class="replyListUl"><li class="replyListLi"><div class="replyView">' +
-					  '<div class="replyViewWriter">' + data[i].member_id + '</div>' +
+					  '<div class="replyViewWriter" id="replyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id + '</div>' +
 					  '<div class="replyViewContent">' + data[i].replyBoard_content + '</div>' + 
 					  '<div class="replyViewDate">' + date + '</div></div>' +
 					  '<div class="replyMoreView"><div class="replyMoreView_info">';
 					  
 					  // 대댓글 보기, 작성
 					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 보기</a>' +
-					  '<a onclick="replyWriteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a></div></div>';
+					  '<a onclick="replyWriteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
 					  
-					  output += '<div id="replyList' + data[i].replyBoard_ref + '" class="reReplyModify_list"></div>' +
+// 					  가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
+					  if (loginMember == data[i].member_id) {
+						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
+					  }
+					  
+					  output += '</div></div><div id="replyList' + data[i].replyBoard_ref + '" class="reReplyModify_list"></div>' +
 					  			'<div id="reReplyWrite' + data[i].replyBoard_ref + '"></div></li></ul>';
 				  };
 				  
@@ -201,7 +255,7 @@
 				  for (let i = 0; i < data.length; i++) {
 					  
 					  let date = getDateParam(data[i].replyBoard_writeDate);
-					  
+					  console.log(data[i].replyBoard_updateDate);
 					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer">' + data[i].member_id +
 					  '</div><div>' + data[i].replyBoard_content + '</div></div>' +
 					  '<div class="reReplyView_writeDate">' + date + '</div></div>' +
@@ -217,7 +271,7 @@
    }
    
 	// 글 수정 후 알럿 남겨주기
-	function writeBoardInfo() {
+	function modifyBoardInfo() {
 		let result = getParameter("result");
 		if (result == "success") {
 			alert("글 수정 성공!");
@@ -333,6 +387,7 @@
 	font-size: 20px;
 	margin: 20px 0px 10px 0px;
 	border-top: 2px solid #525eaa;
+	padding-top: 5px;
 }
 
 .replyWrite {
@@ -442,6 +497,7 @@
 
 .reReplyView_replyBtn {
 	display: inline;
+	margin-right : 10px;
 }
 
 .reReplyModify {
@@ -580,6 +636,7 @@
 							      
 							      </div>
 							    </div> <!-- modal end -->
+							    
 							</div>
 						</c:if>
 							<div class="backListBtn">
@@ -587,8 +644,11 @@
 								<c:when test="${param.page != null }">
 									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${param.page }';">목록보기</button>
 								</c:when>
-								<c:otherwise>
+								<c:when test="${campingTipPage != null }">
 									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${campingTipPage }';">목록보기</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=1';">목록보기</button>
 								</c:otherwise>
 							</c:choose>
 							</div>
