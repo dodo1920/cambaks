@@ -27,7 +27,7 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 	 * @Method 설명 : 
 	 * 1. Controller단에서 dto를 보냄
 	 * 2. dto.getBoard_no로 부모댓글 작성인지, 자식댓글인지 판단
-	 * 3. board_no가 0일 경우 대댓글
+	 * 3. board_no가 -1일 경우 대댓글
 	 * @param dto : view단에서 부터 넘어온 댓글 정보
 	 * @throws Exception
 	 */
@@ -36,9 +36,9 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 	public void insertReplyBoardCS(InsertReplyCSBoardDTO dto) throws Exception {
 		// 부모댓글과 대댓글을 여기서 처리함
 		// 부모댓글과 대댓글 구분은 board_no가 0인지 아닌지로 판단
-		// board_no가 0이면 부모댓글, 아니면 대댓글임
+		// board_no가 -1이면 자식댓글, 아니면 부모댓글임
 		
-		if (dto.getBoard_no() == 0) {
+		if (dto.getBoard_no() == -1) {
 			// replyBoard_no(부모댓글의no)로 부모댓글의 작성자, ref, reforder, step, board_no 가져온다
 			GetReplyInfo parentReplyInfo = dao.getParentReplyInfo(dto.getReplyBoard_no());
 			// 부모댓글의 정보가 담긴 객체를 보내서 reforder를 업데이트 시켜준다

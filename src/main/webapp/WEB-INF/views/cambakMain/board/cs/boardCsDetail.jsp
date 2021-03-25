@@ -202,6 +202,7 @@
 			contentType : "application/json",
 			url : "/board/cs/reply/insert", // 서블릿 주소
 			data : JSON.stringify({
+				board_no : -1,
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
 				member_id : member_id
