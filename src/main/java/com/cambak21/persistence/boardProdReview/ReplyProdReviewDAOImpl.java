@@ -15,7 +15,7 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static final String namespace = "com.cambak21.mapper.ReplyProdReviewMapper";
+	private static final String namespace = "com.cambak21.mappers.cambakBoard.ReplyProdReviewMapper";
 	
 	@Override
 	public int addProdReply(InsertReplyProdReviewDTO dto) throws Exception {

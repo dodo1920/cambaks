@@ -131,19 +131,40 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	@Override
 	public boolean saveCampingTipReply(CamBoardTipReplyDTO replyDTO) throws Exception {
 		// 상세 게시글 댓글 작성 insert
-		return false;
+		boolean result = false;
+		
+		if (session.insert(nameSpace + "saveReplyTipBoard", replyDTO) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
-	public int getCampingTipReplyNextNum(int board_no, String member_id) throws Exception {
-		// 상세 게시글 댓글 작성 insert
-		return 0;
+	public int getCampingTipReplyNextNum(CamBoardTipReplyDTO replyDTO) throws Exception {
+		// 상세 게시글 댓글 작성 max(replyBoard_no) 가져오기
+		return session.selectOne(nameSpace + "searchMaxNo", replyDTO);
 	}
 
 	@Override
 	public boolean updateCampingTipReplyRef(int replyBoard_no) throws Exception {
-		// 상세 게시글 댓글 작성 insert
-		return false;
+		// 상세 게시글 댓글 작성 replyBoard_ref 수정해주기
+		boolean result = false;
+		
+		if (session.update(nameSpace + "updateReplyRef", replyBoard_no) == 1) {
+			result = true;
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
+		boolean result = false;
+		
+		if (session.update(nameSpace + "updateReplyCnt", replyBoard_no) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

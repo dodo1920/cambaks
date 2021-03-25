@@ -171,7 +171,7 @@
 		let replyBoard_content = $(replyId).val();
 		
 		// 나중에 멤버아이디 바꾸기
-		let member_id = "ggg";
+		let member_id = ${loginMember.member_id};
 		// ===================================
 			
 		$.ajax({
@@ -326,8 +326,6 @@
 							<h2>Q&A 게시판</h2>
 							<span class="byline" id="rollNot"><a href="#">공지사항</a></span>
 						</header>
-						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="../../cambak21Search&Write.jsp"%>
 					</section>
 
 					<!-- 컨텐츠 시작 -->

@@ -39,13 +39,64 @@
 <script>
    $(document).ready(function() {
       
-	  noBoardPage();
-      let boardUri = searchUriAddress();
-      asideBarDraw(boardUri);
-      readReply();
-      writeBoardInfo();
+	  noBoardPage(); // 없는 게시글 로딩 시 다시 돌려보내기
+      let boardUri = searchUriAddress(); // 사이드바에 해당 게시판 색상 지정해주기
+      asideBarDraw(boardUri); // 사이드바에 해당 게시판 색상 지정해주기
+      readReply(); // 댓글 로딩
+      writeBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
 
    });
+   
+   // 댓글 작성
+   function writeReply() {
+	   
+	   if (${loginMember != null}) {
+		   let member_id = '${loginMember.member_id}';
+		   let board_no = '${viewBoard.board_no}';
+		   let replyBoard_content = $("#writeReplyContent").val();
+		   
+			$.ajax({
+				  method: "POST",
+				  url: "/board/campingTip/writeReply",
+				  dataType: "text",
+				  data : {member_id : member_id, board_no : board_no, replyBoard_content : replyBoard_content},
+				  success : function(data) {
+					  if (data == "success") {
+						  alert("댓글이 등록되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  $("#writeReplyContent").val(""); // 댓글 작성 창 비우기
+						  readReply(); // 댓글 다시 리로드
+				  	  } else if (data == "fail") {
+						  alert("댓글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+					  }
+				  },
+		          error : function(data) {
+		        	  alert("댓글 등록이 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		          }
+				  
+				});
+	   } else {
+		   alert("댓글은 회원만 작성 가능합니다.");
+		   location.href='/user/login';
+	   }
+	   
+   }
+   
+	// 댓글 삭제 시 본인이 작성한 댓글이 맞는지 확인
+	function deleteMemberCheck() {
+		
+		let member_id = '${modiBoard.member_id }';
+		let entrerMember = '${loginMember.member_id}';
+		
+		console.log(member_id);
+		console.log(entrerMember);
+		
+		if (member_id != entrerMember) {
+			alert("게시글 작성자만 수정이 가능합니다.");
+			location.href='/board/campingTip/list?page=1';
+		}
+		
+	}
    
    // 삭제 또는 없는 게시글 접근 시 리스트로 이동
    function noBoardPage() {
@@ -60,7 +111,7 @@
 	   let no = getParameter("no");
 	   
 		$.ajax({
-			  method: "GET",
+			  method: "POST",
 			  url: "/board/campingTip/delete",
 			  dataType: "text",
 			  data : {no : no},
@@ -75,18 +126,24 @@
 			});
    }
    
-   // 파라매터 값 가져오기
+   // 댓글 날짜, 시간 1자리 수면 0 붙여주기
    function getDateParam(millisecond) {
 	   let date = new Date(millisecond);
-       let month = date.getMonth() + 1;
+       let year = date.getFullYear();
        
-       if (month < 10) {
-          month = "0" + String(month);
-       }
+       let month = (1 + date.getMonth());
+       month = month >= 10 ? month : '0' + month;
        
-       let now = date.getFullYear() + "-" + month  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes()
+       let day = date.getDate();
+       day = day >= 10 ? day : '0' + day;
        
-       return now;
+       let hour = date.getHours();
+       hour = hour >= 10 ? hour : '0' + hour;
+       
+       let minute = date.getMinutes();
+       minute = minute >= 10 ? minute : '0' + minute;
+       
+       return year + "-" + month  + "-" + day + " " + hour + ":" + minute;
    }
    
    
@@ -169,13 +226,14 @@
 		}
 	}
    
+	// 파라매터 값 가져오기
 	function getParameter(param) {
-		var returnVal; //리턴할 값을 저장하는 변수
-		var url = location.href; //url주소
-		var params = url.slice(url.indexOf("?") + 1, url.length).split("&");
+		let returnVal; //리턴할 값을 저장하는 변수
+		let url = location.href; //url주소
+		let params = url.slice(url.indexOf("?") + 1, url.length).split("&");
 	
-		for ( var i in params) {
-			var paraName = params[i].split("=")[0]; // 매개변수명 얻음
+		for (let i in params) {
+			let paraName = params[i].split("=")[0]; // 매개변수명 얻음
 			if (param.toLowerCase() == paraName.toLowerCase()) {
 				returnVal = params[i].split("=")[1];
 				return decodeURIComponent(returnVal);
@@ -274,6 +332,7 @@
 	font-weight: bold;
 	font-size: 20px;
 	margin: 20px 0px 10px 0px;
+	border-top: 2px solid #525eaa;
 }
 
 .replyWrite {
@@ -424,6 +483,7 @@
 .boardManageBtn {
 	padding: 9px 0px 7px 0px;
 	margin-bottom: 30px;
+	border-top: 1px solid #ddd;
 }
 
 .boardModifyBtn {
@@ -475,7 +535,7 @@
 						
 						<div class="viewTitleLikeInfo">
 						<span>조회수 : ${viewBoard.board_viewCnt }</span>
-						<span class="viewTitleLikeInfo_blank">좋아요 : ${viewBoard.board_likeCnt }</span>
+						<span class="viewTitleLikeInfo_blank">추천 : ${viewBoard.board_likeCnt }</span>
 						</div>
 					</div>
 					
@@ -484,64 +544,72 @@
 						${viewBoard.board_content }
 					</div>
 					
+					<!-- 글 삭제, 수정, 리스트로 가기 버튼 -->
+					<div class="boardManageBtn">
+						<div class="boardModifyBtn">
+							<c:if test="${loginMember.member_id eq viewBoard.member_id}">
+								<div class="boardModifyBtn_side">
+								<form action="modify" method="get" id="formBtnPos">
+								<input type="hidden" name="no" value="${viewBoard.board_no }" />
+								<input type="hidden" name="id" value="${param.id }" />
+								<button type="submit" class="btn btn-default">수정</button>
+								</form>
+								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">삭제</button>
+								
+								
+								<!-- Modal -->
+							    <div class="modal fade" id="myModal" role="dialog">
+							      <div class="modal-dialog">
+							    
+							        <!-- Modal content-->
+							        <div class="modal-content">
+							          <div class="modal-header">
+							            <button type="button" class="close" data-dismiss="modal">&times;</button>
+							            <strong>게시물 삭제</strong>
+							          </div>
+							          <div class="modal-body">
+							            <p>선택한 게시물을 정말 삭제하시겠습니까?</p>
+							            <p>한번 삭제한 자료는 복구할 수 없습니다</p>
+							            <p>댓글이 있는 게시글을 선택하신 경우<br />작성된 댓글도 모두 삭제됩니다.</p>
+							          </div>
+							          <div class="modal-footer">
+							            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteBoard();">삭제</button>
+							            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+							          </div>
+							        </div>
+							      
+							      </div>
+							    </div> <!-- modal end -->
+							</div>
+						</c:if>
+							<div class="backListBtn">
+							<c:choose>
+								<c:when test="${param.page != null }">
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${param.page }';">목록보기</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${campingTipPage }';">목록보기</button>
+								</c:otherwise>
+							</c:choose>
+							</div>
+						</div>
+					</div>
+					
 					<!-- 댓글 작성 창 -->
 					<div class="writeReplyTab">
 						댓글
 					</div>
 					
 					<div class="replyWrite">
-						<textarea class="replyWriteBar"></textarea>
+						<textarea class="replyWriteBar" id="writeReplyContent"></textarea>
 						<div class="replyWriteBtnSite">
-							<button type="button" class="btn btn-default" style="float: right;">댓글작성</button>
+							<button type="button" class="btn btn-default" style="float: right;" onclick="writeReply();">댓글작성</button>
 						</div>
 					</div>
 					
 					<!-- 댓글 리스트 창 -->
 					<div class="replyList" id="reply_box"></div>
-					
-					<!-- 글 삭제, 수정, 리스트로 가기 버튼 -->
-					<div class="boardManageBtn">
-						<div class="boardModifyBtn">
-							<div class="boardModifyBtn_side">
-							<form action="modify" method="get" id="formBtnPos">
-							<input type="hidden" name="no" value="${viewBoard.board_no }" />
-							<input type="hidden" name="id" value="${param.id }" />
-							<button type="submit" class="btn btn-default">수정</button>
-							</form>
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">삭제</button>
-							
-							<!-- Modal -->
-						    <div class="modal fade" id="myModal" role="dialog">
-						      <div class="modal-dialog">
-						    
-						        <!-- Modal content-->
-						        <div class="modal-content">
-						          <div class="modal-header">
-						            <button type="button" class="close" data-dismiss="modal">&times;</button>
-						            <strong>게시물 삭제</strong>
-						          </div>
-						          <div class="modal-body">
-						            <p>선택한 게시물을 정말 삭제하시겠습니까?</p>
-						            <p>한번 삭제한 자료는 복구할 수 없습니다</p>
-						            <p>댓글이 있는 게시글을 선택하신 경우<br />작성된 댓글도 모두 삭제됩니다.</p>
-						          </div>
-						          <div class="modal-footer">
-						            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteBoard();">삭제</button>
-						            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-						          </div>
-						        </div>
-						      
-						      </div>
-						    </div> <!-- modal end -->
-						    
-							</div>
-							<div class="backListBtn">
-							<button type="button" class="btn btn-default" onclick="history.back();">목록보기</button>
-							</div>
-						</div>
-					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>

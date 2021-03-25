@@ -45,10 +45,10 @@ public class BoardQAController {
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String BoardQAWrite(InsertBoardQADTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("게시글 작성(POST)");
-		
+		System.out.println(dto.toString());
 		ra.addFlashAttribute("status", "writeOk");
 		
-		return "redirect:/board/QA/detail?no=" + service.writeBoardQA(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
+		return "redirect:/board/qa/detail?no=" + service.writeBoardQA(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)

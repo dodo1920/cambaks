@@ -98,8 +98,12 @@
 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(item.replyBoard_step * 2)+"%'>";
 			} else if (fristStep % 2 != 0) {
 				// 10 ~ 19
-				// 30 ~ 39
-				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2))+"%'>";
+				
+				if (secStep == 0 ) {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+18+"%'>";	
+				} else {
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2 + 2))+"%'>";
+				}
 			} else if (fristStep % 2 == 0) {
 				// 20 ~ 29
 				// 40 ~ 49
@@ -198,6 +202,7 @@
 			contentType : "application/json",
 			url : "/board/cs/reply/insert", // 서블릿 주소
 			data : JSON.stringify({
+				board_no : -1,
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
 				member_id : member_id
@@ -345,13 +350,27 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지가 들어갈
-									자리입니다.</a></span>
-						</header>
-						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="../../cambak21Search&Write.jsp"%>
+						<section>
+							<header>
+								<h2>고객센터</h2>
+								<span class="byline" id="rollNot"><a
+									href="../notice/listCri">공지가 들어갈 자리입니다.</a></span>
+							</header>
+							<form action="/board/cs/search" method="get">
+								<div class="research">
+									<!-- <form> -->
+									<select class="searchType" name="searchType">
+										<option value="title">제목</option>
+										<option value="content">내용</option>
+										<option value="write">작성자</option>
+										<option value="title+content">제목+내용</option>
+									</select> <input type="text" class="form-control" size="50"
+										placeholder="Search" onkeypress="enterKey();"
+										name="searchWord">
+									<button type="submit" class="btn btn-danger search">Search</button>
+								</div>
+							</form>
+						</section>
 					</section>
 
 					<!-- 컨텐츠 시작 -->
@@ -381,17 +400,26 @@
 
 						<div class="prevNextBtns">
 							<c:if test="${prev != null }">
-								<a href="../cs/detail?no=${prev }" id="prevBtn">
+								<a href="/board/cs/detail?no=${prev }" id="prevBtn">
 									<button type="button" class="btn btn-default detailPrev">이전글</button>
 								</a>
 							</c:if>
-
-							<a href="../cs/detail?no=${next }" id="listBtn">
+							
+							<!-- 검색하지 않았을 시 전 주소 -->
+							<c:if test="${param.searchType == null }">
+								<a href="/board/cs?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
-							</a>
+								</a>
+							</c:if>
+							<!-- 검색 했을 시 전 주소 -->
+							<c:if test="${param.searchType != null }">
+								<a href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
+									<button type="button" class="btn btn-default detailNext">목록보기</button>
+								</a>
+							</c:if>
 
 							<c:if test="${next != null }">
-								<a href="../cs/detail?no=${next }" id="nextBtn">
+								<a href="/board/cs/detail?no=${next }" id="nextBtn">
 									<button type="button" class="btn btn-default detailNext">다음글</button>
 								</a>
 							</c:if>
@@ -402,10 +430,10 @@
 
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../cs/delete?no=${board.board_no}'">삭제하기</button>
+								onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='../cs/modi?no=${board.board_no}'">수정하기</button>
+								onclick="location.href='/board/cs/modi?no=${board.board_no}'">수정하기</button>
 
 						</div>
 

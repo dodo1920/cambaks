@@ -46,8 +46,20 @@
 		$('#summernote').summernote({
 			height : 400
 		});
+		checkTitle(); // 제목을 작성했는지 확인
    });
    
+   function checkTitle() {
+	   
+	   $("#submitBtn").on("click", function() {
+		   let title = $("#board_title").val();
+		   if (title.length <= 0) {
+			   alert("제목은 필수로 입렵바랍니다.");
+			   return false;
+		   }
+	   })
+
+   }
 
 </script>
 
@@ -120,12 +132,20 @@
 					
 					<div>
 						<form action="/board/campingTip/write" method="post">
+<<<<<<< HEAD
 							<input type="hidden" name="member_id" value="${loginMember.member_id }">
+=======
+<<<<<<< HEAD
+							<input type="hidden" name="member_id" value="${loginMember.member_id}">
+=======
+							<input type="hidden" name="member_id" value="${loginMember.member_id }">
+>>>>>>> 4e060323a59d9b1fafcf21997ed90f8b1c5d1360
+>>>>>>> b2e3385692985f2dd1274c757da8d8466c369404
 							<input type="hidden" name="board_category" value="Tip">
-							<input type="text" class="form-control" name="board_title" placeholder="제목을 입력해주세요.">
+							<input type="text" class="form-control" name="board_title" id="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>
-							<button type="button" class="btn btn-default"style="float:right;" onclick="history.back();">취소</button>
-							<button type="submit" class="btn btn-success" style="margin: 0 10px 0 0;float:right;">글등록</button>
+							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list?page=1'">취소</button>
+							<button type="submit" class="btn btn-success" id="submitBtn" style="margin: 0 10px 0 0;float:right;">글등록</button>
 						</form>
 					</div>
 				</div>

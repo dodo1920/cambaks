@@ -87,7 +87,7 @@ p.category-title {
 					<form action="/cambakMain/board/humor/write" method="post">
 					
 					
-					<input type="hidden" id="member_id" name="member_id" value="fff"/>
+					<input type="hidden" id="member_id" name="member_id" value="${loginMember.member_id}"/>
 					
 					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
 					
@@ -135,7 +135,7 @@ p.category-title {
             <div class="form-group">
                <label class="control-label col-sm-2" for="writer">작성자 :</label>
                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid }">
+                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.member_id }">
                </div>
             </div>
             <div class="form-group">

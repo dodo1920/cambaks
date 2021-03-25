@@ -72,7 +72,9 @@
 	                    
 	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
 	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
-	                
+	                output += '<div><img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+	                output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+	                output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" /></div>';
 	                output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
 	                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
