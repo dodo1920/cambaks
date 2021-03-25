@@ -55,7 +55,7 @@
 	<!-- 검색 리스트 -->
 	<select id="searchBoard" resultType="com.cambak21.domain.BoardCsVO">
 		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
-		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt, , board_isDelete
+		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt, board_isDelete
 		from Boards b
 		where board_category = 'CS'
 		and board_isDelete = 'N'

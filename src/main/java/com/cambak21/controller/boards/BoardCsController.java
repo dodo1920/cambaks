@@ -1,20 +1,16 @@
 package com.cambak21.controller.boards;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.FileUploadBase.FileUploadIOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +22,6 @@ import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
 import com.cambak21.util.BoardCsFileUpload;
-import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 import com.cambak21.util.SearchCriteria;
@@ -127,6 +122,16 @@ public class BoardCsController {
 		return "cambakMain/board/cs/boardCsList";
 	}
 
+	/**
+	  * @Method Name : handleFileUpload
+	  * @작성일 : 2021. 3. 25.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 서버에 이미지 업로드
+	  * @param file : view단에서 ajax로 넘어온 파일
+	  * @param request
+	  * @return
+	  */
 	@RequestMapping(value = "/cs/image", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -134,10 +139,14 @@ public class BoardCsController {
 		try {
 			// 파일 업로드 될 서버 경로
 			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/boardCs");
-			// 파일 저장
+			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
 			String uploadFile = BoardCsFileUpload.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+			if(!uploadFile.equals("-1")) {
+				return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
 			
-			return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);

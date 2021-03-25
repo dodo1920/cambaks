@@ -72,6 +72,16 @@
 		}
 	}
 
+	function checkMember() {
+		if(${loginMember.member_id == null}) {
+			$("#modalText").text("로그인 후에 이용해 주세요");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+			return false;
+		}
+		
+		return true;
+	}
 </script>
 </head>
 
@@ -105,8 +115,7 @@
 								</select> <input type="text" class="form-control" size="50"
 									placeholder="Search" onkeypress="enterKey();" name="searchWord"
 									id="searchWord">
-								<button type="submit" class="btn btn-danger search"
-									onclick="check">Search</button>
+								<button type="submit" class="btn btn-danger search">Search</button>
 							</div>
 						</form>
 					</section>
@@ -237,13 +246,11 @@
 							</ul>
 
 						</div>
-						<c:if test="${loginMember.member_id != null }">
-							<div class="writeBtn">
-								<button class="btn btn-danger write">
-									<a href="/board/cs/write">글쓰기</a>
-								</button>
-							</div>
-						</c:if>
+						<div class="writeBtn">
+							<a href="/board/cs/write" onclick="return checkMember();">
+								<button class="btn btn-danger write">글쓰기</button>
+							</a>
+						</div>
 					</div>
 				</div>
 
@@ -261,9 +268,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">알림</h4>
 				</div>
-				<div class="modal-body">
-					<p>글이 삭제 되었습니다</p>
-				</div>
+				<div class="modal-body" id="modalText"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>

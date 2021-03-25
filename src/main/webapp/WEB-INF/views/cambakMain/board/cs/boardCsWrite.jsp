@@ -91,7 +91,11 @@
 	      processData: false,
 	      success: function(url) {
 	        $(el).summernote('editor.insertImage', path + url);
-	      }
+	      }, // 통신 성공시
+		  error : function(data) {
+		    $("#modalText").text("이미지 파일이 아닙니다");
+			$("#myModal").modal();
+		  },
 	   });
 	}
 </script>
@@ -127,6 +131,24 @@
 		</div>
 	</div>
 	<!-- /Main -->
+	
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 	<%@include file="../../cambak21Footer.jsp"%>
 

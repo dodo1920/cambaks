@@ -19,25 +19,20 @@ public class BoardCsFileUpload {
 		String savedName = uuid.toString() + "_" + originalName;
 		String savePath = calPath(uploadPath);
 		
-		File target = new File(uploadPath + savePath, savedName);
-		FileCopyUtils.copy(fileDate, target); // 실제 저장
-		
 		String ext = originalName.substring(originalName.lastIndexOf(".") + 1); // 확장자
 		
 		String uploadFileName = null;
+		// 이미지 파일이면 실제 저장하고 해당 경로 반환
 		if(MediaConfirm.getMediaType(ext) != null) {
+			File target = new File(uploadPath + savePath, savedName);
+			FileCopyUtils.copy(fileDate, target); // 실제 저장
 			uploadFileName = savePath + "\\" + savedName; // 이미지 파일이므로 썸네일 생성
 		} else {
-			uploadFileName = makeIcon(uploadPath, savePath, savedName); // 이미지 파일이 아니므로 파일 이름으로 생성
+			// 이미지 파일이 아니면 ...
+			uploadFileName = "-1"; // 이미지 파일이 아니므로 -1 반환
 		}
 		
 		return uploadFileName;
-	}
-	
-	private static String makeIcon(String uploadPath, String savePath, String savedName) {
-		String iconName = uploadPath + savePath + File.separator + savedName;
-		
-		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 	
 	public static String calPath(String uploadPath) {
