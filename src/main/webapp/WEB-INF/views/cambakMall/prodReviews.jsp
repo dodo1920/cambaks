@@ -350,9 +350,9 @@
 		// replyProdReview_content 수정 필요
 		let product_id = 4;
 		let member_id = 'fff';
-		if(replyProdReview_ref != 0){
+		/*if(replyProdReview_ref != 0){ 
 			replyProdReview_ref = replyProdReview_no;
-		}
+		}*/
 		let replyProdReview_content = $("#replyContent" + replyProdReview_no).val();
 		
 		$.ajax({

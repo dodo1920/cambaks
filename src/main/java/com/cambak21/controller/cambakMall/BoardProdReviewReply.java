@@ -63,7 +63,7 @@ public class BoardProdReviewReply {
 					
 					int ref = dto.getReplyProdReview_ref();
 					System.out.println("int ref : " + ref);
-					System.out.println(dto);
+//					System.out.println(dto);
 					int reforder = service.getMaxReforder(ref);
 					System.out.println("reforder : " + reforder);
 					dto.setReplyProdReview_refOrder(reforder);
