@@ -44,6 +44,7 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
@@ -61,6 +62,9 @@
 		
 		// 글 작성 완료 알림 띄우기
 		statusOk();
+		
+		// 카테고리 active
+		asideBarDraw(searchUriAddress());
 	
 	});
 	
@@ -200,12 +204,8 @@
 	// 자식 댓글 작성
 	function childRelpyWrite(replyno) {
 		let replyId = "#replyId" + replyno;
-		
 		let replyBoard_content = $(replyId).val();
-		
-		// 나중에 멤버아이디 바꾸기
 		let member_id = "${loginMember.member_id}";
-		// ===================================
 			
 		$.ajax({
 			type : "post",

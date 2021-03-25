@@ -47,6 +47,7 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 
 <!-- include summernote css/js -->
 <script
@@ -59,7 +60,7 @@
 <script>
 	$(document).ready(function() {
 		$('#summernote').summernote({
-			height : 300,
+			height : 500,
 			minHeight : null,
 			maxHeight : null,
 			focus : true,
@@ -93,9 +94,6 @@
 	      }
 	   });
 	}
-
-
-
 </script>
 </head>
 
