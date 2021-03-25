@@ -65,16 +65,15 @@
 	</style>
 	
     <script type="text/javascript">
-
-    
-	 
+	// ajax페이지 고침을 위한 전역변수
+    let currentPage;
+	let prodReviewNo
 	 
 	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(obj) {
-		 	let reviewsContent
-			reviewsContent = $(obj).attr("id");
+		 	prodReviewNo = $(obj).attr("id");
 			// 접이식 보여주기
-				$("#content" + reviewsContent).toggle();
+				$("#content" + prodReviewNo).toggle();
 		}
 	 
 
@@ -99,7 +98,7 @@
 
 
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
-    function showProdList(product_id, pageNum, member_id) {
+    function showProdList(product_id, pageNum, member_id, checkPoint) {
     	product_id = 4;
     	member_id = "fff";
     	if(pageNum == null){
@@ -117,9 +116,13 @@
 	        }, 
 	        contentType : "application/json",
 	        success 	: function(data) {
+	        	console.log(data);
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
-	        	//console.log(prodList);
+	        	currentPage = pagingParam.cri.page;
+	        	console.log(currentPage);
+	        	console.log(prodList);
+	        	//console.log(pagingParam.cri);
 	        	//console.log(pagingParam);
 	        	
 	        	// 날짜 출력 방식 변경을 위한 변수 설정
@@ -164,7 +167,7 @@
 	              output += '</tr></table>';
 	              
 	              
-	              // 페이징 처리 부분
+	              // ------------페이징 처리 부분-------------------------
 	              let startPage;
 	              let endPage;
 	              let tempEndPage;
@@ -212,6 +215,13 @@
 	              $("#prodBoardListPage").html(pageOutput);
 	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
+	              
+	              // 열어놨던 페이지를 열어준 채로 로딩하는 부분
+	              if(checkPoint == 1){
+	            	  alert("!");
+	            	  $("#content" + prodReviewNo).show();
+	              }
+	              
 	        }, // end of Success
 	        error		: function(error) {
 	        	console.log(error);
@@ -246,8 +256,8 @@
 				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
 				              
-				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
-				              
+				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea id="' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
+				             
 				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no + ');">대댓글등록</button></div></div>';
 				              
 				              replyOutput += '</div>';
@@ -276,6 +286,8 @@
 	function addReplyProdReviews(prodReview_no) {
 				console.log("prodReview_no : " + prodReview_no);
 				// 댓글 작성 시 필요한 변수들
+				let product_id = 4;
+				let page = $("#page").val();
 				let replyProdReview_content = $("#replyProdReview_content" + prodReview_no).val();
 				let member_id = 'fff';
 				prodReview_no = prodReview_no;
@@ -296,11 +308,12 @@
 						  replyProdReview_ref : replyProdReview_ref
 					  }),
 					  success : function(result) {
-						  console.log(prodReview_no);
-						  
+						  //console.log(prodReview_no);
+						  console.log(product_id);
+						  console.log(currentPage);
+						  showProdList(product_id, currentPage, member_id, 1);
 						  
 					  }, complete : function (result) {
-						alert("!");
 						//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
 					}
 					  
@@ -316,12 +329,39 @@
 	//addReply 대댓글 처리 부분
 	function addReply(replyProdReview_no) {
 		// replyProdReview_content 수정 필요
-		let replyProdReview_content;
+		let product_id = 4;
+		let replyProdReview_content = $("#" + replyProdReview_no).val();
 		let member_id = 'fff';
-		replyProdReview_no = replyProdReview_no;
 		let replyProdReview_ref = replyProdReview_no;
 		
-		console.log("replyProdReview_no : " + replyProdReview_no);
+		$.ajax({
+			  method: "post",
+			  url: "/cambakMall/insertProdReviewReply",
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "text", // 응답 받는 데이터 타입
+			  data : JSON.stringify({ // 보내는 데이터 타입(JSON형식으로 직렬화 해서 보낸다.)
+				  replyProdReview_content :  replyProdReview_content,
+				  member_id : member_id,
+				  prodReview_no : prodReview_no,
+				  replyProdReview_ref : replyProdReview_ref
+			  }),
+			  success : function(result) {
+				  console.log(result);
+				  //console.log(prodReview_no);
+				  
+				  //console.log(product_id);
+				  //console.log(currentPage);
+				  showProdList(product_id, currentPage, member_id, 1);
+				  
+			  }, complete : function (result) {
+				//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
+			}
+			  
+			});
+		
 	}
 	
 		
@@ -513,7 +553,6 @@
 						        </div>
 						     	<div id="prodBoardList"></div>
 								<div id="prodBoardListPage"></div>
-								
 								
 								
 								</div>

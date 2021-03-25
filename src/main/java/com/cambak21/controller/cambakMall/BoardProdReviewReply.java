@@ -46,19 +46,36 @@ public class BoardProdReviewReply {
 					e.printStackTrace();
 				}
 			} 
-//			
-//			
-//			else {
-//				//대댓글인 경우, 제일 첫부모 댓글의 ReplyProdReview_no=자신의 ref로 설정.
-//				dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
-//				
-//				//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
-//				try {
-//					dto.setReplyProdReview_refOrder(service.getMaxReforder(dto.getReplyProdReview_no()));
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			} // end of else
+			
+			
+			else {
+				//대댓글인 경우, 제일 첫부모 댓글의 ReplyProdReview_no=자신의 ref로 설정.
+				try {
+					int getMaxReplyProdReview_no = service.getMaxNo();
+					
+					//ReplyProdReview_no
+					dto.setReplyProdReview_no(getMaxReplyProdReview_no);
+					//ReplyProdReview_reforder
+					//dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
+					System.out.println("ref : " + dto.getReplyProdReview_ref());
+					//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
+					//ReplyProdReview_refOrder
+					int ref = dto.getReplyProdReview_ref();
+					System.out.println(ref);
+					int reforder = service.getMaxReforder(ref);
+					System.out.println(service.getMaxReforder(ref));
+					dto.setReplyProdReview_refOrder(reforder);
+					System.out.println("reforder : " + dto.getReplyProdReview_refOrder());
+					System.out.println(dto);
+					if(service.addProdReply(dto)==1) {
+						System.out.println("대댓글 인서트 성공");
+					}
+				} 
+				catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} // end of else
 			
 			
 			
