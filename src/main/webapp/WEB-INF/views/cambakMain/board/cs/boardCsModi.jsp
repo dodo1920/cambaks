@@ -82,6 +82,7 @@
 							<input type="text" class="form-control" id="usr" name="board_title" value="${board.board_title }">
 							<textarea id="summernote" name="board_content" >${board.board_content }</textarea>
 							<input type="hidden" value="${board.board_no }" name="board_no">
+							<button type="button" class="btn btn-danger" onclick="history.back();">돌아가기</button>
 							<button type="submit" class="btn btn-success">수정하기</button>
 						</form>
 					</div>
