@@ -227,11 +227,13 @@
 							</ul>
 
 						</div>
-						<div class="writeBtn">
-							<button class="btn btn-danger write">
-								<a href="/board/cs/write">글쓰기</a>
-							</button>
-						</div>
+						<c:if test="${loginMember.member_id != null }">
+							<div class="writeBtn">
+								<button class="btn btn-danger write">
+									<a href="/board/cs/write">글쓰기</a>
+								</button>
+							</div>
+						</c:if>
 					</div>
 				</div>
 

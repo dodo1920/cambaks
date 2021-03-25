@@ -121,12 +121,13 @@
 				output += "<p class='comment-id'>"+item.member_id+"</p>";
 			}
 			
-			// 현재 로그인한 회원과 작성자가 같으면 버튼 보이기///////////////////
-			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
-				output += "<button type='button' class='btn' style='float:right' onclick='deleteReply("+item.replyBoard_no+")'>삭제</button>";
-				output += "<button type='button' class='btn' style='float:right' onclick='updateReplyForm("+item.replyBoard_no+")'>수정</button>";
+			// 댓글 수정, 삭제 버튼 보이기
+			if ("${loginMember.member_id}" == item.member_id) {
+				if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
+					output += "<button type='button' class='btn' style='float:right' onclick='deleteReply("+item.replyBoard_no+")'>삭제</button>";
+					output += "<button type='button' class='btn' style='float:right' onclick='updateReplyForm("+item.replyBoard_no+")'>수정</button>";
+				}
 			}
-			//////////////////////////////////////////////////
 			
 			output += "<p class='comment-content' id='content"+item.replyBoard_no+"'>"+item.replyBoard_content+"</p></div>";
 			
@@ -144,46 +145,56 @@
 	
 	// 부모 댓글 작성 함수
 	function replyWrite() {
-		let board_no = "${board.board_no}";
-		
-		//===================== 현재 로그인한 회원 으로 바꾸기
-		let member_id = "${board.member_id}";
-		//============================================
-		let replyBoard_content = $("#replyBoard_content").val();
-		
-		$.ajax({
-			type : "post",
-			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-			contentType : "application/json",
-			url : "/board/cs/reply/insert", // 서블릿 주소
-			data : JSON.stringify({
-				board_no : board_no,
-				member_id : member_id,
-				replyBoard_content : replyBoard_content
-			}),
-			success : function(data) {
-				replyList();
-				ajaxStatus(data);
-				scrollMove();
-			}, // 통신 성공시
-			error : function(data) {
-			}, // 통신 실패시
-			complete : function(data) {
-			} // 통신 완료시
-		});
+		// 로그인 여부 확인
+		if (${loginMember.member_id == null}) {
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let board_no = "${board.board_no}";
+			let member_id = "${loginMember.member_id}";
+			let replyBoard_content = $("#replyBoard_content").val();
+			
+			$.ajax({
+				type : "post",
+				dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+				contentType : "application/json",
+				url : "/board/cs/reply/insert", // 서블릿 주소
+				data : JSON.stringify({
+					board_no : board_no,
+					member_id : member_id,
+					replyBoard_content : replyBoard_content
+				}),
+				success : function(data) {
+					replyList();
+					ajaxStatus(data);
+					scrollMove();
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		}
 	};
 	
 	// 자식댓글 작성폼 열기
 	function childReply(replyno) {
-		let replyBoard_no = "." + replyno
-		
-		let output = "<div class='inputForm' style='display:flex'>";
-		output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"'>";
-		output += "<button type='button' class='btn btn-default' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
-		output += "<button type='button' class='btn btn-default' onclick='replyList();'>닫기</button>";
-		output += "</div>";
-		// 닫기 창 , css 수정
-		$(replyBoard_no).html(output);
+		// 로그인 상태 확인
+		if(${loginMember.member_id == null}) {
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let replyBoard_no = "." + replyno
+			
+			let output = "<div class='inputForm' style='display:flex'>";
+			output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"'>";
+			output += "<button type='button' class='btn btn-default' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
+			output += "<button type='button' class='btn btn-default' onclick='replyList();'>닫기</button>";
+			output += "</div>";
+			$(replyBoard_no).html(output);
+		}
 	}
 	
 	// 자식 댓글 작성
@@ -193,7 +204,7 @@
 		let replyBoard_content = $(replyId).val();
 		
 		// 나중에 멤버아이디 바꾸기
-		let member_id = "ggg";
+		let member_id = "${loginMember.member_id}";
 		// ===================================
 			
 		$.ajax({
@@ -426,15 +437,17 @@
 						</div>
 						<div class="recommend-btn">
 
+							<!-- ajax로 구현, 온클릭 이벤트 걸어주고 로그인안한상태면 알럿창 띄우기 (로그인 후에 시도해주세요) -->
 							<button type="button" class="btn btn-danger">추천</button>
 
-							<!-- if문 로그인한 회원과 작성자와 비교 -->
-							<button type="button" class="btn btn-danger"
-								onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
-							<!-- if문 로그인한 회원과 작성자와 비교 -->
-							<button type="button" class="btn btn-danger"
-								onclick="location.href='/board/cs/modi?no=${board.board_no}'">수정하기</button>
-
+							<c:if test="${loginMember.member_id == board.member_id }">
+								<!-- if문 로그인한 회원과 작성자와 비교 -->
+								<button type="button" class="btn btn-danger"
+									onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
+								<!-- if문 로그인한 회원과 작성자와 비교 -->
+								<button type="button" class="btn btn-danger"
+									onclick="location.href='/board/cs/modi?no=${board.board_no}'">수정하기</button>
+							</c:if>
 						</div>
 
 						<div class="detail-bottom-comment-write">
