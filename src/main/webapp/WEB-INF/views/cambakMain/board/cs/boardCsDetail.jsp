@@ -97,16 +97,16 @@
 			
 			if(item.replyBoard_step == 0) {
 				output += "<li id="+item.replyBoard_no+">";
-			} else if (item.replyBoard_step < 11) {
-				// 1 ~ 10
+			} else if (item.replyBoard_step < 10) {
+				// 1 ~ 9
 				output += "<li id="+item.replyBoard_no+" style='margin-left:"+(item.replyBoard_step * 2)+"%'>";
 			} else if (fristStep % 2 != 0) {
 				// 10 ~ 19
-				
+				// 30 ~ 39
 				if (secStep == 0 ) {
-					output += "<li id="+item.replyBoard_no+" style='margin-left:"+18+"%'>";	
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+step+"%'>";	
 				} else {
-					output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2 + 2))+"%'>";
+					output += "<li id="+item.replyBoard_no+" style='margin-left:"+(step - (secStep * 2))+"%'>";
 				}
 			} else if (fristStep % 2 == 0) {
 				// 20 ~ 29
@@ -155,30 +155,37 @@
 			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
 			$("#myModal").modal();
 		} else {
-			let board_no = "${board.board_no}";
-			let member_id = "${loginMember.member_id}";
 			let replyBoard_content = $("#replyBoard_content").val();
 			
-			$.ajax({
-				type : "post",
-				dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-				contentType : "application/json",
-				url : "/board/cs/reply/insert", // 서블릿 주소
-				data : JSON.stringify({
-					board_no : board_no,
-					member_id : member_id,
-					replyBoard_content : replyBoard_content
-				}),
-				success : function(data) {
-					replyList();
-					ajaxStatus(data);
-					scrollMove();
-				}, // 통신 성공시
-				error : function(data) {
-				}, // 통신 실패시
-				complete : function(data) {
-				} // 통신 완료시
-			});
+			if(replyBoard_content != "") {
+				let board_no = "${board.board_no}";
+				let member_id = "${loginMember.member_id}";
+				
+				$.ajax({
+					type : "post",
+					dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+					contentType : "application/json",
+					url : "/board/cs/reply/insert", // 서블릿 주소
+					data : JSON.stringify({
+						board_no : board_no,
+						member_id : member_id,
+						replyBoard_content : replyBoard_content
+					}),
+					success : function(data) {
+						replyList();
+						ajaxStatus(data);
+						scrollMove();
+					}, // 통신 성공시
+					error : function(data) {
+					}, // 통신 실패시
+					complete : function(data) {
+					} // 통신 완료시
+				});
+			} else {
+				$("#modalText").text("댓글을 입력해 주세요");
+				$("#myModal").modal();
+			}
+		
 		}
 	};
 	
@@ -340,10 +347,6 @@
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
 	
-	function checkNext(no) {
-		$("#nextBtn").attr("href", "../cs/detail?no=0");
-	}
-	
 </script>
 </head>
 
@@ -413,7 +416,8 @@
 							<!-- 검색하지 않았을 시 -->
 							<c:if test="${param.searchType == null }">
 								<c:if test="${prev != null }">
-									<a href="/board/cs/detail?no=${prev }&page=${param.page}" id="prevBtn">
+									<a href="/board/cs/detail?no=${prev }&page=${param.page}"
+										id="prevBtn">
 										<button type="button" class="btn btn-default detailPrev">이전글</button>
 									</a>
 								</c:if>
@@ -421,15 +425,18 @@
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
 								<c:if test="${next != null }">
-									<a href="/board/cs/detail?no=${next }&page=${param.page}" id="nextBtn">
+									<a href="/board/cs/detail?no=${next }&page=${param.page}"
+										id="nextBtn">
 										<button type="button" class="btn btn-default detailNext">다음글</button>
 									</a>
 								</c:if>
 							</c:if>
-							
+
 							<!-- 검색 했을 시  -->
 							<c:if test="${param.searchType != null }">
-								<a href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
+								<a
+									href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}"
+									id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
 							</c:if>
