@@ -118,6 +118,7 @@
 				member_id : member_id
 			}),
 			success : function(data) {
+				console.log(data)
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
