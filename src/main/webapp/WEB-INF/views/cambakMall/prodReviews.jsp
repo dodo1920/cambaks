@@ -67,7 +67,7 @@
     <script type="text/javascript">
 	// ajax페이지 고침을 위한 전역변수
     let currentPage;
-	let prodReviewNo
+	let prodReviewNo;
 	 
 	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(obj) {
@@ -232,7 +232,7 @@
 	            //console.log(prodList);
 	            
 	            
-            	//댓글 작성을 위한 파트
+            	//대댓글 작성을 위한 파트
 	            $(prodList).each(function(index, item) {
 	            	prodReview_no = item.prodReview_no;
 	            	
@@ -245,20 +245,32 @@
 
 						  $(result).each(function(index, item) {
 							  console.log(result);
-							  let replyOutput = '<div class="card mb-2"><div class="card-header bg-light"><i class="fa fa-user-circle-o fa-2x"></i>';
+							  let replyOutput;
+							  if(item.replyProdReview_no == item.replyProdReview_ref){
+								  replyOutput = '<div class="card mb-2" ><div class="card-header bg-light">';
+							  }else{
+								  replyOutput = '<div class="card mb-2" style="margin-left:10%"><div class="card-header bg-light">';
+							  }
+								  
+
+							  if(item.replyProdReview_no != item.replyProdReview_ref){
+					        	  replyOutput += '<img src="/resources/cambak21/img/replyimg.png" width="20px" height="15px">';
+					          }
+							  
 							  //댓글의 날짜 형식 변경 부분
 					          let showDate = new Date(item.replyProdReview_date);
 					          let showThisDate = showDate.toLocaleString();
 					          
 					          //댓글 생성 부분
-				              replyOutput += item.member_id + '<div>' + showThisDate + '</div>' + '</div><div class="card-body"><ul class="list-group list-group-flush">';
+					          
+				              replyOutput += '<i class="fa fa-user-circle-o fa-2x"></i>' + item.member_id + '<div>' + showThisDate + '</div>' + '</div><div class="card-body"><ul class="list-group list-group-flush">';
 				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
 				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
 				              
 				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><textarea id="' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></p>';
 				             
-				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no + ');">대댓글등록</button></div></div>';
+				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no + "," + item.prodReview_no + ');">대댓글등록</button></div></div>';
 				              
 				              replyOutput += '</div>';
 				              
@@ -327,7 +339,7 @@
 	}
 	
 	//addReply 대댓글 처리 부분
-	function addReply(replyProdReview_no) {
+	function addReply(replyProdReview_no, prodReview_no) {
 		// replyProdReview_content 수정 필요
 		let product_id = 4;
 		let replyProdReview_content = $("#" + replyProdReview_no).val();

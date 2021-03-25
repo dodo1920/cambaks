@@ -23,6 +23,6 @@
   
   
   	<select id="getListReply" resultType="com.cambak21.domain.ReplyProdReviewVO">
-  		select * from ReplyProdReviews where prodReview_no = #{prodReview_no}
+  		select * from ReplyProdReviews where prodReview_no = #{prodReview_no} order by replyProdReview_ref asc, replyProdReview_refOrder asc
   	</select>
   </mapper>
