@@ -103,7 +103,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int totalProdQACnt(int product_id, int prodQA_no) throws Exception;
+	public int totalProdQACnt(int product_id, int prodQA_no, String prodQA_category) throws Exception;
 	
 	/**
 	 * @Method Name : prodQAViewCnt

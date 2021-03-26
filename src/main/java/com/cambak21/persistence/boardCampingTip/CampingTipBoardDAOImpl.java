@@ -174,9 +174,18 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	}
 
 	@Override
-	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception {
+	public boolean modifyCampingTipReply(int replyBoard_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 댓글 수정 update
-		return false;
+		boolean result = false;
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("replyBoard_no", replyBoard_no);
+		param.put("replyBoard_content", replyBoard_content);
+		
+		if (session.update(nameSpace + "modifyReplyTipBoard", param) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
@@ -191,27 +200,64 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	}
 
 	@Override
+	public boolean deleteCampingTipReplyCount(int board_no) throws Exception {
+		// 상세 게시글 댓글 삭제 후 게시글 댓글 개수 update
+		boolean result = false;
+		
+		if (session.update(nameSpace + "deleteReplyTipBoardCount", board_no) == 1) {
+			result = true;
+		}
+		return result;
+	}
+	
+	@Override
 	public List<ReplyBoardVO> readRereplyCampingTipBoard(int board_no) throws Exception {
 		// 상세 게시글 대댓글 보기 select
 		return session.selectList(nameSpace + "moreViewTipBoard", board_no);
 	}
 	
 	@Override
+	public int checkReforderMax(CamBoardTipRereplyDTO dto) throws Exception {
+		// 상세 게시글 대댓글 작성에 필요한 refOrder max 값 가져오기
+		return session.selectOne(nameSpace + "checkMaxReforder", dto);
+	}
+	
+	@Override
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception {
 		// 상세 게시글 대댓글 작성 insert
-		return false;
+		boolean result = false;
+		
+		if (session.insert(nameSpace + "writeRereply", rereplyDTO) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 대댓글 수정 update
-		return false;
+		boolean result = false;
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("replyBoard_no", replyBoard_no);
+		param.put("replyBoard_content", replyBoard_content);
+		
+		if (session.update(nameSpace + "modifyRereply", param) == 1) {
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
 	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception {
 		// 상세 게시글 대댓글 수정 update
 		return false;
+	}
+
+	@Override
+	public int checkReplyCount(int board_no) throws Exception {
+		// 상세 게시글 댓글 개수 select
+		return session.selectOne(nameSpace + "checkReplyCnt", board_no);
 	}
 
 }

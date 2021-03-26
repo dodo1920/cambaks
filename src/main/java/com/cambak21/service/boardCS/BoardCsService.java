@@ -1,10 +1,11 @@
 package com.cambak21.service.boardCS;
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -50,5 +51,8 @@ public interface BoardCsService {
 
 	// 이전 게시글 번호 가져오기
 	String nextNo(int board_no) throws Exception;
+	
+	// 추천하기
+	Map<String, Object> insertLikeBoard(InsertLikeBoard dto) throws Exception;
 
 }

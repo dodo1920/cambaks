@@ -8,7 +8,6 @@ public class ProdQAUpdateDTO {
 	private String prodQA_content;
 	private String prodQA_img;
 	private String prodQA_isSecret;
-	private String prodQA_secretPassword;
 	private String prodQA_category;
 	
 	public int getProduct_id() {
@@ -53,12 +52,6 @@ public class ProdQAUpdateDTO {
 	public void setProdQA_isSecret(String prodQA_isSecret) {
 		this.prodQA_isSecret = prodQA_isSecret;
 	}
-	public String getProdQA_secretPassword() {
-		return prodQA_secretPassword;
-	}
-	public void setProdQA_secretPassword(String prodQA_secretPassword) {
-		this.prodQA_secretPassword = prodQA_secretPassword;
-	}
 	public String getProdQA_category() {
 		return prodQA_category;
 	}
@@ -70,8 +63,7 @@ public class ProdQAUpdateDTO {
 	public String toString() {
 		return "ProdQAUpdateDTO [product_id=" + product_id + ", prodQA_no=" + prodQA_no + ", member_id=" + member_id
 				+ ", prodQA_title=" + prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_img=" + prodQA_img
-				+ ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword=" + prodQA_secretPassword
-				+ ", prodQA_category=" + prodQA_category + "]";
+				+ ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_category=" + prodQA_category + "]";
 	}
 
 }

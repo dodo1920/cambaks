@@ -131,15 +131,21 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
-	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception {
+	public boolean modifyCampingTipReply(int replyBoard_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 댓글 수정 update
-		return false;
+		return dao.modifyCampingTipReply(replyBoard_no, replyBoard_content);
 	}
 
 	@Override
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception {
 		// 상세 게시글 댓글 삭제 delete
 		return dao.deleteCampingTipReply(replyBoard_no);
+	}
+	
+	@Override
+	public boolean deleteCampingTipReplyCount(int board_no) throws Exception {
+		// 상세 게시글 댓글 삭제 후 게시글 댓글 개수 update
+		return dao.deleteCampingTipReplyCount(board_no);
 	}
 
 	@Override
@@ -149,21 +155,33 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
+	public int checkReforderMax(CamBoardTipRereplyDTO dto) throws Exception {
+		// 상세 게시글 대댓글 작성에 필요한 refOrder max 값 가져오기
+		return dao.checkReforderMax(dto);
+	}
+	
+	@Override
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception {
 		// 상세 게시글 대댓글 작성 insert
-		return false;
+		return dao.addRereplyCampingTipBoard(rereplyDTO);
 	}
 
 	@Override
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 대댓글 수정 update
-		return false;
+		return dao.modifyRereplyCampingTipBoard(replyBoard_no, replyBoard_content);
 	}
 
 	@Override
 	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception {
 		// 상세 게시글 대댓글 수정 update
 		return false;
+	}
+
+	@Override
+	public int checkReplyCount(int board_no) throws Exception {
+		// 상세 게시글 댓글 개수 select
+		return dao.checkReplyCount(board_no);
 	}
 
 }

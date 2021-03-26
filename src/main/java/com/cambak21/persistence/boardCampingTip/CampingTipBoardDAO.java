@@ -56,15 +56,17 @@ public interface CampingTipBoardDAO {
 	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception;
 	
 	// 상세 게시글 댓글 수정 update
-	public boolean modifyCampingTipReply(int board_no, String replyBoard_content) throws Exception;
+	public boolean modifyCampingTipReply(int replyBoard_no, String replyBoard_content) throws Exception;
 	
 	// 상세 게시글 댓글 삭제 delete
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception;
+	public boolean deleteCampingTipReplyCount(int board_no) throws Exception;
 	
 	// 상세 게시글 대댓글 보기 select
 	public List<ReplyBoardVO> readRereplyCampingTipBoard(int board_no) throws Exception;
 	
 	// 상세 게시글 대댓글 작성 insert
+	public int checkReforderMax(CamBoardTipRereplyDTO dto) throws Exception;
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception;
 	
 	// 상세 게시글 대댓글 수정 update
@@ -72,5 +74,8 @@ public interface CampingTipBoardDAO {
 	
 	// 상세 게시글 대댓글 수정 update
 	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception;
+	
+	// 상세 게시글 댓글 개수 select
+	public int checkReplyCount(int board_no) throws Exception;
 	
 }

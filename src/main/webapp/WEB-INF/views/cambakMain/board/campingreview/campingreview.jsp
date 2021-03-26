@@ -52,25 +52,38 @@
 <script src="/resources/cambak21/js/cambakBoard.js"></script> 
 
 <script>
-	function chechSearchInput(){
+	function checkSearchInput(){
 		console.log("!");
 		console.log($("select[name=searchType]").val())
 		if($("#searchWord").val() == ""){
-			alert("검색어를 입력해주세요.");
+			alert("검색어를 입력.");
 		}else if($("select[name=searchType]").val() == "n"){
 			alert("검색 카테고리를 선택해주세요.");
 		}else{
-			$("#searchFormGo").submit();
+			$("#searchSelect").submit();
 		}
 		
 	}
 
 	 $(document).ready(function() {
-	      
+		  checkPageMain();
 	      let boardUri = searchUriAddress();
 	      asideBarDraw(boardUri);
-
+	      rolling();
+	      
 	   });
+		
+	   // 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
+    function checkPageMain() {
+        var url = location.href; //url주소
+        var ispage = url.indexOf("page=");
+        
+         if(ispage == -1){
+       	 location.href='/board/campingreview/listcri?page=1';
+        } 
+    
+    }
+	   
 	   
 	
 	
@@ -149,10 +162,10 @@
 									<td>${CRboardlist.board_no }</td>
 										<td>${CRboardlist.board_category }</td>
 									<c:if test="${param.searchType != null}">
-											<td><a style="overflow: hidden;" href="/board/campingrevew/detail?no=${CRboardlist.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${pageNo }" >
+											<td><a style="overflow: hidden;" href="/board/campingreview/detail?no=${CRboardlist.board_no }&searchType=${param.searchType }&searchWord=${param.searchWord }&page=${param.page }" >
 																${CRboardlist.board_title } <span style="color: chocolate;">(${CRboardlist.board_replyCnt })</span> </a></td></c:if>
 										<c:if test="${param.searchType == null}">
-											<td><a href="/board/campingreview/detail?no=${CRboardlist.board_no }&page=${pageNo }" >${CRboardlist.board_title }  <span style="color: chocolate;">(${CRboardlist.board_replyCnt })</span></a></td>
+											<td><a href="/board/campingreview/detail?no=${CRboardlist.board_no }&page=${param.page }" >${CRboardlist.board_title }  <span style="color: chocolate;">(${CRboardlist.board_replyCnt })</span></a></td>
 										</c:if>
 												<td><span class="sendTime"
 														id="${status.count }"><fmt:formatDate
@@ -168,7 +181,7 @@
 					</c:forEach>
 				</table>
 				
-				<form action="/board/campingreview/search" id="searchFormGo" method="GET">
+				<form action="/board/campingreview/search" id="searchSelect" method="GET">
 				<select name="searchType" style="height:31px; width: 78px; color: chocolate;">
 					<option value="n">-----------------</option>
 					<option value="title"> 제목 </option>					
@@ -177,10 +190,10 @@
 				</select>
 				
 				<input type="text" name="searchWord" style="color: chocolate;" id="searchWord" placeholder="검색어 입력..."/>
-				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="chechSearchInput();" />
+				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="checkSearchInput();" />
 				<input type="hidden" name="page" value="1" />
-				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listCri?page=${pageNo }'"/>
-				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/campingreview/write?no=${pageNo}'">글쓰기</button>
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listcri?page=${pageNo }'"/>
+				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/campingreview/write?category=${param.board_category }'">글쓰기</button>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
 			
@@ -219,7 +232,7 @@
 					<ul class="pagination">
 						<c:if test="${pagingParam.prev }">
 							<li class="page-item"><a
-								class="page-link" href="listCri?page=${param.page - 1 }">Prev</a>
+								class="page-link" href="listcri?page=${param.page - 1 }">Prev</a>
 							</li>
 						</c:if>
 
@@ -227,14 +240,14 @@
 							end="${pagingParam.endPage }" var="pageNo">
 
 							<li class="page-item" ><a
-								class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+								class="page-link" href="listcri?page=${pageNo }">${pageNo }</a>
 							</li>
 
 						</c:forEach>
 
 						<c:if test="${pagingParam.next}">
 							<li class="page-item"><a
-								class="page-link" href="listCri?page=${param.page + 1 }">next</a>
+								class="page-link" href="listcri?page=${param.page + 1 }">next</a>
 							</li>
 						</c:if>
 
