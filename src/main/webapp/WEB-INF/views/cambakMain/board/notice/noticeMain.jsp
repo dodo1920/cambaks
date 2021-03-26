@@ -48,10 +48,14 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/notice.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script> 
 
 <script>
+
+	
+
 	function chechSearchInput(){
 		console.log("!");
 		console.log($("select[name=searchType]").val())
@@ -66,13 +70,26 @@
 	}
 
 	 $(document).ready(function() {
-	      let boardUri = searchUriAddress();
-	      asideBarDraw(boardUri);
+		  checkPageMain();
+ 	      let boardUri = searchUriAddress();
+ 	      asideBarDraw(boardUri);
 	      rolling();
-
-	 
+	      
 	   });
 		
+	   // 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
+     function checkPageMain() {
+         var url = location.href; //url주소
+         var ispage = url.indexOf("page=");
+         
+          if(ispage == -1){
+        	 location.href='/board/notice/listCri?page=1';
+         } 
+     
+     }
+	   
+	   
+     
 </script>
 
 <style>
@@ -97,7 +114,7 @@
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
+							<h2>최근 공지사항</h2>
 							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 						</header>
 					
@@ -174,7 +191,6 @@
 				
 				<form action="/board/notice/search" id="searchFormGo" method="GET">
 				<select name="searchType" style="height:31px; width: 78px; color: chocolate;">
-					<option value="n">-----------------</option>
 					<option value="title"> 제목 </option>					
 					<option value="content"> 내용 </option>					
 					<option value="writer"> 작성자 </option>					
@@ -185,7 +201,7 @@
 				<input type="hidden" name="page" value="1" />
 				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/notice/listCri?page=1'"/>
 				<c:if test="${loginMember.member_id == 'admin' }">
-				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/register'">글쓰기</button>
+				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/notice/user/register'">글쓰기</button>
 				</c:if>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>

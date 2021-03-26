@@ -35,8 +35,8 @@
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
-<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
-<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style-desktop.css" />
 <!-- include summernote css/js -->
 <link
 	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
@@ -58,9 +58,38 @@
 
 <script>
 
+
+function checkRegisterForm(){
+	if($("#board_title").val() == ""){
+		console.log("제목 없다.");
+		alert("제목을 입력해주세요.");
+	}else if($("#summernote").val() == ""){
+		console.log("내용 없다.");
+		alert("내용을 입력해주세요.");
+	}else{
+		console.log("글작성.");
+		$("#registerFormAction").submit();
+	}
+	
+}
+
+
+
+function checkPage() {
+    var url = location.href; //url주소
+    var ispage = url.indexOf("page=");
+        
+}
+	
+
 	
 	
 	$(function(){
+		checkPage();
+		if('${loginMember.member_id}' != 'admin'){
+			alert("잘못된 경로입니다.");
+			location.href='/board/notice/listCri?page=1';
+		}
 		
 			$('#summernote').summernote({
 				height : 500
@@ -148,12 +177,13 @@ form, form input{
 
 				<div id="content">
 					<div>
-						<form action="/board/notice/register" method="post">
-							<input type="text" class="form-control" id="usr" name="board_title">
+						<form action="/board/notice/user/register" id="registerFormAction"  method="post">
+							<input type="text" class="form-control" id="board_title" name="board_title">
 							<textarea id="summernote" name="board_content"></textarea>
-							<input type="hidden" name="member_id" value="${loginMember.member_id}"> <input
-								type="hidden" name="board_category" value="CS">
-							<button type="submit" class="btn btn-success">작성하기</button>
+							<input type="hidden" name="member_id" value="${loginMember.member_id }">
+<!-- 							<input type="hidden" name="board_category" value="notice"> -->
+							<button type="button" style="float:right; margin:0px;" class="btn btn-success" onclick="checkRegisterForm();" >작성완료</button>
+							<button type="button" style="float:left; margin:0px 5px;" onclick="location.href='/board/notice/listCri?page=1'" class="btn btn-info">리스트페이지로 이동</button>
 						</form>
 					</div>
 				</div>

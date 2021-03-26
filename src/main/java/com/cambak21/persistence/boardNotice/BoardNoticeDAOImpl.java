@@ -19,7 +19,7 @@ public class BoardNoticeDAOImpl implements BoardNoticeDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mappers.BoardNotice";
+	private static String namespace = "com.cambak21.mappers.cambakBoard.BoardNotice";
 	
 	@Override
 	public List<BoardVO> getNoticeAll() throws Exception {

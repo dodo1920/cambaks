@@ -35,9 +35,13 @@
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
-<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
-<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style-desktop.css" />
 
+<!-- include summernote css/js -->
+<link
+	href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+		
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
@@ -51,26 +55,41 @@
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
 
+<!-- include summernote css/js -->
+<script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+
 <script>
 
 	function checkModiForm(){
-		
 		
 		if($(".boardtextArea").val() == $("#prevBoardContext").val() && $("input[name=board_title]").val() == $("#prevBoardTitle").val()){
 			alert("수정할 내용이 없습니다.");
 		}else {
 			$("#modiBoardNotice").submit();
 		}	
-				
 	}
 
-	
 	$(function(){
+		
+		
+		checkPage();
+		
+		if('${noticeBoard.member_id}' != '${loginMember.member_id}'){
+			alert("잘못된 경로입니다.");
+			location.href='/board/notice/listCri?page=1';
+		}
+				
+		$('#summernote').summernote({
+			height : 500
+		});
+		
+		
 		
 		$("#prevBoardContext").val($(".boardtextArea").val());
 	  	$("#prevBoardTitle").val($("input[name=board_title]").val());
 	  
-	  	 rolling();
+	  	rolling();
 	    let boardUri = searchUriAddress();
 	    asideBarDraw(boardUri);
 		 
@@ -156,33 +175,36 @@ form, form input{
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항 수정페이지</a></span>
+							<h2>최근 공지사항</h2>
+							<span class="byline" id="rollNot">공지사항 수정페이지</span>
 						</header>
 					
 					</section>
 				<!--  게시판 상세내용  -->	
 					<section>
-					<form id="modiBoardNotice" action="/board/notice/modi" method="post">
-					
-				    <div class="formContent"> 
-				    <div>
-				    <span class="formTitle">Title</span> <input type="text" style="font-size:25px; font-weight:900; width: 650px;" name="board_title" value="${noticeBoard.board_title }" />
-				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" />
-<%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%>
+					<form id="modiBoardNotice" action="/board/notice/user/modi/${param.page }" method="post">
+				
+<%-- 				    <span class="formTitle">Title</span> <input type="text" style="font-size:25px; font-weight:900; width: 650px;" name="board_title" value="${noticeBoard.board_title }" /> --%>
+<%-- 				    <input type="hidden" name="board_no" value="${noticeBoard.board_no }" /> --%>
+<%-- <%-- 				    <c:if test="${loginMember.uid == noticeBoard.member_id }">	 --%> 
          			
-         			<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }'">수정 취소</button>
-         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="checkModiForm();">수정 완료</button>
-<%-- 				    </c:if> --%>
-		            </div>
-		              <div>
-		            <span style="margin-left:15px;">작성자: <input style="border:none;" readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				   </div>
-		               <div>
-		               <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-				    <span class="formTitle">내용 </span><textarea name="board_content" class="boardtextArea" cols="125" rows="16" >${noticeBoard.board_content }</textarea>
-				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/>
-		            </div>
+<%--          			<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }'">수정 취소</button> --%>
+<!--          			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="checkModiForm();">수정 완료</button> -->
+<%-- <%-- 				    </c:if> --%> 
+<!-- 		            </div> -->
+		            
+<!-- 		              <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/> -->
+<!-- 				    <textarea id="summernote" name="board_content"></textarea> -->
+<!-- 				    <hr style="margin:1em 0 0 0; padding: 1em 0 0 0;"/> -->
+						<input type="hidden" name="board_no" value="${noticeBoard.board_no }" /> 
+						<input type="text" class="form-control" id="usr" name="board_title" value="${noticeBoard.board_title }">
+						<textarea id="summernote" name="board_content">${noticeBoard.board_content }</textarea>
+						<input type="hidden" name="member_id" value="${loginMember.member_id }"> <input
+							type="hidden" name="board_category" value="notice">
+						<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }&page=${param.page }'">수정 취소</button>
+						<button type="submit" style="float:right; "class="btn btn-success">수정 완료</button>
+							
+		           
 		               
             </form>
         </section>   
