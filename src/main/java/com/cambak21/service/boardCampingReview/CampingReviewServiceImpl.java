@@ -118,9 +118,9 @@ public class CampingReviewServiceImpl implements CampingReviewService {
 	  * @throws Exception
 	  */
 	@Override
-	public int searchBoardCRtotalCnt(SearchCriteria scri) throws Exception {
+	public int searchBoardCnt(SearchCriteria scri) throws Exception {
 		
-		return dao.searchBoardCRtotalCnt(scri);
+		return dao.searchBoardCnt(scri);
 	}
 
 }
