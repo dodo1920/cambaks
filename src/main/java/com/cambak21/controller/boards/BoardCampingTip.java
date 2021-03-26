@@ -21,6 +21,7 @@ import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
+import com.cambak21.dto.CamBoardTipRereplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
 import com.cambak21.util.PagingCriteria;
@@ -137,8 +138,6 @@ public class BoardCampingTip {
 			// 게시물 삭제 처리
 			if(service.deleteCampingTipBoard(no)) {
 				entity = new ResponseEntity<String>("success", HttpStatus.OK);
-			} else {
-				
 			}
 		} catch (Exception e) {
 			// 삭제 실패 시 실패 메세지 전달
@@ -184,17 +183,37 @@ public class BoardCampingTip {
 	
 	@ResponseBody
 	@RequestMapping(value="/campingTip/deleteReply", method=RequestMethod.POST)
-	public ResponseEntity<String> deleteBoardReply(@RequestParam("replyBoard_no") int replyBoard_no) {
-		// 캠핑팁 상세글 댓글 조회
+	public ResponseEntity<String> deleteBoardReply(@RequestParam("replyBoard_no") int replyBoard_no, @RequestParam("board_no") int board_no) {
+		// 캠핑팁 상세글 댓글 삭제
 		ResponseEntity<String> entity = null;
 		
 		try {
 			service.deleteCampingTipReply(replyBoard_no);
+			service.deleteCampingTipReplyCount(board_no);
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/modifyReply", method=RequestMethod.POST)
+	public ResponseEntity<String> modifyReplyBoardTip(@RequestParam("replyBoard_no") int replyBoard_no, @RequestParam("replyBoard_content") String replyBoard_content) {
+		// 캠핑팁 상세글 댓글 수정
+		ResponseEntity<String> entity = null;
+		
+		try {
+			if(service.modifyCampingTipReply(replyBoard_no, replyBoard_content)) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 수정 실패 시 실패 메세지 전달
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 		return entity;
 	}
 	
@@ -205,6 +224,50 @@ public class BoardCampingTip {
 		
 		List<ReplyBoardVO> voRereply = service.readRereplyCampingTipBoard(no);
 		return voRereply;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/totalReply", method=RequestMethod.POST)
+	public int getReplyCount(@RequestParam("board_no") int board_no) throws Exception {
+		// 캠핑팁 상세글 댓글 개수 조회
+		return service.checkReplyCount(board_no);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/writeRereply", method=RequestMethod.POST)
+	public ResponseEntity<String> writeRereply(CamBoardTipRereplyDTO dto) {
+		// 캠핑팁 상세글 대댓글 작성
+		ResponseEntity<String> entity = null;
+		
+		try {
+			dto.setReplyBoard_refOrder(service.checkReforderMax(dto)); // ReplyBoards 테이블에서 max(replyBoard_refOrder) 확인하여 + 1해서 dto에 set해주기
+			if(service.addRereplyCampingTipBoard(dto)) { // 대댓글 insert
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 대댓글 insert 실패 시
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/modifyRereply", method=RequestMethod.POST)
+	public ResponseEntity<String> modifyRereplyBoardTip(@RequestParam("replyBoard_no") int replyBoard_no, @RequestParam("replyBoard_content") String replyBoard_content) {
+		// 캠핑팁 상세글 대댓글 수정
+		ResponseEntity<String> entity = null;
+		
+		try {
+			if(service.modifyRereplyCampingTipBoard(replyBoard_no, replyBoard_content)) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// 수정 실패 시 실패 메세지 전달
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
 	}
 	
 }
