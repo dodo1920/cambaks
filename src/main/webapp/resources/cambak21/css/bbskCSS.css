@@ -17,10 +17,6 @@ p.category-title {
 	width: 83%
 }
 
-th.board-title {
-    width: 65%;
-}
-
 .pageBtn {
 	display: flex;
     justify-content: center;

@@ -197,10 +197,10 @@
 			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
 			$("#myModal").modal();
 		} else {
-			let replyBoard_no = "." + replyno
+			let replyBoard_no = "." + replyno;
 			
 			let output = "<div class='inputForm' style='display:flex'>";
-			output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"'>";
+			output += "<input type='text' class='form-control' placeholder='댓글을 입력해주세요' id='replyId"+replyno+"' >";
 			output += "<button type='button' class='btn btn-default' onclick='childRelpyWrite("+replyno+");'>답글 작성</button>";
 			output += "<button type='button' class='btn btn-default' onclick='replyList();'>닫기</button>";
 			output += "</div>";
@@ -347,6 +347,44 @@
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
 	
+	// 추천하기
+	function likeBtn() {
+		if (${loginMember.member_id == null}) {
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let board_no = ${board.board_no};
+			let member_id = "${loginMember.member_id}";
+			
+			$.ajax({
+				type : "post",
+				dataType : "json", // 받을 데이터
+				contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+				url : "/board/cs/like",// 서블릿 주소
+				data : JSON.stringify({
+					board_no : board_no,
+					member_id : member_id
+				}),
+				success : function(data) {
+					if(data.status == "on") {
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 완료 되었습니다");
+						$("#myModal").modal();
+					} else if (data.status == "off") {
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 취소 되었습니다");
+						$("#myModal").modal();
+					}
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		}
+	}
+	
 </script>
 </head>
 
@@ -403,7 +441,7 @@
 									조회수 <span>${board.board_viewCnt }</span>
 								</p>
 								<p class="like">
-									추천수 <span>${board.board_likeCnt }</span>
+									추천수 <span class="likeCnt">${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
 									댓글 <span>${board.replyCnt }</span>
@@ -444,7 +482,7 @@
 						<div class="recommend-btn">
 
 							<!-- ajax로 구현, 온클릭 이벤트 걸어주고 로그인안한상태면 알럿창 띄우기 (로그인 후에 시도해주세요) -->
-							<button type="button" class="btn btn-danger">추천</button>
+							<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>
 
 							<c:if test="${loginMember.member_id == board.member_id }">
 								<!-- if문 로그인한 회원과 작성자와 비교 -->
