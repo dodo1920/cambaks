@@ -167,7 +167,7 @@
 								<li><a href="glory_diarylist.html" id="categoryFont">여행일기</a></li>
 								<li><a href="#" id="categoryFont">작성한 게시글</a></li>
 								<li class="active"><a href="KJM_userOut1.html" id="categoryFont">회원 탈퇴</a></li>
-								</li>
+								
 							</ul>
 						</div>
 					</div>
