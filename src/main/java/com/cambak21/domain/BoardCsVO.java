@@ -12,14 +12,7 @@ public class BoardCsVO {
 	private int board_likeCnt;
 	private int board_viewCnt;
 	private int replyCnt;
-
-	public int getReplyCnt() {
-		return replyCnt;
-	}
-
-	public void setReplyCnt(int replyCnt) {
-		this.replyCnt = replyCnt;
-	}
+	private String board_isDelete;
 
 	public int getBoard_no() {
 		return board_no;
@@ -85,14 +78,28 @@ public class BoardCsVO {
 		this.board_viewCnt = board_viewCnt;
 	}
 
+	public int getReplyCnt() {
+		return replyCnt;
+	}
+
+	public void setReplyCnt(int replyCnt) {
+		this.replyCnt = replyCnt;
+	}
+
+	public String getBoard_isDelete() {
+		return board_isDelete;
+	}
+
+	public void setBoard_isDelete(String board_isDelete) {
+		this.board_isDelete = board_isDelete;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardCsVO [board_no=" + board_no + ", member_id=" + member_id + ", board_title=" + board_title
 				+ ", board_content=" + board_content + ", board_writeDate=" + board_writeDate + ", board_updateDate="
 				+ board_updateDate + ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt
-				+ ", replyCnt=" + replyCnt + "]";
+				+ ", replyCnt=" + replyCnt + ", board_isDelete=" + board_isDelete + "]";
 	}
-
-	
 
 }

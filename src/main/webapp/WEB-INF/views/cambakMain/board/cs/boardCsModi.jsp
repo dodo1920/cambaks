@@ -47,6 +47,7 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 
 <!-- include summernote css/js -->
 <script
@@ -60,8 +61,43 @@
 	$(document).ready(function() {
 		$('#summernote').summernote({
 			height : 500,
+			minHeight : null,
+			maxHeight : null,
+			focus : true,
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable) {
+					for (var i = files.length - 1; i >= 0; i--) {
+						sendFile(files[i], this);
+					}
+				}
+			}
 		});
 	});
+
+	function sendFile(file, el) {
+		let path = "/resources/uploads/boardCs";
+
+		var form_data = new FormData();
+
+		form_data.append('file', file);
+
+		$.ajax({
+			data : form_data,
+			type : "POST",
+			url : '/board/cs/image',
+			cache : false,
+			contentType : false,
+			enctype : 'multipart/form-data',
+			processData : false,
+			success : function(url) {
+				$(el).summernote('editor.insertImage', path + url);
+			}, // 통신 성공시
+			error : function(data) {
+				$("#modalText").text("이미지 파일이 아닙니다");
+				$("#myModal").modal();
+			},
+		});
+	}
 </script>
 </head>
 
@@ -79,10 +115,12 @@
 				<div id="content">
 					<div>
 						<form action="../cs/modi" method="post">
-							<input type="text" class="form-control" id="usr" name="board_title" value="${board.board_title }">
-							<textarea id="summernote" name="board_content" >${board.board_content }</textarea>
+							<input type="text" class="form-control" id="usr"
+								name="board_title" value="${board.board_title }">
+							<textarea id="summernote" name="board_content">${board.board_content }</textarea>
 							<input type="hidden" value="${board.board_no }" name="board_no">
-							<button type="button" class="btn btn-danger" onclick="history.back();">돌아가기</button>
+							<button type="button" class="btn btn-danger"
+								onclick="history.back();">돌아가기</button>
 							<button type="submit" class="btn btn-success">수정하기</button>
 						</form>
 					</div>
@@ -91,6 +129,24 @@
 		</div>
 	</div>
 	<!-- /Main -->
+	
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 	<%@include file="../../cambak21Footer.jsp"%>
 

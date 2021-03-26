@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cambak21.mapper.cambakMain.ReplyBoardCS">
+<mapper namespace="com.cambak21.mappers.cambakBoard.ReplyBoardCS">
 	<!-- 부모 댓글 max 구하기 -->
 	<select id="maxBoardNo" resultType="int">
 		select if(max(replyBoard_no) is null, 1, (select max(replyBoard_no) from ReplyBoards)) from ReplyBoards;
