@@ -58,9 +58,10 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
 				}
 		
 				String dest = (String)ses.getAttribute("dest");
-				response.sendRedirect((dest != null)? dest : "/");
-			}else {
-				response.sendRedirect("/user/login/yet");
+				response.sendRedirect((dest != null)? dest : "/user/login/");
+			} else {
+				String dest = (String)ses.getAttribute("dest");
+				response.sendRedirect((dest == null)? dest : "/user/login/yet");
 			}
 			
 			
