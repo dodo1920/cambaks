@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -55,5 +56,22 @@ public interface BoardCsDAO {
 
 	// 이전 게시글 번호 가져오기
 	String nextNo(int board_no) throws Exception;
-
+	
+	// 해당 유저가 이 글 좋아요를 눌렀는지 안눌렀는지
+	String checkLike(InsertLikeBoard dto) throws Exception;
+	
+	// LikeBoards테이블에 insert
+	void insertLikeBoard(InsertLikeBoard dto) throws Exception;
+	
+	// 게시글 좋아요수 + 1 업데이트
+	void updatePlusLikeCnt(InsertLikeBoard dto) throws Exception;
+	
+	// LikeBoards테이블에서 delete
+	void deleteLikeBoard(InsertLikeBoard dto) throws Exception;
+	
+	// 게시글 좋아요수 - 1 update
+	void updateMinusLikeCnt(InsertLikeBoard dto) throws Exception;
+	
+	// 게시글 좋아요수 가져오기
+	int getLikeCnt(InsertLikeBoard dto) throws Exception;
 }

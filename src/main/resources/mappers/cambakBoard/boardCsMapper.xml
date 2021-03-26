@@ -47,10 +47,35 @@
 		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no};
 	</update>
 	
-	<!-- 좋아요 업데이트 -->
-	<update id="updateLike">
+	<!-- 로그인한 회원이 이미 좋아요를 눌렀는지 안눌렀는지 확인 -->
+	<select id="checkLike" resultType="String">
+		select * from LikeBoards where board_no = #{board_no} and member_id = #{member_id};
+	</select>
+	
+	<!-- LikeBoards 테이블에 insert -->
+	<insert id="insertLikeBoards">
+		insert into LikeBoards(member_id, board_no)
+		value(#{member_id}, #{board_no});
+	</insert>
+	
+	<!-- 좋아요 수 + 1 업데이트 -->
+	<update id="updatePlusLike">
 		update Boards set board_likeCnt = board_likeCnt + 1 where board_no = #{board_no};
 	</update>
+	
+	<delete id="deleteLikeBoard">
+		delete from LikeBoards where member_id = #{member_id} and board_no = #{board_no};
+	</delete>
+	
+	<!-- 좋아요 수 - 1 업데이트 -->
+	<update id="updateMinusLike">
+		update Boards set board_likeCnt = board_likeCnt - 1 where board_no = #{board_no};
+	</update>
+	
+	<!-- 좋아요 수 가져오기 -->
+	<select id="getLikeCnt" resultType="int">
+		select board_likeCnt from Boards where board_no = #{board_no};
+	</select>
 	
 	<!-- 검색 리스트 -->
 	<select id="searchBoard" resultType="com.cambak21.domain.BoardCsVO">

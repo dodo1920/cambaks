@@ -160,7 +160,7 @@
 		                  	<option value="delivery">배송</option>
 		                  	<option value="refund">환불</option>
 		                  	<option value="exchange">교환</option>
-		                  	<option value="ect">기타</option>
+		                  	<option value="etc">기타</option>
 		                  </select>
 		               </div>
 		            </div>

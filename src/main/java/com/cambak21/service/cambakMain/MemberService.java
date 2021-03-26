@@ -1,9 +1,11 @@
 package com.cambak21.service.cambakMain;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.LoginDTO;
 
 public interface MemberService {
 	
@@ -80,6 +82,19 @@ public interface MemberService {
 	public boolean updatePwd(String member_id, String member_password) throws Exception;
 	
 	/**
+	 * @Method Name : checkEmail
+	 * @작성일 : 2021. 3. 26.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 아이디/비밀번호 찾기시, 회원가입할때 등록한 이메일 번호가 맞는지 확인하는 메서드
+	 * @param member_email
+	 * @param member_name
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean checkEmail(String member_email, String member_name) throws Exception;
+	
+	/**
 	 * @Method Name : login
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 장원영
@@ -89,5 +104,13 @@ public interface MemberService {
 	 * @return
 	 * @throws Exception
 	 */
-	public MemberVO login(MemberVO vo) throws Exception;
+	public MemberVO login(LoginDTO dto) throws Exception;
+	
+	public MemberVO checkUserWithSesKey(String member_cookie) throws Exception;
+	
+	public void keepLogin(String member_id, String sesId, Date cookieAge) throws Exception;
+	
+	public boolean memberDelete(LoginDTO dto) throws Exception;
+	
+	
 }

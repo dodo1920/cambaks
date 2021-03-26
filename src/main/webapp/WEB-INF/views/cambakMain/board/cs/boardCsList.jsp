@@ -129,6 +129,7 @@
 										<th>작성자</th>
 										<th>작성일</th>
 										<th>조회수</th>
+										<th>추천수</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -138,46 +139,31 @@
 											<tr>
 												<td>${item.board_no }</td>
 												<td>
-													<!-- 목록보기 구현위한 문장 --> <c:choose>
-														<c:when test="${param.page == null }">
-															<!-- page가 null이고 searchType도 null이면.. -->
-															<!-- 1페이지이고 검색을 안했으면... -->
-															<c:if test="${param.searchType == null }">
-																<a href="/board/cs/detail?no=${item.board_no }&page=1"
-																	class="board-title-a">${item.board_title }</a>
-															</c:if>
-															<!-- 1페이지고 검색을 했으면... -->
-															<c:if test="${param.searchType != null }">
-																<a
-																	href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}"
-																	class="board-title-a">${item.board_title }</a>
-															</c:if>
-														</c:when>
-														<c:otherwise>
-															<!-- page가 null이 아니면... 최소 2페이지 -->
-															<!-- 검색을 했으면...  -->
-															<c:if test="${param.searchType != null }">
-																<a
-																	href="/board/cs/detail?no=${item.board_no }&page=${param.page}&searchType=${param.searchType }&searchWord=${param.searchWord}"
-																	class="board-title-a">${item.board_title }</a>
-															</c:if>
-															<!-- 검색을 안했으면 ... -->
-															<c:if test="${param.searchType == null }">
-																<a
-																	href="/board/cs/detail?no=${item.board_no }&page=${param.page}"
-																	class="board-title-a">${item.board_title }</a>
-															</c:if>
-														</c:otherwise>
-													</c:choose> <!-- 좋아요 수가 0보다 크면 출력 --> <c:if
-														test="${item.replyCnt > 0 }">
+												<c:choose>
+													<c:when test="${param.searchType == null }">
+														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
+													</c:when>
+													<c:otherwise>
+														<c:if test="${param.page == null }">
+															<a href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+														</c:if>
+														<c:if test="${param.page != null }">
+															<a href="/board/cs/detail?no=${item.board_no }&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+														</c:if>
+													</c:otherwise>
+												</c:choose>
+												
+												<!-- 댓글 수 -->
+												<c:if test="${item.replyCnt > 0 }">
 													(${item.replyCnt })
-											</c:if>
+												</c:if>
+												
 												</td>
 
 												<td>${item.member_id }</td>
-												<td><fmt:formatDate value="${item.board_writeDate }"
-														pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 												<td>${item.board_viewCnt }</td>
+												<td>${item.board_likeCnt }</td>
 											</tr>
 										</c:if>
 									</c:forEach>
@@ -202,14 +188,7 @@
 
 										<!-- 다음 버튼 -->
 										<c:if test="${pp.next }">
-											<c:choose>
-												<c:when test="${param.page != null }">
-													<li><a href="/board/cs?page=${param.page + 1 }">다음</a></li>
-												</c:when>
-												<c:otherwise>
-													<li><a href="/board/cs?page=${param.page + 2 }">다음</a></li>
-												</c:otherwise>
-											</c:choose>
+											<li><a href="/board/cs?page=${param.page + 1 }">다음</a></li>
 										</c:if>
 									</c:when>
 
@@ -229,16 +208,12 @@
 
 										<!-- 다음 버튼 -->
 										<c:if test="${searchPP.next }">
-											<c:choose>
-												<c:when test="${param.page != null }">
-													<li><a
-														href="/board/cs/search?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
-												</c:when>
-												<c:otherwise>
-													<li><a
-														href="/board/cs/search?page=${param.page + 2 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
-												</c:otherwise>
-											</c:choose>
+											<c:if test="${param.page == null }">
+												<li><a href="/board/cs/search?page=${param.page + 2 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+											</c:if>
+											<c:if test="${param.page != null }">
+												<li><a href="/board/cs/search?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+											</c:if>
 										</c:if>
 									</c:otherwise>
 								</c:choose>
