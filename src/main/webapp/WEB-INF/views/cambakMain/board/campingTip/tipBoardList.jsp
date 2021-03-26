@@ -72,9 +72,9 @@
 	   let searchType = getParameter("searchType");
 	   
 	   if (page == -1 && searchWord == -1 && searchType == -1) {
-		   location.href="/board/campingTip/list?page=1";
+		   location.href="/board/campingTip/list.bo?page=1";
 	   } else if (page == -1 && searchWord != -1 && searchType != -1) {
-		   location.href="/board/campingTip/list/search?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
+		   location.href="/board/campingTip/list/search.bo?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
 	   }
 	   
    }
@@ -232,7 +232,7 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<h1 id="boardTitle"><a href="/board/campingTip/list?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
+						<h1 id="boardTitle"><a href="/board/campingTip/list.bo?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
 					</section>
 					<div>
 						<div>
@@ -260,8 +260,8 @@
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
 											<td>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}">${item.board_title } </a>
-											<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}" style="font-weight: 600;">[${item.board_replyCnt }]</a>
+											<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}">${item.board_title } </a>
+											<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" style="font-weight: 600;">[${item.board_replyCnt }]</a>
 											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
@@ -274,7 +274,7 @@
 							</table>
 						</div>
 						<div class="writeBoard">
-						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write'">글작성</button>
+						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write.bo'">글작성</button>
 						</div>
 						<div class="numBoard">
 						<c:set var="campingTipPage" value="${param.page }" scope="session" />
@@ -283,13 +283,13 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="list?page=${param.page -1}">이전</a></li>
+											<li style="width: 30px;"><a href="list.bo?page=${param.page -1}">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="list?page=${pageNo }">${pageNo }</a></li>
+											<li><a href="list.bo?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="list?page=${param.page +1}">다음</a></li>
+											<li style="width: 30px;"><a href="list.bo?page=${param.page +1}">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
@@ -298,20 +298,20 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="search?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}">이전</a></li>
+											<li style="width: 30px;"><a href="search.bo?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="search?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}">${pageNo }</a></li>
+											<li><a href="search.bo?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="search?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}">다음</a></li>
+											<li style="width: 30px;"><a href="search.bo?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
 							</c:when>
 						</c:choose>
 						<div class="searchBar">						
-							<form action="list/search" method="GET" id="formAction">
+							<form action="list/search.bo" method="GET" id="formAction">
 							<select class="keySelect" name="searchType" id="searchType">
 								<option value="totalSearch">제목+내용</option>
 								<option value="title">제목</option>

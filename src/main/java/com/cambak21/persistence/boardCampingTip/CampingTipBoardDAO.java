@@ -58,7 +58,7 @@ public interface CampingTipBoardDAO {
 	// 상세 게시글 댓글 수정 update
 	public boolean modifyCampingTipReply(int replyBoard_no, String replyBoard_content) throws Exception;
 	
-	// 상세 게시글 댓글, 대댓글 삭제 delete
+	// 상세 게시글 댓글 삭제 delete
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception;
 	public boolean deleteCampingTipReplyCount(int board_no) throws Exception;
 	
@@ -68,11 +68,18 @@ public interface CampingTipBoardDAO {
 	// 상세 게시글 대댓글 작성 insert
 	public int checkReforderMax(CamBoardTipRereplyDTO dto) throws Exception;
 	public boolean addRereplyCampingTipBoard(CamBoardTipRereplyDTO rereplyDTO) throws Exception;
+	public boolean upRereplyCount(CamBoardTipRereplyDTO rereplyDTO) throws Exception;
 	
 	// 상세 게시글 대댓글 수정 update
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception;
 	
+	//  상세 게시글 대댓글 삭제 delete
+	public boolean downRereplyCount(int replyBoard_no) throws Exception;
+	
 	// 상세 게시글 댓글 개수 select
 	public int checkReplyCount(int board_no) throws Exception;
+	
+	// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
+	public List<ReplyBoardVO> noRereplyAreaBlock(int board_no) throws Exception;
 	
 }

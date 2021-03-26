@@ -129,6 +129,9 @@
 	<insert id="writeRereply">
 		insert into ReplyBoards (board_no, member_id, replyBoard_content, replyBoard_ref, replyBoard_refOrder) values (#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref}, #{replyBoard_refOrder})
 	</insert>
+	<update id="upTotalRereplyCount">
+		update ReplyBoards set replyBoard_step = replyBoard_step + 1 where replyBoard_no = #{replyBoard_no} and replyBoard_refOrder = 0
+	</update>
 
 <!-- 	대댓글 수정 -->
 	<update id="modifyRereply">
@@ -139,9 +142,18 @@
 	<delete id="deleteRereplyTipBoard">
 		delete from ReplyBoards where replyBoard_no = #{replyBoard_no}
 	</delete>
+	<update id="downTotalRereplyCount">
+		update ReplyBoards set replyBoard_step = replyBoard_step - 1 where replyBoard_no = #{replyBoard_ref} and replyBoard_refOrder = 0
+	</update>
 
 <!-- 	상세 게시글 댓글 총 개수 가져오기 -->
 	<select id="checkReplyCnt" resultType="int">
 		select board_replyCnt from Boards where board_no = #{board_no}
 	</select>
+	
+<!-- 	캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능 -->
+	<select id="checkStepCount" resultType="com.cambak21.domain.ReplyBoardVO">
+		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder = 0 order by replyBoard_writeDate desc
+	</select>
+	
 </mapper>

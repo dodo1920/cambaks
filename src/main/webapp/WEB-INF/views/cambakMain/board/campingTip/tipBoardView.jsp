@@ -59,7 +59,7 @@
 			// 작성자와 삭제 요청자가 동일한 경우에만 실행
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/modifyReply",
+				  url: "/board/campingTip/modifyReply.bo",
 				  dataType: "text",
 				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
 				  success : function(data) {
@@ -109,7 +109,7 @@
 				// 작성자와 삭제 요청자가 동일한 경우에만 실행
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/deleteReply",
+					  url: "/board/campingTip/deleteReply.bo",
 					  dataType: "text",
 					  data : {replyBoard_no : replyBoard_no, board_no : board_no},
 					  success : function(data) {
@@ -142,7 +142,7 @@
 		   
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/writeReply",
+				  url: "/board/campingTip/writeReply.bo",
 				  dataType: "text",
 				  data : {member_id : member_id, board_no : board_no, replyBoard_content : replyBoard_content},
 				  success : function(data) {
@@ -162,7 +162,7 @@
 				  
 				});
 	   } else {
-		   alert("댓글은 회원만 작성 가능합니다.");
+		   alert("댓글은 로그인 후 작성하실 수 있습니다.");
 		   location.href='/user/login/yet';
 	   }
 	   
@@ -174,7 +174,7 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/totalReply",
+			  url: "/board/campingTip/totalReply.bo",
 			  dataType: "text",
 			  data : {board_no : board_no},
 			  success : function(data) {
@@ -188,7 +188,7 @@
    function noBoardPage() {
 	   if (${empty viewBoard}) {
 			  alert("삭제된 게시글 또는 없는 게시글입니다.");
-			  location.href="/board/campingTip/list";
+			  location.href="/board/campingTip/list.bo";
 	   }
    }
    
@@ -208,12 +208,12 @@
 	   $("#myModal").hide();
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/delete",
+			  url: "/board/campingTip/delete.bo",
 			  dataType: "text",
 			  data : {no : no},
 			  success : function(data) {
 				  alert("글 삭제 성공!");
-				  location.href="/board/campingTip/list";
+				  location.href="/board/campingTip/list.bo";
 			  },
 	          error : function(data) {
 	        	  alert("글 삭제를 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
@@ -252,7 +252,7 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/reply",
+			  url: "/board/campingTip/reply.bo",
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
@@ -281,7 +281,7 @@
 
 					  
 					  // 대댓글 보기, 작성
-					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 더보기</a>';
+					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="moreView' + data[i].replyBoard_ref + '">답글 더보기</a>';
 					  
 					  if (${loginMember != null}) {
 						  output += '<a onclick="replyWriteBar(this);" class="reReplyWrite_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
@@ -314,12 +314,10 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/reReply",
+			  url: "/board/campingTip/reReply.bo",
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
-				  let repeatCnt = 0;
-				  let replyBoard_no = 0;
 				  
 				  for (let i = 0; i < data.length; i++) {
 					  
@@ -337,25 +335,40 @@
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
 						  output += '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">' +
+						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + "," + data[i].replyBoard_ref + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>삭제</a>' +
 						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipDeleteCon.png" class="replyIconSize"/>수정</a>' +
-						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>삭제</a>' +
 						  '</div></div>';
 					  }
 					  
 					  $("#replyList" + data[i].replyBoard_ref).append(output);
-					  $("#" + data[i].replyBoard_ref).css("display", "inline");
+					  $("#moreView" + data[i].replyBoard_ref).css("display", "inline");
+					  
 					  output = "";
-					  repeatCnt++;
-					  replyBoard_no = data[i].replyBoard_no;
 				  }
-				  
-				  if (repeatCnt == 0) {
-					  $("#replyInfoBar" + replyBoard_no).css("display", "none");
-				  }
-				  
+				  noRereplyAreaBlock(); // 대댓글이 없는 부분 공간 없애주기
 			  }
 			});
 
+   }
+   
+   // 댓글 더보기가 없을 시 css깨짐 현상 없애주기
+   function noRereplyAreaBlock() {
+	   let board_no = '${param.no}';
+	   let loginMember = '${loginMember}';
+	   
+		$.ajax({
+			  method: "POST",
+			  url: "/board/campingTip/noRereply.bo",
+			  dataType: "json",
+			  data : {board_no : board_no},
+			  success : function(data) {
+				  for (let i = 0; i < data.length; i++) {
+					  if (data[i].replyBoard_step == 0 && loginMember.length == 0) {
+						  $("#replyInfoBar" + data[i].replyBoard_ref).css("display", "none");
+					  }
+				  }
+			  }
+			});
    }
    
 	// 글 수정 후 알럿 남겨주기
@@ -386,7 +399,7 @@
 	}
    
 	function viewReply(obj) {
-		let getId = $(obj).attr("id");
+		let getId = $(obj).attr("id").split("moreView")[1];
 		$("#replyList" + getId).show();
 		$(obj).text("답글 숨기기");
 		$(obj).attr("onclick", "hideReply(this);");
@@ -394,7 +407,7 @@
 	}
 	
 	function hideReply(obj) {
-		let getId = $(obj).attr("id");
+		let getId = $(obj).attr("id").split("moreView")[1];
 		$("#replyList" + getId).hide();
 		$(obj).text("답글 더보기");
 		$(obj).attr("onclick", "viewReply(this);");
@@ -426,9 +439,9 @@
 		
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/writeRereply",
+				  url: "/board/campingTip/writeRereply.bo",
 				  dataType: "text",
-				  data : {board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
+				  data : {replyBoard_no : obj, board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
 				  success : function(data) {
 					  alert("댓글이 등록되었습니다!");
 					  $("#reply_box").empty(); // 댓글 비우기
@@ -440,7 +453,7 @@
 				  
 				});
 	   } else {
-		   alert("댓글은 회원만 작성 가능합니다.");
+		   alert("댓글은 로그인 후 작성하실 수 있습니다.");
 		   location.href='/user/login/yet';
 	   }
 		   
@@ -471,7 +484,7 @@
 			// 작성자와 삭제 요청자가 동일한 경우에만 실행
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/modifyRereply",
+				  url: "/board/campingTip/modifyRereply.bo",
 				  dataType: "text",
 				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
 				  success : function(data) {
@@ -491,9 +504,10 @@
 	   
    }
    
-   // 댓글 삭제
+   // 대댓글 삭제
    function reReplyDeleteBar(obj) {
-		let replyBoard_no = $(obj).attr("id");
+		let replyBoard_no = $(obj).attr("id").split(',')[0];
+		let replyBoard_ref = $(obj).attr("id").split(',')[1];
 		let board_no = '${param.no }';
 		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 		let writeMember = $("#reReplyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
@@ -505,9 +519,9 @@
 				// 작성자와 삭제 요청자가 동일한 경우에만 실행
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/deleteReply",
+					  url: "/board/campingTip/deleteRereply.bo",
 					  dataType: "text",
-					  data : {replyBoard_no : replyBoard_no, board_no : board_no},
+					  data : {replyBoard_no : replyBoard_no, board_no : board_no, replyBoard_ref : replyBoard_ref},
 					  success : function(data) {
 						  alert("댓글이 삭제되었습니다!");
 						  $("#reply_box").empty(); // 댓글 비우기
@@ -847,7 +861,7 @@
 						<div class="boardModifyBtn">
 							<c:if test="${loginMember.member_id eq viewBoard.member_id}">
 								<div class="boardModifyBtn_side">
-								<form action="modify" method="get" id="formBtnPos">
+								<form action="modify.bo" method="get" id="formBtnPos">
 								<input type="hidden" name="no" value="${viewBoard.board_no }" />
 								<input type="hidden" name="id" value="${param.id }" />
 								<button type="submit" class="btn btn-default">수정</button>
@@ -884,13 +898,13 @@
 							<div class="backListBtn">
 							<c:choose>
 								<c:when test="${param.page != null }">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${param.page }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${param.page }';">목록보기</button>
 								</c:when>
 								<c:when test="${campingTipPage != null }">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${campingTipPage }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${campingTipPage }';">목록보기</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=1';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=1';">목록보기</button>
 								</c:otherwise>
 							</c:choose>
 							</div>
@@ -903,7 +917,14 @@
 					</div>
 					
 					<div class="replyWrite">
-						<textarea class="replyWriteBar" id="writeReplyContent"></textarea>
+						<c:choose>
+							<c:when test="${empty loginMember}">
+								<textarea class="replyWriteBar" id="writeReplyContent" placeholder="댓글은 회원만 작성하실 수 있습니다. 로그인 후 이용바랍니다."></textarea>
+							</c:when>
+							<c:otherwise>
+							<textarea class="replyWriteBar" id="writeReplyContent"></textarea>
+							</c:otherwise>
+						</c:choose>
 						<div class="replyWriteBtnSite">
 							<button type="button" class="btn btn-default" style="float: right;" onclick="writeReply();">댓글작성</button>
 						</div>

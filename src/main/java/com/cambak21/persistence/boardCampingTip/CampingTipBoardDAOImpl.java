@@ -232,6 +232,16 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean upRereplyCount(CamBoardTipRereplyDTO rereplyDTO) throws Exception {
+		// 대댓글 작성 시 대댓글 개수를 파악하기 위해 replyBoard_step + 1
+		boolean result = false;
+		if (session.update(nameSpace + "upTotalRereplyCount", rereplyDTO) == 1) {
+			result = true;
+		}
+		return result;
+	}
 
 	@Override
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception {
@@ -249,9 +259,25 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	}
 
 	@Override
+	public boolean downRereplyCount(int replyBoard_ref) throws Exception {
+		// 대댓글 삭제 시 대댓글 개수를 파악하기 위해 replyBoard_step - 1
+		boolean result = false;
+		if (session.update(nameSpace + "downTotalRereplyCount", replyBoard_ref) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
 	public int checkReplyCount(int board_no) throws Exception {
 		// 상세 게시글 댓글 개수 select
 		return session.selectOne(nameSpace + "checkReplyCnt", board_no);
 	}
 
+	@Override
+	public List<ReplyBoardVO> noRereplyAreaBlock(int board_no) throws Exception {
+		// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
+		return session.selectList(nameSpace + "checkStepCount", board_no);
+	}
+	
 }

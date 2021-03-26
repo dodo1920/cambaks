@@ -57,8 +57,10 @@
 	
      
 	<!-- **************************************** 서효원 매핑 스캔 ********************************************** -->
-	
-	
+	     <mapping path="/board/campingTip/write"/>
+         <mapping path="/board/campingTip/modify"/>
+         <mapping path="/board/campingTip/delete"/>
+         <mapping path="/board/campingTip/writeReply"/>
 	<!-- **************************************** 백승권 매핑 스캔 ********************************************** -->
 
 
