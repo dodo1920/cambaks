@@ -189,7 +189,7 @@
 
 										<!-- 다음 버튼 -->
 										<c:if test="${pp.next }">
-											<li><a href="/board/cs/list?page=11111111111111111111">다음</a></li>
+											<li><a href="/board/cs/list?page=${param.page + 1 }">다음</a></li>
 										</c:if>
 									</c:when>
 
