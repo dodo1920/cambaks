@@ -34,6 +34,42 @@ public class CheckListServiceImpl implements CheckListService {
 		return result;
 		
 	}
+
+
+	@Override
+	public boolean deleteThis(int checkList_no) throws Exception {
+		boolean result = false;
+		int i = dao.deleteThis(checkList_no);
+		
+		if(i == 1) {
+			result = true;
+		}
+		return result;
+	}
+
+
+	@Override
+	public boolean saveList(CheckListVO vo) throws Exception {
+		boolean result = false;
+		int i = dao.saveList(vo);
+		
+		if(i == 1) {
+			result = true;
+		}
+		return result;
+	}
+
+
+	@Override
+	public boolean deleteThisAll(String member_id) throws Exception {
+		boolean result = false;
+		int i = dao.deleteThisAll(member_id);
+		
+		if(i == 1) {
+			result = true;
+		}
+		return result;
+	}
 	
 
 }

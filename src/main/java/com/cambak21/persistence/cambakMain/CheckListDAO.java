@@ -10,4 +10,9 @@ public interface CheckListDAO {
 
 	public int changeCheckList(String checkList_checked, int checkList_no) throws Exception;
 	
+	public int deleteThis(int checkList_no) throws Exception;
+
+	public int saveList(CheckListVO vo) throws Exception;
+
+	public int deleteThisAll(String member_id) throws Exception;
 }
