@@ -6,9 +6,7 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
-import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
-import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -49,7 +47,7 @@ public interface BoardCampingReviewDAO {
 	List<BoardVO> searchListBoardCR(SearchCriteria scri, PagingCriteria cri) throws Exception;
 
 	// 검색된 게시글 총 수 구하기 (페이징 하기 위한)
-	int searchBoardCRtotalCnt(SearchCriteria scri) throws Exception;
+	int searchBoardCnt(SearchCriteria scri) throws Exception;
 
 	// 게시글 상세보기
 

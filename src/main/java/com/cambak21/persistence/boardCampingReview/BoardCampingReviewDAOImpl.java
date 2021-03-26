@@ -14,9 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
-import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
-import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -26,11 +24,11 @@ public class BoardCampingReviewDAOImpl implements BoardCampingReviewDAO {
 	@Inject
 	private SqlSession ses;
 
-	private static String ns = "com.cambak21.mappers.CampingreviewMapper";
+	private static String ns = "com.cambak21.mappers.cambakBoard.CampingReview";
 
 	@Override
 	public void writeBoardCR(BoardVO vo) throws Exception {
-		ses.insert(ns + ".insertBoardCReview", vo);
+		ses.insert(ns + ".writeBoardCR", vo);
 	}
 
 	@Override
@@ -81,12 +79,12 @@ public class BoardCampingReviewDAOImpl implements BoardCampingReviewDAO {
 	}
 
 	@Override
-	public int searchBoardCRtotalCnt(SearchCriteria scri) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("searchType", scri.getSearchType());
-		map.put("searchWord", scri.getSearchWord());
+	public int searchBoardCnt(SearchCriteria scri) throws Exception {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("searchType", scri.getSearchType());
+//		map.put("searchWord", scri.getSearchWord());
 		
-		return ses.selectOne(ns + ".searchBoardCnt", map);
+		return ses.selectOne(ns + ".searchBoardCnt", scri);
 	}
 
 

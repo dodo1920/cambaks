@@ -43,5 +43,5 @@ public interface CampingReviewService {
 	public int boardCRtotalCnt() throws Exception;
 
 	// 검색된 게시글 총 수 구하기 (페이징 하기 위한)
-	public int searchBoardCRtotalCnt(SearchCriteria scri) throws Exception;
+	public int searchBoardCnt(SearchCriteria scri) throws Exception;
 }
