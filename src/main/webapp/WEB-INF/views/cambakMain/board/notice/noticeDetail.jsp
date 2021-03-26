@@ -35,8 +35,8 @@
 	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
-<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
-<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/style-desktop.css" />
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
@@ -48,22 +48,28 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/notice.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
+<!-- include summernote css/js -->
+<script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <script>
 let replyCnt = 0;
+let isreply = 0;
 
+  
 function callReplyList(){
 	
 	let board_no = '${param.no}';
 	let output = '<ul class="list-group">';
 	
-	
-	$.getJSON("/board/notice/getReply/" + board_no, function(data){
+	$.getJSON("/board/notice/user/getReply/" + board_no, function(data){
 					
 		$(data).each(function(index, item){
+		
 			replyCnt++;
+			
 			let date = new Date(this.replyBoard_writeDate);
 			var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
 			let go = Number(item.replyBoard_no);
@@ -72,7 +78,7 @@ function callReplyList(){
 			
 			output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
 			+ now + '<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img id="' + item.replyBoard_no + '" src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
-			'<div><span>' + this.member_id + '</span></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
+			'<div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
 			
 		});
 		
@@ -84,19 +90,26 @@ function callReplyList(){
 }	
 
 $(function(){
-	 rolling();
+	checkPage();
+	rolling();
   	callReplyList();
     let boardUri = searchUriAddress();
     asideBarDraw(boardUri);
-  	
+    
+	$('#summernote').summernote({
+		height : 500
+	});
+	
+	
   });
 
 function goDelete(replyno){
+	
 	let bno = '${param.no}';
 	let no = replyno;
 		$.ajax({
 			method: "get",
-			url: "/board/notice/dropReply/" + no + "/" + bno,
+			url: "/board/notice/user/dropReply/" + no + "/" + bno,
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 			"X-HTTP-Method-Override" : "DELETE"
 			},
@@ -104,13 +117,12 @@ function goDelete(replyno){
 			data : no, 
 			success : function(result){
 					alert('댓글 삭제 완료!');
+					$("#replyWriter").val('${loginMember.member_id}');
+					console.log($("#replyWriter"));
 					callReplyList();
-				
 			}
 		});
-	
-	
-}
+	}
 
 function enterkey() {
     if (window.event.keyCode == 13) {
@@ -122,8 +134,6 @@ function enterkey() {
 function modiProc(){
 		// 유효성 검사 하고...
 		
-		
-		
 		let replyBoard_content = $("#replyBoard_content").val();
 		let replyBoard_no = $("#replyBoard_no").val();
 		
@@ -131,7 +141,7 @@ function modiProc(){
 	
 		$.ajax({
 			method: "POST",
-			url: "/board/notice/modiReply/" + replyBoard_no,
+			url: "/board/notice/user/modiReply/" + replyBoard_no,
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 		"Content-Type" : "application/json"
 			},
@@ -144,9 +154,9 @@ function modiProc(){
 				console.log(result);
 				if(result == 'Success'){
 					alert('댓글 수정 완료!');
+					
 					callReplyList();
 					$('#modifyBox' + replyBoard_no).hide();
-					
 				}
 			}
 		});
@@ -158,10 +168,14 @@ function modiProc(){
 	};
 	
 function goModify(replyBoard_no){
-	console.log(replyBoard_no);
+
 	$('#modifyBox' + replyBoard_no).show();
 	$("#replyBoard_no").val(replyBoard_no);
 	
+}
+
+function modiboxclose(replyBoard_no){
+	$('#modifyBox' + replyBoard_no).hide();
 }
 
 		
@@ -181,29 +195,33 @@ function replycancleBtn(){
 
 
 function replyAddBtn(){
-		// 유효성 검사 하고...
-		let member_id = $("#newReplyMember").val();
-		let replyBoard_content = $("#newReplyContent").val();
-		let board_no = '${param.no}';
-		$.ajax({
-			method: "post",
-			url: "/board/notice/insertReply/",
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-			"Content-Type" : "application/json"
-			},
-			dataType: "text", // 응답 받는 데이터 타입
-			data : JSON.stringify({	// 요청하는 데이터
-				board_no : board_no,
-				member_id : member_id,
-			replyBoard_content : replyBoard_content
-			}),
-			success : function(result){
-					alert('댓글 등록 완료!');
-					callReplyList();
-					$("#inputReplyBox").css('display', 'none');
-				
-			}
-		});
+		
+	
+		
+			// 유효성 검사 하고...
+			let member_id = $("#newReplyMember").val();
+			let replyBoard_content = $("#newReplyContent").val();
+			let board_no = '${param.no}';
+			$.ajax({
+				method: "post",
+				url: "/board/notice/user/insertReply/",
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+				},
+				dataType: "text", // 응답 받는 데이터 타입
+				data : JSON.stringify({	// 요청하는 데이터
+					board_no : board_no,
+					member_id : member_id,
+				replyBoard_content : replyBoard_content
+				}),
+				success : function(result){
+						alert('댓글 등록 완료!');
+						$("#newReplyContent").val("");
+						callReplyList();
+						$("#inputReplyBox").css('display', 'none');
+				}
+			});
+	
 		
 	};
 
@@ -226,23 +244,12 @@ function replyAddBtn(){
 .formContent{ margin: 40px;}
 
 input:focus {outline:none;}
-textarea:focus {outline: none;}
 
 form, form input{
 	border:none;
 	color:black;
 	font-weight: 500;
 } 
-
-.boardtextArea{
-    resize:none;
-    margin: 5px;
-    font-weight: 500;
-    color: black;
-    resize: none;
-    padding: 11px;
-    border: none;
-}
 
 #replyWindow{
 
@@ -273,8 +280,8 @@ form, form input{
 				<div id="content" class="8u skel-cell-important">
 					<section>
 						<header>
-							<h2>고객센터</h2>
-							<span class="byline" id="rollNot"><a href="#">공지사항 상세페이지</a></span>
+							<h2>최근 공지사항</h2>
+							<span class="byline" id="rollNot"><a href="/board/notice/listCri">공지사항 상세페이지</a></span>
 						</header>
 					
 					</section>
@@ -286,7 +293,7 @@ form, form input{
 				    <div>
 				    <input type="text" readonly style="font-size:25px; font-weight:900;max-width: 750px;" name="board_title" value="${noticeBoard.board_title }" />
 				    <c:if test="${loginMember.member_id == noticeBoard.member_id }">	
-         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/modi?no=${noticeBoard.board_no}'">수정</button>
+         			<button type="button" class="btn btn-success" id="rewriteBoard" onclick="location.href='/board/notice/user/modi?no=${noticeBoard.board_no}&page=${param.page}'">수정</button>
 				    </c:if>
 		            </div>
 		              <div>
@@ -306,7 +313,7 @@ form, form input{
         <!--  로그인 한 유저와 작성자가 같을 때만 수정하기 삭제하기 버튼이 보여짐  -->
         <div id="buttonWindow">
         <c:if test="${loginMember.member_id == noticeBoard.member_id }">	
-         <button type="button" class="btn btn-info" id="deleteBoard" onclick="location.href='/board/notice/remove/${noticeBoard.board_no}'">삭제하기</button>
+         <button type="button" class="btn btn-info" id="deleteBoard" onclick="location.href='/board/notice/user/remove/${noticeBoard.board_no}'">삭제하기</button>
          </c:if>
 	
 		<c:choose>
@@ -320,10 +327,10 @@ form, form input{
 			</c:otherwise>
 		</c:choose>
 		
-<%--       <c:if test="${loginMember != null }"> --%>
-      <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button>
+      <c:if test="${loginMember != null }"> 
+      <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button></c:if>
       </div>
-<%--       </c:if> --%>
+      
       <div id="inputReplyBox" style="board: 1px dotted black; margin-top: 20px; margin-left:45px; display:none;">
       	
           <div>
@@ -342,9 +349,10 @@ form, form input{
       </div>
     
     <!-- 댓글 보드 시작 -->
-    <section>
+    
+    <section id="replySection">
 		<header>
-		<span class="byline" id="rollNot"><a href="#">댓글 목록</a></span>
+		<span class="byline" >댓글 목록</span>
 		</header>
 	
 	
@@ -353,6 +361,7 @@ form, form input{
       		
       </div>
     </div>  
+    	
            <div id="modifyBox" style="display:none;">
         	
         	<div>

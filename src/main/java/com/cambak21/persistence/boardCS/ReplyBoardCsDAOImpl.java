@@ -20,7 +20,7 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 	@Inject
 	private SqlSession ses;
 
-	private static String ns = "com.cambak21.mapper.cambakMain.ReplyBoardCS";
+	private static String ns = "com.cambak21.mappers.cambakBoard.ReplyBoardCS";
 
 	/**
 	  * @Method Name : getRefMax

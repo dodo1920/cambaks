@@ -18,7 +18,7 @@ public interface BoardProdQADAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri) throws Exception;
+	public List<ProdQAVO> prodQAListAll(int product_id, int prodQA_refOrder, PagingCriteria cri, String prodQA_category) throws Exception;
 	
 	/**
 	 * @Method Name : insertProdQA
@@ -132,6 +132,8 @@ public interface BoardProdQADAO {
 	public int prodQAInsertLike(ProdQAsLikeVO vo) throws Exception;
 	
 	public int prodQADeleteLike(ProdQAsLikeVO vo) throws Exception;
+	
+	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception;
 	
 	 
 }

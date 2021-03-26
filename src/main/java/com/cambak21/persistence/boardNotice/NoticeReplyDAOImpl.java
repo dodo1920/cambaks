@@ -14,7 +14,7 @@ public class NoticeReplyDAOImpl implements NoticeReplyDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mappers.BoardNotice";
+	private static String namespace = "com.cambak21.mappers.cambakBoard.BoardNotice";
 	
 	
 	@Override

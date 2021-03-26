@@ -23,7 +23,7 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	@Inject
 	private SqlSession ses;
 
-	private static String ns = "com.cambak21.mappers.cambakMain.BoardCsMapper";
+	private static String ns = "com.cambak21.mappers.cambakBoard.BoardCsMapper";
 
 	@Override
 	public void writeBoardCS(InsertCSBoardDTO dto) throws Exception {

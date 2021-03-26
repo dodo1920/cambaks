@@ -32,6 +32,7 @@ public interface CampingTipBoardService {
 	
 	// 게시글 쓰기 insert
 	public boolean writeCampingTipBoard(CamBoardTipWriteDTO writeDTO) throws Exception;
+	public int searchBoardLastNum(CamBoardTipWriteDTO writeDTO) throws Exception; // 방금 작성한 게시글번호 가져오기기
 	
 	// 게시글 수정 update
 	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception;

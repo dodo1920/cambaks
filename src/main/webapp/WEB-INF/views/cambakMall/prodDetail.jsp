@@ -40,19 +40,26 @@
 		let page = $("#page").val();
 		console.log(page);
 		
-		prodQAListAll(prodId, page);
+		prodQAListAll(prodId, page, 0, *);
 	    prodQAPagingParam(prodId, page);
 	});
 	
-	function prodQAListAll(prodId, page, flag, no) {
-	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId + "&page=" + page, function(data){
+	function prodQAListAll(prodId, page, flag, cate, no) {
+	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId + "&page=" + page + "&page=" + cate, function(data){
 	    	if(data.length == 0) {
 	    		console.log("데이터 없음")
 	    	} else {
 	    		console.log(data);
 	    		
 	    		let output = '<table class="table table-hover">';
-	    		output += ' <thead><tr><th>분류</th>';
+	    		output += '<thead><tr><th>';
+	    		output += '<select id="prodQA_category" name="prodQA_category">';
+	    		output += '<option value="*">분류</option>'
+	    		output += '<option value="product">상품</option>';
+	    		output += '<option value="delivery">배송</option>';
+	    		output += '<option value="refund">환불</option>';
+	    		output += '<option value="exchange">교환</option>';
+	    		output += '<option value="ect">기타</option></select></th>';
 	    		output += '<th>글제목</th>';
 	    		output += '<th>작성자</th>';
 	    		output += '<th>작성일</th>';
@@ -71,23 +78,32 @@
 	                output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
 	                    
 	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
-	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div>';
-	                output += '<div><img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
-	                output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
-	                output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" /></div>';
-	                output += '<div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div><div>';
+	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
+	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+	                }
+	                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) {
+	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+	                }
+	                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
+	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+	                }
+	                output += '</div><div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
 	                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
 	                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 	                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+	               
+	               
 		        });	
 		        
 		        output+= '</tbody></table>';
 		        
-		        $("#prodQATb").html(output);    
+		        $("#prodQATb").html(output);   
 		        
 		        if(flag == 1) {
 		        	$("#content" + no).show();
+		        	 getReply(no, flag);
 		        } else if(flag == 2) {
 		        	$("#content" + no).show();
 		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ');"/>');
@@ -95,8 +111,55 @@
 		        	$("#content" + no).show();
 		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ');"/>')
 		        }
+		        
 	    	}
 	     });
+	}
+	
+	function getReply(no, flag) {		
+		$.ajax({
+			url: '/mall/prodDetail/prodQAReplyList',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: no
+				}),
+			dataType : 'json', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				if(result.length == 0) {
+		    		console.log("데이터 없음")
+		    	} else {
+					let output = '';
+					$(result).each(function(index, item){
+						output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + '" style="display: none">';
+		                output += '<td colspan="6"><div>' + item.prodQA_content + '</div><div>';
+		                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
+		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+		                }
+		                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) {
+		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+		                }
+		                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
+		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+		                }
+		                output += '</div></td></tr>'
+					});	
+					$(output).insertAfter("#content"+no);	
+					
+					if(flag == 1) {
+						$('.reply' + result[0].prodQA_ref ).show();
+					}
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
 	}
 	
 	function prodQAPagingParam(prodId, page) {
@@ -161,6 +224,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
+				
 				prodQAListAll(prodId, page, 1, prodQA_no);
 			},
 			fail : function(result) {

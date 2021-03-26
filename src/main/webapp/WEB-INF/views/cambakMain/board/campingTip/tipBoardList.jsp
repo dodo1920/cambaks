@@ -44,7 +44,6 @@
       asideBarDraw(boardUri);
       getSearchPage();
       changeCheckbox();
-      writeBoardInfo();
       cautionSearch();
       
    });
@@ -78,16 +77,6 @@
 		   location.href="/board/campingTip/list/search?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
 	   }
 	   
-   }
-   
-   // 글 등록 후 알럿 남겨주기
-   function writeBoardInfo() {
-	   let result = getParameter("result");
-	   if (result == "success") {
-		   alert("글 등록 성공!");
-	   } else if (result == "fail") {
-		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
-	   }
    }
    
    // 검색 완료 후 검색 결과내에 재검색 체크박스 생성

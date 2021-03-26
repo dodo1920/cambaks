@@ -22,10 +22,86 @@
 	let checkedCnt = 0;
 	let noncheckedCnt = 0;
 	
+	function changeView(getVal){
+		
+			if(getVal == 'active'){
+				console.log("active");
+				$('li[name=checkedCompleted]').css('display','none');
+			}else if(getVal == 'completed'){
+				console.log("completed");
+				$('li[name=checkedCompleted]').css('display','');
+				$('li[name=noncheckedList]').css('display','none');
+			}else if(getVal == 'all'){
+				console.log("all");
+				$('li[name=checkedCompleted]').css('display','');
+				$('li[name=noncheckedList]').css('display','');
+			}
+			
+		
+	}
+	
+	function deleteAll(){
+		console.log(member_id);	
+		
+			if(checkedCnt != 0){
+				$.ajax({
+			 		type: "POST", // method(토신 방식, get / post)
+			 		dataType: "text", // 응답을 어떤 형식으로 받을지	
+			 		url: "/checkList/ajax/deleteThis/" + member_id, // 서블릿 주소
+			 		headers: {	// 요청 하는 데이터의 헤더에 전송
+						"Content-Type" : "application/json"
+					},success: function(data){
+						getAjaxCheckListAll();
+			 		
+			 	}, // 통신 성공시
+			 		error: function(data){     
+			 		}, // 통신 실패시
+			 		complete: function(data){
+			 		} // 통신 완료시
+			 	});	
+				
+			};
+		
+		}
+	
+	function deleteThis(checkList_no){
+		
+		$.ajax({
+	 		type: "get", // method(토신 방식, get / post)
+	 		dataType: "text", // 응답을 어떤 형식으로 받을지	
+	 		url: "/checkList/ajax/deleteThis/" + checkList_no, // 서블릿 주소
+	 		headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+			},success: function(data){
+				getAjaxCheckListAll();
+	 		
+	 	}, // 통신 성공시
+	 		error: function(data){     
+	 		}, // 통신 실패시
+	 		complete: function(data){
+	 		} // 통신 완료시
+	 	});
+		
+	}
+	
+	function enterkey() {
+	    if (window.event.keyCode == 13) {
+	    	if($(".checkListInputBox").val() == ""){
+	    		alert("내용을 입력해주세요.");
+	    	}else{
+	    		
+	    		$("#searchFormGo").submit();
+	    		getAjaxCheckListAll();
+	    	}
+	    	
+	    }
+	}
+	
+	
 	function changeCheck(checkList_no){
 		checkList_checked = $("#checkcheck" + checkList_no).val();
 		checkedCnt = 0;
-		nencheckedCnt = 0;
+		noncheckedCnt = 0;
 		
 		$.ajax({
 	 		type: "get", // method(토신 방식, get / post)
@@ -46,12 +122,6 @@
 	
 	$(function() {
 		getAjaxCheckListAll();
-		
-		$(".filters li").click(function(){
-				$(".filters li").removeClass("selected");
-				$(this).addClass("selected");
-		});
-	
 
 	});
 
@@ -69,23 +139,24 @@
 			let B = Math.floor(Math.random()*255);
 			
 			if(this.checkList_checked == 'Y'){
-				output += "<li><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></li>";
+				output += "<li name='checkedCompleted'><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
 				checkedCnt++;
-				console.log(checkedCnt);
+				
 				
 			}else{
-				output += "<li><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></li>";
+				output += "<li name='noncheckedList'><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
 				noncheckedCnt++;
 			}
 			
 //				output += "<li><label for='check_box'><img name='checkimg'style='width:30px; height:30px; margin-right:20px;' src='../resources/img/noncheck.png'><input type='checkbox' id='check_box" + this.checkList_no + "'/></label><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><span>"  + this.checkList_checked + "</span></li>";
 		    
 		});
-		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>items left<ul class='filters'><li>All</li><li>Actice</li><li>Completed</li><li style='margin-left: 60px;'>Clear completed</li></ul></li>";
+		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>" + noncheckedCnt + "items left<ul id='changeView_ul' class='filters'><li onclick='changeView(\"all\");' >All</li><li onclick='changeView(\"active\")'>Active</li><li onclick='changeView(\"completed\");' >Completed</li><li  onclick='deleteAll();' style='margin-left: 60px;'>Clear completed</li></ul></li>";
 		<!--       <li><a href="#" >완료</a></li> -->
 		<!--     </ul> -->
 		output += "</ul>";
-	     	
+			console.log(checkedCnt);
+			console.log(noncheckedCnt);
 			$("#inputTodo").html (output);
 
 
@@ -105,7 +176,8 @@ body{
 .checklist{
     width: 100%;
 	margin-top:200px;
-    left: 50%;
+    left: 35%;
+    top: -5%;
     position: absolute;
 }
 
@@ -115,7 +187,6 @@ body{
     list-style: none;
     padding: 10px;
     margin-top: 1px;
-    width: 500px;
 }
 
 .listCheck li{
@@ -141,7 +212,7 @@ body{
 
 
 .filters {
-  display: inline-flex; padding: 0; list-style: none; right: 0; left: 0; margin: 0px 0px 0px 45px;
+  display: inline-flex; padding: 0; list-style: none; right: 0; left: 0; margin: 0px 0px 0px 25px; cursor: pointer;
 }
 
 .filters li{
@@ -149,13 +220,37 @@ body{
     border: none;
     margin: 0px 5px;
     font-size: 12px;
-    
-    
+   
 }
 
 
+.checkListBox{
 
+	width: 35%;
+	background-color: whitesmoke;
+	
 
+}
+.checkListInputBox{
+    font-weight: bold;
+    font-size: 20px;
+ 	height: 40px;
+    opacity: 0.8;
+    background-color: whitesmoke;
+    padding: 5px;
+    margin: 2px 1px 0px 47px;
+    outline: none;
+    font-weight: bold;
+    font-size: 20px;
+  	height: 40px;
+    opacity: 0.8;
+    background-color: whitesmoke;
+    padding: 5px;
+    margin: 2px 1px 0px 47px;
+    border: none;
+    outline: none;
+	
+}
 
 
 
@@ -168,56 +263,19 @@ body{
 <body>
 	<section class='checklist'>
 	<h1>캠박이일 체크리스트</h1>
-	<div>
-	<input type="text" style="width:300px; width: 500px;  height: 40px; opacity: 0.8; border-color: cadetblue;;" placeholder="           해야할 일, 준비해야할 물건"/>
+	<div class="checkListBox">
+	<div style="margin: -1px 0px -3px 0px; border-style:ridge;">
+	<form id="searchFormGo" action="/ajax/deleteThis/{member_id}">
+	<input type="text" name="checkList_content" class="checkListInputBox" onkeydown="enterkey();" placeholder="해야할 일, 준비해야할 물건"/>
+	<input type="hidden" name ="member_id" value="${loginMember.member_id }"/>
+	</form>
+	
+	</div>
+	
 	<div id="inputTodo" ></div>
 	</div>
 	</section>
 	<hr />
-
-<!-- <section class="todoapp"> -->
-<!--   <header class="header"> -->
-<!--     <input class="new-todo" autocomplete="off" placeholder="Type your todo list" v-model="newTodo" @keyup.enter="addTodo"> -->
-<!--       <button class="new-todo-button"  @click="addTodo"  v-show="newTodo.length > 0" ></button> -->
-<!--   </header> -->
-<!--   <section class="main" v-show="todos.length" v-cloak> -->
-<!--     <div class="completed-wrapper"> -->
-<!--       <input id="toggle-all" class="toggle-all" type="checkbox" v-model="allDone"> -->
-<!--       <label for="toggle-all">Complete all tasks</label> -->
-<!--       <button class="clear-completed" @click="removeCompleted"> -->
-<!--         Clear completed -->
-<!--       </button> -->
-<!--     </div> -->
-<!--     <ul class="todo-list"> -->
-<!--       <li v-for="todo in filteredTodos"  class="todo" :key="todo.id"  :class="{ completed: todo.completed, editing: todo == editedTodo }"> -->
-<!--         <div class="view"> -->
-<!--           <input class="toggle" type="checkbox" v-model="todo.completed"> -->
-<!--           <label @dblclick="editTodo(todo)">{{ todo.title }}</label> -->
-<!--           <button class="destroy" @click="removeTodo(todo)"></button> -->
-<!--         </div> -->
-<!--         <input class="edit" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)"  @keyup.esc="cancelEdit(todo)"> -->
-<!--       </li> -->
-<!--     </ul> -->
-<!--   </section> -->
-<!--   <footer class="footer" v-show="todos.length" v-cloak> -->
-<!--     <span class="todo-count"> -->
-<!--       <strong>{{ remaining }}</strong>  -->
-<!--     </span> -->
-<!--     <ul class="filters"> -->
-<!--       <li><a href="#" >전체</a></li> -->
-<!--       <li><a href="#" >미완료</a></li> -->
-<!--       <li><a href="#" >완료</a></li> -->
-<!--     </ul> -->
-    
-<!--         <span>완료 삭제</span> -->
-    
-<!--   </footer> -->
-<!-- </section> -->
-
-
-
-
-
 
 
 </body>

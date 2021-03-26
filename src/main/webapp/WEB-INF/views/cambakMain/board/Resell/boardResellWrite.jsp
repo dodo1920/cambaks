@@ -57,6 +57,36 @@
 			}
 			return result;
 		}
+		$(function(){
+			$(".fDrop").on("dragenter dragover", function(evt){
+				evt.preventDefault();
+			});
+			$(".fDrop").on("drop", function(evt) {
+				evt.preventDefault();
+				let files = evt.originalEvent.dataTransfer.files; 
+				var uploadData = new FormData();
+				for (var i =0; i < files.length;i++){
+					uploadData.append("uploadFile",files[i])	
+				}
+				
+				console.log(uploadData.getAll('uploadFile'))
+				
+				$.ajax({
+					url : '/board/resell/uploadAjax',
+					data : uploadData,  // 응답 받는 형식
+					type : 'post',
+					processData : false, // 전송하는 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+					contentType: false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+					success : function(result) {
+						console.log(result)
+					}, 
+					fail : function(result) {
+						alert(result);
+					}
+				});
+			})
+		})
+		
 	</script>
 </head>
 
@@ -80,7 +110,7 @@
 							제목 : 
 							<input type="text" class="form-control" id="title" name="resellBoard_title">
 							본문 :
-							<textarea id="content" name="resellBoard_content" style="width: 100%;height: 300px;"></textarea>
+							<textarea id="content" class="fDrop" name="resellBoard_content" style="width: 100%;height: 300px;"></textarea>
 							가격 :
 							<input type="text" class="form-control" id="price" name="resellBoard_price">
 							주소 :

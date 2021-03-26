@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class prodDetail {
 	}
 	
 	@RequestMapping(value="/prodQAList", method=RequestMethod.GET)
-	public ResponseEntity<List<ProdQAVO>> prodQAList(@RequestParam("prodId") int prodId, @RequestParam("page") int page, PagingCriteria cri) {
+	public ResponseEntity<List<ProdQAVO>> prodQAList(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 호출");
 		
 		cri.setPage(page);
@@ -66,7 +67,23 @@ public class prodDetail {
 		ResponseEntity<List<ProdQAVO>> entity = null;
 	      
 	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri), HttpStatus.OK);
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri, cate), HttpStatus.OK);
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+	    }
+	    
+	    return entity;
+	}
+	
+	@RequestMapping(value="/prodQAReplyList", method=RequestMethod.POST)
+	public ResponseEntity<List<ProdQAVO>> prodQAReplyList(@RequestBody ProdQAVO vo) {
+		logger.info("QA 답글 리스트 호출");
+		
+		ResponseEntity<List<ProdQAVO>> entity = null;
+	      
+	    try {
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAReplyListAll(vo.getProdQA_no()), HttpStatus.OK);
 	    } catch (Exception e) {
 	       e.printStackTrace();
 	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -103,31 +120,8 @@ public class prodDetail {
 	}
 	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, HttpServletRequest request, MultipartFile[] files, Model model) throws Exception {
+	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, Model model) throws Exception {
 		logger.info("QA 글쓰기 저장");
-		
-		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads"));
-		System.out.println(request.getRealPath("resources/uploads"));
-		
-		String path = request.getSession().getServletContext().getRealPath("resources/uploads");
-		
-		String saveFileName = "";
-		
-		for(int i = 0; i < files.length; i++) {
-			System.out.println("업로드 파일 이름 : " + files[i].getOriginalFilename());
-			System.out.println("업로드 파일 사이즈 : " + files[i].getSize());
-			System.out.println("업로드 파일의 타입 : " + files[i].getContentType()); // 파일의 MIME type (못 바꾸기 때문에 이미지인지 판별할때 사용)
-			
-			saveFileName = FileUploadProdcess.uploadFile(path, files[i].getOriginalFilename(), files[i].getBytes());
-			
-			if(i == 0) {
-				insertQA.setProdQA_img1(saveFileName);
-			} else if(i == 1) {
-				insertQA.setProdQA_img2(saveFileName);
-			} else if(i == 2) {
-				insertQA.setProdQA_img3(saveFileName);
-			}
-		}
 		
 		insertQA.setProduct_id(prodId);
 		
@@ -154,6 +148,39 @@ public class prodDetail {
 		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 	}
 	
+	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, HttpServletRequest request) {
+		logger.info("파일 업로드");
+		
+		ResponseEntity<List<String>> entity = null;
+		
+		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA"));
+		System.out.println(request.getRealPath("resources/uploads/boardProdQA"));
+		
+		String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
+		
+		List<String> saveFileNames = new ArrayList<String>();
+		
+		System.out.println(files);
+		
+		for(int i = 0; i < files.length; i++) {
+			System.out.println("업로드 파일 이름 : " + files[i].getOriginalFilename());
+			System.out.println("업로드 파일 사이즈 : " + files[i].getSize());
+			System.out.println("업로드 파일의 타입 : " + files[i].getContentType()); // 파일의 MIME type (못 바꾸기 때문에 이미지인지 판별할때 사용)
+			
+			try {
+				saveFileNames.add(FileUploadProdcess.uploadFile(path, files[i].getOriginalFilename(), files[i].getBytes()));
+				entity = new ResponseEntity<List<String>>(saveFileNames, HttpStatus.OK);
+			} catch (IOException e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		System.out.println(saveFileNames.toString());
+		return entity;
+	}
+	
 	@ResponseBody // byte[]의 데이터(파일 데이터)가 web에 그대로 전송 되도록
 	@RequestMapping("/displayFile")
 	   public ResponseEntity<byte[]> displayFile(HttpServletRequest request, String fileName) throws IOException {
@@ -169,7 +196,7 @@ public class prodDetail {
 	         
 	         
 	         
-	         String path = request.getSession().getServletContext().getRealPath("resources/uploads");
+	         String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
 //	         String uploadPath = path + "/2021/03/05";
 	         fileName = fileName.replace('/', File.separatorChar);
 	         logger.info(path + fileName);
@@ -197,6 +224,37 @@ public class prodDetail {
 	      
 	      return entity;
 	   }
+	   
+	   @RequestMapping(value="/deleteFile", method=RequestMethod.POST)
+		public ResponseEntity<String> deleteFile(HttpServletRequest request, String fileName) {
+			logger.info("삭제할 파일 : " + fileName);
+			
+			String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+			
+			String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
+			
+			MediaType mType = MediaConfirm.getMediaType(ext);
+			
+			String tmp = fileName.replace("thumb_", "");
+			String originalFile = path + tmp; // 삭제해야 할 오리지널 이미지 파일
+			String thumbFile = path + fileName; // 삭제해야 할 썸네일 이미지 파일
+			// *************우리의 OS가 windows이므로 아래 코드를 해줘야 함. (window는 File.seperator : \, linux : /) **************
+			originalFile = originalFile.replace('/', File.separatorChar);
+			thumbFile = thumbFile.replace('/', File.separatorChar);
+			// **********************************************************************************************************************
+			
+			logger.info("삭제할 파일 (original) : " + originalFile + ", (thumb) : " + thumbFile);
+			
+			if(mType != null) {
+				// 이미지 파일이면,
+				// 삭제할 파일과 경로
+				new File(originalFile).delete();
+				new File(thumbFile).delete();
+				
+			}
+			
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		}
 	
 	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.GET)
 	public String showModiProdQA(@RequestParam("no") int no, @RequestParam("prodId") int prodId, Model model) throws Exception {

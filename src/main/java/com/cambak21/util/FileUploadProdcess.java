@@ -75,7 +75,6 @@ public class FileUploadProdcess {
 		ImageIO.write(destImg, ext.toLowerCase(), newThumbFile); // 실제 저장
 		
 		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
-		
 	}
 	
 	private static void makeDir(String uploadPath, String... paths) { 

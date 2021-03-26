@@ -52,8 +52,7 @@
 	
 	<!-- 검색 리스트 -->
 	<select id="searchBoard" resultType="com.cambak21.domain.BoardQAVO">
-		select * from Boards
-		where board_category = 'QA'
+		select * from Boards where board_category = 'QA'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')
 		</if>
@@ -67,7 +66,7 @@
 			and board_content like concat('%', #{searchWord}, '%')
 			or board_title like concat('%', #{searchWord}, '%')
 		</if>
-		order by board_writeDate desc limit #{pageStart}, #{perPageNum};
+		order by board_no desc limit #{pageStart}, #{perPageNum};
 	</select>
 	
 	<!-- 검색 리스트 cnt -->
@@ -100,5 +99,19 @@
 	<select id="replyCnt" resultType="int">
 		select count(*) from ReplyBoards where board_no = #{board_no};
 	</select>
+	
+	<!-- 	  페이징 #{page}부터 10개씩 출력 -->
+	  <select id="listBoardPaging" resultType="com.cambak21.domain.BoardQAVO">
+	  	select * from tbl_board order by no desc limit #{page}, 10;
+	  </select>
+	  
+	<!-- 	  페이징 제약 조건(PagingCriteria 를 이용한 페이징) -->
+	  <select id="listBoardCriteria" resultType="com.cambak21.domain.BoardQAVO">
+	  	select * from tbl_board order by no desc limit #{pageStart}, #{perPageNum}
+	  </select>
+	  
+	  <select id="getTotalBoardCnt" resultType="int">
+	  	select count(*) from tbl_board
+	  </select>
 	
 </mapper>
