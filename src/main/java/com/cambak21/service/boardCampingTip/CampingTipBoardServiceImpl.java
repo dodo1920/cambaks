@@ -59,6 +59,12 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 
 	@Override
+	public int searchBoardLastNum(CamBoardTipWriteDTO writeDTO) throws Exception {
+		// 방금 작성한 게시글번호 가져오기
+		return dao.searchBoardLastNum(writeDTO);
+	}
+	
+	@Override
 	public boolean modifyCampingTipBoard(CamBoardTipModifyDTO modifyDTO) throws Exception {
 		// 게시글 수정 update
 		return dao.modifyCampingTipBoard(modifyDTO);
@@ -133,7 +139,7 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	@Override
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception {
 		// 상세 게시글 댓글 삭제 delete
-		return false;
+		return dao.deleteCampingTipReply(replyBoard_no);
 	}
 
 	@Override

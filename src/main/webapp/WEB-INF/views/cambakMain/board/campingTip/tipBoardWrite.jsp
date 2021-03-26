@@ -132,11 +132,7 @@
 					
 					<div>
 						<form action="/board/campingTip/write" method="post">
-<<<<<<< HEAD
 							<input type="hidden" name="member_id" value="${loginMember.member_id}">
-=======
-							<input type="hidden" name="member_id" value="${loginMember.member_id }">
->>>>>>> 4e060323a59d9b1fafcf21997ed90f8b1c5d1360
 							<input type="hidden" name="board_category" value="Tip">
 							<input type="text" class="form-control" name="board_title" id="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>

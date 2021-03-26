@@ -24,6 +24,11 @@
 			insert into Boards (member_id, board_title, board_category, board_content) values (#{member_id}, #{board_title}, #{board_category}, #{board_content})
 	</insert>
 	
+<!-- 	방금 작성된 게시글 글번호 조회 -->
+	<select id="searchBoardNum" resultType="int">
+		select max(board_no) from Boards where member_id = #{member_id} and board_title = #{board_title} and board_content = #{board_content} and board_category = #{board_category}
+	</select>
+	
 <!-- 	게시글 수정 update -->
 	<update id="modifyTipBoard">
 		update Boards set member_id = #{member_id}, board_title = #{board_title}, board_category = #{board_category}, board_content = #{board_content} where board_no = #{board_no}
@@ -74,12 +79,12 @@
 
 <!-- 	해당 게시글 조회(댓글) -->
 	<select id="detailTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
-		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder = 0 order by replyBoard_ref desc;
+		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder = 0 order by replyBoard_writeDate desc;
 	</select>
 
 <!-- 	댓글은 더보기 버튼 -->
 	<select id="moreViewTipBoard" resultType="com.cambak21.domain.ReplyBoardVO">
-		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder > 0 order by replyBoard_ref desc, replyBoard_refOrder desc;
+		select * from ReplyBoards where board_no = #{board_no} and replyBoard_refOrder > 0 order by replyBoard_writeDate desc, replyBoard_ref desc, replyBoard_refOrder desc;
 	</select>
 
 <!-- 	해당 게시글 좋아요 -->
@@ -110,9 +115,9 @@
 	</update>
 
 <!-- 	해당 게시글의 댓글 삭제 -->
-	<delete id="deleteReplyTipBoard">
-		delete from ReplyBoards where replyBoard_no = #{replyBoard_no}
-	</delete>
+	<update id="deleteReplyTipBoard">
+		update ReplyBoards set replyBoard_isdelete = 'Y' where replyBoard_no = #{replyBoard_no};
+	</update>
 
 <!-- 대댓글 작성 -->
 	<insert id="writeRereply">
