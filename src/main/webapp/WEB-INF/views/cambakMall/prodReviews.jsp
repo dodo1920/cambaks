@@ -377,7 +377,7 @@
 				  console.log(member_id);
 
 				  $("#replyMemberName" + replyProdReview_no).html(member_id);
-				  showProdList(product_id, currentPage, member_id, 1);
+				  showProdList(product_id, currentPage, 1);
 				  
 			  }, complete : function (result) {
 				//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);

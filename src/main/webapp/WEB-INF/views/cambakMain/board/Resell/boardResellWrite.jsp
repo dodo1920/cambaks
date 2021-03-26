@@ -11,7 +11,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="/resources/cambak21/js/skel.min.js"></script>
-	<script src="/resources/cambak/21js/skel-panels.min.js"></script>
+	<script src="/resources/cambak21/js/skel-panels.min.js"></script>
 	<script src="/resources/cambak21/js/init.js"></script>
 
 	<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
@@ -25,7 +25,11 @@
 	<link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 	<link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 	
+    <link rel="stylesheet" type="text/css" href="/resources/lib/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/lib/slick/slick-theme.css"/>
+	
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="/resources/lib/slick/slick.js"></script>  
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	
 	<!-- 템플릿 js, css 파일 -->
@@ -37,10 +41,55 @@
 			width : 100%;
 			margin : 0px;
 		}
+		#content{
+			width: auto;
+			height: auto;
+		}
+		#totallArray{
+			width: 100%;
+    		height: 100%;
+			display: inline-block;
+		}
+		#imgBoard{
+			width: 100%;
+    		height: 100%;
+			border: 1px solid black;
+		}
+		#imgArray{
+			margin-right: 40px;
+			width: 430px;
+    		height: 430px;
+    		display: inline-block;
+    		float: left;
+		}
+		#textArray{
+			color: black;
+			display: inline-block;
+		}
+		.inputStyle{
+			border: none;
+			width: 80%
+		}
+		.inputStyle:focus, .detail:focus{
+			outline: none;
+		}
+		.detail{
+			width: 455px;
+			height: 300px
+		}
+		#pageTitle{
+			color : black;
+			font-size: 24px;
+		}
+		.imges{
+			height: 430px;
+			
+		}
 	</style>
-	
 	<script>
 		function writeControll() {
+			console.log("여기 옴")
+			console.log("title : "+$("#title").val()+" price : "+$("#price").val()+" addr : "+$("#addr").val())
 			let result = false
 			if($("#title").val() ==  ""){
 				result = false;
@@ -58,6 +107,7 @@
 			return result;
 		}
 		$(function(){
+
 			$(".fDrop").on("dragenter dragover", function(evt){
 				evt.preventDefault();
 			});
@@ -78,13 +128,24 @@
 					processData : false, // 전송하는 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 					contentType: false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 					success : function(result) {
-						console.log(result)
+						for (i =0; i <result.length;i++){
+							console.log(i)
+							$("#imgBoard").append("<img src='"+result[i]+"'classc='imges'/>")
+							$("#imgArray").append('<input type="text" style="display: none;" value="'+result[i]+' "  name="resellBoard_img'+(i+1)+'"/>')
+						}
+			            $('.single-item').slick({
+//			              autoplay : true,
+			              autoplaySpeed : 500,    
+			              dots:true,
+			              arrows : true
+			          });
 					}, 
 					fail : function(result) {
 						alert(result);
 					}
 				});
 			})
+			
 		})
 		
 	</script>
@@ -104,20 +165,36 @@
 				<!-- Content -->
 				
 				<div id="content" class="8u skel-cell-important">
-							<form action="write" method="post" onsubmit="return writeControll();">
-							아이디 :
-							<input type="text" class="form-control" id="userId" name="member_id">
-							제목 : 
-							<input type="text" class="form-control" id="title" name="resellBoard_title">
-							본문 :
-							<textarea id="content" class="fDrop" name="resellBoard_content" style="width: 100%;height: 300px;"></textarea>
-							가격 :
-							<input type="text" class="form-control" id="price" name="resellBoard_price">
-							주소 :
-							<input type="text" class="form-control" id="addr" name="resellBoard_addr">
-							<input type="submit" class="btn btn-success" value="작성하기">
-							<button type="button" class="btn btn-danger"
-							onclick="location.href='/board/resell/list?perPageNum=9';">취소</button>
+						<h2 id="pageTitle">글 쓰기 페이지</h2>
+						<hr style="margin: 10px 0;padding: 3px;"/>
+						<form action="write" method="post" onsubmit="return writeControll();">
+						
+							<div id="totallArray">
+								<!-- 이미지div -->
+								<div id="imgArray">
+									<div id="imgBoard" class="fDrop single-item" >
+									
+									</div>
+								</div>
+								<!-- 텍스트div -->
+								<div id="textArray">
+									<input type="text" name="member_id" >
+									<div><span>제목 : </span><input id="title" type="text" class="inputStyle" name="resellBoard_title" maxlength="100" ></div>
+									<div><span>가격 : </span><input id ="price" type="text" class="inputStyle" name="resellBoard_price" maxlength="9"></div>
+									<hr style="margin: 3px  0;padding: 3px;0"/>
+									<div id="detail"><span style="display: block;">상세글 : </span><textarea name="resellBoard_content" class="detail"></textarea></div>
+									<div><span>거래지역 : </span><input id="addr" type="text" class="inputStyle" name="resellBoard_addr" maxlength="100"></div>
+								</div>
+									<hr style="margin: 30px 0;padding: 3px;"/>
+								<!-- 버튼div -->
+								<div>
+									<div style="float: right;">						
+										<input type="submit" class="btn btn-success" value="작성하기">
+										<button type="button" class="btn btn-danger"
+										onclick="location.href='/board/resell/list?perPageNum=9';">취소</button>
+									</div>	
+								</div>
+							</div>
 						</form>
 						
 				</div>

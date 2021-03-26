@@ -76,11 +76,17 @@ function callReplyList(){
 			$("#replyBoard_no").val(go);
 			let date111 = new Date(this.replyBoard_updateDate);
 			
-			output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
-			+ now + '<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img id="' + item.replyBoard_no + '" src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
-			'<div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
-			
-		});
+			if(this.member_id != '${loginMember.member_id}'){
+				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
+				+ now + '</div></span><div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
+			}else{
+				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
+				+ now + '<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
+				'<div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
+			}
+				
+			});
+	
 		
 		output += "</ul>";
 		$("#responsereplyCnt").val(replyCnt);

@@ -56,7 +56,9 @@
 		// 공지사항 롤링
 		rolling();
 		
+		// 사이드바 현재 카테고리 표시
 		asideBarDraw(searchUriAddress());
+		
 		// 글 삭제 알림창
 		deleteOk();
 	});
@@ -97,7 +99,8 @@
 					<section>
 						<header>
 							<h2>Q&A 게시판</h2>
-							<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
+							<span class="byline" id="rollNot"><a
+								href="../notice/listCri">공지사항</a></span>
 						</header>
 					</section>
 					<div>
@@ -117,11 +120,11 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="../qa/detail?no=${item.board_no }" class="board-title-a">${item.board_title }</a>
-												<c:if test="${item.board_replyCnt > 0 }">
+											<td><a href="../board/qa/detail?no=${item.board_no }"
+												class="board-title-a">${item.board_title }</a> <c:if
+													test="${item.board_replyCnt > 0 }">
 													(${item.board_replyCnt })
-												</c:if>
-											</td>
+												</c:if></td>
 											<td>${item.member_id }</td>
 											<td><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
@@ -132,25 +135,41 @@
 								</tbody>
 							</table>
 						</div>
-						<%@include file="boardQASearch&Write.jsp"%>
-						<div class="pageBtn">
-							<ul class="pagination">
-								<c:if test="${pagingParam.prev }">
-									<li class="page-item">
-										<a class="page-link" href="?page=${param.page - 1}&searchType=${map.searchType}&searchWord=${map.searchWord}">prev</a>
-									</li>
-								</c:if>
-								<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-              						<li class="page-item">
-										<a class="page-link" href="?page=${pageNo }">${pageNo }</a>
-                     				</li>
-               					</c:forEach>
-               					<c:if test="${pagingParam.next}">
-	               					<li class="page-item">
-	              						<a class="page-link" href="?page=${param.page + 1}">next</a>
-	                    			</li>
-	               				</c:if>
-							</ul>
+						<div class="text-center">
+							<div style="display: inline-block;">
+								<form action="/board/qa/search" method="GET">
+									<select name="searchType"
+										style="font-size: 15px; height: 30px;">
+										<option value="title">제목</option>
+										<option value="content">내용</option>
+										<option value="writer">작성자</option>
+									</select> <input type="text" name="searchWord" placeholder="검색어 입력" />
+									<input type="submit" id="goSearch"
+										class="btn btn-danger search" value="검색" />
+								</form>
+							</div>
+							<c:if test="${loginMember.member_id != null }">
+								<button class="btn btn-danger write"
+									onclick="location.href='/board/qa/write'">글쓰기</button>
+							</c:if>
+							<div class="pageBtn">
+								<ul class="pagination">
+									<c:if test="${pagingParam.prev }">
+										<li class="page-item"><a class="page-link"
+											href="?page=${param.page - 1}&searchType=${map.searchType}&searchWord=${map.searchWord}">prev</a>
+										</li>
+									</c:if>
+									<c:forEach begin="${pagingParam.startPage }"
+										end="${pagingParam.endPage }" var="pageNo">
+										<li class="page-item"><a class="page-link"
+											href="?page=${pageNo }">${pageNo }</a></li>
+									</c:forEach>
+									<c:if test="${pagingParam.next}">
+										<li class="page-item"><a class="page-link"
+											href="?page=${param.page + 1}">next</a></li>
+									</c:if>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -159,7 +178,7 @@
 		</div>
 	</div>
 	<!-- /Main -->
-	
+
 	<!-- modal -->
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">

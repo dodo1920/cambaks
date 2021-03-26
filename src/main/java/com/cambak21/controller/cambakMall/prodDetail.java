@@ -51,7 +51,7 @@ public class prodDetail {
 	private BoardProdQAService QAService;
 	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId, @RequestParam("page") int page) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate) throws Exception {
 		logger.info("상품 상세 페이지");
 		
 		return "cambakMall/prodDetail";
@@ -93,7 +93,7 @@ public class prodDetail {
 	}
 	
 	@RequestMapping(value="/prodQAPP", method=RequestMethod.GET)
-	public ResponseEntity<PagingParam> prodQAPageing(@RequestParam("prodId") int prodId, PagingCriteria cri) {
+	public ResponseEntity<PagingParam> prodQAPageing(@RequestParam("prodId") int prodId, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 페이징 호출");
 		
 		ResponseEntity<PagingParam> entity = null;
@@ -102,7 +102,7 @@ public class prodDetail {
 		pp.setCri(cri);
 		
 		try {
-			pp.setTotalCount(QAService.totalProdQACnt(1, prodId));
+			pp.setTotalCount(QAService.totalProdQACnt(1, prodId, cate));
 			entity = new ResponseEntity<PagingParam>(pp, HttpStatus.OK);
 		} catch (Exception e) {
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -280,10 +280,6 @@ public class prodDetail {
 			updateQA.setProdQA_isSecret("Y");
 		} else {
 			updateQA.setProdQA_isSecret("N");
-		}
-		
-		if(updateQA.getProdQA_secretPassword() == null) {
-			updateQA.setProdQA_secretPassword("");
 		}
 		
 		System.out.println(updateQA.toString());

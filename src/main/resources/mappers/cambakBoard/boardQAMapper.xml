@@ -7,11 +7,41 @@
   	<!-- prodQA 게시판 전체 목록을 불러오는 쿼리문 -->
   	<select id="prodQAListAll" resultType="com.cambak21.domain.ProdQAVO">
   		select * from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder} and prodQA_isDelete = 'N'
+  		<if test="prodQA_category == 'product'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'delivery'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'refund'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'exchange'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'etc'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
   		order by ProdQA_ref desc, prodQA_refOrder asc limit #{pageStart}, #{perPageNum}
   	</select>
   	
   	<select id="totalProdQACnt" resultType="int">
   		select count(*) from ProdQAs where product_id = #{product_id} and prodQA_refOrder = #{prodQA_refOrder} and prodQA_isDelete = 'N'
+  		<if test="prodQA_category == 'product'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'delivery'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'refund'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'exchange'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
+  		<if test="prodQA_category == 'etc'">
+  			and prodQA_category = #{prodQA_category}
+  		</if>
   	</select>
   	
   	<insert id="insertProdQA">
@@ -29,7 +59,7 @@
   	
   	<update id="updateProdQA">
   		update ProdQAs set prodQA_title = #{prodQA_title}, prodQA_content = #{prodQA_content}, prodQA_img = #{prodQA_img}, 
-  		prodQA_isSecret = #{prodQA_isSecret}, prodQA_secretPassword = md5(sha1(#{prodQA_secretPassword}))
+  		prodQA_isSecret = #{prodQA_isSecret}
 		where product_id = #{product_id} and prodQA_no = #{prodQA_no}
   	</update>
   	

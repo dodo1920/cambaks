@@ -27,6 +27,16 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : getMyLikePostngCnt
@@ -44,6 +54,19 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return 0;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : getMyPosting
 	  * @작성일 : 2021. 3. 16.
@@ -61,6 +84,17 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : getMyPostingCnt
 	  * @작성일 : 2021. 3. 16.
@@ -77,6 +111,17 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return 0;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : myWriteReply
 	  * @작성일 : 2021. 3. 16.
@@ -94,6 +139,16 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : myWriteReply
 	  * @작성일 : 2021. 3. 16.
@@ -113,6 +168,15 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : getCheckList
@@ -130,6 +194,17 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : delCheckList
 	  * @작성일 : 2021. 3. 16.
@@ -145,6 +220,17 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : modyCheckList
@@ -162,6 +248,14 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : resisterCheckList
 	  * @작성일 : 2021. 3. 16.
@@ -178,4 +272,15 @@ public class MyPostingServiceImpl implements MyPostingService {
 		return null;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

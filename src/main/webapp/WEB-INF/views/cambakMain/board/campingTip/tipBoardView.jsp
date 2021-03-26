@@ -45,36 +45,91 @@
       readReply(); // 댓글 로딩
       writeBoardInfo(); // 글 등록 완료 후 성공 여부 알려주기
       modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
+      totalReplyCount(); // 게시글 댓글 총 개수 가져오기
 	
    });
    
-   // 댓글 삭제
-   function replyDeleteBar(obj) {
-		let replyBoard_no = $(obj).attr("id");
-		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
-		let writeMember = $("#replyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
-		
+   // 댓글 수정
+   function replyModify(obj) {
+	   let modifyContent = $("#replyModifyContent" + obj).val();
+	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+	   let writeMember = $("#replyBoardNo" + obj).text(); // 작성자 아이디 가져오기
+	   
 		if(loginMember == writeMember ) {
 			// 작성자와 삭제 요청자가 동일한 경우에만 실행
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/deleteReply",
+				  url: "/board/campingTip/modifyReply",
 				  dataType: "text",
-				  data : {replyBoard_no : replyBoard_no},
+				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
 				  success : function(data) {
-					  alert("댓글이 삭제되었습니다!");
+					  alert("댓글이 수정되었습니다!");
 					  $("#reply_box").empty(); // 댓글 비우기
 					  readReply(); // 댓글 다시 리로드
+					  totalReplyCount(); // 댓글 개수 리로드
 				  }, error : function(data) {
-		        	  alert("댓글 삭제가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 		          }
 				  
 				});
 			
 		} else {
-			alert("댓글 작성자만 삭제가 가능합니다.");
+			alert("댓글 작성자만 수정이 가능합니다.");
 		}
 	   
+   }
+   
+	// 댓글 수정 클릭 시 작성 폼 append
+	function replyModifyBar(obj) {
+		let getId = $(obj).attr("id");
+		$("#writeReplyBar" + getId).remove();
+		$("#modifyReplyBar" + getId).remove();
+		let output = '<div class="reReplyWrite" id="modifyReplyBar' + getId + '">' +
+					 '<textarea class="reReplyWrite_textArea" id="replyModifyContent' + getId + '">' + $("#replyContent" + getId).text() + '</textarea><div class="replyWriteBtnSite">' + 
+					 '<button type="button" class="btn btn-default" style="float: right;" onclick="replyModifyBarCancle(' + getId + ');">취소</button>' + 
+					 '<button type="button" class="btn btn-default" style="float: right;" onclick="replyModify(' + getId + ');">수정</button></div></div>';
+		$(output).insertAfter("#replyInfoBar" + getId);
+	}
+	
+	function replyModifyBarCancle(getId) {
+		$("#modifyReplyBar" + getId).remove();
+	}
+   
+   // 댓글 삭제
+   function replyDeleteBar(obj) {
+		let replyBoard_no = $(obj).attr("id");
+		let board_no = '${param.no }';
+		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+		let writeMember = $("#replyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
+		
+		// 알럿으로 삭제할지 확인
+		if (confirm("정말 삭제하시겠습니까?") == true){ //확인
+			
+			if(loginMember == writeMember ) {
+				// 작성자와 삭제 요청자가 동일한 경우에만 실행
+				$.ajax({
+					  method: "POST",
+					  url: "/board/campingTip/deleteReply",
+					  dataType: "text",
+					  data : {replyBoard_no : replyBoard_no, board_no : board_no},
+					  success : function(data) {
+						  alert("댓글이 삭제되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
+					  }, error : function(data) {
+			        	  alert("댓글 삭제가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			          }
+					  
+					});
+				
+			} else {
+				alert("댓글 작성자만 삭제가 가능합니다.");
+			}
+		
+		}else{ //취소
+		    return false;
+		}
    }
    
    // 댓글 작성
@@ -96,6 +151,7 @@
 						  $("#reply_box").empty(); // 댓글 비우기
 						  $("#writeReplyContent").val(""); // 댓글 작성 창 비우기
 						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
 				  	  } else if (data == "fail") {
 						  alert("댓글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 					  }
@@ -111,33 +167,23 @@
 	   }
 	   
    }
+
+   // 상세 게시글의 댓글 총 개수 조회
+   function totalReplyCount() {
+	   let board_no = '${param.no}';
+	   
+		$.ajax({
+			  method: "POST",
+			  url: "/board/campingTip/totalReply",
+			  dataType: "text",
+			  data : {board_no : board_no},
+			  success : function(data) {
+					  $("#replyCnt").text("(" + data + ")");
+			  }
+			});
+	   
+   }
    
-   
-   
-   
-   
-   
-	// 댓글 삭제 시 본인이 작성한 댓글이 맞는지 확인
-	function deleteMemberCheck() {
-		
-		let member_id = '${modiBoard.member_id }';
-		let entrerMember = '${loginMember.member_id}';
-		
-		console.log(member_id);
-		console.log(entrerMember);
-		
-		if (member_id != entrerMember) {
-			alert("게시글 작성자만 수정이 가능합니다.");
-			location.href='/board/campingTip/list?page=1';
-		}
-		
-	}
-   
-	
-	
-	
-	
-	
    // 삭제 또는 없는 게시글 접근 시 리스트로 이동
    function noBoardPage() {
 	   if (${empty viewBoard}) {
@@ -219,27 +265,28 @@
 						  
 						  output += '<ul class="replyListUl"><li class="replyListLi"><div class="deleteReplyView">' +
 						  
-						  '<div class="replyViewContent">[삭제된 댓글입니다.]</div>' + 
+						  '<div class="replyViewDeleteContent">[삭제된 댓글입니다.]</div>' + 
 						  '</div>' +
-						  '<div class="replyMoreView"><div class="replyMoreView_info">';
+						  '<div class="replyMoreView" id="replyInfoBar' + data[i].replyBoard_no + '"><div class="replyMoreView_info">';
 						  
 					  } else {
 						  
 						  output += '<ul class="replyListUl"><li class="replyListLi"><div class="replyView">' +
 						  '<div class="replyViewWriter" id="replyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id + '</div>' +
-						  '<div class="replyViewContent">' + data[i].replyBoard_content + '</div>' + 
+						  '<div class="replyViewContent" id="replyContent' + data[i].replyBoard_no + '">' + data[i].replyBoard_content + '</div>' + 
 						  '<div class="replyViewDate">' + date + '</div></div>' +
-						  '<div class="replyMoreView"><div class="replyMoreView_info">';
+						  '<div class="replyMoreView" id="replyInfoBar' + data[i].replyBoard_no + '"><div class="replyMoreView_info">';
 						  
 					  }
 
 					  
 					  // 대댓글 보기, 작성
-					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 보기</a>' +
+					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 더보기</a>' +
 					  '<a onclick="replyWriteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
 					  
-// 					  가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
+ 					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
+						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 수정</a>';
 						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
 					  }
 					  
@@ -260,6 +307,7 @@
 	   
 	   let no = getParameter("no");
 	   let output = "";
+	   let loginMember = '${loginMember.member_id}';
 	   
 		$.ajax({
 			  method: "POST",
@@ -271,10 +319,18 @@
 					  
 					  let date = getDateParam(data[i].replyBoard_writeDate);
 					  
-					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer">' + data[i].member_id +
-					  '</div><div>' + data[i].replyBoard_content + '</div></div>' +
+					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer" id="reReplyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id +
+					  '</div><div id="reReplyContent' + data[i].replyBoard_no + '">' + data[i].replyBoard_content + '</div></div>' +
 					  '<div class="reReplyView_writeDate">' + date + '</div></div>' +
-					  '<div class="reReplyModify"><div class="reReplyModify_info">답글 수정 답글 삭제</div></div>';
+					  '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">';
+					  
+ 					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
+					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
+						  output += '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 수정</a>';
+						  output += '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
+					  }
+					  output += '</div></div>';
+					  
 					  $("#replyList" + data[i].replyBoard_ref).append(output);
 					  $("#" + data[i].replyBoard_ref).css("display", "inline");
 					  output = "";
@@ -323,24 +379,95 @@
 	function hideReply(obj) {
 		let getId = $(obj).attr("id");
 		$("#replyList" + getId).hide();
-		$(obj).text("답글 보기");
+		$(obj).text("답글 더보기");
 		$(obj).attr("onclick", "viewReply(this);");
 	}
 	
-	// 댓글 작성 클릭 시 작성 폼 append
+	// 댓글 작성 클릭 시 대댓글 작성 폼 append
 	function replyWriteBar(obj) {
 		let getId = $(obj).attr("id");
-		$("#reReplyWrite" + getId).empty();
-		let output = '<div class="reReplyWrite"><textarea class="reReplyWrite_textArea"></textarea><div class="replyWriteBtnSite">' + 
+		$("#writeReplyBar" + getId).remove();
+		$("#modifyReplyBar" + getId).remove();
+		let output = '<div class="reReplyWrite" id="writeReplyBar' + getId + '">' + 
+					 '<textarea class="reReplyWrite_textArea" id="rereplyWriteContent' + getId + '"></textarea><div class="replyWriteBtnSite">' + 
 					 '<button type="button" class="btn btn-default" style="float: right;" onclick="replyWriteBarCancle(' + getId + ');">취소</button>' + 
-					 '<button type="button" class="btn btn-default" style="float: right;">등록</button></div></div>';
-		$("#reReplyWrite" + getId).append(output);
+					 '<button type="button" class="btn btn-default" style="float: right;" onclick="reReplyWrite(' + getId + ');">등록</button></div></div>';
+		$(output).insertAfter("#replyInfoBar" + getId);
 	}
 	
 	function replyWriteBarCancle(getId) {
-		$("#reReplyWrite" + getId).empty();
+		$("#writeReplyBar" + getId).remove();
 	}
+	
+   // 대댓글 작성
+   function reReplyWrite(obj) {
+	   let board_no = '${param.no}';
+	   let replyBoard_content = $("#rereplyWriteContent" + obj).val();
+	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+	   
 
+			$.ajax({
+				  method: "POST",
+				  url: "/board/campingTip/writeRereply",
+				  dataType: "text",
+				  data : {board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
+				  success : function(data) {
+					  alert("댓글이 등록되었습니다!");
+					  $("#reply_box").empty(); // 댓글 비우기
+					  readReply(); // 댓글 다시 리로드
+					  totalReplyCount(); // 댓글 개수 리로드
+				  }, error : function(data) {
+		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		          }
+				  
+				});
+		   
+   }
+
+	// 대댓글 수정 클릭 시 작성 폼 append
+	function reReplyModifyBar(obj) {
+		let getId = $(obj).attr("id");
+		$("#modifyRereplyBar" + getId).remove();
+		let output = '<div class="reReplyWrite" id="modifyRereplyBar' + getId + '">' +
+					 '<textarea class="reReplyWrite_textArea" id="reReplyModifyContent' + getId + '">' + $("#reReplyContent" + getId).text() + '</textarea><div class="replyWriteBtnSite">' + 
+					 '<button type="button" class="btn btn-default" style="float: right;" onclick="reReplyModifyBarCancle(' + getId + ');">취소</button>' + 
+					 '<button type="button" class="btn btn-default" style="float: right;" onclick="reReplyModify(' + getId + ');">수정</button></div></div>';
+		$(output).insertAfter("#reReplyModifyBar" + getId);
+	}
+	
+	function reReplyModifyBarCancle(getId) {
+		$("#modifyRereplyBar" + getId).remove();
+	}
+	
+   // 대댓글 수정
+   function reReplyModify(obj) {
+	   let modifyContent = $("#reReplyModifyContent" + obj).val();
+	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+	   let writeMember = $("#reReplyBoardNo" + obj).text(); // 작성자 아이디 가져오기
+	   
+		if(loginMember == writeMember ) {
+			// 작성자와 삭제 요청자가 동일한 경우에만 실행
+			$.ajax({
+				  method: "POST",
+				  url: "/board/campingTip/modifyRereply",
+				  dataType: "text",
+				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
+				  success : function(data) {
+					  alert("댓글이 수정되었습니다!");
+					  $("#reply_box").empty(); // 댓글 비우기
+					  readReply(); // 댓글 다시 리로드
+					  totalReplyCount(); // 댓글 개수 리로드
+				  }, error : function(data) {
+		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		          }
+				  
+				});
+			
+		} else {
+			alert("댓글 작성자만 수정이 가능합니다.");
+		}
+	   
+   }
 	
 </script>
 
@@ -468,6 +595,13 @@
 	width: 560px;
 }
 
+.replyViewDeleteContent {
+	display: block;
+	float: left;
+	width: 560px;
+	font-weight: bold;
+}
+
 .replyViewDate {
 	display: inline-block;
 	width: 130px;
@@ -542,6 +676,7 @@
 	padding: 9px 12px 7px;
 	width: 678px;
 	margin-left: 165px;
+    border-bottom: 1px solid #eee;
 }
 
 .reReplyWrite_textArea {
@@ -680,7 +815,7 @@
 					
 					<!-- 댓글 작성 창 -->
 					<div class="writeReplyTab">
-						댓글
+						댓글<span id="replyCnt"></span>
 					</div>
 					
 					<div class="replyWrite">

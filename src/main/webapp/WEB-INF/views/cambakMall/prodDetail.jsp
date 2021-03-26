@@ -40,14 +40,42 @@
 		let page = $("#page").val();
 		console.log(page);
 		
-		prodQAListAll(prodId, page, 0, *);
-	    prodQAPagingParam(prodId, page);
+		let cate = $("#cate").val();
+		console.log(cate);
+		
+		prodQAListAll(prodId, page, 0, cate);
+		
 	});
 	
 	function prodQAListAll(prodId, page, flag, cate, no) {
-	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId + "&page=" + page + "&page=" + cate, function(data){
+	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId  + "&cate=" + cate + "&page=" + page, function(data){
 	    	if(data.length == 0) {
-	    		console.log("데이터 없음")
+	    		console.log("데이터 없음");
+	    		
+	    		let output = '<table class="table table-hover">';
+	    		output += '<thead><tr><th>';
+	    		output += '<select id="prodQA_category" name="prodQA_category">';
+	    		output += '<option value="*">분류</option>'
+	    		output += '<option value="product">상품</option>';
+	    		output += '<option value="delivery">배송</option>';
+	    		output += '<option value="refund">환불</option>';
+	    		output += '<option value="exchange">교환</option>';
+	    		output += '<option value="etc">기타</option></select></th>';
+	    		output += '<th>글제목</th>';
+	    		output += '<th>작성자</th>';
+	    		output += '<th>작성일</th>';
+	    		output += '<th>좋아요</th>';
+	    		output += '<th>조회수</th></tr></thead>';
+	    		output += '<tbody><tr><th colspan="6">상품 문의사항이 없습니다</th></tr><tbody>';
+	    		
+	    		$("#prodQATb").html(output);   
+	    		
+	    		$("#prodQA_category").change(function(){
+		        	let cate = $("#prodQA_category").val();
+		        	console.log(cate)
+		        	
+		        	prodQAListAll(prodId, 1, 0, cate)
+		        });
 	    	} else {
 	    		console.log(data);
 	    		
@@ -59,7 +87,7 @@
 	    		output += '<option value="delivery">배송</option>';
 	    		output += '<option value="refund">환불</option>';
 	    		output += '<option value="exchange">교환</option>';
-	    		output += '<option value="ect">기타</option></select></th>';
+	    		output += '<option value="etc">기타</option></select></th>';
 	    		output += '<th>글제목</th>';
 	    		output += '<th>작성자</th>';
 	    		output += '<th>작성일</th>';
@@ -71,7 +99,7 @@
 		        	let dateFormat = date.toLocaleString();
 		        		
 		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-	                output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ');">' + item.prodQA_title + '</div></td>';
+	                output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ',\'' + cate + '\');">' + item.prodQA_title + '</div></td>';
 	                output += '<td>' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
 	                output += '<td>' + item.prodQA_likeCnt + '</td>';
@@ -90,7 +118,7 @@
 	                }
 	                output += '</div><div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
 	                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ');"/></span>';
+	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
 	                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 	                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 	               
@@ -99,18 +127,29 @@
 		        
 		        output+= '</tbody></table>';
 		        
-		        $("#prodQATb").html(output);   
+		        $("#prodQATb").html(output); 
+		        
+		        prodQAPagingParam(prodId, page, cate);
 		        
 		        if(flag == 1) {
 		        	$("#content" + no).show();
-		        	 getReply(no, flag);
+		        	getReply(no, flag);
 		        } else if(flag == 2) {
 		        	$("#content" + no).show();
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ');"/>');
+		        	getReply(no, flag);
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ',\'' + cate + '\');"/>');
 		        } else {
 		        	$("#content" + no).show();
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ');"/>')
+		        	getReply(no, flag);
+		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ',\'' + cate + '\');"/>');
 		        }
+		        
+		        $("#prodQA_category").change(function(){
+		        	let cate = $("#prodQA_category").val();
+		        	console.log(cate)
+		        	
+		        	prodQAListAll(prodId, page, 0, cate)
+		        });
 		        
 	    	}
 	     });
@@ -151,7 +190,7 @@
 					});	
 					$(output).insertAfter("#content"+no);	
 					
-					if(flag == 1) {
+					if(flag == 1 || flag == 2 || flag == 3) {
 						$('.reply' + result[0].prodQA_ref ).show();
 					}
 				}
@@ -162,8 +201,8 @@
 		});	
 	}
 	
-	function prodQAPagingParam(prodId, page) {
-		$.getJSON("/mall/prodDetail/prodQAPP?prodId=" + prodId , function(data){
+	function prodQAPagingParam(prodId, page, cate) {
+		$.getJSON("/mall/prodDetail/prodQAPP?prodId=" + prodId + "&cate=" + cate, function(data){
 	    	if(data.length == 0) {
 	    		console.log("데이터 없음")
 	    	} else {
@@ -173,15 +212,15 @@
 	    		let output = '<ul class="pagination">';
 	    		
 	    		if(page > 1) {
-	    			output += '<li><a href="?prodId=' + prodId + '&page=' + prev + '"> < </a></li>';
+	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + prev + '"> < </a></li>';
 	    		}
 	    		
 	    		for(let i = 1; i < data.endPage + 1; i++) {
-	    			output += '<li><a href="?prodId=' + prodId + '&page=' + i + '">' + i + '</a></li>';
+	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + i + '">' + i + '</a></li>';
 	    		}
 	    		
 	    		if(page < data.endPage) {
-	    			output += '<li><a href="?prodId=' + prodId + '&page=' + next + '"> > </a></li>';
+	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + next + '"> > </a></li>';
 	    		}
 	    		
 	    		output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';
@@ -192,7 +231,7 @@
 	     });
 	}
 	
-	function showContent(obj, no) {
+	function showContent(obj, no, category) {
 		let contentId = $(obj).attr("id");
 		$("#content" + contentId).show();
 		
@@ -200,10 +239,12 @@
 		
 		$(".prodQA" + no).show();
 		
-		updateView(no);
+		console.log(category);
+		
+		updateView(no, category);
 	}
 	
-	function updateView(prodQA_no) {
+	function updateView(prodQA_no, cate) {
 		let prodId = $("#product_id").val();
 		console.log(prodId);
 		
@@ -225,7 +266,7 @@
 			success : function(result) {
 				console.log(result);
 				
-				prodQAListAll(prodId, page, 1, prodQA_no);
+				prodQAListAll(prodId, page, 1, cate, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);
@@ -233,7 +274,7 @@
 		});	
 	}
 	
-	function updateLike(prodQA_no) {
+	function updateLike(prodQA_no, cate) {
 		let prodId = $("#product_id").val();
 		console.log(prodId);
 		
@@ -257,7 +298,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
-				prodQAListAll(prodId, page, 2, prodQA_no);
+				prodQAListAll(prodId, page, 2, cate, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);
@@ -265,7 +306,7 @@
 		});	
 	}
 	
-	function deleteLike(prodQA_no) {
+	function deleteLike(prodQA_no, cate) {
 		let prodId = $("#product_id").val();
 		console.log(prodId);
 		
@@ -289,7 +330,7 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
-				prodQAListAll(prodId, page, 3, prodQA_no);
+				prodQAListAll(prodId, page, 3, cate, prodQA_no);
 			},
 			fail : function(result) {
 				alert(result);
@@ -330,7 +371,7 @@
 			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
-				prodQAListAll(prodId, page);
+				prodQAListAll(prodId, page, 0, '*');
 			},
 			fail : function(result) {
 				alert(result);
@@ -544,6 +585,7 @@
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
 						     	<input type="hidden" id="product_id" value="${param.prodId }"/>
 						     	<input type="hidden" id="page" value="${param.page }" />
+						     	<input type="hidden" id="cate" value="${param.cate }" />
 						     	
 						     	<div class="container" id="prodQATb">
 						               

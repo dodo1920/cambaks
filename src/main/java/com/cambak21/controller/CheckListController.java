@@ -72,9 +72,9 @@ public class CheckListController {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/ajax/deleteThis/{member_id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/deleteAll/{member_id}", method = RequestMethod.POST)
 	public ResponseEntity<String> deleteCheckListAll(@PathVariable("member_id") String member_id) throws Exception{
-		logger.info("종진 / 체크리스트 체크여부 수정하기");
+		logger.info("종진 / 체크리스트 체크된거 모두 삭제하기");
 		ResponseEntity<String> entity = null;
 		
 		if(ckservice.deleteThisAll(member_id)) {
@@ -88,7 +88,7 @@ public class CheckListController {
 	}
 	
 	
-	@RequestMapping(value = "/ajax/saveList", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/saveList", method = RequestMethod.POST)
 	public ResponseEntity<String> saveList(@RequestBody CheckListVO vo) throws Exception{
 		logger.info("종진 / 체크리스트 체크여부 수정하기");
 		ResponseEntity<String> entity = null;
