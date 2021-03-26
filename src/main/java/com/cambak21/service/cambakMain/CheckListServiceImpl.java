@@ -31,6 +31,7 @@ public class CheckListServiceImpl implements CheckListService {
 		if(i == 1) {
 			result = true;
 		}
+		
 		return result;
 		
 	}
@@ -65,7 +66,7 @@ public class CheckListServiceImpl implements CheckListService {
 		boolean result = false;
 		int i = dao.deleteThisAll(member_id);
 		
-		if(i == 1) {
+		if(i >= 1) {
 			result = true;
 		}
 		return result;

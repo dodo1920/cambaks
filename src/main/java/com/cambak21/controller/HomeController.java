@@ -85,9 +85,20 @@ public class HomeController {
       logger.info("JJONG ckeckList2 작업중 . . . . .");
    
       
-      return "checkList2";
+      return "cambakMain/checkList";
    }
    	
+   @RequestMapping(value="/myPage", method = RequestMethod.GET)
+   public String myPageHomepage() {
+      logger.info("JJONG ckeckList2 작업중 . . . . .");
+   
+      
+      return "cambakMain/myPage";
+   }
+   
+   
+   
+   
    
 //   @RequestMapping(value="/ajaxCheckList/{member_id}", method=RequestMethod.GET)
 //   public ResponseEntity<List<CheckListVO>> lst(@PathVariable("member_id") String member_id){

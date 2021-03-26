@@ -30,8 +30,8 @@
     		insert into CheckLists(member_id, checkList_content) values(#{member_id}, #{checkList_content}) 
     	</insert>
     	
-    	<delete id="deleteThisAll">
-    		delete from CheckLists where member_id = #{member_id} and checkList_checked = 'Y'
+    	<delete id="deleteThisAll" >
+    		delete from CheckLists where checkList_checked = 'Y' and  member_id = #{member_id}
     	</delete>
     	
     </mapper>
