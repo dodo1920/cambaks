@@ -163,11 +163,11 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	}
 	
 	@Override
-	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+	public boolean updateCampingTipReplyCnt(int board_no) throws Exception {
 		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
 		boolean result = false;
 		
-		if (session.update(nameSpace + "updateReplyCnt", replyBoard_no) == 1) {
+		if (session.update(nameSpace + "updateReplyCnt", board_no) == 1) {
 			result = true;
 		}
 		return result;
@@ -190,7 +190,7 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 
 	@Override
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception {
-		// 상세 게시글 댓글 삭제 delete
+		// 상세 게시글 댓글, 대댓글 삭제 delete
 		boolean result = false;
 		
 		if (session.update(nameSpace + "deleteReplyTipBoard", replyBoard_no) == 1) {
@@ -201,7 +201,7 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 
 	@Override
 	public boolean deleteCampingTipReplyCount(int board_no) throws Exception {
-		// 상세 게시글 댓글 삭제 후 게시글 댓글 개수 update
+		// 상세 게시글 댓글, 대댓글 삭제 후 게시글 댓글 개수 update
 		boolean result = false;
 		
 		if (session.update(nameSpace + "deleteReplyTipBoardCount", board_no) == 1) {
@@ -246,12 +246,6 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 			result = true;
 		}
 		return result;
-	}
-
-	@Override
-	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception {
-		// 상세 게시글 대댓글 수정 update
-		return false;
 	}
 
 	@Override

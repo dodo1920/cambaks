@@ -125,9 +125,9 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
-	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception {
+	public boolean updateCampingTipReplyCnt(int board_no) throws Exception {
 		// 상세 게시글 댓글 저장 완료 시 Boards 테이블의 board_replyCnt 컬럼 1증가
-		return dao.updateCampingTipReplyCnt(replyBoard_no);
+		return dao.updateCampingTipReplyCnt(board_no);
 	}
 	
 	@Override
@@ -138,7 +138,7 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 
 	@Override
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception {
-		// 상세 게시글 댓글 삭제 delete
+		// 상세 게시글 댓글, 대댓글 삭제 delete
 		return dao.deleteCampingTipReply(replyBoard_no);
 	}
 	
@@ -170,12 +170,6 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception {
 		// 상세 게시글 대댓글 수정 update
 		return dao.modifyRereplyCampingTipBoard(replyBoard_no, replyBoard_content);
-	}
-
-	@Override
-	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception {
-		// 상세 게시글 대댓글 수정 update
-		return false;
 	}
 
 	@Override

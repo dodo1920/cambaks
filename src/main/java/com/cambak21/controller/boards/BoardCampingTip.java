@@ -242,6 +242,7 @@ public class BoardCampingTip {
 		try {
 			dto.setReplyBoard_refOrder(service.checkReforderMax(dto)); // ReplyBoards 테이블에서 max(replyBoard_refOrder) 확인하여 + 1해서 dto에 set해주기
 			if(service.addRereplyCampingTipBoard(dto)) { // 대댓글 insert
+				service.updateCampingTipReplyCnt(dto.getBoard_no());
 				entity = new ResponseEntity<String>("success", HttpStatus.OK);
 			}
 		} catch (Exception e) {
@@ -264,6 +265,23 @@ public class BoardCampingTip {
 			}
 		} catch (Exception e) {
 			// 수정 실패 시 실패 메세지 전달
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/deleteRereply", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteBoardRereply(@RequestParam("replyBoard_no") int replyBoard_no, @RequestParam("board_no") int board_no) {
+		// 캠핑팁 상세글 대댓글 삭제
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.deleteCampingTipReply(replyBoard_no);
+			service.deleteCampingTipReplyCount(board_no);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}

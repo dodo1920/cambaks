@@ -55,12 +55,12 @@ public interface CampingTipBoardService {
 	public boolean saveCampingTipReply(CamBoardTipReplyDTO replyDTO) throws Exception;
 	public int getCampingTipReplyNextNum(CamBoardTipReplyDTO replyDTO) throws Exception;
 	public boolean updateCampingTipReplyRef(int replyBoard_no) throws Exception;
-	public boolean updateCampingTipReplyCnt(int replyBoard_no) throws Exception;
+	public boolean updateCampingTipReplyCnt(int board_no) throws Exception;
 	
 	// 상세 게시글 댓글 수정 update
 	public boolean modifyCampingTipReply(int replyBoard_no, String replyBoard_content) throws Exception;
 	
-	// 상세 게시글 댓글 삭제 delete
+	// 상세 게시글 댓글, 대댓글 삭제 delete
 	public boolean deleteCampingTipReply(int replyBoard_no) throws Exception;
 	public boolean deleteCampingTipReplyCount(int board_no) throws Exception;
 	
@@ -73,9 +73,6 @@ public interface CampingTipBoardService {
 	
 	// 상세 게시글 대댓글 수정 update
 	public boolean modifyRereplyCampingTipBoard(int replyBoard_no, String replyBoard_content) throws Exception;
-	
-	// 상세 게시글 대댓글 수정 update
-	public boolean deleteRereplyCampingTipBoard(int replyBoard_no) throws Exception;
 	
 	// 상세 게시글 댓글 개수 select
 	public int checkReplyCount(int board_no) throws Exception;

@@ -163,7 +163,7 @@
 				});
 	   } else {
 		   alert("댓글은 회원만 작성 가능합니다.");
-		   location.href='/user/login';
+		   location.href='/user/login/yet';
 	   }
 	   
    }
@@ -281,13 +281,16 @@
 
 					  
 					  // 대댓글 보기, 작성
-					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 더보기</a>' +
-					  '<a onclick="replyWriteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
+					  output += '<a onclick="viewReply(this);" class="reReplyView_moreBtn" id="' + data[i].replyBoard_ref + '">답글 더보기</a>';
+					  
+					  if (${loginMember != null}) {
+						  output += '<a onclick="replyWriteBar(this);" class="reReplyWrite_replyBtn" id="' + data[i].replyBoard_ref + '">답글 작성</a>';
+					  }
 					  
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
-						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 수정</a>';
-						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
+						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>';
+						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>';
 					  }
 					  
 					  output += '</div></div><div id="replyList' + data[i].replyBoard_ref + '" class="reReplyModify_list"></div>' +
@@ -315,25 +318,39 @@
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
+				  let repeatCnt = 0;
+				  let replyBoard_no = 0;
+				  
 				  for (let i = 0; i < data.length; i++) {
 					  
 					  let date = getDateParam(data[i].replyBoard_writeDate);
 					  
-					  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer" id="reReplyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id +
-					  '</div><div id="reReplyContent' + data[i].replyBoard_no + '">' + data[i].replyBoard_content + '</div></div>' +
-					  '<div class="reReplyView_writeDate">' + date + '</div></div>' +
-					  '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">';
+					  // 삭제된 댓글은 삭제되었다고 표시해줌
+					  if (data[i].replyBoard_isdelete == 'Y') {
+						  output += '<div class="reReplyView"><div class="reReplyDeleteView_content"><div class="replyViewDeleteContent">[삭제된 댓글입니다.]</div></div></div>';
+					  } else if (data[i].replyBoard_isdelete == 'N') {
+						  output += '<div class="reReplyView"><div class="reReplyView_content"><div class="reReplyView_writer" id="reReplyBoardNo' + data[i].replyBoard_no + '">' + data[i].member_id +
+						  '</div><div id="reReplyContent' + data[i].replyBoard_no + '">' + data[i].replyBoard_content + '</div></div>' +
+						  '<div class="reReplyView_writeDate">' + date + '</div></div>';
+					  }
 					  
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
-						  output += '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 수정</a>';
-						  output += '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '">답글 삭제</a>';
+						  output += '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">' +
+						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipDeleteCon.png" class="replyIconSize"/>수정</a>' +
+						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>삭제</a>' +
+						  '</div></div>';
 					  }
-					  output += '</div></div>';
 					  
 					  $("#replyList" + data[i].replyBoard_ref).append(output);
 					  $("#" + data[i].replyBoard_ref).css("display", "inline");
 					  output = "";
+					  repeatCnt++;
+					  replyBoard_no = data[i].replyBoard_no;
+				  }
+				  
+				  if (repeatCnt == 0) {
+					  $("#replyInfoBar" + replyBoard_no).css("display", "none");
 				  }
 				  
 			  }
@@ -401,11 +418,12 @@
 	
    // 대댓글 작성
    function reReplyWrite(obj) {
+	   
+	   if (${loginMember != null}) {
 	   let board_no = '${param.no}';
 	   let replyBoard_content = $("#rereplyWriteContent" + obj).val();
 	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
-	   
-
+		
 			$.ajax({
 				  method: "POST",
 				  url: "/board/campingTip/writeRereply",
@@ -421,6 +439,10 @@
 		          }
 				  
 				});
+	   } else {
+		   alert("댓글은 회원만 작성 가능합니다.");
+		   location.href='/user/login/yet';
+	   }
 		   
    }
 
@@ -467,6 +489,43 @@
 			alert("댓글 작성자만 수정이 가능합니다.");
 		}
 	   
+   }
+   
+   // 댓글 삭제
+   function reReplyDeleteBar(obj) {
+		let replyBoard_no = $(obj).attr("id");
+		let board_no = '${param.no }';
+		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
+		let writeMember = $("#reReplyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
+		
+		// 알럿으로 삭제할지 확인
+		if (confirm("정말 삭제하시겠습니까?") == true){ //확인
+			
+			if(loginMember == writeMember ) {
+				// 작성자와 삭제 요청자가 동일한 경우에만 실행
+				$.ajax({
+					  method: "POST",
+					  url: "/board/campingTip/deleteReply",
+					  dataType: "text",
+					  data : {replyBoard_no : replyBoard_no, board_no : board_no},
+					  success : function(data) {
+						  alert("댓글이 삭제되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
+					  }, error : function(data) {
+			        	  alert("댓글 삭제가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			          }
+					  
+					});
+				
+			} else {
+				alert("댓글 작성자만 삭제가 가능합니다.");
+			}
+		
+		}else{ //취소
+		    return false;
+		}
    }
 	
 </script>
@@ -598,7 +657,7 @@
 .replyViewDeleteContent {
 	display: block;
 	float: left;
-	width: 560px;
+	width: 690px;
 	font-weight: bold;
 }
 
@@ -609,7 +668,7 @@
 }
 
 .replyMoreView {
-	padding: 0px 3px 7px 3px;
+	padding: 5px 3px 5px 3px;
     border-bottom: 1px solid #eee;
 	display: inline-flex;
     font-size: 12px;
@@ -629,10 +688,24 @@
 	display: inline-block;
 }
 
+.reReplyDeleteView {
+	padding: 9px 3px 7px 3px;
+    border-bottom: 1px solid #eee;
+	display: inline-block;
+	width: 690px;
+}
+
 .reReplyView_content {
 	display: block;
 	float: left;
 	width: 560px;
+	margin-left: 165px;
+}
+
+.reReplyDeleteView_content {
+	display: block;
+	float: left;
+	width: 690px;
 	margin-left: 165px;
 }
 
@@ -655,10 +728,16 @@
 .reReplyView_replyBtn {
 	display: inline;
 	margin-right : 10px;
+	float: right;
+}
+
+.reReplyWrite_replyBtn {
+	display: inline;
+	margin-right : 10px;
 }
 
 .reReplyModify {
-	padding: 0px 3px 7px 3px;
+	padding: 5px 3px 5px 3px;
     border-bottom: 1px solid #eee;
 	display: inline-flex;
 }
@@ -719,6 +798,11 @@
 .contentSize {
 	height: 350px;
 	display: inline-block;"
+}
+
+.replyIconSize {
+	width: 14px;
+	height: 14px;
 }
 
 </style>
