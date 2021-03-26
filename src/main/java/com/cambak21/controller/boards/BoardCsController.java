@@ -170,5 +170,11 @@ public class BoardCsController {
 		
 		return entity;
 	}
+	
+	@RequestMapping("/cs/error")
+	public String errorTest() throws Exception {
+
+		return "error";
+	}
 
 }
