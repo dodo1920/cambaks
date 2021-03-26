@@ -118,8 +118,14 @@
 	<update id="deleteReplyTipBoard">
 		update ReplyBoards set replyBoard_isdelete = 'Y' where replyBoard_no = #{replyBoard_no};
 	</update>
+	<update id="deleteReplyTipBoardCount">
+		update Boards set board_replyCnt = board_replyCnt - 1 where board_no = #{board_no};
+	</update>
 
 <!-- 대댓글 작성 -->
+	<select id="checkMaxReforder" resultType="int">
+		select max(replyBoard_refOrder) + 1 from ReplyBoards where board_no = #{board_no} and replyBoard_ref = #{replyBoard_ref}
+	</select>
 	<insert id="writeRereply">
 		insert into ReplyBoards (board_no, member_id, replyBoard_content, replyBoard_ref, replyBoard_refOrder) values (#{board_no}, #{member_id}, #{replyBoard_content}, #{replyBoard_ref}, #{replyBoard_refOrder})
 	</insert>
@@ -134,4 +140,8 @@
 		delete from ReplyBoards where replyBoard_no = #{replyBoard_no}
 	</delete>
 
+<!-- 	상세 게시글 댓글 총 개수 가져오기 -->
+	<select id="checkReplyCnt" resultType="int">
+		select board_replyCnt from Boards where board_no = #{board_no}
+	</select>
 </mapper>
