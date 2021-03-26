@@ -31,12 +31,12 @@ public class MemberController {
    
    @RequestMapping(value="/login", method=RequestMethod.GET)
    private String login() {
-      return "/cambakMain/login1";
+      return "/cambakMain/user/login";
    }
    
    @RequestMapping(value="/login/yet", method=RequestMethod.GET)
    private String loginyet() {
-      return "/cambakMain/login1";
+      return "/cambakMain/user/login";
    }
    
    
@@ -46,7 +46,7 @@ public class MemberController {
       System.out.println("유저 컨트롤러 : " );
                if(vo == null) {
                   System.out.println("회원이름 못찾음");
-                  return "/cambakMain/login2";
+                  return "/cambakMain/user/login";
                }
       model.addAttribute("loginMember", vo);
       
@@ -61,7 +61,7 @@ public class MemberController {
          service.keepLogin(dto.getMember_id(), session.getId(), sesLimit);
       
       }
-      return "/cambakMain/login1";
+      return "/cambakMain/user/login";
    }
    
    
