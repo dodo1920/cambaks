@@ -241,7 +241,7 @@
 					<ul class="pagination">
 						<c:if test="${pagingParam.prev }">
 							<li class="page-item"><a
-								class="page-link" href="listcri?page=${param.page - 1 }">Prev</a>
+								class="page-link" href="listCri?page=${param.page - 1 }">Prev</a>
 							</li>
 						</c:if>
 
