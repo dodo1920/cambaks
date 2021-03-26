@@ -102,9 +102,9 @@
 
 
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
-    function showProdList(product_id, pageNum, member_id, checkPoint) {
+    function showProdList(product_id, pageNum, checkPoint) {
     	product_id = 4;
-    	member_id = "fff";
+    	member_id = "${loginMember.member_id}";
     	if(pageNum == null){
     		pageNum =1;
     	}
@@ -126,8 +126,8 @@
 	        	currentPage = pagingParam.cri.page;
 	        	//console.log(currentPage);
 	        	//onsole.log(prodList);
-	        	//console.log(pagingParam.cri);
-	        	//console.log(pagingParam);
+	        	console.log(pagingParam.cri);
+	        	console.log(pagingParam);
 	        	
 	        	// 날짜 출력 방식 변경을 위한 변수 설정
 	        	let showDate;
@@ -182,7 +182,6 @@
             	  pageOutput += '<a class="page-link" onclick="showProdList();">처음페이지로</a></li>';
             	  
 	              $(pagingParam).each(function(index, item) {
-	            	  
 	            	  startPage = item.startPage;
 	            	  endPage = item.endPage;
 	            	  tempEndPage = item.tempEndPage;
@@ -270,13 +269,13 @@
 					          
 				              replyOutput += '<i class="fa fa-user-circle-o fa-2x"></i>' + item.member_id + '<div>' + showThisDate + ' replyProdReview_no : ' + item.replyProdReview_no +'</div></div><div class="card-body"><ul class="list-group list-group-flush">';
 				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
-				              replyOutput += '<div><p class="card-text">' + item.replyProdReview_content + '</p><div>';
+				              replyOutput += '<div><span id="replyMemberName' + item.replyProdReview_no + '"></span><p class="card-text">' + item.replyProdReview_content + '</p><div>';
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
 				              
 				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
 				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>'
 
-				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no+ "," + item.replyProdReview_ref + "," + item.prodReview_no + ');">대댓글등록</button></div></div>';
+				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no+ "," + item.replyProdReview_ref + "," + item.prodReview_no + "," + ');">대댓글등록</button></div></div>';
 
 				              
 				              
@@ -309,7 +308,7 @@
 				let product_id = 4;
 				let page = $("#page").val();
 				let replyProdReview_content = $("#replyProdReview_content" + prodReview_no).val();
-				let member_id = 'fff';
+				let member_id = "${loginMember.member_id}";
 				prodReview_no = prodReview_no;
 				let replyProdReview_ref = 0;
 				
@@ -332,7 +331,7 @@
 						  console.log(product_id);
 						  console.log(currentPage);
 						  
-						  showProdList(product_id, currentPage, member_id, 1);
+						  showProdList(product_id, currentPage, 1);
 						  
 					  }, complete : function (result) {
 						//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
@@ -353,12 +352,12 @@
 	function addReply(replyProdReview_no, replyProdReview_ref, prodReview_no) {
 		// replyProdReview_content 수정 필요
 		let product_id = 4;
-		let member_id = 'fff';
+		let member_id = "${loginMember.member_id}";
+		console.log(member_id);
 		/*if(replyProdReview_ref != 0){ 
 			replyProdReview_ref = replyProdReview_no;
 		}*/
 		let replyProdReview_content = $("#replyContent" + replyProdReview_no).val();
-		
 		$.ajax({
 			  method: "post",
 			  url: "/cambakMall/insertProdReviewReply",
@@ -375,10 +374,9 @@
 			  }),
 			  success : function(result) {
 				  console.log(result);
-				  //console.log(prodReview_no);
-				  
-				  //console.log(product_id);
-				  //console.log(currentPage);
+				  console.log(member_id);
+
+				  $("#replyMemberName" + replyProdReview_no).html(member_id);
 				  showProdList(product_id, currentPage, member_id, 1);
 				  
 			  }, complete : function (result) {
