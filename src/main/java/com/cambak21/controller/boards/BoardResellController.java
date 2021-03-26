@@ -1,17 +1,27 @@
 package com.cambak21.controller.boards;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ResellBoardVO;
@@ -19,6 +29,7 @@ import com.cambak21.domain.ResellLikeBoardVO;
 import com.cambak21.dto.ResellBoardUpdateDTO;
 import com.cambak21.service.resell.ResellBoardLikeService;
 import com.cambak21.service.resell.ResellBoardService;
+import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 import com.cambak21.util.SearchCriteria;
@@ -119,4 +130,39 @@ public class BoardResellController {
 		return "cambakMain/board/Resell/boardResellList";
 		
 	}
+	@RequestMapping(value="/uploadAjax", method = RequestMethod.POST)
+	public ResponseEntity<String> uploadAjax(MultipartFile[] uploadFile, HttpServletRequest request) {
+		System.out.println("uploadAjax ....POST방식성공");
+		ResponseEntity<String> entity = null;
+		ArrayList returnList =  new ArrayList();
+		
+		
+		for (MultipartFile file : uploadFile) {;
+			System.out.println("업 로드 파일 이름 : " + file.getOriginalFilename());
+			System.out.println("파일 사이즈 : " + file.getSize());
+			System.out.println("업로드 파일의 타입 : " + file.getContentType()); // 파일의 MIME type
+//			System.out.println("파일 separator : " + file.separator);
+			
+			try {
+//				String uploadFileName = uploadFile(request, file.getOriginalFilename(), file.getBytes());
+				
+				String path = request.getSession().getServletContext().getRealPath("resources/uploads/Resell");
+				System.out.println(path);
+				
+				String returnFile = FileUploadProdcess.uploadFile(path, file.getOriginalFilename(), file.getBytes());
+				returnList.add(returnFile);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			}	
+		}
+		
+		System.out.println(returnList);
+		return new ResponseEntity<String>(HttpStatus.OK);
+	}
+
+	
 }
+

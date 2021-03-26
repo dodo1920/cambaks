@@ -3,10 +3,15 @@ package com.cambak21.controller.boards;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,16 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.domain.ResellLikeBoardVO;
 import com.cambak21.service.resell.ResellBoardLikeService;
 import com.cambak21.service.resell.ResellBoardReplyService;
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File;
+
+import jdk.internal.org.jline.utils.Log;
 
 @Controller 
 @RequestMapping("/utile")
 public class BoardResellUtilController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BoardResellUtilController.class);
 	@Inject
 	private ResellBoardReplyService ReplyService;
 	
@@ -62,21 +73,22 @@ public class BoardResellUtilController {
 	@RequestMapping(value = "/like",method=RequestMethod.POST)
 	public ResponseEntity<String> like(@RequestBody ResellLikeBoardVO vo) throws Exception {
 		System.out.println("like.........POST방식 연결");
+		String Like = "";
 		ResponseEntity<String> entity = null;
 		ResellLikeBoardVO readVo = LikeService.ResellBoardlikeRead(vo);
 		if (readVo != null) {
 			LikeService.ResellBoardLikeDelete(vo);
-			System.out.println("값 나옴");
+			Like="unLike";
 		}else {
 			
 			LikeService.ResellBoardLikeInsert(vo);
-			System.out.println("값 들어감");
+			Like="like";
 			
 		}
 		
 		try {
 			;
-			entity = new ResponseEntity<String>("Success",HttpStatus.OK);
+			entity = new ResponseEntity<String>(Like,HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,4 +96,5 @@ public class BoardResellUtilController {
 		}
 		return entity;
 	}
+
 }
