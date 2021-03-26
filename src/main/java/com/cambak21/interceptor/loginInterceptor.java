@@ -67,12 +67,4 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
          
    }
    
-   
-   
-   
-   
-   
-   
-   
-   
 }
