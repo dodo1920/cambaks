@@ -87,31 +87,26 @@ public class MemberController {
 	
 	
 //	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	@RequestMapping(value = "/quitMember", method = RequestMethod.GET)
-	public String quitMember() {
+	@RequestMapping(value = "/resign", method = RequestMethod.GET)
+	public void quitMember() {
 		
 		
-		return "/user/quitMember";
+		
 	}
 	
-	@RequestMapping(value = "/quitMemberStep2", method = RequestMethod.POST)
+	@RequestMapping(value = "/resignStep2", method = RequestMethod.POST)
 	public void quitMemberStep2() {
 		
 	}
-
-//	@RequestMapping(value = "/quitMemberStep3", method = RequestMethod.GET)
-//	public void quitMemberStep3() {
-//
-//	}
 	
 	
-	@RequestMapping(value = "/quitMemberStep3", method = RequestMethod.POST)
+	@RequestMapping(value = "/resignStep3", method = RequestMethod.POST)
 	public String quitMemberStep2(LoginDTO dto, RedirectAttributes rttr) throws Exception {
 		System.out.println(dto.toString());
 		if(service.memberDelete(dto)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "/user/quitMemberStep3";
+		return "/user/resignStep3";
 	}
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<김대기 멤버 탈퇴
 	

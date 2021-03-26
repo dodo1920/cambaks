@@ -47,46 +47,9 @@
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
-
-    <!-- 템플릿 js, css 파일 -->
-    <script src="js/SHWtamplet.js"></script>
-   <style>
-		@import url(css/SHWMypageTamplet.css);
-
-		/* 김정민 CSS 적용 부분 */
-		#chkBoxComment {
-			color: red;
-		}
-
-		#list1 {
-			list-style-image: url(img/checkbox1.png);
-		}
-
-		#list2 {
-			list-style-image: url(img/checkbox1.png);
-		}
-
-		#container {
-			margin-left: 20%;
-		}
-	</style>
-	<script>
-		function withdrawal() {
-			let chkBox = document.getElementById("chkBox");
-			if (chkBox.checked == false) {
-				document.getElementById('chkBoxComment').innerHTML = "※안내 사항 확인여부에 동의해주세요."
-			} else {
-				location.href = "/user/quitMemberStep2";
-			}
-		}
-
-		function prevPg() {
-			location.href = "http://zinsimi.cafe24.com/1_project/Do_main5.html";
-		}
-	</script>
-
-
-</head>
+<script>
+		
+</script>
 
 <body>
 
@@ -174,51 +137,23 @@
 				</div>
 
 				<!-- Content -->
+				<!-- Main -->
+	<div id="main">
+		<div id="content" class="container" style="padding-bottom: 200px;">
+			<section>
+				<header>
+                    <h3 style="text-align: center;">성공적으로 탈퇴 처리가 되었습니다.</h3>
+                    <h3 style="text-align: center;">다음에도 고객님을 뵐 수 있기를 기원하겠습니다.</h3>
+					<!-- <span class="byline">공지사항</span> -->
+                </header>
+            </section>
+            <div style="text-align: center;">
+                <input type="button" style="border-radius: 0.5em;" value="메인페이지로 이동" onclick="location.href='http://localhost:8081/'">
+            </div>
+		</div>
+	</div>
+	<!-- /Main -->
 				
-				<div id="content" class="8u skel-cell-important" style="padding-bottom: 200px;">
-				<c:choose>
-				<c:when test="${loginMember != null }">
-					<section>
-						<header>
-							<h2>회원탈퇴 안내</h2>
-							<span class="byline">회원탈퇴를 신청하시기 전에 안내 사항을 꼭 확인해주세요.</span>
-						</header>
-						<div>
-							<ul>
-								<li id="list1">사용하고 계신 아이디는 탈퇴할 경우 재사용 및 복구가 불가능합니다.</li>
-								<li id="list2">탈퇴 후 회원정보 및 개인형 서비스 이용기록은 모두 삭제됩니다.</li>
-								<li>
-									<br />
-									<br />
-									<br />
-									<input type="checkbox" id="chkBox">안내 사항을 모두 확인하였으며, 이에 동의합니다.
-									<span id="chkBoxComment"></span>
-								</li>
-							</ul>
-						</div>
-						<div>
-						<form action="/user/quitMemberStep2" method="POST">
-						<input type="submit" class="btn btn-info" value="회원탈퇴">
-							<input type="button" class="btn btn-info" value="되돌아가기" onclick="history.back()">
-							
-						</form>
-							
-						</div>
-
-					</section>
-					</c:when>
-				<c:otherwise>
-				
-				
-				
-				<div>로그인이 필요한 서비스 입니다.</div>
-				<br/>
-				
-				<input type="button" onclick="location.href='/user/login'" value="로그인페이지로 이동하기">
-				
-				</c:otherwise>
-				</c:choose>
-</div>
 			</div>
 		</div>
 	</div>
@@ -274,5 +209,4 @@
 	</footer>
 	<!-- /Footer -->
 </body>
-
 </html>
