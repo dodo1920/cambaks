@@ -38,7 +38,7 @@
   		update Boards set board_viewCnt = board_viewCnt + #{amount} where board_no = #{no} 
   </update>
   
-  <insert id="insertBoardCReview">
+  <insert id="writeBoardCR">
   		insert into Boards(member_id, board_title, board_category, board_content)
 		values(#{member_id}, #{board_title}, #{board_category}, #{board_content});
   </insert>

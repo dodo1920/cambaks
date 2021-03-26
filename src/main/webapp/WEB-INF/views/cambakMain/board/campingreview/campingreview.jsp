@@ -180,7 +180,7 @@
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="chechSearchInput();" />
 				<input type="hidden" name="page" value="1" />
 				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listCri?page=${pageNo }'"/>
-				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/campingreview/write?no=${pageNo}'">글쓰기</button>
+				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/campingreview/write?category=${param.board_category }'">글쓰기</button>
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
 			
@@ -219,7 +219,7 @@
 					<ul class="pagination">
 						<c:if test="${pagingParam.prev }">
 							<li class="page-item"><a
-								class="page-link" href="listCri?page=${param.page - 1 }">Prev</a>
+								class="page-link" href="listcri?page=${param.page - 1 }">Prev</a>
 							</li>
 						</c:if>
 
@@ -227,14 +227,14 @@
 							end="${pagingParam.endPage }" var="pageNo">
 
 							<li class="page-item" ><a
-								class="page-link" href="listCri?page=${pageNo }">${pageNo }</a>
+								class="page-link" href="listcri?page=${pageNo }">${pageNo }</a>
 							</li>
 
 						</c:forEach>
 
 						<c:if test="${pagingParam.next}">
 							<li class="page-item"><a
-								class="page-link" href="listCri?page=${param.page + 1 }">next</a>
+								class="page-link" href="listcri?page=${param.page + 1 }">next</a>
 							</li>
 						</c:if>
 
