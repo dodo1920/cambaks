@@ -46,15 +46,111 @@
 		if(isSecretVal == "Y") {
 			$("#prodQA_isSecret").prop("checked", true);
 		}
+
+		$("#fDrop").on("dragenter dragover", function(evt) {
+			evt.preventDefault();
+		});
 		
+		$("#fDrop").on("drop", function(evt) {
+			evt.preventDefault();
+			
+			let formData = new FormData();
+			
+			let files = evt.originalEvent.dataTransfer.files; // 드래그 이벤트의 파일 데이터 전송 기능은 처리되도록
+			console.log(files);
+			
+			for(let i = 0; i < files.length; i++) {
+				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
+			}
+			
+			for (let value of formData.values()) {
+				  console.log(value);
+				}
+			
+			$.ajax({
+				url: '/mall/prodDetail/uploadFile',
+				data : formData,
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+					
+					let output = '';
+					output += "<div>";
+					$(result).each(function(index, item){
+						if(checkImgType(item)) {
+							output += "<img id='" + index + "' src='displayFile?fileName=" + item + "'/>";
+							output += "<span id='" + item + "' onclick='deleteFile(this)'>X</span>"; 
+							if(index == 0) {
+								$("#prodQA_img1").attr("value", item);
+							} else if(index == 1) {
+								$("#prodQA_img2").attr("value", item);
+							} else {
+								$("#prodQA_img3").attr("value", item);
+							}
+						}		
+					});
+					
+					output += "</div>";
+					
+					$("#fDrop").append(output);
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});
+		});
 	});
+	
+	// 파일 이름을 넘겨 받아 확장자가 패턴에 있는지 없는지 참/거짓 반환
+	function checkImgType(fileName) {
+		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
+		
+		return fileName.match(imgPattern);
+	}
+	
+	function deleteFile(obj) {
+		let fileName = $(obj).attr('id');
+		let imgId = $(obj).prev().attr('id');
+		let pordQA_imgNum = Number(imgId) + 1;
+		
+		console.log(fileName);
+		console.log(imgId);
+		console.log(pordQA_imgNum);
+		
+		$.ajax({
+			url: '/mall/prodDetail/deleteFile',
+			data : {"fileName" : fileName},
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			success : function(result) {
+				if(result == 'success') {
+					$("#" + imgId).hide();
+					$(obj).hide();
+					$("#prodQA_img" + pordQA_imgNum).attr("value", null)
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});
+	}
 </script>
 <style>
 	@media (min-width: 768px) {
+		#fDrop {
+			width : 80.7%;
+			height :200px;
+			border : 1px dotted gray;
+			margin-left : 15px;
+			margin-right : 15px;
+			}
+			
 		.col-sm-2  {
 			width : 8.5%;
 			}
-	}		
+	}
 </style>
 <body>
 
@@ -68,7 +164,7 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid}">
+		                  <input type="text" class="form-control" id="member_id" name="member_id" value="fff">
 		               </div>
 		            </div>
 		            <div class="form-group">
@@ -97,27 +193,11 @@
 		               </div>
 		            </div>
 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file1">파 일1 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file1" name="file1">
-		               </div>
-		            </div>
-		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file2">파 일2 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file2" name="file2">
-		               </div>
-		            </div>
-		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="file3">파 일3 :</label>
-		               <div class="col-sm-10">
-		                  <input type="file" class="form-control" id="file3" name="file3">
-		               </div>
-		            </div>
-		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="prodQA_secretPassword">비밀번호 :</label>
-		               <div class="col-sm-10">
-		                  <input type="password" class="form-control" id="prodQA_secretPassword" name="prodQA_secretPassword">
+		               <label class="control-label col-sm-2" for="file1">파 일 :</label>
+		               <div class="col-sm-10" id="fDrop">
+		                  <input type="hidden" id="prodQA_img1" name="prodQA_img1" />
+		                  <input type="hidden" id="prodQA_img2" name="prodQA_img2" />
+		                  <input type="hidden" id="prodQA_img3" name="prodQA_img3" />
 		               </div>
 		            </div>
 		           	<div class="form-group">
@@ -130,7 +210,7 @@
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
 		                  <button type="submit" class="btn btn-success">저장</button>
-		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&page=${param.page}'">취소</button>
+		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&cate=*&page=${param.page}'">취소</button>
 		               </div>
 		            </div>
 		         </form>

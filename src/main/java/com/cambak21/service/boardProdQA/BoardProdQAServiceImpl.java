@@ -81,8 +81,8 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 	}
 
 	@Override
-	public int totalProdQACnt(int product_id, int prodQA_refOrder) throws Exception {
-		return dao.totalProdQACnt(product_id, prodQA_refOrder);
+	public int totalProdQACnt(int product_id, int prodQA_refOrder, String prodQA_category) throws Exception {
+		return dao.totalProdQACnt(product_id, prodQA_refOrder, prodQA_category);
 	}
 
 	@Override
