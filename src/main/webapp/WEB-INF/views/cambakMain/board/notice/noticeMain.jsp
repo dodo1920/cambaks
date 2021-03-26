@@ -48,6 +48,7 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/notice.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script> 
 
@@ -69,18 +70,15 @@
 	}
 
 	 $(document).ready(function() {
-		  checkPage();
+		  checkPageMain();
  	      let boardUri = searchUriAddress();
  	      asideBarDraw(boardUri);
 	      rolling();
-	   		
-	   	}
-	      
 	      
 	   });
 		
 	   // 게시판 uri 접속 시 board/ 뒤에 오는 게시판이름 가져오는 기능
-     function checkPage() {
+     function checkPageMain() {
          var url = location.href; //url주소
          var ispage = url.indexOf("page=");
          

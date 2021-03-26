@@ -61,18 +61,7 @@
 
 <script>
 
-function checkPage() {
-    var url = location.href; //url주소
-    var ispage = url.indexOf("page=");
-    
-     if(ispage == -1){
-	 location.href='/board/notice/listCri?page=1';
-	 }  
-
-}
-
 	function checkModiForm(){
-		
 		
 		if($(".boardtextArea").val() == $("#prevBoardContext").val() && $("input[name=board_title]").val() == $("#prevBoardTitle").val()){
 			alert("수정할 내용이 없습니다.");
@@ -83,7 +72,9 @@ function checkPage() {
 
 	$(function(){
 		
+		
 		checkPage();
+		
 		if('${noticeBoard.member_id}' != '${loginMember.member_id}'){
 			alert("잘못된 경로입니다.");
 			location.href='/board/notice/listCri?page=1';

@@ -48,6 +48,7 @@
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
+<script src="/resources/cambak21/js/notice.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
 <!-- include summernote css/js -->
@@ -57,24 +58,11 @@
 let replyCnt = 0;
 let isreply = 0;
 
-
-
-function checkPage() {
-    let url = location.href; //url주소
-    let ispage = url.indexOf("page=");
-    console.log(url);
-     if(ispage == -1){
-	    	 
-	 location.href = url + "&page=1";
-	 }  
-
-	}
   
 function callReplyList(){
 	
 	let board_no = '${param.no}';
 	let output = '<ul class="list-group">';
-	
 	
 	$.getJSON("/board/notice/user/getReply/" + board_no, function(data){
 					
@@ -132,12 +120,9 @@ function goDelete(replyno){
 					$("#replyWriter").val('${loginMember.member_id}');
 					console.log($("#replyWriter"));
 					callReplyList();
-				
 			}
 		});
-	
-	
-}
+	}
 
 function enterkey() {
     if (window.event.keyCode == 13) {
@@ -172,7 +157,6 @@ function modiProc(){
 					
 					callReplyList();
 					$('#modifyBox' + replyBoard_no).hide();
-					
 				}
 			}
 		});
@@ -266,8 +250,6 @@ form, form input{
 	color:black;
 	font-weight: 500;
 } 
-
-
 
 #replyWindow{
 
