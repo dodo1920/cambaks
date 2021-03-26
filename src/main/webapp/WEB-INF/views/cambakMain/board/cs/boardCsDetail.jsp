@@ -459,7 +459,7 @@
 										<button type="button" class="btn btn-default detailPrev">이전글</button>
 									</a>
 								</c:if>
-								<a href="/board/cs?page=${param.page}" id="listBtn">
+								<a href="/board/cs/list?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
 								<c:if test="${next != null }">

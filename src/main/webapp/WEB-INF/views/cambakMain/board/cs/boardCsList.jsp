@@ -68,6 +68,7 @@
 	function deleteOk() {
 		
 		if(${status == "deleteOk"}) {
+			$("#modalText").text("게시글이 삭제 되었습니다");
 			$("#myModal").modal();
 		}
 	}
@@ -177,18 +178,18 @@
 									<c:when test="${param.searchType == null }">
 										<!-- 이전 버튼 -->
 										<c:if test="${pp.prev }">
-											<li><a href="/board/cs?page=${param.page - 1 }">이전</a></li>
+											<li><a href="/board/cs/list?page=${param.page - 1 }">이전</a></li>
 										</c:if>
 
 										<!-- 페이징 버튼 -->
 										<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
 											var="pageNo">
-											<li><a href="/board/cs?page=${pageNo }">${pageNo }</a></li>
+											<li><a href="/board/cs/list?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 
 										<!-- 다음 버튼 -->
 										<c:if test="${pp.next }">
-											<li><a href="/board/cs?page=${param.page + 1 }">다음</a></li>
+											<li><a href="/board/cs/list?page=11111111111111111111">다음</a></li>
 										</c:if>
 									</c:when>
 

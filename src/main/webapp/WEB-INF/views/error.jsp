@@ -99,7 +99,7 @@
 				<h1>404</h1>
 			</div>
 			<h2>Oops! Page Not Found</h2>
-			<a href="/">Back To Homepage</a>
+			<a href="${prevURL}">Back To Homepage</a>
 		</div>
 	</div>
 </body>
