@@ -131,9 +131,9 @@ public class BoardResellController {
 		
 	}
 	@RequestMapping(value="/uploadAjax", method = RequestMethod.POST)
-	public ResponseEntity<String> uploadAjax(MultipartFile[] uploadFile, HttpServletRequest request) {
+	public ResponseEntity<ArrayList> uploadAjax(MultipartFile[] uploadFile, HttpServletRequest request)  {
 		System.out.println("uploadAjax ....POST방식성공");
-		ResponseEntity<String> entity = null;
+		ResponseEntity<ArrayList> entity = null;
 		ArrayList returnList =  new ArrayList();
 		
 		
@@ -142,25 +142,31 @@ public class BoardResellController {
 			System.out.println("파일 사이즈 : " + file.getSize());
 			System.out.println("업로드 파일의 타입 : " + file.getContentType()); // 파일의 MIME type
 //			System.out.println("파일 separator : " + file.separator);
-			
 			try {
-//				String uploadFileName = uploadFile(request, file.getOriginalFilename(), file.getBytes());
-				
 				String path = request.getSession().getServletContext().getRealPath("resources/uploads/Resell");
 				System.out.println(path);
 				
-				String returnFile = FileUploadProdcess.uploadFile(path, file.getOriginalFilename(), file.getBytes());
-				returnList.add(returnFile);
+				String returnFile;
+					
+					returnFile = FileUploadProdcess.uploadFile(path, file.getOriginalFilename(), file.getBytes());
+					returnList.add("/resources/uploads/Resell"+returnFile);
+					entity = new ResponseEntity<ArrayList>(returnList,HttpStatus.OK);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					returnList.retainAll(returnList);
+					returnList.add(e.getMessage());
+					entity = new ResponseEntity<ArrayList>(returnList,HttpStatus.BAD_REQUEST);
+					return entity;
+				}
 				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-			}	
+				
 		}
-		
-		System.out.println(returnList);
-		return new ResponseEntity<String>(HttpStatus.OK);
+		System.out.println("entity \n =========================================");
+		System.out.println(entity);
+		return entity;
+
+
 	}
 
 	
