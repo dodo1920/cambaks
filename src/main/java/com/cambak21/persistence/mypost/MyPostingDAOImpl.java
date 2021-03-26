@@ -5,6 +5,7 @@ package com.cambak21.persistence.mypost;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
@@ -15,7 +16,17 @@ import com.cambak21.util.PagingCriteria;
 
 @Repository
 public class MyPostingDAOImpl implements MyPostingDAO {
-
+	
+	private SqlSession ses;
+	
+	private static String ns = "com.mappers.cambakMain.myPost";
+	
+	
+	
+	
+	
+	
+	
 	/**
 	  * @Method Name : getMyLikePostng
 	  * @작성일 : 2021. 3. 16.
@@ -32,6 +43,19 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : getMyLikePostngCnt
@@ -48,6 +72,18 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	/**
@@ -66,6 +102,16 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : getMyPostingCnt
@@ -82,11 +128,22 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : myWriteReply
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 효원
 	  * @변경이력 : 
 	  * @Method 설명 : 내가 작성한 댓글 기본 검색 페이지
 	  * @param member_id
@@ -99,11 +156,21 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : myWriteReply
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 효원
 	  * @변경이력 : 날짜검색으로 내가 작성한 댓글 검색
 	  * @Method 설명 :
 	  * @param member_id
@@ -119,11 +186,20 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : getCheckList
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 종진
 	  * @변경이력 : 
 	  * @Method 설명 : 체크리스트 얻어오기
 	  * @param member_id
@@ -135,11 +211,25 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : delCheckList
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 종진
 	  * @변경이력 : 
 	  * @Method 설명 : 체크리스트 삭제하기
 	  * @param member_id
@@ -151,11 +241,27 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : modyCheckList
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 종진
 	  * @변경이력 : 
 	  * @Method 설명 : 체크리스트 수정하기
 	  * @param member_id
@@ -167,11 +273,29 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	  * @Method Name : resisterCheckList
 	  * @작성일 : 2021. 3. 16.
-	  * @작성자 : goott6
+	  * @작성자 : 종진
 	  * @변경이력 : 
 	  * @Method 설명 : 체크리스트 등록
 	  * @param member_id
@@ -183,6 +307,26 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }
