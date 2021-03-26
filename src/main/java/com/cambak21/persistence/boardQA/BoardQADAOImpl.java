@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardQAVO;
+import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
@@ -49,14 +50,14 @@ public class BoardQADAOImpl implements BoardQADAO {
 	}
 
 	@Override
-	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("searchType", scri.getSearchType());
-		map.put("searchWord", scri.getSearchWord());
-		map.put("pageStart", cri.getPageStart());
-		map.put("perPageNum", cri.getPerPageNum());
+	public List<BoardQAVO> searchListBoardQA(SearchBoardQAVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("searchWord", vo.getSearchWord());
+		param.put("searchType", vo.getSearchType());
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
 		
-		return ses.selectList(ns + ".searchBoardQA", map);
+		return ses.selectList(ns + ".searchBoard", param);
 	}
 
 	@Override
@@ -66,7 +67,7 @@ public class BoardQADAOImpl implements BoardQADAO {
 
 	@Override
 	public int boardQAtotalCnt() throws Exception {
-		return ses.selectOne(ns + ".QAtotalCnt");
+		return ses.selectOne(ns + ".totalCnt");
 	}
 
 	@Override
@@ -93,6 +94,22 @@ public class BoardQADAOImpl implements BoardQADAO {
 	public void boardQAViewUpdate(int board_no) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<BoardQAVO> listBoardQAPaging(int page) throws Exception {
+		if (page <= 0) {
+			page = 1;
+		}
+		
+		page = (page - 1) * 10;
+		
+		return ses.selectList(ns + ".listBoardPaging", page);
+	}
+
+	@Override
+	public List<BoardQAVO> listBoardCriteria(PagingCriteria cri) throws Exception {
+		return ses.selectList(ns + ".listBoardCriteria", cri);
 	}
 
 }
