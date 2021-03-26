@@ -36,11 +36,63 @@
 			margin : 0px;
 			padding : 0px;
 		}
+		
+		#email {
+			display : block;
+		}
+		
+		#id_member_email {
+			width : 80%;
+			display : inline-block;
+			margin-right : 2%;
+			margin-bottom : 3%;
+		}
+		
+		#userUUID {
+			width : 30%;
+			display : inline-block;
+			margin-right : 2%;
+		}
 	</style>
+	<script type="text/javascript">
+		function showCheckbox() {
+			$("#hiddenCheckbox").show();
+		}
+		
+		function sendMail() {
+			let userName = $("#id_member_name").val()
+			let userEmail = $("#id_member_email").val()
+			
+			console.log(userName, userEmail);
+			
+			$.ajax({
+				url: '/user/find_idPwd',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					member_name : userName,
+					member_email : userEmail,
+					}),
+				dataType : 'json', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});	
+			
+		}
+	
+	</script>
 </head>
 
 <body>
-    <%@include file="cambak21Header.jsp"%>
+    <%@include file="../cambak21Header.jsp"%>
 
 	<!-- Main -->
 	<div id="main">
@@ -58,11 +110,16 @@
 						  <form action="/action_page.php">
 						    <div class="form-group">
 						      <label for="member_name">이름 :</label>
-						      <input type="text" class="form-control" id="member_name" placeholder="Enter name" name="member_name">
+						      <input type="text" class="form-control" id="id_member_name" placeholder="Enter name" name="member_name">
 						    </div>
 						    <div class="form-group">
-						      <label for="email">이메일 :</label>
-						      <input type="email" class="form-control" id="member_email" placeholder="Enter email" name="member_email">
+						      <label for="email" id="email">이메일 :</label>
+						      <input type="email" class="form-control" id="id_member_email" placeholder="Enter email" name="member_email">
+						      <input type="button" id="checkEmail" value="인증" onclick="showCheckbox(); sendMail();" />
+						      <div id="hiddenCheckbox" style="display:none">
+						      	<input type="text" id="userUUID" class="form-control" />
+						      	<input type="button" id="checkUUID" value="확인" />
+						      </div>
 						    </div>
 						    <button type="submit" class="btn btn-default">찾기</button>
 						    <button type="button" class="btn btn-default">취소</button>
@@ -78,11 +135,11 @@
 						  <form action="/action_page.php">
 						    <div class="form-group">
 						      <label for="member_id">아이디 :</label>
-						      <input type="text" class="form-control" id="member_id" placeholder="Enter name" name="member_id">
+						      <input type="text" class="form-control" id="pwd_member_name" placeholder="Enter name" name="member_id">
 						    </div>
 						    <div class="form-group">
 						      <label for="email">이메일 :</label>
-						      <input type="email" class="form-control" id="member_email" placeholder="Enter email" name="member_email">
+						      <input type="email" class="form-control" id="pwd_member_email" placeholder="Enter email" name="member_email">
 						    </div>
 						    <button type="submit" class="btn btn-default">찾기</button>
 						    <button type="button" class="btn btn-default">취소</button>
@@ -97,7 +154,7 @@
 	</div>
 	<!-- /Main -->
 
-    <%@include file="cambak21Footer.jsp"%>
+    <%@include file="../cambak21Footer.jsp"%>
 	
 </body>
 

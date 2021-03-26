@@ -42,6 +42,7 @@
 			alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
 			return true;
 		}
+		
 	}
 	</script>
 	<style>
@@ -57,7 +58,7 @@
 </head>
 
 <body>
-    <%@include file="cambak21Header.jsp"%>
+    <%@include file="../cambak21Header.jsp"%>
 
 <!-- Main -->
 	<div id="main">
@@ -65,7 +66,7 @@
 			<div class="row">
 
 			<!-- 사이드바 템플릿 -->
-		<%@include file="cambak21Aside2.jsp"%>
+		<%@include file="../cambak21Aside2.jsp"%>
 		
 		<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -104,7 +105,7 @@
 		                
 		              </span>
 		  
-		              <a href="buggo_FindPassword.html" class="txt2">
+		              <a href="../find_idPwd" class="txt2">
 		                아이디 / 비밀번호 찾기
 		              </a>
 		            </div>
@@ -142,7 +143,7 @@
 		                
 		              </span>
 		  
-		              <a href="buggo_FindPassword.html" class="txt2">
+		              <a href="../find_idPwd" class="txt2">
 		                아이디 / 비밀번호 찾기
 		              </a>
 		            </div>
@@ -173,7 +174,7 @@
 	</div>
 	</div>
 	</div>
-    <%@include file="cambak21Footer.jsp"%>
+    <%@include file="../cambak21Footer.jsp"%>
 	
 </body>
 
