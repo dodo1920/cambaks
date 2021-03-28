@@ -25,4 +25,9 @@
   	<select id="getListReply" resultType="com.cambak21.domain.ReplyProdReviewVO">
   		select * from ReplyProdReviews where prodReview_no = #{prodReview_no} order by replyProdReview_ref asc, replyProdReview_refOrder asc
   	</select>
+  	
+  	<!-- 댓글 삭제 처리 부분 -->
+  	<update id="deleteProdReviewReply">
+  		update goot6.ReplyProdReviews set replyProdReview_isDelete = 'Y' where replyProdReview_no = #{replyProdReview_no}
+  	</update>
   </mapper>

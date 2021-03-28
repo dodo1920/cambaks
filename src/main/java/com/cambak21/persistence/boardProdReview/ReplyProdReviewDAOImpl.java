@@ -67,4 +67,15 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 		return ses.selectOne(namespace + ".getMaxReforder", replyProdReview_no);
 	}
 
+	// 댓글 삭제 처리
+	@Override
+	public boolean deleteProdReviewReply(int replyProdReview_no) throws Exception {
+		boolean result = false;
+		if(ses.update(namespace + ".deleteProdReviewReply", replyProdReview_no) == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
 }

@@ -17,6 +17,9 @@ public interface ReplyProdReviewService {
 	
 	// Max reforder 가져오기
 	public int getMaxReforder(int replyProdReview_no) throws Exception;
+
+	// 댓글 삭제처리 하기
+	public boolean deleteProdReviewReply(int replyProdReview_no) throws Exception;
 	
 	
 

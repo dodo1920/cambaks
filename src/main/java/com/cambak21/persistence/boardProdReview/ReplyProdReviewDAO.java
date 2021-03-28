@@ -38,6 +38,9 @@ public interface ReplyProdReviewDAO {
 
 	public List<ReplyProdReviewVO> getListReply(int prodReview_no) throws Exception;
 	
+	// 댓글 삭제처리
+	public boolean deleteProdReviewReply(int replyProdReview_no) throws Exception;
+	
 
 	
 }

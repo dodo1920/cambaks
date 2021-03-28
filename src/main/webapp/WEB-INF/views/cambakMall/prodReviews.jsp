@@ -153,13 +153,13 @@
 	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
 	                 
-	                 // Content 내용
+	                 // display:none 되어있는 Content 내용
 	                 output += '<div>' + item.prodReview_content + '</div>';
-	                 // 댓글 내용
+	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
-	                 
-	                 if(member_id != null){
+	                 // 부모 댓글 작성을 위한 양식 출력 부분
+	                 if(member_id != null){ // 로그인되어 있는 경우에만 댓글 작성을 보여준다.
 	                	 output += '<div class="card mb-2"><div class="card-header bg-light">댓글 작성</div>';
 	                	 output += '<div class="card-body"><ul class="list-group list-group-flush"><li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
 	                	 output += '<div><p class="card-text"><textarea id="replyProdReview_content' + item.prodReview_no + '" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea><div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></p></li></ul></div>';
@@ -221,7 +221,6 @@
 	              
 	              // 열어놨던 페이지를 열어준 채로 로딩하는 부분
 	              if(checkPoint == 1){
-	            	  alert("!");
 	            	  $("#content" + prodReviewNo).show();
 	              }
 	              
@@ -229,8 +228,7 @@
 	        error		: function(error) {
 	        	console.log(error);
 	        	
-	        }, complete : function(data) {
-	            //alert("complete!");    
+	        }, complete : function(data) { // 게시글 부분이 모두 출력되고 난 후에 이루어지는 작업 부분=complete
 	            let prodList = data.responseJSON.prodList;
 	            //console.log(prodList);
 	            
@@ -250,27 +248,44 @@
 							  console.log(result);
 							  
 							  let replyOutput;
-							  if(item.replyProdReview_no == item.replyProdReview_ref){
+							  if(item.replyProdReview_no == item.replyProdReview_ref){// 부모 댓글인 경우,
 								  replyOutput = '<div class="card mb-2" ><div class="card-header bg-light">';
-							  }else{
+							  }else{// 대댓글인 경우에는 왼쪽으로부터 10% 떨어지게 하는 효과를 적용
 								  replyOutput = '<div class="card mb-2" style="margin-left:10%"><div class="card-header bg-light">';
 							  }
 								  
 
-							  if(item.replyProdReview_no != item.replyProdReview_ref){
+							  if(item.replyProdReview_no != item.replyProdReview_ref){ // 대댓글인 경우, 화살표 이미지를 적용
 					        	  replyOutput += '<img src="/resources/cambak21/img/replyimg.png" width="20px" height="15px">';
 					          }
 							  
-							  //댓글의 날짜 형식 변경 부분
+							  //댓글의 날짜 형식 변경을 위한 부분
 					          let showDate = new Date(item.replyProdReview_date);
 					          let showThisDate = showDate.toLocaleString();
 					          
-					          //댓글 생성 부분
-					          
+					          //댓글 및 대댓글 생성 부분
 				              replyOutput += '<i class="fa fa-user-circle-o fa-2x"></i>' + item.member_id + '<div>' + showThisDate + ' replyProdReview_no : ' + item.replyProdReview_no +'</div></div><div class="card-body"><ul class="list-group list-group-flush">';
 				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
-				              replyOutput += '<div><span id="replyMemberName' + item.replyProdReview_no + '"></span><p class="card-text">' + item.replyProdReview_content + '</p><div>';
-				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button></li></ul></div>';
+				              replyOutput += '<div><span id="replyMemberName' + item.replyProdReview_no + '"></span><p class="card-text">';
+				              //삭제된 댓글인 경우 '삭제된 댓글입니다' 표시를 위한 처리 부분
+				              if(item.replyProdReview_isDelete == 'Y'){
+				            	  replyOutput += '<span>삭제된 댓글입니다.</span></p><div>'
+				              } else{
+					              replyOutput += '<span id="replyContents' + item.replyProdReview_no + '">' + item.replyProdReview_content + '</span></p><div>';
+				              }
+				              //답글 버튼(로그인한 회원에게만 보이도록 처리)
+				              if(${loginMember.member_id != null}){
+				            	  replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button>';
+				              }
+				              
+				              if(item.member_id == "${loginMember.member_id}"){ // 로그인 아이디와 동일한 경우에만 수정/삭제 표시
+				              //수정 버튼
+				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:modifyReply(' + item.replyProdReview_no +');">수정</button>';
+				              //삭제 버튼
+				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="deleteReply(' + item.replyProdReview_no +');">삭제</button>';
+				              }
+				          
+				              replyOutput += '</li></ul></div>'; // 닫아주는 부분
 				              
 				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
 				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>'
@@ -387,6 +402,33 @@
 		
 	}
 	
+	// 댓글 및 대댓글을 삭제하는 함수
+	function deleteReply(replyProdReview_no) {
+		console.log(replyProdReview_no);
+		replyProdReview_no = replyProdReview_no;
+		let product_id = 4;
+		
+		$.ajax({
+			  method: "post",
+			  url: "/cambakMall/deleteProdReviewReply/" + replyProdReview_no,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "text", // 응답 받는 데이터 타입
+			  success : function(deleteResult) {
+				  console.log(deleteResult);
+				  if(deleteResult=="true"){
+					  alert("삭제 성공");
+				  }
+				  
+				  //삭제 후 리스트를 다시 출력하라
+				  showProdList(product_id, currentPage, 1);
+				  
+			  }
+			  
+			});
+	}
 		
 		
 		$(function() {
