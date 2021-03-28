@@ -369,14 +369,15 @@
 						   	</c:if>
 							
 							<!-- 검색하지 않았을 시 전 주소 -->
-							<c:if test="${pagingParam.searchWord == null }">
+							<c:if test="${param.searchWord == null }">
 								<a href="/board/qa?page=${param.page}" id="listBtn">
-									<button type="button" class="btn btn-danger detailNext">목록보기</button>
+									<button type="button" class="btn btn-danger">목록보기</button>
 								</a>
 							</c:if>
 							
+														
 							<!-- 검색 했을 시 전 주소 -->
-							<c:if test="${pagingParam.searchWord != null }">
+							<c:if test="${param.searchWord != null }">
 								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>

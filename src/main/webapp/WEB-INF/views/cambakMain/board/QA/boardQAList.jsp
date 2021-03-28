@@ -120,7 +120,7 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="../board/qa/detail?no=${item.board_no }"
+											<td><a href="../board/qa/detail?no=${item.board_no }&page=${param.page}"
 												class="board-title-a">${item.board_title }</a> <c:if
 													test="${item.board_replyCnt > 0 }">
 													(${item.board_replyCnt })
