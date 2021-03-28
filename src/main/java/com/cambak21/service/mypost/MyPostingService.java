@@ -40,6 +40,7 @@ public interface MyPostingService {
 		
 	// 내 체크리스트 등록하기
 	public List<CheckListVO> resisterCheckList(String member_id) throws Exception;
+
 		
 	
 	

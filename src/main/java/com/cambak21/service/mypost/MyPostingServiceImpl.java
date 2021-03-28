@@ -2,17 +2,22 @@ package com.cambak21.service.mypost;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikePostingVO;
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.persistence.mypost.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
 
 @Service
 public class MyPostingServiceImpl implements MyPostingService {
 
+	@Inject
+	private MyPostingDAO dao;
 	/**
 	  * @Method Name : getMyLikePostng
 	  * @작성일 : 2021. 3. 16.
@@ -80,8 +85,9 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  */
 	@Override
 	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		
+		return dao.getMyPosting(member_id, cri);
 	}
 
 	
@@ -107,8 +113,7 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  */
 	@Override
 	public int getMyPostingCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return dao.getMyPostingCnt(member_id);
 	}
 
 	
@@ -271,6 +276,13 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
+
 
 	
 	

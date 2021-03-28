@@ -3,7 +3,11 @@
  */
 package com.cambak21.persistence.mypost;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
@@ -17,9 +21,10 @@ import com.cambak21.util.PagingCriteria;
 @Repository
 public class MyPostingDAOImpl implements MyPostingDAO {
 	
+	@Inject
 	private SqlSession ses;
 	
-	private static String ns = "com.mappers.cambakMain.myPost";
+	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper";
 	
 	
 	
@@ -99,8 +104,13 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  */
 	@Override
 	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".getMyPosting1", param);
 	}
 	
 	
@@ -125,8 +135,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  */
 	@Override
 	public int getMyPostingCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.selectOne(ns + ".getMyPostingCnt1", member_id);
 	}
 	
 	
