@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
+import com.cambak21.dto.CamBoardTipLikeDTO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
@@ -47,6 +48,12 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	}
 	
 	@Override
+	public boolean upViewCount(int board_no) throws Exception {
+		// 캠핑팁 게시판 상세 글 조회 수 + 1
+		return dao.upViewCount(board_no);
+	}
+	
+	@Override
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception {
 		// 캠핑팁 게시판 상세 조회
 		return dao.viewCampingTipBoard(board_no, board_category);
@@ -59,7 +66,6 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 		int result = 0;
 		
 		if(dao.writeCampingTipBoard(writeDTO)) {
-			System.out.println("무야호");
 			result = dao.searchBoardLastNum(writeDTO);
 		}
 		
@@ -78,30 +84,12 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 		boolean result = false;
 		
 		// 게시글 삭제 시 해당 게시글의 댓글 먼저 모두 삭제 delete
-		if(dao.deleteCampingTipBoardReply(board_no) == 1) {
-			if (dao.deleteCampingTipBoard(board_no)) {
-				result = true;
-			}
+		dao.deleteCampingTipBoardReply(board_no);
+		
+		if (dao.deleteCampingTipBoard(board_no)) { // 게시글 삭제
+			result = true;
 		}
 		return result;
-	}
-
-	@Override
-	public List<BoardVO> readCampingTipBoard(int board_no) throws Exception {
-		// 게시글 상세 보기 select
-		return null;
-	}
-
-	@Override
-	public boolean upCountCampingTipBoard(int board_no) throws Exception {
-		// 상세 게시글 좋아요
-		return false;
-	}
-
-	@Override
-	public boolean addCountCampingTipBoard(String member_id, int board_no) throws Exception {
-		// 상세 게시글 좋아요
-		return false;
 	}
 
 	@Override
@@ -198,6 +186,24 @@ public class CampingTipBoardServiceImpl implements CampingTipBoardService {
 	public List<ReplyBoardVO> noRereplyAreaBlock(int board_no) throws Exception {
 		// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
 		return dao.noRereplyAreaBlock(board_no);
+	}
+
+	@Override
+	public int readLikeInfo(int board_no, String member_id) throws Exception {
+		// 로그인한 유저의 상세게시글 추천 여부 확인
+		return dao.readLikeInfo(board_no, member_id);
+	}
+
+	@Override
+	public int boardLikeUpdate(CamBoardTipLikeDTO dto) throws Exception {
+		// 로그인한 유저가 추천하기, 추천취소 버튼 클릭시 게시글 추천 수 +- 1
+		int result = 0;
+		if(dao.boardLikeUpdate(dto)) {
+			if (dao.boardLikeCntUpdate(dto)) {
+				result = dao.totalViewBoardLike(dto);
+			}
+		}
+		return result;
 	}
 
 }

@@ -17,15 +17,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<!-- tamplet js -->
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
-
 <!-- tamplet css -->
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
@@ -37,6 +34,9 @@
 
 
 <script>
+	let loginMember = '${loginMember.member_id}'; // 로그인한 유저 아이디 남겨놓기
+	let board_no = '${param.no}'; // 게시글 번호 남겨놓기
+	
    $(document).ready(function() {
       
 	  noBoardPage(); // 없는 게시글 로딩 시 다시 돌려보내기
@@ -46,13 +46,93 @@
       writeBoardInfo(); // 글 등록 완료 후 성공 여부 알려주기
       modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
       totalReplyCount(); // 게시글 댓글 총 개수 가져오기
+      readLikeInfo(); // 게시글 로딩 시 추천 여부 가져오기
 	
    });
+   
+   // 상세 게시글 추천하기 버튼 기능
+   function likeBoardBtn() {
+	   let likeBtn_result = $("#likeBtn_status").val();
+	   
+	   $.ajax({
+			  method: "POST",
+			  url: "/board/campingTip/boardLikeUpdate.bo",
+			  dataType: "text",
+			  data : {member_id : loginMember, board_no : board_no, likeBtn_result : likeBtn_result},
+			  success : function(data) {
+				  let output = "";
+				  if (likeBtn_result == "like") { // 추천취소 버튼으로 변경
+					  $("#boardLike_site").empty();
+					  output += '<input type="hidden" id="likeBtn_status" value="dislike" />' +
+					  '<img src="/resources/cambak21/img/campingTipDislike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천취소' +
+					  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span>';
+					  $("#boardLike_site").append(output);
+					  $("#viewBoardLikeCnt").text("추천 : " + data)
+				  } else if (likeBtn_result == "dislike") { // 추천하기 버튼으로 변경
+					  $("#boardLike_site").empty();
+					  output += '<input type="hidden" id="likeBtn_status" value="like" />' +
+					  '<img src="/resources/cambak21/img/campingTipLike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천하기' +
+					  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span></button>';
+					  $("#boardLike_site").append(output);
+					  $("#viewBoardLikeCnt").text("추천 : " + data)
+				  }
+				  
+			  }, error : function(data) {
+				  alert("페이지 로딩 시 문제가 발생했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+				  history.back();
+	          }
+			  
+			}); 
+	   
+   }
+   
+   // 게시글 로딩 시 추천 여부 가져오기
+   function readLikeInfo() {
+	   let board_likeCnt = '${viewBoard.board_likeCnt }';
+	   
+	   if (loginMember.length != 0) {
+		   // 로그인 한 유저가 있을 시 실행
+		   let output = "";
+		   
+		   $.ajax({
+				  method: "POST",
+				  url: "/board/campingTip/readLikeInfo.bo",
+				  dataType: "text",
+				  data : {loginMember : loginMember, board_no : board_no},
+				  success : function(data) {
+					  if (data == "dislike") {
+						output += '<button type="button" class="btn btn-default" id="boardLike_site" onclick="likeBoardBtn();">' +
+								  '<input type="hidden" id="likeBtn_status" value="like" />' +
+							  	  '<img src="/resources/cambak21/img/campingTipLike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천하기' +
+								  '<span class="badge" id="boardLike_likeCnt">' + board_likeCnt + '</span></button>';
+					  } else if (data == "like") {
+							output += '<button type="button" class="btn btn-default" id="boardLike_site" onclick="likeBoardBtn();">' +
+							  		  '<input type="hidden" id="likeBtn_status" value="dislike" />' +
+						  	  		  '<img src="/resources/cambak21/img/campingTipDislike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천취소' +
+									  '<span class="badge" id="boardLike_likeCnt">' + board_likeCnt + '</span></button>';
+					  }
+					  
+					  if (loginMember != '${viewBoard.member_id}') {
+						  $("#boardLike_Btn").attr("class", "boardLikeNwriter")
+					  }
+					  
+					  $("#boardLike_Btn").append(output);
+				  }, error : function(data) {
+					  alert("페이지 로딩 시 문제가 발생했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+					  history.back();
+		          }
+				  
+				}); 
+	   } else {
+// 		   css display none
+	   }
+		
+	   
+   }
    
    // 댓글 수정
    function replyModify(obj) {
 	   let modifyContent = $("#replyModifyContent" + obj).val();
-	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 	   let writeMember = $("#replyBoardNo" + obj).text(); // 작성자 아이디 가져오기
 	   
 		if(loginMember == writeMember ) {
@@ -99,7 +179,6 @@
    function replyDeleteBar(obj) {
 		let replyBoard_no = $(obj).attr("id");
 		let board_no = '${param.no }';
-		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 		let writeMember = $("#replyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
 		
 		// 알럿으로 삭제할지 확인
@@ -170,8 +249,6 @@
 
    // 상세 게시글의 댓글 총 개수 조회
    function totalReplyCount() {
-	   let board_no = '${param.no}';
-	   
 		$.ajax({
 			  method: "POST",
 			  url: "/board/campingTip/totalReply.bo",
@@ -213,7 +290,7 @@
 			  data : {no : no},
 			  success : function(data) {
 				  alert("글 삭제 성공!");
-				  location.href="/board/campingTip/list.bo";
+				  location.href="/board/campingTip/list.bo?page=1";
 			  },
 	          error : function(data) {
 	        	  alert("글 삭제를 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
@@ -248,7 +325,6 @@
 	   
 	   let no = getParameter("no");
 	   let output = "";
-	   let loginMember = '${loginMember.member_id}';
 	   
 		$.ajax({
 			  method: "POST",
@@ -289,8 +365,8 @@
 					  
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
-						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>';
-						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>';
+						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>';
+						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>';
 					  }
 					  
 					  output += '</div></div><div id="replyList' + data[i].replyBoard_ref + '" class="reReplyModify_list"></div>' +
@@ -310,7 +386,6 @@
 	   
 	   let no = getParameter("no");
 	   let output = "";
-	   let loginMember = '${loginMember.member_id}';
 	   
 		$.ajax({
 			  method: "POST",
@@ -335,8 +410,8 @@
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
 						  output += '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">' +
-						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + "," + data[i].replyBoard_ref + '"><img src="/resources/img/campingTipModifyCon.png" class="replyIconSize"/>삭제</a>' +
-						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/img/campingTipDeleteCon.png" class="replyIconSize"/>수정</a>' +
+						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + "," + data[i].replyBoard_ref + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>' +
+						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>' +
 						  '</div></div>';
 					  }
 					  
@@ -353,8 +428,7 @@
    
    // 댓글 더보기가 없을 시 css깨짐 현상 없애주기
    function noRereplyAreaBlock() {
-	   let board_no = '${param.no}';
-	   let loginMember = '${loginMember}';
+	   let loginMember_vo = '${loginMember}';
 	   
 		$.ajax({
 			  method: "POST",
@@ -363,7 +437,7 @@
 			  data : {board_no : board_no},
 			  success : function(data) {
 				  for (let i = 0; i < data.length; i++) {
-					  if (data[i].replyBoard_step == 0 && loginMember.length == 0) {
+					  if (data[i].replyBoard_step == 0 && loginMember_vo.length == 0) {
 						  $("#replyInfoBar" + data[i].replyBoard_ref).css("display", "none");
 					  }
 				  }
@@ -433,9 +507,7 @@
    function reReplyWrite(obj) {
 	   
 	   if (${loginMember != null}) {
-	   let board_no = '${param.no}';
 	   let replyBoard_content = $("#rereplyWriteContent" + obj).val();
-	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 		
 			$.ajax({
 				  method: "POST",
@@ -477,7 +549,6 @@
    // 대댓글 수정
    function reReplyModify(obj) {
 	   let modifyContent = $("#reReplyModifyContent" + obj).val();
-	   let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 	   let writeMember = $("#reReplyBoardNo" + obj).text(); // 작성자 아이디 가져오기
 	   
 		if(loginMember == writeMember ) {
@@ -509,7 +580,6 @@
 		let replyBoard_no = $(obj).attr("id").split(',')[0];
 		let replyBoard_ref = $(obj).attr("id").split(',')[1];
 		let board_no = '${param.no }';
-		let loginMember = '${loginMember.member_id}'; // 로그인 아이디
 		let writeMember = $("#reReplyBoardNo" + replyBoard_no).text(); // 작성자 아이디 가져오기
 		
 		// 알럿으로 삭제할지 확인
@@ -737,17 +807,20 @@
 .reReplyView_moreBtn {
 	display: none;
 	margin-right: 10px;
+	color : #777;
 }
 
 .reReplyView_replyBtn {
 	display: inline;
 	margin-right : 10px;
 	float: right;
+	color : #777;
 }
 
 .reReplyWrite_replyBtn {
 	display: inline;
 	margin-right : 10px;
+	color : #777;
 }
 
 .reReplyModify {
@@ -819,6 +892,34 @@
 	height: 14px;
 }
 
+.boardLike {
+	display: inline-block;
+	margin-left: 263px;
+}
+
+.boardLikeNwriter {
+	display: inline-block;
+	margin-left: 370px;
+}
+
+#boardLike_site {
+	display: inline-flex;
+	font-weight: bold;
+	background-color: #c4c4c4;
+}
+
+.boardLike_siteImg {
+	width: 22px;
+	height: 22px;
+	margin-right: 5px;
+}
+
+#boardLike_likeCnt {
+	color: #1171cc;
+	background-color: #fff;
+	left: 5px;
+}
+
 </style>
 
 </head>
@@ -841,13 +942,13 @@
 						<h3 class="viewTitleName">${viewBoard.board_title }</h3>
 						
 						<div class="viewTitleWriteInfo">
-						<span class="viewTitleWriteInfo_blank">작성자 : ${viewBoard.member_id }</span>
+						<span class="viewTitleWriteInfo_blank">글쓴이 : ${viewBoard.member_id }</span>
 						<span>작성일 : <fmt:formatDate value="${viewBoard.board_writeDate }" pattern="yyyy-MM-dd HH:mm" type="DATE" /></span>
 						</div>
 						
 						<div class="viewTitleLikeInfo">
-						<span>조회수 : ${viewBoard.board_viewCnt }</span>
-						<span class="viewTitleLikeInfo_blank">추천 : ${viewBoard.board_likeCnt }</span>
+						<span>조회 : ${viewBoard.board_viewCnt }</span>
+						<span class="viewTitleLikeInfo_blank" id="viewBoardLikeCnt">추천 : ${viewBoard.board_likeCnt }</span>
 						</div>
 					</div>
 					
@@ -895,13 +996,22 @@
 							    
 							</div>
 						</c:if>
+							<c:if test="${not empty loginMember }">
+							<div class="boardLike" id="boardLike_Btn"></div>
+							</c:if>
 							<div class="backListBtn">
 							<c:choose>
-								<c:when test="${param.page != null }">
+								<c:when test="${not empty param.page and empty param.searchType and empty param.searchWord}">
 									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${param.page }';">목록보기</button>
 								</c:when>
-								<c:when test="${campingTipPage != null }">
+								<c:when test="${not empty campingTipPage and empty param.searchType and empty param.searchWord}">
 									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${campingTipPage }';">목록보기</button>
+								</c:when>
+								<c:when test="${not empty param.page and not empty param.searchType and not empty param.searchWord}">
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search.bo?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
+								</c:when>
+								<c:when test="${not empty campingTipPage and not empty param.searchType and not empty param.searchWord}">
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search.bo?page=${campingTipPage }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
 								</c:when>
 								<c:otherwise>
 									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=1';">목록보기</button>
@@ -919,7 +1029,7 @@
 					<div class="replyWrite">
 						<c:choose>
 							<c:when test="${empty loginMember}">
-								<textarea class="replyWriteBar" id="writeReplyContent" placeholder="댓글은 회원만 작성하실 수 있습니다. 로그인 후 이용바랍니다."></textarea>
+								<textarea class="replyWriteBar" id="writeReplyContent" placeholder="댓글은 회원만 작성하실 수 있습니다. 로그인 후 이용바랍니다." readonly></textarea>
 							</c:when>
 							<c:otherwise>
 							<textarea class="replyWriteBar" id="writeReplyContent"></textarea>

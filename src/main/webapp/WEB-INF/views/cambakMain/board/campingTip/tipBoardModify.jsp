@@ -17,15 +17,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<!-- tamplet js -->
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
-
 <!-- tamplet css -->
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />

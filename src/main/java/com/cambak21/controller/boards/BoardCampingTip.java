@@ -3,8 +3,9 @@ package com.cambak21.controller.boards;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
+import com.cambak21.dto.CamBoardTipLikeDTO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
@@ -34,11 +37,15 @@ public class BoardCampingTip {
 	@Inject
 	private CampingTipBoardService service;
 	
+	@RequestMapping(value="/campingTip/test", method=RequestMethod.GET)
+	public String test() throws Exception {
+		// 캠핑팁 새로운 게시글 작성 페이지 출력
+		return "cambakMain/user/myPageReply";
+	}
+	
 	@RequestMapping(value="/campingTip/list.bo", method=RequestMethod.GET)
 	public String listAll(PagingCriteria cri, Model model, HttpServletRequest request) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
-		
-		HttpSession ses = request.getSession();
 		
 		model.addAttribute("boardList", service.listCampingTipBoard(cri));
 		
@@ -69,8 +76,21 @@ public class BoardCampingTip {
 	}
 	
 	@RequestMapping(value="/campingTip/view.bo", method=RequestMethod.GET)
-	public String viewBoard(@RequestParam("no") int board_no, @RequestParam("id") String board_category, Model model) throws Exception {
+	public String viewBoard(HttpServletRequest request, HttpServletResponse response,  @RequestParam("no") int board_no, @RequestParam("id") String board_category, Model model) throws Exception {
 		// 캠핑팁 상세글 조회
+		
+		String no = String.valueOf(board_no);
+		Cookie cookie = WebUtils.getCookie(request, "readBoard" + no);
+		
+		if (cookie == null) { // 금일 상세 게시글 확인 전 조회수 1증가
+			
+			Cookie readCookie = new Cookie("readBoard" + no, no);
+			readCookie.setPath("/");
+			readCookie.setMaxAge(60 * 60 * 24); // 하루 동안
+			response.addCookie(readCookie);
+			
+			service.upViewCount(board_no); // 조회수 1증가
+		}
 		
 		BoardVO vo = service.viewCampingTipBoard(board_no, board_category);
 		model.addAttribute("viewBoard", vo);
@@ -282,6 +302,34 @@ public class BoardCampingTip {
 		// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
 		List<ReplyBoardVO> vo = service.noRereplyAreaBlock(board_no);
 		return vo;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/readLikeInfo.bo", method=RequestMethod.POST)
+	public ResponseEntity<String> readLikeInfo(@RequestParam("board_no") int board_no, @RequestParam("loginMember") String member_id) {
+		// 로그인한 유저의 상세게시글 추천 여부 확인
+		ResponseEntity<String> entity = null;
+		
+		try {
+			if(service.readLikeInfo(board_no, member_id) == 1) {
+				entity = new ResponseEntity<String>("like", HttpStatus.OK);
+			} else {
+				entity = new ResponseEntity<String>("dislike", HttpStatus.OK);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/campingTip/boardLikeUpdate.bo", method=RequestMethod.POST)
+	public int boardLikeUpdate(CamBoardTipLikeDTO dto) throws Exception {
+		// 로그인한 유저가 추천하기, 추천취소 버튼 클릭시 게시글 추천 수 +- 1
+		int result = service.boardLikeUpdate(dto);
+		return result;
 	}
 	
 }

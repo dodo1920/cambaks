@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
+import com.cambak21.dto.CamBoardTipLikeDTO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
@@ -52,6 +53,16 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception {
 		// 캠핑팁 게시판 검색 결과 개수 가져오기
 		return session.selectOne(nameSpace + "searchTipBoardSearch", word);
+	}
+	
+	@Override
+	public boolean upViewCount(int board_no) throws Exception {
+		// 캠핑팁 게시판 상세 글 조회 수 + 1
+		boolean result = false;
+		if (session.update(nameSpace + "upViewCount", board_no) == 1) {
+			result = true;
+		}
+		return result;
 	}
 	
 	@Override
@@ -108,24 +119,6 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public List<BoardVO> readCampingTipBoard(int board_no) throws Exception {
-		// 게시글 상세 보기 select
-		return null;
-	}
-
-	@Override
-	public boolean upCountCampingTipBoard(int board_no) throws Exception {
-		// 상세 게시글 좋아요
-		return false;
-	}
-
-	@Override
-	public boolean addCountCampingTipBoard(String member_id, int board_no) throws Exception {
-		// 상세 게시글 좋아요
-		return false;
 	}
 
 	@Override
@@ -278,6 +271,41 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	public List<ReplyBoardVO> noRereplyAreaBlock(int board_no) throws Exception {
 		// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
 		return session.selectList(nameSpace + "checkStepCount", board_no);
+	}
+
+	@Override
+	public int readLikeInfo(int board_no, String member_id) throws Exception {
+		// 로그인한 유저의 상세게시글 추천 여부 확인
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("board_no", board_no);
+		return session.selectOne(nameSpace + "readLikeInfo", param);
+	}
+
+	@Override
+	public boolean boardLikeUpdate(CamBoardTipLikeDTO dto) throws Exception {
+		// 로그인한 유저가 추천하기, 추천취소 버튼 클릭시 게시글 DB 정보 변경
+		boolean result = false;
+		if (session.update(nameSpace + "boardLikeUpdate", dto) == 1) {
+			result = true;
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean boardLikeCntUpdate(CamBoardTipLikeDTO dto) throws Exception {
+		// 로그인한 유저가 추천하기, 추천취소 버튼 클릭시 게시글 추천 수 +- 1
+		boolean result = false;
+		if (session.update(nameSpace + "boardLikeCntUpdate", dto) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public int totalViewBoardLike(CamBoardTipLikeDTO dto) throws Exception {
+		// 추천 수 업데이트 후 상세 게시글 총 추천 수 가져오기
+		return session.selectOne(nameSpace + "checkTotalLike", dto);
 	}
 	
 }

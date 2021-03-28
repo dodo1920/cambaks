@@ -17,15 +17,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<!-- tamplet js -->
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
-
 <!-- tamplet css -->
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
@@ -45,8 +42,16 @@
       getSearchPage();
       changeCheckbox();
       cautionSearch();
+      makePageBox();
       
    });
+   
+   // 선택한 페이지 출력 시 페이징 된 숫자에 박스 생성
+   function makePageBox() {
+	   let page = '${param.page}';
+	   $("#pageNum" + page).attr("class", "pageNuMBox");
+	   $("#pageNumBtn" + page).attr("class", "pageNumberSelectBtn");
+   }
    
    // 검색어를 작성하지 않고 검색을 누를 경우 입력 요청
    function cautionSearch() {
@@ -104,7 +109,7 @@
    function getSearchPage() {
 	   let searchType = getParameter("searchType");
 	   if (searchType != -1) {
-		   $("#formAction").attr("action", "search");
+		   $("#formAction").attr("action", "search.bo");
 		   $(".searchBar").append('<div><input type="checkbox" id="searchCheckbox"> 검색 내 재검색</div>');
 	   }
    }
@@ -214,6 +219,31 @@
     width: 30px;
 }
 
+.pageNuMBox {
+	border: solid 1px;
+    background-color: #fff;
+    color: #03c75a;
+    border-color: #e5e5e5;
+}
+
+.viewPageLink {
+	color : #777;
+}
+
+.viewPageLinkReply {
+	color : #ff2f3b;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+.pageNumberBtn {
+	color : #777;
+}
+
+.pageNumberSelectBtn {
+	color : #80BA8E;
+}
+
 </style>
 
 </head>
@@ -241,9 +271,9 @@
 									<tr class="boardListTitle">
 										<th>작성일</th>
 										<th style="width: 416px;">제목</th>
-										<th>작성자</th>
+										<th>글쓴이</th>
 										<th>추천</th>
-										<th>조회수</th>
+										<th>조회</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -260,8 +290,25 @@
 										<tr style="text-align: center;">
 											<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd" type="DATE" /></td>
 											<td>
-											<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}">${item.board_title } </a>
-											<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" style="font-weight: 600;">[${item.board_replyCnt }]</a>
+											<c:choose>
+												<c:when test="${empty param.searchType and empty param.searchWord and item.board_replyCnt == 0 }">
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
+												</c:when>
+												
+												<c:when test="${empty param.searchType and empty param.searchWord and item.board_replyCnt != 0 }">
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+												</c:when>
+												
+												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt == 0 }">
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
+												</c:when>
+												
+												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt != 0 }">
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+												</c:when>
+											</c:choose>
 											</td>
 											<td>${item.member_id }</td>
 											<td>${item.board_likeCnt }</td>
@@ -273,9 +320,11 @@
 								</tbody>
 							</table>
 						</div>
+						<c:if test="${not empty loginMember }">
 						<div class="writeBoard">
 						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write.bo'">글작성</button>
 						</div>
+						</c:if>
 						<div class="numBoard">
 						<c:set var="campingTipPage" value="${param.page }" scope="session" />
 						<c:choose>
@@ -283,13 +332,13 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="list.bo?page=${param.page -1}">이전</a></li>
+											<li style="width: 30px;"><a href="list.bo?page=${param.page -1}" class="pageNumberBtn">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="list.bo?page=${pageNo }">${pageNo }</a></li>
+											<li id="pageNum${pageNo }"><a href="list.bo?page=${pageNo }" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="list.bo?page=${param.page +1}">다음</a></li>
+											<li style="width: 30px;"><a href="list.bo?page=${param.page +1}" class="pageNumberBtn">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
@@ -298,13 +347,13 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="search.bo?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}">이전</a></li>
+											<li style="width: 30px;"><a href="search.bo?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li><a href="search.bo?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}">${pageNo }</a></li>
+											<li id="pageNum${pageNo }"><a href="search.bo?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="search.bo?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}">다음</a></li>
+											<li style="width: 30px;"><a href="search.bo?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">다음</a></li>
 										</c:if>
 									</ul>
 								</div>

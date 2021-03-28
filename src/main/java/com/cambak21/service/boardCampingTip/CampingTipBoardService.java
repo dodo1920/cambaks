@@ -5,6 +5,7 @@ import java.util.List;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.SearchCampingTipVO;
+import com.cambak21.dto.CamBoardTipLikeDTO;
 import com.cambak21.dto.CamBoardTipModifyDTO;
 import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
@@ -27,6 +28,9 @@ public interface CampingTipBoardService {
 	// 캠핑팁 게시판 검색 결과 개수 가져오기
 	public int totalTipBoardSearch(SearchCampingTipVO word) throws Exception;
 	
+	// 캠핑팁 게시판 상세 글 조회 수 + 1
+	public boolean upViewCount(int board_no) throws Exception;
+	
 	// 캠핑팁 게시판 상세 조회
 	public BoardVO viewCampingTipBoard(int board_no, String board_category) throws Exception;
 	
@@ -38,13 +42,6 @@ public interface CampingTipBoardService {
 	
 	// 게시글 삭제 delete
 	public boolean deleteCampingTipBoard(int board_no) throws Exception;
-	
-	// 게시글 상세 보기 select
-	public List<BoardVO> readCampingTipBoard(int board_no) throws Exception;
-	
-	// 상세 게시글 좋아요
-	public boolean upCountCampingTipBoard(int board_no) throws Exception;
-	public boolean addCountCampingTipBoard(String member_id, int board_no) throws Exception;
 	
 	// 게시글 상세 보기 시 댓글 select
 	public List<ReplyBoardVO> readReplyCampingTipBoard(int board_no) throws Exception;
@@ -75,4 +72,11 @@ public interface CampingTipBoardService {
 	
 	// 캠핑팁 상세글 대댓글이 없는 댓글의 구역 체크를 위한 기능
 	public List<ReplyBoardVO> noRereplyAreaBlock(int board_no) throws Exception;
+	
+	// 로그인한 유저의 상세게시글 추천 여부 확인
+	public int readLikeInfo(int board_no, String member_id) throws Exception;
+	
+	// 로그인한 유저가 추천하기, 추천취소 버튼 클릭시 게시글 추천 수 +- 1
+	public int boardLikeUpdate(CamBoardTipLikeDTO dto) throws Exception;
+	
 }
