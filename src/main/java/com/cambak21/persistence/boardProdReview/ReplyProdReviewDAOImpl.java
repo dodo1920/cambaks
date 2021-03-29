@@ -1,6 +1,8 @@
 package com.cambak21.persistence.boardProdReview;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -76,6 +78,26 @@ public class ReplyProdReviewDAOImpl implements ReplyProdReviewDAO {
 		}
 		
 		return result;
+	}
+
+	// 댓글 조회 처리
+	@Override
+	public String readProdReviewReply(int replyProdReview_no) throws Exception {
+		return ses.selectOne(namespace + ".readProdReviewReply", replyProdReview_no);
+	}
+
+	// 댓글 수정 처리
+	@Override
+	public boolean modifyProdReviewReply(int replyProdReview_no, String replyProdReview_content) throws Exception {
+		boolean modifyResult = false;
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("replyProdReview_no", replyProdReview_no);
+		params.put("replyProdReview_content", replyProdReview_content);
+		if(ses.update(namespace + ".modifyProdReviewReply", params) == 1) {
+			modifyResult = true;
+		}
+		
+		return modifyResult;
 	}
 
 }

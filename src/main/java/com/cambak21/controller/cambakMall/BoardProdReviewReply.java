@@ -44,6 +44,7 @@ public class BoardProdReviewReply {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 			} 
 			
@@ -109,4 +110,40 @@ public class BoardProdReviewReply {
 			
 			return deleteResult;
 		}
+		
+		// 수정하려는 댓글 조회
+		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.POST)
+		public @ResponseBody String readProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no) throws Exception {
+			System.out.println("modifyProdReviewReply... POST...");
+			System.out.println(replyProdReview_no);
+			String result = null;
+			try {
+				
+				result = service.readProdReviewReply(replyProdReview_no);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
+		// 댓글 수정
+				@RequestMapping(value="/modifyProdReviewReply/{replyProdReview_no}/{replyProdReview_content}", method=RequestMethod.POST)
+				public @ResponseBody boolean modifyProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no, @PathVariable("replyProdReview_content") String replyProdReview_content) throws Exception {
+					System.out.println("modifyProdReviewReply... GET...");
+					System.out.println(replyProdReview_no);
+					System.out.println("replyProdReview_content : " + replyProdReview_content);
+					boolean modifyResult = false;
+					try {
+						
+						modifyResult = service.modifyProdReviewReply(replyProdReview_no, replyProdReview_content);
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return modifyResult;
+				}
+		
+		
 }

@@ -280,22 +280,27 @@
 				            	  replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button>';
 				              }
 				              
-				              if(item.member_id == "${loginMember.member_id}" || grade_name =='M'){ // 로그인 아이디와 동일한 경우에만 수정/삭제 표시
+				              if(item.member_id == "${loginMember.member_id}" || grade_name =='M'){ // 로그인 아이디와 동일한 경우, 운영진인 경우에만 수정/삭제 표시
 				              //수정 버튼
-				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:modifyReply(' + item.replyProdReview_no +');">수정</button>';
+				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="openModifyReply(' + item.replyProdReview_no +');">수정</button>';
 				              //삭제 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="deleteReply(' + item.replyProdReview_no +');">삭제</button>';
 				              }
 				          
 				              replyOutput += '</li></ul></div>'; // 닫아주는 부분
 				              
-				              replyOutput += '<div id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
+				              // 대댓글 등록 부분
+				              replyOutput += '<div class="replies" id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</strong></span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
 				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>'
 
 				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no+ "," + item.replyProdReview_ref + "," + item.prodReview_no + "," + ');">대댓글등록</button></div></div>';
+								
+				              // 대댓글 수정 작성 부분
+				              replyOutput += '<div class="repliesModi" id="replyModify' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님의 댓글 수정하기...</strong></span><div class="card-body"><textarea class="reReply" id="replyContentModi' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
+				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>'
+				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="modifyReply(' + item.replyProdReview_no +');">댓글 수정</button></div></div>';
 
-				              
-				              
+				              // end of </div>
 				              replyOutput += '</div>';
 				              
 							  $("#replyBox" + item.prodReview_no).append(replyOutput);
@@ -360,6 +365,9 @@
 	
 	//댓글 작성란 보여주기
 	function showReply(replyProdReview_no) {
+
+		$(".repliesModi").hide();
+		$(".replies").hide();
 		$("#reply" + replyProdReview_no).toggle();
 		let checkReforder = $("#get" + replyProdReview_no).val();
 		console.log(checkReforder);
@@ -407,7 +415,7 @@
 	// 댓글 및 대댓글을 삭제하는 함수
 	function deleteReply(replyProdReview_no) {
 		console.log(replyProdReview_no);
-		replyProdReview_no = replyProdReview_no;
+		//replyProdReview_no = replyProdReview_no;
 		let product_id = 4;
 		
 		$.ajax({
@@ -432,7 +440,60 @@
 			});
 	}
 		
+	
+	// 댓글 및 대댓글을 수정하는 content를 보여주는 함수
+	function openModifyReply(replyProdReview_no) {
+
+		let product_id = 4;
+
+		$(".replies").hide();
+		$(".repliesModi").hide();
+		$("#replyModify" + replyProdReview_no).toggle();
+		// 수정하려는 댓글 및 대댓글 read
+		$.ajax({
+			  method: "post",
+			  url: "/cambakMall/readProdReviewReply/" + replyProdReview_no,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "text", // 응답 받는 데이터 타입
+			  success : function(readResult) {
+				  console.log(readResult);
+				 $("#replyContentModi" + replyProdReview_no).html(readResult);
+				 // 귀신 잡은 포인트.
+			  }
+			});
+	}
 		
+	// 댓글 및 대댓글을 수정하는 함수
+	function modifyReply(replyProdReview_no) {
+		let product_id = 4;
+		let replyProdReview_content = $("#replyContentModi" + replyProdReview_no).val();
+		console.log(replyProdReview_content);
+		$.ajax({
+			  method: "post",
+			  url: "/cambakMall/modifyProdReviewReply/" + replyProdReview_no + "/" + replyProdReview_content,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "text", // 응답 받는 데이터 타입
+			  success : function(modifyResult) {
+				  console.log(modifyResult);
+				  if(modifyResult=="true"){
+					  alert("수정 성공");
+				  }
+				  
+				  //수정 후 리스트를 다시 출력하라
+				  showProdList(product_id, currentPage, 1);
+				  
+			  }
+			  
+			});
+		
+	}
+	
 		$(function() {
 			showProdList();
 		});
