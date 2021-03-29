@@ -77,9 +77,9 @@
 		return params[0]; // board/??/
 	}
 	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
-	function asideBarDraw(boardUri) {
-		$("#QnAAside" + boardUri + "Aside").attr("class", "active");
-	}
+// 	function asideBarDraw(boardUri) {
+// 		$("#QnAAside" + boardUri + "Aside").attr("class", "active");
+// 	}
 </script>
 </head>
 
@@ -148,7 +148,7 @@
 										class="btn btn-danger search" value="검색" />
 								</form>
 							</div>
-							<c:if test="${loginMember.member_id != null }">
+							<c:if test="${loginMember.member_id != null}">
 								<button class="btn btn-danger write"
 									onclick="location.href='/board/qa/write'">글쓰기</button>
 							</c:if>
