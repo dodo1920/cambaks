@@ -105,6 +105,7 @@
     function showProdList(product_id, pageNum, checkPoint) {
     	product_id = 4;
     	member_id = "${loginMember.member_id}";
+    	let grade_name = "${loginMember.grade_name}";
     	if(pageNum == null){
     		pageNum =1;
     	}
@@ -148,7 +149,7 @@
 	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
 	                 output += '<td colspan="6">';
 	                 
-	                 if(member_id == item.member_id){
+	                 if(member_id == item.member_id || grade_name =='M'){
 	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
 	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
@@ -230,6 +231,7 @@
 	        	
 	        }, complete : function(data) { // 게시글 부분이 모두 출력되고 난 후에 이루어지는 작업 부분=complete
 	            let prodList = data.responseJSON.prodList;
+	        	let grade_name = "${loginMember.grade_name}";
 	            //console.log(prodList);
 	            
 	            
@@ -278,7 +280,7 @@
 				            	  replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button>';
 				              }
 				              
-				              if(item.member_id == "${loginMember.member_id}"){ // 로그인 아이디와 동일한 경우에만 수정/삭제 표시
+				              if(item.member_id == "${loginMember.member_id}" || grade_name =='M'){ // 로그인 아이디와 동일한 경우에만 수정/삭제 표시
 				              //수정 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:modifyReply(' + item.replyProdReview_no +');">수정</button>';
 				              //삭제 버튼
