@@ -297,7 +297,7 @@
 												
 												<c:when test="${empty param.searchType and empty param.searchWord and item.board_replyCnt != 0 }">
 													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
 												</c:when>
 												
 												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt == 0 }">
@@ -306,7 +306,7 @@
 												
 												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt != 0 }">
 													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
 												</c:when>
 											</c:choose>
 											</td>

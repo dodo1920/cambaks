@@ -40,7 +40,7 @@ public class BoardCampingTip {
 	@RequestMapping(value="/campingTip/test", method=RequestMethod.GET)
 	public String test() throws Exception {
 		// 캠핑팁 새로운 게시글 작성 페이지 출력
-		return "cambakMain/user/myPageReply";
+		return "cambakMain/myPage/myPageReply";
 	}
 	
 	@RequestMapping(value="/campingTip/list.bo", method=RequestMethod.GET)

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cambak21.persistence.mypost;
+package com.cambak21.persistence.myPost;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	@Inject
 	private SqlSession ses;
 	
-	private static String ns = "com.mappers.cambakMain.myPost";
+	private static String ns = "com.cambak21.mappers.myPostMapper.";
 	
 	
 	

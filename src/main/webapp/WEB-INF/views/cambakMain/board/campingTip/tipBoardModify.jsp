@@ -55,8 +55,9 @@
 		
 		let member_id = '${modiBoard.member_id }';
 		let entrerMember = '${loginMember.member_id}';
+		let isAdmin = '${loginMember.member_isAdmin}';
 		
-		if (member_id != entrerMember) {
+		if (member_id != entrerMember && isAdmin != 'N') {
 			alert("게시글 작성자만 수정이 가능합니다.");
 			location.href='/board/campingTip/list.bo?page=1';
 		}

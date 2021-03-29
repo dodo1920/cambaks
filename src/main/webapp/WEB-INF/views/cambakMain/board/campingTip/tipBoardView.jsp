@@ -36,6 +36,7 @@
 <script>
 	let loginMember = '${loginMember.member_id}'; // 로그인한 유저 아이디 남겨놓기
 	let board_no = '${param.no}'; // 게시글 번호 남겨놓기
+	let isAdmin = '${loginMember.member_isAdmin }';
 	
    $(document).ready(function() {
       
@@ -47,8 +48,32 @@
       modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
       totalReplyCount(); // 게시글 댓글 총 개수 가져오기
       readLikeInfo(); // 게시글 로딩 시 추천 여부 가져오기
+      replyFocus(); // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
+
+      
+	  // 비회원이 댓글 textarea창에 마우스 왼쪽 클릭 시 로그인 이동 안내
+	  $("#writeReplyContent").bind("mousedown", function(event) {
+	  	  // 알럿으로 로그인할지 물어보기
+		   if (loginMember == "" && event.which == 1) {
+				if (confirm("회원만 댓글 작성이 가능합니다. 로그인 페이지로 이동하시겠습니까?") == true) { //확인
+					location.href='/user/login/yet';
+				} else { //취소
+				    return false;
+				}
+		   }
 	
+		   });
+      
    });
+   
+   // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
+   function replyFocus() {
+	   let param = '${param.replyFocus }';
+	   
+	   if (param == "true") {
+		   $("body,html").animate({scrollTop: 870}, 800);
+	   }
+   }
    
    // 상세 게시글 추천하기 버튼 기능
    function likeBoardBtn() {
@@ -112,7 +137,7 @@
 									  '<span class="badge" id="boardLike_likeCnt">' + board_likeCnt + '</span></button>';
 					  }
 					  
-					  if (loginMember != '${viewBoard.member_id}') {
+					  if (loginMember != '${viewBoard.member_id}' && isAdmin != 'Y') {
 						  $("#boardLike_Btn").attr("class", "boardLikeNwriter")
 					  }
 					  
@@ -135,24 +160,28 @@
 	   let modifyContent = $("#replyModifyContent" + obj).val();
 	   let writeMember = $("#replyBoardNo" + obj).text(); // 작성자 아이디 가져오기
 	   
-		if(loginMember == writeMember ) {
-			// 작성자와 삭제 요청자가 동일한 경우에만 실행
-			$.ajax({
-				  method: "POST",
-				  url: "/board/campingTip/modifyReply.bo",
-				  dataType: "text",
-				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
-				  success : function(data) {
-					  alert("댓글이 수정되었습니다!");
-					  $("#reply_box").empty(); // 댓글 비우기
-					  readReply(); // 댓글 다시 리로드
-					  totalReplyCount(); // 댓글 개수 리로드
-				  }, error : function(data) {
-		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
-		          }
-				  
-				});
+		if(loginMember == writeMember || isAdmin == 'Y' ) {
+			// 작성자와 삭제 요청자가 동일한 경우와 관리자인 경우에만 실행
 			
+			if (modifyContent != "") {
+				$.ajax({
+					  method: "POST",
+					  url: "/board/campingTip/modifyReply.bo",
+					  dataType: "text",
+					  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
+					  success : function(data) {
+						  alert("댓글이 수정되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
+					  }, error : function(data) {
+			        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			          }
+					  
+					});
+			} else {
+				alert("수정할 내용을 작성바랍니다.");
+			}
 		} else {
 			alert("댓글 작성자만 수정이 가능합니다.");
 		}
@@ -184,8 +213,8 @@
 		// 알럿으로 삭제할지 확인
 		if (confirm("정말 삭제하시겠습니까?") == true){ //확인
 			
-			if(loginMember == writeMember ) {
-				// 작성자와 삭제 요청자가 동일한 경우에만 실행
+			if(loginMember == writeMember || isAdmin == 'Y' ) {
+				// 작성자와 삭제 요청자가 동일한 경우, 관리자인 경우에만 실행
 				$.ajax({
 					  method: "POST",
 					  url: "/board/campingTip/deleteReply.bo",
@@ -219,6 +248,7 @@
 		   let board_no = '${viewBoard.board_no}';
 		   let replyBoard_content = $("#writeReplyContent").val();
 		   
+		   if (replyBoard_content != "") {
 			$.ajax({
 				  method: "POST",
 				  url: "/board/campingTip/writeReply.bo",
@@ -240,6 +270,9 @@
 		          }
 				  
 				});
+		   } else {
+			   alert("내용을 작성바랍니다.");
+		   }
 	   } else {
 		   alert("댓글은 로그인 후 작성하실 수 있습니다.");
 		   location.href='/user/login/yet';
@@ -367,6 +400,9 @@
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
 						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>';
 						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>';
+					  } else if (isAdmin == 'Y') {
+						  output += '<a onclick="replyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>';
+						  output += '<a onclick="replyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>';
 					  }
 					  
 					  output += '</div></div><div id="replyList' + data[i].replyBoard_ref + '" class="reReplyModify_list"></div>' +
@@ -409,6 +445,11 @@
 					  
  					  //가져온 댓글이 로그인한 유저와 동일하면 수정, 삭제 버튼 생성
 					  if (loginMember == data[i].member_id && data[i].replyBoard_isdelete == 'N') {
+						  output += '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">' +
+						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + "," + data[i].replyBoard_ref + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>' +
+						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>' +
+						  '</div></div>';
+					  } else if (isAdmin == 'Y') {
 						  output += '<div class="reReplyModify" id="reReplyModifyBar' + data[i].replyBoard_no + '"><div class="reReplyModify_info">' +
 						  '<a onclick="reReplyDeleteBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + "," + data[i].replyBoard_ref + '"><img src="/resources/cambak21/img/campingTipDeleteCon.png" class="replyIconSize"/>삭제</a>' +
 						  '<a onclick="reReplyModifyBar(this);" class="reReplyView_replyBtn" id="' + data[i].replyBoard_no + '"><img src="/resources/cambak21/img/campingTipModifyCon.png" class="replyIconSize"/>수정</a>' +
@@ -509,21 +550,25 @@
 	   if (${loginMember != null}) {
 	   let replyBoard_content = $("#rereplyWriteContent" + obj).val();
 		
-			$.ajax({
-				  method: "POST",
-				  url: "/board/campingTip/writeRereply.bo",
-				  dataType: "text",
-				  data : {replyBoard_no : obj, board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
-				  success : function(data) {
-					  alert("댓글이 등록되었습니다!");
-					  $("#reply_box").empty(); // 댓글 비우기
-					  readReply(); // 댓글 다시 리로드
-					  totalReplyCount(); // 댓글 개수 리로드
-				  }, error : function(data) {
-		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
-		          }
-				  
-				});
+	   		if (replyBoard_content != "") {
+				$.ajax({
+					  method: "POST",
+					  url: "/board/campingTip/writeRereply.bo",
+					  dataType: "text",
+					  data : {replyBoard_no : obj, board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
+					  success : function(data) {
+						  alert("댓글이 등록되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
+					  }, error : function(data) {
+			        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			          }
+					  
+					});
+	   		} else {
+	   			alert("내용을 작성바랍니다.");
+	   		}
 	   } else {
 		   alert("댓글은 로그인 후 작성하실 수 있습니다.");
 		   location.href='/user/login/yet';
@@ -551,24 +596,28 @@
 	   let modifyContent = $("#reReplyModifyContent" + obj).val();
 	   let writeMember = $("#reReplyBoardNo" + obj).text(); // 작성자 아이디 가져오기
 	   
-		if(loginMember == writeMember ) {
+		if(loginMember == writeMember || isAdmin == 'Y' ) {
 			// 작성자와 삭제 요청자가 동일한 경우에만 실행
-			$.ajax({
-				  method: "POST",
-				  url: "/board/campingTip/modifyRereply.bo",
-				  dataType: "text",
-				  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
-				  success : function(data) {
-					  alert("댓글이 수정되었습니다!");
-					  $("#reply_box").empty(); // 댓글 비우기
-					  readReply(); // 댓글 다시 리로드
-					  totalReplyCount(); // 댓글 개수 리로드
-				  }, error : function(data) {
-		        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
-		          }
-				  
-				});
 			
+			if (modifyContent != "") {
+				$.ajax({
+					  method: "POST",
+					  url: "/board/campingTip/modifyRereply.bo",
+					  dataType: "text",
+					  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
+					  success : function(data) {
+						  alert("댓글이 수정되었습니다!");
+						  $("#reply_box").empty(); // 댓글 비우기
+						  readReply(); // 댓글 다시 리로드
+						  totalReplyCount(); // 댓글 개수 리로드
+					  }, error : function(data) {
+			        	  alert("댓글 수정가 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			          }
+					  
+					});
+			} else {
+				alert("수정할 내용을 작성바랍니다.")
+			}
 		} else {
 			alert("댓글 작성자만 수정이 가능합니다.");
 		}
@@ -585,7 +634,7 @@
 		// 알럿으로 삭제할지 확인
 		if (confirm("정말 삭제하시겠습니까?") == true){ //확인
 			
-			if(loginMember == writeMember ) {
+			if(loginMember == writeMember || isAdmin == 'Y' ) {
 				// 작성자와 삭제 요청자가 동일한 경우에만 실행
 				$.ajax({
 					  method: "POST",
@@ -960,42 +1009,80 @@
 					<!-- 글 삭제, 수정, 리스트로 가기 버튼 -->
 					<div class="boardManageBtn">
 						<div class="boardModifyBtn">
-							<c:if test="${loginMember.member_id eq viewBoard.member_id}">
+							<c:choose>
+								<c:when test="${loginMember.member_id eq viewBoard.member_id}">
+									<div class="boardModifyBtn_side">
+									<form action="modify.bo" method="get" id="formBtnPos">
+									<input type="hidden" name="no" value="${viewBoard.board_no }" />
+									<input type="hidden" name="id" value="${param.id }" />
+									<button type="submit" class="btn btn-default">수정</button>
+									</form>
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">삭제</button>
+									
+									
+									<!-- Modal -->
+								    <div class="modal fade" id="myModal" role="dialog">
+								      <div class="modal-dialog">
+								    
+								        <!-- Modal content-->
+								        <div class="modal-content">
+								          <div class="modal-header">
+								            <button type="button" class="close" data-dismiss="modal">&times;</button>
+								            <strong>게시물 삭제</strong>
+								          </div>
+								          <div class="modal-body">
+								            <p>선택한 게시물을 정말 삭제하시겠습니까?</p>
+								            <p>한번 삭제한 자료는 복구할 수 없습니다</p>
+								            <p>댓글이 있는 게시글을 선택하신 경우<br />작성된 댓글도 모두 삭제됩니다.</p>
+								          </div>
+								          <div class="modal-footer">
+								            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteBoard();">삭제</button>
+								            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+								          </div>
+								        </div>
+								      
+								      </div>
+								    </div> <!-- modal end -->
+								    
+									</div>
+								</c:when>
+								<c:when test="${loginMember.member_isAdmin eq 'Y' }">
 								<div class="boardModifyBtn_side">
-								<form action="modify.bo" method="get" id="formBtnPos">
-								<input type="hidden" name="no" value="${viewBoard.board_no }" />
-								<input type="hidden" name="id" value="${param.id }" />
-								<button type="submit" class="btn btn-default">수정</button>
-								</form>
-								<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">삭제</button>
-								
-								
-								<!-- Modal -->
-							    <div class="modal fade" id="myModal" role="dialog">
-							      <div class="modal-dialog">
-							    
-							        <!-- Modal content-->
-							        <div class="modal-content">
-							          <div class="modal-header">
-							            <button type="button" class="close" data-dismiss="modal">&times;</button>
-							            <strong>게시물 삭제</strong>
-							          </div>
-							          <div class="modal-body">
-							            <p>선택한 게시물을 정말 삭제하시겠습니까?</p>
-							            <p>한번 삭제한 자료는 복구할 수 없습니다</p>
-							            <p>댓글이 있는 게시글을 선택하신 경우<br />작성된 댓글도 모두 삭제됩니다.</p>
-							          </div>
-							          <div class="modal-footer">
-							            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteBoard();">삭제</button>
-							            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-							          </div>
-							        </div>
-							      
-							      </div>
-							    </div> <!-- modal end -->
-							    
-							</div>
-						</c:if>
+									<form action="modify.bo" method="get" id="formBtnPos">
+									<input type="hidden" name="no" value="${viewBoard.board_no }" />
+									<input type="hidden" name="id" value="${param.id }" />
+									<button type="submit" class="btn btn-default">수정</button>
+									</form>
+									<button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">삭제</button>
+									
+									
+									<!-- Modal -->
+								    <div class="modal fade" id="myModal" role="dialog">
+								      <div class="modal-dialog">
+								    
+								        <!-- Modal content-->
+								        <div class="modal-content">
+								          <div class="modal-header">
+								            <button type="button" class="close" data-dismiss="modal">&times;</button>
+								            <strong>게시물 삭제</strong>
+								          </div>
+								          <div class="modal-body">
+								            <p>선택한 게시물을 정말 삭제하시겠습니까?</p>
+								            <p>한번 삭제한 자료는 복구할 수 없습니다</p>
+								            <p>댓글이 있는 게시글을 선택하신 경우<br />작성된 댓글도 모두 삭제됩니다.</p>
+								          </div>
+								          <div class="modal-footer">
+								            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="deleteBoard();">삭제</button>
+								            <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+								          </div>
+								        </div>
+								      
+								      </div>
+								    </div> <!-- modal end -->
+								    
+									</div>
+								</c:when>
+							</c:choose>
 							<c:if test="${not empty loginMember }">
 							<div class="boardLike" id="boardLike_Btn"></div>
 							</c:if>
