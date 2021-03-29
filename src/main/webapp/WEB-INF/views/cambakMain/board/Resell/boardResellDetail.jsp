@@ -11,7 +11,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="/resources/cambak21/js/skel.min.js"></script>
-	<script src="/resources/cambak/21js/skel-panels.min.js"></script>
+	<script src="/resources/cambak21/js/skel-panels.min.js"></script>
 	<script src="/resources/cambak21/js/init.js"></script>
 
 	<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
@@ -25,7 +25,11 @@
 	<link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 	<link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 	
+    <link rel="stylesheet" type="text/css" href="/resources/lib/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="/resources/lib/slick/slick-theme.css"/>
+	
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+	<script type="text/javascript" src="/resources/lib/slick/slick.js"></script>  
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	
 	<!-- 템플릿 js, css 파일 -->
@@ -37,12 +41,50 @@
 			width : 100%;
 			margin : 0px;
 		}
-		.imageBox{
+		#content{
+			width: 1000px;
+    		height: auto;
+		}
+		#totallArray{
+			width: 100%;
+    		height: 100%;
 			display: inline-block;
-			width: 230px;
-			height:200px;
-			margin : 0 40px 0 0;
-			float: left;
+		}
+		#imgBoard{
+			width: 100%;
+    		height: 100%;
+			border: 1px solid black;
+		}
+		#imgArray{
+			margin-right: 40px;
+			width: 430px;
+    		height: 430px;
+    		display: inline-block;
+    		float: left;
+		}
+		#textArray{
+			color: black;
+			height: 400px;
+
+		}
+		.inputStyle{
+			border: none;
+			width: 80%
+		}
+		.inputStyle:focus, .detail:focus{
+			outline: none;
+		}
+		.detail{
+			width: 455px;
+			height: 300px
+		}
+		#pageTitle{
+			color : black;
+			font-size: 24px;
+		}
+		.imges{
+			height: 430px;
+			
 		}
 	</style>
 	
@@ -81,6 +123,14 @@
 	}
 	$(function() {
 		callReplyList();
+
+	      $('.single-item').slick({
+	    	  autoplay : true,
+              autoplaySpeed : 8000,    
+              dots:true,
+              arrows : true
+          });
+		  
 	});
 	function addReply() {
 		let member_id = $("#newReplyWriter").val();
@@ -141,8 +191,72 @@
 			<%@include file="../../cambak21BoardAside.jsp"%>
 
 				<!-- Content -->
-				<div id="content" class="8u skel-cell-important">
-					<div class="imageBox"><img class="imageBox" src="/resources/mallMain/img/shop/shop-5.jpg"/></div>
+			<div id="content" class="8u skel-cell-important">
+			<div>
+			<div>
+				<hr style="margin: 10px 0;padding: 3px;"/>
+				<div id="totallArray">
+					<!-- 이미지div -->
+					<div id="imgArray">
+						<div id="imgBoard" class="fDrop single-item" >
+
+							<c:if test="${not empty board.resellBoard_img2}">
+								<img src='${board.resellBoard_img2}'/>
+							</c:if>
+							<c:if test="${not empty board.resellBoard_img1}">
+								<img src='${board.resellBoard_img1}'/>
+							</c:if>
+						</div>
+					</div>
+					<!-- 텍스트div -->
+					<div id="textArray">
+						<div><h1 style="font-size: 25px;color: black;">${board.resellBoard_title}</h1></div>
+						<hr style="margin: 3px  0;padding: 3px;0"/>
+						<div id="detail"><span class="detail">${board.resellBoard_content	}</span></div>
+						<div style="margin-bottom: 15px"><span onclick="like()">좋아요수 :${board.resellBoard_likeCnt}</span><span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
+						<div><span style="margin-bottom: 15px">${board.resellBoard_addr }</span></div>
+					
+						
+					
+					</div>
+					<!-- 버튼div -->
+					<div>
+						<hr style="margin: 10px 0;padding: 3px;"/>
+						<button type="button" class="btn btn-success" id="rewriteBoard"
+							onclick="location.href='/board/resell/modi?no=${board.resellBoard_no}'">수정하기</button>
+						<button type="button" class="btn btn-info" id="deleteBoard"
+							onclick="location.href='/board/resell/remove?no=${board.resellBoard_no}'">삭제하기</button>
+						<button type="button" class="btn btn-primary"
+							onclick="location.href='/board/resell/list?page=${param.page}'">리스트페이지로</button>
+						<button type="button" class="btn btn-primary"
+							onclick="showReplyBox();">댓글달기</button>
+					</div>
+				</div>
+				<div id="inputReplyBox"
+					style="padding: 15px; border: 1px dotted gray; display: none;">
+					
+						작성자 : <input type="text" name="replyer" id="newReplyWriter" "/> 
+						댓글 입력 : <input type="text" name="replytext" id="newReplyText" />
+
+						<button id="replyAddBtn" onclick="addReply(); window.location.reload();">ADD Reply</button>
+					
+					</div>
+				<div id="replyBox"
+						style="padding: 10px; border-bottom: 1px solid gray;">
+						
+					</div>
+			</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- /Main -->
+
+    <%@include file="../../cambak21Footer.jsp"%>
+	
+</body>
+					<!-- <div class="imageBox"><img class="imageBox" src="/resources/mallMain/img/shop/shop-5.jpg"/></div>
 					<div>
 						<div>
 							<div style="padding-bottom: 14px">
@@ -180,14 +294,5 @@
 						
 					</div>
 				</div>
-
-			</div>
-		</div>
-	</div>
-	<!-- /Main -->
-
-    <%@include file="../../cambak21Footer.jsp"%>
-	
-</body>
-
+ -->
 </html>

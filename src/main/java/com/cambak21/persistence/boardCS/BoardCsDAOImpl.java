@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -115,6 +116,92 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 	@Override
 	public String nextNo(int board_no) throws Exception {
 		return ses.selectOne(ns + ".nextNo", board_no);
+	}
+
+	/**
+	  * @Method Name : checkLike
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 해당 유저가 해당 글 좋아요를 눌렀는지 안눌렀는지
+	  * @param dto
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public String checkLike(InsertLikeBoard dto) throws Exception {
+		return ses.selectOne(ns + ".checkLike", dto);
+	}
+
+	/**
+	  * @Method Name : insertLikeBoard
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : LikeBoard테이블의 정보 업데이트
+	  * @param dto
+	  * @throws Exception
+	  */
+	@Override
+	public void insertLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.insert(ns + ".insertLikeBoards", dto);
+	}
+
+	/**
+	  * @Method Name : updateLikeCnt
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 게시글 좋아요 수 + 1
+	  * @param dto
+	  * @throws Exception
+	  */
+	@Override
+	public void updatePlusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(ns + ".updatePlusLike", dto.getBoard_no());
+	}
+
+	/**
+	  * @Method Name : getLikeCnt
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 해당 글 좋아요 수 가져오기
+	  * @param dto
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public int getLikeCnt(InsertLikeBoard dto) throws Exception {
+		return ses.selectOne(ns + ".getLikeCnt", dto.getBoard_no());
+	}
+
+	/**
+	  * @Method Name : deleteLikeBoard
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 이미 눌렀으면 delete
+	  * @param dto
+	  * @throws Exception
+	  */
+	@Override
+	public void deleteLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.delete(ns + ".deleteLikeBoard", dto);
+	}
+
+	/**
+	  * @Method Name : updateMinusLikeCnt
+	  * @작성일 : 2021. 3. 26.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param dto
+	  * @throws Exception
+	  */
+	@Override
+	public void updateMinusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(ns + ".updateMinusLike", dto.getBoard_no());
 	}
 
 }

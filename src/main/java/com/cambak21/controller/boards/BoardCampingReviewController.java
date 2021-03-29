@@ -16,9 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
-import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
-import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCampingReview.CampingReviewService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -31,10 +29,10 @@ public class BoardCampingReviewController {
 	@Inject
 	private CampingReviewService service;
 	
-	private static Logger logger = LoggerFactory.getLogger(BoardCsController.class);
+	private static Logger logger = LoggerFactory.getLogger(BoardCampingReviewController.class);
 	
 	@RequestMapping("/")
-	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
+	public String BoardCRList(Model model, PagingCriteria cri) throws Exception {
 		logger.info("영광 / 게시글 리스트 get방식 호출");
 		
 		model.addAttribute("boardList", service.listBoardCampingReview(cri));
@@ -63,7 +61,7 @@ public class BoardCampingReviewController {
 	
 	
 	@RequestMapping("/write")
-	public String BoardCsWrite() {
+	public String BoardCRWrite() {
 		logger.info("영광 / 글 쓰기 폼 get 방식 호출");
 		
 		return "cambakMain/board/campingreview/cpwrite";
@@ -88,7 +86,7 @@ public class BoardCampingReviewController {
 	}
 	
 	@RequestMapping(value="/delete", method=RequestMethod.GET)
-	public String BoardCsDelete(@RequestParam("no") int board_no, RedirectAttributes ra) throws Exception {
+	public String BoardCRDelete(@RequestParam("no") int board_no, RedirectAttributes ra) throws Exception {
 		logger.info("영광 / 글 삭제 get방식 호출");
 		
 		service.deleteBoardCR(board_no);
@@ -122,16 +120,14 @@ public class BoardCampingReviewController {
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String search(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
 			logger.info("세부 검색값에 따른 검색을 시작 합니다.");
-			model.addAttribute("noticeList", service.searchListBoardCR(scri, cri));
+			model.addAttribute("CRboardlist", service.searchListBoardCR(scri, cri));
 			
 			PagingParam pp = new PagingParam();
 			pp.setCri(cri);
-			pp.setTotalCount(service.searchBoardCRtotalCnt(scri));
+			pp.setTotalCount(service.searchBoardCnt(scri));
 			System.out.println(pp.toString());
 			model.addAttribute("pagingParam", pp);
-			
-						
-			return "cambakMain/board/campingreview/campingreview/listcr";
+			return "cambakMain/board/campingreview/campingreview";
 	}
 	
 }

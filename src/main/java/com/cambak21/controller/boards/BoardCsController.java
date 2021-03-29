@@ -1,6 +1,7 @@
 package com.cambak21.controller.boards;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.dto.InsertCSBoardDTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
 import com.cambak21.util.BoardCsFileUpload;
@@ -134,7 +137,7 @@ public class BoardCsController {
 	  */
 	@RequestMapping(value = "/cs/image", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+	public ResponseEntity<String> BoardCsFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 		
 		try {
 			// 파일 업로드 될 서버 경로
@@ -151,6 +154,21 @@ public class BoardCsController {
 			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value="/cs/like", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> BoardCsLike(@RequestBody InsertLikeBoard dto) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			entity = new ResponseEntity<Map<String, Object>>(service.insertLikeBoard(dto), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 
 }

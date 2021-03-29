@@ -1,9 +1,11 @@
 package com.cambak21.persistence.cambakMain;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.LoginDTO;
 
 public interface MemberDAO {
 	/**
@@ -79,6 +81,18 @@ public interface MemberDAO {
 	public int updatePwd(String member_id, String member_password) throws Exception;
 	
 	/**
+	 * @Method Name : checkEmail
+	 * @작성일 : 2021. 3. 26.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 아이디/비밀번호 찾기시, 회원가입할때 등록한 이메일 번호가 맞는지 확인하는 메서드
+	 * @param member_email
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkEmail(String member_email, String member_name) throws Exception;
+	
+	/**
 	 * @Method Name : login
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 장원영
@@ -88,7 +102,44 @@ public interface MemberDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public MemberVO login(MemberVO vo) throws Exception;
+	public MemberVO login(LoginDTO dto) throws Exception;
+	
+	/**
+	 * @Method Name : checkUserWithSesKey
+	 * @작성일 : 2021. 3. 26.
+	 * @작성자 : 
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @param sesKey
+	 * @return
+	 * @throws Exception
+	 */
+	public MemberVO checkUserWithSesKey(String member_cookie) throws Exception;
+	
+	/**
+	 * @Method Name : keepLogin
+	 * @작성일 : 2021. 3. 26.
+	 * @작성자 : 
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @param uid
+	 * @param sesId
+	 * @param cookieAge
+	 * @throws Exception
+	 */
+	public void keepLogin(String member_id, String member_cookie, Date member_cookieAge) throws Exception;
+	
+	/**
+	 * @Method Name : memberDel
+	 * @작성일 : 2021. 3. 26.
+	 * @작성자 : 
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @param dto
+	 * @return
+	 * @throws Exception
+	 */
+	public int memberDel(LoginDTO dto) throws Exception;
 	
 	
 }

@@ -66,10 +66,11 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 	}
 
 	@Override
-	public int totalProdQACnt(int product_id, int prodQA_refOrder) throws Exception {
+	public int totalProdQACnt(int product_id, int prodQA_refOrder, String prodQA_category) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("product_id", product_id);
 		params.put("prodQA_refOrder", prodQA_refOrder);
+		params.put("prodQA_category", prodQA_category);
 		
 		return ses.selectOne(namespace + ".totalProdQACnt", params);
 	}
