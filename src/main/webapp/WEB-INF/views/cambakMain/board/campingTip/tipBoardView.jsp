@@ -71,7 +71,7 @@
 	   let param = '${param.replyFocus }';
 	   
 	   if (param == "true") {
-		   $("body,html").animate({scrollTop: 870}, 800);
+		   $("body,html").animate({scrollTop: 870}, 900);
 	   }
    }
    

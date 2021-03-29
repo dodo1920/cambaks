@@ -24,7 +24,7 @@ public class CampingTipBoardDAOImpl implements CampingTipBoardDAO {
 	
 	@Inject
 	private SqlSession session;
-	private static String nameSpace = "com.cambak21.mapper.cambakBoard.tipBoardMapper.";	
+	private static String nameSpace = "com.cambak21.mappers.cambakBoard.tipBoardMapper.";	
 	
 	@Override
 	public List<BoardVO> listCampingTipBoard(PagingCriteria cri) throws Exception {

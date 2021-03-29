@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.cambak21.mapper.cambakBoard.tipBoardMapper">
+<mapper namespace="com.cambak21.mappers.cambakBoard.tipBoardMapper">
 	
 <!-- 	캠핑팁 게시판 전체 조회 -->
 	<select id="selectTipBoard" resultType="com.cambak21.domain.BoardVO">

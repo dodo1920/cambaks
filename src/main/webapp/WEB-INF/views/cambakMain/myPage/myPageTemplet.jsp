@@ -27,69 +27,6 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
-let member_id = '${loginMember.member_id}'; // 페이지 로딩 시 로그인 아이디 가져오기
-$(document).ready(function() {
-	
-	readMyReplyList(); // 로딩 시 전체 댓글 리스트 출력
-	
-});
-
-// 로딩 시 전체 댓글 리스트 출력
-function readMyReplyList() {
-	
-	let page = 1;
-	let perPageNum = 5;
-	let board_category = "total";
-	
-	$.ajax({
-		method: "POST",
-		url: "/myPage/myReplyList.mp",
-		dataType: "json",
-		data : {member_id : member_id, board_category : board_category, page : page, perPageNum : perPageNum},
-		success : function(data) {
-			
-			let myReplyList = data.myReplyList;
-			let paging = data.paging
-			
-			console.log(myReplyList);
-			console.log(paging);
-			
-			for (let i = 0; i < myReplyList.length; i++) {
-				
-				let output = '<tr class="myPageBoard">' + 
-				'<td>' + myReplyList[i].board_no + '</td>' + 
-				'<td>' + myReplyList[i].board_category + '</td>' + 
-				'<td>' + myReplyList[i].replyBoard_content + '</td>' + 
-				'<td>' + myReplyList[i].replyBoard_writeDate + '</td></tr>';
-				
-				$("#myPageBoardList").append(output);
-			}
-			
-			let pagingBtn = '<ul class="pagination">';
-			
-			if(paging.prev) {
-				pagingBtn += '<li><a href="#">이전</a></li>';
-			}
-			
-			for (let j = 1; j < paging.endPage; j++) {
-				pagingBtn += '<li><a href="#">' + j + '</a></li>';
-			}
-			
-			if (paging.next) {
-				pagingBtn += '<li><a href="#">이전</a></li>';
-			}
-			
-			pagingBtn += '</ul>';
-			$(".replyPagingBtn").append(pagingBtn);
-			
-		}, error : function(data) {
-			
-		}
-		});
-	
-}
-
-
 
 
 
@@ -113,7 +50,7 @@ function readMyReplyList() {
 				<div id="content" class="8u skel-cell-important">
 					<div class="welcome-wrap">
 						<div class="welcome">
-							<span class="bsk-owner">${loginMember.member_name } </span>
+							<span class="bsk-owner">${loginMember.member_id } </span>
 							<c:if test="${loginMember.grade_name == 'M'}">
 								<img alt="" src="../../resources/cambak21/img/admin.png"
 									class="gradeImg">
@@ -172,23 +109,108 @@ function readMyReplyList() {
 										<tr>
 											<th class="myPageThead">글번호</th>
 											<th class="myPageThead">게시판</th>
-											<th class="myPageThead">댓글</th>
+											<th class="myPageThead">제목</th>
+											<th class="myPageThead">작성자</th>
 											<th class="myPageThead">작성일</th>
+											<th class="myPageThead">좋아요 누른 날짜</th>
 										</tr>
 									</thead>
-									<tbody id="myPageBoardList">
+									<tbody>
 										<tr class="myPageBoard">
 											<td>1</td>
 											<td>공지사항</td>
 											<td>인왕산 후기 입니다 + 썰 포함</td>
-											<td>2020-03-30</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
 										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+										<tr class="myPageBoard">
+											<td>1</td>
+											<td>공지사항</td>
+											<td>인왕산 후기 입니다 + 썰 포함</td>
+											<td>고니</td>
+											<td>2020-03-29</td>
+											<td>2020-03-30 14:17:52</td>
+										</tr>
+
 									</tbody>
 								</table>
 							</div>
 						</div>
 						<!-- 페이징 -->
-						<div class="myPagePagingBtn" id="replyPagingBtn"></div>
+						<div class="myPagePagingBtn">
+							<ul class="pagination">
+								<li class="active"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>

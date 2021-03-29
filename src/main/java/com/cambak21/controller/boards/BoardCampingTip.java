@@ -37,12 +37,6 @@ public class BoardCampingTip {
 	@Inject
 	private CampingTipBoardService service;
 	
-	@RequestMapping(value="/campingTip/test", method=RequestMethod.GET)
-	public String test() throws Exception {
-		// 캠핑팁 새로운 게시글 작성 페이지 출력
-		return "cambakMain/myPage/myPageReply";
-	}
-	
 	@RequestMapping(value="/campingTip/list.bo", method=RequestMethod.GET)
 	public String listAll(PagingCriteria cri, Model model, HttpServletRequest request) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
