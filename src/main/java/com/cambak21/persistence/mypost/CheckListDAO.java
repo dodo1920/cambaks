@@ -1,4 +1,4 @@
-package com.cambak21.persistence.cambakMain;
+package com.cambak21.persistence.mypost;
 
 import java.util.List;
 

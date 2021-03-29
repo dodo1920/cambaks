@@ -14,24 +14,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.cambak21.controller.boards.BoardHumor;
-import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.domain.ReplyBoardVO;
-import com.cambak21.service.cambakMain.CheckListService;
+import com.cambak21.service.mypost.CheckListService;
 
 @Controller
-@RequestMapping("/checkList")
+@RequestMapping("myPage/checkList")
 public class CheckListController {
 	
 	@Inject
 	private CheckListService ckservice;
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardHumor.class);
-
+	
+   @RequestMapping(value="", method = RequestMethod.GET)
+   public String checkList() {
+      logger.info("JJONG ckeckList2 작업중 . . . . .");
+   
+      
+      return "cambakMain/myPage/checkList";
+   }
+	   
+	   
 	@RequestMapping(value = "/ajax/{member_id}", method = RequestMethod.GET)
 	public  ResponseEntity<List<CheckListVO>> ajaxcheckList(Model model, @PathVariable("member_id") String member_id) throws Exception{
 		logger.info("종진 / ajax/checkList 전체 목록 ckeckList로 전달, 멤버아디는 :" + member_id);

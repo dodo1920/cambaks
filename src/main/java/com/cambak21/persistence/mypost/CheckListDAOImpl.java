@@ -1,4 +1,4 @@
-package com.cambak21.persistence.cambakMain;
+package com.cambak21.persistence.mypost;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +16,7 @@ public class CheckListDAOImpl implements CheckListDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mappers.cambakMain.CheckListMapper";
+	private static String namespace = "com.mappers.cambakMain.myPost";
 	
 	@Override
 	public List<CheckListVO> getCheckListAll(String member_id) throws Exception {
