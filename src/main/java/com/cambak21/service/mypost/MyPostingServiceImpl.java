@@ -1,4 +1,4 @@
-package com.cambak21.service.mypost;
+package com.cambak21.service.myPost;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikePostingVO;
 import com.cambak21.domain.ReplyBoardVO;
-import com.cambak21.persistence.mypost.MyPostingDAO;
+import com.cambak21.persistence.myPost.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
 
 @Service

@@ -1,4 +1,4 @@
-package com.cambak21.controller;
+package com.cambak21.controller.cambakMain;
 
 import javax.inject.Inject;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.cambak21.service.mypost.MyPostingService;
+import com.cambak21.service.myPost.MyPostingService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 

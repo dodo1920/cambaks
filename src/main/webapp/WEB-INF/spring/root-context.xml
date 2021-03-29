@@ -64,8 +64,8 @@
 	<!-- **************************************** 김정민 패키지 스캔 ********************************************** -->
 	<context:component-scan base-package="com.cambak21.service.boardProdReview"></context:component-scan>
     <context:component-scan base-package="com.cambak21.persistence.boardProdReview"></context:component-scan> 
-    <context:component-scan base-package="com.cambak21.service.mypost"></context:component-scan>
-    <context:component-scan base-package="com.cambak21.persistence.mypost"></context:component-scan>
+    <context:component-scan base-package="com.cambak21.service.myPost"></context:component-scan>
+    <context:component-scan base-package="com.cambak21.persistence.myPost"></context:component-scan>
     
      
 	<!-- **************************************** 서효원 패키지 스캔 ********************************************** -->

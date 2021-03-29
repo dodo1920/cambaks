@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cambak21.persistence.mypost;
+package com.cambak21.persistence.myPost;
 
 import java.util.HashMap;
 import java.util.List;
