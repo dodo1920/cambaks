@@ -2,9 +2,11 @@ package com.cambak21.persistence.cambakMall;
 
 import java.util.List;
 
+import com.cambak21.domain.MemberVO;
+
 public interface prodOrderDAO {
 	// 김대기 DAO -->
-		public List<String> selectDestNickName(String member_id) throws Exception;
+		public List<String> selectDestNickName(MemberVO vo) throws Exception;
 //	  	<!-- 장원영 DAO -->
 	  	
 	  	

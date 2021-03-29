@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.MemberVO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
 
 @Service
@@ -17,11 +18,14 @@ public class prodOrderServiceImpl implements prodOrderService {
 	
 	//주소록 닉네임들을 가져옴
 	@Override
-	public List<String> selectDestNickName(String member_id) throws Exception {
-		
-		return dao.selectDestNickName(member_id);
+	public List<String> selectDestNickName(MemberVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.selectDestNickName(vo);
 	}
+	
 //		  	<!-- 장원영 DAO -->
+
+	
 		  	
 		  	
 //		  	<!-- 김도연 DAO -->
