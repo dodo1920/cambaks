@@ -5,6 +5,8 @@ package com.cambak21.persistence.mypost;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,7 @@ import com.cambak21.util.PagingCriteria;
 @Repository
 public class MyPostingDAOImpl implements MyPostingDAO {
 	
+	@Inject
 	private SqlSession ses;
 	
 	private static String ns = "com.mappers.cambakMain.myPost";
