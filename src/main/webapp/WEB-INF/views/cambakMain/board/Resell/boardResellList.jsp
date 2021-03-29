@@ -65,7 +65,7 @@
 	</style>
 </head>
 <script type="text/javascript">
-function test(no) {
+function gotoDeteilPage	(no) {
 	window.location.href="/board/resell/detail?no="+no+"&page=${pagingParam.cri.page}"
 }
 function like() {
@@ -110,7 +110,7 @@ function like() {
 						<table style="width: 100%x">
 				
 						<tbody style="width: 100%">
-						<c:forEach var="board" items="${board }">
+						<c:forEach var="board" items="${board}">
 						<c:choose>
                   			<c:when test='${board.resellBoard_isDelete == "Y"}'>
 								<tr class="bordListBox">
@@ -124,7 +124,7 @@ function like() {
 								</tr>
 							</c:when>
 							<c:otherwise>
-								<tr class="bordListBox" onclick="test(${board.resellBoard_no});">
+								<tr class="bordListBox" onclick="gotoDeteilPage(${board.resellBoard_no});">
 								
 								<td class="tdTotolStyle"><span>${board.member_id}</span></td>
 								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
@@ -155,7 +155,9 @@ function like() {
 						<input type="submit" id="goSearch" value="검색" />
 					</form>
 				</div>
-			<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
+			<c:if test="${loginMember.member_id != null }">
+				<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
+			</c:if>
 				<div class="text-center">
 				     <ul class="pagination"style="text-align: center;">
 	      
