@@ -91,9 +91,10 @@ public class MyPostController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="myPost.mp", method=RequestMethod.GET)
-	public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page){
+	public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("board_category")String board_category){
 		System.out.println(member_id);
 		System.out.println(page);
+		System.out.println(board_category);
 	    logger.info("/myPost의 ajax-GET방식 호출");
 	    Map<String, Object> result = new HashMap<String, Object>();
 	    

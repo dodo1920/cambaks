@@ -27,10 +27,10 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
-
+// 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
 	$(".board-title-a").each(function() {
-		var length = 5; //표시할 글자수 정하기
+		var length = 15; //표시할 글자수 정하기
 
 		$(this).each(function() {
 
@@ -44,10 +44,15 @@ function textLimit() {
 };
 
 
-function showWritingList(pageNum) {
+function showWritingList(pageNum, board_category) {
 	// 페이지 번호가 null이 아닌 경우, 1
 	if(pageNum == null){
 		pageNum =1;
+	}
+	
+	// 보드 카테고리
+	if(board_category == null){
+		board_category = "all";
 	}
 	
 	member_id = "${loginMember.member_id}";
@@ -60,7 +65,8 @@ function showWritingList(pageNum) {
 	    url 		: "/myPage/myPost.mp",
 	    data		:  {
 	    		'page' : pageNum,
-	    		'member_id' : member_id
+	    		'member_id' : member_id,
+	    		'board_category' : board_category
 	    }, 
 	    contentType : "application/json",
 	    success 	: function(data) {
@@ -82,7 +88,7 @@ function showWritingList(pageNum) {
                 
                 // 게시글 내용 출력 부분
                
-                output += '<tbody><tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td>' + item.board_title; + '</td>';
+                output += '<tbody><tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
                 output += '<td>' + item.board_likeCnt + '</td></tr>';
 
@@ -140,7 +146,11 @@ function showWritingList(pageNum) {
             $("#myWritingListPage").html(pageOutput);
            
 	    	
-	    } // end of Success
+	    }// end of Success
+	    , complete : function(data) {
+
+	    	textLimit();
+		}  
 		});
 	
 }
@@ -214,7 +224,7 @@ function showWritingList(pageNum) {
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name"><a href="#">전체보기</a></li>
+										<li class="bsk-focus catagory-name"><a href="#" onclick=" return false;">전체보기</a></li>
 										<li class="catagory-name"><a href="#">캠핑 후기</a></li>
 										<li class="catagory-name"><a href="#">유머</a></li>
 										<li class="catagory-name"><a href="#">Q&A</a></li>
