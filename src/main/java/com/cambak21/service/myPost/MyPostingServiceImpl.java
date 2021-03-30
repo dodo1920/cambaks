@@ -56,9 +56,9 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyLikePostngCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getMyLikePostngCnt(String member_id, String category) throws Exception {
+		return dao.getMyLikePostngCnt(member_id, category);
+		
 	}
 
 	

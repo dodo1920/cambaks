@@ -8,39 +8,57 @@
 <meta charset="utf-8" />
 <title>Cambark's</title>
 
-<link rel="icon" type="image/x-icon" href="../../resources/cambak21/assets/favicon.ico" />
+<link rel="icon" type="image/x-icon"
+	href="../../resources/cambak21/assets/favicon.ico" />
 
 <!-- bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- tamplet css -->
-<link rel="stylesheet" href="../../resources/cambak21/css/skel-noscript.css" />
+<link rel="stylesheet"
+	href="../../resources/cambak21/css/skel-noscript.css" />
 <link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
-<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
-<link rel="stylesheet" href="../../../resources/cambak21/css/SHWtamplet.css" />
-<link rel="stylesheet" href="../../../resources/cambak21/css/myPageAside.css" />
-<link rel="stylesheet" href="../../../resources/cambak21/css/myPageTemplet.css" />
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+<link rel="stylesheet"
+	href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet"
+	href="../../../resources/cambak21/css/SHWtamplet.css" />
+<link rel="stylesheet"
+	href="../../../resources/cambak21/css/myPageAside.css" />
+<link rel="stylesheet"
+	href="../../../resources/cambak21/css/myPageTemplet.css" />
+<link
+	href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900'
+	rel='stylesheet' type='text/css'>
 
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
+<script src="/resources/cambak21/js/bbskJS.js"></script>
 
 <script>
 	$(document).ready(function() {
-		getList("all");
+		// 탭 눌러서 들어갈시 기본으로 보여주는 리스트
+		getList("all", 1);
+		
+		// 텍스트 말줄임...
+		textLimit(20);
 	})
 
-	function getList(category) {
+	// 리스트 출력 페이지
+	function getList(category, page) {
 		$.ajax({
 			type : "post",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/board/myPage/myLike/" + category, // 서블릿 주소
+			url : "/myPage/myLike/" + category + "/" + page, // 서블릿 주소
 			success : function(data) {
-				if(data != null) {
-					listOutput(data);
+				if (data != null) {
+					listOutput(data); // 컨트롤러 단에서 받아온 데이터로 리스트 출력
+					pagingBtn(data, category); // 컨트롤러 단에서 받아온 데이터로 페이징 버튼 동적 생성 
 				} else {
+					// 좋아요 누른글이 없다면...
 					$("#modalText").text("좋아요 누른 글이 존재하지 않습니다");
 					$("#myModal").modal();
 				}
@@ -51,25 +69,47 @@
 			} // 통신 완료시
 		});
 	}
-	
-	function listOutput(data) {
+
+	// 페이징 버튼 출력
+	function pagingBtn(data, category) {
 		
 		let output = "";
+		for (let i = data.pp.startPage; i <= data.pp.endPage; i++) {
+			// 매개변수로 category와 i(page)를 던져줌
+			output += "<li onclick='getList("+"\"" + category +"\"" + ", "+i+");' class='myLikePageBtn'><a>"+i+"</a></li>";
+		}
 		
+		$(".pagination").html(output);
+	}
+
+	// 좋아요 누른 게시글 출력
+	function listOutput(data) {
+
+		let output = "";
+
 		$.each(data, function(index, item) {
-			output += "<tr>";
-			output += "<td>"+item.board_no+"</td>";
-			output += "<td>"+item.board_category+"</td>";
-			output += "<td>"+item.board_title+"</td>";
-			output += "<td>"+item.member_id+"</td>";
-			output += "<td>"+item.board_writeDate+"</td>";
-			output += "<td>"+item.likeBoard_date+"</td>";
-			output += "</tr>";
+			if(item.board_no != null) {
+				output += "<tr>";
+				output += "<td>" + item.board_no + "</td>";
+				output += "<td>" + item.board_category + "</td>";
+				output += "<td><a href='#' class='board-title-a'>" + item.board_title + "</a></td>";
+				output += "<td>" + item.member_id + "</td>";
+				output += "<td>" + new Date(item.board_writeDate).toLocaleDateString() + "</td>";
+				output += "<td>" + new Date(item.likeBoard_date).toLocaleDateString() + "</td>";
+				output += "</tr>";
+			}
 		})
-		
+
 		$(".list-content").html(output);
 	}
+	
 </script>
+
+<style type="text/css">
+	.myLikePageBtn:hover {
+		cursor: pointer;
+	}
+</style>
 
 </head>
 <body>
@@ -125,14 +165,22 @@
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name" onclick="getList('all');"><a class="mini-category">전체보기</a></li>
-										<li class="catagory-name" onclick="getList('camping');"><a class="mini-category">캠핑 후기</a></li>
-										<li class="catagory-name" onclick="getList('humor');"><a class="mini-category">유머</a></li>
-										<li class="catagory-name" onclick="getList('QnA');"><a class="mini-category">Q&A</a></li>
-										<li class="catagory-name" onclick="getList('resell');"><a class="mini-category">중고거래</a></li>
-										<li class="catagory-name" onclick="getList('tip');"><a class="mini-category">캠핑Tip</a></li>
-										<li class="catagory-name" onclick="getList('notice');"><a class="mini-category">공지사항</a></li>
-										<li class="catagory-name" onclick="getList('cs');"><a class="mini-category">고객센터</a></li>
+										<li class="bsk-focus catagory-name" onclick="getList('all', 1);"><a
+											class="mini-category">전체보기</a></li>
+										<li class="catagory-name" onclick="getList('camping', 1);"><a
+											class="mini-category">캠핑 후기</a></li>
+										<li class="catagory-name" onclick="getList('humor', 1);"><a
+											class="mini-category">유머</a></li>
+										<li class="catagory-name" onclick="getList('QnA', 1);"><a
+											class="mini-category">Q&A</a></li>
+										<li class="catagory-name" onclick="getList('resell', 1);"><a
+											class="mini-category">중고거래</a></li>
+										<li class="catagory-name" onclick="getList('tip', 1);"><a
+											class="mini-category">캠핑Tip</a></li>
+										<li class="catagory-name" onclick="getList('notice', 1);"><a
+											class="mini-category">공지사항</a></li>
+										<li class="catagory-name" onclick="getList('cs', 1);"><a
+											class="mini-category">고객센터</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -145,7 +193,7 @@
 										<tr>
 											<th class="myPageThead">글번호</th>
 											<th class="myPageThead">게시판</th>
-											<th class="myPageThead">제목</th>
+											<th class="myPageThead" style="width: 370px">제목</th>
 											<th class="myPageThead">작성자</th>
 											<th class="myPageThead">작성일</th>
 											<th class="myPageThead">좋아요 누른 날짜</th>
@@ -158,8 +206,10 @@
 												<td>${list.board_category }</td>
 												<td>${list.board_title }</td>
 												<td>${list.member_id }</td>
-												<td><fmt:formatDate value="${list.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-												<td><fmt:formatDate value="${list.likeBoard_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												<td><fmt:formatDate value="${list.board_writeDate }"
+														pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												<td><fmt:formatDate value="${list.likeBoard_date }"
+														pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 											</tr>
 										</c:forEach>
 
@@ -170,11 +220,7 @@
 						<!-- 페이징 -->
 						<div class="myPagePagingBtn">
 							<ul class="pagination">
-								<li class="active"><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
+								
 							</ul>
 						</div>
 					</div>
@@ -201,7 +247,7 @@
 
 		</div>
 	</div>
-	
+
 	<%@include file="../cambak21Footer.jsp"%>
 
 </body>

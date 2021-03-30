@@ -21,7 +21,7 @@ public interface MyPostingService {
 	List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception;
 
 	// 내가 좋아요 누른 글 카운트
-	int getMyLikePostngCnt(String member_id) throws Exception;
+	int getMyLikePostngCnt(String member_id, String category) throws Exception;
 	
 	// 내 댓글
 	List<MyPageReplyVO> myWriteReply(String member_id, String board_category, PagingCriteria cri) throws Exception;

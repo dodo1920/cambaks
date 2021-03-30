@@ -78,9 +78,11 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyLikePostngCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getMyLikePostngCnt(String member_id, String category) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("category", category);
+		return ses.selectOne(ns + ".myLikeBoardCnt", map);
 	}
 	
 	

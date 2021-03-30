@@ -1,14 +1,11 @@
 package com.cambak21.controller.boards;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.List;
+
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,13 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.cambak21.domain.MemberVO;
-import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
 import com.cambak21.service.boardCS.BoardCsService;
-import com.cambak21.service.myPost.MyPostingService;
 import com.cambak21.util.BoardCsFileUpload;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -43,9 +36,6 @@ public class BoardCsController {
 
 	@Inject
 	private BoardCsService service;
-
-	@Inject
-	private MyPostingService mservice;
 
 	private static Logger logger = LoggerFactory.getLogger(BoardCsController.class);
 
@@ -190,51 +180,5 @@ public class BoardCsController {
 
 		return entity;
 	}
-
-	// 마이페이지 작업 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-//	@RequestMapping("/myPage/myLike")
-//	public String myPageLikeBoards(Model model, PagingCriteria cri, HttpServletRequest request) throws Exception {
-//		logger.info("승권 / 마이페이지 내가 좋아요 누른글 호출");
-//		// 세션 정보 얻어오기
-//		HttpSession session = request.getSession();
-//		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
-//
-//		model.addAttribute("LikeBoardList", mservice.getMyLikePostng(vo.getMember_id(), cri, null));
-//
-//		return "cambakMain/myPage/myLikeBoard";
-//	}
 	
-	@RequestMapping("/myPage/myLike")
-	public String myPageLikeBoards() throws Exception {
-		return "cambakMain/myPage/myLikeBoard";
-	}
-
-	@RequestMapping(value = "/myPage/myLike/{category}", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<List<MyLikeBoardListVO>> getList(@PathVariable("category") String category,
-			PagingCriteria cri, HttpServletRequest request) {
-		logger.info("승권 / 마이페이지 내가 좋아요 누른글 카테고리 호출");
-		ResponseEntity<List<MyLikeBoardListVO>> entity = null;
-
-		// 세션 정보 얻어오기
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
-		
-		try {
-			List<MyLikeBoardListVO> lst = mservice.getMyLikePostng(vo.getMember_id(), cri, category);
-			
-			// 해당 카테고리 좋아요 한 이력이 없다면 ...
-			if (lst.size() != 0) {
-				entity = new ResponseEntity<List<MyLikeBoardListVO>>(lst, HttpStatus.OK);
-			} else {
-				entity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		return entity;
-	}
-
 }

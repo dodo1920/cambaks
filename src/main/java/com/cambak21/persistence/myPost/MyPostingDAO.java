@@ -28,7 +28,7 @@ public interface MyPostingDAO {
 	List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception;
 	 
 	// 내가 좋아요 누른 글 카운트
-	int getMyLikePostngCnt(String member_id) throws Exception;
+	int getMyLikePostngCnt(String member_id, String category) throws Exception;
 	
 	// 내 체크리스트 불러오기
 	public List<CheckListVO> getCheckList(String member_id) throws Exception;
