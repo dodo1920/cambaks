@@ -36,6 +36,20 @@
       <property name="dataSource" ref="dataSource"></property>
    </bean>  
    
+   <!--  아이디/비번 찾기를 위한 이메일 인증 UUID발송용 빈설정 -->
+   <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+   	   <property name="host" value="smtp.gmail.com" />
+   	   <property name="port" value="587" />
+   	   <property name="username" value="goot6610@gmail.com" />
+   	   <property name="password" value="goot1234" />
+   	   <property name="javaMailProperties" >
+   	   		<props>
+   	   			<prop key="mail.smtp.auth">true</prop>
+   	   			<prop key="mail.smtp.starttls.enable">true</prop>
+   	   		</props>
+   	   </property>
+   </bean>
+   
    <!-- @Repository 패키지 스캔(우리가 만든 빈 추가하기 위해)  => DAO패키지와 Service패키지를 자동 스캔하여 bean을 생성할 수 있도록-->
    <context:component-scan base-package="com.cambak21.persistence"></context:component-scan>
    <context:component-scan base-package="com.cambak21.service"></context:component-scan>  
