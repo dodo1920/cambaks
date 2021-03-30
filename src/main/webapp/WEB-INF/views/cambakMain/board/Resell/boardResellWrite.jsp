@@ -178,7 +178,7 @@
 								</div>
 								<!-- 텍스트div -->
 								<div id="textArray">
-									<input type="text" name="member_id" >
+									<input type="text" name="member_id" value="${loginMember.member_id }" style="display: none;">
 									<div><span>제목 : </span><input id="title" type="text" class="inputStyle" name="resellBoard_title" maxlength="100" ></div>
 									<div><span>가격 : </span><input id ="price" type="text" class="inputStyle" name="resellBoard_price" maxlength="9"></div>
 									<hr style="margin: 3px  0;padding: 3px;0"/>
