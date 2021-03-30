@@ -90,7 +90,7 @@
 	      enctype: 'multipart/form-data',
 	      processData: false,
 	      success: function(url) {
-	        $(el).summernote('editor.insertImage', path + url);
+	    	  $(el).summernote('editor.insertImage', path + url);
 	      }, // 통신 성공시
 		  error : function(data) {
 		    $("#modalText").text("이미지 파일이 아닙니다");
