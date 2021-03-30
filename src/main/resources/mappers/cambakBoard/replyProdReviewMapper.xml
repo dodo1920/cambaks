@@ -25,4 +25,20 @@
   	<select id="getListReply" resultType="com.cambak21.domain.ReplyProdReviewVO">
   		select * from ReplyProdReviews where prodReview_no = #{prodReview_no} order by replyProdReview_ref asc, replyProdReview_refOrder asc
   	</select>
+  	
+  	<!-- 댓글 삭제 처리 부분 -->
+  	<update id="deleteProdReviewReply">
+  		update goot6.ReplyProdReviews set replyProdReview_isDelete = 'Y' where replyProdReview_no = #{replyProdReview_no}
+  	</update>
+  	
+  	<!-- 댓글 수정을 위한 댓글 조회 부분 -->
+  	<select id="readProdReviewReply" resultType="string">
+  		select replyProdReview_content from goot6.ReplyProdReviews where replyProdReview_no = #{replyProdReview_no}
+  	</select>
+  	
+  	<!-- 댓글 및 대댓글 수정 -->
+  	<update id="modifyProdReviewReply">
+  		update goot6.ReplyProdReviews set replyProdReview_content = #{replyProdReview_content} where replyProdReview_no = #{replyProdReview_no}
+  	</update>
+  	
   </mapper>

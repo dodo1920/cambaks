@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class BoardCsController {
 
 	private static Logger logger = LoggerFactory.getLogger(BoardCsController.class);
 
-	@RequestMapping("/cs")
+	@RequestMapping("/cs/list")
 	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
 		logger.info("승권 / 게시글 리스트 get방식 호출");
 
@@ -88,7 +89,7 @@ public class BoardCsController {
 
 		ra.addFlashAttribute("status", "deleteOk");
 
-		return "redirect:/board/cs/";
+		return "redirect:/board/cs/list?page=1";
 	}
 
 	@RequestMapping("/cs/modi")
@@ -126,48 +127,55 @@ public class BoardCsController {
 	}
 
 	/**
-	  * @Method Name : handleFileUpload
-	  * @작성일 : 2021. 3. 25.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 서버에 이미지 업로드
-	  * @param file : view단에서 ajax로 넘어온 파일
-	  * @param request
-	  * @return
-	  */
-	@RequestMapping(value = "/cs/image", method = RequestMethod.POST)
+	 * @Method Name : handleFileUpload
+	 * @작성일 : 2021. 3. 25.
+	 * @작성자 : 승권
+	 * @변경이력 :
+	 * @Method 설명 : 서버에 이미지 업로드
+	 * @param file    : view단에서 ajax로 넘어온 파일
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/cs/image", method = RequestMethod.POST, produces = "text/html; charset=utf8")
 	@ResponseBody
-	public ResponseEntity<String> BoardCsFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
-		
+	public ResponseEntity<String> BoardCsFileUpload(@RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
 		try {
 			// 파일 업로드 될 서버 경로
 			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/boardCs");
 			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
 			String uploadFile = BoardCsFileUpload.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-			if(!uploadFile.equals("-1")) {
+			if (!uploadFile.equals("-1")) {
+				// -1이 아니라면 이미지 파일
 				return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
 			} else {
+				// 이미지 파일 아닌것
+				// view에서 modal 띄움
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	@RequestMapping(value="/cs/like", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/cs/like", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> BoardCsLike(@RequestBody InsertLikeBoard dto) {
 		ResponseEntity<Map<String, Object>> entity = null;
-		
+
 		try {
+			// map을 보내는 이유
+			// 유저가 눌를때마다 추천이 on/off되기 때문에
+			// on인지 off인지 가져와야 하고, 추천수도 가져와야 했음
+			// ajax처리 해야하기 때문에 갯수를 가져와서 바로 출력 (페이지 로딩 X)
 			entity = new ResponseEntity<Map<String, Object>>(service.insertLikeBoard(dto), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return entity;
 	}
 

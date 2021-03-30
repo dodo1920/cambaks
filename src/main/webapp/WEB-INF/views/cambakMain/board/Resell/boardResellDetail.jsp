@@ -86,6 +86,14 @@
 			height: 430px;
 			
 		}
+		#likeBtn{
+	    	width: 50px;
+  			height: 40px;
+		}
+		#likeBtn:focus {
+			outline: none;
+		}
+}
 	</style>
 	
 	<script>
@@ -122,6 +130,7 @@
 
 	}
 	$(function() {
+		like();
 		callReplyList();
 
 	      $('.single-item').slick({
@@ -130,6 +139,7 @@
               dots:true,
               arrows : true
           });
+	      console.log(${loginMember.member_id })
 		  
 	});
 	function addReply() {
@@ -156,6 +166,8 @@
 		});
 	}
 	function like() {
+		console.log("!")
+		
 		let member_id = "aaa";
 		let resellBoard_no = ${board.resellBoard_no};
 		$.ajax({
@@ -168,7 +180,9 @@
 				member_id : member_id
 			}),
 			success : function(data) {
-				console.log(data)
+				
+	
+				$("#likeArray").html('<img id="likeBtn"src="'+data+'"/>')
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -213,7 +227,11 @@
 						<div><h1 style="font-size: 25px;color: black;">${board.resellBoard_title}</h1></div>
 						<hr style="margin: 3px  0;padding: 3px;0"/>
 						<div id="detail"><span class="detail">${board.resellBoard_content	}</span></div>
-						<div style="margin-bottom: 15px"><span onclick="like()">좋아요수 :${board.resellBoard_likeCnt}</span><span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
+						<div style="margin-bottom: 15px"><button id="likeArray" onclick="like();" 
+						style="width: auto;display: inline-block;height: auto; background: none; border: none;">
+						
+						</button>
+						<span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
 						<div><span style="margin-bottom: 15px">${board.resellBoard_addr }</span></div>
 					
 						
@@ -221,11 +239,13 @@
 					</div>
 					<!-- 버튼div -->
 					<div>
+					<c:if test="${loginMember.member_id == board.member_id}">
 						<hr style="margin: 10px 0;padding: 3px;"/>
 						<button type="button" class="btn btn-success" id="rewriteBoard"
 							onclick="location.href='/board/resell/modi?no=${board.resellBoard_no}'">수정하기</button>
 						<button type="button" class="btn btn-info" id="deleteBoard"
 							onclick="location.href='/board/resell/remove?no=${board.resellBoard_no}'">삭제하기</button>
+					</c:if>
 						<button type="button" class="btn btn-primary"
 							onclick="location.href='/board/resell/list?page=${param.page}'">리스트페이지로</button>
 						<button type="button" class="btn btn-primary"
@@ -256,43 +276,4 @@
     <%@include file="../../cambak21Footer.jsp"%>
 	
 </body>
-					<!-- <div class="imageBox"><img class="imageBox" src="/resources/mallMain/img/shop/shop-5.jpg"/></div>
-					<div>
-						<div>
-							<div style="padding-bottom: 14px">
-							<div style="margin-bottom: 15px"> <h1 style="font-size: 25px;color: black;">${board.resellBoard_title}</h1></div> 
-							<div><span style="font-size: 22px;color: black;">${board.resellBoard_price}원</span></div>
-							</div>
-							<hr style="margin: 5px;padding: 0;"/>
-							<div style="margin-bottom: 15px"><span onclick="like()">좋아요수 :${board.resellBoard_likeCnt}</span><span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
-							<div><span style="word-break:normal;margin-bottom: 15px">${board.resellBoard_content	}</span></div>
-							<div><span style="margin-bottom: 15px">${board.resellBoard_addr }</span></div>
-						</div>
-		
-						</div style="margin-bottom: 15px">
-						<div>
-								<button type="button" class="btn btn-success" id="rewriteBoard"
-									onclick="location.href='/board/resell/modi?no=${board.resellBoard_no}'">수정하기</button>
-								<button type="button" class="btn btn-info" id="deleteBoard"
-									onclick="location.href='/board/resell/remove?no=${board.resellBoard_no}'">삭제하기</button>
-								<button type="button" class="btn btn-primary"
-									onclick="location.href='/board/resell/list?page=${param.page}'">리스트페이지로</button>
-								<button type="button" class="btn btn-primary"
-									onclick="showReplyBox();">댓글달기</button>
-					</div>
-					<div id="inputReplyBox"
-					style="padding: 15px; border: 1px dotted gray; display: none;">
-					
-						작성자 : <input type="text" name="replyer" id="newReplyWriter" "/> 
-						댓글 입력 : <input type="text" name="replytext" id="newReplyText" />
-
-						<button id="replyAddBtn" onclick="addReply(); window.location.reload();">ADD Reply</button>
-					
-					</div>
-					<div id="replyBox"
-						style="padding: 10px; border-bottom: 1px solid gray;">
-						
-					</div>
-				</div>
- -->
 </html>

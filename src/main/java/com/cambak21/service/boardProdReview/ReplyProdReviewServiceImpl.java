@@ -33,6 +33,24 @@ public class ReplyProdReviewServiceImpl implements ReplyProdReviewService{
 	public int getMaxReforder(int replyProdReview_no) throws Exception {
 		return dao.getMaxReforder(replyProdReview_no);
 	}
+
+	// 댓글 삭제 처리
+	@Override
+	public boolean deleteProdReviewReply(int replyProdReview_no) throws Exception {
+		return dao.deleteProdReviewReply(replyProdReview_no);
+	}
+
+	// 댓글 조회
+	@Override
+	public String readProdReviewReply(int replyProdReview_no) throws Exception {
+		return dao.readProdReviewReply(replyProdReview_no);
+	}
+
+	// 댓글 수정
+	@Override
+	public boolean modifyProdReviewReply(int replyProdReview_no, String replyProdReview_content) throws Exception {
+		return dao.modifyProdReviewReply(replyProdReview_no, replyProdReview_content);
+	}
 	
 	
 }

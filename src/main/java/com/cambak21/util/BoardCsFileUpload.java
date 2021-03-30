@@ -15,7 +15,6 @@ public class BoardCsFileUpload {
 	
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
 		UUID uuid = UUID.randomUUID();
-		
 		String savedName = uuid.toString() + "_" + originalName;
 		String savePath = calPath(uploadPath);
 		

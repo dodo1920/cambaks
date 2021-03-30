@@ -78,16 +78,16 @@ public class BoardResellUtilController {
 		ResellLikeBoardVO readVo = LikeService.ResellBoardlikeRead(vo);
 		if (readVo != null) {
 			LikeService.ResellBoardLikeDelete(vo);
-			Like="unLike";
+			Like="/resources/img/emptyHeart.png";
 		}else {
 			
 			LikeService.ResellBoardLikeInsert(vo);
-			Like="like";
+			Like="/resources/img/heart.png";
 			
 		}
 		
 		try {
-			;
+			System.out.println("Like : "+Like);
 			entity = new ResponseEntity<String>(Like,HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

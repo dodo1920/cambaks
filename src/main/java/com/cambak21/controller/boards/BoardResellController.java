@@ -50,6 +50,7 @@ public class BoardResellController {
 		System.out.println("boardResellList 테스트");
 		model.addAttribute("board",resellListService.ResellBoardReadAll(cri));
 		PagingParam pp = new PagingParam();
+		pp.setDisplayPageNum(9);
 		pp.setCri(cri);
 		
 		pp.setTotalCount(resellListService.ResellBoardReadAllCnt()); // 게시물 갯수

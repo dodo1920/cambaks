@@ -25,7 +25,7 @@ public class BoardProdReviewReply {
 	// 새로운 댓글 추가 부분
 		@RequestMapping(value="/insertProdReviewReply", method=RequestMethod.POST)
 		// json 타입으로 반환
-		public @ResponseBody void insertProdReviewReply(@RequestBody InsertReplyProdReviewDTO dto) {
+		public @ResponseBody void insertProdReviewReply(@RequestBody InsertReplyProdReviewDTO dto)  throws Exception {
 			// @RequestBody ReplyVO vo : 유저가 입력한 데이터를 json으로 받아 ReplyVO vo에 저장
 			System.out.println("insertProdReviewReply... POST...");
 
@@ -44,6 +44,7 @@ public class BoardProdReviewReply {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					
 				}
 			} 
 			
@@ -77,32 +78,11 @@ public class BoardProdReviewReply {
 					e1.printStackTrace();
 				}
 			} // end of else
-			
-			
-			
-			
-			//pk 번호 set
-//			try {
-//				System.out.println("ReplyProdReview_no : " + service.getMaxNo());
-//				int getMaxReplyProdReview_no = service.getMaxNo();
-//				dto.setReplyProdReview_no(getMaxReplyProdReview_no);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-			
-			
-//			try {
-//				if(service.addProdReply(dto) == 1) {
-//					System.out.println("인서트 성공");
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
 		}
 		
 		// 댓글 출력
 		@RequestMapping(value="/getProdReviewReply/{prodReview_no}", method=RequestMethod.POST)
-		public @ResponseBody List<ReplyProdReviewVO> getReplyList(@PathVariable("prodReview_no") int prodReview_no){
+		public @ResponseBody List<ReplyProdReviewVO> getReplyList(@PathVariable("prodReview_no") int prodReview_no) throws Exception {
 			//System.out.println("getProdReviewReply... post...");
 			
 			List<ReplyProdReviewVO> prodReplyList = null;
@@ -115,5 +95,55 @@ public class BoardProdReviewReply {
 	
 			return prodReplyList;
 		}
+		
+		// 댓글 삭제
+		@RequestMapping(value="/deleteProdReviewReply/{replyProdReview_no}", method=RequestMethod.POST)
+		public @ResponseBody boolean deleteProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no) throws Exception {
+			System.out.println("deleteProdReviewReply... POST...");
+			System.out.println(replyProdReview_no);
+			boolean deleteResult = false;
+			try {
+				deleteResult = service.deleteProdReviewReply(replyProdReview_no);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return deleteResult;
+		}
+		
+		// 수정하려는 댓글 조회
+		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.POST)
+		public @ResponseBody String readProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no) throws Exception {
+			System.out.println("modifyProdReviewReply... POST...");
+			System.out.println(replyProdReview_no);
+			String result = null;
+			try {
+				
+				result = service.readProdReviewReply(replyProdReview_no);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
+		// 댓글 수정
+				@RequestMapping(value="/modifyProdReviewReply/{replyProdReview_no}/{replyProdReview_content}", method=RequestMethod.POST)
+				public @ResponseBody boolean modifyProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no, @PathVariable("replyProdReview_content") String replyProdReview_content) throws Exception {
+					System.out.println("modifyProdReviewReply... GET...");
+					System.out.println(replyProdReview_no);
+					System.out.println("replyProdReview_content : " + replyProdReview_content);
+					boolean modifyResult = false;
+					try {
+						
+						modifyResult = service.modifyProdReviewReply(replyProdReview_no, replyProdReview_content);
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					return modifyResult;
+				}
+		
 		
 }
