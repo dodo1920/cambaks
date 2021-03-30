@@ -30,7 +30,7 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li id="campingReviewAside"><a href="#">내가 쓴글</a></li>
 						<li id="humorAside"><a href="#">내 댓글</a></li>
-						<li id="QnAAside"><a href="#">내 좋아요 글</a></li>
+						<li id="QnAAside"><a href="../myPage/MyLike?page=1">내 좋아요 글</a></li>
 						<li id="resellAside"><a href="#">나의 문의</a></li>
 				
 					</ul>

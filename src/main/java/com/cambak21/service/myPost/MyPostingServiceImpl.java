@@ -31,8 +31,7 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  */
 	@Override
 	public List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getMyLikePostng(member_id, cri);
 	}
 	
 	
