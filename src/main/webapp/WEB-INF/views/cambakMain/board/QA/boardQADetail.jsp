@@ -99,12 +99,13 @@
 				output += "<p class='comment-id'>"+item.member_id+"</p>";
 			}
 			
-			// 현재 로그인한 회원과 작성자가 같으면 버튼 보이기///////////////////
-			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
+			// 댓글 삭제 수정 버튼
+			if ("${loginMember.member_id}" == item.member_id) {
+				if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
 				output += "<button type='button' class='btn' style='float:right' onclick='deleteReply("+item.replyBoard_no+")'>삭제</button>";
 				output += "<button type='button' class='btn' style='float:right' onclick='updateReplyForm("+item.replyBoard_no+")'>수정</button>";
+				}
 			}
-			//////////////////////////////////////////////////
 			
 			output += "<p class='comment-content' id='content"+item.replyBoard_no+"'>"+item.replyBoard_content+"</p></div>";
 			
@@ -122,12 +123,18 @@
 	
 	// 부모 댓글 작성 함수
 	function replyWrite() {
-		let board_no = "${board.board_no}";
+		// 회원 확인
+		if (${loginMember.member_id == null}) {
+			$("#modalText").text("비회원은 작성이 불가합니다. 로그인 후 사용해주세요");
+			$(".modal-footer").html('<a href="/user/login/yet"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let replyBoard_content = $("#replyBoard_content").val();
+			
+			if (replyBoard_content != "") {
+				let board_no = "${board.board_no}";
+				let member_id = "${loginMember.member_id}";
 		
-		//===================== 현재 로그인한 회원 으로 바꾸기
-		let member_id = "${board.member_id}";
-		//============================================
-		let replyBoard_content = $("#replyBoard_content").val();
 		
 		$.ajax({
 			type : "post",
@@ -364,19 +371,20 @@
 						   	</c:if>
 							
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
-							<c:if test="${loginMember.member_id == board.member_id }">
+							<c:if test="${loginMember.member_id == board.member_id}">
 						      	<button class="btn btn-danger" onclick="location.href='../qa/modi?no=${board.board_no}'">수정하기</button>
 						   	</c:if>
 							
 							<!-- 검색하지 않았을 시 전 주소 -->
-							<c:if test="${pagingParam.searchWord == null }">
+							<c:if test="${param.searchWord == null }">
 								<a href="/board/qa?page=${param.page}" id="listBtn">
-									<button type="button" class="btn btn-danger detailNext">목록보기</button>
+									<button type="button" class="btn btn-danger">목록보기</button>
 								</a>
 							</c:if>
 							
+														
 							<!-- 검색 했을 시 전 주소 -->
-							<c:if test="${pagingParam.searchWord != null }">
+							<c:if test="${param.searchWord != null }">
 								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>

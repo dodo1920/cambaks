@@ -30,6 +30,8 @@ public class ResellBoardServiceImpl implements ResellBoardService {
 
 	@Override
 	public List<ResellBoardVO> ResellBoardReadAll(PagingCriteria cri) throws Exception {
+		cri.setPerPageNum(9);	
+		System.out.println(cri.getPage());
 		List<ResellBoardVO>  vo = dao.ResellBoardReadAll(cri);
 		return vo;
 	}

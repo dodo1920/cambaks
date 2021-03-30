@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.cambak21.mappers.cambakMallMapper">
+  	<!-- 김대기 맵퍼 -->
+  	<!-- 주소록 이름 가져오는 셀렉트 문 -->
+  	<select id="destinationSelect" resultType="com.cambak21.domain.DestinationVO">
+  		select destination_nickname from goot6.Destinations where member_id = #{member_id}
+  	</select>
+  	
+  	<!-- 장원영 맵퍼 -->
+  	
+  	
+  	<!-- 김도연 맵퍼 -->
+  	
+  	
+  	<!-- 김정민 맵퍼 -->
+  	
+  	
+  	<!-- 김태훈 맵퍼 -->
+  	
+  	
+  	<!-- 백승권 맵퍼 -->
+  	
+  	
+  	<!-- 서효원 맵퍼 -->
+  	
+  	
+  	<!-- 박종진 맵퍼 -->
+  	
+  	
+  	<!-- 이영광 맵퍼 -->
+  	
+  	
+  </mapper>

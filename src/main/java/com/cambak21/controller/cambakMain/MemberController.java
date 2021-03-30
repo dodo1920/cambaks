@@ -89,15 +89,15 @@ public class MemberController {
 	
 //	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@RequestMapping(value = "/resign", method = RequestMethod.GET)
-	public void quitMember() {
+	public String quitMember() {
 		
-		
+		return "cambakMain/user/resign";
 		
 	}
 	
 	@RequestMapping(value = "/resignStep2", method = RequestMethod.POST)
-	public void quitMemberStep2() {
-		
+	public String quitMemberStep2() {
+		return "cambakMain/user/resignStep2";
 	}
 	
 	
@@ -107,7 +107,7 @@ public class MemberController {
 		if(service.memberDelete(dto)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "/user/resignStep3";
+		return "cambakMain/user/resignStep3";
 	}
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<김대기 멤버 탈퇴
 	

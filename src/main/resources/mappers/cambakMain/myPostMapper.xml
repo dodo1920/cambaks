@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.cambak21.mappers.cambakMain.myPostMapper">
+	
+	<!-- getMyLikePostng 승권 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- getMyLikePostngCnt 승권 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- getMyPosting 정민 -->
+	<select id="getMyPosting1" resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<!-- getMyPostingCnt 정민 -->
+	<select id="getMyPostingCnt1" resultType="int">
+		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- myWriteReply 효원 -->
+	
+<!-- 	작성한 댓글 가져오기 -->
+	<select id="readMyReplyList" resultType="com.cambak21.domain.MyPageReplyVO">
+		select r.member_id, r.board_no, b.board_category, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+			<if test="board_category != 'total'">
+				 and b.board_category = #{board_category}
+			</if>
+		order by r.replyBoard_writeDate desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
+<!-- 	작성한 댓글의 총 개수 -->
+	<select id="readMyReplyTotal" resultType="int">
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+			<if test="board_category != total">
+				 and b.board_category = #{board_category}
+			</if>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- myWriteReply 효원 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- getCheckList 종진 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- delCheckList 종진 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- modyCheckList 종진 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- resisterCheckList 종진 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

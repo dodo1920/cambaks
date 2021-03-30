@@ -28,7 +28,12 @@ public class ResellBoardDAOImpl implements ResellBoardDAO {
 	@Override
 	public List<ResellBoardVO> ResellBoardReadAll(PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.selectList(namespace+".ResellBoardReadAll",cri);
+		Map<String, Object> param = new HashMap<String, Object>();
+		System.out.println((cri.getPage()-1)*cri.getPerPageNum());
+		param.put("pageStart",(cri.getPage()-1)*cri.getPerPageNum());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(namespace+".ResellBoardReadAll",param);
 	}
 	@Override
 	public int ResellBoardReadAllCnt() throws Exception {

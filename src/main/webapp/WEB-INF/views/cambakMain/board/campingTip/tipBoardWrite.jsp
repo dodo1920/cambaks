@@ -17,15 +17,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-<!-- tamplet js -->
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
-
 <!-- tamplet css -->
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
@@ -131,13 +128,13 @@
 					</div>
 					
 					<div>
-						<form action="/board/campingTip/write" method="post">
+						<form action="/board/campingTip/write.bo" method="post">
 
 							<input type="hidden" name="member_id" value="${loginMember.member_id }">
 							<input type="hidden" name="board_category" value="Tip">
 							<input type="text" class="form-control" name="board_title" id="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>
-							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list?page=1'">취소</button>
+							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list.bo?page=1'">취소</button>
 							<button type="submit" class="btn btn-success" id="submitBtn" style="margin: 0 10px 0 0;float:right;">글등록</button>
 						</form>
 					</div>

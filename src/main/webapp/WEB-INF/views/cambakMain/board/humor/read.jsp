@@ -50,6 +50,7 @@
 
 <script>
 
+// 댓글 수정
 function modiProc(){
 	$("#modifyBox").hide();
 	let no = $("#replyno").val();
@@ -78,6 +79,7 @@ function modiProc(){
 	
 }
 
+// 댓글 수정창 띄우기
 function gomodify(no) {
 	
 	$("replyno").val(no);
@@ -113,6 +115,7 @@ function showReplyBox() {
 	$("#inputReplyBox").show();
 }
 
+// 댓글 쓰기
 function addReply(){
 	
 	let member_id = $("#newReplyWriter").val();
@@ -143,7 +146,7 @@ function addReply(){
 
 }
 
-
+// 댓글 불러오기
 function callReplyList(){
     
     let bno = "${param.no}";

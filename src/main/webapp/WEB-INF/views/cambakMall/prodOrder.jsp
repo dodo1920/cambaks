@@ -61,7 +61,9 @@
     <!-- Breadcrumb End -->
       <section class="shop-cart spad">
       <div class="container">
+      
     <!-- 배송지 선택 테이블 start -->
+    <form>
     <div>
     <h2>배송지 정보</h2>
     <div class="tbl_wrap">
@@ -122,6 +124,7 @@
     	<tr>
     		<th colspan="2">상품정보</th>
     		<th>상품금액</th>
+    		<th>수량</th>
     		<th>할인금액</th>
     		<th>배송비</th>
     		<th>주문금액</th>
@@ -132,12 +135,37 @@
     		<td><img alt="" src="../../resources/img/test.jpg" style="width:100px"> </td>
     		<td>컵누들</td>
     		<td>10,000<i>원</i></td>
+    		<td>1</td>
     		<td>0<i>원</i></td>
     		<td>2500<i>원</i></td>
     		<td>12,500<i>원</i></td>
     	</tr>
     	</tbody>
     	<tfoot>
+    		<tr>
+    			<td rowspan="2"><div style="">포인트 할인</div></td>
+    		</tr>
+    		<tr>
+	   			<td colspan="6">
+	   				<div>
+	   					<ul style="float:right; margin-right:80px; font-style:normal; list-style:none;">
+	   						<li>
+	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">보유</em>
+	   							<span>
+	   							<em>3,000</em><i>점</i>
+	   							</span>
+	   						</li>
+	   						<li>
+	   							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">사용</em>
+	   							<span><em>2,000</em><i>점</i></span><button class="btn btn-info" style="padding: 6px;">전액사용</button>
+	   						</li>
+	   					</ul>
+	   				</div>
+	   			</td>
+    		</tr>
+    		<tr>
+    			<td rowspan="2"><div style="">주문 합계</div></td>
+    		</tr>
     		<tr>
     			<td colspan="6">
     				<div>
@@ -159,23 +187,27 @@
     					</ul>
     				</div>
     			</td>
-    			</tr>
-    			<tr>
-    			<td colspan="6">
-    				<div>
-    					<em>적립 예정 금액</em>
-    					<span style="float:right;margin-right:80px"><em>1,000</em><i>원</i></span>
-    				</div>
-    			</td>
-    			</tr>
-    			<tr>
-    			<td colspan="6">
-    				<div>
-    					<em>총 주문금액</em>
-    					<span style="float:right;margin-right:80px"><em>11,000</em><i>원</i></span>
-    				</div>
-    			</td>
-    			</tr>
+    		</tr>
+   			<tr>
+   				<td rowspan="2"><div style="">적립 예정 금액</div></td>
+   			</tr>
+   			<tr>
+	   			<td colspan="6">
+	   				<div>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em>1,000</em><i>원</i></span>
+	   				</div>
+	   			</td>
+   			</tr>
+   			<tr>
+   				<td rowspan="2"><div style="">총 주문 금액</div></td>
+   			</tr>
+   			<tr>
+	   			<td colspan="6">
+	   				<div>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em>11,000</em><i>원</i></span>
+	   				</div>
+	   			</td>
+   			</tr>
     	</tfoot>
     	
     </table>
@@ -223,7 +255,7 @@
     		</div>
     	</div>
     </div>
-    
+    </form>
     <!-- 약관동의 테이블 end -->
 
 
