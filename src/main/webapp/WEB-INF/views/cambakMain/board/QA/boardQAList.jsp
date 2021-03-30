@@ -44,6 +44,7 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
@@ -61,6 +62,8 @@
 		
 		// 글 삭제 알림창
 		deleteOk();
+		
+		
 	});
 	
 	// 글 삭제(리스트 페이지로 이동)
