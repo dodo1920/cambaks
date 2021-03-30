@@ -3,9 +3,10 @@ package com.cambak21.service.myPost;
 
 import java.util.List;
 
+
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.domain.MyLikePostingVO;
+import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -17,7 +18,7 @@ public interface MyPostingService {
 	int getMyPostingCnt(String member_id) throws Exception;
 	
 	// 내가 좋아요 누른 글
-	List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception;
+	List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception;
 
 	// 내가 좋아요 누른 글 카운트
 	int getMyLikePostngCnt(String member_id) throws Exception;

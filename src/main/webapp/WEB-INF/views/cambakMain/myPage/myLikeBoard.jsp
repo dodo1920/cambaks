@@ -28,21 +28,46 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
-	function getList(obj) {
-		let category = $(obj).text();
-		
+	$(document).ready(function() {
+		getList("all");
+	})
+
+	function getList(category) {
 		$.ajax({
 			type : "post",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/board/myPage/myLike/" + encodeURI(encodeURIComponent(category)), // 서블릿 주소
+			url : "/board/myPage/myLike/" + category, // 서블릿 주소
 			success : function(data) {
-				alert(data);
+				if(data != null) {
+					listOutput(data);
+				} else {
+					$("#modalText").text("좋아요 누른 글이 존재하지 않습니다");
+					$("#myModal").modal();
+				}
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
 			complete : function(data) {
 			} // 통신 완료시
 		});
+	}
+	
+	function listOutput(data) {
+		
+		let output = "";
+		
+		$.each(data, function(index, item) {
+			output += "<tr>";
+			output += "<td>"+item.board_no+"</td>";
+			output += "<td>"+item.board_category+"</td>";
+			output += "<td>"+item.board_title+"</td>";
+			output += "<td>"+item.member_id+"</td>";
+			output += "<td>"+item.board_writeDate+"</td>";
+			output += "<td>"+item.likeBoard_date+"</td>";
+			output += "</tr>";
+		})
+		
+		$(".list-content").html(output);
 	}
 </script>
 
@@ -100,14 +125,14 @@
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name" onclick="getList(this);"><a>전체보기</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">캠핑 후기</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">유머</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">QnA</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">중고거래</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">캠핑Tip</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">공지사항</a></li>
-										<li class="catagory-name" onclick="getList(this);"><a href="#">고객센터</a></li>
+										<li class="bsk-focus catagory-name" onclick="getList('all');"><a class="mini-category">전체보기</a></li>
+										<li class="catagory-name" onclick="getList('camping');"><a class="mini-category">캠핑 후기</a></li>
+										<li class="catagory-name" onclick="getList('humor');"><a class="mini-category">유머</a></li>
+										<li class="catagory-name" onclick="getList('QnA');"><a class="mini-category">Q&A</a></li>
+										<li class="catagory-name" onclick="getList('resell');"><a class="mini-category">중고거래</a></li>
+										<li class="catagory-name" onclick="getList('tip');"><a class="mini-category">캠핑Tip</a></li>
+										<li class="catagory-name" onclick="getList('notice');"><a class="mini-category">공지사항</a></li>
+										<li class="catagory-name" onclick="getList('cs');"><a class="mini-category">고객센터</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -126,7 +151,7 @@
 											<th class="myPageThead">좋아요 누른 날짜</th>
 										</tr>
 									</thead>
-									<tbody>
+									<tbody class="list-content">
 										<c:forEach var="list" items="${LikeBoardList }">
 											<tr class="myPageBoard">
 												<td>${list.board_no }</td>
@@ -159,6 +184,24 @@
 		</div>
 	</div>
 
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
 	<%@include file="../cambak21Footer.jsp"%>
 
 </body>

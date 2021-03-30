@@ -1,6 +1,7 @@
 package com.cambak21.controller.boards;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +43,10 @@ public class BoardCsController {
 
 	@Inject
 	private BoardCsService service;
-	
+
 	@Inject
 	private MyPostingService mservice;
-	
+
 	private static Logger logger = LoggerFactory.getLogger(BoardCsController.class);
 
 	@RequestMapping("/cs/list")
@@ -189,35 +190,51 @@ public class BoardCsController {
 
 		return entity;
 	}
-	
+
 	// 마이페이지 작업 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//	@RequestMapping("/myPage/myLike")
+//	public String myPageLikeBoards(Model model, PagingCriteria cri, HttpServletRequest request) throws Exception {
+//		logger.info("승권 / 마이페이지 내가 좋아요 누른글 호출");
+//		// 세션 정보 얻어오기
+//		HttpSession session = request.getSession();
+//		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
+//
+//		model.addAttribute("LikeBoardList", mservice.getMyLikePostng(vo.getMember_id(), cri, null));
+//
+//		return "cambakMain/myPage/myLikeBoard";
+//	}
+	
 	@RequestMapping("/myPage/myLike")
-	public String myPageLikeBoards(Model model, PagingCriteria cri, HttpServletRequest request) throws Exception {
-		logger.info("승권 / 마이페이지 내가 좋아요 누른글 호출");
-		// 세션 정보 얻어오기
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO)session.getAttribute("loginMember");
-		
-		model.addAttribute("LikeBoardList", mservice.getMyLikePostng(vo.getMember_id(), cri));
-		
+	public String myPageLikeBoards() throws Exception {
 		return "cambakMain/myPage/myLikeBoard";
 	}
-	
-	@RequestMapping(value="/myPage/myLike/{category}", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/myPage/myLike/{category}", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<List<MyLikeBoardListVO>> getList(@PathVariable("category") String category, PagingCriteria cri, HttpServletRequest request) throws Exception {
+	public ResponseEntity<List<MyLikeBoardListVO>> getList(@PathVariable("category") String category,
+			PagingCriteria cri, HttpServletRequest request) {
 		logger.info("승권 / 마이페이지 내가 좋아요 누른글 카테고리 호출");
-		// view에서 인코딩 해서 넘어온 문자 다시 디코딩
-		category = URLDecoder.decode(category, "UTF-8");
-		
+		ResponseEntity<List<MyLikeBoardListVO>> entity = null;
+
 		// 세션 정보 얻어오기
 		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO)session.getAttribute("loginMember");
+		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
 		
-//		mservice.getMyLikePostng(vo.getMember_id(), cri, category);
-		
-		return null;
+		try {
+			List<MyLikeBoardListVO> lst = mservice.getMyLikePostng(vo.getMember_id(), cri, category);
+			
+			// 해당 카테고리 좋아요 한 이력이 없다면 ...
+			if (lst.size() != 0) {
+				entity = new ResponseEntity<List<MyLikeBoardListVO>>(lst, HttpStatus.OK);
+			} else {
+				entity = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
 	}
-	
 
 }
