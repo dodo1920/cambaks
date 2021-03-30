@@ -20,7 +20,7 @@ public class ReplyBoardQADAOImpl implements ReplyBoardQADAO {
 	@Inject
 	private SqlSession ses;
 
-	private static String ns = "com.cambak21.mapper.ReplyBoardCS";
+	private static String ns = "com.cambak21.mapper.ReplyBoardQA";
 
 	@Override
 	public int getRefMax() throws Exception {
