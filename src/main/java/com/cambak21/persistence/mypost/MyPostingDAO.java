@@ -8,7 +8,7 @@ import java.util.List;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikePostingVO;
-import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.util.PagingCriteria;
 
 public interface MyPostingDAO {
@@ -19,11 +19,11 @@ public interface MyPostingDAO {
 	int getMyPostingCnt(String member_id) throws Exception;
 	
 	// 내 댓글
-	List<ReplyBoardVO> myWriteReply(String member_id, PagingCriteria cri) throws Exception;
+	List<MyPageReplyVO> myWriteReply(String member_id, String board_category,PagingCriteria cri) throws Exception;
 	
-	// 내 댓글 검색하기(기간)
-	List<ReplyBoardVO> myWriteReply(String member_id, PagingCriteria cri, String fromDate, String toDate) throws Exception;
-		
+	// 가져온 내 댓글 총 개수
+	int myReplyTotal() throws Exception;
+	
 	// 내가 좋아요 누른 글
 	List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception;
 	 

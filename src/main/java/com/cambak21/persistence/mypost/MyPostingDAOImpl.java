@@ -9,15 +9,13 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import javax.inject.Inject;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikePostingVO;
-import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.util.PagingCriteria;
 
 @Repository
@@ -25,8 +23,8 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	
 	@Inject
 	private SqlSession ses;
-	
-	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper";
+	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper.";
+
 	
 	
 	
@@ -163,44 +161,34 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public List<ReplyBoardVO> myWriteReply(String member_id, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MyPageReplyVO> myWriteReply(String member_id, String board_category, PagingCriteria cri) throws Exception {
+		// 내가 작성한 댓글 가져오기
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("board_category", board_category);
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + "readMyReplyList", param);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	/**
 	  * @Method Name : myWriteReply
 	  * @작성일 : 2021. 3. 16.
 	  * @작성자 : 효원
-	  * @변경이력 : 날짜검색으로 내가 작성한 댓글 검색
-	  * @Method 설명 :
+	  * @변경이력 : 
+	  * @Method 설명 : 내가 작성한 댓글 기본 검색 페이지
 	  * @param member_id
 	  * @param cri
-	  * @param fromDate
-	  * @param toDate
 	  * @return
 	  * @throws Exception
 	  */
 	@Override
-	public List<ReplyBoardVO> myWriteReply(String member_id, PagingCriteria cri, String fromDate, String toDate)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int myReplyTotal() throws Exception {
+		// 가져온 내 댓글 총 개수
+		return ses.selectOne(ns + "readMyReplyTotal");
 	}
-	
-	
-	
-	
 	
 	
 	
