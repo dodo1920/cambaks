@@ -33,9 +33,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.ProdQAsLikeVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
+import com.cambak21.service.cambakMall.prodDetailService;
 import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
@@ -50,9 +52,17 @@ public class prodDetail {
 	@Inject
 	private BoardProdQAService QAService;
 	
+	@Inject
+	private prodDetailService prodService;
+	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, Model model) throws Exception {
 		logger.info("상품 상세 페이지");
+		
+		ProductsVO prodDetail = prodService.getProdDetail(prodId);
+		System.out.println(prodDetail);
+		
+		model.addAttribute("prodDetail", prodDetail);
 		
 		return "cambakMall/prodDetail";
 	}
