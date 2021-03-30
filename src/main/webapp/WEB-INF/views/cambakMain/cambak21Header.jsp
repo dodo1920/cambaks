@@ -19,7 +19,7 @@
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">MENU<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="/user/login">로그인</a></li>
+								<li><a href="/user/login/">로그인</a></li>
 								<li><a href="board/notice/listCri">게시판</a></li>
 								<li><a href="">마이페이지</a></li>
 								<li><a href="">고객센터</a></li>

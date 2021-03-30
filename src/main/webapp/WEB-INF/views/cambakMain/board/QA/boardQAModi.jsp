@@ -78,7 +78,7 @@
 
 				<div id="content">
 					<div>
-						<form action="../qa/modi" method="post">
+						<form action="../qa/modi.bo" method="post">
 							<input type="text" class="form-control" id="usr" name="board_title" value="${board.board_title }">
 							<textarea id="summernote" name="board_content" >${board.board_content }</textarea>
 							<input type="hidden" value="${board.board_no }" name="board_no">

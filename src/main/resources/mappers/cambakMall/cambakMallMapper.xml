@@ -15,8 +15,22 @@
   	</select>
   	
   	<!-- 장원영 맵퍼 -->
+  	<select id="bucketInfoSelect" resultType="com.cambak21.domain.BucketVO">
+  		select bp.buyProduct_no, p.product_name, p.product_img1, bp.buyProduct_qty, p.product_sellPrice, bp.buyProduct_deliveriPay, bp.buyProduct_totPrice, m.member_id
+		from BuyProducts bp inner join Members m inner join Products p
+		on bp.member_id = m.member_id and bp.product_id = p.product_id
+		where bp.bucket_no = #{bucket_no}
+  	</select>
   	
+  	<select id="viewPoint" resultType="com.cambak21.domain.PointVO">
+  		select member_totPoint from Members where member_id = #{member_id};
+  	</select>
   	
+  	<select id="usePoint" resultType="com.cambak21.domain.PointVO">
+ 		insert into Points (buyProduct_no, member_id, grade_name, buyProduct_totPrice, point_reason, point_usedPoint, point_futurePoint, payment_date)
+		values (#{buyProduct_no}, #{member_id}, #{grade_name}, #{buyProduct_totPrice}, #{point_reason}, #{point_usedPoint}, #{point_futurePoint}, #{payment_date});
+  	</select>
+ 
   	<!-- 김도연 맵퍼 -->
   	
   	

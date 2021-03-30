@@ -30,6 +30,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<script>
+		function usePoint() {
+			
+		}
+	</script>
 </head>
 <script type="text/javascript">
 
@@ -219,7 +225,7 @@ function selectDest(destination_no){
 	   						</li>
 	   						<li>
 	   							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">사용</em>
-	   							<span><em>2,000</em><i>점</i></span><button class="btn btn-info" style="padding: 6px;">전액사용</button>
+	   							<span><em>2,000</em><i>점</i></span><button class="btn btn-info" style="padding: 6px;" onclick="usePoint()">전액사용</button>
 	   						</li>
 	   					</ul>
 	   				</div>
