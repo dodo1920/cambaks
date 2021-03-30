@@ -61,7 +61,9 @@
     <!-- Breadcrumb End -->
       <section class="shop-cart spad">
       <div class="container">
+      
     <!-- 배송지 선택 테이블 start -->
+    <form>
     <div>
     <h2>배송지 정보</h2>
     <div class="tbl_wrap">
@@ -253,7 +255,7 @@
     		</div>
     	</div>
     </div>
-    
+    </form>
     <!-- 약관동의 테이블 end -->
 
 
