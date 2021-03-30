@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -170,6 +171,12 @@ public class MemberController {
 		}
 		
 		return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value="/find_id", method = RequestMethod.GET)
+	public void find_id(@RequestParam("member_email") String member_email, @RequestParam("member_name") String member_name) {
+		System.out.println(member_name);
+		System.out.println(member_email);
 	}
 	
 	

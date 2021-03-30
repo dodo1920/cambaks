@@ -54,7 +54,7 @@
 			margin-right : 2%;
 		}
 	</style>
-	<script type="text/javascript">
+	<script>
 		function showCheckbox() {
 			$("#hiddenCheckbox").show();
 		}
@@ -65,27 +65,61 @@
 			
 			console.log(userName, userEmail);
 			
-			$.ajax({
-				url: '/user/find_idPwd',
-				headers: {	// 요청 하는 데이터의 헤더에 전송
-					"Content-Type" : "application/json"
-						},
-				data : JSON.stringify({	// 요청하는 데이터
-					member_name : userName,
-					member_email : userEmail,
-					}),
-				dataType : 'json', // 응답 받을 형식
-				type : 'post',
-				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-				success : function(result) {
-					console.log(result);
-				},
-				fail : function(result) {
-					alert(result);
-				}
-			});	
+			if(userName.length == 0 || userEmail.length == 0) {
+				alert("이름 또는 이메일을 입력해주세요");
+			} else {
+				showCheckbox(); 
+				
+				$.ajax({
+					url: '/user/find_idPwd',
+					headers: {	// 요청 하는 데이터의 헤더에 전송
+						"Content-Type" : "application/json"
+							},
+					data : JSON.stringify({	// 요청하는 데이터
+						member_name : userName,
+						member_email : userEmail,
+						}),
+					dataType : 'text', // 응답 받을 형식
+					type : 'post',
+					processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+					contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+					success : function(result) {
+						console.log(result);
+						$("#hiddenUUID").html(result);	
+					},
+					fail : function(result) {
+						alert(result);
+					}
+				});		
+			}
 			
+		}
+		
+		function checkUuid() {
+			let uuid = $("#hiddenUUID").text();
+			let userUUID = $("#userUUID").val();
+			
+			console.log(uuid, userUUID);
+			
+			if(userUUID.length == 0) {
+				alert("인증번호를 입력해주세요");
+			} else {
+				if(uuid == userUUID) {
+					alert("인증이 완료되었습니다");
+					$("#status").val("success");
+				} else {
+					alert("인증번호가 다릅니다. 이메일 인증을 다시 시도해 주세요")
+				}
+			}
+					
+		}
+		
+		function findId() {
+			let status = $("#status").val();
+			
+			if(status == "success") {
+				location.href = 
+			}
 		}
 	
 	</script>
@@ -107,7 +141,7 @@
 							<span class="byline">아이디 찾기</span>
 						</header>
 						<div>
-						  <form action="/action_page.php">
+						  <form action="/find_id" method="post">
 						    <div class="form-group">
 						      <label for="member_name">이름 :</label>
 						      <input type="text" class="form-control" id="id_member_name" placeholder="Enter name" name="member_name">
@@ -115,13 +149,15 @@
 						    <div class="form-group">
 						      <label for="email" id="email">이메일 :</label>
 						      <input type="email" class="form-control" id="id_member_email" placeholder="Enter email" name="member_email">
-						      <input type="button" id="checkEmail" value="인증" onclick="showCheckbox(); sendMail();" />
+						      <input type="button" id="checkEmail" value="인증" onclick="sendMail();" />
 						      <div id="hiddenCheckbox" style="display:none">
 						      	<input type="text" id="userUUID" class="form-control" />
-						      	<input type="button" id="checkUUID" value="확인" />
+						      	<input type="button" id="checkUUID" value="확인" onclick="checkUuid();" />
+						      	<input type="hidden" id="hiddenUUID" />
+						      	<input type="hidden" id="status" />
 						      </div>
 						    </div>
-						    <button type="submit" class="btn btn-default">찾기</button>
+						    <button type="submit" class="btn btn-default" onclick="findId();">찾기</button>
 						    <button type="button" class="btn btn-default">취소</button>
 						  </form>
 						</div>
