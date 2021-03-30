@@ -31,6 +31,48 @@
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+<script type="text/javascript">
+
+function destList(){
+	
+	let member = "${loginMember.member_id}"
+	console.log(member);
+	let output ="";
+	$.getJSON("/cambakMall/prodOrder/" + member, function(data) {
+		console.log(data);
+		 $(data).each(function(index, item){
+			output += "<div>" + this.destination_nickname + "</div>"
+			output += "<div>" + this.destination_address + " " + this.destination_addressDetail + "</div>"
+			output += "<div>" + this.destination_mobile + "</div><button type='button' class='btn btn-default' data-dismiss='modal' onclick='selectDest(" + this.destination_no + ")'>선택하기</button><hr/>"
+			
+			
+		});
+		 $("#destList").html(output); 
+	});
+	
+}
+
+function selectDest(destination_no){
+	$.ajax({
+		  method: "GET",
+		  url: "/cambakMall/prodOrder/select/" + destination_no ,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "GET"
+		  },
+		  dataType: "JSON", // 응답 받는 데이터 타입
+		  destination_no : destination_no,
+		  success : function(result){
+			  $("#user_name").html(result.destination_nickname);
+			  $("#user_number").html(result.destination_mobile);
+			  $("#user_dest").html(result.destination_address + " " + result.destination_addressDetail);
+		  }
+		});
+	
+}
+
+
+</script>
 <style>
 .tbl_wrap{
 	vertical-align: middle;
@@ -73,50 +115,70 @@
     		<col style="width:160px;">
     		<col>
     	</colgroup>
-    	<tbody>
+    	<tbody id="table_in">
     		<tr>
     			<th>배송지 선택</th>
     			<td>
-    			<select style="width:100px;">
-    				<option>배송지1</option>
-    				<option>배송지2</option>
-    				<option>배송지3</option>
-    			</select>
-    			<button type="button" class="btn btn-info">배송지 관리</button>
-    			<button type="button" class="btn btn-info">+새로운 주소</button>
+    			
+    			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" onclick="destList();">배송지 선택하기</button>
+    			
     			</td>
     		</tr>
     		<tr>
     			<th>이름</th>
-    			<td>이름 출력</td>
-    		</tr>
-    		<tr>
-    			<th>연락처</th>
-    			<td>연락처 출력</td>
-    		</tr>
-    		<tr>
-    			<th>주소</th>
-    			<td>주소 출력란 인천광역시 부평구 부개로 58 어쩌구저꺼추 어쩌구 저쩌구 어쩌구 저쩌구</td>
+    			<td id="user_name">이름 출력</td>
     			
     		</tr>
     		<tr>
-    			<th>배송메모</th>
-    			<td>
-    			<select>
-    				<option>부재시 경비실에 맡겨주세요</option>
-    				<option>부재시 문앞에 놔주세요</option>
-    				<option>부재시 핸드폰으로 연락주세요</option>
-    				<option>배송전 반드시 연락주세요</option>
-    				<option>배송전 반드시 연락주세요</option>
-    			</select>
-    			</td>
+    			<th>연락처</th>
+    			<td id="user_number">연락처 출력</td>
+    		</tr>
+    		<tr>
+    			<th>주소</th>
+    			<td id = "user_dest">주소 출력란 인천광역시 부평구 부개로 58 어쩌구저꺼추 어쩌구 저쩌구 어쩌구 저쩌구</td>
+    			
     		</tr>
     	</tbody>
     	</table>
     </div>
     </div>
     <!-- 배송지 선택 테이블 end -->
-    <!-- 주문 상품 정보 테이블 start -->
+
+				<!-- 배송지 선택 modal start-->
+				<div class="modal fade" id="myModal" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+							<h4 class="modal-title">배송지 선택</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								
+							</div>
+							<div class="modal-body" id="destList">
+							<!-- 
+								<div>김대기</div>
+								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
+								<div>010-2332-3232</div>
+								<button type="button" class="btn btn-default">선택하기</button>
+								<hr/>
+								<div>김대기</div>
+								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
+								<div>010-2332-3232</div>
+								<button type="button" class="btn btn-default">선택하기</button>
+								 -->
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<!-- 배송지 선택 modal end -->
+
+				<!-- 주문 상품 정보 테이블 start -->
     <div style="margin-top:50px">
     <h2>주문상품 정보</h2>
     <table class="table">
