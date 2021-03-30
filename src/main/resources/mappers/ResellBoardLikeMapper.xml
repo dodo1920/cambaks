@@ -13,6 +13,6 @@
   		select count(*) from ResellLikeBoards where resellBoard_no = #{resellBoard_no};
   	</select>
   	<select id="ResellBoardlikeRead" resultType="com.cambak21.domain.ResellLikeBoardVO">
-  		select * from ResellLikeBoards where member_id = #{member_id} and resellBoard_no = #{resellBoard_no}
+  		select * from ResellLikeBoards where member_id = '${member_id}' and resellBoard_no = ${resellBoard_no}
   	</select>
   </mapper>

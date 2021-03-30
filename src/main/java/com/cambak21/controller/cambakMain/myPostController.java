@@ -22,14 +22,14 @@ import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/myPage/*")
-public class MyPostController {
+public class myPostController {
 
 	// 서비스 주입
 	@Inject
 	private MyPostingService service;
 	
 	//디버깅용 Logger
-	private static final Logger logger = LoggerFactory.getLogger(MyPostController.class);
+	private static final Logger logger = LoggerFactory.getLogger(myPostController.class);
 	
 	/**
 	 * @Method Name : showMyPostList
