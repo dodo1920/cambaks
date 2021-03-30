@@ -103,14 +103,22 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception {
+	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception {
 
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("member_id", member_id);
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
-		
-		return ses.selectList(ns + ".getMyPosting", param);
+		System.out.println("board_category : " + board_category);
+		if(board_category.equals("all")) {
+
+			System.out.println("all : " + param);
+			return ses.selectList(ns + ".getMyPosting", param);
+		} else {
+			param.put("board_category", board_category);
+			System.out.println("else : " + param);
+			return ses.selectList(ns + ".getMyPostingWithCategory", param);
+		}
 	}
 	
 	
@@ -134,8 +142,20 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyPostingCnt(String member_id) throws Exception {
-		return ses.selectOne(ns + ".getMyPostingCnt", member_id);
+	public int getMyPostingCnt(String member_id, String board_category) throws Exception {
+
+		System.out.println("board_category : " + board_category);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		System.out.println(param);
+		if(board_category.equals("all")) {
+			System.out.println("allCnt : " + param);
+			return ses.selectOne(ns + ".getMyPostingCnt", param);
+		} else {
+			param.put("board_category", board_category);
+			System.out.println("allCntCategory : " + param);
+			return ses.selectOne(ns + ".getMyPostingCntWithCategory", param);
+		}
 	}
 	
 	

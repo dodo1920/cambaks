@@ -86,10 +86,10 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception {
+	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception {
 
 		
-		return dao.getMyPosting(member_id, cri);
+		return dao.getMyPosting(member_id, cri, board_category);
 	}
 
 	
@@ -114,8 +114,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyPostingCnt(String member_id) throws Exception {
-		return dao.getMyPostingCnt(member_id);
+	public int getMyPostingCnt(String member_id, String board_category) throws Exception {
+		return dao.getMyPostingCnt(member_id, board_category);
 	}
 
 	

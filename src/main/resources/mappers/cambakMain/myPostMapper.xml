@@ -57,13 +57,20 @@
 		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
 	</select>
 	
+	<!-- getMyPostingWithCategory -->
+	<select id="getMyPostingWithCategory" resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category} order by board_writeDate desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
 	<!-- getMyPostingCnt 정민 -->
 	<select id="getMyPostingCnt" resultType="int">
 		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 	
-	
-	
+	<!-- getMyPostingCntWithCategory 정민 -->
+	<select id="getMyPostingCntWithCategory" resultType="int">
+		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category}
+	</select>
 	
 	
 	

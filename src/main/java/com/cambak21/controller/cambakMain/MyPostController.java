@@ -108,9 +108,9 @@ public class MyPostController {
 	    //System.out.println("cri : " + cri);
 	    
 	    try {
-			boardList = service.getMyPosting(member_id, cri);
-			System.out.println("boardList : " + boardList);
-		    pp.setTotalCount(service.getMyPostingCnt(member_id));
+			boardList = service.getMyPosting(member_id, cri, board_category);
+			System.out.println(boardList.toString());
+		    pp.setTotalCount(service.getMyPostingCnt(member_id, board_category));
 		    System.out.println("pp2 : " + pp);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
