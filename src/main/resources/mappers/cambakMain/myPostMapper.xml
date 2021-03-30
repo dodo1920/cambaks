@@ -83,17 +83,13 @@
 
 
 	<!-- getMyPosting 정민 -->
-	<select id="getMyPosting1"
-		resultType="com.cambak21.domain.BoardVO">
-		select * from goot6.Boards where member_id = #{member_id}
-		and board_isDelete = 'N' order by board_writeDate desc limit
-		#{pageStart}, #{perPageNum}
+	<select id="getMyPosting" resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
 	</select>
 
 	<!-- getMyPostingCnt 정민 -->
-	<select id="getMyPostingCnt1" resultType="int">
-		select count(*) from
-		goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
+	<select id="getMyPostingCnt" resultType="int">
+		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 
 

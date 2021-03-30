@@ -113,7 +113,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
 		
-		return ses.selectList(ns + ".getMyPosting1", param);
+		return ses.selectList(ns + ".getMyPosting", param);
 	}
 	
 	
@@ -138,7 +138,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  */
 	@Override
 	public int getMyPostingCnt(String member_id) throws Exception {
-		return ses.selectOne(ns + ".getMyPostingCnt1", member_id);
+		return ses.selectOne(ns + ".getMyPostingCnt", member_id);
 	}
 	
 	

@@ -110,6 +110,7 @@
     		pageNum =1;
     	}
     	console.log(pageNum);
+    	// 게시판 리스트 출력
     	let output = '<div class="container">';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
         

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.service.myPost.MyPostingService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -40,22 +42,22 @@ public class myPostController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/myPost", method=RequestMethod.GET)
-	public String showMyPostList(PagingCriteria cri, Model model, @RequestParam("member_id") String member_id) throws Exception {
-		logger.info("페이징 처리를 한 내가 작성한 게시글 목록...");
-		// 게시물 데이터 바인딩
-		model.addAttribute("myPostList", service.getMyPosting(member_id, cri));
-		System.out.println(service.getMyPosting(member_id, cri));
-		PagingParam pp = new PagingParam();
-		pp.setCri(cri);
-		// 내가 작성한 총 게시물 수를 가져와서 세팅
-		pp.setTotalCount(service.getMyPostingCnt(member_id));
-		System.out.println(pp.toString());
-		
-		model.addAttribute("pagingParam", pp);
-		
-		return "cambakMain/myPage/myPost";
-	}
+//	@RequestMapping(value="/myPost", method=RequestMethod.GET)
+//	public String showMyPostList(PagingCriteria cri, Model model, @RequestParam("member_id") String member_id) throws Exception {
+//		logger.info("페이징 처리를 한 내가 작성한 게시글 목록...");
+//		// 게시물 데이터 바인딩
+//		model.addAttribute("myPostList", service.getMyPosting(member_id, cri));
+//		System.out.println(service.getMyPosting(member_id, cri));
+//		PagingParam pp = new PagingParam();
+//		pp.setCri(cri);
+//		// 내가 작성한 총 게시물 수를 가져와서 세팅
+//		pp.setTotalCount(service.getMyPostingCnt(member_id));
+//		System.out.println(pp.toString());
+//		
+//		model.addAttribute("pagingParam", pp);
+//		
+//		return "cambakMain/myPage/myPost";
+//	}
 	
 	
 	
@@ -75,6 +77,11 @@ public class myPostController {
 	
 	
 	
+	@RequestMapping(value="myPost", method=RequestMethod.GET)
+	public String showMain() throws Exception {
+		return "cambakMain/myPage/myWriting";
+	}
+	
 	/**
 	 * @Method Name : myPageReplyInfo
 	 * @작성일 : 2021. 3. 29.
@@ -84,8 +91,34 @@ public class myPostController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="myPost.mp", method=RequestMethod.GET)
-	public void myPostList() throws Exception {
-		
+	public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page){
+		System.out.println(member_id);
+		System.out.println(page);
+	    logger.info("/myPost의 ajax-GET방식 호출");
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    
+	    List<BoardVO> boardList = null;
+    
+	    PagingCriteria cri = new PagingCriteria();
+	    PagingParam pp = new PagingParam();
+	    pp.setCri(cri);
+	    cri.setPage(page);
+	    System.out.println("pp1 : " + pp);
+	    //System.out.println("cri : " + cri);
+	    
+	    try {
+			boardList = service.getMyPosting(member_id, cri);
+			System.out.println("boardList : " + boardList);
+		    pp.setTotalCount(service.getMyPostingCnt(member_id));
+		    System.out.println("pp2 : " + pp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    result.put("boardList", boardList);
+	    result.put("pagingParam", pp);
+	    
+		return result;
 	}
 	
 	
