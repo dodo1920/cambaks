@@ -28,12 +28,12 @@ public class CampingReviewServiceImpl implements CampingReviewService {
 	
 	@Transactional
 	@Override
-	public int writeBoardCR(BoardVO vo) throws Exception {
+	public int writeBoardCR(InsertCRBoardDTO dto) throws Exception {
 		// 글 작성
-		dao.writeBoardCR(vo);
+		dao.writeBoardCR(dto);
 		
 		// 해당 글 번호 반환
-		return dao.getBoard_no(vo.getMember_id());
+		return dao.getBoard_no(dto.getMember_id());
 	}
 
 	@Override

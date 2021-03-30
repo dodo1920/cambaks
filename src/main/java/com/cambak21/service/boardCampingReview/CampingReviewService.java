@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
+import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 public interface CampingReviewService {
 	// 게시글 작성
-	public int writeBoardCR(BoardVO vo) throws Exception;
+	public int writeBoardCR(InsertCRBoardDTO dto) throws Exception;
 
 	// 게시글 수정
 	public int modiBoardCR(UpdateCRBoardDTO dto) throws Exception;

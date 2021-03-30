@@ -119,16 +119,13 @@
 		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.member_id}">
 		               </div>
 		            </div>
-<!-- 		            <div class="form-group">
-		               <label class="control-label col-sm-2" for="board_category">카테고리 :</label>
+		            <div class="form-group">
+		               
 		               <div class="col-sm-10">
-		                  <select id="board_category" name="board_category" class="form-control">
-		                  	<option value="${CRboardlist.board_category }">${CRboardlist.board_category }</option>
-		                  	
-		                  </select>
+		                  <input type="hidden" class="form-control" id="board_category" name="board_category" value="camping">
 		               </div>
 		            </div>
-		          -->
+		          
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="board_title">제 목 :</label>
 		               <div class="col-sm-10">

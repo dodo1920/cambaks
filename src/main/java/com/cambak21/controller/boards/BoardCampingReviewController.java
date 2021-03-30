@@ -68,12 +68,12 @@ public class BoardCampingReviewController {
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String BoardCRWrite(BoardVO vo, RedirectAttributes ra) throws Exception {
+	public String BoardCRWrite(InsertCRBoardDTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("영광 / 글 작성 POST 방식 호출");
 		
 		ra.addFlashAttribute("status", "writeOk");
 		
-		return "redirect:/board/campingreview/detail?no=" + service.writeBoardCR(vo); // 해당 메서드 실행하면 max(board_no)값 반환해줌
+		return "redirect:/board/campingreview/detail?no=" + service.writeBoardCR(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
 	
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
