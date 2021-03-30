@@ -18,16 +18,16 @@
     	values(#{member_id}, #{member_name}, member_gender}, #{member_birth}, #{member_addr}, #{member_email}, #{member_mobile}, #{member_password}); 
     </insert>
         	
-    <select id="FindId">
-    	select member_id from Members where member_name = '백승권' and member_email = 'abc@naver.com'
+    <select id="findId" resultType="com.cambak21.domain.FindIdVO">
+    	select member_id, member_name from Members where member_name = #{member_name} and member_email = #{member_email}
     </select>
     
-    <select id="FindPwd">
-    	select * from Members where member_id = 'bbb' and member_mobile = '010-1111-2222'	
+    <select id="findPwd" resultType="com.cambak21.domain.FindIdVO">
+    	select * from Members where member_id = #{member_id} and member_email = #{member_email}	
     </select>
     
-    <update id="UpdatePwd">
-    	update Members set member_password = md5(sha1('5678')) where member_id= 'bbb' and member_mobile = '010-1111-2222'
+    <update id="updatePwd">
+    	update Members set member_password = md5(sha1(#{member_password})) where member_id= #{member_id}
     </update>
 
 	<select id="login" resultType="com.cambak21.domain.MemberVO">
@@ -43,6 +43,12 @@
 	</select>
 	
 	<select id="checkEmail" resultType="int">
-		select count(*) from Members where member_email = #{member_email} and member_name = #{member_name}
+		select count(*) from Members where member_email = #{member_email}
+		<if test="member_id == null">
+			and member_name = #{member_name}
+		</if>
+		<if test="member_name == null">
+			and member_id = #{member_id}
+		</if>
 	</select>
   </mapper>
