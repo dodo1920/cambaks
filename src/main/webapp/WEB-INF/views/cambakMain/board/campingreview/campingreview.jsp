@@ -84,6 +84,18 @@
     
     }
 	   
+	function checkLogin() {
+		
+		if(${loginMember.member_id == null}) {
+			alert("회원만 글쓰기 가능합니다.");
+			location.href='/user/login/yet'
+			return false;
+			
+		}
+		
+		return true;
+	}   
+	   
 	   
 	
 	
@@ -193,7 +205,14 @@
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="checkSearchInput();" />
 				<input type="hidden" name="page" value="1" />
 				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listcri?page=${pageNo }'"/>
-				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="location.href='/board/campingreview/write?category=${param.board_category }'">글쓰기</button>
+				
+				
+				<div class="writeBtn">
+							<a href='/board/campingreview/write' onclick="return checkMember();">
+				<button type="button" style="color: chocolate; float: right; font-weight: bold; width: 100px;" onclick="return checkLogin();">글쓰기 </button>
+				</a>
+				</div>
+				
 				<hr style="margin:1em 0 0 0; padding:1em 0 0 0; color:chocolate;"/>
 			</form>
 			
