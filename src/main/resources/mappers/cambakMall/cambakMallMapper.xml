@@ -5,14 +5,32 @@
   
   <mapper namespace="com.cambak21.mappers.cambakMallMapper">
   	<!-- 김대기 맵퍼 -->
-  	<!-- 주소록 이름 가져오는 셀렉트 문 -->
+  	<!-- 주소록 리스트 가져오는 셀렉트 문 -->
   	<select id="destinationSelect" resultType="com.cambak21.domain.DestinationVO">
-  		select destination_nickname from goot6.Destinations where member_id = #{member_id}
+  		select * from goot6.Destinations where member_id = #{member_id}
+  	</select>
+  	<!-- 한개 주소록 -->
+  	<select id="selectDestOne" resultType="com.cambak21.domain.DestinationVO">
+  		select * from goot6.Destinations where destination_no = #{destination_no}
   	</select>
   	
   	<!-- 장원영 맵퍼 -->
+  	<select id="bucketInfoSelect" resultType="com.cambak21.domain.BucketVO">
+  		select bp.buyProduct_no, p.product_name, p.product_img1, bp.buyProduct_qty, p.product_sellPrice, bp.buyProduct_deliveriPay, bp.buyProduct_totPrice, m.member_id
+		from BuyProducts bp inner join Members m inner join Products p
+		on bp.member_id = m.member_id and bp.product_id = p.product_id
+		where bp.bucket_no = #{bucket_no}
+  	</select>
   	
+  	<select id="viewPoint" resultType="com.cambak21.domain.PointVO">
+  		select member_totPoint from Members where member_id = #{member_id};
+  	</select>
   	
+  	<select id="usePoint" resultType="com.cambak21.domain.PointVO">
+ 		insert into Points (buyProduct_no, member_id, grade_name, buyProduct_totPrice, point_reason, point_usedPoint, point_futurePoint, payment_date)
+		values (#{buyProduct_no}, #{member_id}, #{grade_name}, #{buyProduct_totPrice}, #{point_reason}, #{point_usedPoint}, #{point_futurePoint}, #{payment_date});
+  	</select>
+ 
   	<!-- 김도연 맵퍼 -->
   	
   	

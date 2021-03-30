@@ -76,7 +76,7 @@
 		var params = url.slice(url.indexOf("board") + 6, url.length).split("/"); // board/ 뒤부터 "/"로 잘라서 배열에 넣기
 		return params[0]; // board/??/
 	}
-	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
+// 	// 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
 // 	function asideBarDraw(boardUri) {
 // 		$("#QnAAside" + boardUri + "Aside").attr("class", "active");
 // 	}
@@ -120,7 +120,7 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="../board/qa/detail?no=${item.board_no }&page=${param.page}"
+											<td><a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}"
 												class="board-title-a">${item.board_title }</a> <c:if
 													test="${item.board_replyCnt > 0 }">
 													(${item.board_replyCnt })
@@ -137,7 +137,7 @@
 						</div>
 						<div class="text-center">
 							<div style="display: inline-block;">
-								<form action="/board/qa/search" method="GET">
+								<form action="/board/qa/search.bo" method="GET">
 									<select name="searchType"
 										style="font-size: 15px; height: 30px;">
 										<option value="title">제목</option>
@@ -150,7 +150,7 @@
 							</div>
 							<c:if test="${loginMember.member_id != null}">
 								<button class="btn btn-danger write"
-									onclick="location.href='/board/qa/write'">글쓰기</button>
+									onclick="location.href='/board/qa/write.bo'">글쓰기</button>
 							</c:if>
 							<div class="pageBtn">
 								<ul class="pagination">

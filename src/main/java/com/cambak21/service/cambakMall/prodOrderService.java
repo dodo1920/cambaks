@@ -2,13 +2,16 @@ package com.cambak21.service.cambakMall;
 
 import java.util.List;
 
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 
 public interface prodOrderService {
 	
 	
 	// 김대기 DAO -->
-	public List<String> selectDestNickName(MemberVO vo) throws Exception;
+	public List<DestinationVO> selectDestNickName(String member_id) throws Exception;
+	
+	public DestinationVO selectDestOne(int destination_no) throws Exception;
 //  	<!-- 장원영 DAO -->
   	
   	

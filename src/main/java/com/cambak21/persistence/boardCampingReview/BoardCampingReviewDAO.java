@@ -6,13 +6,14 @@ import java.util.List;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
+import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 public interface BoardCampingReviewDAO {
 	// 게시글 작성
-	void writeBoardCR(BoardVO vo) throws Exception;
+	void writeBoardCR(InsertCRBoardDTO dto) throws Exception;
 
 	// 게시글 insert 후 해당 게시글 번호 가져오기
 	int getBoard_no(String member_id) throws Exception;

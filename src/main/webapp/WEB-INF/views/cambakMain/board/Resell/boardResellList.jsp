@@ -65,9 +65,20 @@
 	</style>
 </head>
 <script type="text/javascript">
+var minHeight = 0
 function gotoDeteilPage	(no) {
 	window.location.href="/board/resell/detail?no="+no+"&page=${pagingParam.cri.page}"
 }
+$(window).scroll(function () {
+	var height = $(document).scrollTop();
+	console.log(height);
+	if(height > (minHeight+980)){
+		minHeight = 980;
+		console.log("minHeight : "+minHeight);
+	}
+});
+
+    
 function like() {
 	$.ajax({
 		method : "post",
@@ -86,6 +97,7 @@ function like() {
 	});
 	
 }
+
 
 </script>
 <body>
@@ -110,6 +122,19 @@ function like() {
 						<table style="width: 100%x">
 				
 						<tbody style="width: 100%">
+						<div style="display: table;margin: auto;">
+							<form action="/board/resell/search" method="GET">
+								<select name="searchType" style="margin-right: 15px">
+									<option value="n">---------------------</option>
+									<option value="resellBoard_title">제목</option>
+									<option value="resellBoard_content">내용</option>
+									<option value="member_id">작성자</option>
+								</select>
+								
+								<input type="text" name="searchWord" placeholder="검색어 입력..." style="width: 550px"/>
+								<input type="submit" id="goSearch" value="검색" />
+							</form>
+						</div id="ResellList">
 						<c:forEach var="board" items="${board}">
 						<c:choose>
                   			<c:when test='${board.resellBoard_isDelete == "Y"}'>
@@ -119,7 +144,7 @@ function like() {
 								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
 								<td class="tdTotolStyle"><del><span>${board.resellBoard_title}</span></del></td>
 								<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">${board.resellBoard_content}</span></del></td>
-								<td class="tdTotolStyle"><del><div><span>좋아요수 :${board.resellBoard_likeCnt}</span></a><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></del></td>
+								<td class="tdTotolStyle"><del><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></del></td>
 								<td class="tdTotolStyle"><del><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></del></td>
 								</tr>
 							</c:when>
@@ -130,34 +155,21 @@ function like() {
 								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
 								<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
 								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.resellBoard_content	}</span></td>
-								<td class="tdTotolStyle"><div><span>좋아요수 :${board.resellBoard_likeCnt}</span onclick="like();"><span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></div></td>
+								<td class="tdTotolStyle">
+								<span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></div></td>
 								<td class="tdTotolStyle"><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></td>
 								</tr>
 							</c:otherwise>
 							</c:choose>
-							
 							</c:forEach>
 
 							</tbody>
 						</table>
-				<div>
-					<form action="/board/resell/search" method="GET">
-						<select name="searchType">
-							<option value="n">---------------------</option>
-							<option value="resellBoard_title">제목</option>
-							<option value="resellBoard_content">내용</option>
-							<option value="member_id">작성자</option>
-							<option value="like">좋아요</option>
-							<option value="view">조회수</option>
-						</select>
-						
-						<input type="text" name="searchWord" placeholder="검색어 입력..."/>
-						<input type="submit" id="goSearch" value="검색" />
-					</form>
-				</div>
+
 			<c:if test="${loginMember.member_id != null }">
 				<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
 			</c:if>
+			<!--  
 				<div class="text-center">
 				     <ul class="pagination"style="text-align: center;">
 	      
@@ -183,6 +195,7 @@ function like() {
 	
 	                </ul>
             </div>
+            -->
 			
 			</div>
 		</div>

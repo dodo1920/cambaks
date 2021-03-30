@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.dto.InsertCRBoardDTO;
+import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.UpdateCRBoardDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -27,8 +28,8 @@ public class BoardCampingReviewDAOImpl implements BoardCampingReviewDAO {
 	private static String ns = "com.cambak21.mappers.cambakBoard.CampingReview";
 
 	@Override
-	public void writeBoardCR(BoardVO vo) throws Exception {
-		ses.insert(ns + ".writeBoardCR", vo);
+	public void writeBoardCR(InsertCRBoardDTO dto) throws Exception {
+		ses.insert(ns + ".writeBoardCR", dto);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.cambak21.persistence.resell;
 
+import java.util.List;
+
 import com.cambak21.domain.ResellLikeBoardVO;
 
 public interface ResellBoardLikeDAO {

@@ -104,7 +104,7 @@
                       
                     </span>
         
-                    <a href="buggo_FindPassword.html" class="txt2">
+                    <a href="../find_idPwd" class="txt2">
                       아이디 / 비밀번호 찾기
                     </a>
                   </div>

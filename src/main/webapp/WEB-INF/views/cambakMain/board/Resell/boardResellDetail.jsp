@@ -49,6 +49,7 @@
 			width: 100%;
     		height: 100%;
 			display: inline-block;
+			margin-bottom: 40px;
 		}
 		#imgBoard{
 			width: 100%;
@@ -130,18 +131,44 @@
 
 	}
 	$(function() {
-		like();
+		openLike();	
 		callReplyList();
-
 	      $('.single-item').slick({
 	    	  autoplay : true,
               autoplaySpeed : 8000,    
               dots:true,
               arrows : true
           });
-	      console.log(${loginMember.member_id })
-		  
+	      
+
 	});
+	function openLike(){
+		let member_id= "${loginMember.member_id}";
+	
+		if (member_id != null){
+			let resellBoard_no = ${param.no};
+		
+		      $.ajax({
+					type : "post",
+					dataType : "text",
+					contentType : "application/json",
+					url : "/utile/openLike", 
+					data : JSON.stringify({
+						resellBoard_no : resellBoard_no,
+						member_id : member_id
+					}),
+					success : function(data) {
+						$("#likeArray").html('<img id="likeBtn"src="'+data+'"/>')
+					}, // 통신 성공시
+					error : function(data) {
+					}, // 통신 실패시
+					complete : function(data) {
+					} // 통신 완료시
+				});
+		}
+	}
+	
+	
 	function addReply() {
 		let member_id = $("#newReplyWriter").val();
 		let resellReplyBoard_content = $("#newReplyText").val();
@@ -165,30 +192,29 @@
 			} // 통신 완료시
 		});
 	}
-	function like() {
-		console.log("!")
-		
-		let member_id = "aaa";
-		let resellBoard_no = ${board.resellBoard_no};
-		$.ajax({
-			type : "post",
-			dataType : "text",
-			contentType : "application/json",
-			url : "/utile/like", 
-			data : JSON.stringify({
-				resellBoard_no : resellBoard_no,
-				member_id : member_id
-			}),
-			success : function(data) {
-				
-	
-				$("#likeArray").html('<img id="likeBtn"src="'+data+'"/>')
-			}, // 통신 성공시
-			error : function(data) {
-			}, // 통신 실패시
-			complete : function(data) {
-			} // 통신 완료시
-		});
+	function like() {		
+		let member_id ="${loginMember.member_id}";
+		if (member_id != null){
+			console.log(member_id);
+			let resellBoard_no = ${board.resellBoard_no};
+			$.ajax({
+				type : "post",
+				dataType : "text",
+				contentType : "application/json",
+				url : "/utile/like", 
+				data : JSON.stringify({
+					resellBoard_no : resellBoard_no,
+					member_id : member_id
+				}),
+				success : function(data) {
+					$("#likeArray").html('<img id="likeBtn"src="'+data+'"/>')
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		}
 	}
 	</script>
 </head>
@@ -227,10 +253,20 @@
 						<div><h1 style="font-size: 25px;color: black;">${board.resellBoard_title}</h1></div>
 						<hr style="margin: 3px  0;padding: 3px;0"/>
 						<div id="detail"><span class="detail">${board.resellBoard_content	}</span></div>
-						<div style="margin-bottom: 15px"><button id="likeArray" onclick="like();" 
-						style="width: auto;display: inline-block;height: auto; background: none; border: none;">
-						
-						</button>
+						<div style="margin-bottom: 15px">
+						<c:choose>
+                  			<c:when test='${not empty loginMember.member_id}'>
+								<button id="likeArray" onclick="like();" 
+								style="width: auto;display: inline-block;height: auto; background: none; border: none;">
+									
+								</button>
+							</c:when>
+							<c:otherwise>
+								<div style="width: auto;display: inline-block;height: auto;">
+									<img id="likeBtn" src="/resources/img/emptyHeart.png"/>
+								</div>
+							</c:otherwise>
+						</c:choose>
 						<span style="margin-left: 20px">조회수 : ${board.resellBoard_viewCnt}</span></div>
 						<div><span style="margin-bottom: 15px">${board.resellBoard_addr }</span></div>
 					
@@ -262,7 +298,7 @@
 					
 					</div>
 				<div id="replyBox"
-						style="padding: 10px; border-bottom: 1px solid gray;">
+						style="padding: 10px 0; border-bottom: 1px solid gray;">
 						
 					</div>
 			</div>

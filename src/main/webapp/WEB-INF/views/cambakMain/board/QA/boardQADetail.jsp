@@ -67,7 +67,7 @@
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/board/QA/reply/all/" + ${board.board_no}, // 서블릿 주소
+			url : "/board/qa/reply.bo/all/" + ${board.board_no}, // 서블릿 주소
 			success : function(data) {
 				listOutput(data);
 			}, // 통신 성공시
@@ -123,39 +123,44 @@
 	
 	// 부모 댓글 작성 함수
 	function replyWrite() {
-		// 회원 확인
+		// 로그인 여부 확인
 		if (${loginMember.member_id == null}) {
-			$("#modalText").text("비회원은 작성이 불가합니다. 로그인 후 사용해주세요");
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
 			$(".modal-footer").html('<a href="/user/login/yet"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
 			$("#myModal").modal();
 		} else {
 			let replyBoard_content = $("#replyBoard_content").val();
 			
-			if (replyBoard_content != "") {
+			if(replyBoard_content != "") {
 				let board_no = "${board.board_no}";
 				let member_id = "${loginMember.member_id}";
+				
+				$.ajax({
+					type : "post",
+					dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
+					contentType : "application/json",
+					url : "/board/qa/reply.bo/insert", // 서블릿 주소
+					data : JSON.stringify({
+						board_no : board_no,
+						member_id : member_id,
+						replyBoard_content : replyBoard_content
+					}),
+					success : function(data) {
+						replyList();
+						ajaxStatus(data);
+						scrollMove();
+					}, // 통신 성공시
+					error : function(data) {
+					}, // 통신 실패시
+					complete : function(data) {
+					} // 통신 완료시
+				});
+			} else {
+				$("#modalText").text("댓글을 입력해 주세요");
+				$("#myModal").modal();
+			}
 		
-		
-		$.ajax({
-			type : "post",
-			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-			contentType : "application/json",
-			url : "/board/qa/reply/insert", // 서블릿 주소
-			data : JSON.stringify({
-				board_no : board_no,
-				member_id : member_id,
-				replyBoard_content : replyBoard_content
-			}),
-			success : function(data) {
-				replyList();
-				scrollMove();
-				ajaxStatus(data);
-			}, // 통신 성공시
-			error : function(data) {
-			}, // 통신 실패시
-			complete : function(data) {
-			} // 통신 완료시
-		});
+		}
 	};
 	
 	// 자식댓글 작성폼 열기
@@ -178,14 +183,14 @@
 		let replyBoard_content = $(replyId).val();
 		
 		// 나중에 멤버아이디 바꾸기
-		let member_id = ${loginMember.member_id};
+		let member_id = "${loginMember.member_id}";
 		// ===================================
 			
 		$.ajax({
 			type : "post",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 			contentType : "application/json",
-			url : "/board/QA/reply/insert", // 서블릿 주소
+			url : "/board/qa/reply.bo/insert", // 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
@@ -207,7 +212,7 @@
 		$.ajax({
 			type : "delete",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-			url : "/board/QA/reply/delete/" + replyBoard_no, // 서블릿 주소
+			url : "/board/qa/reply.bo/delete/" + replyBoard_no, // 서블릿 주소
 			success : function(data) {
 				replyList();
 				ajaxStatus(data);
@@ -246,7 +251,7 @@
 			type : "put",
 			dataType : "text", // 받을 데이터
 			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-			url : "/board/qa/reply/update/" + replyno,// 서블릿 주소
+			url : "/board/qa/reply.bo/update/" + replyno,// 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content
@@ -367,17 +372,17 @@
 
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id }">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/delete?no=${board.board_no}'">삭제하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/delete.bo?no=${board.board_no}'">삭제하기</button>
 						   	</c:if>
 							
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id}">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/modi?no=${board.board_no}'">수정하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/modi.bo?no=${board.board_no}'">수정하기</button>
 						   	</c:if>
 							
 							<!-- 검색하지 않았을 시 전 주소 -->
 							<c:if test="${param.searchWord == null }">
-								<a href="/board/qa?page=${param.page}" id="listBtn">
+								<a href="/board/qa/list.bo?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-danger">목록보기</button>
 								</a>
 							</c:if>
@@ -385,7 +390,7 @@
 														
 							<!-- 검색 했을 시 전 주소 -->
 							<c:if test="${param.searchWord != null }">
-								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
+								<a href="/board/qa/search.bo?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>
 							</c:if>
