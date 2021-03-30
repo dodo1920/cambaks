@@ -7,11 +7,18 @@ public class DestinationVO {
 	private String member_id;
 	private String destination_nickname;
 	private String destination_address;
+	private String destination_addressDetail;
 	private Date destination_updateDate;
 	private String destination_toUser;
 	private String destination_mobile;
 	private int destination_zipCode;
 	
+	public String getDestination_addressDetail() {
+		return destination_addressDetail;
+	}
+	public void setDestination_addressDetail(String destination_addressDetail) {
+		this.destination_addressDetail = destination_addressDetail;
+	}
 	public int getDestination_no() {
 		return destination_no;
 	}
@@ -60,14 +67,16 @@ public class DestinationVO {
 	public void setDestination_zipCode(int destination_zipCode) {
 		this.destination_zipCode = destination_zipCode;
 	}
-	
 	@Override
 	public String toString() {
 		return "DestinationVO [destination_no=" + destination_no + ", member_id=" + member_id
 				+ ", destination_nickname=" + destination_nickname + ", destination_address=" + destination_address
-				+ ", destination_updateDate=" + destination_updateDate + ", destination_toUser=" + destination_toUser
-				+ ", destination_mobile=" + destination_mobile + ", destination_zipCode=" + destination_zipCode + "]";
+				+ ", destination_addressDetail=" + destination_addressDetail + ", destination_updateDate="
+				+ destination_updateDate + ", destination_toUser=" + destination_toUser + ", destination_mobile="
+				+ destination_mobile + ", destination_zipCode=" + destination_zipCode + "]";
 	}
+	
+	
 	
 	
 }

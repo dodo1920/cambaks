@@ -5,9 +5,13 @@
   
   <mapper namespace="com.cambak21.mappers.cambakMallMapper">
   	<!-- 김대기 맵퍼 -->
-  	<!-- 주소록 이름 가져오는 셀렉트 문 -->
+  	<!-- 주소록 리스트 가져오는 셀렉트 문 -->
   	<select id="destinationSelect" resultType="com.cambak21.domain.DestinationVO">
-  		select destination_nickname from goot6.Destinations where member_id = #{member_id}
+  		select * from goot6.Destinations where member_id = #{member_id}
+  	</select>
+  	<!-- 한개 주소록 -->
+  	<select id="selectDestOne" resultType="com.cambak21.domain.DestinationVO">
+  		select * from goot6.Destinations where destination_no = #{destination_no}
   	</select>
   	
   	<!-- 장원영 맵퍼 -->
