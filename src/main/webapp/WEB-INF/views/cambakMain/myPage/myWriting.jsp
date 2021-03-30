@@ -65,7 +65,7 @@ function showWritingList(pageNum, board_category) {
 	member_id = "${loginMember.member_id}";
 	
 	// 게시판 리스트 출력 부분
-	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
     
 	$.ajax({
 	    type		: "get",
@@ -94,10 +94,28 @@ function showWritingList(pageNum, board_category) {
                 showThisDate = showDate.toLocaleString();
                 
                 // 게시글 내용 출력 부분
-               
-                output += '<tbody><tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
-                output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
-                output += '<td>' + item.board_likeCnt + '</td></tr>';
+               if(item.board_category == "CS"){
+            	   console.log(item.board_category);
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/cs/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "humor"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/cambakMain/board/humor/read?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>'; 
+               } else if(item.board_category == "QA"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/qa/detail?id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "camping"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingreview/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "Resell"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/resell/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "Tip"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingTip/view.bo?id=Tip&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "notice"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/notice//read?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } 
+               else{
+            	   console.log(item.board_category);
+            	   output += '<tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               }
+               output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
+           	   output += '<td>' + item.board_likeCnt + '</td></tr>'; 
 
                 
        	  });
@@ -247,10 +265,8 @@ function showWritingList(pageNum, board_category) {
 						<div class="main-wrap">
 							<div class="main-content">
 								<div class="main-content" id="myWritingList"></div>
-							</div>
-							
+								
 						<!-- 페이징 -->
-							<div class="main-content">
 								<div id="myWritingListPage"></div>
 							</div>
 						</div>
