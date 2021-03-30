@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.cambak21.controller.boards.BoardHumor;
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.service.mypost.CheckListService;
+import com.cambak21.service.myPost.CheckListService;
 
 @Controller
 @RequestMapping("myPage/checkList")

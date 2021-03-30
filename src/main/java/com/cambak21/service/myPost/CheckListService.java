@@ -1,4 +1,4 @@
-package com.cambak21.service.mypost;
+package com.cambak21.service.myPost;
 
 import java.util.List;
 

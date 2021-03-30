@@ -40,9 +40,10 @@
 		
 		if(${loginMember.member_id == null}){
 			alert("로그인 후 이용 가능합니다.");
-			location.href="/";
-		}
+			location.href="/user/login/yet";
 		
+		}
+		$(".checkListInputBox").focus();
 		getAjaxCheckListAll();
 		printClock();
 	
@@ -114,11 +115,14 @@ margin-top: 10px;
 
 
 .checklist{
-    width: 100%;
-	margin-top:130px;
+    overflow: scroll;
+    width: 50%;
+    margin-top: 130px;
     left: 40%;
-    top: 5%;
+    top: -5%;
     position: absolute;
+    background-color: beige;
+    height: 80%;
 }
 
 .listCheck{
@@ -130,6 +134,7 @@ margin-top: 10px;
 }
 
 .listCheck li{
+    border: solid;
     font-weight: bold;
     padding: 2px;
     font-size: 17px;
@@ -161,9 +166,11 @@ margin-top: 10px;
 
 
 .checkListBox{
+    margin-left:90px;
  	margin-top: 30px;
 	width: 600px;
 	background-color: whitesmoke;
+	border: solid;
 	
 
 }
@@ -197,7 +204,7 @@ margin-top: 10px;
     HEIGHT: 40px;
     border-collapse: collapse;
     WIDTH: 40%;
-    margin-left: 150px;
+    margin-left: 225px;
     TEXT-ALIGN: center;
     LINE-HEIGHT: 40px;
 }
@@ -229,8 +236,8 @@ margin-top: 10px;
                   HEIGHT: 50px;
                   margin-top: 20px; 
                   border-collapse: collapse; 
-                  WIDTH: 40%;
-                  margin-left: -20px; 
+                  WIDTH: 50%;
+                  margin-left: 180px; 
                   TEXT-ALIGN: center; 
                   LINE-HEIGHT: 50px">02:12:08&nbsp;<span 
                   style="font-size:50px;">AM</sp an></div>
@@ -244,9 +251,13 @@ margin-top: 10px;
 	
 	<div id="inputTodo" ></div>
 	</div>
+	
+	
 	</section>
 
       		</div>
+    
+  
 	</div>
 </div>
 

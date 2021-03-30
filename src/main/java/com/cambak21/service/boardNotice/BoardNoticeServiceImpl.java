@@ -41,11 +41,19 @@ public class BoardNoticeServiceImpl implements BoardNoticeService {
 	}
 	// 공지사항 상세글 보기
 	@Override
-	public BoardVO noticeRead(int no) throws Exception {
-		dao.noticeViewCnt(no, 1);
+	public BoardVO noticeRead(int no, String already) throws Exception {
+		System.out.println("얼레디는 : " + already);
+		
+		if(already == "up") {
+			dao.noticeViewCnt(no, 1);
+		}
+		
 		BoardVO vo = dao.noticeRead(no);
-		return vo;
+		System.out.println("리드 서비스" + vo.toString());
+		return vo;	
 	}
+	
+	
 	// 공지사항 등록
 	@Override
 	public boolean insertNotice(BoardVO vo) throws Exception {

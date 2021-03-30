@@ -3,6 +3,10 @@ package com.cambak21.controller.boards;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
@@ -49,6 +54,12 @@ public class BoardNotice {
 		return entity;
 	}
 	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public  String test(Model model) throws Exception{
+	
+		return "/cambakMain/board/notice/test";
+	}
+	
 	// 페이징 처리된 게시판 출력
 	@RequestMapping(value = "/listCri", method = RequestMethod.GET)
 	public String listCri(PagingCriteria cri, Model model, RedirectAttributes rttr) throws Exception{
@@ -68,12 +79,33 @@ public class BoardNotice {
 	
 	// 게시판 상세 페이지 보기
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public String noticehome(@RequestParam("no") int no, Model model) throws Exception{
+	public String noticehome(@RequestParam("no") int no, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		logger.info("종진 / read 게시판 상세 페이지 이동");
+		
+		
+		String readno = String.valueOf(no);
+		String compaere = "notice" + readno;
+		Cookie getloginCook = WebUtils.getCookie(request, "readBoard");
+		
 
-		model.addAttribute("noticeBoard", service.noticeRead(no));
+			if(getloginCook.getValue().equals(compaere)) {
+				System.out.println("이미 읽었따.");
+				model.addAttribute("noticeBoard", service.noticeRead(no, "stay"));
+				return "cambakMain/board/notice/noticeDetail";
+			}
+			
+			
+			
+			model.addAttribute("noticeBoard", service.noticeRead(no, "up"));
+			Cookie readCook = new Cookie("readBoard", "notice" + readno);  // ssid 라는 이름으로 세션 ID를 남긴다..(실제 아이디나 비밀번호는 안됨!!)
+			readCook.setPath("/");
+			readCook.setMaxAge(60 * 60 * 24); // 일주일 동안 
+	        response.addCookie(readCook);
+		
+		
 		
 		return "cambakMain/board/notice/noticeDetail";
+		
 	}
 	// 게시판 수정 클릭시 페이지로 이동
 	@RequestMapping(value = "user/modi", method = RequestMethod.GET)
@@ -81,7 +113,7 @@ public class BoardNotice {
 		logger.info("종진 / 공지사항 수정 페이지 이동");
 		System.out.println(no);
 			
-		model.addAttribute("noticeBoard", service.noticeRead(no));
+		model.addAttribute("noticeBoard", service.noticeRead(no, "stay"));
 		
 		return "cambakMain/board/notice/noticeModify";
 	}
@@ -89,6 +121,9 @@ public class BoardNotice {
 	// 게시판 수정된 VO 로 게시판 수정
 	@RequestMapping(value = "user/modi/{page}", method = RequestMethod.POST)
 	public String modiNoticeBoard(BoardVO vo, @PathVariable("page") int page, RedirectAttributes rttr) throws Exception{
+		
+		
+		
 		logger.info("종진 / 공지사항 수정된 VO로 업데이트");
 		
 		if(service.modiNoticeBoard(vo)) {
