@@ -8,6 +8,7 @@ public class MyLikeBoardListVO {
 	private String member_id;
 	private String board_title;
 	private Date likeBoard_date;
+	private Date board_writeDate;
 
 	public int getBoard_no() {
 		return board_no;
@@ -49,10 +50,19 @@ public class MyLikeBoardListVO {
 		this.likeBoard_date = likeBoard_date;
 	}
 
+	public Date getBoard_writeDate() {
+		return board_writeDate;
+	}
+
+	public void setBoard_writeDate(Date board_writeDate) {
+		this.board_writeDate = board_writeDate;
+	}
+
 	@Override
 	public String toString() {
-		return "MyLikeBoardList [board_no=" + board_no + ", board_category=" + board_category + ", member_id="
-				+ member_id + ", board_title=" + board_title + ", likeBoard_date=" + likeBoard_date + "]";
+		return "MyLikeBoardListVO [board_no=" + board_no + ", board_category=" + board_category + ", member_id="
+				+ member_id + ", board_title=" + board_title + ", likeBoard_date=" + likeBoard_date
+				+ ", board_writeDate=" + board_writeDate + "]";
 	}
 
 }

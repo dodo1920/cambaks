@@ -2,259 +2,298 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-  <mapper namespace="com.cambak21.mappers.cambakMain.myPostMapper">
-	
+
+<mapper namespace="com.cambak21.mappers.cambakMain.myPostMapper">
+
 	<!-- getMyLikePostng 승권 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- getMyLikePostngCnt 승권 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	<!-- getMyPosting 정민 -->
-	<select id="getMyPosting1" resultType="com.cambak21.domain.BoardVO">
-		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
+	<select id="getList" resultType="com.cambak21.domain.MyLikeBoardListVO">
+		select b.board_no, b.board_category, b.member_id, b.board_title,
+		lb.likeBoard_date, b.board_writeDate
+		from LikeBoards lb
+		inner join Boards b
+		on lb.board_no = b.board_no
+		where lb.member_id = #{member_id}
+		<if test='category == "캠핑 후기"'>
+			and b.board_category = 'camping'
+		</if>
+		<if test='category == "유머"'>
+			and b.board_category = 'humor'
+		</if>
+		<if test='category == "QnA"'>
+			and b.board_category = 'QA'
+		</if>
+		<if test='category == "중고거래"'>
+			and b.board_category = 'Resell'
+		</if>
+		<if test='category == "캠핑Tip"'>
+			and b.board_category = 'Tip'
+		</if>
+		<if test='category == "공지사항"'>
+			and b.board_category = 'notice'
+		</if>
+		<if test='category == "고객센터"'>
+			and b.board_category = 'CS'
+		</if>
+		order by lb.likeBoard_date desc
+		limit #{pageStart}, #{perPageNum};
 	</select>
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- getMyLikePostngCnt 승권 -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- getMyPosting 정민 -->
+	<select id="getMyPosting1"
+		resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id}
+		and board_isDelete = 'N' order by board_writeDate desc limit
+		#{pageStart}, #{perPageNum}
+	</select>
+
 	<!-- getMyPostingCnt 정민 -->
 	<select id="getMyPostingCnt1" resultType="int">
-		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
+		select count(*) from
+		goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- myWriteReply 효원 -->
-	
-<!-- 	작성한 댓글 가져오기 -->
-	<select id="readMyReplyList" resultType="com.cambak21.domain.MyPageReplyVO">
-		select r.member_id, r.board_no, b.board_category, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
-			<if test="board_category != 'total'">
-				 and b.board_category = #{board_category}
-			</if>
+
+	<!-- 작성한 댓글 가져오기 -->
+	<select id="readMyReplyList"
+		resultType="com.cambak21.domain.MyPageReplyVO">
+		select r.member_id, r.board_no, b.board_category,
+		r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete
+		from Boards b, ReplyBoards r where b.board_no = r.board_no and
+		r.member_id = #{member_id}
+		<if test="board_category != 'total'">
+			and b.board_category = #{board_category}
+		</if>
 		order by r.replyBoard_writeDate desc limit #{pageStart}, #{perPageNum}
 	</select>
-	
-<!-- 	작성한 댓글의 총 개수 -->
+
+	<!-- 작성한 댓글의 총 개수 -->
 	<select id="readMyReplyTotal" resultType="int">
-		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
-			<if test="board_category != total">
-				 and b.board_category = #{board_category}
-			</if>
+		select count(*) from Boards b, ReplyBoards r where b.board_no =
+		r.board_no and r.member_id = #{member_id}
+		<if test="board_category != total">
+			and b.board_category = #{board_category}
+		</if>
 	</select>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- myWriteReply 효원 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- getCheckList 종진 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- delCheckList 종진 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- modyCheckList 종진 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<!-- resisterCheckList 종진 -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </mapper>

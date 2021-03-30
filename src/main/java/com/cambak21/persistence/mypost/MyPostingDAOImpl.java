@@ -23,7 +23,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	
 	@Inject
 	private SqlSession ses;
-	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper.";
+	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper";
 
 	
 	
@@ -45,8 +45,11 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  */
 	@Override
 	public List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("pageStart", cri.getPageStart());
+		map.put("perPageNum", cri.getPerPageNum());
+		return ses.selectList(ns + ".getList", map);
 	}
 	
 	
