@@ -1,5 +1,7 @@
 package com.cambak21.service.resell;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -33,19 +35,13 @@ public class ResellBoardLikeServiceImpl implements ResellBoardLikeService {
 	}
 
 	@Override
-	public boolean ResellBoardLikeCnt(ResellLikeBoardVO vo) throws Exception {
-		boolean result = false;
-		int i = dao.ResellBoardLikeCnt(vo);
-		if (i == 1) {
-			result = true;
-		}
-		
-		return result;
+	public int ResellBoardLikeCnt(ResellLikeBoardVO vo) throws Exception {
+
+		return dao.ResellBoardLikeCnt(vo);
 	}
 
 	@Override
 	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception {
-		System.out.println("service : "+vo);
 		return dao.ResellBoardlikeRead(vo);
 	}
 

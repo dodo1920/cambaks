@@ -41,6 +41,9 @@ public class BoardResellController {
 	@Inject
 	private ResellBoardService resellListService;
 	
+	@Inject
+	private ResellBoardLikeService likeService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(BoardResellController.class);
 
 	

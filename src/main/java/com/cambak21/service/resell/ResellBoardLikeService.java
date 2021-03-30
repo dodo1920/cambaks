@@ -1,6 +1,9 @@
 package com.cambak21.service.resell;
 
+import java.util.List;
+
 import com.cambak21.domain.ResellLikeBoardVO;
+
 
 public interface ResellBoardLikeService {
 	/**
@@ -38,7 +41,7 @@ public interface ResellBoardLikeService {
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
+	public int ResellBoardLikeCnt(ResellLikeBoardVO vo)throws Exception;
 	
 	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception;
 }

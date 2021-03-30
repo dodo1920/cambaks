@@ -1,5 +1,7 @@
 package com.cambak21.persistence.resell;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,7 +33,7 @@ public class ResellBoardLikeDAOImpl implements ResellBoardLikeDAO {
 
 	@Override
 	public ResellLikeBoardVO ResellBoardlikeRead(ResellLikeBoardVO vo) throws Exception {
-		System.out.println("DAO : "+vo);
+
 		return ses.selectOne(namespace+".ResellBoardlikeRead",vo);
 	}
 
