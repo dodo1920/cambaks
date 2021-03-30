@@ -26,7 +26,7 @@ public interface BoardQADAO {
 	void modiBoardQALike(int board_no) throws Exception;
 
 	// 검색
-	List<BoardQAVO> searchListBoardQA(SearchBoardQAVO vo, PagingCriteria cri) throws Exception;
+	List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception;
 
 	// 상세보기
 	BoardQAVO readBoardQA(int board_no) throws Exception;

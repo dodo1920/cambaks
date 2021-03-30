@@ -21,6 +21,7 @@ import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.service.boardQA.BoardQAService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping("/board/*")
@@ -106,19 +107,23 @@ public class BoardQAController {
 	}
 	
 	@RequestMapping(value="/qa/search.bo", method=RequestMethod.GET)
-	public String BoardSearch(SearchBoardQAVO vo, Model model, PagingCriteria cri) throws Exception {
+	public String BoardSearch(SearchCriteria scri, Model model, PagingCriteria cri) throws Exception {
 		logger.info("게시글 검색");
-		List<BoardQAVO> search = service.searchListBoardQA(vo, cri);
+		List<BoardQAVO> search = service.searchListBoardQA(scri, cri);
 		
 		model.addAttribute("boardList", search);
 		
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setDisplayPageNum(5);
+		pp.setTotalCount(service.searchBoardQAtotalCnt(scri));
 		model.addAttribute("pagingParam", pp);
-		model.addAttribute("search", vo);
+		model.addAttribute("search", scri);
 		
+		System.out.println(pp.toString());
+		System.out.println(scri.toString());
 		
 		return "cambakMain/board/QA/boardQAList";
 	}
+	
 }
