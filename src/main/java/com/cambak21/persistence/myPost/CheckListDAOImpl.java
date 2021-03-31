@@ -16,7 +16,7 @@ public class CheckListDAOImpl implements CheckListDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.mappers.cambakMain.myPost";
+	private static String namespace = "com.cambak21.mappers.cambakMain.myPostMapper";
 	
 	@Override
 	public List<CheckListVO> getCheckListAll(String member_id) throws Exception {

@@ -2,14 +2,8 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<<<<<<< HEAD
-  
-<mapper namespace="com.mappers.cambakMain.myPost">
-=======
 
 <mapper namespace="com.cambak21.mappers.cambakMain.myPostMapper">
-
->>>>>>> 98b2472baacc1a18bcc1d06bd5e3653f6577c6a4
 	<!-- getMyLikePostng 승권 -->
 	<select id="getList"
 		resultType="com.cambak21.domain.MyLikeBoardListVO">
@@ -81,12 +75,7 @@
 
 
 	<!-- getMyPosting 정민 -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-	
-	
-	
-	
+
 	
 	
 	
@@ -196,17 +185,13 @@
 	
 	
 	
-	
-=======
-	<select id="getMyPosting" resultType="com.cambak21.domain.BoardVO">
-		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
-=======
+
 	<select id="getMyPosting"
 		resultType="com.cambak21.domain.BoardVO">
 		select * from goot6.Boards where member_id = #{member_id}
 		and board_isDelete = 'N' order by board_writeDate desc limit
 		#{pageStart}, #{perPageNum}
->>>>>>> 5e90c72211944f99a2d9d58b0ab3d9e02de8e1e8
+
 	</select>
 
 	<!-- getMyPostingCnt 정민 -->
@@ -328,8 +313,6 @@
 
 
 
-
->>>>>>> 98b2472baacc1a18bcc1d06bd5e3653f6577c6a4
 	<!-- delCheckList 종진 -->
 
 

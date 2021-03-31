@@ -316,7 +316,7 @@ form, form input{
 		              <div>
 		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 				    <span style="margin-left:15px;">작성자: <input readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_viewCnt }" /> </span>
+				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:50px;" value="${noticeBoard.board_viewCnt }" /> </span>
 				    <span style="float:right; ">댓글수 <input readonly id="responsereplyCnt" type="text" style="width:20px;" value="${noticeBoard.board_replyCnt }" /> </span>
 			  		 </div>
 		               <div>

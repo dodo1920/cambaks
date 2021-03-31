@@ -2,21 +2,21 @@
   function changeView(getVal){
 		
 			if(getVal == 'active'){
-				$("#active").css('font-weight','bolder');
-				$("#completed").css('font-weight','600');
-				$("#clickAll").css('font-weight','600');
+				$("#active").css('color','blue');
+				$("#completed").css('color','#777');
+				$("#clickAll").css('color','#777');
 				$('li[name=noncheckedList]').css('display','');
 				$('li[name=checkedCompleted]').css('display','none');
 			}else if(getVal == 'completed'){
-				$("#active").css('font-weight','600');
-				$("#completed").css('font-weight','bolder');
-				$("#clickAll").css('font-weight','600');
+				$("#active").css('color','#777');
+				$("#completed").css('color','blue');
+				$("#clickAll").css('color','#777');
 				$('li[name=checkedCompleted]').css('display','');
 				$('li[name=noncheckedList]').css('display','none');
 			}else if(getVal == 'all'){
-				$("#active").css('font-weight','600');
-				$("#completed").css('font-weight','600');
-				$("#clickAll").css('font-weight','bolder');
+			$("#active").css('color','#777');
+				$("#completed").css('color','#777');
+				$("#clickAll").css('color','blue');
 				$('li[name=checkedCompleted]').css('display','');
 				$('li[name=noncheckedList]').css('display','');
 			}
@@ -150,7 +150,7 @@
 			
 //				output += "<li><label for='check_box'><div><img name='checkimg'style='width:30px; height:30px; margin-right:20px;' src='../resources/img/noncheck.png'></div><input type='checkbox' id='check_box" + this.checkList_no + "'/></label><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><span>"  + this.checkList_checked + "</span></li>";
 		});
-		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>" + noncheckedCnt + "items left<ul id='changeView_ul' class='filters'><li id='clickAll' style='font-weight: bolder;' onclick='changeView(\"all\");' >All</li><li id='active' onclick='changeView(\"active\")'>Active</li><li id='completed' onclick='changeView(\"completed\");' >Completed</li><li  onclick='deleteAll();' style='margin-left: 60px;'>Clear completed</li></ul></li>";
+		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>" + noncheckedCnt + "items left<ul id='changeView_ul' class='filters'><li id='clickAll' style='font-weight: bolder; color:blue;' onclick='changeView(\"all\");' >All</li><li id='active' onclick='changeView(\"active\")'>Active</li><li id='completed' onclick='changeView(\"completed\");' >Completed</li><li  onclick='deleteAll();' style='margin-left: 60px;'>Clear completed</li></ul></li>";
 		output += "</ul>";
 	    
 			$("#inputTodo").html (output);

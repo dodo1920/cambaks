@@ -13,6 +13,7 @@
 								<ul>
 									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
 									<li class="profileMenu2"><a href="#" class="profileMenu">회원 정보 수정</a></li>
+									<li class="profileMenu3"><a href="/myPage/checkList" class="profileMenu">체크리스트</a></li>
 								</ul>
 							</div>
 						</div>

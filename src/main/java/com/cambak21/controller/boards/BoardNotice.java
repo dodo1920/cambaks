@@ -86,15 +86,17 @@ public class BoardNotice {
 		String readno = String.valueOf(no);
 		String compaere = "notice" + readno;
 		Cookie getloginCook = WebUtils.getCookie(request, "readBoard");
-		
 
+		if(getloginCook != null) {
+			
 			if(getloginCook.getValue().equals(compaere)) {
 				System.out.println("이미 읽었따.");
 				model.addAttribute("noticeBoard", service.noticeRead(no, "stay"));
 				return "cambakMain/board/notice/noticeDetail";
 			}
 			
-			
+		}
+
 			
 			model.addAttribute("noticeBoard", service.noticeRead(no, "up"));
 			Cookie readCook = new Cookie("readBoard", "notice" + readno);  // ssid 라는 이름으로 세션 ID를 남긴다..(실제 아이디나 비밀번호는 안됨!!)
