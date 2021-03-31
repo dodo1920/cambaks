@@ -52,6 +52,11 @@
 		select * from LikeBoards where board_no = #{board_no} and member_id = #{member_id};
 	</select>
 	
+	<!-- 상세페이지 들어갔을시 체크여부 가져오기 -->
+	<select id="preCheckLike" resultType="int">
+		select count(*) from LikeBoards where board_no = #{board_no} and member_id = #{member_id};
+	</select>
+	
 	<!-- LikeBoards 테이블에 insert -->
 	<insert id="insertLikeBoards">
 		insert into LikeBoards(member_id, board_no)

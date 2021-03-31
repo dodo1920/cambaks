@@ -13,16 +13,41 @@ import com.cambak21.util.PagingCriteria;
 
 public interface MyPostingDAO {
 	// 내가 쓴 글
-	List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception;
+	List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception;
 	
 	// 내가 쓴 글 카운트
-	int getMyPostingCnt(String member_id) throws Exception;
+	int getMyPostingCnt(String member_id, String board_category) throws Exception;
+	
+	// ------------------------------------ 서효원 dao ------------------------------------
 	
 	// 내 댓글
-	List<MyPageReplyVO> myWriteReply(String member_id, String board_category,PagingCriteria cri) throws Exception;
+	List<MyPageReplyVO> myWriteReply(String member_id, String board_category, PagingCriteria cri) throws Exception;
 	
 	// 가져온 내 댓글 총 개수
-	int myReplyTotal() throws Exception;
+	int myReplyTotal(String member_id, String board_category) throws Exception;
+	
+	// 내가 작성한 총 게시글
+	int bringBoardCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 중고마켓 총 게시글
+	int bringResellBoardCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 총 댓글
+	int bringReplyCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 중고마켓 총 댓글
+	int bringResellReplyCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 총 좋아요
+	int bringLikeCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 중고마켓 총 좋아요
+	int bringResellLikeCnt(String member_id) throws Exception;
+	
+	// 내가 작성한 총 문의글
+	int bringMyQuestion(String member_id) throws Exception;
+	
+	// ------------------------------------ 서효원 dao ------------------------------------
 	
 	// 내가 좋아요 누른 글
 	List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception;

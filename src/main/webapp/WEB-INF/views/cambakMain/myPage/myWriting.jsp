@@ -27,10 +27,13 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
+// 카테고리를 위한 전역변수 선언
+let board_category;
 
+// 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
 	$(".board-title-a").each(function() {
-		var length = 5; //표시할 글자수 정하기
+		var length = 15; //표시할 글자수 정하기
 
 		$(this).each(function() {
 
@@ -43,24 +46,34 @@ function textLimit() {
 	});
 };
 
-
-function showWritingList(pageNum) {
+// 전체 내가 작성한 글 목록을 보여준다.
+function showWritingList(pageNum, board_category) {
 	// 페이지 번호가 null이 아닌 경우, 1
 	if(pageNum == null){
 		pageNum =1;
 	}
 	
+	// 보드 카테고리
+	if(board_category == null){
+		// 선택한 카테고리가 없을 때,
+		board_category = "all";
+	} else { // 선택한 카테고리가 있을 때,
+		board_category = board_category;
+	}
+	console.log(board_category);
+	
 	member_id = "${loginMember.member_id}";
 	
 	// 게시판 리스트 출력 부분
-	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
     
 	$.ajax({
 	    type		: "get",
 	    url 		: "/myPage/myPost.mp",
 	    data		:  {
 	    		'page' : pageNum,
-	    		'member_id' : member_id
+	    		'member_id' : member_id,
+	    		'board_category' : board_category
 	    }, 
 	    contentType : "application/json",
 	    success 	: function(data) {
@@ -81,10 +94,28 @@ function showWritingList(pageNum) {
                 showThisDate = showDate.toLocaleString();
                 
                 // 게시글 내용 출력 부분
-               
-                output += '<tbody><tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td>' + item.board_title; + '</td>';
-                output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
-                output += '<td>' + item.board_likeCnt + '</td></tr>';
+               if(item.board_category == "CS"){
+            	   console.log(item.board_category);
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/cs/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "humor"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/cambakMain/board/humor/read?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>'; 
+               } else if(item.board_category == "QA"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/qa/detail?id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "camping"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingreview/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "Resell"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/resell/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "Tip"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingTip/view.bo?id=Tip&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } else if(item.board_category == "notice"){
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/notice//read?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               } 
+               else{
+            	   console.log(item.board_category);
+            	   output += '<tr id=' + item.board_no + '><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+               }
+               output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
+           	   output += '<td>' + item.board_likeCnt + '</td></tr>'; 
 
                 
        	  });
@@ -102,7 +133,7 @@ function showWritingList(pageNum) {
             let prev;
             let next;
             let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
-      	  		pageOutput += '<a class="page-link" onclick="showWritingList();">처음페이지로</a></li>';
+      	  		pageOutput += '<a class="page-link" onclick="showWritingList(1,\'' + board_category + '\' );  return false;">처음페이지로</a></li>';
       	  
             $(pagingParam).each(function(index, item) {
           	  startPage = item.startPage;
@@ -122,25 +153,29 @@ function showWritingList(pageNum) {
           		  next = tempEndPage;
           	  }
 
-          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + prev + '); return false;">prev</a></li>';
+          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + prev + ",\'" + board_category +'\'); return false;">prev</a></li>';
           	  
             });
             //console.log(startPage);
             //console.log(endPage);
 
             for(var num = startPage; num <=endPage; num++){
-          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + num + '); return false;">' + num + '</a></li>';
+          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + num + ",\'" + board_category +'\'); return false;">' + num + '</a></li>';
       	  }
             
-            pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + next + '); return false;">next</a></li>';
-            pageOutput += '<li class="page-item"><a class="page-link" onclick="showWritingList(' + tempEndPage +');">마지막페이지로</a></li>';
+            pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + next + ",\'" + board_category +'\'); return false;">next</a></li>';
+            pageOutput += '<li class="page-item"><a class="page-link" onclick="showWritingList(' + tempEndPage + ",\'" + board_category +'\');  return false;">마지막페이지로</a></li>';
           	  
             
             pageOutput += '</ul></div></div>';
             $("#myWritingListPage").html(pageOutput);
            
 	    	
-	    } // end of Success
+	    }// end of Success
+	    , complete : function(data) {
+
+	    	textLimit();
+		}  
 		});
 	
 }
@@ -214,14 +249,14 @@ function showWritingList(pageNum) {
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name"><a href="#">전체보기</a></li>
-										<li class="catagory-name"><a href="#">캠핑 후기</a></li>
-										<li class="catagory-name"><a href="#">유머</a></li>
-										<li class="catagory-name"><a href="#">Q&A</a></li>
-										<li class="catagory-name"><a href="#">중고거래</a></li>
-										<li class="catagory-name"><a href="#">캠핑Tip</a></li>
-										<li class="catagory-name"><a href="#">공지사항</a></li>
-										<li class="catagory-name"><a href="#">고객센터</a></li>
+										<li class="bsk-focus catagory-name"><a href="#" onclick="showWritingList(); return false;">전체보기</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'camping'); return false;">캠핑 후기</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'humor'); return false;">유머</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'QA'); return false;">Q&A</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'Resell'); return false;">중고거래</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'Tip'); return false;">캠핑Tip</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'notice'); return false;">공지사항</a></li>
+										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'CS'); return false;">고객센터</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -230,10 +265,8 @@ function showWritingList(pageNum) {
 						<div class="main-wrap">
 							<div class="main-content">
 								<div class="main-content" id="myWritingList"></div>
-							</div>
-							
+								
 						<!-- 페이징 -->
-							<div class="main-content">
 								<div id="myWritingListPage"></div>
 							</div>
 						</div>

@@ -2,21 +2,21 @@
   function changeView(getVal){
 		
 			if(getVal == 'active'){
-				$("#active").css('font-weight','bolder');
-				$("#completed").css('font-weight','600');
-				$("#clickAll").css('font-weight','600');
+				$("#active").css('color','blue');
+				$("#completed").css('color','#777');
+				$("#clickAll").css('color','#777');
 				$('li[name=noncheckedList]').css('display','');
 				$('li[name=checkedCompleted]').css('display','none');
 			}else if(getVal == 'completed'){
-				$("#active").css('font-weight','600');
-				$("#completed").css('font-weight','bolder');
-				$("#clickAll").css('font-weight','600');
+				$("#active").css('color','#777');
+				$("#completed").css('color','blue');
+				$("#clickAll").css('color','#777');
 				$('li[name=checkedCompleted]').css('display','');
 				$('li[name=noncheckedList]').css('display','none');
 			}else if(getVal == 'all'){
-				$("#active").css('font-weight','600');
-				$("#completed").css('font-weight','600');
-				$("#clickAll").css('font-weight','bolder');
+			$("#active").css('color','#777');
+				$("#completed").css('color','#777');
+				$("#clickAll").css('color','blue');
 				$('li[name=checkedCompleted]').css('display','');
 				$('li[name=noncheckedList]').css('display','');
 			}
@@ -29,7 +29,7 @@
 				$.ajax({
 			 		type: "POST", // method(토신 방식, get / post)
 			 		dataType: "text", // 응답을 어떤 형식으로 받을지	
-			 		url: "/checkList/ajax/deleteAll/" + member_id, // 서블릿 주소
+			 		url: "/myPage/checkList/ajax/deleteAll/" + member_id, // 서블릿 주소
 			 		headers: {	// 요청 하는 데이터의 헤더에 전송
 						"Content-Type" : "application/json"
 					},success: function(data){
@@ -52,7 +52,7 @@
 		$.ajax({
 	 		type: "get", // method(토신 방식, get / post)
 	 		dataType: "text", // 응답을 어떤 형식으로 받을지	
-	 		url: "/checkList/ajax/deleteThis/" + checkList_no, // 서블릿 주소
+	 		url: "/myPage/checkList/ajax/deleteThis/" + checkList_no, // 서블릿 주소
 	 		headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 			},success: function(data){
@@ -79,7 +79,7 @@
 		 
 				$.ajax({
 					method: "post",
-					url: "/checkList/ajax/saveList/",
+					url: "/myPage/checkList/ajax/saveList/",
 					headers: {	// 요청 하는 데이터의 헤더에 전송
 					"Content-Type" : "application/json"
 					},
@@ -105,7 +105,7 @@
 		$.ajax({
 	 		type: "get", // method(토신 방식, get / post)
 	 		dataType: "text", // 응답을 어떤 형식으로 받을지	
-	 		url: "/checkList/ajax/change/" + checkList_checked  + "/" + checkList_no, // 서블릿 주소
+	 		url: "/myPage/checkList/ajax/change/" + checkList_checked  + "/" + checkList_no, // 서블릿 주소
 	 		headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 			},success: function(data){
@@ -121,33 +121,80 @@
 	
 	function getAjaxCheckListAll(){
 	
-	$.getJSON("/checkList/ajax/" + member_id, function(data){
+	$.getJSON("/myPage/checkList/ajax/" + member_id, function(data){
 	
 		output = "";
 		output += "<ul class='listCheck'>"
+		
+		if(data == null){
+			
+			alert("없습니다.");
+			
+			}
+			
 		$(data).each(function(index, item){
 			let R = Math.floor(Math.random()*255);
 			let G = Math.floor(Math.random()*255);
 			let B = Math.floor(Math.random()*255);
 			
+			
+			
 			if(this.checkList_checked == 'Y'){
-				output += "<li name='checkedCompleted'><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
+				output += "<li name='checkedCompleted'><div><div style='display: contents;'><img style='width:30px; height:30px; margin-right:20px; margin-bottom: -7px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></div></li>";
 				checkedCnt++;
 				
 			}else{
-				output += "<li name='noncheckedList'><img style='width:30px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
+				output += "<li name='noncheckedList'><div><div style='display: contents;'><img style='width:30px; margin-bottom: -7px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></div></li>";
 				noncheckedCnt++;
 			}
 			
-//				output += "<li><label for='check_box'><img name='checkimg'style='width:30px; height:30px; margin-right:20px;' src='../resources/img/noncheck.png'><input type='checkbox' id='check_box" + this.checkList_no + "'/></label><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><span>"  + this.checkList_checked + "</span></li>";
+//				output += "<li><label for='check_box'><div><img name='checkimg'style='width:30px; height:30px; margin-right:20px;' src='../resources/img/noncheck.png'></div><input type='checkbox' id='check_box" + this.checkList_no + "'/></label><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><span>"  + this.checkList_checked + "</span></li>";
 		});
-		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>" + noncheckedCnt + "items left<ul id='changeView_ul' class='filters'><li id='clickAll' style='font-weight: bolder;' onclick='changeView(\"all\");' >All</li><li id='active' onclick='changeView(\"active\")'>Active</li><li id='completed' onclick='changeView(\"completed\");' >Completed</li><li  onclick='deleteAll();' style='margin-left: 60px;'>Clear completed</li></ul></li>";
+		output += "<li style='border-bottom-style:outset; line-height: 35px; border-bottom-width: thick;'><span id='noncheckCnt'></span>" + noncheckedCnt + "items left<ul id='changeView_ul' class='filters'><li id='clickAll' style='font-weight: bolder; color:blue;' onclick='changeView(\"all\");' >All</li><li id='active' onclick='changeView(\"active\")'>Active</li><li id='completed' onclick='changeView(\"completed\");' >Completed</li><li  onclick='deleteAll();' style='margin-left: 60px;'>Clear completed</li></ul></li>";
 		output += "</ul>";
-			console.log(checkedCnt);
-			console.log(noncheckedCnt);
+	    
 			$("#inputTodo").html (output);
+			
 		});
 	}
 	
+	function printClock() {
+              
+              var clock = document.getElementById("clock");            // 출력할 장소 선택
+              var amPmView = document.getElementById("amPmView"); // AM, PM 표시
+              var currentDate = new Date();                                     // 현재시간
+              var week = new Array('일', '월', '화', '수', '목', '금', '토')
+              var calendar = currentDate.getFullYear() + "년 " + (currentDate.getMonth()+1) + "월 " + currentDate.getDate() + "일 " + week[currentDate.getDay()] + "요일"; // 현재 날짜
+              
+              var amPm = 'AM'; // 초기값 AM
+           	  var currentHours = addZeros(currentDate.getHours(),2); 
+              var currentMinute = addZeros(currentDate.getMinutes() ,2);
+              var currentSeconds =  addZeros(currentDate.getSeconds(),2);
+              
+              if(currentHours >= 12){ // 시간이 12보다 클 때 PM으로 세팅, 12를 빼줌
+                amPm = 'PM';
+                currentHours = addZeros(currentHours - 12,2);
+              }
+              days.innerHTML = calendar;
+              if(currentSeconds >= 50){
+                 currentSeconds = '<span style="color:#de1951;">'+currentSeconds+'</span>'
+              }
+              clock.innerHTML = currentHours+":"+currentMinute+":"+currentSeconds +"&nbsp;<span style='font-size:50px;'>"+ amPm+"</span>";           // 현재시간을 출력
+              
+              setTimeout("printClock()",1000);         // 1초마다 printClock() 함수 호출
+          }
+          
+          function addZeros(num, digit) { // 자릿수 맞춰주기
+              var zero = '';
+              num = num.toString();
+              if (num.length < digit) {
+                for (i = 0; i < digit - num.length; i++) {
+                  zero += '0';
+                }
+              }
+              return zero + num;
+          }
+           
+           
 	
 	

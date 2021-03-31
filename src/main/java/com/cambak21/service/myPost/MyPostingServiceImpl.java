@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
+import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.persistence.myPost.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
@@ -86,10 +87,10 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception {
+	public List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception {
 
 		
-		return dao.getMyPosting(member_id, cri);
+		return dao.getMyPosting(member_id, cri, board_category);
 	}
 
 	
@@ -114,8 +115,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyPostingCnt(String member_id) throws Exception {
-		return dao.getMyPostingCnt(member_id);
+	public int getMyPostingCnt(String member_id, String board_category) throws Exception {
+		return dao.getMyPostingCnt(member_id, board_category);
 	}
 
 	
@@ -126,7 +127,7 @@ public class MyPostingServiceImpl implements MyPostingService {
 	
 	
 	
-	
+	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	
 	/**
@@ -160,13 +161,29 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public int myReplyTotal() throws Exception {
+	public int myReplyTotal(String member_id, String board_category) throws Exception {
 		// 가져온 내 댓글 총 개수
-		return dao.myReplyTotal();
+		return dao.myReplyTotal(member_id, board_category);
+	}
+	
+	@Override
+	public MyPageAllCountVO myPageAllCount(String member_id) throws Exception {
+		// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
+		
+		MyPageAllCountVO vo = new MyPageAllCountVO();
+		vo.setBoardCnt(dao.bringBoardCnt(member_id));
+		vo.setResellBoardCnt(dao.bringResellBoardCnt(member_id));
+		vo.setReplyCnt(dao.bringReplyCnt(member_id));
+		vo.setResellReplyCnt(dao.bringResellReplyCnt(member_id));
+		vo.setLikeCnt(dao.bringLikeCnt(member_id));
+		vo.setResellLikeCnt(dao.bringResellLikeCnt(member_id));
+		vo.setMyQuestion(dao.bringMyQuestion(member_id));
+		
+		return vo;
 	}
 	
 	
-	
+	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	
 	

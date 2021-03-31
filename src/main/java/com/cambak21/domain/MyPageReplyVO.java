@@ -6,6 +6,8 @@ public class MyPageReplyVO {
 	private String member_id;
 	private int board_no;
 	private String board_category;
+	private String board_title;
+	private Date board_writeDate;
 	private String replyBoard_content;
 	private Date replyBoard_writeDate;
 	private String replyBoard_isdelete;
@@ -27,6 +29,18 @@ public class MyPageReplyVO {
 	}
 	public void setBoard_category(String board_category) {
 		this.board_category = board_category;
+	}
+	public String getBoard_title() {
+		return board_title;
+	}
+	public void setBoard_title(String board_title) {
+		this.board_title = board_title;
+	}
+	public Date getBoard_writeDate() {
+		return board_writeDate;
+	}
+	public void setBoard_writeDate(Date board_writeDate) {
+		this.board_writeDate = board_writeDate;
 	}
 	public String getReplyBoard_content() {
 		return replyBoard_content;
@@ -50,8 +64,9 @@ public class MyPageReplyVO {
 	@Override
 	public String toString() {
 		return "MyPageReplyVO [member_id=" + member_id + ", board_no=" + board_no + ", board_category=" + board_category
-				+ ", replyBoard_content=" + replyBoard_content + ", replyBoard_writeDate=" + replyBoard_writeDate
-				+ ", replyBoard_isdelete=" + replyBoard_isdelete + "]";
+				+ ", board_title=" + board_title + ", board_writeDate=" + board_writeDate + ", replyBoard_content="
+				+ replyBoard_content + ", replyBoard_writeDate=" + replyBoard_writeDate + ", replyBoard_isdelete="
+				+ replyBoard_isdelete + "]";
 	}
 	
 }

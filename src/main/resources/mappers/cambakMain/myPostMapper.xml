@@ -4,10 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cambak21.mappers.cambakMain.myPostMapper">
-
 	<!-- getMyLikePostng 승권 -->
 	<select id="getList"
 		resultType="com.cambak21.domain.MyLikeBoardListVO">
+<!-- 		<if test="category != 'resell'"> -->
 		select b.board_no, b.board_category, b.member_id, b.board_title,
 		lb.likeBoard_date, b.board_writeDate
 		from LikeBoards lb
@@ -20,6 +20,17 @@
 		</if>
 		order by lb.likeBoard_date desc
 		limit #{pageStart}, #{perPageNum};
+<!-- 		</if> -->
+		
+<!-- 		<if test="category == 'resell'"> -->
+<!-- 		select rb.resellBoard_no, resellBoard_title, rb.member_id, rb.resellBoard_postDate, rlb.resellLikeBoards_date -->
+<!-- 		from ResellBoards rb  -->
+<!-- 		inner join ResellLikeBoards rlb  -->
+<!-- 		on rb.resellBoard_no = rlb.resellBoard_no  -->
+<!-- 		where rlb.member_id = #{member_id} -->
+<!-- 		order by rlb.resellLikeBoards_date desc -->
+<!-- 		limit #{pageStart}, #{perPageNum}; -->
+<!-- 		</if> -->
 	</select>
 
 
@@ -76,83 +87,224 @@
 
 
 	<!-- getMyPosting 정민 -->
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- myWriteReply 효원 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- myWriteReply 효원 -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- getCheckList 종진 -->
+	
+	<select id="getCheckListAll" resultType="com.cambak21.domain.CheckListVO">
+   			select * from CheckLists where member_id = #{member_id} order by checkList_no asc
+   		</select>
+    		
+    	<update id="changeCheckList" >
+    		update CheckLists set 
+    		
+		 <if test='checkList_checked == "Y"'>
+			checkList_checked = 'N'
+		</if>
+		
+		<if test='checkList_checked == "N"'>
+			checkList_checked = 'Y'
+		</if>
+		 where checkList_no = #{checkList_no} 
+		</update>	
+    	
+    	<delete id="deleteThis">
+    		delete from CheckLists where checkList_no = #{checkList_no}
+    	</delete>
+    	
+    	<insert id="saveList">
+    		insert into CheckLists(member_id, checkList_content) values(#{member_id}, #{checkList_content}) 
+    	</insert>
+    	
+    	<delete id="deleteThisAll" >
+    		delete from CheckLists where checkList_checked = 'Y' and  member_id = #{member_id}
+    	</delete>
+	
+	
+	
+	
+	
+
 	<select id="getMyPosting"
 		resultType="com.cambak21.domain.BoardVO">
 		select * from goot6.Boards where member_id = #{member_id}
 		and board_isDelete = 'N' order by board_writeDate desc limit
 		#{pageStart}, #{perPageNum}
-	</select>
 
+	</select>
+	
+	<!-- getMyPostingWithCategory -->
+	<select id="getMyPostingWithCategory" resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category} order by board_writeDate desc limit #{pageStart}, #{perPageNum}
+	</select>
+	
 	<!-- getMyPostingCnt 정민 -->
 	<select id="getMyPostingCnt" resultType="int">
 		select count(*) from
 		goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	<!-- getMyPostingCntWithCategory 정민 -->
+	<select id="getMyPostingCntWithCategory" resultType="int">
+		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	<!-- myWriteReply 효원 -->
 
-	<!-- 작성한 댓글 가져오기 -->
-	<select id="readMyReplyList"
-		resultType="com.cambak21.domain.MyPageReplyVO">
-		select r.member_id, r.board_no, b.board_category,
-		r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete
-		from Boards b, ReplyBoards r where b.board_no = r.board_no and
-		r.member_id = #{member_id}
+<!-- 	작성한 댓글 가져오기 -->
+	<select id="readMyReplyList" resultType="com.cambak21.domain.MyPageReplyVO">
+		select r.member_id, r.board_no, b.board_category, b.board_title, b.board_writeDate, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
 		<if test="board_category != 'total'">
-			and b.board_category = #{board_category}
+		 and b.board_category = #{board_category} 
 		</if>
-		order by r.replyBoard_writeDate desc limit #{pageStart}, #{perPageNum}
+		group by replyBoard_no order by r.replyBoard_writeDate desc limit #{pageStart}, #{perPageNum}
 	</select>
-
-	<!-- 작성한 댓글의 총 개수 -->
+	
+<!-- 	작성한 댓글의 총 개수 -->
 	<select id="readMyReplyTotal" resultType="int">
-		select count(*) from Boards b, ReplyBoards r where b.board_no =
-		r.board_no and r.member_id = #{member_id}
-		<if test="board_category != total">
-			and b.board_category = #{board_category}
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+		<if test="board_category != 'total'">
+		  and b.board_category = #{board_category}
 		</if>
 	</select>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+<!-- 	회원이 작성한 게시글의 총 개수 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+		<if test="board_category != 'total'">
+		  and b.board_category = #{board_category}
+		</if>
+	</select>
+	
+<!-- 	내가 작성한 총 게시글 개수 -->
+	<select id="bringBoardCnt" resultType="int">
+		select count(*) from Boards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 중고마켓 총 게시글 -->
+	<select id="bringResellBoardCnt" resultType="int">
+		select count(*) from ResellBoards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 총 댓글 -->
+	<select id="bringReplyCnt" resultType="int">
+		select count(*) from ReplyBoards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 중고마켓 총 댓글 -->
+	<select id="bringResellReplyCnt" resultType="int">
+		select count(*) from ResellReplyBoards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 총 좋아요 -->
+	<select id="bringLikeCnt" resultType="int">
+		select count(*) from LikeBoards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 중고마켓 총 좋아요 -->
+	<select id="bringResellLikeCnt" resultType="int">
+		select count(*) from LikeBoards where member_id = #{member_id}
+	</select>
+	
+<!-- 	내가 작성한 총 문의글 -->
+	<select id="bringMyQuestion" resultType="int">
+		select count(*) from Boards where member_id = #{member_id} and board_category = 'CS'
+	</select>
+	
+	
+	
+	
 	<!-- myWriteReply 효원 -->
 
 
@@ -180,7 +332,6 @@
 
 
 	<!-- getCheckList 종진 -->
-
 
 
 
