@@ -21,10 +21,10 @@ import com.cambak21.service.cambakMall.prodOrderService;
 
 @Controller
 @RequestMapping(value = "/cambakMall/*")
-public class mallController {
+public class MallController {
 	@Inject
 	private prodOrderService service;
-	private static final Logger logger = LoggerFactory.getLogger(mallController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MallController.class);
 	
 	// **************************************** 김도연 컨트롤러 ********************************************** 
 	

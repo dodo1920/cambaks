@@ -40,9 +40,9 @@ import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/mall/prodDetail/*")
-public class prodDetail {
+public class ProdDetail {
 	
-	private static final Logger logger = LoggerFactory.getLogger(prodDetail.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 	
 	@Inject
 	private BoardProdQAService QAService;

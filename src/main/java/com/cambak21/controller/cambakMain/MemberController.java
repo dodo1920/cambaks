@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
-import com.cambak21.controller.cambakMall.prodDetail;
+import com.cambak21.controller.cambakMall.ProdDetail;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
@@ -37,7 +37,7 @@ import com.cambak21.service.cambakMain.MemberService;
 @RequestMapping(value="/user")
 public class MemberController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(prodDetail.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 
    @Inject
    private MemberService service;
