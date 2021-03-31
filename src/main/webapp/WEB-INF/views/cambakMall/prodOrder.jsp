@@ -38,7 +38,8 @@
 	</script>
 </head>
 <script type="text/javascript">
-
+//김대기 script start
+//배송지 선택하기 버튼 클릭시
 function destList(){
 	
 	let member = "${loginMember.member_id}"
@@ -57,7 +58,7 @@ function destList(){
 	});
 	
 }
-
+// 배송지 선택완료 햇을시
 function selectDest(destination_no){
 	$.ajax({
 		  method: "GET",
@@ -77,6 +78,29 @@ function selectDest(destination_no){
 	
 }
 
+function shownoAccount() {
+	$("#creditCard").hide();
+	$("#transfer").hide();
+	$("#noAccount").show();
+	
+}
+
+function showcreditCard(){
+	$("#noAccount").hide();
+	$("#transfer").hide();
+	$("#creditCard").show();
+}
+
+function showtransfer() {
+	$("#creditCard").hide();
+	$("#noAccount").hide();
+	$("#transfer").show();
+}
+//김대기 script end
+
+// 장원영 script Start
+
+//장원영 script End
 
 </script>
 <style>
@@ -284,7 +308,7 @@ function selectDest(destination_no){
     </div>
     <!-- 주문 상품 정보 테이블 end -->
     <!-- 결제 방법테이블 테이블 start -->
-    <div>
+    <div style="margin-top: 50px;">
     	<h2>결제 방법 선택</h2>
     	<div>
 			<div>
@@ -293,13 +317,86 @@ function selectDest(destination_no){
 						<tr>
 							<th>결제방법</th>
 							<th>
-							<label class="radio-inline"><input type="radio" name="optradio" value="무통장입금" checked>무통장입금</label>
-							<label class="radio-inline"><input type="radio" name="optradio" value="카드">카드</label>
-							<label class="radio-inline"><input type="radio" name="optradio" value="계좌이체">계좌이체</label>
+							<label class="radio-inline"><input type="radio" name="optradio" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
+							<label class="radio-inline"><input type="radio" name="optradio" value="카드" onclick="showcreditCard();">카드</label>
+							<label class="radio-inline"><input type="radio" name="optradio" value="계좌이체" onclick="showtransfer();">계좌이체</label>
 							</th>
 							</tr>
 							<tr>
-							
+							<td colspan="2">
+								<div id="noAccount">
+									<ul>
+										<li>
+										<div>
+											<label>입금은행</label>
+												<select>
+													<option>국민은행</option>
+													<option>신한은행</option>
+													<option>하나은행</option>
+													<option>농협은행</option>
+													<option>우리은행</option>
+													<option>우체국</option>
+												</select>
+											</div>
+										</li>	
+										<li>
+											<div>
+												<span>입금기한</span>
+												<span>결제후 24시간</span>
+											</div>
+										</li>
+									</ul>
+								 </div>
+								<div id="creditCard" style="display: none">
+									<ul>
+										<li>
+										<div>
+											<label>카드 선택</label>
+												<select>
+													<option>국민카드</option>
+													<option>신한카드</option>
+													<option>하나카드</option>
+													<option>농협카드</option>
+													<option>우리카드</option>
+													<option>우체국카드</option>
+												</select>
+											</div>
+										</li>	
+										<li>
+											<div>
+												<span>할부기한</span>
+												<select>
+													<option>일시불</option>
+													<option>3개월</option>
+													<option>6개월</option>
+													<option>9개월</option>
+													<option>12개월</option>
+													
+												</select>
+												<span>*할부는 50,000이상만 가능합니다.</span>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div id="transfer" style="display: none">
+									<ul>
+										<li>
+										<div>
+											<label>입금은행</label>
+												<select>
+													<option>국민은행</option>
+													<option>신한은행</option>
+													<option>하나은행</option>
+													<option>농협은행</option>
+													<option>우리은행</option>
+													<option>우체국</option>
+												</select>
+											</div>
+										</li>	
+									
+									</ul>
+								</div>
+							</td>
 							
 							
 						</tr>
@@ -311,7 +408,7 @@ function selectDest(destination_no){
     
     <!-- 결제 방법테이블 테이블 end -->
     <!-- 약관동의 테이블 start -->
-    <div>
+    <div style="margin-top: 50px;">
     	<h2>약관동의</h2>
     	<div>
     		<div>
