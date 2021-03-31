@@ -197,7 +197,7 @@
 							</ul>
 						</div>
 						<div>
-						<form action="/user/quitMemberStep2" method="POST">
+						<form action="/user/resignStep2" method="POST">
 						<input type="submit" class="btn btn-info" value="회원탈퇴">
 							<input type="button" class="btn btn-info" value="되돌아가기" onclick="history.back()">
 							

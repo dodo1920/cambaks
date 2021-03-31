@@ -155,7 +155,7 @@
 							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
 						</header>
 						<div>
-						<form action="/user/quitMemberStep3" method="POST">
+						<form action="/user/resignStep3" method="POST">
 							<input type="hidden" name="member_id" value = "${loginMember.member_id }"/>
 							<input type="password" name="member_password" id="chkPw" size="25" onblur="checkPw();">
 							<input type="submit" value="확인">
@@ -167,7 +167,7 @@
 					</c:when>
 					<c:otherwise>
 						<h2>로그인이 필요한 서비스입니다</h2>
-						<input type="button" onclick="location.href='/user/login'" value="로그인페이지로 이동하기">
+						<input type="button" onclick="location.href='/user/login/yet'" value="로그인페이지로 이동하기">
 					</c:otherwise>
 					</c:choose>
 				</div>
