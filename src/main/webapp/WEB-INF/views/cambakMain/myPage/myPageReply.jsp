@@ -78,17 +78,34 @@ function readMyReplyList() {
 			
 			let myReplyList = data.myReplyList;
 			let paging = data.paging;
-			
+			console.log(myReplyList);
 			for (let i = 0; i < myReplyList.length; i++) {
 				
 				let board_writeDate = myReplyList[i].board_writeDate;
 				let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+				let board_category = myReplyList[i].board_category;
 				
 				let output = '<tr class="myPageBoard">' + 
 				'<td>' + myReplyList[i].board_no + '</td>' + 
-				'<td>' + myReplyList[i].board_category + '</td>' + 
-				'<td>' + myReplyList[i].board_title + '</td>' + 
-				'<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
+				'<td>' + myReplyList[i].board_category + '</td>';
+				
+				if (board_category == "Tip") { // 캠핑팁
+					output += '<td><a href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (board_category == "notice") { // 공지사항
+					output += '<td><a href="/board/notice/read?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+				} else if (board_category == "camping") { // 캠핑후기
+					output += '<td><a href="/board/campingreview/detail?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+				} else if (board_category == "humor") { // 유머
+					output += '<td><a href="/cambakMain/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (board_category == "QA") { // Q&A
+					output += '<td><a href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (board_category == "Resell") { // 중고
+					
+				} else if (board_category == "CS") { // 고객센터
+					output += '<td><a href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				}
+				
+				output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
 				'<tr class="myPageBoard">' +
 				'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
 				'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
@@ -141,13 +158,26 @@ function MyReplyCategory(obj) {
 				
 				let board_writeDate = myReplyList[i].board_writeDate;
 				let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+				let categorys = myReplyList[i].board_category;
 				
 				let output = '<tr class="myPageBoard">' + 
 				'<td>' + myReplyList[i].board_no + '</td>' + 
 				'<td>' + myReplyList[i].board_category + '</td>';
 				
-				if (board_category == "Tip") {
+				if (categorys == "Tip") { // 캠핑팁
 					output += '<td><a href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (categorys == "notice") { // 공지사항
+					output += '<td><a href="/board/notice/read?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+				} else if (categorys == "camping") { // 캠핑후기
+					output += '<td><a href="/board/campingreview/detail?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+				} else if (categorys == "humor") { // 유머
+					output += '<td><a href="/cambakMain/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (categorys == "QA") { // Q&A
+					output += '<td><a href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				} else if (categorys == "Resell") { // 중고
+					
+				} else if (categorys == "CS") { // 고객센터
+					output += '<td><a href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
 				}
 				
 				output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
@@ -217,24 +247,25 @@ function MyReplyCategoryBtn(obj) {
 					
 					let board_writeDate = myReplyList[i].board_writeDate;
 					let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+					let categorys = myReplyList[i].board_category;
 					
 					let output = '<tr class="myPageBoard">' + 
 					'<td>' + myReplyList[i].board_no + '</td>' + 
 					'<td>' + myReplyList[i].board_category + '</td>';
 					
-					if (board_category == "Tip") { // 캠핑팁
+					if (categorys == "Tip") { // 캠핑팁
 						output += '<td><a href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-					} else if (board_category == "notice") { // 공지사항
-						output += '<td><a href="/board/notice/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-					} else if (board_category == "camping") { // 캠핑후기
-						
-					} else if (board_category == "humor") { // 유머
-						output += '<td><a href="/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-					} else if (board_category == "QA") { // Q&A
+					} else if (categorys == "notice") { // 공지사항
+						output += '<td><a href="/board/notice/read?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "camping") { // 캠핑후기
+						output += '<td><a href="/board/campingreview/detail?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "humor") { // 유머
+						output += '<td><a href="/cambakMain/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "QA") { // Q&A
 						output += '<td><a href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-					} else if (board_category == "Resell") { // 중고
+					} else if (categorys == "Resell") { // 중고
 						
-					} else if (board_category == "CS") { // 고객센터
+					} else if (categorys == "CS") { // 고객센터
 						output += '<td><a href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
 					}
 					
