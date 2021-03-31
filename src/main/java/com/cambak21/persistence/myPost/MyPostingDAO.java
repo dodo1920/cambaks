@@ -13,10 +13,10 @@ import com.cambak21.util.PagingCriteria;
 
 public interface MyPostingDAO {
 	// 내가 쓴 글
-	List<BoardVO> getMyPosting(String member_id, PagingCriteria cri) throws Exception;
+	List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception;
 	
 	// 내가 쓴 글 카운트
-	int getMyPostingCnt(String member_id) throws Exception;
+	int getMyPostingCnt(String member_id, String board_category) throws Exception;
 	
 	// ------------------------------------ 서효원 dao ------------------------------------
 	

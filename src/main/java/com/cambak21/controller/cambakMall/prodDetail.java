@@ -5,10 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,8 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,9 +40,9 @@ import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/mall/prodDetail/*")
-public class prodDetail {
+public class ProdDetail {
 	
-	private static final Logger logger = LoggerFactory.getLogger(prodDetail.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 	
 	@Inject
 	private BoardProdQAService QAService;

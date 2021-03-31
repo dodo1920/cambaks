@@ -18,7 +18,7 @@ public interface BoardNoticeService {
 		// 공지사항 총 페이지수 구하기
 		public int getTotalNoticeCnt() throws Exception;
 		// 공지사항 상세글 보기
-		public BoardVO noticeRead(int no) throws Exception;
+		public BoardVO noticeRead(int no, String already) throws Exception;
 		
 		public boolean removeNoticeBoard(int no) throws Exception;
 		

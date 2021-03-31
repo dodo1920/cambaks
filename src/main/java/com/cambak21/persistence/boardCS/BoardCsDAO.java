@@ -50,6 +50,9 @@ public interface BoardCsDAO {
 
 	// 게시글 상세보기
 	BoardCsVO readBoardCS(int board_no) throws Exception;
+	
+	// 페이지 들어갔을시 ajax로 좋아요 체크여부 가져오기
+	int preCheckLike(String member_id, int board_no) throws Exception;
 
 	// 이전 게시글 번호 가져오기
 	String prevNo(int board_no) throws Exception;

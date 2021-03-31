@@ -77,12 +77,12 @@ function callReplyList(){
 			let date111 = new Date(this.replyBoard_updateDate);
 			
 			if(this.member_id != '${loginMember.member_id}'){
-				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
-				+ now + '</div></span><div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
+				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span style="float:right; margin:-10px;">' 
+				+ now + '&nbsp&nbsp&nbsp</span></div><div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey(' + this.replyBoard_no + ');" id="replyBoard_contentModi' + this.replyBoard_no + '" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc(' + this.replyBoard_no + ');">수정</button><button type="button" id="replyModClose" onclick="modiboxclose(' + this.replyBoard_no + ');">닫기</button></div></div></div></li>';
 			}else{
-				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span>' 
-				+ now + '<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span>' + 
-				'<div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button></div></div></div></li>';
+				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span style="float:right; margin:-10px;">' 
+				+ now + '&nbsp&nbsp&nbsp<img src="/resources/cambak21/images/x.png" onclick="goDelete(' + item.replyBoard_no + ');" style="width:25px; height:30px; float:right;"><img src="/resources/cambak21/images/edit.png" onclick="goModify(' + item.replyBoard_no + ');" style="width:30px; height:30px; float:right;"></div></span style="float:right; margin:-10px;">' + 
+				'<div><span>' + this.member_id + '</span><input type="hidden" id="replyWriter" value="' + this.member_id + '"/></div><div id="modifyBox' +  item.replyBoard_no + '" style="display:none;"><div><input type="hidden" name="replyBoard_no" id="replyBoard_no" /><input type="text" style="width:600px;" onkeyup="enterkey(' + this.replyBoard_no + ');" id="replyBoard_contentModi' + this.replyBoard_no + '" name="replyBoard_content" placeholder="수정할 댓글 내용을 입력하세요"><button type="button" id="replyModBtn" style="margin: 0px 5px 0px 20px;" onclick="modiProc(' + this.replyBoard_no + ');">수정</button><button type="button" id="replyModClose" onclick="modiboxclose(' + this.replyBoard_no + ');">닫기</button></div></div></div></li>';
 			}
 				
 			});
@@ -130,19 +130,26 @@ function goDelete(replyno){
 		});
 	}
 
-function enterkey() {
+function enterkey(replyBoard_no) {
     if (window.event.keyCode == 13) {
 
-       modiProc();
+       modiProc(replyBoard_no);
     }
 }
 
-function modiProc(){
+function enterkeyReplyAdd(){
+	
+    if (window.event.keyCode == 13) {
+    		replyAddBtn();
+     }
+}
+
+
+function modiProc(replyBoard_no){
 		// 유효성 검사 하고...
 		
-		let replyBoard_content = $("#replyBoard_content").val();
-		let replyBoard_no = $("#replyBoard_no").val();
-		
+		let replyBoard_content = $("#replyBoard_contentModi" + replyBoard_no).val();
+
 		if(replyBoard_content != ""){
 	
 		$.ajax({
@@ -177,7 +184,7 @@ function goModify(replyBoard_no){
 
 	$('#modifyBox' + replyBoard_no).show();
 	$("#replyBoard_no").val(replyBoard_no);
-	
+	$("#replyBoard_contentModi" + replyBoard_no).focus();
 }
 
 function modiboxclose(replyBoard_no){
@@ -185,15 +192,14 @@ function modiboxclose(replyBoard_no){
 }
 
 		
-function inputReplyBox1(){
-	if(${loginMember.member_id == null}){
-		alert("로그인 후 이용 가능합니다.");
-	}else{
-		$("#inputReplyBox").show();	
-	}
+// function inputReplyBox1(){
+// 	if(${loginMember.member_id == null}){
+// 		alert("로그인 후 이용 가능합니다.");
+// 	}else{
+// 		$("#inputReplyBox").show();	
+// 	}
 	
-	
-};
+
 
 function replycancleBtn(){
 	$("#inputReplyBox").hide();	
@@ -266,6 +272,11 @@ form, form input{
 	margin: -45px 40px -15px;
 }
    	
+   	
+ .list-group-item{
+     font-weight: bold;
+     }
+   	
 </style>
 
 </head>
@@ -305,7 +316,7 @@ form, form input{
 		              <div>
 		            작성일: <fmt:formatDate value="${noticeBoard.board_writeDate }" type="both" pattern="yyyy-MM-dd HH:mm:ss" />
 				    <span style="margin-left:15px;">작성자: <input readonly type="text" name="member_id" value="${noticeBoard.member_id }" /></span>
-				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:20px;" value="${noticeBoard.board_viewCnt }" /> </span>
+				    <span style="float:right; margin-left:15px;">조회수 <input readonly type="text" style="width:50px;" value="${noticeBoard.board_viewCnt }" /> </span>
 				    <span style="float:right; ">댓글수 <input readonly id="responsereplyCnt" type="text" style="width:20px;" value="${noticeBoard.board_replyCnt }" /> </span>
 			  		 </div>
 		               <div>
@@ -333,26 +344,6 @@ form, form input{
 			</c:otherwise>
 		</c:choose>
 		
-      <c:if test="${loginMember != null }"> 
-      <button type="button" class="btn btn-primary" onclick="inputReplyBox1();">댓글달기</button></c:if>
-      </div>
-      
-      <div id="inputReplyBox" style="board: 1px dotted black; margin-top: 20px; margin-left:45px; display:none;">
-      	
-          <div>
-         	     
-      	댓글 입력 : <input type="text" name="replyBoard_content" id="newReplyContent" />
-      </div>
-        <div>
-<%--       	작성자 : <input type="text" name="replyer" id="newReplyWriter" value="${loginMember.uid }"/> --%>
-      	작성자 : <input type="text" name="member_id"  style="border:none;" readonly id="newReplyMember" value="${loginMember.member_id }"/>
-      </div>
-      
-   
-      <button type="button" id="replyAddBtn" class="btn btn-primary" onclick="replyAddBtn();">ADD Reply</button>
-      <button type="button" id="cancleAddBtn" class="btn btn-info" onclick="replycancleBtn();">취소</button>
-      
-      </div>
     
     <!-- 댓글 보드 시작 -->
     
@@ -366,18 +357,24 @@ form, form input{
       <div id="replyBox">
       		
       </div>
+      
+        <div style="border: solid 1px #ddd; padding: 2px; margin: 15px 0px;">  
+        
+        <c:if test="${loginMember != null }">
+      	<input type="text" name="member_id"  style="border:none; width:130px; margin-left:12px; font-weight: bold;" readonly id="newReplyMember" value="${loginMember.member_id }"/><input type="text" style="width:690px;" onkeydown="enterkeyReplyAdd();" name="replyBoard_content" id="newReplyContent" /><img src="/resources/cambak21/images/check1.png" style="width:30px; height:30px; margin-left: 15px; margin-bottom: -10px;" onclick="replyAddBtn();" />
+      </c:if>
+	  <c:if test="${loginMember == null }">
+      	<a href="/user/login/yet"><input type="text"  style="border:none; width:130px; margin-left:12px; font-weight: bold;" readonly value="로그인 정보 없음"/><span>비회원은 댓글을 작성할 수 없습니다. >> Click (페이지 이동)</span></a>
+      </c:if>      
+      
+      </div>
+        <div>
+
+      </div>
+     
     </div>  
     	
-           <div id="modifyBox" style="display:none;">
-        	
-        	<div>
-        		<input type="hidden" name="replyBoard_no" id="replyBoard_no" />
-        		<input type="text" onkeyup="enterkey();" id="replyBoard_content" name="replyBoard_content">
-        		<button type="button" id="replyModBtn"  onclick="modiProc();">수정</button>
-        		<button type="button" id="replyModClose" onclick="modiboxclose();">닫기</button>
-        	
-        	</div>
-        </div>
+        
     
 	</section>
 					
