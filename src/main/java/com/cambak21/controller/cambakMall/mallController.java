@@ -20,6 +20,7 @@ import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.prodOrderService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping(value = "/cambakMall/*")
@@ -113,4 +114,19 @@ public class mallController {
 		return entity;
 	}
 	
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String seach(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
+		System.out.println("검색을 시작합니다....");
+		System.out.println(scri.toString());
+		model.addAttribute("board", service.prodBoardRead(cri,scri));
+		System.out.println(cri.toString());
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.prodBoardReadCnt(scri));
+		System.out.println(pp.toString());
+		model.addAttribute("pagingParam", pp);  // 페이징 처리를 위한 파라메터 객체
+		
+		return "cambakMall/prodList";
+		}
 }

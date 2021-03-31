@@ -83,7 +83,7 @@ function gotoDeteilPage	(no) {
 $(window).scroll(function () {
 	
 	var height = $(document).scrollTop();
-	console.log(height);
+
 	if(height > (minHeight+600)){
 		console.log(minHeight);
 		minHeight += 600;
@@ -95,7 +95,6 @@ $(window).scroll(function () {
 				console.log(data)
 				$.each(data,function(index,item){
 					let output = ""
-					if(item.product_show == "Y"){
 						output += '<tr class="bordListBox" onclick="gotoDeteilPage('+item.product_id+');">';
 						output +='<td class="tdTotolStyle"><span>'+item.product_name+'</span></td>';
 						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
@@ -103,15 +102,6 @@ $(window).scroll(function () {
 						output +='<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">'+item.product_detail+'</span></td>';
 						output +='<td class="tdTotolStyle"><div><span>'+item.product_date+'</span><span class="rightSapn">'+item.product_purchPrice+'원</span></div></td>';
 						output +='</tr>';
-					}else{
-						output += '<tr class="bordListBox">';
-						output +='<td class="tdTotolStyle"><del><span>'+item.product_name+'</span></del></td>';
-						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
-						output +='<td class="tdTotolStyle"><del><span>'+item.product_title+'</span></del></td>';
-						output +='<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">'+item.product_detail+'</span></del></td>';
-						output +='<td class="tdTotolStyle"><div><del><span>'+item.product_date+'</span></del><span class="rightSapn">판매완료</span></div></td>';
-						output +='</tr>';
-					}
 					$("#nextPage").append(output)
 				});
 			}, // 통신 성공시
@@ -124,26 +114,6 @@ $(window).scroll(function () {
 		page+=1;
 	}
 });
-
-    
-function like() {
-	$.ajax({
-		method : "post",
-		url : "/like",
-		dataType : "text", // 응답 받는 데이터 타입
-		data : JSON.stringify({ // 요청하는 데이터
-		}),
-		success : function(result) {
-			if (result == 'Success') {
-				//alert('댓글 등록 완료!');
-				callReplyList(); // 댓글 다시 호출
-			}
-			
-		
-		}
-	});
-	
-}
 
 
 </script>
@@ -158,20 +128,19 @@ function like() {
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important"style="width: 100%;float: revert;">
 				<section>
-					<header>
-						<h2>중고거래</h2>
-						<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
+					<header style="display: table;margin: auto;">
+						<h2>상품리스트</h2>
 					</header>
 				</section>
 						<table style="width: 100%x"id="nextPage">
 				
 						<tbody style="width: 100%">
 						<div style="display: table;margin: auto;">
-							<form action="/board/resell/search" method="GET">
+							<form action="/cambakMall/search" method="GET">
 								<select name="searchType" style="margin-right: 15px">
-									<option value="resellBoard_title">제목</option>
-									<option value="resellBoard_content">내용</option>
-									<option value="member_id">작성자</option>
+									<option value="product_title">제목</option>
+									<option value="product_detail">내용</option>
+									<option value="product_name">상품명</option>
 								</select>
 								
 								<input type="text" name="searchWord" placeholder="검색어 입력..." style="width: 550px"/>
@@ -179,28 +148,13 @@ function like() {
 							</form>
 						</div id="ResellList">
 						<c:forEach var="board" items="${board}">
-						<c:choose>
-                  			<c:when test='${board.product_show != "Y"}'>
-								<tr class="bordListBox">
-								
-								<td class="tdTotolStyle"><del><span>${board.product_name}</span></del></td>
-								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
-								<td class="tdTotolStyle"><del><span>${board.product_title}</span></del></td>
-								<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">${board.product_detail}</span></del></td>
-								<td class="tdTotolStyle"><del><div><span>${board.product_date}</span><span class="rightSapn">"판매완료"</span></div></del></td>
-								</tr>
-							</c:when>
-							<c:otherwise>
 								<tr class="bordListBox" onclick="gotoDeteilPage(${board.product_id});">
-								
 								<td class="tdTotolStyle"><span>${board.product_name}</span></td>
 								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
 								<td class="tdTotolStyle"><span>${board.product_title}</span></td>
 								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.product_detail	}</span></td>
 								<td class="tdTotolStyle"><div><span>${board.product_date}</span><span class="rightSapn">${board.product_purchPrice}원</span></div></td>
 								</tr>
-							</c:otherwise>
-							</c:choose>
 							</c:forEach>
 							</tbody>
 						</table>

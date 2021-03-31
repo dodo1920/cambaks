@@ -50,6 +50,7 @@ public class BoardResellController {
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	public String BoardResellList(PagingCriteria cri,Model model) throws Exception {
 		System.out.println("boardResellList 테스트");
+		cri.setPage(1);
 		model.addAttribute("board",resellListService.ResellBoardReadAll(cri));
 		PagingParam pp = new PagingParam();
 		pp.setDisplayPageNum(9);

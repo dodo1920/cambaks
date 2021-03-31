@@ -13,6 +13,7 @@ import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Repository
 public class prodOrderDAOImpl implements prodOrderDAO {
@@ -65,6 +66,25 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		public int prodBoardReadAllCnt() throws Exception {
 			// TODO Auto-generated method stub
 			return ses.selectOne(namespace+".prodBoardReadAllCnt");
+		}
+
+
+		@Override
+		public List<ProductsVO> prodBoardRead(PagingCriteria cri, SearchCriteria scri) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("searchType", scri.getSearchType());
+			param.put("searchWord", scri.getSearchWord());
+			param.put("pageStert", cri.getPageStart());
+			param.put("pageNum", cri.getPerPageNum());
+			
+			return ses.selectList(namespace+".prodBoardRead",param);
+		}
+
+
+		@Override
+		public int prodBoardReadCnt(SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(namespace+".prodBoardReadCnt",scri);
 		}
 		
 //  	<!-- 백승권 DAO -->

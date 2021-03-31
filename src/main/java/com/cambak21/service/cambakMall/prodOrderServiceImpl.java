@@ -12,6 +12,7 @@ import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Service
 public class prodOrderServiceImpl implements prodOrderService {
@@ -59,6 +60,18 @@ public class prodOrderServiceImpl implements prodOrderService {
 		public int prodBoardReadAllCnt() throws Exception {
 			// TODO Auto-generated method stub
 			return dao.prodBoardReadAllCnt();
+		}
+
+		@Override
+		public List<ProductsVO> prodBoardRead(PagingCriteria cri, SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.prodBoardRead(cri,scri);
+		}
+
+		@Override
+		public int prodBoardReadCnt(SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.prodBoardReadCnt(scri);
 		}
 			  	
 //		  	<!-- 백승권 DAO -->

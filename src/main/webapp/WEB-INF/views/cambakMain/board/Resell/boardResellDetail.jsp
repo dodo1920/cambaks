@@ -121,13 +121,34 @@
 						output += "</li>"
 						output += '<li class="list-group-item"><span id="' + item.no 
 						+ '" onclick="goModify(' + item.resellReplyBoard_no + ')">댓글 수정</span>';
-						output += "<span  onclick='godelete(" + item.resellReplyBoard_no + ");' style='margin-left: 20px'>댓글 삭제</span></li>";
+						output += "<span  onclick='goDelete(" + item.resellReplyBoard_no + ");' style='margin-left: 20px'>댓글 삭제</span></li>";
 						
 					})
 			output += "</ul>";
 
 			$("#replyBox").html(output);
 		});
+	function goDelete(no) {
+		
+		$.ajax({
+			  method: "delete",
+			  url: "/utile/replies/"+no,
+			  headers : {
+				"Content-Type" : "application/json", // 요청하는 데이터의 헤더에 전송
+				"X-HTTP-Method-Override" : "delete"
+			  },
+			  dataType: "text", // 응답 받는 데이터 타입
+			  data : JSON.stringify({ // 요청하는 데이터
+				  no : no,
+			  }),
+			  success : function(result) {
+				if(result == "Success") {
+					alert("댓글 삭제 완료");
+					callReplyList();
+				}	
+			  }
+			});
+	}
 
 	}
 	$(function() {
@@ -228,10 +249,12 @@
 			<div class="row">
 			
 			<!-- 사이드바 템플릿 -->
-			<%@include file="../../cambak21BoardAside.jsp"%>
+			<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 			<div id="content" class="8u skel-cell-important">
+			<c:choose>
+			<c:when test="${board.resellBoard_isDelete != 'Y'}">
 			<div>
 			<div>
 				<hr style="margin: 10px 0;padding: 3px;"/>
@@ -249,6 +272,8 @@
 						</div>
 					</div>
 					<!-- 텍스트div -->
+					
+					
 					<div id="textArray">
 						<div><h1 style="font-size: 25px;color: black;">${board.resellBoard_title}</h1></div>
 						<hr style="margin: 3px  0;padding: 3px;0"/>
@@ -284,8 +309,10 @@
 					</c:if>
 						<button type="button" class="btn btn-primary"
 							onclick="location.href='/board/resell/list?page=${param.page}'">리스트페이지로</button>
-						<button type="button" class="btn btn-primary"
-							onclick="showReplyBox();">댓글달기</button>
+						<c:if test="${not empty loginMember.member_id }">
+							<button type="button" class="btn btn-primary"
+								onclick="showReplyBox();">댓글달기</button>
+						</c:if>
 					</div>
 				</div>
 				<div id="inputReplyBox"
@@ -300,11 +327,21 @@
 				<div id="replyBox"
 						style="padding: 10px 0; border-bottom: 1px solid gray;">
 						
-					</div>
+				</div>
 			</div>
 			</div>
+			</c:when>
+			<c:otherwise>
+				<div style="margin: auto;display: table;">
+					<h1 style="font-size: 30px;color: black;margin-bottom: 20px">지워진 페이지 입니다</h1>
+					<button type="button" class="btn btn-primary" style="margin: auto;display: table;"
+							onclick="location.href='/board/resell/list?page=${param.page}'">리스트페이지로</button>
+				</div>
+			</c:otherwise>
+			</c:choose>
 			</div>
 		</div>
+		
 	</div>
 	</div>
 	<!-- /Main -->
