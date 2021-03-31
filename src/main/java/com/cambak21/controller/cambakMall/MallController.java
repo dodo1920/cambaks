@@ -71,6 +71,37 @@ public class MallController {
 	
 	
 	// **************************************** 박종진 컨트롤러 **********************************************
+	@RequestMapping(value = "/destinationsList", method = RequestMethod.GET)
+	public void destinationsList() throws Exception {
+		
+	}
+	
+	@RequestMapping(value = "/destinationsList/ajax/{member_id}", method = RequestMethod.GET)
+	public ResponseEntity<DestinationVO> destinationsListAjax(@PathVariable("destination_no") int destination_no) throws Exception {
+		
+		ResponseEntity<DestinationVO> entity = null;
+	
+		try {
+			entity = new ResponseEntity<DestinationVO>(service.selectDestOne(destination_no), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<DestinationVO>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// **************************************** 장원영 컨트롤러 **********************************************
 	

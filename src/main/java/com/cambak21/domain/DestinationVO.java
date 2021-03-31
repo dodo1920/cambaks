@@ -13,6 +13,7 @@ public class DestinationVO {
 	private String destination_mobile;
 	private int destination_zipCode;
 	
+	
 	public String getDestination_addressDetail() {
 		return destination_addressDetail;
 	}
