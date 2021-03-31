@@ -186,20 +186,13 @@ function showtransfer() {
 								
 							</div>
 							<div class="modal-body" id="destList">
-							<!-- 
-								<div>김대기</div>
-								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
-								<div>010-2332-3232</div>
-								<button type="button" class="btn btn-default">선택하기</button>
-								<hr/>
-								<div>김대기</div>
-								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
-								<div>010-2332-3232</div>
-								<button type="button" class="btn btn-default">선택하기</button>
-								 -->
+						
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
+								
+									<button type="button" class="btn btn-default"
+									onclick="location.href=#">배송지 수정하기</button>
+									<button type="button" class="btn btn-default"
 									data-dismiss="modal">Close</button>
 							</div>
 						</div>
@@ -414,7 +407,7 @@ function showtransfer() {
     		<div>
     			<dl>
     				<dt>
-    					 <label><input type="checkbox" value="">Option 1</label>
+    					 <label><input type="checkbox" value="">동의</label>
     				</dt>
     			</dl>
     		</div>
