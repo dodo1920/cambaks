@@ -172,7 +172,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	
 	
 	
-	
+	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	
 
@@ -197,7 +197,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
 		
-		return ses.selectList(ns + "readMyReplyList", param);
+		return ses.selectList(ns + ".readMyReplyList", param);
 	}
 	
 	/**
@@ -212,13 +212,72 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public int myReplyTotal() throws Exception {
+	public int myReplyTotal(String member_id, String board_category) throws Exception {
 		// 가져온 내 댓글 총 개수
-		return ses.selectOne(ns + "readMyReplyTotal");
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("board_category", board_category);
+		return ses.selectOne(ns + ".readMyReplyTotal", param);
 	}
 	
 	
+	@Override
+	public int bringBoardCnt(String member_id) throws Exception {
+		// 내가 작성한 총 게시글
+		return ses.selectOne(ns + ".bringBoardCnt", member_id);
+	}
+
+
+	@Override
+	public int bringResellBoardCnt(String member_id) throws Exception {
+		// 내가 작성한 중고마켓 총 게시글
+		return ses.selectOne(ns + ".bringResellBoardCnt", member_id);
+	}
+
+
+	@Override
+	public int bringReplyCnt(String member_id) throws Exception {
+		// 내가 작성한 총 댓글
+		return ses.selectOne(ns + ".bringReplyCnt", member_id);
+	}
+
+
+
+	@Override
+	public int bringResellReplyCnt(String member_id) throws Exception {
+		// 내가 작성한 중고마켓 총 댓글
+		return ses.selectOne(ns + ".bringResellReplyCnt", member_id);
+	}
+
+
+
+	@Override
+	public int bringLikeCnt(String member_id) throws Exception {
+		// 내가 작성한 총 좋아요
+		return ses.selectOne(ns + ".bringLikeCnt", member_id);
+	}
+
+
+
+	@Override
+	public int bringResellLikeCnt(String member_id) throws Exception {
+		// 내가 작성한 중고마켓 총 좋아요
+		return ses.selectOne(ns + ".bringResellLikeCnt", member_id);
+	}
+
+
+
+
+
+	@Override
+	public int bringMyQuestion(String member_id) throws Exception {
+		// 내가 작성한 총 문의글
+		return ses.selectOne(ns + ".bringMyQuestion", member_id);
+	}
 	
+	
+	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	
 
