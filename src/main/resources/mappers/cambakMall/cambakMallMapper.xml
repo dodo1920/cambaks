@@ -62,7 +62,7 @@
   	<if test="searchType == 'product_detail'">
   			product_detail like concat('%',#{searchWord},'%')
   	</if>
-  	where product_show="Y" order by product_id desc limit #{pageStert} ,#{pageNum}
+  	and product_show="Y" order by product_id desc limit #{pageStert} ,#{pageNum}
   </select>
   	
   	
@@ -77,7 +77,7 @@
   	<if test="searchType == 'product_detail'">
   			product_detail like concat('%',#{searchWord},'%')
   	</if>
-  	where product_show="Y"
+  	and product_show="Y"
   </select>
   	<!-- 백승권 맵퍼 -->
   	

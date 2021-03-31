@@ -42,12 +42,12 @@ public class BoardResellUtilController {
 	private ResellBoardLikeService LikeService;
 	
 	@RequestMapping(value = "/reply/all/{bno}",method = RequestMethod.GET)
-	public ResponseEntity<List<ResellBoardVO>> list(@PathVariable("bno") int bno) throws Exception{
-		System.out.println(bno);
-		 ResponseEntity<List<ResellBoardVO>> entity = null;
+	public ResponseEntity<List<ReplyResellVO>> list(@PathVariable("bno") int bno) throws Exception{
+		System.out.println("bno : "+bno);
+		 ResponseEntity<List<ReplyResellVO>> entity = null;
 		System.out.println(ReplyService.ResellBoardReplyRead(bno));
 		 try{
-			 entity = new ResponseEntity<List<ResellBoardVO>>(ReplyService.ResellBoardReplyRead(bno),HttpStatus.OK);
+			 entity = new ResponseEntity<List<ReplyResellVO>>(ReplyService.ResellBoardReplyRead(bno),HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST); //예외가 발생하면 list<RdplyVO)는 null이므로 ..>> ResoinseEntity<>
@@ -118,5 +118,9 @@ public class BoardResellUtilController {
 		}
 		return entity;
 	}
-
+	@RequestMapping(value = "/replies/{no}",method=RequestMethod.POST)
+	public void like(@PathVariable("no")  int no) throws Exception {
+		System.out.println("no : "+no);
+		ReplyService.ResellBoardReplyDelete(no);
+	}
 }

@@ -106,12 +106,14 @@
 	function callReplyList() {
 
 		let bno = ${board.resellBoard_no};
+		console.log(bno);
 		$("#replyBox").empty();
 		$.getJSON("/utile/reply/all/" + bno, function(data) {
 			let output = "<ul class='list-group'>";
 			console.log(data);
 			$(data).each(
 					function(index, item) {
+						console.log(item.replyResell_no)
 						output += "<li class='list-group-item'>"
 						output += "<div>작성자 : " + item.member_id + "</div>"
 						output += "<div>" + item.resellReplyBoard_content + "</div>"
@@ -120,8 +122,8 @@
 								+ "</div>"
 						output += "</li>"
 						output += '<li class="list-group-item"><span id="' + item.no 
-						+ '" onclick="goModify(' + item.resellReplyBoard_no + ')">댓글 수정</span>';
-						output += "<span  onclick='goDelete(" + item.resellReplyBoard_no + ");' style='margin-left: 20px'>댓글 삭제</span></li>";
+						+ '" onclick="goModify(' + item.replyResell_no + ')">댓글 수정</span>';
+						output += "<span  onclick='goDelete(" +item.replyResell_no+ ");' style='margin-left: 20px'>댓글 삭제</span></li>";
 						
 					})
 			output += "</ul>";
@@ -129,25 +131,30 @@
 			$("#replyBox").html(output);
 		});
 	function goDelete(no) {
-		
-		$.ajax({
-			  method: "delete",
-			  url: "/utile/replies/"+no,
-			  headers : {
-				"Content-Type" : "application/json", // 요청하는 데이터의 헤더에 전송
-				"X-HTTP-Method-Override" : "delete"
-			  },
-			  dataType: "text", // 응답 받는 데이터 타입
-			  data : JSON.stringify({ // 요청하는 데이터
-				  no : no,
-			  }),
-			  success : function(result) {
-				if(result == "Success") {
-					alert("댓글 삭제 완료");
-					callReplyList();
-				}	
-			  }
-			});
+		let mamberid = "${loginMember.member_id}"
+		if (mamberid != null){
+			if(mamberid == ${board.member_id}){
+				$.ajax({
+					  method: "delete",
+					  url: "/utile/replies/"+no,
+					  headers : {
+						"Content-Type" : "application/json", // 요청하는 데이터의 헤더에 전송
+						"X-HTTP-Method-Override" : "delete"
+					  },
+					  dataType: "text", // 응답 받는 데이터 타입
+					  data : JSON.stringify({ // 요청하는 데이터
+						  no : no,
+					  }),
+					  success : function(result) {
+						if(result == "Success") {
+							alert("댓글 삭제 완료");
+							callReplyList();
+						}	
+					  }
+					});
+			}
+			
+		}
 	}
 
 	}
