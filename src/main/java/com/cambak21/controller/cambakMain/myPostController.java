@@ -93,37 +93,37 @@ public class myPostController {
 	 * @Method 설명 :
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "myPost.mp", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id,
-			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-		System.out.println(member_id);
-		System.out.println(page);
-		logger.info("/myPost의 ajax-GET방식 호출");
-		Map<String, Object> result = new HashMap<String, Object>();
-
-		List<BoardVO> boardList = null;
-
-		PagingCriteria cri = new PagingCriteria();
-		PagingParam pp = new PagingParam();
-		pp.setCri(cri);
-		cri.setPage(page);
-		System.out.println("pp1 : " + pp);
-		// System.out.println("cri : " + cri);
-
-		try {
-			boardList = service.getMyPosting(member_id, cri);
-			System.out.println("boardList : " + boardList);
-			pp.setTotalCount(service.getMyPostingCnt(member_id));
-			System.out.println("pp2 : " + pp);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		result.put("boardList", boardList);
-		result.put("pagingParam", pp);
-
-		return result;
-	}
+	   @RequestMapping(value="myPost.mp", method=RequestMethod.GET)
+	   public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("board_category")String board_category){
+	      System.out.println(member_id);
+	      System.out.println(page);
+	      System.out.println(board_category);
+	       logger.info("/myPost의 ajax-GET방식 호출");
+	       Map<String, Object> result = new HashMap<String, Object>();
+	       
+	       List<BoardVO> boardList = null;
+	    
+	       PagingCriteria cri = new PagingCriteria();
+	       PagingParam pp = new PagingParam();
+	       pp.setCri(cri);
+	       cri.setPage(page);
+	       System.out.println("pp1 : " + pp);
+	       //System.out.println("cri : " + cri);
+	       
+	       try {
+	         boardList = service.getMyPosting(member_id, cri, board_category);
+	         System.out.println(boardList.toString());
+	          pp.setTotalCount(service.getMyPostingCnt(member_id, board_category));
+	          System.out.println("pp2 : " + pp);
+	      } catch (Exception e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }
+	       result.put("boardList", boardList);
+	       result.put("pagingParam", pp);
+	       
+	      return result;
+	   }
 
 	/**
 	 * @Method Name : myPageReplyInfo
