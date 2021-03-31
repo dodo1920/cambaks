@@ -2,7 +2,6 @@ package com.cambak21.controller.cambakMain;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -13,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +24,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
+import com.cambak21.controller.cambakMall.ProdDetail;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
@@ -36,6 +36,8 @@ import com.cambak21.service.cambakMain.MemberService;
 @Controller
 @RequestMapping(value="/user")
 public class MemberController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 
    @Inject
    private MemberService service;

@@ -16,30 +16,34 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
+import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.service.myPost.CheckListService;
 import com.cambak21.service.myPost.MyPostingService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/myPage/*")
-public class myPostController {
+public class MyPostController {
 
 	// 서비스 주입
 	@Inject
 	private MyPostingService service;
 
 	// 디버깅용 Logger
-	private static final Logger logger = LoggerFactory.getLogger(myPostController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MyPostController.class);
 
 	/**
 	 * @Method Name : showMyPostList
@@ -93,72 +97,100 @@ public class myPostController {
 	 * @Method 설명 :
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "myPost.mp", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id,
-			@RequestParam(value = "page", defaultValue = "1", required = false) int page) {
-		System.out.println(member_id);
-		System.out.println(page);
-		logger.info("/myPost의 ajax-GET방식 호출");
-		Map<String, Object> result = new HashMap<String, Object>();
+	   @RequestMapping(value="myPost.mp", method=RequestMethod.GET)
+	   public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("board_category")String board_category){
+	      System.out.println(member_id);
+	      System.out.println(page);
+	      System.out.println(board_category);
+	       logger.info("/myPost의 ajax-GET방식 호출");
+	       Map<String, Object> result = new HashMap<String, Object>();
+	       
+	       List<BoardVO> boardList = null;
+	    
+	       PagingCriteria cri = new PagingCriteria();
+	       PagingParam pp = new PagingParam();
+	       pp.setCri(cri);
+	       cri.setPage(page);
+	       System.out.println("pp1 : " + pp);
+	       //System.out.println("cri : " + cri);
+	       
+	       try {
+	         boardList = service.getMyPosting(member_id, cri, board_category);
+	         System.out.println(boardList.toString());
+	          pp.setTotalCount(service.getMyPostingCnt(member_id, board_category));
+	          System.out.println("pp2 : " + pp);
+	      } catch (Exception e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }
+	       result.put("boardList", boardList);
+	       result.put("pagingParam", pp);
+	       
+	      return result;
+	   }
 
-		List<BoardVO> boardList = null;
-
-		PagingCriteria cri = new PagingCriteria();
-		PagingParam pp = new PagingParam();
-		pp.setCri(cri);
-		cri.setPage(page);
-		System.out.println("pp1 : " + pp);
-		// System.out.println("cri : " + cri);
-
-		try {
-			boardList = service.getMyPosting(member_id, cri);
-			System.out.println("boardList : " + boardList);
-			pp.setTotalCount(service.getMyPostingCnt(member_id));
-			System.out.println("pp2 : " + pp);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		result.put("boardList", boardList);
-		result.put("pagingParam", pp);
-
-		return result;
-	}
-
+	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
+	
 	/**
 	 * @Method Name : myPageReplyInfo
 	 * @작성일 : 2021. 3. 29.
 	 * @작성자 : 서효원
-	 * @변경이력 :
-	 * @Method 설명 :
+	 * @변경이력 : 
+	 * @Method 설명 : 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "myReply.mp", method = RequestMethod.GET)
+	@RequestMapping(value="myReply.mp", method=RequestMethod.GET)
 	public String myPageReplyInfo() throws Exception {
 		// 마이페이지 내 댓글 페이지로 이동
 		return "cambakMain/myPage/myPageReply";
 	}
-
+	
+	/**
+	 * @Method Name : myPageReplyInfo
+	 * @작성일 : 2021. 3. 29.
+	 * @작성자 : 서효원
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @throws Exception
+	 */
 	@ResponseBody
-	@RequestMapping(value = "myReplyList.mp", method = RequestMethod.POST)
-	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id,
-			@RequestParam("board_category") String board_category, PagingCriteria cri) throws Exception {
+	@RequestMapping(value="myReplyList.mp", method=RequestMethod.POST)
+	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id, @RequestParam("board_category")  String board_category, PagingCriteria cri)
+			throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 내용 가져오기
 		Map<String, Object> param = new HashMap<String, Object>();
-
+		
+		cri.setPerPageNum(6); // 5개 씩 게시글, 댓글 가져오기
 		List<MyPageReplyVO> lst = service.myWriteReply(member_id, board_category, cri);
-
+		
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setDisplayPageNum(5);
-		pp.setTotalCount(service.myReplyTotal());
-
+		pp.setTotalCount(service.myReplyTotal(member_id, board_category));
+		
 		param.put("myReplyList", lst);
 		param.put("paging", pp);
-
+		System.out.println(member_id + ", " + board_category + ", " + cri.toString() + ", " + pp.toString());
 		return param;
 	}
+	
+	/**
+	 * @Method Name : myPageReplyInfo
+	 * @작성일 : 2021. 3. 29.
+	 * @작성자 : 서효원
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value="getMyCount.mp", method=RequestMethod.POST)
+	public MyPageAllCountVO myPageAllCount(@RequestParam("member_id") String member_id) throws Exception {
+		// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
+		return service.myPageAllCount(member_id);
+	}
 
+	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
+	
 	/**
 	  * @Method Name : myPageLikeBoards
 	  * @작성일 : 2021. 3. 31.
@@ -230,4 +262,146 @@ public class myPostController {
 
 		return entity;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// *****************************  종진 체크리스트 컨트롤러  **********************************//
+	
+	@Inject
+	private CheckListService ckservice;
+	
+	@RequestMapping(value="/checkList", method = RequestMethod.GET)
+	   public String checkList() {
+	      logger.info("JJONG ckeckList2 작업중 . . . . .");
+	   
+	      
+	      return "cambakMain/myPage/checkList";
+	   }
+		   
+		   
+		@RequestMapping(value = "/checkList/ajax/{member_id}", method = RequestMethod.GET)
+		public  ResponseEntity<List<CheckListVO>> ajaxcheckList(Model model, @PathVariable("member_id") String member_id) throws Exception{
+			logger.info("종진 / ajax/checkList 전체 목록 ckeckList로 전달, 멤버아디는 :" + member_id);
+		
+			ResponseEntity<List<CheckListVO>> entity = null;
+			entity = new ResponseEntity<List<CheckListVO>>(ckservice.getCheckListAll(member_id), HttpStatus.OK);
+		
+			return entity;
+		}
+
+		@RequestMapping(value = "/checkList/ajax/change/{checkList_checked}/{checkList_no}", method = RequestMethod.GET)
+		public ResponseEntity<String> changeCheckList(@PathVariable("checkList_checked") String checkList_checked, @PathVariable("checkList_no") int checkList_no) throws Exception{
+			logger.info("종진 / 체크리스트 체크여부 수정하기");
+			ResponseEntity<String> entity = null;
+			
+			if(ckservice.changeCheckList(checkList_checked, checkList_no)) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+			}else {
+
+				entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+			}
+			
+			return entity;
+		}
+		
+		@RequestMapping(value = "/checkList/ajax/deleteThis/{checkList_no}", method = RequestMethod.GET)
+		public ResponseEntity<String> deleteCheckList(@PathVariable("checkList_no") int checkList_no) throws Exception{
+			logger.info("종진 / 체크리스트 체크여부 수정하기");
+			ResponseEntity<String> entity = null;
+			
+			if(ckservice.deleteThis(checkList_no)) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+			}else {
+
+				entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+			}
+			
+			return entity;
+		}
+		
+		@RequestMapping(value = "/checkList/ajax/deleteAll/{member_id}", method = RequestMethod.POST)
+		public ResponseEntity<String> deleteCheckListAll(@PathVariable("member_id") String member_id) throws Exception{
+			logger.info("종진 / 체크리스트 체크된거 모두 삭제하기");
+			ResponseEntity<String> entity = null;
+			
+			if(ckservice.deleteThisAll(member_id)) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+			}else {
+
+				entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+			}
+			
+			return entity;
+		}
+		
+		
+		@RequestMapping(value = "/checkList/ajax/saveList", method = RequestMethod.POST)
+		public ResponseEntity<String> saveList(@RequestBody CheckListVO vo) throws Exception{
+			logger.info("종진 / 체크리스트 체크여부 수정하기");
+			ResponseEntity<String> entity = null;
+			
+			if(ckservice.saveList(vo)) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);	
+			}else {
+
+				entity = new ResponseEntity<String>("Fail", HttpStatus.BAD_REQUEST);
+			}
+			
+			return entity;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

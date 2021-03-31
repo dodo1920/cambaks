@@ -80,14 +80,14 @@ public class HomeController {
       return "boardNotice";
    }
    
-   @RequestMapping(value="/checkList", method = RequestMethod.GET)
-   public String checkList() {
-      logger.info("JJONG ckeckList2 작업중 . . . . .");
-   
-      
-      return "cambakMain/checkList";
-   }
-   	
+//   @RequestMapping(value="/myPage/checkList", method = RequestMethod.GET)
+//   public String checkList() {
+//      logger.info("JJONG ckeckList2 작업중 . . . . .");
+//   
+//      
+//      return "cambakMain/checkList";
+//   }
+//   	
    @RequestMapping(value="/myPage", method = RequestMethod.GET)
    public String myPageHomepage() {
       logger.info("JJONG ckeckList2 작업중 . . . . .");

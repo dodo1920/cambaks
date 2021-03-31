@@ -39,7 +39,10 @@ public interface BoardCsService {
 
 	// 게시글 상세보기
 	BoardCsVO readBoardCS(int board_no) throws Exception;
-
+	
+	// 상세보기 들어갔을시 체크여부 가져오기
+	int preCheckLike(String member_id, int board_no ) throws Exception;
+	
 	// 게시글 총 수 구하기 (페이징 하기 위한)
 	int boardCStotalCnt() throws Exception;
 

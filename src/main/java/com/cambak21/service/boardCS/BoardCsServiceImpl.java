@@ -84,7 +84,7 @@ public class BoardCsServiceImpl implements BoardCsService {
 	@Override
 	public BoardCsVO readBoardCS(int board_no) throws Exception {
 		dao.boardCSViewUpdate(board_no);
-
+		
 		return dao.readBoardCS(board_no);
 
 	}
@@ -159,6 +159,21 @@ public class BoardCsServiceImpl implements BoardCsService {
 		}
 
 		return map;
+	}
+
+	/**
+	  * @Method Name : preCheckLike
+	  * @작성일 : 2021. 3. 31.
+	  * @작성자 : goott6
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param dto
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public int preCheckLike(String member_id, int board_no) throws Exception {
+		return dao.preCheckLike(member_id, board_no);
 	}
 
 }

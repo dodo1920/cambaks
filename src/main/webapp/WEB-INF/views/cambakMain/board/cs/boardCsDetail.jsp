@@ -66,6 +66,8 @@
 		// 카테고리 active
 		asideBarDraw(searchUriAddress());
 	
+		// 좋아요 눌렀는지 체크
+		checkLike();
 	});
 	
 	// 댓글 리스트 ajax 호출
@@ -368,10 +370,12 @@
 				}),
 				success : function(data) {
 					if(data.status == "on") {
+						$(".recom-wrap").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
 						$(".likeCnt").text(data.cnt);
 						$("#modalText").text("추천이 완료 되었습니다");
 						$("#myModal").modal();
 					} else if (data.status == "off") {
+						$(".recom-wrap").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천</button>');
 						$(".likeCnt").text(data.cnt);
 						$("#modalText").text("추천이 취소 되었습니다");
 						$("#myModal").modal();
@@ -383,6 +387,39 @@
 				} // 통신 완료시
 			});
 		}
+	}
+	
+	// 좋아요 눌렀는지 체크
+	function checkLike() {
+		if (${loginMember.member_id == null}) {
+			$(".recom-wrap").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 하기</button>');
+		} else {
+		
+		let board_no = ${board.board_no};
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 받을 데이터
+			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/board/cs/like/check",// 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id
+			},
+			success : function(data) {
+				if (data == 1) {
+					$(".recom-wrap").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천 취소</button>');
+				} else {
+					$(".recom-wrap").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 하기</button>');
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
 	}
 	
 </script>
@@ -482,8 +519,7 @@
 						<div class="recommend-btn">
 
 							<!-- ajax로 구현, 온클릭 이벤트 걸어주고 로그인안한상태면 알럿창 띄우기 (로그인 후에 시도해주세요) -->
-							<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>
-
+							<div class="recom-wrap"></div>
 							<c:if test="${loginMember.member_id == board.member_id }">
 								<!-- if문 로그인한 회원과 작성자와 비교 -->
 								<button type="button" class="btn btn-danger"

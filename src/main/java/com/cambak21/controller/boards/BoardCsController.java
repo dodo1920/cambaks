@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cambak21.domain.BoardCsVO;
 import com.cambak21.dto.InsertCSBoardDTO;
 import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateCSBoardDTO;
@@ -73,7 +74,7 @@ public class BoardCsController {
 	@RequestMapping(value = "/cs/detail", method = RequestMethod.GET)
 	public String BoardCsDetail(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
-
+		
 		model.addAttribute("board", service.readBoardCS(no));
 		model.addAttribute("prev", service.prevNo(no));
 		model.addAttribute("next", service.nextNo(no));
@@ -178,6 +179,22 @@ public class BoardCsController {
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
+		return entity;
+	}
+	
+	@RequestMapping(value = "/cs/like/check", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id, @RequestParam("board_no") int board_no) {
+		logger.info("승권 / 게시글 좋아요 누르기 호출");
+		ResponseEntity<Integer> entity = null;
+
+		try {
+			entity = new ResponseEntity<Integer>(service.preCheckLike(member_id, board_no), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 		return entity;
 	}
 	
