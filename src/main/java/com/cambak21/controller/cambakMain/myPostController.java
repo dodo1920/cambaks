@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
+import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.service.myPost.MyPostingService;
@@ -125,40 +126,68 @@ public class myPostController {
 		return result;
 	}
 
+	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
+	
 	/**
 	 * @Method Name : myPageReplyInfo
 	 * @작성일 : 2021. 3. 29.
 	 * @작성자 : 서효원
-	 * @변경이력 :
-	 * @Method 설명 :
+	 * @변경이력 : 
+	 * @Method 설명 : 
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "myReply.mp", method = RequestMethod.GET)
+	@RequestMapping(value="myReply.mp", method=RequestMethod.GET)
 	public String myPageReplyInfo() throws Exception {
 		// 마이페이지 내 댓글 페이지로 이동
 		return "cambakMain/myPage/myPageReply";
 	}
-
+	
+	/**
+	 * @Method Name : myPageReplyInfo
+	 * @작성일 : 2021. 3. 29.
+	 * @작성자 : 서효원
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @throws Exception
+	 */
 	@ResponseBody
-	@RequestMapping(value = "myReplyList.mp", method = RequestMethod.POST)
-	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id,
-			@RequestParam("board_category") String board_category, PagingCriteria cri) throws Exception {
+	@RequestMapping(value="myReplyList.mp", method=RequestMethod.POST)
+	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id, @RequestParam("board_category")  String board_category, PagingCriteria cri)
+			throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 내용 가져오기
 		Map<String, Object> param = new HashMap<String, Object>();
-
+		
+		cri.setPerPageNum(6); // 5개 씩 게시글, 댓글 가져오기
 		List<MyPageReplyVO> lst = service.myWriteReply(member_id, board_category, cri);
-
+		
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setDisplayPageNum(5);
-		pp.setTotalCount(service.myReplyTotal());
-
+		pp.setTotalCount(service.myReplyTotal(member_id, board_category));
+		
 		param.put("myReplyList", lst);
 		param.put("paging", pp);
-
+		System.out.println(member_id + ", " + board_category + ", " + cri.toString() + ", " + pp.toString());
 		return param;
 	}
+	
+	/**
+	 * @Method Name : myPageReplyInfo
+	 * @작성일 : 2021. 3. 29.
+	 * @작성자 : 서효원
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value="getMyCount.mp", method=RequestMethod.POST)
+	public MyPageAllCountVO myPageAllCount(@RequestParam("member_id") String member_id) throws Exception {
+		// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
+		return service.myPageAllCount(member_id);
+	}
 
+	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
+	
 	/**
 	  * @Method Name : myPageLikeBoards
 	  * @작성일 : 2021. 3. 31.

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -34,53 +35,81 @@ $(document).ready(function() {
 	
 });
 
-// 로딩 시 전체 댓글 리스트 출력
+// 로그인한 회원이 작성한 게시글, 댓글, 좋아요, 문의 개수 가져오기
+function getTotalCount() {
+	
+	$.ajax({
+		method: "POST",
+		url: "/myPage/getMyCount.mp",
+		dataType: "json",
+		data : {member_id : member_id},
+		success : function(data) {
+			let totalBoard = data.boardCnt + data.resellBoardCnt;
+			let totalReply = data.replyCnt + data.resellReplyCnt;
+			let totalLike = data.likeCnt + data.resellLikeCnt;
+			let totalQuestion = data.myQuestion;
+			
+			$("#totalBoard").text(totalBoard);
+			$("#totalReply").text(totalReply);
+			$("#totalLike").text(totalLike);
+			$("#totalQuestion").text(totalQuestion);
+			
+		}, error : function(data) {
+			
+		}
+		
+		});
+	
+}
+
+
+//로딩 시 전체 댓글 리스트 출력
 function readMyReplyList() {
 	
 	let page = 1;
-	let perPageNum = 5;
-	let board_category = "total";
+	let board_category = $("#thisCategory").val();
 	
 	$.ajax({
 		method: "POST",
 		url: "/myPage/myReplyList.mp",
 		dataType: "json",
-		data : {member_id : member_id, board_category : board_category, page : page, perPageNum : perPageNum},
+		data : {member_id : member_id, board_category : board_category, page : page},
 		success : function(data) {
 			
 			let myReplyList = data.myReplyList;
-			let paging = data.paging
-			
-			console.log(myReplyList);
-			console.log(paging);
+			let paging = data.paging;
 			
 			for (let i = 0; i < myReplyList.length; i++) {
+				
+				let board_writeDate = myReplyList[i].board_writeDate;
+				let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
 				
 				let output = '<tr class="myPageBoard">' + 
 				'<td>' + myReplyList[i].board_no + '</td>' + 
 				'<td>' + myReplyList[i].board_category + '</td>' + 
-				'<td>' + myReplyList[i].replyBoard_content + '</td>' + 
-				'<td>' + myReplyList[i].replyBoard_writeDate + '</td></tr>';
+				'<td>' + myReplyList[i].board_title + '</td>' + 
+				'<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
+				'<tr class="myPageBoard">' +
+				'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
+				'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
+				'<td class="boardLine">' + getDateParam(replyBoard_writeDate) + '</td></tr>';
 				
 				$("#myPageBoardList").append(output);
 			}
 			
 			let pagingBtn = '<ul class="pagination">';
 			
-			if(paging.prev) {
-				pagingBtn += '<li><a href="#">이전</a></li>';
-			}
-			
-			for (let j = 1; j < paging.endPage; j++) {
-				pagingBtn += '<li><a href="#">' + j + '</a></li>';
+			for (let j = 1; j <= paging.endPage; j++) {
+				pagingBtn += '<li><a class="clickBtnHover" id="' + j + '" onclick="MyReplyCategory(this);">' + j + '</a></li>';
 			}
 			
 			if (paging.next) {
-				pagingBtn += '<li><a href="#">이전</a></li>';
+				pagingBtn += '<li><a class="clickBtnHover" id="' + 2 + '" onclick="MyReplyCategory(this);">다음</a></li>';
 			}
 			
 			pagingBtn += '</ul>';
-			$(".replyPagingBtn").append(pagingBtn);
+			$("#replyPagingBtn").append(pagingBtn);
+			getTotalCount(); // 내 총 개수 목록 새로고침
 			
 		}, error : function(data) {
 			
@@ -89,13 +118,197 @@ function readMyReplyList() {
 	
 }
 
+// 카테고리를 선택해서 페이지 번호를 누를 때마다 실행
+function MyReplyCategory(obj) {
+	
+	
+	let page = $(obj).attr("id");
+	let board_category = $("#thisCategory").val();
+	
+	$.ajax({
+		method: "POST",
+		url: "/myPage/myReplyList.mp",
+		dataType: "json",
+		data : {member_id : member_id, board_category : board_category, page : page},
+		success : function(data) {
+			
+			let myReplyList = data.myReplyList;
+			let paging = data.paging;
+			
+			$("#myPageBoardList").empty();
+			
+			for (let i = 0; i < myReplyList.length; i++) {
+				
+				let board_writeDate = myReplyList[i].board_writeDate;
+				let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+				
+				let output = '<tr class="myPageBoard">' + 
+				'<td>' + myReplyList[i].board_no + '</td>' + 
+				'<td>' + myReplyList[i].board_category + '</td>';
+				
+				if (board_category == "Tip") {
+					output += '<td><a href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+				}
+				
+				output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
+				'<tr class="myPageBoard">' +
+				'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
+				'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
+				'<td class="boardLine">' + getDateParam(replyBoard_writeDate) + '</td></tr>';
+				
+				$("#myPageBoardList").append(output);
+			}
+			
+			$("#replyPagingBtn").empty();
+			let pagingBtn = '<input type="hidden" id="thisCategory" value="' + board_category + '"><ul class="pagination">';
+			
+			if(paging.prev) {
+				pagingBtn += '<li><a class="clickBtnHover" id="' + (Number(page) - 1) + '" onclick="MyReplyCategory(this);">이전</a></li>';
+			}
+			
+			for (let j = 1; j <= paging.endPage; j++) {
+				pagingBtn += '<li><a class="clickBtnHover" id="' + j + '" onclick="MyReplyCategory(this);">' + j + '</a></li>';
+			}
+			
+			if (paging.next) {
+				pagingBtn += '<li><a class="clickBtnHover" id="' + (Number(page) + 1) + '" onclick="MyReplyCategory(this);">다음</a></li>';
+			}
+			
+			pagingBtn += '</ul>';
+			$("#replyPagingBtn").append(pagingBtn);
+			getTotalCount(); // 내 총 개수 목록 새로고침
+			
+		}, error : function(data) {
+			
+		}
+		});
+	
+}
 
+//카테고리 탭을 눌렀을 때 실행
+function MyReplyCategoryBtn(obj) {
+	
+	let page = 1;
+	let board_category = obj;
+	
+	$.ajax({
+		method: "POST",
+		url: "/myPage/myReplyList.mp",
+		dataType: "json",
+		data : {member_id : member_id, board_category : board_category, page : page},
+		success : function(data) {
+			
+			$("#thisCategory").val(board_category);
+			
+			let myReplyList = data.myReplyList;
+			let paging = data.paging;
+			
+			console.log(myReplyList);
+			console.log(paging);
+			
+			$("#myPageBoardList").empty();
+			
+			if (myReplyList.length == 0) { // 작성한 댓글이 없을 시
+				
+				
+				
+			} else {
+				for (let i = 0; i < myReplyList.length; i++) {
+					
+					let board_writeDate = myReplyList[i].board_writeDate;
+					let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+					
+					let output = '<tr class="myPageBoard">' + 
+					'<td>' + myReplyList[i].board_no + '</td>' + 
+					'<td>' + myReplyList[i].board_category + '</td>';
+					
+					if (board_category == "Tip") { // 캠핑팁
+						output += '<td><a href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (board_category == "notice") { // 공지사항
+						output += '<td><a href="/board/notice/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (board_category == "camping") { // 캠핑후기
+						
+					} else if (board_category == "humor") { // 유머
+						output += '<td><a href="/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (board_category == "QA") { // Q&A
+						output += '<td><a href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (board_category == "Resell") { // 중고
+						
+					} else if (board_category == "CS") { // 고객센터
+						output += '<td><a href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					}
+					
+					output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
+					'<tr class="myPageBoard">' +
+					'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
+					'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
+					'<td class="boardLine">' + getDateParam(replyBoard_writeDate) + '</td></tr>';
+					
+					$("#myPageBoardList").append(output);
+				}
+				
+				$("#replyPagingBtn").empty();
+				let pagingBtn = '<input type="hidden" id="thisCategory" value="' + board_category + '"><ul class="pagination">';
+				
+				if(paging.prev) {
+					pagingBtn += '<li><a class="clickBtnHover" id="' + page - 1 + '" onclick="MyReplyCategory(this);">이전</a></li>';
+				}
+				
+				for (let j = 1; j <= paging.endPage; j++) {
+					pagingBtn += '<li><a class="clickBtnHover" id="' + j + '" onclick="MyReplyCategory(this);">' + j + '</a></li>';
+				}
+				
+				if (paging.next) {
+					pagingBtn += '<li><a class="clickBtnHover" id="' + page + 1 + '" onclick="MyReplyCategory(this);">다음</a></li>';
+				}
+				
+				pagingBtn += '</ul>';
+				$("#replyPagingBtn").append(pagingBtn);
+				getTotalCount(); // 내 총 개수 목록 새로고침
+				
+			}
+			
+		}, error : function(data) {
+			
+		}
+		});
+	
+}
 
-
+// 댓글 날짜, 시간 1자리 수면 0 붙여주기
+function getDateParam(millisecond) {
+	   let date = new Date(millisecond);
+    let year = date.getFullYear();
+    
+    let month = (1 + date.getMonth());
+    month = month >= 10 ? month : '0' + month;
+    
+    let day = date.getDate();
+    day = day >= 10 ? day : '0' + day;
+    
+    let hour = date.getHours();
+    hour = hour >= 10 ? hour : '0' + hour;
+    
+    let minute = date.getMinutes();
+    minute = minute >= 10 ? minute : '0' + minute;
+    
+    return year + "-" + month  + "-" + day + " " + hour + ":" + minute;
+}
 
 </script>
 <style>
+.boardLine {
+	font-weight: bold;
+}
 
+.replyImgSize {
+	width: 16px;
+	height: 16px;
+}
+
+.clickBtnHover:hover {
+	cursor: pointer;
+}
 
 </style>
 </head>
@@ -135,16 +348,16 @@ function readMyReplyList() {
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a class="myPostCnt" id="totalBoard">0</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a class="myPostCnt" id="totalReply">0</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a class="myPostCnt" id="totalLike">0</a>개
 							</p>
 							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">0</a>개
+								나의 문의 : <a class="myPostCnt" id="totalQuestion">0</a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->
@@ -152,14 +365,14 @@ function readMyReplyList() {
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name"><a href="#">전체보기</a></li>
-										<li class="catagory-name"><a href="#">캠핑 후기</a></li>
-										<li class="catagory-name"><a href="#">유머</a></li>
-										<li class="catagory-name"><a href="#">Q&A</a></li>
-										<li class="catagory-name"><a href="#">중고거래</a></li>
-										<li class="catagory-name"><a href="#">캠핑Tip</a></li>
-										<li class="catagory-name"><a href="#">공지사항</a></li>
-										<li class="catagory-name"><a href="#">고객센터</a></li>
+										<li class="bsk-focus catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('total')">전체보기</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('camping')">캠핑 후기</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('humor')">유머</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('QA')">Q&A</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('Resell')">중고거래</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('Tip')">캠핑Tip</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('notice')">공지사항</a></li>
+										<li class="catagory-name"><a class="clickBtnHover" onclick="MyReplyCategoryBtn('CS')">고객센터</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -172,23 +385,19 @@ function readMyReplyList() {
 										<tr>
 											<th class="myPageThead">글번호</th>
 											<th class="myPageThead">게시판</th>
-											<th class="myPageThead">댓글</th>
+											<th class="myPageThead">글제목</th>
 											<th class="myPageThead">작성일</th>
 										</tr>
 									</thead>
 									<tbody id="myPageBoardList">
-										<tr class="myPageBoard">
-											<td>1</td>
-											<td>공지사항</td>
-											<td>인왕산 후기 입니다 + 썰 포함</td>
-											<td>2020-03-30</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 						<!-- 페이징 -->
-						<div class="myPagePagingBtn" id="replyPagingBtn"></div>
+						<div class="myPagePagingBtn" id="replyPagingBtn">
+						<input type="hidden" id="thisCategory" value="total">
+						</div>
 					</div>
 				</div>
 			</div>
