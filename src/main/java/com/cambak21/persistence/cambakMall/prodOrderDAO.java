@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface prodOrderDAO {
 	// 김대기 DAO -->
@@ -20,7 +22,8 @@ public interface prodOrderDAO {
 	  	
 	  	
 //	  	<!-- 김태훈 DAO -->
-	  	
+	  	public List<ProductsVO> prodBoardReadAll(PagingCriteria cri) throws Exception;
+	  	public int prodBoardReadAllCnt()throws Exception;
 	  	
 //	  	<!-- 백승권 DAO -->
 	  	

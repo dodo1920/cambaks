@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
+import com.cambak21.util.PagingCriteria;
 
 @Service
 public class prodOrderServiceImpl implements prodOrderService {
@@ -29,6 +32,8 @@ public class prodOrderServiceImpl implements prodOrderService {
 		// TODO Auto-generated method stub
 		return dao.selectOneDest(destination_no);
 	}
+
+
 	
 	
 //		  	<!-- 장원영 DAO -->
@@ -43,8 +48,19 @@ public class prodOrderServiceImpl implements prodOrderService {
 		  	
 		  	
 //		  	<!-- 김태훈 DAO -->
-		  	
-		  	
+		@Override
+		public List<ProductsVO> prodBoardReadAll(PagingCriteria cri) throws Exception {
+			cri.setPerPageNum(9);
+			List<ProductsVO>  vo = dao.prodBoardReadAll(cri);
+			return vo;
+		}
+	
+		@Override
+		public int prodBoardReadAllCnt() throws Exception {
+			// TODO Auto-generated method stub
+			return dao.prodBoardReadAllCnt();
+		}
+			  	
 //		  	<!-- 백승권 DAO -->
 		  	
 		  	

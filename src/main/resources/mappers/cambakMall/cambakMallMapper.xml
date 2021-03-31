@@ -38,7 +38,14 @@
   	
   	
   	<!-- 김태훈 맵퍼 -->
-  	
+	  	<select id="prodBoardReadAll" resultType="com.cambak21.domain.ProductsVO">
+	  	select * from Products order by product_id desc limit #{pageStart}, #{perPageNum};
+	  </select>
+	  
+	  
+	  <select id="prodBoardReadAllCnt" resultType="int">
+	  	select count(*) from Products
+	  </select>
   	
   	<!-- 백승권 맵퍼 -->
   	
