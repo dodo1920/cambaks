@@ -44,6 +44,7 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
@@ -59,6 +60,9 @@
 		
 		// 글 작성 완료
 		statusOk();
+		
+		// 사이드바 현재 카테고리 표시
+		asideBarDraw(searchUriAddress());
 	
 	});
 	
@@ -182,9 +186,8 @@
 		
 		let replyBoard_content = $(replyId).val();
 		
-		// 나중에 멤버아이디 바꾸기
 		let member_id = "${loginMember.member_id}";
-		// ===================================
+		
 			
 		$.ajax({
 			type : "post",

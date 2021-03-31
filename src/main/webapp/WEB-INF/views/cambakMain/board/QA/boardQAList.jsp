@@ -44,8 +44,16 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="/resources/cambak21/js/cambakBoard.js"></script>
 <style>
-@import url(/resources/cambak21/css/SHWtamplet.css);
+	@import url(/resources/cambak21/css/SHWtamplet.css);
+
+	.viewPageLinkReply {
+		color : #ff2f3b;
+		font-weight: bold;
+		font-size: 13px;
+	}
+
 </style>
 
 <script>
@@ -61,6 +69,8 @@
 		
 		// 글 삭제 알림창
 		deleteOk();
+		
+		
 	});
 	
 	// 글 삭제(리스트 페이지로 이동)
@@ -120,10 +130,9 @@
 									<c:forEach var="item" items="${boardList }">
 										<tr>
 											<td>${item.board_no }</td>
-											<td><a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}"
-												class="board-title-a">${item.board_title }</a> <c:if
-													test="${item.board_replyCnt > 0 }">
-													(${item.board_replyCnt })
+											<td><a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
+												<c:if test="${item.board_replyCnt != 0 }">
+													<a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
 												</c:if></td>
 											<td>${item.member_id }</td>
 											<td><fmt:formatDate value="${item.board_writeDate }"
@@ -152,24 +161,98 @@
 								<button class="btn btn-danger write"
 									onclick="location.href='/board/qa/write.bo'">글쓰기</button>
 							</c:if>
+							
 							<div class="pageBtn">
-								<ul class="pagination">
-									<c:if test="${pagingParam.prev }">
-										<li class="page-item"><a class="page-link"
-											href="?page=${param.page - 1}&searchType=${map.searchType}&searchWord=${map.searchWord}">prev</a>
-										</li>
-									</c:if>
-									<c:forEach begin="${pagingParam.startPage }"
-										end="${pagingParam.endPage }" var="pageNo">
-										<li class="page-item"><a class="page-link"
-											href="?page=${pageNo }">${pageNo }</a></li>
-									</c:forEach>
-									<c:if test="${pagingParam.next}">
-										<li class="page-item"><a class="page-link"
-											href="?page=${param.page + 1}">next</a></li>
-									</c:if>
-								</ul>
-							</div>
+							<ul class="pagination">
+								<c:choose>
+									<c:when test="${param.searchWord == null }">
+										<!-- 이전 버튼 -->
+										<c:if test="${pagingParam.prev }">
+											<li><a href="/board/qa/list.bo?page=${param.page - 1 }">이전</a></li>
+										</c:if>
+
+										<!-- 페이징 버튼 -->
+										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }"
+											var="pageNo">
+											<li><a href="/board/qa/list.bo?page=${pageNo }">${pageNo }</a></li>
+										</c:forEach>
+
+										<!-- 다음 버튼 -->
+										<c:if test="${pagingParam.next }">
+											<li><a href="/board/qa/list.bo?page=${param.page + 1 }">다음</a></li>
+										</c:if>
+									</c:when>
+
+									<c:otherwise>
+										<!-- 이전 버튼 -->
+										<c:if test="${pagingParam.prev }">
+											<li><a
+												href="/board/qa/search.bo?page=${param.page - 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">이전</a></li>
+										</c:if>
+
+										<!-- 페이징 버튼 -->
+										<c:forEach begin="${pagingParam.startPage }"
+											end="${pagingParam.endPage }" var="pageNo">
+											<li><a
+												href="/board/qa/search.bo?page=${pageNo }&searchType=${search.searchType}&searchWord=${search.searchWord}">${pageNo }</a></li>
+										</c:forEach>
+
+										<!-- 다음 버튼 -->
+										<c:if test="${pagingParam.next }">
+											<c:if test="${param.page == null }">
+												<li><a href="/board/qa/search.bo?page=${param.page + 2 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
+											</c:if>
+											<c:if test="${param.page != null }">
+												<li><a href="/board/qa/search.bo?page=${param.page + 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
+											</c:if>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+
+							</ul>
+
+						</div>
+							
+<!-- 							<div class="pageBtn"> -->
+<!-- 								<ul class="pagination"> -->
+<%-- 									<c:choose> --%>
+<%-- 										<c:when test="${param.searchWord == null }"> --%>
+<%-- 											<c:if test="${pagingParam.prev }"> --%>
+<!-- 												<li class="page-item"><a class="page-link" -->
+<%-- 													href="?page=${param.page - 1}">prev</a> --%>
+<!-- 												</li> -->
+<%-- 											</c:if> --%>
+<%-- 											<c:forEach begin="${pagingParam.startPage }" --%>
+<%-- 												end="${pagingParam.endPage }" var="pageNo"> --%>
+<!-- 												<li class="page-item"><a class="page-link" -->
+<%-- 													href="?page=${pageNo }">${pageNo }</a></li> --%>
+<%-- 											</c:forEach> --%>
+<%-- 											<c:if test="${pagingParam.next}"> --%>
+<!-- 												<li class="page-item"><a class="page-link" -->
+<%-- 													href="?page=${param.page + 1}">next</a></li> --%>
+<%-- 											</c:if> --%>
+<%-- 										</c:when> --%>
+<%-- 										<c:when test="${param.searchWord != null }"> --%>
+<%-- 											<c:if test="${pagingParam.prev }"> --%>
+<!-- 												<li class="page-item"> -->
+<%-- 													<a class="page-link" href="?page=${param.page - 1}&searchType=${param.searchType}&searchWord=${param.searchWord}">prev</a> --%>
+<!-- 												</li> -->
+<%-- 											</c:if> --%>
+<%-- 											<c:forEach begin="${pagingParam.startPage }" --%>
+<%-- 												end="${pagingParam.endPage }" var="pageNo"> --%>
+<!-- 												<li class="page-item"> -->
+<%-- 													<a href="/board/qa/search.bo?page=${pageNo }&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a> --%>
+<!-- 												</li> -->
+<%-- 											</c:forEach> --%>
+<%-- 											<c:if test="${pagingParam.next}"> --%>
+<!-- 												<li class="page-item"><a class="page-link" -->
+<%-- 													href="?page=${param.page + 1}">next</a></li> --%>
+<%-- 											</c:if> --%>
+<%-- 										</c:when> --%>
+<%-- 									</c:choose> --%>
+<!-- 								</ul> -->
+<!-- 							</div> -->
+							
 						</div>
 					</div>
 				</div>
