@@ -77,9 +77,9 @@
 	   let searchType = getParameter("searchType");
 	   
 	   if (page == -1 && searchWord == -1 && searchType == -1) {
-		   location.href="/board/campingTip/list.bo?page=1";
+		   location.href="/board/campingTip/list?page=1";
 	   } else if (page == -1 && searchWord != -1 && searchType != -1) {
-		   location.href="/board/campingTip/list/search.bo?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
+		   location.href="/board/campingTip/list/search?page=1&searchType=" + searchType + "&searchWord=" + searchWord;
 	   }
 	   
    }
@@ -109,7 +109,7 @@
    function getSearchPage() {
 	   let searchType = getParameter("searchType");
 	   if (searchType != -1) {
-		   $("#formAction").attr("action", "search.bo");
+		   $("#formAction").attr("action", "search");
 		   $(".searchBar").append('<div><input type="checkbox" id="searchCheckbox"> 검색 내 재검색</div>');
 	   }
    }
@@ -262,7 +262,7 @@
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<section>
-						<h1 id="boardTitle"><a href="/board/campingTip/list.bo?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
+						<h1 id="boardTitle"><a href="/board/campingTip/list?page=1" style="color: #777;">캠핑 Tip 게시판</a></h1>
 					</section>
 					<div>
 						<div>
@@ -292,21 +292,21 @@
 											<td>
 											<c:choose>
 												<c:when test="${empty param.searchType and empty param.searchWord and item.board_replyCnt == 0 }">
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
 												</c:when>
 												
 												<c:when test="${empty param.searchType and empty param.searchWord and item.board_replyCnt != 0 }">
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
 												</c:when>
 												
 												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt == 0 }">
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
 												</c:when>
 												
 												<c:when test="${not empty param.searchType and not empty param.searchWord and item.board_replyCnt != 0 }">
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
-													<a href="/board/campingTip/view.bo?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" class="viewPageLink">${item.board_title } </a>
+													<a href="/board/campingTip/view?id=Tip&no=${item.board_no }&page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
 												</c:when>
 											</c:choose>
 											</td>
@@ -322,7 +322,7 @@
 						</div>
 						<c:if test="${not empty loginMember }">
 						<div class="writeBoard">
-						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write.bo'">글작성</button>
+						<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/write'">글작성</button>
 						</div>
 						</c:if>
 						<div class="numBoard">
@@ -332,13 +332,13 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="list.bo?page=${param.page -1}" class="pageNumberBtn">이전</a></li>
+											<li style="width: 30px;"><a href="list?page=${param.page -1}" class="pageNumberBtn">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li id="pageNum${pageNo }"><a href="list.bo?page=${pageNo }" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
+											<li id="pageNum${pageNo }"><a href="list?page=${pageNo }" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="list.bo?page=${param.page +1}" class="pageNumberBtn">다음</a></li>
+											<li style="width: 30px;"><a href="list?page=${param.page +1}" class="pageNumberBtn">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
@@ -347,20 +347,20 @@
 								<div>
 									<ul class="numBoardLine">
 										<c:if test="${pagingParam.prev }">
-											<li style="width: 30px;"><a href="search.bo?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">이전</a></li>
+											<li style="width: 30px;"><a href="search?page=${param.page -1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">이전</a></li>
 										</c:if>
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-											<li id="pageNum${pageNo }"><a href="search.bo?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
+											<li id="pageNum${pageNo }"><a href="search?page=${pageNo }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn" id="pageNumBtn${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 										<c:if test="${pagingParam.next }">
-											<li style="width: 30px;"><a href="search.bo?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">다음</a></li>
+											<li style="width: 30px;"><a href="search?page=${param.page +1}&searchType=${param.searchType }&searchWord=${param.searchWord}" class="pageNumberBtn">다음</a></li>
 										</c:if>
 									</ul>
 								</div>
 							</c:when>
 						</c:choose>
 						<div class="searchBar">						
-							<form action="list/search.bo" method="GET" id="formAction">
+							<form action="list/search" method="GET" id="formAction">
 							<select class="keySelect" name="searchType" id="searchType">
 								<option value="totalSearch">제목+내용</option>
 								<option value="title">제목</option>

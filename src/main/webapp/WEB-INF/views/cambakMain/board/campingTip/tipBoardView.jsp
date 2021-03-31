@@ -81,7 +81,7 @@
 	   
 	   $.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/boardLikeUpdate.bo",
+			  url: "/board/campingTip/boardLikeUpdate",
 			  dataType: "text",
 			  data : {member_id : loginMember, board_no : board_no, likeBtn_result : likeBtn_result},
 			  success : function(data) {
@@ -121,7 +121,7 @@
 		   
 		   $.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/readLikeInfo.bo",
+				  url: "/board/campingTip/readLikeInfo",
 				  dataType: "text",
 				  data : {loginMember : loginMember, board_no : board_no},
 				  success : function(data) {
@@ -166,7 +166,7 @@
 			if (modifyContent != "") {
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/modifyReply.bo",
+					  url: "/board/campingTip/modifyReply",
 					  dataType: "text",
 					  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
 					  success : function(data) {
@@ -217,7 +217,7 @@
 				// 작성자와 삭제 요청자가 동일한 경우, 관리자인 경우에만 실행
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/deleteReply.bo",
+					  url: "/board/campingTip/deleteReply",
 					  dataType: "text",
 					  data : {replyBoard_no : replyBoard_no, board_no : board_no},
 					  success : function(data) {
@@ -251,7 +251,7 @@
 		   if (replyBoard_content != "") {
 			$.ajax({
 				  method: "POST",
-				  url: "/board/campingTip/writeReply.bo",
+				  url: "/board/campingTip/writeReply",
 				  dataType: "text",
 				  data : {member_id : member_id, board_no : board_no, replyBoard_content : replyBoard_content},
 				  success : function(data) {
@@ -284,7 +284,7 @@
    function totalReplyCount() {
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/totalReply.bo",
+			  url: "/board/campingTip/totalReply",
 			  dataType: "text",
 			  data : {board_no : board_no},
 			  success : function(data) {
@@ -298,7 +298,7 @@
    function noBoardPage() {
 	   if (${empty viewBoard}) {
 			  alert("삭제된 게시글 또는 없는 게시글입니다.");
-			  location.href="/board/campingTip/list.bo";
+			  location.href="/board/campingTip/list";
 	   }
    }
    
@@ -318,12 +318,12 @@
 	   $("#myModal").hide();
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/delete.bo",
+			  url: "/board/campingTip/delete",
 			  dataType: "text",
 			  data : {no : no},
 			  success : function(data) {
 				  alert("글 삭제 성공!");
-				  location.href="/board/campingTip/list.bo?page=1";
+				  location.href="/board/campingTip/list?page=1";
 			  },
 	          error : function(data) {
 	        	  alert("글 삭제를 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
@@ -361,7 +361,7 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/reply.bo",
+			  url: "/board/campingTip/reply",
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
@@ -425,7 +425,7 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/reReply.bo",
+			  url: "/board/campingTip/reReply",
 			  dataType: "json",
 			  data : {no : no},
 			  success : function(data) {
@@ -473,7 +473,7 @@
 	   
 		$.ajax({
 			  method: "POST",
-			  url: "/board/campingTip/noRereply.bo",
+			  url: "/board/campingTip/noRereply",
 			  dataType: "json",
 			  data : {board_no : board_no},
 			  success : function(data) {
@@ -553,7 +553,7 @@
 	   		if (replyBoard_content != "") {
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/writeRereply.bo",
+					  url: "/board/campingTip/writeRereply",
 					  dataType: "text",
 					  data : {replyBoard_no : obj, board_no : board_no, replyBoard_ref : obj, replyBoard_content : replyBoard_content, member_id : loginMember},
 					  success : function(data) {
@@ -602,7 +602,7 @@
 			if (modifyContent != "") {
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/modifyRereply.bo",
+					  url: "/board/campingTip/modifyRereply",
 					  dataType: "text",
 					  data : {replyBoard_no : obj, replyBoard_content : modifyContent},
 					  success : function(data) {
@@ -638,7 +638,7 @@
 				// 작성자와 삭제 요청자가 동일한 경우에만 실행
 				$.ajax({
 					  method: "POST",
-					  url: "/board/campingTip/deleteRereply.bo",
+					  url: "/board/campingTip/deleteRereply",
 					  dataType: "text",
 					  data : {replyBoard_no : replyBoard_no, board_no : board_no, replyBoard_ref : replyBoard_ref},
 					  success : function(data) {
@@ -1012,7 +1012,7 @@
 							<c:choose>
 								<c:when test="${loginMember.member_id eq viewBoard.member_id}">
 									<div class="boardModifyBtn_side">
-									<form action="modify.bo" method="get" id="formBtnPos">
+									<form action="modify" method="get" id="formBtnPos">
 									<input type="hidden" name="no" value="${viewBoard.board_no }" />
 									<input type="hidden" name="id" value="${param.id }" />
 									<button type="submit" class="btn btn-default">수정</button>
@@ -1048,7 +1048,7 @@
 								</c:when>
 								<c:when test="${loginMember.member_isAdmin eq 'Y' }">
 								<div class="boardModifyBtn_side">
-									<form action="modify.bo" method="get" id="formBtnPos">
+									<form action="modify" method="get" id="formBtnPos">
 									<input type="hidden" name="no" value="${viewBoard.board_no }" />
 									<input type="hidden" name="id" value="${param.id }" />
 									<button type="submit" class="btn btn-default">수정</button>
@@ -1089,19 +1089,19 @@
 							<div class="backListBtn">
 							<c:choose>
 								<c:when test="${not empty param.page and empty param.searchType and empty param.searchWord}">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${param.page }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${param.page }';">목록보기</button>
 								</c:when>
 								<c:when test="${not empty campingTipPage and empty param.searchType and empty param.searchWord}">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=${campingTipPage }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=${campingTipPage }';">목록보기</button>
 								</c:when>
 								<c:when test="${not empty param.page and not empty param.searchType and not empty param.searchWord}">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search.bo?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
 								</c:when>
 								<c:when test="${not empty campingTipPage and not empty param.searchType and not empty param.searchWord}">
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search.bo?page=${campingTipPage }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list/search?page=${campingTipPage }&searchType=${param.searchType }&searchWord=${param.searchWord }';">목록보기</button>
 								</c:when>
 								<c:otherwise>
-									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list.bo?page=1';">목록보기</button>
+									<button type="button" class="btn btn-default" onclick="location.href='/board/campingTip/list?page=1';">목록보기</button>
 								</c:otherwise>
 							</c:choose>
 							</div>
