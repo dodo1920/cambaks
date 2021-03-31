@@ -204,4 +204,24 @@ public class BoardCsDAOImpl implements BoardCsDAO {
 		ses.update(ns + ".updateMinusLike", dto.getBoard_no());
 	}
 
+	/**
+	  * @Method Name : preCheckLike
+	  * @작성일 : 2021. 3. 31.
+	  * @작성자 : goott6
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param member_id
+	  * @param board_no
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public int preCheckLike(String member_id, int board_no) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("board_no", board_no);
+		
+		return ses.selectOne(ns + ".preCheckLike", map);
+	}
+
 }
