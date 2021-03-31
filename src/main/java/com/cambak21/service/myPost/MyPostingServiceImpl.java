@@ -2,13 +2,14 @@ package com.cambak21.service.myPost;
 
 import java.util.List;
 
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.domain.MyLikePostingVO;
+import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.persistence.myPost.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
@@ -30,8 +31,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception {
-		return dao.getMyLikePostng(member_id, cri);
+	public List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception {
+		return dao.getMyLikePostng(member_id, cri, category);
 	}
 	
 	
@@ -55,9 +56,9 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyLikePostngCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getMyLikePostngCnt(String member_id, String category) throws Exception {
+		return dao.getMyLikePostngCnt(member_id, category);
+		
 	}
 
 	
