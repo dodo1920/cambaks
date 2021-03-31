@@ -32,6 +32,10 @@
   	</select>
  
   	<!-- 김도연 맵퍼 -->
+  	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">
+  		select product_id, product_name, product_sellPrice, product_detail, product_img1, product_img2, product_img3, product_img4, product_shipPrice, product_title 
+  		from Products where product_id = #{product_id}
+  	</select>
   	
   	
   	<!-- 김정민 맵퍼 -->

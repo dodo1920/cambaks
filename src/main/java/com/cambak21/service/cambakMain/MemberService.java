@@ -49,37 +49,40 @@ public interface MemberService {
 	 * @Method Name : findId
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
-	 * @변경이력 : 
+	 * @변경이력 : 김도연 / 2021.03.30 / String -> FindIdVo로 반환값 변경
+	 * 2021. 3. 31 / 도연 / return 값 & 매개변수 변경
 	 * @Method 설명 : 아이디 찾기시, 유저 이름과 이메일을 확인하여 일치하면 해당 아이디를 보여주는 메서드
-	 * @param fid
+	 * @param fId
 	 * @return
 	 * @throws Exception
 	 */
-	public List<String> findId(FindIdVO fId) throws Exception;
+	public List<FindIdVO> findId(FindIdVO fId) throws Exception;
 	
 	/**
 	 * @Method Name : findPwd
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
 	 * @변경이력 : 2021. 3. 17 / 도연 / VO삭제로 인한 매개변수 변경
+	 * 2021. 3. 31 / 도연 / return 값 & 매개변수 변경
 	 * @Method 설명 : 비밀번호 찾기시, 유저 이름과 전화번호를 확인하여 일치하면 비밀번호 변경 페이지로 넘겨주는 메서드
-	 * @param fPwd
+	 * @param fId
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean findPwd(String member_id, String member_Mobile) throws Exception;
+	public FindIdVO findPwd(FindIdVO fId) throws Exception;
 	
 	/**
 	 * @Method Name : updatePwd
 	 * @작성일 : 2021. 3. 16.
 	 * @작성자 : 김도연
 	 * @변경이력 : 2021. 3. 17 / 도연 / DTO 삭제로 인한 매개변수 변경
+	 * 2021. 3. 31 / 도연 / 매개변수 변경
 	 * @Method 설명 : 비밀번호 찾기시, 비밀번호를 변경해주는 메서드
-	 * @param newPwd
+	 * @param fId
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean updatePwd(String member_id, String member_password) throws Exception;
+	public boolean updatePwd(FindIdVO fId) throws Exception;
 	
 	/**
 	 * @Method Name : checkEmail
@@ -87,12 +90,11 @@ public interface MemberService {
 	 * @작성자 : 김도연
 	 * @변경이력 : 
 	 * @Method 설명 : 아이디/비밀번호 찾기시, 회원가입할때 등록한 이메일 번호가 맞는지 확인하는 메서드
-	 * @param member_email
-	 * @param member_name
+	 * @param fId
 	 * @return
 	 * @throws Exception
 	 */
-	public boolean checkEmail(String member_email, String member_name) throws Exception;
+	public boolean checkEmail(FindIdVO fId) throws Exception;
 	
 	/**
 	 * @Method Name : login

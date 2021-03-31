@@ -70,7 +70,7 @@
 	</select>
 	
 	<!-- 검색 리스트 cnt -->
-	<select id="searchBoardCnt">
+	<select id="searchQACnt" resultType="int">
 		select count(*) from Boards where board_category = 'QA'
 		<if test="searchType == 'title'">
 			and board_title like concat('%', #{searchWord} ,'%')

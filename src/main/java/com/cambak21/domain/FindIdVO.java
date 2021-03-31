@@ -1,10 +1,17 @@
 package com.cambak21.domain;
 
 public class FindIdVO {
+	private String member_name;
 	private String member_id;
 	private String member_email;
 	private String member_password;
 	
+	public String getMember_name() {
+		return member_name;
+	}
+	public void setMember_name(String member_name) {
+		this.member_name = member_name;
+	}
 	public String getMember_id() {
 		return member_id;
 	}
@@ -17,6 +24,7 @@ public class FindIdVO {
 	public void setMember_email(String member_email) {
 		this.member_email = member_email;
 	}
+	
 	public String getMember_password() {
 		return member_password;
 	}
@@ -26,8 +34,8 @@ public class FindIdVO {
 	
 	@Override
 	public String toString() {
-		return "FindIdVO [member_id=" + member_id + ", member_email=" + member_email + ", member_password="
-				+ member_password + "]";
-	}	
+		return "FindIdVO [member_name=" + member_name + ", member_id=" + member_id + ", member_email=" + member_email
+				+ ", member_password=" + member_password + "]";
+	}
 	
 }
