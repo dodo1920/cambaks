@@ -20,14 +20,78 @@
 <link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
 <link rel="stylesheet" href="../../../resources/cambak21/css/SHWtamplet.css" />
+<<<<<<< HEAD
+=======
 <link rel="stylesheet" href="../../../resources/cambak21/css/myPageAside.css" />
 <link rel="stylesheet" href="../../../resources/cambak21/css/myPageTemplet.css" />
+>>>>>>> 6ecb86d4d64e4fef4f8d5d52b5577fb92fda2438
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
+<<<<<<< HEAD
+
+
+
+</script>
+<style>
+
+.\34 u {
+   width: 100%;
+}
+
+.profile {
+   box-sizing: border-box;
+   width: 200px;
+   text-align: center;
+   border: 1px solid #F0F2F0;
+   margin-bottom: 120px 50px 0px 0px;
+       
+}
+
+.profileSize {
+   background-color: #F0F2F0;
+   padding: 20px 0px;
+}
+
+.userProfileImg {
+    width: 64px;
+    height: 64px;
+    border-radius: 70%;
+    overflow: hidden;   
+}
+
+.profileEmail {
+    font-size: 13px;
+}
+
+.nav-stacked>li{
+   margin-top: -10px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+}
+
+#category-title{
+
+    text-align-last: center;
+    
+    }
+
+.panel-success {
+    margin-top: 25px;
+    border-color: #d6e9c6;
+}
+
+.profileMenu1{
+margin-top: 10px;
+}
+=======
 let member_id = '${loginMember.member_id}'; // 페이지 로딩 시 로그인 아이디 가져오기
 $(document).ready(function() {
 	
@@ -297,6 +361,7 @@ function getDateParam(millisecond) {
 
 </script>
 <style>
+<<<<<<< HEAD
 .boardLine {
 	font-weight: bold;
 }
@@ -305,6 +370,9 @@ function getDateParam(millisecond) {
 	width: 16px;
 	height: 16px;
 }
+=======
+>>>>>>> 6ecb86d4d64e4fef4f8d5d52b5577fb92fda2438
+>>>>>>> bf7e71772640ac726587e11fabe63c5630cb1629
 
 .clickBtnHover:hover {
 	cursor: pointer;
@@ -313,6 +381,27 @@ function getDateParam(millisecond) {
 </style>
 </head>
 <body>
+<<<<<<< HEAD
+<%@include file="../cambak21Header.jsp"%>
+
+<!-- Main -->
+<div id="main">
+	<div class="container">
+		<div class="row">
+			
+		<%@include file="myPageAside.jsp"%>
+			
+			
+			
+			
+			
+		</div>
+	</div>
+</div>
+
+<%@include file="../cambak21Footer.jsp"%>
+	
+=======
 	<%@include file="../cambak21Header.jsp"%>
 
 	<!-- Main -->
@@ -407,6 +496,7 @@ function getDateParam(millisecond) {
 
 	<%@include file="../cambak21Footer.jsp"%>
 
+>>>>>>> 6ecb86d4d64e4fef4f8d5d52b5577fb92fda2438
 </body>
 
 </html>
