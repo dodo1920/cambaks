@@ -66,15 +66,56 @@
 </head>
 <script type="text/javascript">
 var minHeight = 0
+let page = 2;
 function gotoDeteilPage	(no) {
 	window.location.href="/board/resell/detail?no="+no+"&page=${pagingParam.cri.page}"
 }
 $(window).scroll(function () {
+	
 	var height = $(document).scrollTop();
 	console.log(height);
 	if(height > (minHeight+980)){
-		minHeight = 980;
-		console.log("minHeight : "+minHeight);
+		console.log(minHeight);
+		minHeight += 980;
+		$.ajax({
+			type : "post",
+			contentType : "application/json",
+			url : "/board/resell/list/"+page, 
+			success : function(data) {
+				console.log(data)
+				$.each(data,function(index,item){
+					let output = ""
+					if(item.resellBoard_isDelete != "Y"){
+						output += '<tr class="bordListBox" onclick="gotoDeteilPage('+item.resellBoard_no+');">';
+						output +='<td class="tdTotolStyle"><span>'+item.member_id+'</span></td>';
+						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
+						output +='<td class="tdTotolStyle"><span>'+item.resellBoard_title+'</span></td>';
+						output +='<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">'+item.resellBoard_content+'</span></td>';
+						output +='<td class="tdTotolStyle">';
+						output +='<span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
+						output +='<td class="tdTotolStyle"><div><span>'+item.resellBoard_postDate+'</span><span class="rightSapn">'+item.resellBoard_price+'원</span></div></td>';
+						output +='</tr>';
+					}else{
+						output += '<tr class="bordListBox">';
+						output +='<td class="tdTotolStyle"><del><span>'+item.member_id+'</span></del></td>';
+						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
+						output +='<td class="tdTotolStyle"><del><span>'+item.resellBoard_title+'</span></del></td>';
+						output +='<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">'+item.resellBoard_content+'</span></del></td>';
+						output +='<td class="tdTotolStyle">';
+						output +='<del><span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
+						output +='<td class="tdTotolStyle"><div><del><span>'+item.resellBoard_postDate+'</span></del><span class="rightSapn">판매완료</span></div></td>';
+						output +='</tr>';
+					}
+					$("#nextPage").append(output)
+				});
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		console.log("page : "+page)
+		page+=1;
 	}
 });
 
@@ -109,7 +150,7 @@ function like() {
 			<div class="row">
 			
 			<!-- 사이드바 템플릿 -->
-			<%@include file="../../cambak21BoardAside.jsp"%>
+			<%@include file="../../cambak21Aside2.jsp"%>
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important"style="width: 100%;float: revert;">
@@ -119,13 +160,12 @@ function like() {
 						<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
 					</header>
 				</section>
-						<table style="width: 100%x">
+						<table style="width: 100%x"id="nextPage">
 				
 						<tbody style="width: 100%">
 						<div style="display: table;margin: auto;">
 							<form action="/board/resell/search" method="GET">
 								<select name="searchType" style="margin-right: 15px">
-									<option value="n">---------------------</option>
 									<option value="resellBoard_title">제목</option>
 									<option value="resellBoard_content">내용</option>
 									<option value="member_id">작성자</option>
@@ -135,6 +175,9 @@ function like() {
 								<input type="submit" id="goSearch" value="검색" />
 							</form>
 						</div id="ResellList">
+						<c:if test="${loginMember.member_id != null }">
+							<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
+						</c:if>
 						<c:forEach var="board" items="${board}">
 						<c:choose>
                   			<c:when test='${board.resellBoard_isDelete == "Y"}'>
@@ -162,13 +205,10 @@ function like() {
 							</c:otherwise>
 							</c:choose>
 							</c:forEach>
-
 							</tbody>
 						</table>
 
-			<c:if test="${loginMember.member_id != null }">
-				<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
-			</c:if>
+	
 			<!--  
 				<div class="text-center">
 				     <ul class="pagination"style="text-align: center;">

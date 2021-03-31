@@ -50,10 +50,10 @@ public class BoardQADAOImpl implements BoardQADAO {
 	}
 
 	@Override
-	public List<BoardQAVO> searchListBoardQA(SearchBoardQAVO vo, PagingCriteria cri) throws Exception {
+	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("searchWord", vo.getSearchWord());
-		param.put("searchType", vo.getSearchType());
+		param.put("searchWord", scri.getSearchWord());
+		param.put("searchType", scri.getSearchType());
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
 		

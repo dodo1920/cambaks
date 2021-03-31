@@ -104,8 +104,8 @@ public class BoardQAServiceImpl implements BoardQAService {
 	 * @throws Exception
 	*/
 	@Override
-	public List<BoardQAVO> searchListBoardQA(SearchBoardQAVO vo, PagingCriteria cri) throws Exception {
-		return dao.searchListBoardQA(vo, cri);
+	public List<BoardQAVO> searchListBoardQA(SearchCriteria scri, PagingCriteria cri) throws Exception {
+		return dao.searchListBoardQA(scri, cri);
 	}
 
 	@Transactional

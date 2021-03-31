@@ -40,29 +40,23 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<String> findId(FindIdVO fId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<FindIdVO> findId(FindIdVO fId) throws Exception {
+		return ses.selectList(namespace + ".findId", fId);
 	}
 
 	@Override
-	public int findPwd(String member_id, String member_Mobile) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public FindIdVO findPwd(FindIdVO fId) throws Exception {
+		return ses.selectOne(namespace + ".findPwd", fId);
 	}
 
 	@Override
-	public int updatePwd(String member_id, String member_password) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updatePwd(FindIdVO fId) throws Exception {
+		return ses.update(namespace + ".updatePwd", fId);
 	}
 
 	@Override
-	public int checkEmail(String member_email, String member_name) throws Exception {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("member_name", member_name);
-		params.put("member_email", member_email);
-		return ses.selectOne(namespace + ".checkEmail", params);
+	public int checkEmail(FindIdVO fId) throws Exception {
+		return ses.selectOne(namespace + ".checkEmail", fId);
 	}
 
 	@Override

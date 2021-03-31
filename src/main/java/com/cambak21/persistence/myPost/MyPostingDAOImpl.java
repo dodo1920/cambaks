@@ -4,6 +4,7 @@
 package com.cambak21.persistence.myPost;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.domain.MyLikePostingVO;
+import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -44,11 +45,12 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public List<MyLikePostingVO> getMyLikePostng(String member_id, PagingCriteria cri) throws Exception {
+	public List<MyLikeBoardListVO> getMyLikePostng(String member_id, PagingCriteria cri, String category) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("member_id", member_id);
 		map.put("pageStart", cri.getPageStart());
 		map.put("perPageNum", cri.getPerPageNum());
+		map.put("category", category);
 		return ses.selectList(ns + ".getList", map);
 	}
 	
@@ -76,9 +78,11 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public int getMyLikePostngCnt(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getMyLikePostngCnt(String member_id, String category) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("category", category);
+		return ses.selectOne(ns + ".myLikeBoardCnt", map);
 	}
 	
 	

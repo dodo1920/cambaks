@@ -43,28 +43,33 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public List<String> findId(FindIdVO fId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<FindIdVO> findId(FindIdVO fId) throws Exception {
+		return dao.findId(fId);
 	}
 
 	@Override
-	public boolean findPwd(String member_id, String member_Mobile) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public FindIdVO findPwd(FindIdVO fId) throws Exception {
+		return dao.findPwd(fId);
 	}
 
 	@Override
-	public boolean updatePwd(String member_id, String member_password) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updatePwd(FindIdVO fId) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updatePwd(fId);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	@Override
-	public boolean checkEmail(String member_email, String member_name) throws Exception {
+	public boolean checkEmail(FindIdVO fId) throws Exception {
 		boolean result = false;
 		
-		int i = dao.checkEmail(member_email, member_name);
+		int i = dao.checkEmail(fId);
 		
 		if(i == 1) {
 			result = true;

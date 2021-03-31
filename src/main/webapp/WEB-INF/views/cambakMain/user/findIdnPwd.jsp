@@ -37,7 +37,7 @@
 			padding : 0px;
 		}
 		
-		#email {
+		.email {
 			display : block;
 		}
 		
@@ -48,27 +48,55 @@
 			margin-bottom : 3%;
 		}
 		
-		#userUUID {
+		#pwd_member_email {
+			width : 80%;
+			display : inline-block;
+			margin-right : 2%;
+			margin-bottom : 3%;
+		}
+		
+		.userUUID {
 			width : 30%;
 			display : inline-block;
 			margin-right : 2%;
 		}
 	</style>
 	<script>
-		function showCheckbox() {
-			$("#hiddenCheckbox").show();
+		function showCheckbox(where) {
+			if(where == "id") {
+				$("#id_hiddenCheckbox").show();
+			} else if(where == "pwd") {
+				$("#pwd_hiddenCheckbox").show();
+			}
+			
 		}
 		
-		function sendMail() {
-			let userName = $("#id_member_name").val()
-			let userEmail = $("#id_member_email").val()
+		function sendMail(where) {
+			let userName = null;
+			let userId = null;
+			let userEmail = null;
 			
-			console.log(userName, userEmail);
+			console.log(where);
 			
-			if(userName.length == 0 || userEmail.length == 0) {
+			if(where == 'id') {
+				userName = $("#id_member_name").val();
+				userEmail = $("#id_member_email").val();
+			} else if(where == 'pwd') {
+				userId = $("#pwd_member_id").val();
+				userEmail = $("#pwd_member_email").val();
+			}
+			
+			console.log(userName, userEmail, userId);
+			
+			if(where == 'id' && userName.length == 0 || where == 'id' && userEmail.length == 0) {
 				alert("이름 또는 이메일을 입력해주세요");
+			} else if(where == 'pwd' && userEmail.length == 0 || where == 'pwd' && userId.length == 0) {
+				alert("아이디 또는 이메일을 입력해주세요");
 			} else {
-				showCheckbox(); 
+				
+				alert("입력해 주신 메일로 인증번호를 전송했습니다");
+				
+				showCheckbox(where);
 				
 				$.ajax({
 					url: '/user/find_idPwd',
@@ -76,6 +104,7 @@
 						"Content-Type" : "application/json"
 							},
 					data : JSON.stringify({	// 요청하는 데이터
+						member_id : userId,
 						member_name : userName,
 						member_email : userEmail,
 						}),
@@ -85,19 +114,27 @@
 					contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 					success : function(result) {
 						console.log(result);
-						$("#hiddenUUID").html(result);	
+						$("#" + where + "_hiddenUUID").html(result);	
 					},
 					fail : function(result) {
-						alert(result);
+						console.log(result);
 					}
 				});		
 			}
 			
 		}
 		
-		function checkUuid() {
-			let uuid = $("#hiddenUUID").text();
-			let userUUID = $("#userUUID").val();
+		function checkUuid(where) {
+			let uuid = '';
+			let userUUID = '';
+			
+			if(where == "id") {
+				uuid = $("#id_hiddenUUID").text(); 
+				userUUID = $("#id_userUUID").val();
+			} else if(where == "pwd") {
+				uuid = $("#pwd_hiddenUUID").text(); 
+				userUUID = $("#pwd_userUUID").val();
+			}
 			
 			console.log(uuid, userUUID);
 			
@@ -106,7 +143,7 @@
 			} else {
 				if(uuid == userUUID) {
 					alert("인증이 완료되었습니다");
-					$("#status").val("success");
+					$("#" + where + "_status").val("success");
 				} else {
 					alert("인증번호가 다릅니다. 이메일 인증을 다시 시도해 주세요")
 				}
@@ -114,12 +151,20 @@
 					
 		}
 		
-		function findId() {
-			let status = $("#status").val();
+		function checkStatus(where) {
+			let status = '';
+				
+			if(where == "id") {
+				status = $("#id_status").val();
+			} else if(where == "pwd") {
+				status = $("#pwd_status").val();
+			}
 			
 			if(status == "success") {
-				location.href = 
+				return true;
 			}
+			
+			return false;
 		}
 	
 	</script>
@@ -141,23 +186,23 @@
 							<span class="byline">아이디 찾기</span>
 						</header>
 						<div>
-						  <form action="/find_id" method="post">
+						  <form action="/user/find_id" method="post">
 						    <div class="form-group">
 						      <label for="member_name">이름 :</label>
 						      <input type="text" class="form-control" id="id_member_name" placeholder="Enter name" name="member_name">
 						    </div>
 						    <div class="form-group">
-						      <label for="email" id="email">이메일 :</label>
+						      <label for="email" class="email">이메일 :</label>
 						      <input type="email" class="form-control" id="id_member_email" placeholder="Enter email" name="member_email">
-						      <input type="button" id="checkEmail" value="인증" onclick="sendMail();" />
-						      <div id="hiddenCheckbox" style="display:none">
-						      	<input type="text" id="userUUID" class="form-control" />
-						      	<input type="button" id="checkUUID" value="확인" onclick="checkUuid();" />
-						      	<input type="hidden" id="hiddenUUID" />
-						      	<input type="hidden" id="status" />
+						      <input type="button" id="id_checkEmail" value="인증" onclick="sendMail('id');" />
+						      <div id="id_hiddenCheckbox" style="display:none">
+						      	<input type="text" id="id_userUUID" class="form-control userUUID" />
+						      	<input type="button" id="id_checkUUID" value="확인" onclick="checkUuid('id');" />
+						      	<input type="hidden" id="id_hiddenUUID" />
+						      	<input type="hidden" id="id_status" />
 						      </div>
 						    </div>
-						    <button type="submit" class="btn btn-default" onclick="findId();">찾기</button>
+						    <button type="submit" class="btn btn-default" onclick="return checkStatus('id');">찾기</button>
 						    <button type="button" class="btn btn-default">취소</button>
 						  </form>
 						</div>
@@ -168,21 +213,49 @@
 							<span class="byline">비밀번호 찾기</span>
 						</header>
 						<div>
-						  <form action="/action_page.php">
+						  <form action="/user/find_pwd" method="post">
 						    <div class="form-group">
 						      <label for="member_id">아이디 :</label>
-						      <input type="text" class="form-control" id="pwd_member_name" placeholder="Enter name" name="member_id">
+						      <input type="text" class="form-control" id="pwd_member_id" placeholder="Enter id" name="member_id">
 						    </div>
 						    <div class="form-group">
-						      <label for="email">이메일 :</label>
+						      <label for="email" class="email">이메일 :</label>
 						      <input type="email" class="form-control" id="pwd_member_email" placeholder="Enter email" name="member_email">
+						      <input type="button" id="pwd_checkEmail" value="인증" onclick="sendMail('pwd');" />
+						      <div id="pwd_hiddenCheckbox" style="display:none">
+						      	<input type="text" id="pwd_userUUID" class="form-control userUUID" />
+						      	<input type="button" id="pwd_checkUUID" value="확인" onclick="checkUuid('pwd');" />
+						      	<input type="hidden" id="pwd_hiddenUUID" />
+						      	<input type="hidden" id="pwd_status" />
+						      </div>						    	
 						    </div>
-						    <button type="submit" class="btn btn-default">찾기</button>
+						    <button type="submit" class="btn btn-default" onclick="return checkStatus('pwd');" >찾기</button>
 						    <button type="button" class="btn btn-default">취소</button>
 						  </form>
 						</div>
-
 					</section>
+					  <!-- Modal -->
+					  <div class="modal fade" id="myModal" role="dialog">
+					    <div class="modal-dialog">
+					    
+					      <!-- Modal content-->
+					      <div class="modal-content">
+					        <div class="modal-header">
+					          <button type="button" class="close" data-dismiss="modal">&times;</button>
+					          <h4 class="modal-title">아이디/비밀번호 찾기</h4>
+					        </div>
+					        <div class="modal-body">
+					          <p>아직 회원이 아닙니다</p>
+					          <p>회원가입 하시겠습니까?</p>
+					        </div>
+					        <div class="modal-footer">
+					          <button type="button" class="btn btn-default" onclick="location.href='../user/register'">회원가입</button>
+					          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					        </div>
+					      </div>
+					      
+					    </div>
+					  </div>
 				</div>
 
 			</div>

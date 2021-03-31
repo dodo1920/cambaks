@@ -11,33 +11,17 @@
 
 >>>>>>> 98b2472baacc1a18bcc1d06bd5e3653f6577c6a4
 	<!-- getMyLikePostng 승권 -->
-	<select id="getList" resultType="com.cambak21.domain.MyLikeBoardListVO">
+	<select id="getList"
+		resultType="com.cambak21.domain.MyLikeBoardListVO">
 		select b.board_no, b.board_category, b.member_id, b.board_title,
 		lb.likeBoard_date, b.board_writeDate
 		from LikeBoards lb
-		inner join Boards b
+		inner join
+		Boards b
 		on lb.board_no = b.board_no
 		where lb.member_id = #{member_id}
-		<if test='category == "캠핑 후기"'>
-			and b.board_category = 'camping'
-		</if>
-		<if test='category == "유머"'>
-			and b.board_category = 'humor'
-		</if>
-		<if test='category == "QnA"'>
-			and b.board_category = 'QA'
-		</if>
-		<if test='category == "중고거래"'>
-			and b.board_category = 'Resell'
-		</if>
-		<if test='category == "캠핑Tip"'>
-			and b.board_category = 'Tip'
-		</if>
-		<if test='category == "공지사항"'>
-			and b.board_category = 'notice'
-		</if>
-		<if test='category == "고객센터"'>
-			and b.board_category = 'CS'
+		<if test='category != "all"'>
+			and b.board_category = #{category}
 		</if>
 		order by lb.likeBoard_date desc
 		limit #{pageStart}, #{perPageNum};
@@ -66,7 +50,16 @@
 
 
 	<!-- getMyLikePostngCnt 승권 -->
-
+	<select id="myLikeBoardCnt" resultType="int">
+		select count(*) from LikeBoards lb 
+		inner join Boards b 
+		on lb.board_no = b.board_no 
+		where lb.member_id = #{member_id} 
+		<if test='category != "all"'>
+			and b.board_category = #{category}
+		</if>
+		order by lb.likeBoard_date desc 
+	</select>
 
 
 
@@ -88,6 +81,7 @@
 
 
 	<!-- getMyPosting 정민 -->
+<<<<<<< HEAD
 <<<<<<< HEAD
 	
 	
@@ -206,11 +200,19 @@
 =======
 	<select id="getMyPosting" resultType="com.cambak21.domain.BoardVO">
 		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' order by board_writeDate desc limit #{pageStart}, #{perPageNum}
+=======
+	<select id="getMyPosting"
+		resultType="com.cambak21.domain.BoardVO">
+		select * from goot6.Boards where member_id = #{member_id}
+		and board_isDelete = 'N' order by board_writeDate desc limit
+		#{pageStart}, #{perPageNum}
+>>>>>>> 5e90c72211944f99a2d9d58b0ab3d9e02de8e1e8
 	</select>
 
 	<!-- getMyPostingCnt 정민 -->
 	<select id="getMyPostingCnt" resultType="int">
-		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
+		select count(*) from
+		goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 
 

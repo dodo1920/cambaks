@@ -1,7 +1,7 @@
 // 글자수 줄임 ...
-function textLimit() {
+function textLimit(len) {
 	$(".board-title-a").each(function() {
-		var length = 35; //표시할 글자수 정하기
+		var length = len; //표시할 글자수 정하기
 
 		$(this).each(function() {
 

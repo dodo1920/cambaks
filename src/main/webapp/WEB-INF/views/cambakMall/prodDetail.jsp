@@ -420,7 +420,7 @@
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
                         <a href="#">Women’s </a>
-                        <span>Essential structured blazer</span>
+                        <span>${prodDetail.product_name }</span>
                     </div>
                 </div>
             </div>
@@ -460,7 +460,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>Essential structured blazer <span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
+                        <h3>${prodDetail.product_title }<span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -469,9 +469,8 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price">$ 75.0 <span>$ 83.0</span></div>
-                        <p>Nemo enim ipsam voluptatem quia aspernatur aut odit aut loret fugit, sed quia consequuntur
-                        magni lores eos qui ratione voluptatem sequi nesciunt.</p>
+                        <div class="product__details__price"> ${prodDetail.product_sellPrice} <span>$ 83.0</span></div>
+                        <p>${prodDetail.product_detail }</p>
                         <div class="product__details__button">
                             <div class="quantity">
                                 <span>Quantity:</span>
@@ -535,8 +534,8 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <span>Promotions:</span>
-                                    <p>Free shipping</p>
+                                    <span>배송비:</span>
+                                    <p>${prodDetail.product_shipPrice}</p>
                                 </li>
                             </ul>
                         </div>

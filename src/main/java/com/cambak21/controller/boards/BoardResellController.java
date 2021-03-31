@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,8 +47,6 @@ public class BoardResellController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardResellController.class);
 
-	
-	
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	public String BoardResellList(PagingCriteria cri,Model model) throws Exception {
 		System.out.println("boardResellList 테스트");
@@ -61,6 +60,18 @@ public class BoardResellController {
 		model.addAttribute("pagingParam", pp);
 		
 		return "cambakMain/board/Resell/boardResellList";
+	}
+	@RequestMapping(value = "/list/{page}",method = RequestMethod.POST)
+	public ResponseEntity<List<ResellBoardVO>> BoardResellListPOST(@PathVariable("page")  int page,PagingCriteria cri,Model model) throws Exception {
+		System.out.println("boardResellList 테스트");
+		System.out.println("page : "+page);
+		ResponseEntity<List<ResellBoardVO> > entity = null;
+		List<ResellBoardVO> listResell = resellListService.ResellBoardReadAll(cri);
+		if(listResell != null) {
+			entity = new ResponseEntity<List<ResellBoardVO>>(listResell,HttpStatus.OK);
+		}
+		
+		return entity;
 	}
 	@RequestMapping(value = "/detail",method = RequestMethod.GET)
 	public String boardResellDetail(@RequestParam("no") int no, Model model) throws Exception{
