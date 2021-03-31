@@ -8,6 +8,7 @@
 	<!-- getMyLikePostng 승권 -->
 	<select id="getList"
 		resultType="com.cambak21.domain.MyLikeBoardListVO">
+<!-- 		<if test="category != 'resell'"> -->
 		select b.board_no, b.board_category, b.member_id, b.board_title,
 		lb.likeBoard_date, b.board_writeDate
 		from LikeBoards lb
@@ -20,6 +21,17 @@
 		</if>
 		order by lb.likeBoard_date desc
 		limit #{pageStart}, #{perPageNum};
+<!-- 		</if> -->
+		
+<!-- 		<if test="category == 'resell'"> -->
+<!-- 		select rb.resellBoard_no, resellBoard_title, rb.member_id, rb.resellBoard_postDate, rlb.resellLikeBoards_date -->
+<!-- 		from ResellBoards rb  -->
+<!-- 		inner join ResellLikeBoards rlb  -->
+<!-- 		on rb.resellBoard_no = rlb.resellBoard_no  -->
+<!-- 		where rlb.member_id = #{member_id} -->
+<!-- 		order by rlb.resellLikeBoards_date desc -->
+<!-- 		limit #{pageStart}, #{perPageNum}; -->
+<!-- 		</if> -->
 	</select>
 
 
