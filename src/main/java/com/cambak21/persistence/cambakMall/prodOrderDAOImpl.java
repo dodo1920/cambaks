@@ -73,4 +73,10 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 			return ses.update(namespace + ".defaultModyAjax", paraMap);
 		
 	}
+
+
+	@Override
+	public int destiModyAjax(DestinationVO vo) throws Exception {
+			return ses.update(namespace + ".destiModyAjax", vo);
+	}
 }

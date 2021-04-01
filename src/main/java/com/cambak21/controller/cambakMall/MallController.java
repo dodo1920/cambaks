@@ -12,10 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -109,10 +112,37 @@ public class MallController {
 		
 	}
 	
+	@RequestMapping(value = "/destinationsList/modiajax", method = RequestMethod.POST)
+	public ResponseEntity<String> destiModyAjax(@RequestBody DestinationVO vo) throws Exception {
+		
+		ResponseEntity<String> entity = null;
+		System.out.println(vo.toString());
+		if(service.destiModyAjax(vo)) {
+			System.out.println("업데이트 성공");
+			entity = new ResponseEntity<String>("result", HttpStatus.OK);
+		}else {
+			entity = new ResponseEntity<String>("result", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
 	
 	
-	
-	
+//	@RequestMapping(value = "user/modiReply/{replyBoard_no}", method = RequestMethod.POST)
+//	public ResponseEntity<String> Replylst(@PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo) throws Exception{
+//		logger.info("종진 / 공지사항 해당 댓글 수정하기");
+//		ResponseEntity<String> entity = null;
+//		vo.setReplyBoard_no(replyBoard_no);
+//		System.out.println(replyBoard_no + "," + vo.toString());
+//		
+//		nrservice.modiReplyBoard(vo);
+//		
+//		entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+//		
+//		return entity;
+//	}
+//	
 	
 	
 	

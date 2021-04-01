@@ -62,14 +62,22 @@ public class prodOrderServiceImpl implements prodOrderService {
 	public boolean defaultModyAjax(String member_id, int destination_no) throws Exception {
 			boolean result = false;
 			int i = 0;
-			
 			i = dao.defaultModyAjax(member_id, destination_no);
-			
 			if(i >= 1) {
 				result = true;
 			}
-		
 			return result;
+	}
+
+	@Override
+	public boolean destiModyAjax(DestinationVO vo) throws Exception {
+		boolean result = false;
+		int i = 0;
+		i = dao.destiModyAjax(vo);
+		if(i >= 1) {
+			result = true;
+		}
+		return result;
 	}
 	
 		  	
