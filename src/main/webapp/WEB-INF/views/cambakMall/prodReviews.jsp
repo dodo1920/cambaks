@@ -131,7 +131,7 @@
 	        	let pagingParam = data.pagingParam;
 	        	currentPage = pagingParam.cri.page;
 	        	//console.log(currentPage);
-	        	//onsole.log(prodList);
+	        	//console.log(prodList);
 	        	console.log(pagingParam.cri);
 	        	console.log(pagingParam);
 	        	
@@ -252,7 +252,7 @@
 							  //console.log(result);
 
 						  $(result).each(function(index, item) {
-							  //console.log(result);
+							  console.log(result);
 							  
 							  let replyOutput;
 							  if(item.replyProdReview_no == item.replyProdReview_ref){// 부모 댓글인 경우,
@@ -270,7 +270,7 @@
 					          let showDate = new Date(item.replyProdReview_date);
 					          let showThisDate = showDate.toLocaleString();
 					          
-					          //댓글 및 대댓글 생성 부분
+					          //-----------------댓글 및 대댓글 생성 부분--------------------
 				              replyOutput += '<i class="fa fa-user-circle-o fa-2x"></i>' + item.member_id + '<div>' + showThisDate + ' replyProdReview_no : ' + item.replyProdReview_no +'</div></div><div class="card-body"><ul class="list-group list-group-flush">';
 				              replyOutput += '<li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
 				              replyOutput += '<div><span id="replyName' + item.replyProdReview_no + '"></span><span id="replyMemberName' + item.replyProdReview_no + '"></span><p class="card-text">';
@@ -278,7 +278,13 @@
 				              if(item.replyProdReview_isDelete == 'Y'){
 				            	  replyOutput += '<span>삭제된 댓글입니다.</span></p><div>'
 				              } else{
-					              replyOutput += '<span id="checkcheck' + item.replyProdReview_no +'"></span><span id="replyContents' + item.replyProdReview_no + '">' + item.replyProdReview_content + '</span></p><div>';
+				            	  // 대댓글인 경우, 부모 댓글의 이름을 가져와서 출력
+				            	  if(item.replyProdReview_repMember_id != null){
+				            		  replyOutput += '<span><strong>@' + item.replyProdReview_repMember_id + ' </strong></span><span id="replyContents' + item.replyProdReview_no + '">' + item.replyProdReview_content + '</span></p><div>';
+				            	  }else{// 대댓글이 아닌 경우에는, 부모 댓글 이름 가져오는 부분을 생략
+				            		  replyOutput += '<span id="replyContents' + item.replyProdReview_no + '">' + item.replyProdReview_content + '</span></p><div>';  
+				            	  }
+				            	  
 				              }
 				              //답글 버튼(로그인한 회원에게만 보이도록 처리)
 				              if(${loginMember.member_id != null}){
@@ -294,7 +300,7 @@
 				          
 				              replyOutput += '</li></ul></div>'; // 닫아주는 부분
 				              
-				              // 대댓글 등록 부분
+				              // ------------------------대댓글 등록 부분--------------------------
 				              replyOutput += '<div class="replies" id="reply' + item.replyProdReview_no + '" style="display: none"><p class="card-text"><div class="card"><span><strong>' + item.member_id + ' 님에게 댓글 남기기...</strong></span><div class="card-body"><textarea class="reReply" id="replyContent' + item.replyProdReview_no + '" name="replyProdReview_content" placeholder="대댓글을 입력해주세요." ></textarea></div></div></p>';
 				              replyOutput += '<div id="get' + item.replyProdReview_no + '" value="' + item.replyProdReview_ref + '"></div>';
 				              replyOutput += '<div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReply(' + item.replyProdReview_no+ "," + item.replyProdReview_ref + "," + item.prodReview_no + ",\'" + item.member_id +'\');">대댓글등록</button></div></div>';
@@ -378,19 +384,16 @@
 	}
 	
 	//addReply 대댓글 처리 부분
-	function addReply(replyProdReview_no, replyProdReview_ref, prodReview_no, replyMember_id) {
+	function addReply(replyProdReview_no, replyProdReview_ref, prodReview_no, replyProdReview_repMember_id) {
 		// replyProdReview_content 수정 필요
-		
+		console.log(replyProdReview_repMember_id);
 		let product_id = 4;
 		let member_id = "${loginMember.member_id}";
 		//console.log(member_id);
 		/*if(replyProdReview_ref != 0){ 
 			replyProdReview_ref = replyProdReview_no;
 		}*/
-		console.log(replyMember_id);
 		
-		// 부모 댓글 유저 이름 가져오기
-		replyMember_id = replyMember_id;
 		
 		
 		
@@ -407,11 +410,11 @@
 				  replyProdReview_content :  replyProdReview_content,
 				  member_id : member_id,
 				  prodReview_no : prodReview_no,
-				  replyProdReview_ref : replyProdReview_ref
+				  replyProdReview_ref : replyProdReview_ref,
+				  replyProdReview_repMember_id : replyProdReview_repMember_id
 			  }),
 			  success : function(result) {
 				  console.log(result);
-				  console.log(member_id);
 
 			      console.log("#checkcheck" + replyProdReview_no);
 				  //$("#replyName" + replyProdReview_no).html(replyMember_id);

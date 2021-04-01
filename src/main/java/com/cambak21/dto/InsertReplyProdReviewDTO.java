@@ -7,6 +7,7 @@ public class InsertReplyProdReviewDTO {
 	private int prodReview_no;
 	private int replyProdReview_ref;
 	private int replyProdReview_refOrder;
+	private String replyProdReview_repMember_id;
 	
 	public int getReplyProdReview_no() {
 		return replyProdReview_no;
@@ -44,17 +45,20 @@ public class InsertReplyProdReviewDTO {
 	public void setReplyProdReview_refOrder(int replyProdReview_refOrder) {
 		this.replyProdReview_refOrder = replyProdReview_refOrder;
 	}
+	public String getReplyProdReview_repMember_id() {
+		return replyProdReview_repMember_id;
+	}
+	public void setReplyProdReview_repMember_id(String replyProdReview_repMember_id) {
+		this.replyProdReview_repMember_id = replyProdReview_repMember_id;
+	}
 	
 	@Override
 	public String toString() {
 		return "InsertReplyProdReviewDTO [replyProdReview_no=" + replyProdReview_no + ", replyProdReview_content="
 				+ replyProdReview_content + ", member_id=" + member_id + ", prodReview_no=" + prodReview_no
 				+ ", replyProdReview_ref=" + replyProdReview_ref + ", replyProdReview_refOrder="
-				+ replyProdReview_refOrder + "]";
+				+ replyProdReview_refOrder + ", replyProdReview_repMember_id=" + replyProdReview_repMember_id + "]";
 	}
-	
-	
-
 	
 	
 }
