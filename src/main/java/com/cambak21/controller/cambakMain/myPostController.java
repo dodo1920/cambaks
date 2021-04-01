@@ -231,15 +231,11 @@ public class MyPostController {
 	@RequestMapping(value = "myLike/{category}/{page}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getList(@PathVariable("category") String category,
-			@PathVariable("page") int page, PagingCriteria cri, HttpServletRequest request) {
+			@PathVariable("page") int page, PagingCriteria cri, @SessionAttribute("loginMember") MemberVO vo) {
 		logger.info("승권 / 마이페이지 내가 좋아요 누른글 카테고리 호출");
 
 		// json 담을 객체
 		ResponseEntity<Map<String, Object>> entity = null;
-
-		// 세션 정보 얻어오기
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
 
 		try {
 			// 페이징, 리스트 map에 담기 위한 객체 생성
