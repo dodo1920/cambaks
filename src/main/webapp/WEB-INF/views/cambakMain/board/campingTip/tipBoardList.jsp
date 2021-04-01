@@ -43,8 +43,25 @@
       changeCheckbox();
       cautionSearch();
       makePageBox();
+      textLimitBoard();
       
    });
+   
+// 게시글 제목의 길이가 25개를 넣을 시 21번째 글짜부터 ...으로로 변환
+   function textLimitBoard() {
+   	$(".viewPageLink").each(function() {
+   		var length = 25; //표시할 글자수 정하기
+
+   		$(this).each(function() {
+
+   			if ($(this).text().length >= length) {
+
+   				$(this).text($(this).text().substr(0, length) + '...')
+   				//지정할 글자수 이후 표시할 텍스트
+   			}
+   		});
+   	});
+   };   
    
    // 선택한 페이지 출력 시 페이징 된 숫자에 박스 생성
    function makePageBox() {

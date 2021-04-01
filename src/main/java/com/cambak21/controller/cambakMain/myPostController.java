@@ -139,7 +139,7 @@ public class MyPostController {
 	 * @Method 설명 : 
 	 * @throws Exception
 	 */
-	@RequestMapping(value="myReply.mp", method=RequestMethod.GET)
+	@RequestMapping(value="myReply", method=RequestMethod.GET)
 	public String myPageReplyInfo() throws Exception {
 		// 마이페이지 내 댓글 페이지로 이동
 		return "cambakMain/myPage/myPageReply";
@@ -154,7 +154,7 @@ public class MyPostController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value="myReplyList.mp", method=RequestMethod.POST)
+	@RequestMapping(value="myReplyList", method=RequestMethod.POST)
 	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id, @RequestParam("board_category")  String board_category, PagingCriteria cri)
 			throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 내용 가져오기
@@ -183,7 +183,7 @@ public class MyPostController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value="getMyCount.mp", method=RequestMethod.POST)
+	@RequestMapping(value="getMyCount", method=RequestMethod.POST)
 	public MyPageAllCountVO myPageAllCount(@RequestParam("member_id") String member_id) throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
 		return service.myPageAllCount(member_id);
