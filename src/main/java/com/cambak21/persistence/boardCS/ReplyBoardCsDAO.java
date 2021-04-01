@@ -31,4 +31,7 @@ public interface ReplyBoardCsDAO {
 
 	// 부모댓글의 정보 가져요기
 	GetReplyInfo getParentReplyInfo(int replyBoard_no) throws Exception;
+	
+	// 댓글 갯수 가져오기
+	int getReplyCnt(int board_no) throws Exception;
 }

@@ -1,8 +1,7 @@
 package com.cambak21.service.boardCS;
 
-import java.util.List;
+import java.util.Map;
 
-import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
 
@@ -18,7 +17,7 @@ public interface ReplyBoardCsService {
 	int deleteReplyBoardCS(int replyBoard_no) throws Exception;
 	
 	// 댓글 리스트 출력
-	List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception;
+	Map<String, Object> getReplyListBoardCS(int board_no) throws Exception;
 	
 	
 }

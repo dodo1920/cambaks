@@ -91,7 +91,10 @@
 		let output = "";
 		let step = 20;
 		
-		$.each(data, function(index, item) {
+		// 댓글 갯수 ajax로 가져오기
+		$(".replyCnt").text(data.replyCnt);
+		
+		$.each(data.replyList, function(index, item) {
 			// step
 			// 홀수 짝수 지그재그 출력을 위한...
 			let fristStep = item.replyBoard_step.toString().substr(0, 1);
@@ -481,7 +484,7 @@
 									추천수 <span class="likeCnt">${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
-									댓글 <span>${board.replyCnt }</span>
+									댓글 <span class="replyCnt">${board.replyCnt }</span>
 								</p>
 							</div>
 						</div>
