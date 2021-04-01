@@ -200,7 +200,7 @@ public class MyPostController {
 	  * @return
 	  * @throws Exception
 	  */
-	@RequestMapping("myLike.mp")
+	@RequestMapping("myLike")
 	public String myPageLikeBoards() throws Exception {
 		return "cambakMain/myPage/myLikeBoard";
 	}

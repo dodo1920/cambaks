@@ -86,9 +86,9 @@
 	function listOutput(data) {
 
 		let output = "";
-
+		console.log(data);
 		$.each(data, function(index, item) {
-			if(item.board_no != null) {
+			if(item.board_no != null && item.board_isDelete == "N") {
 				output += "<tr>";
 				output += "<td>" + item.board_no + "</td>";
 				output += "<td>" + item.board_category + "</td>";
