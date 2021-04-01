@@ -44,13 +44,14 @@
       cautionSearch();
       makePageBox();
       textLimitBoard();
+      $("body,html").animate({scrollTop: 260}, 1);
       
    });
    
 // 게시글 제목의 길이가 25개를 넣을 시 21번째 글짜부터 ...으로로 변환
    function textLimitBoard() {
    	$(".viewPageLink").each(function() {
-   		var length = 25; //표시할 글자수 정하기
+   		var length = 24; //표시할 글자수 정하기
 
    		$(this).each(function() {
 

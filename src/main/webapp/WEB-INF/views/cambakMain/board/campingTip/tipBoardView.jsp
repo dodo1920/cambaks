@@ -37,9 +37,13 @@
 	let loginMember = '${loginMember.member_id}'; // 로그인한 유저 아이디 남겨놓기
 	let board_no = '${param.no}'; // 게시글 번호 남겨놓기
 	let isAdmin = '${loginMember.member_isAdmin }';
+	let param;
 	
    $(document).ready(function() {
       
+	   console.log($(".viewTitleName").text().length);
+	   
+	   
 	  noBoardPage(); // 없는 게시글 로딩 시 다시 돌려보내기
       let boardUri = searchUriAddress(); // 사이드바에 해당 게시판 색상 지정해주기
       asideBarDraw(boardUri); // 사이드바에 해당 게시판 색상 지정해주기
@@ -49,7 +53,6 @@
       totalReplyCount(); // 게시글 댓글 총 개수 가져오기
       readLikeInfo(); // 게시글 로딩 시 추천 여부 가져오기
       replyFocus(); // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
-
       
 	  // 비회원이 댓글 textarea창에 마우스 왼쪽 클릭 시 로그인 이동 안내
 	  $("#writeReplyContent").bind("mousedown", function(event) {
@@ -68,10 +71,12 @@
    
    // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
    function replyFocus() {
-	   let param = '${param.replyFocus }';
+	   param = '${param.replyFocus }';
 	   
 	   if (param == "true") {
 		   $("body,html").animate({scrollTop: 870}, 900);
+	   } else if(param.length == 0) {
+		   $("body,html").animate({scrollTop: 260}, 1);
 	   }
    }
    

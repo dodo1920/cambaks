@@ -43,21 +43,49 @@
 		$('#summernote').summernote({
 			height : 400
 		});
-		checkTitle(); // 제목을 작성했는지 확인
+		checkTitle(); // 제목을 작성했는지와 길이 확인
+		onKeyboardTitle();
+
+		
    });
+   
+   function onKeyboardTitle() {
+	   
+		$("#board_title").on("keydown", function() {
+			let title = getTitleByte($("#board_title").val());
+			console.log(title);
+			   if (title > 60) {
+				   let tempTitle = $("#board_title").val();
+				   alert("제목을 60byte(한글 20자) 이내로 입력하세요.");
+			   }
+		});
+
+   }
    
    function checkTitle() {
 	   
 	   $("#submitBtn").on("click", function() {
-		   let title = $("#board_title").val();
-		   if (title.length <= 0) {
+		   let title = getTitleByte($("#board_title").val());
+		   if (title <= 0) {
 			   alert("제목은 필수로 입렵바랍니다.");
 			   return false;
+		   } else if (title > 60) {
+			   alert("제목을 60byte(한글 20자) 이내로 입력하세요.");
+			   console.log(title);
+			   return false;
 		   }
-	   })
-
+	   });
    }
 
+   function getTitleByte(content) {
+	   let strByteLength = function(s,b,i,c){
+		   for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+		   return b
+		 }
+	   return strByteLength(content);
+   }
+   	   
+   
 </script>
 
 <style type="text/css">
