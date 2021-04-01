@@ -27,7 +27,7 @@ public class BoardQAReplyController {
 
 	private static Logger log = LoggerFactory.getLogger(BoardQAReplyController.class);
 
-	@RequestMapping("/qa/reply.bo/all/{board_no}")
+	@RequestMapping("/qa/reply/all/{board_no}")
 	public ResponseEntity<List<ReplyBoardVO>> replyList(@PathVariable("board_no") int board_no) {
 		log.info("댓글 리스트 get 방식 호출 ajax");
 
@@ -43,7 +43,7 @@ public class BoardQAReplyController {
 		return entity;
 	}
 
-	@RequestMapping(value = "/qa/reply.bo/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/qa/reply/insert", method = RequestMethod.POST)
 	public ResponseEntity<String> insertReply(@RequestBody InsertReplyQABoardDTO dto) {
 		log.info("댓글 작성 ajax POST 호출");
 
@@ -60,7 +60,7 @@ public class BoardQAReplyController {
 		return entity;
 	}
 
-	@RequestMapping(value = "/qa/reply.bo/delete/{replyBoard_no}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "/qa/reply/delete/{replyBoard_no}", method=RequestMethod.DELETE)
 	public ResponseEntity<String> deleteReply(@PathVariable("replyBoard_no") int replyBoard_no) {
 		log.info("댓글 삭제 ajax DELETE 호출");
 		
@@ -78,7 +78,7 @@ public class BoardQAReplyController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/qa/reply.bo/update/{replyBoard_no}", method=RequestMethod.PUT)
+	@RequestMapping(value="/qa/reply/update/{replyBoard_no}", method=RequestMethod.PUT)
 	public ResponseEntity<String> updateReply(@PathVariable("replyBoard_no") int replyBoard_no, @RequestBody UpdateReplyQABoardDTO dto) {
 		log.info("댓글 수정 PUT 호출");
 		

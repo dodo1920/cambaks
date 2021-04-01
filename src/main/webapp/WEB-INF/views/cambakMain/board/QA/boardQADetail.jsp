@@ -71,7 +71,7 @@
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/board/qa/reply.bo/all/" + ${board.board_no}, // 서블릿 주소
+			url : "/board/qa/reply/all/" + ${board.board_no}, // 서블릿 주소
 			success : function(data) {
 				listOutput(data);
 			}, // 통신 성공시
@@ -143,7 +143,7 @@
 					type : "post",
 					dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 					contentType : "application/json",
-					url : "/board/qa/reply.bo/insert", // 서블릿 주소
+					url : "/board/qa/reply/insert", // 서블릿 주소
 					data : JSON.stringify({
 						board_no : board_no,
 						member_id : member_id,
@@ -193,7 +193,7 @@
 			type : "post",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 			contentType : "application/json",
-			url : "/board/qa/reply.bo/insert", // 서블릿 주소
+			url : "/board/qa/reply/insert", // 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
@@ -215,7 +215,7 @@
 		$.ajax({
 			type : "delete",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-			url : "/board/qa/reply.bo/delete/" + replyBoard_no, // 서블릿 주소
+			url : "/board/qa/reply/delete/" + replyBoard_no, // 서블릿 주소
 			success : function(data) {
 				replyList();
 				ajaxStatus(data);
@@ -254,7 +254,7 @@
 			type : "put",
 			dataType : "text", // 받을 데이터
 			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-			url : "/board/qa/reply.bo/update/" + replyno,// 서블릿 주소
+			url : "/board/qa/reply/update/" + replyno,// 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content
@@ -375,17 +375,17 @@
 
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id }">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/delete.bo?no=${board.board_no}'">삭제하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/delete?no=${board.board_no}'">삭제하기</button>
 						   	</c:if>
 							
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id}">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/modi.bo?no=${board.board_no}'">수정하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/modi?no=${board.board_no}&page=${param.page }'">수정하기</button>
 						   	</c:if>
 							
 							<!-- 검색하지 않았을 시 전 주소 -->
 							<c:if test="${param.searchWord == null }">
-								<a href="/board/qa/list.bo?page=${param.page}" id="listBtn">
+								<a href="/board/qa/list?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-danger">목록보기</button>
 								</a>
 							</c:if>
@@ -393,7 +393,7 @@
 														
 							<!-- 검색 했을 시 전 주소 -->
 							<c:if test="${param.searchWord != null }">
-								<a href="/board/qa/search.bo?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
+								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>
 							</c:if>
