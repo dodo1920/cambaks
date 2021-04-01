@@ -86,13 +86,27 @@
 	function listOutput(data) {
 
 		let output = "";
-		console.log(data);
+		
 		$.each(data, function(index, item) {
 			if(item.board_no != null && item.board_isDelete == "N") {
 				output += "<tr>";
 				output += "<td>" + item.board_no + "</td>";
 				output += "<td>" + item.board_category + "</td>";
-				output += "<td><a href='#' class='board-title-a'>" + item.board_title + "</a></td>";
+				
+				if(item.board_category == 'CS') {
+					output += "<td><a href='../board/cs/detail?no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				} else if(item.board_category == 'camping') {
+					output += "<td><a href='../board/campingreview/detail?no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				} else if(item.board_category == 'humor') {
+					output += "<td><a href='../cambakMain/board/humor/read?no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				} else if(item.board_category == 'qa') {
+					output += "<td><a href='../board/qa/detail.bo?no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				} else if(item.board_category == 'notice') {
+					output += "<td><a href='../board/notice/read?no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				} else if(item.board_category == 'Tip') {
+					output += "<td><a href='../board/campingTip/view.bo?id=Tip&no="+item.board_no+"' class='board-title-a'>" + item.board_title + "</a></td>";
+				}
+				
 				output += "<td>" + item.member_id + "</td>";
 				output += "<td>" + new Date(item.board_writeDate).toLocaleDateString() + "</td>";
 				output += "<td>" + new Date(item.likeBoard_date).toLocaleDateString() + "</td>";
