@@ -73,6 +73,7 @@ function selectDest(destination_no){
 			  $("#user_name").html(result.destination_nickname);
 			  $("#user_number").html(result.destination_mobile);
 			  $("#user_dest").html(result.destination_address + " " + result.destination_addressDetail);
+			  $("#destination_no").val(result.destination_no);
 		  }
 		});
 	
@@ -95,6 +96,18 @@ function showtransfer() {
 	$("#creditCard").hide();
 	$("#noAccount").hide();
 	$("#transfer").show();
+}
+
+function checkForm(){
+	
+	agreement = $("#agreement").prop("checked");
+	console.log(agreement);
+	if(agreement == false){
+		alert("겔제 동의가 필요합니다.");
+		return false;
+	}
+	
+	
 }
 //김대기 script end
 
@@ -135,7 +148,7 @@ function showtransfer() {
       <div class="container">
       
     <!-- 배송지 선택 테이블 start -->
-    <form>
+    <form action = "" method ="post" onsubmit="checkForm(); return false;">
     <div>
     <h2>배송지 정보</h2>
     <div class="tbl_wrap">
@@ -170,6 +183,7 @@ function showtransfer() {
     		</tr>
     	</tbody>
     	</table>
+    	<input type="hidden" name="destination_no" value="" id="destination_no">
     </div>
     </div>
     <!-- 배송지 선택 테이블 end -->
@@ -407,11 +421,15 @@ function showtransfer() {
     		<div>
     			<dl>
     				<dt>
-    					 <label><input type="checkbox" value="">동의</label>
+    					 <label><input type="checkbox" value="" id="agreement">동의</label>
     				</dt>
     			</dl>
     		</div>
     	</div>
+    </div>
+    <div>
+    	<button type="submit" class="btn btn-default">결제하기</button>
+    	<button class="btn btn-default">취소</button>
     </div>
     </form>
     <!-- 약관동의 테이블 end -->
