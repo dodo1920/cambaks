@@ -3,6 +3,7 @@ package com.cambak21.controller.cambakMall;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,24 +78,36 @@ public class MallController {
 	}
 	
 	@RequestMapping(value = "/destinationsList/ajax/{member_id}", method = RequestMethod.GET)
-	public ResponseEntity<DestinationVO> destinationsListAjax(@PathVariable("destination_no") int destination_no) throws Exception {
+	public ResponseEntity<List<DestinationVO>> destinationsListAjax(@PathVariable("member_id") String member_id) throws Exception {
 		
-		ResponseEntity<DestinationVO> entity = null;
+		ResponseEntity<List<DestinationVO>> entity = null;
 	
 		try {
-			entity = new ResponseEntity<DestinationVO>(service.selectDestOne(destination_no), HttpStatus.OK);
+			entity = new ResponseEntity<List<DestinationVO>>(service.destinationsListAjax(member_id), HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			entity = new ResponseEntity<DestinationVO>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<List<DestinationVO>>(HttpStatus.BAD_REQUEST);
 		}
 
 		return entity;
 		
-		
-		
 	}
 	
+	@RequestMapping(value = "/destinationsList/ajax/{member_id}/{dstno}", method = RequestMethod.POST)
+	public ResponseEntity<String> defaultModyAjax(@PathVariable("member_id") String member_id, @PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
+		
+		ResponseEntity<String> entity = null;
+		if(service.defaultModyAjax(member_id, dstno)) {
+			System.out.println("업데이트 성공");
+			entity = new ResponseEntity<String>("result", HttpStatus.OK);
+		}else {
+			entity = new ResponseEntity<String>("result", HttpStatus.BAD_REQUEST);
+		}
+	
+		return entity;
+		
+	}
 	
 	
 	

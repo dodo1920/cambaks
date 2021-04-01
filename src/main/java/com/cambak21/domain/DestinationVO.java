@@ -12,14 +12,8 @@ public class DestinationVO {
 	private String destination_toUser;
 	private String destination_mobile;
 	private int destination_zipCode;
+	private int default_address;
 	
-	
-	public String getDestination_addressDetail() {
-		return destination_addressDetail;
-	}
-	public void setDestination_addressDetail(String destination_addressDetail) {
-		this.destination_addressDetail = destination_addressDetail;
-	}
 	public int getDestination_no() {
 		return destination_no;
 	}
@@ -43,6 +37,12 @@ public class DestinationVO {
 	}
 	public void setDestination_address(String destination_address) {
 		this.destination_address = destination_address;
+	}
+	public String getDestination_addressDetail() {
+		return destination_addressDetail;
+	}
+	public void setDestination_addressDetail(String destination_addressDetail) {
+		this.destination_addressDetail = destination_addressDetail;
 	}
 	public Date getDestination_updateDate() {
 		return destination_updateDate;
@@ -68,14 +68,23 @@ public class DestinationVO {
 	public void setDestination_zipCode(int destination_zipCode) {
 		this.destination_zipCode = destination_zipCode;
 	}
+	public int getDefault_address() {
+		return default_address;
+	}
+	public void setDefault_address(int default_address) {
+		this.default_address = default_address;
+	}
 	@Override
 	public String toString() {
 		return "DestinationVO [destination_no=" + destination_no + ", member_id=" + member_id
 				+ ", destination_nickname=" + destination_nickname + ", destination_address=" + destination_address
 				+ ", destination_addressDetail=" + destination_addressDetail + ", destination_updateDate="
 				+ destination_updateDate + ", destination_toUser=" + destination_toUser + ", destination_mobile="
-				+ destination_mobile + ", destination_zipCode=" + destination_zipCode + "]";
+				+ destination_mobile + ", destination_zipCode=" + destination_zipCode + ", default_address="
+				+ default_address + "]";
 	}
+	
+	
 	
 	
 	

@@ -42,26 +42,53 @@
 		
 	});
 	
+	function defaultDestiny(dstno){
+	
+	    
+	     $.ajax({
+	         
+	            method: "post",
+	            url: "/cambakMall/destinationsList/ajax/" + member_id + "/" + dstno,
+	            dataType: "text", // 응답 받는 데이터 타입
+	            
+	            success : function(result){
+	            	
+	                alert("변경 완료.");
+	                $("#tbodyDestinyList").html();
+	                getDestinationsList();
+	            }
+	        });
+	}	
+
+	
 	
 function getDestinationsList(){
 	
 	$.getJSON("/cambakMall/destinationsList/ajax/" + member_id, function(data){
 	
 		DestinyList = "";
+		console.log
+		console.log(data);
+		$(data).each(function(index, item){
+		
+		
 	
-		if(${destinations.default_addrress == this.destination_no}){
-			DestinyList += "<tr><td><div><h4>${destinations.destination.nickname}</h4><h5>${destinations.toUser}</h5><div>CsS기본배송지</div><div></td><td>${destinations.destination_address} ${destinations.destination_addressDetail}</td><td>연락처</td><td><input type='button' onclick='deleteDestiny(" this.destination_no + ");' value='삭제'/><input type='button' onclick='modefyDestiny(" this.destination_no + ");' value='수정'/></td><td><span>선택됨</span></td></tr>"
+		if(this.default_address == this.destination_no){
+			
+			DestinyList += "<tr><td><div><h4>" + this.destination_nickname + "</h4><h5>" + this.destination_toUser + "</h5><div style='color: chocolate; border: solid 1px chocolate; margin: 5px 0px;'>기본배송지</div><div></td><td>" + this.destination_address + "<br />" + this.destination_addressDetail + "</td><td>" + this.destination_mobile + "</td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;'  onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/></td><td><span>선택됨</span></td></tr>"
 			
 		}else{
 			
-			DestinyList += "<tr><td><div><h4>${destinations.destination.nickname}</h4><h5>${destinations.toUser}</h5><div>CsS기본배송지</div><div></td><td>${destinations.destination_address} ${destinations.destination_addressDetail}</td><td>연락처</td><td><input type='button' onclick='deleteDestiny(" this.destination_no + ");' value='삭제'/><input type='button' onclick='modefyDestiny(" this.destination_no + ");' value='수정'/></td><td><input type='button' onclick='deleteDestiny(" this.destination_no + ");' value='기본배송지로 선택' /></td></tr>"
+			DestinyList += "<tr><td><div><h4>" + this.destination_nickname + "</h4><h5>" + this.destination_toUser + "</h5><div></div><div></td><td>" + this.destination_address + "<br />" + this.destination_addressDetail + "</td><td>" + this.destination_mobile + "</td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;'  onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;'  onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: chocolate; color:chocolate; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
 		}
 		
 		});
 		
-			$("#tbodyDestinyList").html (DestinyList);
+			$("#tbodyDestinyList").html(DestinyList);
 			
-		});
+			
+			});
+
 	}
 	
 	
@@ -71,10 +98,10 @@ function getDestinationsList(){
 <style>
 	
 .MyaddrList{
-
-text-align: center;
-
-
+	width: 100%;
+    height: 140px;
+    text-align: center;
+    font-size: 14px;
 }
 
 
@@ -122,7 +149,7 @@ border-bottom-style: outset;
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="" style="width:800px;">
+                    <div>
                         <table class="MyaddrList">
                             <thead>
                                 <tr>
@@ -130,82 +157,12 @@ border-bottom-style: outset;
                                     <th style="width: 40%">주소</th>
                                     <th style="width: 15%">연락처</th>
                                     <th style="width: 15%">수정 삭제</th>
-                                    <th style="width: 15%"></th>
+                                    <th style="width: 15%">기본 배송지</th>
                                 </tr>
                             </thead>
                             <tbody id="tbodyDestinyList">
-                                <tr>
-                                    <td class="">
-                                     
-                                        <div class="">
-                                            <h4>별칭1</h4>
-                                            <h5>받는 사람</h4>
-                                            <div>기본배송지 CSS</div>
-                                           
-                                        </div>
-                                    </td>
-                                    <td class="">주소</td>
-                                    <td class="">
-                                     연락처
-                                    </td>
-                                    <td class="">수정 삭제버튼 넣기</td>
-                                    <td class=""><span>기본 배송지로 선택하기</span></td>
-                              
-                                </tr>
-                                <tr>
-                                    <td class="">
-                                       
-                                         <div class="">
-                                            <h4>별칭2</h4>
-                                            <h5>받는 사람</h4>
-                                            <div>기본배송지 CSS</div>
-                                           
-                                        </div>
-                                    </td>
-                                    <td class="">주소</td>
-                                   <td class="">
-                                     연락처
-                                    </td>
-                                     <td class="">수정 삭제버튼 넣기</td>
-                                    <td class=""><span>기본 배송지로 선택하기</span></td>
-                                    
-                                </tr>
-                                <tr>
-                                    <td class="">
-                                     
-                                        <div class=>
-                                            <h4>별칭3</h4>
-                                            <h5>받는 사람</h4>
-                                            <div>기본배송지 CSS</div>
-                                           
-                                        </div>
-                                    </td>
-                                    <td class="">주소</td>
-                                    <td class="">
-                                     연락처
-                                    </td>
-                                    <td class="">수정 삭제버튼 넣기</td>
-                                    <td class=""><span>기본 배송지로 선택하기</span></td>
-                                        
-                                </tr>
-                                <tr>
-                                    <td class="">
-                                       
-                                         <div class="">
-                                            <h4>별칭4</h4>
-                                            <h5>받는 사람</h4>
-                                            <div>기본배송지 CSS</div>
-                                           
-                                        </div>
-                                    </td>
-                                    <td class="">주소</td>
-                                   <td class="">
-                                     연락처
-                                    </td>
-                                     <td class="">수정 삭제버튼 넣기</td>
-                                    <td class=""><span>기본 배송지로 선택하기</span></td>
-                                      
-                                </tr>
+                                
+                                
                             </tbody>
                         </table>
                     </div>
@@ -226,7 +183,7 @@ border-bottom-style: outset;
 
 
 <!-- Js Plugins -->
-<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+
 <script src="../../resources/mallMain/js/bootstrap.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
 <script src="../../resources/mallMain/js/jquery-ui.min.js"></script>

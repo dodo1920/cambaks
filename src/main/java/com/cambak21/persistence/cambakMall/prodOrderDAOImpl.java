@@ -1,6 +1,8 @@
 package com.cambak21.persistence.cambakMall;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -31,6 +33,9 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		
 		return ses.selectOne(namespace + ".selectDestOne", destination_no);
 	}
+
+
+	
 	
 //  	<!-- 장원영 DAO -->
   	
@@ -52,6 +57,20 @@ public class prodOrderDAOImpl implements prodOrderDAO {
   	
 //  	<!-- 박종진 DAO -->
   	
-  	
+	@Override
+	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception {
+		return ses.selectList(namespace + ".destinationsListAjax", member_id);
+	}
 //  	<!-- 이영광 DAO -->
+
+
+	@Override
+	public int defaultModyAjax(String member_id, int destination_no) throws Exception {
+		Map<String, Object> paraMap = new HashMap<String, Object>();
+		paraMap.put("member_id", member_id);
+		paraMap.put("destination_no", destination_no);
+	
+			return ses.update(namespace + ".defaultModyAjax", paraMap);
+		
+	}
 }

@@ -52,6 +52,14 @@
   	
   	<!-- 박종진 맵퍼 -->
   	
+  	<select id="destinationsListAjax" resultType="com.cambak21.domain.DestinationVO">
+  		select * from goot6.Destinations where member_id = #{member_id}
+  	</select>
+  	
+  	<update id="defaultModyAjax" >
+  		update Destinations set default_address = #{destination_no} where member_id = #{member_id}
+  	</update>
+  	
   	
   	<!-- 이영광 맵퍼 -->
   	
