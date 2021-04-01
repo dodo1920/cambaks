@@ -106,7 +106,7 @@ function showWritingList(pageNum, board_category) {
                } else if(item.board_category == "Resell"){
             	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/resell/detail?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
                } else if(item.board_category == "Tip"){
-            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingTip/view.bo?id=Tip&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
+            	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/campingTip/view?id=Tip&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
                } else if(item.board_category == "notice"){
             	   output += '<tr id=' + item.board_no + ' onclick="location.href=\'/board/notice//read?member_id=' + item.member_id + '&no=' + item.board_no  + '\'"><td>' + item.board_no + '</td><td>' + item.board_category +'</td><td class="board-title-a">' + item.board_title; + '</td>';
                } 
