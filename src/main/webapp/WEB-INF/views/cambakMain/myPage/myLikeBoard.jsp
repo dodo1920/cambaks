@@ -162,16 +162,16 @@
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a href="" class="myPostCnt">${loginMember.allCnt.boardCnt }</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a href="" class="myPostCnt">${loginMember.allCnt.replyCnt }</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a href="" class="myPostCnt">${loginMember.allCnt.likeCnt }</a>개
 							</p>
 							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">0</a>개
+								나의 문의 : <a href="" class="myPostCnt">${loginMember.allCnt.myQuestion }</a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->

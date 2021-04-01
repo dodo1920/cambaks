@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
@@ -201,7 +202,17 @@ public class MyPostController {
 	  * @throws Exception
 	  */
 	@RequestMapping("myLike")
-	public String myPageLikeBoards() throws Exception {
+	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 사이드 템플릿에서 세션값 쓸껄 map에 넣어줌
+		map.put("member_id", loginMember.getMember_id());
+		map.put("member_email", loginMember.getMember_email());
+		
+		// 각 갯수 들을 담아줌
+		map.put("allCnt", service.myPageAllCount(loginMember.getMember_id()));
+		
+		model.addAttribute("loginMember", map);
+		
 		return "cambakMain/myPage/myLikeBoard";
 	}
 
