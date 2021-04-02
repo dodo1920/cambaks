@@ -12,6 +12,7 @@ public class ReplyProdReviewVO {
 	private int replyProdReview_step;
 	private int replyProdReview_ref;
 	private String replyProdReview_isDelete;
+	private String replyProdReview_repMember_id;
 	
 	public int getReplyProdReview_no() {
 		return replyProdReview_no;
@@ -67,6 +68,12 @@ public class ReplyProdReviewVO {
 	public void setReplyProdReview_isDelete(String replyProdReview_isDelete) {
 		this.replyProdReview_isDelete = replyProdReview_isDelete;
 	}
+	public String getReplyProdReview_repMember_id() {
+		return replyProdReview_repMember_id;
+	}
+	public void setReplyProdReview_repMember_id(String replyProdReview_repMember_id) {
+		this.replyProdReview_repMember_id = replyProdReview_repMember_id;
+	}
 	
 	@Override
 	public String toString() {
@@ -74,8 +81,10 @@ public class ReplyProdReviewVO {
 				+ ", member_id=" + member_id + ", replyProdReview_content=" + replyProdReview_content
 				+ ", replyProdReview_date=" + replyProdReview_date + ", replyProdReview_refOrder="
 				+ replyProdReview_refOrder + ", replyProdReview_step=" + replyProdReview_step + ", replyProdReview_ref="
-				+ replyProdReview_ref + ", replyProdReview_isDelete=" + replyProdReview_isDelete + "]";
+				+ replyProdReview_ref + ", replyProdReview_isDelete=" + replyProdReview_isDelete
+				+ ", replyProdReview_repMember_id=" + replyProdReview_repMember_id + "]";
 	}
+	
 	
 	
 }

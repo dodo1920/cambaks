@@ -28,7 +28,7 @@ public class BoardProdReviewReply {
 		public @ResponseBody void insertProdReviewReply(@RequestBody InsertReplyProdReviewDTO dto)  throws Exception {
 			// @RequestBody ReplyVO vo : 유저가 입력한 데이터를 json으로 받아 ReplyVO vo에 저장
 			System.out.println("insertProdReviewReply... POST...");
-
+			System.out.println(dto);
 			//대댓글이 아닌 경우, ref=자기 자신의 댓글. reforder는 입력하지 않아 0으로 처리한다.
 			if(dto.getReplyProdReview_ref() == 0) {
 				//System.out.println(dto);
@@ -89,6 +89,7 @@ public class BoardProdReviewReply {
 		
 			try {
 				prodReplyList = service.getListReply(prodReview_no);
+				System.out.println(prodReplyList);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
