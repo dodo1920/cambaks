@@ -57,8 +57,7 @@
 			let formData = new FormData();
 			
 			let files = evt.originalEvent.dataTransfer.files; // 드래그 이벤트의 파일 데이터 전송 기능은 처리되도록
-			console.log(files);
-			
+			console.log(files);			
 			for(let i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
 			}
