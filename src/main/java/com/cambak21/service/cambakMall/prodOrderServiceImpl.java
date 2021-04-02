@@ -34,8 +34,6 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return dao.selectOneDest(destination_no);
 	}
 
-
-	
 	
 //		  	<!-- 장원영 DAO -->
 
@@ -81,7 +79,56 @@ public class prodOrderServiceImpl implements prodOrderService {
 		  	
 		  	
 //		  	<!-- 박종진 DAO -->
-		  	
+
+	@Override
+	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception {
+			return dao.destinationsListAjax(member_id);
+	}
+
+	@Override
+	public boolean defaultModyAjax(String member_id, int destination_no) throws Exception {
+			boolean result = false;
+			int i = 0;
+			i = dao.defaultModyAjax(member_id, destination_no);
+			if(i >= 1) {
+				result = true;
+			}
+			return result;
+	}
+
+	@Override
+	public boolean destiModyAjax(DestinationVO vo) throws Exception {
+		boolean result = false;
+		int i = 0;
+		i = dao.destiModyAjax(vo);
+		if(i >= 1) {
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public boolean insertDestiny(DestinationVO vo) throws Exception {
+		boolean result = false;
+		int i = 0;
+		i = dao.insertDestiny(vo);
+		if(i >= 1) {
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public boolean deleteDestiny(String member_id, int destination_no) throws Exception {
+		boolean result = false;
+		int i = 0;
+		i = dao.deleteDestiny(member_id, destination_no);
+		if(i >= 1) {
+			result = true;
+		}
+		return result;
+	}
+	
 		  	
 //		  	<!-- 이영광 DAO -->
 }

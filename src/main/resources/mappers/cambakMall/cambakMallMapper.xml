@@ -87,6 +87,25 @@
   	
   	<!-- 박종진 맵퍼 -->
   	
+  	<select id="destinationsListAjax" resultType="com.cambak21.domain.DestinationVO">
+  		select * from goot6.Destinations where member_id = #{member_id}
+  	</select>
+  	
+  	<update id="defaultModyAjax" >
+  		update Destinations set default_address = #{destination_no} where member_id = #{member_id}
+  	</update>
+  	
+  	<update id="destiModyAjax">
+  		update Destinations set destination_nickname = #{destination_nickname}, destination_address = #{destination_address}, destination_addressDetail = #{destination_addressDetail}, destination_updateDate = now(), destination_toUser = #{destination_toUser}, destination_mobile = #{destination_mobile} where destination_no = #{destination_no}    
+  	</update>
+  	
+  	<insert id="insertDestiny">
+  		insert into Destinations(member_id, destination_nickname, destination_address, destination_addressDetail, destination_toUser, destination_mobile) values(#{member_id}, #{destination_nickname}, #{destination_address}, #{destination_addressDetail}, #{destination_toUser}, #{destination_mobile})
+  	</insert>	
+  	
+  	<delete id="deleteDestiny">
+  		delete from Destinations where destination_no = #{destination_no}
+  	</delete>
   	
   	<!-- 이영광 맵퍼 -->
   	

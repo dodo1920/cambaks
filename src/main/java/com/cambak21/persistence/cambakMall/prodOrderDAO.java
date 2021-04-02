@@ -34,6 +34,16 @@ public interface prodOrderDAO {
 	  	
 	  	
 //	  	<!-- 박종진 DAO -->
+	  	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception;
+	  	
+	  	public int defaultModyAjax(String member_id, int destination_no) throws Exception;
+	  	
+	  	public int deleteDestiny(String member_id, int destination_no) throws Exception;
+	
+	  	public int destiModyAjax(DestinationVO vo) throws Exception;
+
+	  	public int insertDestiny(DestinationVO vo) throws Exception;
+	  	
 	  	
 	  	
 //	  	<!-- 이영광 DAO -->
