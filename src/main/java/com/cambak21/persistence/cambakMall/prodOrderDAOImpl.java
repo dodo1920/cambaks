@@ -79,4 +79,21 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	public int destiModyAjax(DestinationVO vo) throws Exception {
 			return ses.update(namespace + ".destiModyAjax", vo);
 	}
+
+
+	@Override
+	public int insertDestiny(DestinationVO vo) throws Exception {
+		return ses.insert(namespace + ".insertDestiny", vo);
+	}
+
+
+	@Override
+	public int deleteDestiny(String member_id, int destination_no) throws Exception {
+		Map<String, Object> paraMap = new HashMap<String, Object>();
+		paraMap.put("member_id", member_id);
+		paraMap.put("destination_no", destination_no);
+	
+			return ses.delete(namespace + ".deleteDestiny", paraMap);
+		
+	}
 }

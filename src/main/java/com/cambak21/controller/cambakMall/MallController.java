@@ -112,6 +112,22 @@ public class MallController {
 		
 	}
 	
+	
+	@RequestMapping(value = "/destinationsList/deleteDestiny/{member_id}/{dstno}", method = RequestMethod.GET)
+	public ResponseEntity<String> deleteDestiny(@PathVariable("member_id") String member_id, @PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
+		
+		ResponseEntity<String> entity = null;
+		if(service.deleteDestiny(member_id, dstno)) {
+			System.out.println("삭제 성공");
+			entity = new ResponseEntity<String>("result", HttpStatus.OK);
+		}else {
+			entity = new ResponseEntity<String>("result", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	
 	@RequestMapping(value = "/destinationsList/modiajax", method = RequestMethod.POST)
 	public ResponseEntity<String> destiModyAjax(@RequestBody DestinationVO vo) throws Exception {
 		
@@ -128,23 +144,22 @@ public class MallController {
 		
 	}
 	
-	
-//	@RequestMapping(value = "user/modiReply/{replyBoard_no}", method = RequestMethod.POST)
-//	public ResponseEntity<String> Replylst(@PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo) throws Exception{
-//		logger.info("종진 / 공지사항 해당 댓글 수정하기");
-//		ResponseEntity<String> entity = null;
-//		vo.setReplyBoard_no(replyBoard_no);
-//		System.out.println(replyBoard_no + "," + vo.toString());
-//		
-//		nrservice.modiReplyBoard(vo);
-//		
-//		entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-//		
-//		return entity;
-//	}
-//	
-	
-	
+	@RequestMapping(value = "/destinationsList/insertDestiny", method = RequestMethod.POST)
+	public ResponseEntity<String> insertDestiny(@RequestBody DestinationVO vo) throws Exception {
+		
+		ResponseEntity<String> entity = null;
+		System.out.println(vo.toString());
+		if(service.insertDestiny(vo)) {
+			System.out.println("배송지 추가 성공");
+			entity = new ResponseEntity<String>("result", HttpStatus.OK);
+		}else {
+			entity = new ResponseEntity<String>("result", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+
 	
 	// **************************************** 장원영 컨트롤러 **********************************************
 	

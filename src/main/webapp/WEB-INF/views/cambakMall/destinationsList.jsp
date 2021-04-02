@@ -36,14 +36,58 @@
 	let member_id = '${loginMember.member_id}';
 	
 	
-	function goModyContent(destination_no){
-		let destination_nickname = $("input[name=destination_nickname]").val();
-		let destination_toUser = $("input[name=destination_toUser]").val();
-		let destination_address = $("input[name=destination_address]").val();
-		let destination_addressDetail = $("input[name=destination_addressDetail]").val();
-		let destination_mobile = $("input[name=destination_mobile]").val();
-			
+	function goInsertDestiny(member_id){
+		
+
+		let destination_nickname = $("#nickname" + member_id).val();
+		let destination_toUser = $("#toUser" + member_id).val();
+		let destination_address = $("#address" + member_id).val();
+		let destination_addressDetail = $("#addressDetail" + member_id).val();
+		let destination_mobile = $("#mobile" + member_id).val();
+	
+		
 		$.ajax({
+			
+			method: "POST",
+			url: "/cambakMall/destinationsList/insertDestiny/",
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+			},
+			dataType: "text", // 응답 받는 데이터 타입
+			data : JSON.stringify({	// 요청하는 데이터
+			member_id : member_id,
+			destination_nickname : destination_nickname,
+			destination_address : destination_address,
+			destination_addressDetail : destination_addressDetail,
+			destination_toUser : destination_toUser,
+			destination_mobile : destination_mobile
+			}),
+			
+			success : function(result){
+				
+					alert('배송지 정보 추가 완료!');
+					getDestinationsList();
+					
+			}
+		});
+		
+			
+	}
+	
+	
+	
+	
+	function goModyContent(destination_no){
+		
+		let destination_nickname = $("#nickname" + destination_no).val();
+		let destination_toUser = $("#toUser" + destination_no).val();
+		let destination_address = $("#address" + destination_no).val();
+		let destination_addressDetail = $("#addressDetail" + destination_no).val();
+		let destination_mobile = $("#mobile" + destination_no).val();
+		
+	
+		$.ajax({
+			
 			method: "POST",
 			url: "/cambakMall/destinationsList/modiajax/",
 			headers: {	// 요청 하는 데이터의 헤더에 전송
@@ -61,11 +105,10 @@
 			}),
 			
 			success : function(result){
-				console.log(result);
-				if(result == 'Success'){
-					alert('주소 저장 완료!');
+				
+					alert('배송지 추가 완료!');
 					getDestinationsList();
-				}
+					
 			}
 		});
 	
@@ -85,7 +128,6 @@
 	
 	function defaultDestiny(dstno){
 	
-	    
 	     $.ajax({
 	         
 	            method: "post",
@@ -100,6 +142,26 @@
 	        });
 	}	
 	
+	function deleteDestiny(dstno){
+		
+	     $.ajax({
+	         
+	            method: "get",
+	            url: "/cambakMall/destinationsList/deleteDestiny/" + member_id + "/" + dstno,
+	            dataType: "text", // 응답 받는 데이터 타입
+	            
+	            success : function(result){
+	            	
+	                alert("삭제 완료.");
+	                getDestinationsList();
+	            }
+	        });
+		
+	}
+	
+	
+	
+	
 	function returnCancle(dstno){
 		$("#cancleMody" + dstno).css('display','none');
 		$("#sumbitCommit" + dstno).css('display', 'none');
@@ -109,9 +171,26 @@
 		
 	}
 	
+	// 배송지 인서트 부분 
+	function returnInsert(id){
+		
+		$("#insertDestiny" + id + " input").css('display', 'none').css('border-style','none');
 	
+	}
 	
+	function showInputDestiny(id){
+		
+		$("#insertDestiny" + id + " input").css('display', '').css('border-style','solid');
+	}
 
+	
+	
+	
+	
+	// 끝 배송지 인서트 부분 끝//
+	
+	
+	
 
 	function modefyDestiny(dstno){
 				
@@ -146,24 +225,32 @@ function getDestinationsList(){
 	$.getJSON("/cambakMall/destinationsList/ajax/" + member_id, function(data){
 	
 		DestinyList = "";
-		console.log
-		console.log(data);
+		let DestinyInsertBtn = 0;
 		$(data).each(function(index, item){
 		
 		
-	
 		if(this.default_address == this.destination_no){
 			
-			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + " readonly name='destination_nickname' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "  readonly name='destination_toUser' value='" + this.destination_toUser + "'/><div style='color: chocolate; border: solid 1px chocolate; margin: 5px 0px;'>기본배송지</div><div></td><td><input type='text' class='modiform" + this.destination_no + " name='destination_address' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + " readonly name='destination_addressDetail' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + " name='destination_mobile' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/><input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='sumbitCommit" + this.destination_no + "'  type='button' onclick='goModyContent(" + this.destination_no + ");' value='저장' />&nbsp<input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='cancleMody" + this.destination_no + "' type='submit' onclick='returnCancle(" + this.destination_no + ");' value='취소' /></td><td><span>선택됨</span></td></tr>"
+			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div style='color: chocolate; border: solid 1px chocolate; margin: 5px 0px;'>기본배송지</div><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/><input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='sumbitCommit" + this.destination_no + "'  type='button' onclick='goModyContent(" + this.destination_no + ");' value='저장' />&nbsp<input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='cancleMody" + this.destination_no + "' type='submit' onclick='returnCancle(" + this.destination_no + ");' value='취소' /></td><td><span>선택됨</span></td></tr>"
 			
 		}else{
 			
-			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + " readonly name='destination_nickname' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "  readonly name='destination_toUser' value='" + this.destination_toUser + "'/><div></td><td><input type='text' class='modiform" + this.destination_no + " name='destination_address' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + " readonly name='destination_addressDetail' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + " name='destination_mobile' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/><input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='sumbitCommit" + this.destination_no + "'  type='button' onclick='goModyContent();' value='저장' />&nbsp<input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='cancleMody" + this.destination_no + "' type='submit' onclick='returnCancle(" + this.destination_no + ");' value='취소' /></td><td><input type='button' style='border-style: double; background-color: white; border-color: chocolate; color:chocolate; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
+			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/>&nbsp<input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='modefyDestiny(" + this.destination_no + ");' value='수정'/><input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='sumbitCommit" + this.destination_no + "'  type='button' onclick='goModyContent(" + this.destination_no + ");' value='저장' />&nbsp<input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='cancleMody" + this.destination_no + "' type='submit' onclick='returnCancle(" + this.destination_no + ");' value='취소' /></td><td><input type='button' style='border-style: double; background-color: white; border-color: chocolate; color:chocolate; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
 		}
+		if(data.length < 3){
+			 DestinyInsertBtn = "<tr id='insertDestiny" + member_id + "'><td><div><input style='display:none;' type='text' placeholder='배송지 별칭' class='modiform' id='nickname" + member_id + "' value=''/><input style='display:none;' type='text' class='modiform' placeholder='받는 사람' id='toUser" + member_id + "' value=''/><div></td><td><input style='display:none' type='text' class='modiform' placeholder='배송지 도로명 주소' id='address" + member_id + "' value=''/><br /><input style='display:none' type='text' class='modiform' id='addressDetail" + member_id + "' placeholder='배송지 상세주소' value=''/></td><td><input type='text' style='display:none;' class='modiform' id='mobile" + member_id + "' placeholder='받는사람 연락처' value=''/></td><td><input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='sumbitCommit" + member_id + "'  type='button' onclick='goInsertDestiny(\"" + member_id + "\");' value='저장' />&nbsp<input style='border-style: double; background-color: white; border-color: darkgrey; display:none;' id='cancleMody" + member_id + "' type='button' onclick='returnInsert(\"" + member_id + "\");' value='취소' /></td><td>추가&nbsp<img src='../resources/cambak21/images/plus.png' style='width:25px; height:25px;cursor:pointer;' onclick='showInputDestiny(\"" + member_id + "\");' /></td></tr>"
+		}	
+		
+		
+		
 		
 		});
-		
+			
 			$("#tbodyDestinyList").html(DestinyList);
+			if(DestinyInsertBtn != 0){
+				$("#tbodyDestinyList").append(DestinyInsertBtn);	
+			}			
+			
 			
 			
 			});

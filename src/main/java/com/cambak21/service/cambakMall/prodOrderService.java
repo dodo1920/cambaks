@@ -35,7 +35,11 @@ public interface prodOrderService {
   	
   	public boolean defaultModyAjax(String member_id, int dstno) throws Exception;
 
+  	public boolean deleteDestiny(String member_id, int dstno) throws Exception;
+
   	public boolean destiModyAjax(DestinationVO vo) throws Exception;
+
+  	public boolean insertDestiny(DestinationVO vo) throws Exception;
   	
 //  	<!-- 이영광 DAO -->
 }
