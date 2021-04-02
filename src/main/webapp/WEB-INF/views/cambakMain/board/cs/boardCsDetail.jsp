@@ -77,6 +77,9 @@
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
 			url : "/board/cs/reply/all/" + ${board.board_no}, // 서블릿 주소
 			success : function(data) {
+				// 댓글 갯수 ajax로 가져오기
+				$(".replyCnt").text(data.replyCnt);
+				
 				listOutput(data);
 			}, // 통신 성공시
 			error : function(data) {
@@ -90,9 +93,6 @@
 	function listOutput(data) {
 		let output = "";
 		let step = 20;
-		
-		// 댓글 갯수 ajax로 가져오기
-		$(".replyCnt").text(data.replyCnt);
 		
 		$.each(data.replyList, function(index, item) {
 			// step
