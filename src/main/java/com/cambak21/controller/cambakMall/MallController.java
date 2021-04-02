@@ -20,7 +20,7 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.prodOrderService;
 
 @Controller
-@RequestMapping(value = "/cambakMall/*")
+@RequestMapping(value = "/mall/*")
 public class MallController {
 	@Inject
 	private prodOrderService service;
@@ -30,8 +30,8 @@ public class MallController {
 	
 	// **************************************** 김대기 컨트롤러 ********************************************** 
 	@RequestMapping(value = "/prodOrder", method = RequestMethod.GET)
-	public void order() throws Exception {
-		
+	public String order() throws Exception {
+		return "cambakMall/prodOrder";
 	}
 	
 	@RequestMapping(value = "/prodOrder/{member_id}", method= RequestMethod.GET)

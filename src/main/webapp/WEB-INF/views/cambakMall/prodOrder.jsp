@@ -45,7 +45,7 @@ function destList(){
 	let member = "${loginMember.member_id}"
 	console.log(member);
 	let output ="";
-	$.getJSON("/cambakMall/prodOrder/" + member, function(data) {
+	$.getJSON("/mall/prodOrder/" + member, function(data) {
 		console.log(data);
 		 $(data).each(function(index, item){
 			output += "<div>" + this.destination_nickname + "</div>"
@@ -62,7 +62,7 @@ function destList(){
 function selectDest(destination_no){
 	$.ajax({
 		  method: "GET",
-		  url: "/cambakMall/prodOrder/select/" + destination_no ,
+		  url: "/mall/prodOrder/select/" + destination_no ,
 		  headers : { // 요청하는 데이터의 헤더에 전송
 			  "Content-Type" : "application/json",
 			  "X-HTTP-Method-Override" : "GET"
@@ -81,21 +81,33 @@ function selectDest(destination_no){
 
 function shownoAccount() {
 	$("#creditCard").hide();
+	$("#creditCardBank").attr('disabled', 'true');
+	$("#creditCardInstallments").attr('disabled', 'true');
 	$("#transfer").hide();
+	$("#transferBank").attr('disabled', 'true');
 	$("#noAccount").show();
+	$("#noAccountBank").removeAttr('disabled'); 
 	
 }
 
 function showcreditCard(){
 	$("#noAccount").hide();
+	$("#noAccountBank").attr('disabled', 'true');
 	$("#transfer").hide();
+	$("#transferBank").attr('disabled', 'true');
 	$("#creditCard").show();
+	$("#creditCardBank").removeAttr('disabled'); 
+	$("#creditCardInstallments").removeAttr('disabled'); 
 }
 
 function showtransfer() {
 	$("#creditCard").hide();
+	$("#creditCardBank").attr('disabled', 'true');
+	$("#creditCardInstallments").attr('disabled', 'true');
 	$("#noAccount").hide();
+	$("#noAccountBank").attr('disabled', 'true');
 	$("#transfer").show();
+	$("#transferBank").removeAttr('disabled'); 
 }
 
 function checkForm(){
@@ -336,7 +348,7 @@ function checkForm(){
 										<li>
 										<div>
 											<label>입금은행</label>
-												<select>
+												<select id="noAccountBank">
 													<option>국민은행</option>
 													<option>신한은행</option>
 													<option>하나은행</option>
@@ -359,7 +371,7 @@ function checkForm(){
 										<li>
 										<div>
 											<label>카드 선택</label>
-												<select>
+												<select id="creditCardBank">
 													<option>국민카드</option>
 													<option>신한카드</option>
 													<option>하나카드</option>
@@ -372,7 +384,7 @@ function checkForm(){
 										<li>
 											<div>
 												<span>할부기한</span>
-												<select>
+												<select id="creditCardInstallments">
 													<option>일시불</option>
 													<option>3개월</option>
 													<option>6개월</option>
@@ -390,7 +402,7 @@ function checkForm(){
 										<li>
 										<div>
 											<label>입금은행</label>
-												<select>
+												<select id="transferBank">
 													<option>국민은행</option>
 													<option>신한은행</option>
 													<option>하나은행</option>
