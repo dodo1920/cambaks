@@ -42,9 +42,10 @@ public class BoardProdReview {
    
 	   // ajax이용 get방식 리스트 출력
 	   @RequestMapping(value = "/prodReviews/{product_id}", method=RequestMethod.GET)
-	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("product_id") int product_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page) {
+	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("product_id") int product_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("orderList") String orderList) {
 	      System.out.println(product_id);
 	      System.out.println(page);
+	      System.out.println(orderList.toString());
 	      logger.info("/prodReviews의 ajax-GET방식 호출");
 	      Map<String, Object> result = new HashMap<String, Object>();
 	      
@@ -57,7 +58,7 @@ public class BoardProdReview {
 	      //System.out.println("pp" + pp);
 	      
 	      try {
-	         prodList = service.listProdBoardCriteria(cri, product_id);
+	         prodList = service.listProdBoardCriteria(cri, product_id, orderList);
 	         pp.setTotalCount(service.getTotalBoardCnt(product_id));
 	         result.put("prodList", prodList);
 	         result.put("pagingParam", pp);

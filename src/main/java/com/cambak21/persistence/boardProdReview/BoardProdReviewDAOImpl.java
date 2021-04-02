@@ -37,12 +37,19 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 	
 	@Override
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception {
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id, String orderList) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("pageStart", cri.getPageStart());
 		params.put("perPageNum", cri.getPerPageNum());
 		params.put("product_id", product_id);
-		return ses.selectList(namespace + ".listProdBoardCriteria", params);
+		System.out.println(orderList);
+		if(orderList.equals("latest")) {
+			return ses.selectList(namespace + ".listProdBoardCriteria", params);
+		} else if(orderList.equals("grades")) {
+			return ses.selectList(namespace + ".listProdBoardCriteriaByGrades", params);
+		} else {
+			return ses.selectList(namespace + ".listProdBoardCriteriaByLikes", params);
+		}
 	}
 
 	

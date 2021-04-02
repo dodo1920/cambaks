@@ -14,7 +14,7 @@ public interface ProdReviewService {
 		public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 		
 		// 페이징
-		public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception;
+		public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id, String orderList) throws Exception;
 		
 		public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 
