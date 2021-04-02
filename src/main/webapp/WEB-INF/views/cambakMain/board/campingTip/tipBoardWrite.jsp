@@ -43,20 +43,22 @@
 		$('#summernote').summernote({
 			height : 400
 		});
-		checkTitle(); // 제목을 작성했는지와 길이 확인
-		onKeyboardTitle();
+		checkTitle(); // submit 버튼을 누를 시 제목을 작성했는지와 길이 확인
+		onKeyboardTitle(); // 제목을 작성하는 도중 제목의 길이를 확인하여 90byte를 넘을 시 제한
 
 		
    });
    
    function onKeyboardTitle() {
 	   
-		$("#board_title").on("keydown", function() {
-			let title = getTitleByte($("#board_title").val());
-			console.log(title);
-			   if (title > 60) {
-				   let tempTitle = $("#board_title").val();
-				   alert("제목을 60byte(한글 20자) 이내로 입력하세요.");
+		$("#board_title").on("keyup", function() {
+			let titleNum = getTitleByte($("#board_title").val());
+			console.log(titleNum);
+			   if (titleNum > 89) {
+				   let title = $("#board_title").val();
+				   console.log(title.substr(0, title.length));
+				   $("#board_title").val(title.substr(0, title.length -1));
+				   alert("제목을 90byte(한글 30자) 이내로 입력하세요.");
 			   }
 		});
 
@@ -69,8 +71,8 @@
 		   if (title <= 0) {
 			   alert("제목은 필수로 입렵바랍니다.");
 			   return false;
-		   } else if (title > 60) {
-			   alert("제목을 60byte(한글 20자) 이내로 입력하세요.");
+		   } else if (title > 89) {
+			   alert("제목을 90byte(한글 30자) 이내로 입력하세요.");
 			   console.log(title);
 			   return false;
 		   }

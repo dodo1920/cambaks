@@ -40,19 +40,18 @@
 	let param;
 	
    $(document).ready(function() {
-      
-	   console.log($(".viewTitleName").text().length);
-	   
-	   
+	  
+	  titleSizeChange(); // 게시글 제목의 글자 수가 90자가 넘는 경우 글자 크기 줄이기
 	  noBoardPage(); // 없는 게시글 로딩 시 다시 돌려보내기
       let boardUri = searchUriAddress(); // 사이드바에 해당 게시판 색상 지정해주기
       asideBarDraw(boardUri); // 사이드바에 해당 게시판 색상 지정해주기
       readReply(); // 댓글 로딩
       writeBoardInfo(); // 글 등록 완료 후 성공 여부 알려주기
-      modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
       totalReplyCount(); // 게시글 댓글 총 개수 가져오기
       readLikeInfo(); // 게시글 로딩 시 추천 여부 가져오기
       replyFocus(); // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
+      modifyBoardInfo(); // 글 수정 후 돌아왔을 때 수정 성공 여부 알려주기
+      onKeyboardReply();
       
 	  // 비회원이 댓글 textarea창에 마우스 왼쪽 클릭 시 로그인 이동 안내
 	  $("#writeReplyContent").bind("mousedown", function(event) {
@@ -68,6 +67,32 @@
 		   });
       
    });
+   
+   
+   function onKeyboardReply() {
+	   
+		$("#writeReplyContent").on("keyup", function() {
+			let replyNum = $("#writeReplyContent").val();
+			
+			if (replyNum.length == 0) {
+				$(".replyContentMax").css("display", "none");
+			} else {
+				$(".replyContentMax").css("display", "inline-block");
+				$("#replyContentSize").text(replyNum.length);
+			}
+			
+			if (replyNum.length > 199) {
+				alert("댓글은 200자 이내로 입력하세요.");
+			}
+		});
+   }
+   
+   // 게시글 제목의 글자 수가 90자가 넘는 경우 글자 크기 줄이기
+   function titleSizeChange() {
+	   if ($(".viewTitleName").text().length >= 60) {
+	    	  $(".viewTitleName").css("font-size", "16px");
+	      }
+   }
    
    // 캠핑팁 리스트 페이지에서 댓글 개수 클릭 시 댓글 부분으로 화면 이동하면서 로딩
    function replyFocus() {
@@ -974,6 +999,11 @@
 	left: 5px;
 }
 
+.replyContentMax {
+	font-size: 13px;
+	display: none;
+}
+
 </style>
 
 </head>
@@ -1128,6 +1158,7 @@
 							</c:otherwise>
 						</c:choose>
 						<div class="replyWriteBtnSite">
+							<span class="replyContentMax" id="replyContentSize"></span><span class="replyContentMax"> / 200</span>
 							<button type="button" class="btn btn-default" style="float: right;" onclick="writeReply();">댓글작성</button>
 						</div>
 					</div>

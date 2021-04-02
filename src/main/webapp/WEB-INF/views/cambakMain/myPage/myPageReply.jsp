@@ -111,7 +111,7 @@ function getTotalCount() {
 			
 		}
 		
-		});
+	});
 	
 }
 
@@ -250,7 +250,9 @@ function getDateParam(millisecond) {
 
 .topCategoryBar {
 	background-color: lightgrey;
-    border-radius: 50%;
+    border-radius: 0%;
+    text-decoration: underline;
+    text-underline-position: under;
 }
 
 .contentSize {
