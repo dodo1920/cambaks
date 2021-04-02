@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.domain.DestinationVO;
-import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.prodOrderService;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping(value = "/cambakMall/*")
@@ -83,6 +86,47 @@ public class MallController {
 	// **************************************** 백승권 컨트롤러 ********************************************** 
 	
 	// **************************************** 김태훈 컨트롤러 ********************************************** 
-
+	@RequestMapping(value = "/list",method = RequestMethod.GET)
+	public String BoardResellList(PagingCriteria cri,Model model) throws Exception {
+		System.out.println("boardResellList 테스트");
+		cri.setPage(1);
+		model.addAttribute("board",service.prodBoardReadAll(cri));
+		PagingParam pp = new PagingParam();
+		pp.setDisplayPageNum(9);
+		pp.setCri(cri);
+		
+		pp.setTotalCount(service.prodBoardReadAllCnt()); // 게시물 갯수
+		System.out.println(pp.toString());
+		model.addAttribute("pagingParam", pp);
+		
+		return "cambakMall/prodList";
+	}
+	@RequestMapping(value = "/list/{page}",method = RequestMethod.POST)
+	public ResponseEntity<List<ProductsVO>> BoardResellListPOST(@PathVariable("page")  int page,PagingCriteria cri,Model model) throws Exception {
+		System.out.println("boardResellList 테스트");
+		System.out.println("page : "+page);
+		ResponseEntity<List<ProductsVO>> entity = null;
+		List<ProductsVO> listResell = service.prodBoardReadAll(cri);
+		if(listResell != null) {
+			entity = new ResponseEntity<List<ProductsVO>>(listResell,HttpStatus.OK);
+		}
+		
+		return entity;
+	}
 	
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String seach(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
+		System.out.println("검색을 시작합니다....");
+		System.out.println(scri.toString());
+		model.addAttribute("board", service.prodBoardRead(cri,scri));
+		System.out.println(cri.toString());
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.prodBoardReadCnt(scri));
+		System.out.println(pp.toString());
+		model.addAttribute("pagingParam", pp);  // 페이징 처리를 위한 파라메터 객체
+		
+		return "cambakMall/prodList";
+		}
 }

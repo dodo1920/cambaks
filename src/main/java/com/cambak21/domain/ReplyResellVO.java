@@ -3,7 +3,7 @@ package com.cambak21.domain;
 import java.util.Date;
 
 public class ReplyResellVO {
-	private int replyResell_no;
+	private int resellReplyBoard_no;
 	private int resellBoard_no;
 	private String member_id;
 	private String resellReplyBoard_content;
@@ -14,10 +14,10 @@ public class ReplyResellVO {
 	private int resellReplyBoard_refOrder;
 	
 	public int getReplyResell_no() {
-		return replyResell_no;
+		return resellReplyBoard_no;
 	}
 	public void setReplyResell_no(int replyResell_no) {
-		this.replyResell_no = replyResell_no;
+		this.resellReplyBoard_no = replyResell_no;
 	}
 	public int getResellBoard_no() {
 		return resellBoard_no;
@@ -69,7 +69,7 @@ public class ReplyResellVO {
 	}
 	@Override
 	public String toString() {
-		return "ReplyResellVO [replyResell_no=" + replyResell_no + ", resellBoard_no=" + resellBoard_no + ", member_id="
+		return "ReplyResellVO [resellReplyBoard_no=" + resellReplyBoard_no + ", resellBoard_no=" + resellBoard_no + ", member_id="
 				+ member_id + ", resellReplyBoard_content=" + resellReplyBoard_content + ", resellReplyBoard_writeDate="
 				+ resellReplyBoard_writeDate + ", resellReplyBoard_updateDate=" + resellReplyBoard_updateDate
 				+ ", resellReplyBoard_ref=" + resellReplyBoard_ref + ", resellReplyBoard_step=" + resellReplyBoard_step

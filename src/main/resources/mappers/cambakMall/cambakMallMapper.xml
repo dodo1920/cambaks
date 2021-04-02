@@ -42,8 +42,43 @@
   	
   	
   	<!-- 김태훈 맵퍼 -->
+	  	<select id="prodBoardReadAll" resultType="com.cambak21.domain.ProductsVO">
+	  	select * from Products where product_show="Y" order by product_id desc limit #{pageStart}, #{perPageNum};
+	  </select>
+	  
+	  
+	  <select id="prodBoardReadAllCnt" resultType="int">
+	  	select count(*) from Products where product_show="Y"
+	  </select>
+	  
+	  <select id="prodBoardRead" resultType="com.cambak21.domain.ProductsVO">
+  	select * from Products where
+  	<if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y" order by product_id desc limit #{pageStert} ,#{pageNum}
+  </select>
   	
   	
+  	<select id="prodBoardReadCnt" resultType="int">
+  	select count(*)  from Products where
+  <if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y"
+  </select>
   	<!-- 백승권 맵퍼 -->
   	
   	

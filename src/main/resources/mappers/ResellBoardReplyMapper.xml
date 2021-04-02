@@ -8,8 +8,7 @@
 	values(#{resellBoard_no},#{member_id},#{resellReplyBoard_content})
   </insert>
   <select id="ResellBoardReplyRead" resultType="com.cambak21.domain.ReplyResellVO">
-  select member_id,resellReplyBoard_content,resellReplyBoard_updateDate
-   from ResellReplyBoards where resellBoard_no = #{bno} order by  resellReplyBoard_ref , resellReplyBoard_refOrder
+  select * from ResellReplyBoards where resellBoard_no = #{bno} order by  resellReplyBoard_ref , resellReplyBoard_refOrder
   </select>
   <update id="ResellBoardUpadte">
   update ResellReplyBoards set resellReplyBoard_content = #{resellReplyBoard_content}, resellReplyBoard_updateDate = now()
