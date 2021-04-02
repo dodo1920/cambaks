@@ -66,9 +66,17 @@
 		.reReply{
 		    border: none;
 		}
+		
+		.orderList{
+			float: left;
+			list-style-type: none;
+			margin-left: 10px;
+		}
 	</style>
 	
     <script type="text/javascript">
+    var product_id = 4;
+    
 	// ajax페이지 고침을 위한 전역변수
     let currentPage;
 	let prodReviewNo;
@@ -106,15 +114,30 @@
 
 
     // 상품평 배너 클릭시 ajax로 기본 게시글 호출
-    function showProdList(product_id, pageNum, checkPoint) {
+    function showProdList(product_id, pageNum, checkPoint, orderList) {
     	product_id = 4;
     	member_id = "${loginMember.member_id}";
+    	// 유저의 등급
     	let grade_name = "${loginMember.grade_name}";
+    	// 넘겨준 페이지 번호가 없을 때,
     	if(pageNum == null){
     		pageNum =1;
     	}
+    	if(checkPoint == null){
+    		checkPoint = 0;
+    	}
+    	console.log(checkPoint);
+    	// 정렬 순서 선택을 나타내는 부분
+    	if(orderList == null){
+    		// 기본 설정은 최신순 정렬
+    		orderList = "latest";
+    	} else{ // 선택한 카테고리가 있을 때,
+    		orderList = orderList;
+    	}
+    	console.log(orderList);
+    	
     	console.log(pageNum);
-    	// 게시판 리스트 출력
+    	// ------------------게시판 리스트 출력-------------------------------
     	let output = '<div class="container">';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
         
@@ -122,7 +145,8 @@
 	        type		: "get",
 	        url 		: "/cambakMall/prodReviews/" + product_id,
 	        data		:  {
-	        		'page' : pageNum
+	        		'page' : pageNum,
+	        		'orderList' : orderList
 	        }, 
 	        contentType : "application/json",
 	        success 	: function(data) {
@@ -184,8 +208,8 @@
 	              let totalCount;
 	              let prev;
 	              let next;
-	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';	
-            	  pageOutput += '<a class="page-link" onclick="showProdList();">처음페이지로</a></li>';
+	              let pageOutput = '<div class="text-center"><ul class="pagination"><li class="page-item">';
+            	  pageOutput += '<a class="page-link" onclick="showProdList(' + product_id + ',' + 1 + ',' + 0 + ',\'' + orderList +'\');">처음페이지로</a></li>';
             	  
 	              $(pagingParam).each(function(index, item) {
 	            	  startPage = item.startPage;
@@ -205,18 +229,18 @@
 	            		  next = tempEndPage;
 	            	  }
 
-	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + prev + '); return false;">prev</a></li>';
+	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + prev + ',' + 0 + ',\'' + orderList + '\'); return false;">prev</a></li>';
 	            	  
 	              });
 	              //console.log(startPage);
 	              //console.log(endPage);
 
 	              for(var num = startPage; num <=endPage; num++){
-	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + '); return false;">' + num + '</a></li>';
+	            	  pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + num + ',' + 0 + ',\'' + orderList + '\'); return false;">' + num + '</a></li>';
             	  }
 	              
-	              pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + next + '); return false;">next</a></li>';
-	              pageOutput += '<li class="page-item"><a class="page-link" onclick="showProdList(' + product_id + ',' + tempEndPage +');">마지막페이지로</a></li>';
+	              pageOutput += '<li class="page-item"><a class="page-link" href="#" onclick="showProdList(' + product_id + ',' + next + ',' + 0 + ',\'' + orderList + '\'); return false;">next</a></li>';
+	              pageOutput += '<li class="page-item"><a class="page-link" onclick="showProdList(' + product_id + ',' + tempEndPage + ',' + 0 + ',\'' + orderList + '\');">마지막페이지로</a></li>';
 	            	  
 	              
 	              pageOutput += '</ul></div></div>';
@@ -692,7 +716,12 @@
                                 quis, sem.</p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
-                                <span>상품평순</span><span>최신순</span>
+                           		<!-- *********아래부터 상품평 정렬순서 넣는 곳 *************************************************************-->	
+                            	<ul>
+                            	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'latest'); return false;" >최신순</a></li>
+                            	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'grades'); return false;">별점순</a></li>
+                            	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'replies'); return false;">좋아요순</a></li>
+                            	</ul>
                                 <!-- *********아래부터 상품평 내용 넣는 곳 *************************************************************-->
                                 <div>
                                 
