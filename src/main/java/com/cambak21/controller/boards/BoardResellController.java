@@ -164,7 +164,7 @@ public class BoardResellController {
 				
 				String returnFile;
 					
-					returnFile = FileUploadProdcess.uploadFile(path, file.getOriginalFilename(), file.getBytes());
+					returnFile = FileUploadProdcess.ReselluploadFile(path, file.getOriginalFilename(), file.getBytes());
 					returnList.add("/resources/uploads/Resell"+returnFile);
 					entity = new ResponseEntity<ArrayList>(returnList,HttpStatus.OK);
 				} catch (IOException e) {

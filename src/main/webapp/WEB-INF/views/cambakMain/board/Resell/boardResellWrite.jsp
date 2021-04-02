@@ -82,13 +82,14 @@
 			font-size: 24px;
 		}
 		.imges{
-			height: 430px;
+			width: 100%;
+    		height: 100%;
 			
 		}
 		#modifyBox {
 		width: 750px;
 		height: 500px;
-		background-color: #EEE;
+		background-color: #EEE;	
 		position: fixed;
 		top: 35%;
 		left: 50%;
@@ -134,7 +135,7 @@
 			$("#modal-backdrop").hide();
 		}
 		$(function(){
-
+			  	
 			$(".fDrop").on("dragenter dragover", function(evt){
 				evt.preventDefault();
 			});
@@ -157,20 +158,16 @@
 					success : function(result) {
 						for (i =0; i <result.length;i++){
 							console.log(i)
-							$("#imgBoard").append("<img src='"+result[i]+"'classc='imges'/>")
+							$("#imgBoard").append("<img src='"+result[i]+"' class='imges'/>")
 							$("#imgArray").append('<input type="text" style="display: none;" value="'+result[i]+' "  name="resellBoard_img'+(i+1)+'"/>')
 						}
-			            $('.single-item').slick({
-//			              autoplay : true,
-			              autoplaySpeed : 500,    
-			              dots:true,
-			              arrows : true
-			          });
+	
 					}, 
 					fail : function(result) {
 						alert(result);
 					}
 				});
+				
 			})
 			$("#imgBoard").dblclick(function () {
 				$("#modifyBox").show();
@@ -180,7 +177,8 @@
 			$("#modal-backdrop").click(function() {
 				$("#modifyBox").hide();
 				$("#modal-backdrop").hide();
-			})
+			});
+         
 		})
 		
 	</script>
@@ -216,9 +214,7 @@
 							<div id="totallArray">
 								<!-- 이미지div -->
 								<div id="imgArray">
-									<div id="imgBoard" class="fDrop single-item" >
-									
-									</div>
+									<div id="imgBoard" class="fDrop" ></div>
 								</div>
 								<!-- 텍스트div -->
 								<div id="textArray">
