@@ -38,8 +38,6 @@ import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
-@Controller
-@RequestMapping("/mall/prodDetail/*")
 public class ProdDetail {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProdDetail2.class);
