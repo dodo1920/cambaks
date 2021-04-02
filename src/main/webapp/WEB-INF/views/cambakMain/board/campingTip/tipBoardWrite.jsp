@@ -43,21 +43,51 @@
 		$('#summernote').summernote({
 			height : 400
 		});
-		checkTitle(); // 제목을 작성했는지 확인
+		checkTitle(); // submit 버튼을 누를 시 제목을 작성했는지와 길이 확인
+		onKeyboardTitle(); // 제목을 작성하는 도중 제목의 길이를 확인하여 90byte를 넘을 시 제한
+
+		
    });
+   
+   function onKeyboardTitle() {
+	   
+		$("#board_title").on("keyup", function() {
+			let titleNum = getTitleByte($("#board_title").val());
+			console.log(titleNum);
+			   if (titleNum > 89) {
+				   let title = $("#board_title").val();
+				   console.log(title.substr(0, title.length));
+				   $("#board_title").val(title.substr(0, title.length -1));
+				   alert("제목을 90byte(한글 30자) 이내로 입력하세요.");
+			   }
+		});
+
+   }
    
    function checkTitle() {
 	   
 	   $("#submitBtn").on("click", function() {
-		   let title = $("#board_title").val();
-		   if (title.length <= 0) {
+		   let title = getTitleByte($("#board_title").val());
+		   if (title <= 0) {
 			   alert("제목은 필수로 입렵바랍니다.");
 			   return false;
+		   } else if (title > 89) {
+			   alert("제목을 90byte(한글 30자) 이내로 입력하세요.");
+			   console.log(title);
+			   return false;
 		   }
-	   })
-
+	   });
    }
 
+   function getTitleByte(content) {
+	   let strByteLength = function(s,b,i,c){
+		   for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+		   return b
+		 }
+	   return strByteLength(content);
+   }
+   	   
+   
 </script>
 
 <style type="text/css">
@@ -128,13 +158,13 @@
 					</div>
 					
 					<div>
-						<form action="/board/campingTip/write.bo" method="post">
+						<form action="/board/campingTip/write" method="post">
 
 							<input type="hidden" name="member_id" value="${loginMember.member_id }">
 							<input type="hidden" name="board_category" value="Tip">
 							<input type="text" class="form-control" name="board_title" id="board_title" placeholder="제목을 입력해주세요.">
 							<textarea id="summernote" name="board_content"></textarea>
-							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list.bo?page=1'">취소</button>
+							<button type="button" class="btn btn-default"style="float:right;" onclick="location.href='/board/campingTip/list?page=1'">취소</button>
 							<button type="submit" class="btn btn-success" id="submitBtn" style="margin: 0 10px 0 0;float:right;">글등록</button>
 						</form>
 					</div>
