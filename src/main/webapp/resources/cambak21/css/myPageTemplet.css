@@ -59,10 +59,6 @@ ul.nav.navbar-nav {
 	justify-content: center;
 }
 
-nav li:not(:last-child) {
-	border-right: 1px solid lightgray;
-}
-
 li.bsk-focus {
 	font-weight: 900;
 }

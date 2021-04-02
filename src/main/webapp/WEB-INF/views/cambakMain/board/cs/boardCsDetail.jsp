@@ -91,7 +91,10 @@
 		let output = "";
 		let step = 20;
 		
-		$.each(data, function(index, item) {
+		// 댓글 갯수 ajax로 가져오기
+		$(".replyCnt").text(data.replyCnt);
+		
+		$.each(data.replyList, function(index, item) {
 			// step
 			// 홀수 짝수 지그재그 출력을 위한...
 			let fristStep = item.replyBoard_step.toString().substr(0, 1);
@@ -370,12 +373,12 @@
 				}),
 				success : function(data) {
 					if(data.status == "on") {
-						$(".recom-wrap").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
+						$(".recom-wrap").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천 취소</button>');
 						$(".likeCnt").text(data.cnt);
 						$("#modalText").text("추천이 완료 되었습니다");
 						$("#myModal").modal();
 					} else if (data.status == "off") {
-						$(".recom-wrap").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천</button>');
+						$(".recom-wrap").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 하기</button>');
 						$(".likeCnt").text(data.cnt);
 						$("#modalText").text("추천이 취소 되었습니다");
 						$("#myModal").modal();
@@ -481,7 +484,7 @@
 									추천수 <span class="likeCnt">${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
-									댓글 <span>${board.replyCnt }</span>
+									댓글 <span class="replyCnt">${board.replyCnt }</span>
 								</p>
 							</div>
 						</div>
@@ -524,9 +527,18 @@
 								<!-- if문 로그인한 회원과 작성자와 비교 -->
 								<button type="button" class="btn btn-danger"
 									onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
-								<!-- if문 로그인한 회원과 작성자와 비교 -->
-								<button type="button" class="btn btn-danger"
-									onclick="location.href='/board/cs/modi?no=${board.board_no}'">수정하기</button>
+								
+								<c:if test="${param.searchType == null}">
+									<!-- if문 로그인한 회원과 작성자와 비교 -->
+									<button type="button" class="btn btn-danger"
+										onclick="location.href='/board/cs/modi?no=${board.board_no}&page=${param.page }'">수정하기</button>
+								</c:if>
+								<c:if test="${param.searchType != null}">
+									<!-- if문 로그인한 회원과 작성자와 비교 -->
+									<button type="button" class="btn btn-danger"
+										onclick="location.href='/board/cs/modi?no=${board.board_no}&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }'">수정하기</button>
+								</c:if>
+								
 							</c:if>
 						</div>
 

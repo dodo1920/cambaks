@@ -124,4 +124,9 @@ public class ReplyBoardCsDAOImpl implements ReplyBoardCsDAO {
 		return ses.selectOne(ns + ".getParentReply", replyBoard_no);
 	}
 
+	@Override
+	public int getReplyCnt(int board_no) throws Exception {
+		return ses.selectOne(ns + ".getReplyCnt", board_no);
+	}
+
 }

@@ -21,7 +21,7 @@ public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
 	}
 
 	@Override
-	public List<ResellBoardVO> ResellBoardReplyRead(int bno) throws Exception {
+	public List<ReplyResellVO> ResellBoardReplyRead(int bno) throws Exception {
 		// TODO Auto-generated method stub
 		return ses.selectList(namespace+".ResellBoardReplyRead",bno);
 	}

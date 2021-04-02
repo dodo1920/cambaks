@@ -172,7 +172,7 @@ ol {
 	font-size: 14px;
 	color: #ffffff;
 	background: #ca1515;
-	font-weight: 600;
+	font-weight: bold;
 	border: none;
 	text-transform: uppercase;
 	display: inline-block;
@@ -400,7 +400,7 @@ ol {
 	font-size: 15px;
 	text-transform: uppercase;
 	color: #111111;
-	font-weight: 500;
+	font-weight: bold;
 	display: block;
 	padding: 2px 0;
 	position: relative;
@@ -464,7 +464,6 @@ ol {
 	display: inline-block;
 	font-size: 18px;
 	color: #111111;
-	margin-right: 20px;
 	cursor: pointer;
 }
 

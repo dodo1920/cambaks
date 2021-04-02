@@ -28,7 +28,7 @@ public interface ResellBoardReplyDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ResellBoardVO> ResellBoardReplyRead(int bno) throws Exception;
+	public List<ReplyResellVO> ResellBoardReplyRead(int bno) throws Exception;
 	
 	/**
 	 * @Method Name : ResellBoardUpadte

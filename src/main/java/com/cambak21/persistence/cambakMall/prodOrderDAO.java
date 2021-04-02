@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface prodOrderDAO {
 	// 김대기 DAO -->
@@ -20,8 +23,10 @@ public interface prodOrderDAO {
 	  	
 	  	
 //	  	<!-- 김태훈 DAO -->
-	  	
-	  	
+	  	public List<ProductsVO> prodBoardReadAll(PagingCriteria cri) throws Exception;
+	  	public int prodBoardReadAllCnt()throws Exception;
+	  	public List<ProductsVO> prodBoardRead(PagingCriteria cri,SearchCriteria scri) throws Exception;
+	  	public int prodBoardReadCnt(SearchCriteria scri)throws Exception;
 //	  	<!-- 백승권 DAO -->
 	  	
 	  	
@@ -29,6 +34,16 @@ public interface prodOrderDAO {
 	  	
 	  	
 //	  	<!-- 박종진 DAO -->
+	  	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception;
+	  	
+	  	public int defaultModyAjax(String member_id, int destination_no) throws Exception;
+	  	
+	  	public int deleteDestiny(String member_id, int destination_no) throws Exception;
+	
+	  	public int destiModyAjax(DestinationVO vo) throws Exception;
+
+	  	public int insertDestiny(DestinationVO vo) throws Exception;
+	  	
 	  	
 	  	
 //	  	<!-- 이영광 DAO -->

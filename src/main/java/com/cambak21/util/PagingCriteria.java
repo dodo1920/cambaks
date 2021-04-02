@@ -30,6 +30,10 @@ public class PagingCriteria {
 		return (this.page -1) * 10;
 	}
 	
+	public int getListCount(int count) {
+		return (this.page - 1) * count;
+	}
+	
 	public int getPerPageNum() {
 		return this.perPageNum;
 	}

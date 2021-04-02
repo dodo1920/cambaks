@@ -1,6 +1,8 @@
 package com.cambak21.persistence.cambakMall;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Repository
 public class prodOrderDAOImpl implements prodOrderDAO {
@@ -31,6 +36,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		
 		return ses.selectOne(namespace + ".selectDestOne", destination_no);
 	}
+
 	
 //  	<!-- 장원영 DAO -->
   	
@@ -43,7 +49,43 @@ public class prodOrderDAOImpl implements prodOrderDAO {
   	
 //  	<!-- 김태훈 DAO -->
   	
-  	
+		@Override
+		public List<ProductsVO> prodBoardReadAll(PagingCriteria cri) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			System.out.println((cri.getPage()-1)*cri.getPerPageNum());
+			param.put("pageStart",(cri.getPage()-1)*cri.getPerPageNum());
+			param.put("perPageNum", cri.getPerPageNum());
+			
+			return ses.selectList(namespace+".prodBoardReadAll",param);
+		}
+	
+	
+		@Override
+		public int prodBoardReadAllCnt() throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(namespace+".prodBoardReadAllCnt");
+		}
+
+
+		@Override
+		public List<ProductsVO> prodBoardRead(PagingCriteria cri, SearchCriteria scri) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("searchType", scri.getSearchType());
+			param.put("searchWord", scri.getSearchWord());
+			param.put("pageStert", cri.getPageStart());
+			param.put("pageNum", cri.getPerPageNum());
+			
+			return ses.selectList(namespace+".prodBoardRead",param);
+		}
+
+
+		@Override
+		public int prodBoardReadCnt(SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(namespace+".prodBoardReadCnt",scri);
+		}
+		
 //  	<!-- 백승권 DAO -->
   	
   	
@@ -52,6 +94,43 @@ public class prodOrderDAOImpl implements prodOrderDAO {
   	
 //  	<!-- 박종진 DAO -->
   	
-  	
+	@Override
+	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception {
+		return ses.selectList(namespace + ".destinationsListAjax", member_id);
+	}
 //  	<!-- 이영광 DAO -->
+
+
+	@Override
+	public int defaultModyAjax(String member_id, int destination_no) throws Exception {
+		Map<String, Object> paraMap = new HashMap<String, Object>();
+		paraMap.put("member_id", member_id);
+		paraMap.put("destination_no", destination_no);
+	
+			return ses.update(namespace + ".defaultModyAjax", paraMap);
+		
+	}
+
+
+	@Override
+	public int destiModyAjax(DestinationVO vo) throws Exception {
+			return ses.update(namespace + ".destiModyAjax", vo);
+	}
+
+
+	@Override
+	public int insertDestiny(DestinationVO vo) throws Exception {
+		return ses.insert(namespace + ".insertDestiny", vo);
+	}
+
+
+	@Override
+	public int deleteDestiny(String member_id, int destination_no) throws Exception {
+		Map<String, Object> paraMap = new HashMap<String, Object>();
+		paraMap.put("member_id", member_id);
+		paraMap.put("destination_no", destination_no);
+	
+			return ses.delete(namespace + ".deleteDestiny", paraMap);
+		
+	}
 }

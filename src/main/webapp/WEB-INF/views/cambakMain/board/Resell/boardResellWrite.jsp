@@ -82,13 +82,37 @@
 			font-size: 24px;
 		}
 		.imges{
-			height: 430px;
+			width: 100%;
+    		height: 100%;
 			
 		}
+		#modifyBox {
+		width: 750px;
+		height: 500px;
+		background-color: #EEE;	
+		position: fixed;
+		top: 35%;
+		left: 50%;
+		margin-top:-40px;
+		margin-left:-300px;
+		z-index: 999;
+		display: none;
+	}
+		#modal-backdrop {
+		position: fixed;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    z-index: 998;
+	    background-color: #000;
+	    opacity : 0.3;
+	    display: none;
+	  }
 	</style>
 	<script>
+
 		function writeControll() {
-			console.log("여기 옴")
 			console.log("title : "+$("#title").val()+" price : "+$("#price").val()+" addr : "+$("#addr").val())
 			let result = false
 			if($("#title").val() ==  ""){
@@ -106,8 +130,12 @@
 			}
 			return result;
 		}
+		function imgReformCloce() {
+			$("#modifyBox").hide();
+			$("#modal-backdrop").hide();
+		}
 		$(function(){
-
+			  	
 			$(".fDrop").on("dragenter dragover", function(evt){
 				evt.preventDefault();
 			});
@@ -130,22 +158,27 @@
 					success : function(result) {
 						for (i =0; i <result.length;i++){
 							console.log(i)
-							$("#imgBoard").append("<img src='"+result[i]+"'classc='imges'/>")
+							$("#imgBoard").append("<img src='"+result[i]+"' class='imges'/>")
 							$("#imgArray").append('<input type="text" style="display: none;" value="'+result[i]+' "  name="resellBoard_img'+(i+1)+'"/>')
 						}
-			            $('.single-item').slick({
-//			              autoplay : true,
-			              autoplaySpeed : 500,    
-			              dots:true,
-			              arrows : true
-			          });
+	
 					}, 
 					fail : function(result) {
 						alert(result);
 					}
 				});
+				
 			})
-			
+			$("#imgBoard").dblclick(function () {
+				$("#modifyBox").show();
+				$("#modal-backdrop").show();
+				
+		    });
+			$("#modal-backdrop").click(function() {
+				$("#modifyBox").hide();
+				$("#modal-backdrop").hide();
+			});
+         
 		})
 		
 	</script>
@@ -167,14 +200,21 @@
 				<div id="content" class="8u skel-cell-important">
 						<h2 id="pageTitle">글 쓰기 페이지</h2>
 						<hr style="margin: 10px 0;padding: 3px;"/>
+						<div id="modifyBox">
+							<div>이미지 수정</div>
+							<div>
+								<button type="button" id="replyModBtn" onclick="">저장</button>
+								<button type="button" id="replyModBtn" onclick="imgReformCloce();">닫기</button>
+							</div>
+						</div>
+						<div id="modal-backdrop">
+    					</div>
 						<form action="write" method="post" onsubmit="return writeControll();">
 						
 							<div id="totallArray">
 								<!-- 이미지div -->
 								<div id="imgArray">
-									<div id="imgBoard" class="fDrop single-item" >
-									
-									</div>
+									<div id="imgBoard" class="fDrop" ></div>
 								</div>
 								<!-- 텍스트div -->
 								<div id="textArray">
@@ -197,8 +237,9 @@
 							</div>
 						</form>
 						
+						
 				</div>
-
+				
 			</div>
 		</div>
 	</div>

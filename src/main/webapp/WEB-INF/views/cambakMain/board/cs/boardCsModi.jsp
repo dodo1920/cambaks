@@ -119,8 +119,17 @@
 								name="board_title" value="${board.board_title }">
 							<textarea id="summernote" name="board_content">${board.board_content }</textarea>
 							<input type="hidden" value="${board.board_no }" name="board_no">
-							<button type="button" class="btn btn-danger"
-								onclick="history.back();">돌아가기</button>
+
+							<c:if test="${param.searchType == null}">
+								<!-- if문 로그인한 회원과 작성자와 비교 -->
+								<button type="button" class="btn btn-danger"
+									onclick="location.href='/board/cs/detail?no=${board.board_no}&page=${param.page }'">돌아가기</button>
+							</c:if>
+							<c:if test="${param.searchType != null}">
+								<button type="button" class="btn btn-danger"
+								onclick="location.href='/board/cs/detail?no=${board.board_no}&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }'">돌아가기</button>
+							</c:if>
+
 							<button type="submit" class="btn btn-success">수정하기</button>
 						</form>
 					</div>
@@ -129,7 +138,7 @@
 		</div>
 	</div>
 	<!-- /Main -->
-	
+
 	<!-- modal -->
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">

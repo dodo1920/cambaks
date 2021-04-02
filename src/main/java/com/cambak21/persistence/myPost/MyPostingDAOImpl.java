@@ -194,9 +194,9 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("member_id", member_id);
 		param.put("board_category", board_category);
-		param.put("pageStart", cri.getPageStart());
+		param.put("pageStart", cri.getListCount(6));
 		param.put("perPageNum", cri.getPerPageNum());
-		
+		System.out.println("시작번호 : " + cri.getPageStart());
 		return ses.selectList(ns + ".readMyReplyList", param);
 	}
 	
