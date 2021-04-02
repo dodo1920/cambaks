@@ -44,6 +44,7 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/rolling.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
@@ -195,9 +196,14 @@
 									<span id="chkBoxComment"></span>
 								</li>
 							</ul>
+							 <form action="?" method="POST">
+      <div class="g-recaptcha" data-sitekey="your_site_key"></div>
+      <br/>
+      <input type="submit" value="Submit">
+    </form>
 						</div>
 						<div>
-						<form action="/user/quitMemberStep2" method="POST">
+						<form action="/user/resignStep2" method="POST">
 						<input type="submit" class="btn btn-info" value="회원탈퇴">
 							<input type="button" class="btn btn-info" value="되돌아가기" onclick="history.back()">
 							

@@ -50,6 +50,7 @@ public class BoardResellController {
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	public String BoardResellList(PagingCriteria cri,Model model) throws Exception {
 		System.out.println("boardResellList 테스트");
+		cri.setPage(1);
 		model.addAttribute("board",resellListService.ResellBoardReadAll(cri));
 		PagingParam pp = new PagingParam();
 		pp.setDisplayPageNum(9);
@@ -163,7 +164,7 @@ public class BoardResellController {
 				
 				String returnFile;
 					
-					returnFile = FileUploadProdcess.uploadFile(path, file.getOriginalFilename(), file.getBytes());
+					returnFile = FileUploadProdcess.ReselluploadFile(path, file.getOriginalFilename(), file.getBytes());
 					returnList.add("/resources/uploads/Resell"+returnFile);
 					entity = new ResponseEntity<ArrayList>(returnList,HttpStatus.OK);
 				} catch (IOException e) {

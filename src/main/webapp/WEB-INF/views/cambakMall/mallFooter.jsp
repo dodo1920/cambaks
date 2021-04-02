@@ -15,16 +15,16 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="#"><img src="/resources/img/logo.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/logo.png" alt=""></a>
                     </div>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                     cilisis.</p>
                     <div class="footer__payment">
-                        <a href="#"><img src="/resources/img/payment/payment-1.png" alt=""></a>
-                        <a href="#"><img src="/resources/img/payment/payment-2.png" alt=""></a>
-                        <a href="#"><img src="/resources/img/payment/payment-3.png" alt=""></a>
-                        <a href="#"><img src="/resources/img/payment/payment-4.png" alt=""></a>
-                        <a href="#"><img src="/resources/img/payment/payment-5.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-1.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-2.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-3.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-4.png" alt=""></a>
+                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-5.png" alt=""></a>
                     </div>
                 </div>
             </div>

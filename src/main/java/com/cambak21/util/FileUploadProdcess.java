@@ -95,5 +95,45 @@ public class FileUploadProdcess {
 		}
 	}
 	
+	// 김태훈>>>>>Resell에서 사용할 파일업로드===========================================================================================
+	//썸네일 생성
+	private static String ResellmakeThumbnail(String uploadPath, String path, String fileName) throws IOException {
+		System.out.println(new File(uploadPath + path, fileName));
+		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
+		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 350);
+		String thumbnailName = uploadPath + path + File.separator + "thumb_" + fileName; // 썸네일 이미지의 경로와 이름
+		File newThumbFile = new File(thumbnailName);
+		
+		String ext = fileName.substring(fileName.lastIndexOf(".") + 1); // 확장자명 얻어오기
+		
+		ImageIO.write(destImg, ext.toLowerCase(), newThumbFile); // 실제 저장
+		
+		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+	}
 	
+
+	
+	//실제 업로드
+	public static String ReselluploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
+		UUID uuid = UUID.randomUUID();
+		
+		String savedName = uuid.toString() + "_" + originalName;
+		String savePath = calPath(uploadPath);
+		
+		File target = new File(uploadPath + savePath, savedName);
+		FileCopyUtils.copy(fileDate, target); // 실제 저장
+		
+		String ext = originalName.substring(originalName.lastIndexOf(".") + 1); // 확장자
+		
+		String uploadFileName = null;
+		if(MediaConfirm.getMediaType(ext) != null) {
+			uploadFileName = ResellmakeThumbnail(uploadPath, savePath, savedName); // 이미지 파일이므로 썸네일 생성
+		} else {
+			uploadFileName = makeIcon(uploadPath, savePath, savedName); // 이미지 파일이 아니므로 파일 이름으로 생성
+		}
+		
+		System.out.println("uploadFileName : " + uploadFileName);
+		
+		return uploadFileName;
+	}
 }

@@ -31,8 +31,8 @@ public class ResellBoardReplyServiceImpl implements ResellBoardReplyService {
 	}
 
 	@Override
-	public List<ResellBoardVO> ResellBoardReplyRead(int bno) throws Exception {
-		List<ResellBoardVO> vo = rdao.ResellBoardReplyRead(bno);
+	public List<ReplyResellVO> ResellBoardReplyRead(int bno) throws Exception {
+		List<ReplyResellVO> vo = rdao.ResellBoardReplyRead(bno);
 		return vo;
 	}
 
