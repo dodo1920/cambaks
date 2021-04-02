@@ -1,11 +1,13 @@
 package com.cambak21.controller.boards;
 
 import java.io.IOException;
-
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,10 +75,34 @@ public class BoardCsController {
 	}
 
 	@RequestMapping(value = "/cs/detail", method = RequestMethod.GET)
-	public String BoardCsDetail(@RequestParam("no") int no, Model model) throws Exception {
+	public String BoardCsDetail(@RequestParam("no") int no, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
 		
-		model.addAttribute("board", service.readBoardCS(no));
+		// 클라이언트에 등록된 쿠키 정보들
+		Cookie[] cookies = request.getCookies();
+		
+		// 쿠키 존재여부를 담을 변수 생성
+		String status = null;
+		
+		// 클라이언트가 가지고 있는 쿠키중에 해당 쿠키가 존재하는지 파악
+		for (int i = 0; i < cookies.length; i++) {
+			// 쿠키가 존재한다면 exist 아니면 noExist
+			status = cookies[i].getValue().equals("cs" + no) ? "exist" : "noExist";
+			// 쿠키가 존재하면 for문 빠져나가기
+			if(status.equals("exist")) {
+				break;
+			}
+		}
+		
+		// 쿠키가 존재하지 않는다면 쿠키를 생성하고 클라이언트 컴퓨터에 쿠키 생성
+		if (status.equals("noExist")) {
+			Cookie cookie = new Cookie("cs" + no, "cs" + no);
+			cookie.setMaxAge(60*60*24);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+		}
+		
+		model.addAttribute("board", service.readBoardCS(no, status));
 		model.addAttribute("prev", service.prevNo(no));
 		model.addAttribute("next", service.nextNo(no));
 
@@ -97,7 +124,7 @@ public class BoardCsController {
 	public String BoardModi(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("승권 / 글 수정 get 방식 호출");
 
-		model.addAttribute("board", service.readBoardCS(no));
+		model.addAttribute("board", service.readBoardCS(no, null));
 
 		return "cambakMain/board/cs/boardCsModi";
 	}
@@ -162,6 +189,15 @@ public class BoardCsController {
 		}
 	}
 
+	/**
+	  * @Method Name : BoardCsLike
+	  * @작성일 : 2021. 4. 2.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 추천하기 버튼 클릭시 on-off 기능을 위한 ...
+	  * @param dto : 테이블에 좋아요 기록 insert
+	  * @return
+	  */
 	@RequestMapping(value = "/cs/like", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> BoardCsLike(@RequestBody InsertLikeBoard dto) {
@@ -182,6 +218,16 @@ public class BoardCsController {
 		return entity;
 	}
 	
+	/**
+	  * @Method Name : LikeCheck
+	  * @작성일 : 2021. 4. 2.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 게시글 상세페이지 들어갈 시 유저가 좋아요를 눌렀나 안눌렀나 표시하기 위한 ... 
+	  * @param member_id : 유저
+	  * @param board_no : 게시글 번호
+	  * @return
+	  */
 	@RequestMapping(value = "/cs/like/check", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id, @RequestParam("board_no") int board_no) {

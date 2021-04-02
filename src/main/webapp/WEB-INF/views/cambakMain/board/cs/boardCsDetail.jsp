@@ -540,7 +540,7 @@
 								<!-- if문 로그인한 회원과 작성자와 비교 -->
 								<button type="button" class="btn btn-danger"
 									onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
-								
+									
 								<c:if test="${param.searchType == null}">
 									<!-- if문 로그인한 회원과 작성자와 비교 -->
 									<button type="button" class="btn btn-danger"

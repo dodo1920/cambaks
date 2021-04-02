@@ -80,10 +80,24 @@ public class BoardCsServiceImpl implements BoardCsService {
 		return dao.searchListBoardCS(scri, cri);
 	}
 
+	/**
+	  * @Method Name : readBoardCS
+	  * @작성일 : 2021. 4. 3.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param board_no : 게시글 번호
+	  * @param status : 쿠키 존재여부
+	  * @return
+	  * @throws Exception
+	  */
 	@Transactional
 	@Override
-	public BoardCsVO readBoardCS(int board_no) throws Exception {
-		dao.boardCSViewUpdate(board_no);
+	public BoardCsVO readBoardCS(int board_no, String status) throws Exception {
+		// 쿠키가 존재하지 않는다면 조회수 1 증가 처리
+		if(status.equals("noExist")) {
+			dao.boardCSViewUpdate(board_no);
+		}
 		
 		return dao.readBoardCS(board_no);
 
