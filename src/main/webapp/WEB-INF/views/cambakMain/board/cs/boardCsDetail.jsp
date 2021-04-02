@@ -233,6 +233,7 @@
 			success : function(data) {
 				replyList();
 				ajaxStatus(data);
+				console.log(data);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -499,13 +500,25 @@
 										<button type="button" class="btn btn-default detailPrev">이전글</button>
 									</a>
 								</c:if>
+								<c:if test="${prev == null }">
+									<a id="prevBtn">
+										<button type="button" class="btn btn-default detailPrev" onclick="alert('첫번째 글입니다.')">이전글</button>
+									</a>
+								</c:if>
+								
 								<a href="/board/cs/list?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
+								
 								<c:if test="${next != null }">
 									<a href="/board/cs/detail?no=${next }&page=${param.page}"
 										id="nextBtn">
 										<button type="button" class="btn btn-default detailNext">다음글</button>
+									</a>
+								</c:if>
+								<c:if test="${next == null }">
+									<a id="nextBtn">
+										<button type="button" class="btn btn-default detailNext" onclick="alert('마지막 글입니다.')">다음글</button>
 									</a>
 								</c:if>
 							</c:if>
@@ -514,7 +527,7 @@
 							<c:if test="${param.searchType != null }">
 								<a
 									href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}"
-									id="listBtn">
+									id="listBtn" style="margin:0 50%">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
 							</c:if>
