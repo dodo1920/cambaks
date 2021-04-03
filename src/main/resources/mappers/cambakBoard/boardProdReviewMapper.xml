@@ -43,4 +43,13 @@
 	<update id="deleteProdReview">
 		update goot6.ProdReviews set prodReview_isDelete = 'Y' where prodReview_no = #{prodReview_no}
 	</update>
+	
+	<!-- 게시글 좋아요 인서트-->
+	<insert id="insertLikeProdReviews">
+		insert into goot6.ProdReviewsLike(member_id, prodReview_no) values(#{member_id}, #{prodReview_no})
+	</insert>
+	<!-- 게시글 좋아요 카운트 +1 -->
+	<update id="updateLikeProdReviews">
+		update goot6.ProdReviews set prodReview_likeCnt = prodReview_likeCnt + 1 where prodReview_no = #{prodReview_no} 
+	</update>
  </mapper>

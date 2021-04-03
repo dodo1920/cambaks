@@ -125,6 +125,18 @@ public class BoardProdReview {
 		return "cambakMall/prodReviews";
 	}
 	
-	// 상품후기 게시글에 대한 댓글 작성
-
+	// 상품후기 게시글에 대한 좋아요 클릭
+	@RequestMapping(value="/insertLikeProdReviews/{member_id}/{prodReview_no}", method=RequestMethod.POST)
+	public @ResponseBody void insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+		logger.info("/insertLikeProdReviews의 post방식 호출");
+		System.out.println(member_id);
+		System.out.println(prodReview_no);
+		
+		try {
+			// 해당 게시글에 좋아요 처리
+			service.insertLikeProdReviews(member_id, prodReview_no);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

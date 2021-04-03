@@ -73,4 +73,13 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	}
 
 
+	// 게시글 좋아요 인서트 및 게시글 좋아요 +1 업데이트
+	@Override
+	public void insertLikeProdReviews(String member_id, int prodReview_no) throws Exception {
+		dao.insertLikeProdReviews(member_id, prodReview_no);
+		dao.updateLikeProdReviews(prodReview_no);
+		
+	}
+
+
 }

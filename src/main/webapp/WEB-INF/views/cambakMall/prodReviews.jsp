@@ -72,10 +72,14 @@
 			list-style-type: none;
 			margin-left: 10px;
 		}
+		.likeProdReviews{
+			text-align: center;
+		}
 	</style>
 	
     <script type="text/javascript">
     var product_id = 4;
+    let orderList;
     
 	// ajax페이지 고침을 위한 전역변수
     let currentPage;
@@ -185,6 +189,9 @@
 	                 
 	                 // display:none 되어있는 Content 내용
 	                 output += '<div>' + item.prodReview_content + '</div>';
+	                 // --------------상품후기 좋아요 표시 부분-----------------
+	                 output += '<div class="likeProdReviews"><span><img  id="likeProd" src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ item.prodReview_no +')";/></span></div>';
+	                 output += '<div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
 	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
@@ -387,7 +394,7 @@
 						  console.log(product_id);
 						  console.log(currentPage);
 						  
-						  showProdList(product_id, currentPage, 1);
+						  showProdList(product_id, currentPage, 1, orderList);
 						  
 					  }, complete : function (result) {
 						//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
@@ -442,7 +449,7 @@
 
 			      console.log("#checkcheck" + replyProdReview_no);
 				  //$("#replyName" + replyProdReview_no).html(replyMember_id);
-				  showProdList(product_id, currentPage, 1);
+				  showProdList(product_id, currentPage, 1, orderList);
 			  }, complete : function (result) {
 				  
 			}
@@ -478,7 +485,7 @@
 				  }
 				  
 				  //삭제 후 리스트를 다시 출력하라
-				  showProdList(product_id, currentPage, 1);
+				  showProdList(product_id, currentPage, 1, orderList);
 				  
 			  }
 			  
@@ -531,16 +538,44 @@
 				  }
 				  
 				  //수정 후 리스트를 다시 출력하라
-				  showProdList(product_id, currentPage, 1);
+				  showProdList(product_id, currentPage, 1, orderList);
 				  
 			  }
 			  
 			});
 		
 	}
+
+	// ----------상품후기 좋아요 클릭시 처리 부분-------------
+	function clickLike(prodReview_no) {
+			alert("클릭됨");
+			let member_id = "${loginMember.member_id}";
+			console.log(member_id);
+			console.log(prodReview_no);
+			$.ajax({
+				  method: "post",
+				  url: "/cambakMall/insertLikeProdReviews/" + member_id + "/" + prodReview_no,
+				  headers: {	// 요청하는 데이터의 헤더에 전송
+					  "Content-Type" : "application/json",
+					  "X-HTTP-Method-Override" : "POST"
+				  },
+				  dataType: "text", // 응답 받는 데이터 타입
+				  success : function(result) {
+					  console.log(result);
+					  
+					 // showProdList(product_id, currentPage, 1, orderList);
+				  }, complete : function (result) {
+					  
+				}
+				  
+				});// end of Ajax
+			
+	}
 	
 		$(function() {
+			// 화면 리스트 출력
 			showProdList();
+			
 		});
     </script>
 </head>

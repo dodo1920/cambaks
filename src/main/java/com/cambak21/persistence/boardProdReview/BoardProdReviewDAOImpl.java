@@ -77,15 +77,33 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 
 	// 게시글 수정
 	@Override
-	public int updateProdBoard(ProdReviewVO vo) {
+	public int updateProdBoard(ProdReviewVO vo)  throws Exception{
 		return ses.update(namespace + ".updateProdReview", vo);
 	}
 
 
 	// 게시글 삭제
 	@Override
-	public int deleteProdBoard(int prodReview_no) {
+	public int deleteProdBoard(int prodReview_no)  throws Exception{
 		return ses.delete(namespace + ".deleteProdReview", prodReview_no);
+	}
+
+
+	// 게시글 좋아요
+	@Override
+	public void insertLikeProdReviews(String member_id, int prodReview_no)  throws Exception{
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("prodReview_no", prodReview_no);
+		ses.insert(namespace + ".insertLikeProdReviews", params);
+	}
+
+
+	// 게시글 좋아요 후, 게시글 좋아요 카운트 1증가
+	@Override
+	public void updateLikeProdReviews(int prodReview_no) throws Exception {
+		ses.update(namespace + ".updateLikeProdReviews", prodReview_no);
+		
 	}
 
 
