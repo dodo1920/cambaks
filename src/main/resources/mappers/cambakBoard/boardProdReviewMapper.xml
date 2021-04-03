@@ -52,4 +52,19 @@
 	<update id="updateLikeProdReviews">
 		update goot6.ProdReviews set prodReview_likeCnt = prodReview_likeCnt + 1 where prodReview_no = #{prodReview_no} 
 	</update>
+	
+	<!-- 게시글 좋아요 가져오기 -->
+	<select id="getProdReviewsLike" resultType="int">
+		select count(*) from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}
+	</select>
+	
+	<!-- 게시글 좋아요 삭제 -->
+	<delete id="deleteLikeProdReviews">
+		delete from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}
+	</delete>
+	
+	<!-- 게시글 좋아요 -1처리 -->
+	<update id="updateDisLikeProdReviews">
+		update goot6.ProdReviews set prodReview_likeCnt = prodReview_likeCnt - 1 where prodReview_no = #{prodReview_no} 
+	</update>
  </mapper>

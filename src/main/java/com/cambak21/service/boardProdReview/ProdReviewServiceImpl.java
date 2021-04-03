@@ -73,12 +73,31 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	}
 
 
-	// 게시글 좋아요 인서트 및 게시글 좋아요 +1 업데이트
+	// 게시글 좋아요 인서트 및 게시글 좋아요 +1 업데이트/딜리트
 	@Override
-	public void insertLikeProdReviews(String member_id, int prodReview_no) throws Exception {
-		dao.insertLikeProdReviews(member_id, prodReview_no);
-		dao.updateLikeProdReviews(prodReview_no);
+	public int insertLikeProdReviews(String member_id, int prodReview_no) throws Exception {
+		if(dao.getProdReviewsLike(member_id, prodReview_no)==0) {
+			//좋아요 인서트 후
+			dao.insertLikeProdReviews(member_id, prodReview_no);
+			//게시글 좋아요 +1 처리
+			dao.updateLikeProdReviews(prodReview_no);
+			
+			return 1;
+		} else {
+			//좋아요 삭제 후
+			dao.deleteLikeProdReviews(member_id, prodReview_no);
+			//게시글 좋아요 -1 처리
+			dao.updateDisLikeProdReviews(prodReview_no);
+			return 0;
+		}
 		
+	}
+
+
+	// 게시글 좋아요 가져오기
+	@Override
+	public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception {
+		return dao.getProdReviewsLike(member_id, prodReview_no);
 	}
 
 

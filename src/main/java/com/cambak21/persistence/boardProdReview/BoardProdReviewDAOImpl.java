@@ -107,5 +107,37 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 	}
 
 
+	// 게시글 좋아요 가져오기
+	@Override
+	public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		int result = 0;
+		params.put("member_id", member_id);
+		params.put("prodReview_no", prodReview_no);
+		result = ses.selectOne(namespace + ".getProdReviewsLike", params);
+		
+		return result;
+	}
+
+
+
+	@Override
+	public void deleteLikeProdReviews(String member_id, int prodReview_no) throws Exception {
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("prodReview_no", prodReview_no);
+		ses.insert(namespace + ".deleteLikeProdReviews", params);
+	}
+
+
+	// 좋아요 -1 처리
+	@Override
+	public void updateDisLikeProdReviews(int prodReview_no) throws Exception {
+		ses.update(namespace + ".updateDisLikeProdReviews", prodReview_no);
+		
+	}
+
+
 
 }

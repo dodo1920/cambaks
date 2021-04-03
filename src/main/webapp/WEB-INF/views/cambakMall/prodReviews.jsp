@@ -78,24 +78,62 @@
 	</style>
 	
     <script type="text/javascript">
-    var product_id = 4;
+    let product_id = 4;
     let orderList;
+    let member_id = "&{loginMember.member_id}";
     
 	// ajax페이지 고침을 위한 전역변수
     let currentPage;
 	let prodReviewNo;
+	let prodReview_likeCnt;
 	
 	// 원댓글 작성자 이름 가져오기
 	let replyMember_id;
 	let replyProdReview_no1;
 	
 	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
-	 function showContent(obj) {
-		 	prodReviewNo = $(obj).attr("id");
+	 function showContent(prodReview_no, prodReview_likeCnt) {
+
+			let showLike;
+		 	prodReviewNo = prodReview_no;
+		 	prodReview_likeCnt = prodReview_likeCnt;
+		 		if($('#content' + prodReview_no).is(':visible')==true){
+		 			$("#content" + prodReview_no).hide();
+		 		} else{
+		 			$("#content" + prodReview_no).show();
+		 		}
+		 		//$("#content" + prodReview_no).toggle();
+		 	console.log(member_id);
 			// 접이식 보여주기
-				$("#content" + prodReviewNo).toggle();
+				//$("#content" + prodReview_no).toggle();
+			
+				// 좋아요 표시 가져오기
+				$.ajax({
+					  method: "post",
+					  url: "/cambakMall/getProdReviewsLike/" + member_id + "/" + prodReview_no,
+					  headers: {	// 요청하는 데이터의 헤더에 전송
+						  "Content-Type" : "application/json",
+						  "X-HTTP-Method-Override" : "POST"
+					  },
+					  dataType: "text", // 응답 받는 데이터 타입
+					  success : function(data) {
+
+					      console.log(data);
+					      
+					      // 좋아요를 클릭 안 했으면,
+					      if(data==0){
+					    	  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + prodReview_likeCnt;
+					    	  $("#likeProd" + prodReview_no).html(showLike);
+					      }else{// 좋아요를 클릭했으면
+					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + prodReview_likeCnt;
+					    	  $("#likeProd" + prodReview_no).html(showLike);
+					      }
+					      
+					  }
+					  
+					}); // end of ajax
+					
 		}
-	 
 
 
 	 // 별점에 따른 별 개수를 표현하는 부분
@@ -168,6 +206,7 @@
 	        	let showThisDate;
 	        	
 	        	// 기본 게시글 출력 부분
+	        	// ----------------------------prodList ---------------------------------
 	        	 $(prodList).each(function(index, item) {
 	        		 // 날짜 출력 포맷 변경 부분
 	        		 showDate = new Date(item.prodReview_postDate);
@@ -175,7 +214,7 @@
 	                 
 	                 // 게시글 내용 출력 부분
 	                
-	                 output += '<tr id=' + item.prodReview_no + ' onclick="showContent(this);"><td>' + item.prodReview_no + '</td><td><div>' + item.prodReview_title; + '</div></td>';
+	                 output += '<tr id=' + item.prodReview_no + ' onclick="showContent(' + item.prodReview_no + "," + item.prodReview_likeCnt +');"><td>' + item.prodReview_no + '</td><td><div>' + item.prodReview_title; + '</div></td>';
 	                 output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
 	                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
 	                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
@@ -190,7 +229,8 @@
 	                 // display:none 되어있는 Content 내용
 	                 output += '<div>' + item.prodReview_content + '</div>';
 	                 // --------------상품후기 좋아요 표시 부분-----------------
-	                 output += '<div class="likeProdReviews"><span><img  id="likeProd" src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ item.prodReview_no +')";/></span></div>';
+	                 output += '<div class="likeProdReviews"><span id="likeProd' + item.prodReview_no + '"></span></div>';
+	                 
 	                 output += '<div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
 	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
@@ -203,7 +243,7 @@
 	                	 output += '</td>';
 	                 }
 	                 
-	        	  });
+	        	  });// end of foreach prodList
 
 	              output += '</tr></table>';
 	              
@@ -256,7 +296,7 @@
 	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
 	              
-	              // 열어놨던 페이지를 열어준 채로 로딩하는 부분
+	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
 	              if(checkPoint == 1){
 	            	  $("#content" + prodReviewNo).show();
 	              }
@@ -548,7 +588,6 @@
 
 	// ----------상품후기 좋아요 클릭시 처리 부분-------------
 	function clickLike(prodReview_no) {
-			alert("클릭됨");
 			let member_id = "${loginMember.member_id}";
 			console.log(member_id);
 			console.log(prodReview_no);
@@ -562,10 +601,11 @@
 				  dataType: "text", // 응답 받는 데이터 타입
 				  success : function(result) {
 					  console.log(result);
-					  
 					 // showProdList(product_id, currentPage, 1, orderList);
-				  }, complete : function (result) {
+
 					  
+				  }, complete : function(result) {
+					  showContent(prodReview_no);
 				}
 				  
 				});// end of Ajax

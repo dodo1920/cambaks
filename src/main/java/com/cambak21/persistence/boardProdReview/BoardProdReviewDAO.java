@@ -31,10 +31,18 @@ public interface BoardProdReviewDAO {
 	// 게시글 삭제
 	public int deleteProdBoard(int prodReview_no) throws Exception;
 
-	// 게시글 좋아요
+	// 게시글 좋아요 인서트
 	public void insertLikeProdReviews(String member_id, int prodReview_no) throws Exception;
 	// 게시글 좋아요 후 게시판 좋아요 카운트 1증가
 	public void updateLikeProdReviews(int prodReview_no) throws Exception;
+	
+	// 게시글 좋아요 가져오기
+	public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception;
+	
+	// 게시글 좋아요 취소하기
+	public void deleteLikeProdReviews(String member_id, int prodReview_no) throws Exception;
+	// 취소 후 카운트 1 감소
+	public void updateDisLikeProdReviews(int prodReview_no) throws Exception;
 	
 	
 	// 검색 결과 전체 글 수 가져오기

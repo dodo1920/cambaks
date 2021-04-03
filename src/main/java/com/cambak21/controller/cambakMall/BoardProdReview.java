@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.domain.ProdReviewsLikeVO;
 import com.cambak21.service.boardProdReview.ProdReviewService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -127,16 +128,36 @@ public class BoardProdReview {
 	
 	// 상품후기 게시글에 대한 좋아요 클릭
 	@RequestMapping(value="/insertLikeProdReviews/{member_id}/{prodReview_no}", method=RequestMethod.POST)
-	public @ResponseBody void insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+	public @ResponseBody int insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
 		logger.info("/insertLikeProdReviews의 post방식 호출");
 		System.out.println(member_id);
 		System.out.println(prodReview_no);
-		
+		int result = 0;
 		try {
 			// 해당 게시글에 좋아요 처리
-			service.insertLikeProdReviews(member_id, prodReview_no);
+			result = service.insertLikeProdReviews(member_id, prodReview_no);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	// 상품후기 게시글 좋아요 가져오기
+	@RequestMapping(value="/getProdReviewsLike/{member_id}/{prodReview_no}",  method=RequestMethod.POST)
+	public @ResponseBody int getProdReviewsLike(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+		logger.info("/getProdReviewsLike의 post방식 호출");
+		System.out.println(member_id);
+		System.out.println(prodReview_no);
+		int result = 0;
+		
+		try {
+			// 해당 게시글에 좋아요 가져오기
+			result = service.getProdReviewsLike(member_id, prodReview_no);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }
