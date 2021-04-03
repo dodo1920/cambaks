@@ -93,17 +93,18 @@
 	
 	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(prodReview_no, prodReview_likeCnt) {
-
+			console.log(prodReview_likeCnt);
 			let showLike;
 		 	prodReviewNo = prodReview_no;
+		 	
 		 	prodReview_likeCnt = prodReview_likeCnt;
-		 		if($('#content' + prodReview_no).is(':visible')==true){
+		 		/*if($('#content' + prodReview_no).is(':visible')==true){
 		 			$("#content" + prodReview_no).hide();
 		 		} else{
 		 			$("#content" + prodReview_no).show();
-		 		}
-		 		//$("#content" + prodReview_no).toggle();
-		 	console.log(member_id);
+		 		}*/
+		 		$("#content" + prodReview_no).toggle();
+		 	//console.log(member_id);
 			// 접이식 보여주기
 				//$("#content" + prodReview_no).toggle();
 			
@@ -180,8 +181,8 @@
     	
     	console.log(pageNum);
     	// ------------------게시판 리스트 출력-------------------------------
-    	let output = '<div class="container">';
-        output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead>';
+    	let output = '<div>';
+        output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th></tr></thead>';
         
     	$.ajax({
 	        type		: "get",
@@ -217,7 +218,7 @@
 	                 output += '<tr id=' + item.prodReview_no + ' onclick="showContent(' + item.prodReview_no + "," + item.prodReview_likeCnt +');"><td>' + item.prodReview_no + '</td><td><div>' + item.prodReview_title; + '</div></td>';
 	                 output += '<td class="stars" id="star">' + showStars(item.prodReview_grade) + '<div class="starrr1"></div></td>';
 	                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
-	                 output += '<td>' + item.prodReview_likeCnt + '</td></tr>';
+	                 output += '</tr>';
 	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
 	                 output += '<td colspan="6">';
 	                 
@@ -245,7 +246,7 @@
 	                 
 	        	  });// end of foreach prodList
 
-	              output += '</tr></table>';
+	              output += '</tr></table></div>';
 	              
 	              
 	              // ------------페이징 처리 부분-------------------------
@@ -601,11 +602,12 @@
 				  dataType: "text", // 응답 받는 데이터 타입
 				  success : function(result) {
 					  console.log(result);
-					 // showProdList(product_id, currentPage, 1, orderList);
+					  $("#content" + prodReview_no).hide();
+					  showContent(prodReview_no, result);
+					 //showProdList(product_id, currentPage, 1, orderList);
 
 					  
 				  }, complete : function(result) {
-					  showContent(prodReview_no);
 				}
 				  
 				});// end of Ajax
@@ -800,7 +802,7 @@
                                 <!-- *********아래부터 상품평 내용 넣는 곳 *************************************************************-->
                                 <div>
                                 
-						     	<div class="container">
+						     	<div>
 						     	<div class="form-row float-right">
 						        <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
 						        </div>

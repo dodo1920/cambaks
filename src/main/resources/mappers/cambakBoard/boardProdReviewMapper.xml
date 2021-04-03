@@ -67,4 +67,9 @@
 	<update id="updateDisLikeProdReviews">
 		update goot6.ProdReviews set prodReview_likeCnt = prodReview_likeCnt - 1 where prodReview_no = #{prodReview_no} 
 	</update>
+	
+	<!-- 게시글 좋아요 수 가져오기 -->
+	<select id="getProdReviewsLikeCnt" resultType="int">
+		select prodReview_likeCnt from goot6.ProdReviews where prodReview_no = #{prodReview_no} 
+	</select>
  </mapper>

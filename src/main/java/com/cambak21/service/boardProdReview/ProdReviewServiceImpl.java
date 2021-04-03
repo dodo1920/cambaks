@@ -101,4 +101,11 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	}
 
 
+	// 게시글 좋아요 수 가져오기
+	@Override
+	public int getProdReviewsLikeCnt(int prodReview_no) throws Exception {
+		return dao.getProdReviewsLikeCnt(prodReview_no);
+	}
+
+
 }

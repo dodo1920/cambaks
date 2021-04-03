@@ -135,7 +135,9 @@ public class BoardProdReview {
 		int result = 0;
 		try {
 			// 해당 게시글에 좋아요 처리
-			result = service.insertLikeProdReviews(member_id, prodReview_no);
+			service.insertLikeProdReviews(member_id, prodReview_no);
+			// 게시글 좋아요 수
+			result = service.getProdReviewsLikeCnt(prodReview_no);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

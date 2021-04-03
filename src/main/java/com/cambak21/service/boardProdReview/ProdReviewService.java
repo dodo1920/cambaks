@@ -33,8 +33,11 @@ public interface ProdReviewService {
 		// 게시글 좋아요 인서트
 		public int insertLikeProdReviews(String member_id, int prodReview_no) throws Exception;
 
-		// 게시글 좋아요 가져오기
-		public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception ;
+		// 게시글 좋아요 여부 가져오기
+		public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception;
+		
+		// 게시글 좋아요 수 가져오기
+		public int getProdReviewsLikeCnt(int prodReview_no) throws Exception;
 		
 		
 		// 검색 결과 전체 글 수 가져오기

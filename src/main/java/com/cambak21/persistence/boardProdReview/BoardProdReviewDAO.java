@@ -44,6 +44,9 @@ public interface BoardProdReviewDAO {
 	// 취소 후 카운트 1 감소
 	public void updateDisLikeProdReviews(int prodReview_no) throws Exception;
 	
+	// 게시글 좋아요 수 가져오기
+	public int getProdReviewsLikeCnt(int prodReview_no) throws Exception;
+	
 	
 	// 검색 결과 전체 글 수 가져오기
 	//public int getSearchCount(SearchCriteria scri) throws Exception;
