@@ -170,7 +170,6 @@ public class MyPostController {
 		
 		param.put("myReplyList", lst);
 		param.put("paging", pp);
-		System.out.println(member_id + ", " + board_category + ", " + cri.toString() + ", " + pp.toString());
 		return param;
 	}
 	
