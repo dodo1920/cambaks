@@ -336,20 +336,62 @@
 		$("#replyBoard_content").val("");
 	}
 	
-	// Date format
+	// 작성시간 format
 	function date_to_str(format) {
+		// 댓글 달린 날짜
 		let year = format.getFullYear();
+		// 오늘 날짜
+		let today = new Date();
+		
+		// 월
 		let month = format.getMonth() + 1;
-		if (month < 10) month = '0' + month;
+		if (month < 10) {
+			month = '0' + month;
+		}
+		
+		// 일
 		let date = format.getDate();
-		if (date < 10) date = '0' + date;
+		if (date < 10) {
+			date = '0' + date;
+		}
+		
+		// 시간
 		let hour = format.getHours();
-		if (hour < 10) hour = '0' + hour;
-		let min = format.getMinutes();
-		if (min < 10) min = '0' + min;
-		let sec = format.getSeconds();
-		if (sec < 10) sec = '0' + sec;
+		if (hour < 10) {
+			hour = '0' + hour;
+		}
 
+		// 분
+		let min = format.getMinutes();
+		if (min < 10) {
+			min = '0' + min;
+		}
+		
+		// 초
+		let sec = format.getSeconds();
+		if (sec < 10) {
+			sec = '0' + sec;
+		}
+		
+		// 지금 시간과 작성 시간 차이 구하기
+		let diffDay = parseInt((today.getTime() - format.getTime()) / (1000*60*60)); // 시간 차이
+		let diffMinutes = parseInt((today.getTime() - format.getTime()) / (1000*60)); // 분 차이
+		let diffSec = parseInt((today.getTime() - format.getTime()) / (1000)); // 초 차이
+		
+		// 작성 시간이 하루 전이라면 ...
+		if(diffDay <= 24) {
+			// 작성 시간이 한시간 전이라면 ...
+			if (diffDay == 0) {
+				// 작성 시간이 1분 전이라면 ...
+				if(diffMinutes == 0) {
+					return diffSec + "초 전";
+				}
+				return diffMinutes  + "분 전";
+			}
+			return diffDay + "시간 전";
+		}	
+
+		// 작성시간이 하루 이내가 아니라면 작성시간 출력
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
 	
