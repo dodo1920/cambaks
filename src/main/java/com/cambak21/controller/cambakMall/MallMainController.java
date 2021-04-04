@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/mall/main/*")
 public class MallMainController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(MallController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MallMainController.class);
 	  
 	   /**
 	    * @Method Name : homeheader

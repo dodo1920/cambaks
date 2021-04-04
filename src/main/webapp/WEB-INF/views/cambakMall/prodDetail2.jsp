@@ -297,9 +297,43 @@
 					alert(result);
 				}
 			});	
-		}
+		}	
+	}
+	
+	function showHiddenSecret(obj) {
+		let hiddenSecretAddr = $(obj).next().next();
+		console.log(hiddenSecretAddr);
+		$(hiddenSecretAddr).show()
+	}
+	
+	function chcekSecretPwd(obj) {
 		
+		let checkSecretPwd = $(obj).prev().val();
+		console.log(checkSecretPwd);
 		
+		let no = $(obj).prev().parent().attr("id");
+		console.log(no);
+		
+		$.ajax({
+			url: '/mall/prodDetail/checkSecretPwd',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: no,
+				prodQA_secretPassword : checkSecretPwd
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				prodQAListAll(prodId, page, 0, cate);
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
 	}
 	
 	
