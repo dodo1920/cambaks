@@ -245,6 +245,24 @@ public class ProdDetail2 {
 		return entity;
 	}
 	
+	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
+	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
+		logger.info("QA 글 삭제");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
+			if(QAService.deleteProdQA(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+			}
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
 	/**
 	 * @Method Name : ShowInsertProdQA
 	 * @작성일 : 2021. 4. 1.

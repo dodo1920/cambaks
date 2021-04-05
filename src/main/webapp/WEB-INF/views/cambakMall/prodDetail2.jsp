@@ -71,6 +71,8 @@
 	    		
 	    	} else { // 등록된 상품 문의가 있다면, 
 	    		
+	    		console.log(page);
+	    		
 	    		$(data).each(function(index, item){
 		        	let date = new Date(item.prodQA_date);
 		        	let dateFormat = date.toLocaleString();
@@ -135,15 +137,16 @@
 	    		let output = '<ul class="pagination">';
 	    		
 	    		if(page > 1) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + prev + '"> < </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> < </a></li>';
 	    		}
 	    		
 	    		for(let i = 1; i < data.endPage + 1; i++) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + i + '">' + i + '</a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + i + ',0,\'' + cate + '\');">' + i + '</a></li>';
+	    			page = i;
 	    		}
 	    		
 	    		if(page < data.endPage) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + next + '"> > </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> > </a></li>';
 	    		}
 	    		
 	    		output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';
@@ -215,6 +218,7 @@
 	
 	function updateView(prodQA_no, cate) {
 		console.log(prodId);
+		console.log(page);
 		
 		$.ajax({
 			url: '/mall/prodDetail/updateViewCnt',
@@ -298,12 +302,43 @@
 				}
 			});	
 		}
-		
-		
 	}
 	
+	function showHiddenSecret(obj) {
+		let hiddenSecretAddr = $(obj).next().next();
+		console.log(hiddenSecretAddr);
+		$(hiddenSecretAddr).show()
+	}
 	
-	
+	function chcekSecretPwd(obj) {
+		
+		let checkSecretPwd = $(obj).prev().val();
+		console.log(checkSecretPwd);
+		
+		let no = $(obj).prev().parent().attr("id");
+		console.log(no);
+		
+		$.ajax({
+			url: '/mall/prodDetail/checkSecretPwd',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: no,
+				prodQA_secretPassword : checkSecretPwd
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				prodQAListAll(prodId, page, 0, cate);
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
 </script>
 <style>
 	.hiddenSecretDiv {
