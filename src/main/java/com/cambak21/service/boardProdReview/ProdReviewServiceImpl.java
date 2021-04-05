@@ -33,8 +33,8 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 	
 	@Override
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception {
-		return dao.listProdBoardCriteria(cri, product_id);
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id, String orderList) throws Exception {
+		return dao.listProdBoardCriteria(cri, product_id, orderList);
 	}
 	
 
@@ -70,6 +70,41 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	public int deleteProdBoard(int prodReview_no) throws Exception {
 		return dao.deleteProdBoard(prodReview_no);
 		
+	}
+
+
+	// 게시글 좋아요 인서트 및 게시글 좋아요 +1 업데이트/딜리트
+	@Override
+	public int insertLikeProdReviews(String member_id, int prodReview_no) throws Exception {
+		if(dao.getProdReviewsLike(member_id, prodReview_no)==0) {
+			//좋아요 인서트 후
+			dao.insertLikeProdReviews(member_id, prodReview_no);
+			//게시글 좋아요 +1 처리
+			dao.updateLikeProdReviews(prodReview_no);
+			
+			return 1;
+		} else {
+			//좋아요 삭제 후
+			dao.deleteLikeProdReviews(member_id, prodReview_no);
+			//게시글 좋아요 -1 처리
+			dao.updateDisLikeProdReviews(prodReview_no);
+			return 0;
+		}
+		
+	}
+
+
+	// 게시글 좋아요 가져오기
+	@Override
+	public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception {
+		return dao.getProdReviewsLike(member_id, prodReview_no);
+	}
+
+
+	// 게시글 좋아요 수 가져오기
+	@Override
+	public int getProdReviewsLikeCnt(int prodReview_no) throws Exception {
+		return dao.getProdReviewsLikeCnt(prodReview_no);
 	}
 
 

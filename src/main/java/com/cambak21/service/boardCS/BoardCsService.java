@@ -38,7 +38,7 @@ public interface BoardCsService {
 	List<BoardCsVO> searchListBoardCS(SearchCriteria scri, PagingCriteria cri) throws Exception;
 
 	// 게시글 상세보기
-	BoardCsVO readBoardCS(int board_no) throws Exception;
+	BoardCsVO readBoardCS(int board_no, String status) throws Exception;
 	
 	// 상세보기 들어갔을시 체크여부 가져오기
 	int preCheckLike(String member_id, int board_no ) throws Exception;

@@ -38,7 +38,7 @@ public class BoardCampingTip {
 	private CampingTipBoardService service;
 	
 	@RequestMapping(value="/campingTip/list", method=RequestMethod.GET)
-	public String listAll(PagingCriteria cri, Model model, HttpServletRequest request) throws Exception {
+	public String listAll(PagingCriteria cri, Model model) throws Exception {
 		// 캠핑팁 게시판 모든 게시글 출력
 		
 		model.addAttribute("boardList", service.listCampingTipBoard(cri));
