@@ -100,7 +100,7 @@ public class MemberController {
        }
       
       }
-         return "redirect:/user/login/yet";
+         return "redirect:/index/main";
    }	
 	
 //	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

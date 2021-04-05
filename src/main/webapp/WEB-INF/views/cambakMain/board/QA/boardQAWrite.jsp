@@ -78,8 +78,8 @@
 
 				<div id="content">
 					<div>
-						<form action="../qa/write" method="post">
-							<input type="text" class="form-control" id="usr" name="board_title">
+						<form action="../qa/write?page=${param.page }" method="post">
+							<input type="text" class="form-control" id="usr" name="board_title" placeholder="30자 미만으로 적어주세요">
 							<textarea id="summernote" name="board_content"></textarea>
 							<input type="hidden" name="member_id" value="${loginMember.member_id }"> <input
 								type="hidden" name="board_category" value="QA">

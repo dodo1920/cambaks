@@ -118,19 +118,19 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th>번호</th>
-										<th class="board-title">제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
+										<th style="text-align: center;">번호</th>
+										<th class="board-title" style="width: 400px; text-align: center;">제목</th>
+										<th style="text-align: center;">작성자</th>
+										<th style="text-align: center;">작성일</th>
+										<th style="text-align: center;">조회수</th>
 									</tr>
 								</thead>
 								<tbody>
 
 									<c:forEach var="item" items="${boardList }">
 										<tr>
-											<td>${item.board_no }</td>
-											<td>
+											<td style="text-align: center;">${item.board_no }</td>
+											<td style="text-align: center;">
 												<c:choose>
 													<c:when test="${param.searchType == null }">
 														<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
@@ -157,10 +157,10 @@
 												
 												</td>
 											</td>
-											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }"
+											<td style="text-align: center;">${item.member_id }</td>
+											<td style="text-align: center;"><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-											<td>${item.board_viewCnt }</td>
+											<td style="text-align: center;">${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
 
@@ -182,7 +182,7 @@
 							</div>
 							<c:if test="${loginMember.member_id != null}">
 								<button class="btn btn-danger write"
-									onclick="location.href='/board/qa/write'">글쓰기</button>
+									onclick="location.href='/board/qa/write?page=${param.page}'">글쓰기</button>
 							</c:if>
 							
 							<div class="pageBtn">
