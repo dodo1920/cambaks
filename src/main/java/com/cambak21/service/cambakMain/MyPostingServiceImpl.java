@@ -12,6 +12,7 @@ import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMain.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
@@ -133,8 +134,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  */
 
 	@Override
-	public List<ResellBoardVO> getMyResellPosting(String member_id, PagingCriteria cri) throws Exception {
-		return dao.getMyResellPosting(member_id, cri);
+	public List<ResellBoardVO> getMyResellPosting(String member_id, PagingCriteria cri, String category) throws Exception {
+		return dao.getMyResellPosting(member_id, cri, category);
 	}
 
 	/**
@@ -149,11 +150,24 @@ public class MyPostingServiceImpl implements MyPostingService {
 	  */
 	
 	@Override
-	public int getMyPageResellList(String member_id) throws Exception {
-		return dao.getMyPageResellList(member_id);
+	public int getMyPageResellList(String member_id, String category) throws Exception {
+		return dao.getMyPageResellList(member_id, category);
 	}
 
-	
+	/**
+	  * @Method Name : getMyResellReply
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터 총 댓글 수
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public List<ReplyResellVO> getMyResellReply(String member_id, PagingCriteria cri, String category) throws Exception {
+		return dao.getMyResellReply(member_id, cri, category);
+	}
 	
 	
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
@@ -315,6 +329,18 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

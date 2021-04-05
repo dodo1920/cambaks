@@ -31,7 +31,7 @@
 
 function contentTopCategory(category) {
 	
-	$("#myPostBar").attr("class", "");
+	$("#myWritingBar").attr("class", "");
 	$("#myReplyBar").attr("class", "");
 	$("#myLikeBar").attr("class", "");
 	
@@ -72,14 +72,12 @@ function showCambakMarketList(pageNum, category) {
 	} else { // 선택한 카테고리가 있을 때,
 		category = category;
 	}
-	console.log(category);
+	//console.log(category);
 
 	let member_id = "${loginMember.member_id}";
 	
 	
 	// 게시판 리스트 출력 부분
-	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>제목</th><th>가격</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
-    
 	$.ajax({
 	    type		: "get",
 	    url 		: "/myPage/myPageResellList",
@@ -91,17 +89,41 @@ function showCambakMarketList(pageNum, category) {
 	    contentType : "application/json",
 	    success 	: function(data) {
 	    	console.log(data);
-	    	
+	    	console.log(category);
 	    	let boardList = data.boardList;
+	    	//let replyList = data.replyList;
+	    	//console.log(replyList);
         	let pagingParam = data.pagingParam;
-        	console.log(pagingParam);
+        	//console.log(pagingParam);
 	    	let currentPage = pagingParam.cri.page;
-	    	
+	    	let output;
 	    	// 날짜 출력 방식 변경을 위한 변수 설정
         	let showDate;
         	let showThisDate;
+        	if(category == "myReply"){
+        		output = '<table class="table table-hover"><thead><tr><th>댓글번호</th><th>글번호</th><th>제목</th><th>작성자</th><th>작성일</th></tr></thead><tbody>';
+    	    	
+            	//기본 게시글 출력 부분
+    	    	$(boardList).each(function(index, item) {
+           		 // 날짜 출력 포맷 변경 부분
+           		 	showDate = new Date(item.replyResell_writeDate);
+                    showThisDate = showDate.toLocaleString();
+                    
+                    // 게시글 내용 출력 부분
+                    
+                    output += '<tr id=' + item.resellBoard_no + ' onclick="location.href=\'/board/resell/detail?&no=' + item.resellBoard_no  + '\'"><td>' + item.replyResell_no + '</td><td>' + item.resellBoard_no + '</td><td>' + item.replyResell_content +'</td>';
+    	    	
+                    
+                    output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
+                	output += '</tr>'; 
+    	    	});
+        		
+        	}else{
+        		
         	
-	    	//기본 게시글 출력 부분
+        	output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>제목</th><th>가격</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
+	    	
+        	//기본 게시글 출력 부분
 	    	$(boardList).each(function(index, item) {
        		 // 날짜 출력 포맷 변경 부분
        		 	showDate = new Date(item.resellBoard_postDate);
@@ -114,8 +136,8 @@ function showCambakMarketList(pageNum, category) {
                 
                 output += '<td>' + item.member_id + '</td><td><span class="sendTime">' + showThisDate + '</span></td>';
             	output += '<td>' + item.resellBoard_likeCnt + '</td></tr>'; 
-	    	}); // end of ajax
-	    	
+	    	}); // end of for each
+        	}
 	    	// 테이블 닫아주기
 	    	output += '</tbody></table>';
 	    	
@@ -165,7 +187,7 @@ function showCambakMarketList(pageNum, category) {
             
             pageOutput += '</ul></div></div>';
             $("#myWritingListPage").html(pageOutput);
-            
+            console.log(category);
             contentTopCategory(category);
 	    	
 	    }// end of Success
@@ -257,9 +279,9 @@ function showCambakMarketList(pageNum, category) {
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li id="myPostBar" class="bsk-focus catagory-name"><a href="#" onclick="showCambakMarketList(); return false;">나의 게시글</a></li>
-										<li id="myReplyBar" class="catagory-name"><a href="#" onclick="showCambakMarketList(1, 'camping'); return false;">나의 댓글</a></li>
-										<li id="myLikeBar" class="catagory-name"><a href="#" onclick="showCambakMarketList(1, 'humor'); return false;">나의 좋아요글</a></li>
+										<li id="myWritingBar" class="catagory-name"><a href="#" onclick="showCambakMarketList(1, 'myWriting'); return false;">나의 게시글</a></li>
+										<li id="myReplyBar" class="catagory-name"><a href="#" onclick="showCambakMarketList(1, 'myReply'); return false;">나의 댓글</a></li>
+										<li id="myLikeBar" class="catagory-name"><a href="#" onclick="showCambakMarketList(1, 'myLike'); return false;">나의 좋아요글</a></li>
 									</ul>
 								</div>
 							</nav>

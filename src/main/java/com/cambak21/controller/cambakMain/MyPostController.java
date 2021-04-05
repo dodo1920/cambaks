@@ -29,6 +29,7 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ReplyResellVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.service.cambakMain.CheckListService;
 import com.cambak21.service.cambakMain.MyPostingService;
@@ -150,25 +151,40 @@ public class MyPostController {
 	    logger.info("/myPageResell의 ajax-GET방식 호출");
 		System.out.println(member_id);
 		System.out.println(page);
+		System.out.println(category);
 
 	    Map<String, Object> result = new HashMap<String, Object>();
 		
 	    List<ResellBoardVO> boardList = null;
+	    List<ReplyResellVO> replyList = null;
 	    
 	    PagingCriteria cri = new PagingCriteria();
 	    PagingParam pp = new PagingParam();
 	    pp.setCri(cri);
 	    cri.setPage(page);
+	    if(category.equals("myReply")) {
+	    	System.out.println("myReply가 적용됨");
+	    	try {
+	    		replyList = service.getMyResellReply(member_id, cri, category);
+				pp.setTotalCount(service.getMyPageResellList(member_id, category));
+				result.put("boardList", replyList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    } else {
+	    	try {
+				boardList = service.getMyResellPosting(member_id, cri, category);
+				pp.setTotalCount(service.getMyPageResellList(member_id, category));
+				result.put("boardList", boardList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
 	    
-	    try {
-			boardList = service.getMyResellPosting(member_id, cri);
-			pp.setTotalCount(service.getMyPageResellList(member_id));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	    
-	    result.put("boardList", boardList);
+	    
 	    result.put("pagingParam", pp);
 	    
 		return result;
