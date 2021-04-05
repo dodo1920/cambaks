@@ -49,6 +49,14 @@
    .\34 u {
     width: 100%;
    }
+   
+	.main {
+		width: auto;
+	}
+	
+	#login100-form validate-form {
+		min-width: 400px;
+	}
 
    </style>
 
@@ -64,16 +72,12 @@
       <div class="container">
          <div class="row">
 
-         <!-- 사이드바 템플릿 -->
-      <%@include file="../cambak21Aside2.jsp"%>
+<!--          사이드바 템플릿 -->
+<%--       <%@include file="../cambak21Aside2.jsp"%> --%>
       
       <!-- Content -->
             <div id="content" class="8u skel-cell-important">
       <section>
-                  <header>
-                     <h2>고객센터</h2>
-                     <span class="byline" id="rollNot"><a href="/board/notice/listCri">공지사항 상세페이지</a></span>
-                  </header>
             
             
     <!-- Main -->
@@ -108,7 +112,7 @@
                       아이디 / 비밀번호 찾기
                     </a>
                   </div>
-        
+                  
                   <div class="w-full text-center">
                     <a href="buggo_signUp.html" class="txt3">
                       회원 가입
@@ -142,16 +146,11 @@
                       
                     </span>
         
-                    <a href="../find_idPwd" class="txt2">
-                      아이디 / 비밀번호 찾기
-                    </a>
+<!--                     <a href="../find_idPwd" class="txt2"> -->
+<!--                       아이디 / 비밀번호 찾기 -->
+<!--                     </a> -->
                   </div>
         
-                  <div class="w-full text-center">
-                    <a href="buggo_signUp.html" class="txt3">
-                      회원 가입
-                    </a>
-                  </div>
                   </form>
                        
             </c:if>
