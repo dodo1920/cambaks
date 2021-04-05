@@ -32,7 +32,7 @@
 						<li id="myPostAside"><a href="/myPage/myPost">내가 쓴글</a></li>
 						<li id="myReplyAside"><a href="/myPage/myReply">내 댓글</a></li>
 						<li id="myLikeAside"><a href="/myPage/myLike.mp">내 좋아요 글</a></li>
-						<li id="Aside"><a href="#">나의 문의</a></li>
+						<li id="Aside"><a href="#">나의 중고마켓</a></li>
 				
 					</ul>
 				</div>
@@ -50,7 +50,7 @@
 						<li id="#"><a href="#">적립금 관리</a></li>
 						<li id="#"><a href="#">주문 목록</a></li>
 						<li id="#"><a href="#">취소 / 반품</a></li>
-						<li id="#"><a href="#">구매 목록</a></li>
+						<li id="#"><a href="#">나의 문의</a></li>
 					</ul>
 				</div>
 			</div>
