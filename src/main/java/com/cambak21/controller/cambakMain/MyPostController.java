@@ -29,9 +29,8 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
-import com.cambak21.domain.ProdReviewVO;
-import com.cambak21.service.myPost.CheckListService;
-import com.cambak21.service.myPost.MyPostingService;
+import com.cambak21.service.cambakMain.CheckListService;
+import com.cambak21.service.cambakMain.MyPostingService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
@@ -42,6 +41,7 @@ public class MyPostController {
 	// 서비스 주입
 	@Inject
 	private MyPostingService service;
+	private CheckListService ckservice;
 
 	// 디버깅용 Logger
 	private static final Logger logger = LoggerFactory.getLogger(MyPostController.class);
@@ -303,9 +303,6 @@ public class MyPostController {
 	
 	
 	// *****************************  종진 체크리스트 컨트롤러  **********************************//
-	
-	@Inject
-	private CheckListService ckservice;
 	
 	@RequestMapping(value="/checkList", method = RequestMethod.GET)
 	   public String checkList() {
