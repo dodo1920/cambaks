@@ -29,6 +29,7 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.service.cambakMain.CheckListService;
 import com.cambak21.service.cambakMain.MyPostingService;
 import com.cambak21.util.PagingCriteria;
@@ -85,11 +86,14 @@ public class MyPostController {
 
 	}
 
+	//--------------------------------------------------------------- 김정민 controller ---------------------------------------------------------------
+
 	@RequestMapping(value = "myPost", method = RequestMethod.GET)
 	public String showMain() throws Exception {
 		return "cambakMain/myPage/myWriting";
 	}
 
+	//--------------------------------------------------------------- 김정민 내가 작성한 글controller ---------------------------------------------------------------
 	/**
 	 * @Method Name : myPageReplyInfo
 	 * @작성일 : 2021. 3. 29.
@@ -98,11 +102,13 @@ public class MyPostController {
 	 * @Method 설명 :
 	 * @throws Exception
 	 */
+	
+	
 	   @RequestMapping(value="myPost.mp", method=RequestMethod.GET)
 	   public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("board_category")String board_category){
-	      System.out.println(member_id);
-	      System.out.println(page);
-	      System.out.println(board_category);
+	      //System.out.println(member_id);
+	      //System.out.println(page);
+	      //System.out.println(board_category);
 	       logger.info("/myPost의 ajax-GET방식 호출");
 	       Map<String, Object> result = new HashMap<String, Object>();
 	       
@@ -129,6 +135,46 @@ public class MyPostController {
 	       
 	      return result;
 	   }
+	//--------------------------------------------------------------- 김정민 나의 캠박장터 controller ---------------------------------------------------------------
+	//기본 페이지 호출
+	@RequestMapping(value="myPageResell", method=RequestMethod.GET)
+	public String myPageResell() throws Exception {
+		System.out.println("myPageResell");
+		
+		return "cambakMain/myPage/myPageResell";
+	} 
+	
+	@RequestMapping(value="myPageResellList", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> myPageResellList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("category")String category){
+
+	    logger.info("/myPageResell의 ajax-GET방식 호출");
+		System.out.println(member_id);
+		System.out.println(page);
+
+	    Map<String, Object> result = new HashMap<String, Object>();
+		
+	    List<ResellBoardVO> boardList = null;
+	    
+	    PagingCriteria cri = new PagingCriteria();
+	    PagingParam pp = new PagingParam();
+	    pp.setCri(cri);
+	    cri.setPage(page);
+	    
+	    try {
+			boardList = service.getMyResellPosting(member_id, cri);
+			pp.setTotalCount(service.getMyPageResellList(member_id));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    result.put("boardList", boardList);
+	    result.put("pagingParam", pp);
+	    
+		return result;
+	}
+	   
+	//--------------------------------------------------------------- 김정민 controller ---------------------------------------------------------------
 
 	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
 	

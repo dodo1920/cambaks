@@ -211,11 +211,15 @@
 		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category}
 	</select>
 	
+	<!-- getMyResellPosting 정민 -->
+	<select id="getMyResellPosting" resultType="com.cambak21.domain.ResellBoardVO">
+		select * from goot6.ResellBoards where member_id= #{member_id} and resellBoard_isDelete = 'N' order by resellBoard_postDate desc limit #{pageStart}, #{perPageNum}
+	</select>
 	
-	
-	
-	
-	
+	<!-- getMyPageResellList 총 게시글 수 -->
+	<select id="getMyPageResellList" resultType="int">
+		select count(*) from goot6.ResellBoards where member_id=#{member_id} and resellBoard_isDelete='N'
+	</select>
 	
 	
 	

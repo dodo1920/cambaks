@@ -12,6 +12,7 @@ import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMain.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
 
@@ -120,10 +121,38 @@ public class MyPostingServiceImpl implements MyPostingService {
 	}
 
 	
+	/**
+	  * @Method Name : getMyResellPosting
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+
+	@Override
+	public List<ResellBoardVO> getMyResellPosting(String member_id, PagingCriteria cri) throws Exception {
+		return dao.getMyResellPosting(member_id, cri);
+	}
+
+	/**
+	  * @Method Name : getMyPageResellList
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터 총 게시글 수
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
 	
-	
-	
-	
+	@Override
+	public int getMyPageResellList(String member_id) throws Exception {
+		return dao.getMyPageResellList(member_id);
+	}
+
 	
 	
 	
@@ -286,6 +315,27 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
