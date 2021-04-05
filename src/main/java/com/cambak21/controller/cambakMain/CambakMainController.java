@@ -21,7 +21,7 @@ public class CambakMainController {
 		
 		// 캠박이일 게시판 5개의 최신글 5개 씩 담아서 전달
 		model.addAttribute("Boards", service.readRecentBoard());
-		return "/cambakMain/cambak21MainPage";
+		return "/cambakMain/cambak21Main";
 	}
 	
 }
