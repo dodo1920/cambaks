@@ -1,5 +1,7 @@
 package com.cambak21.controller.boards;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.service.BoardHumor.BoardHumorService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -94,7 +98,7 @@ public class BoardHumor {
 		return "redirect:/cambakMain/board/humor/listAll?page=1";
 	}
 	
-	@RequestMapping(value = "search", method = RequestMethod.GET)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception{
 		
 		model.addAttribute("boardList", service.goSearch(scri,cri));
@@ -111,6 +115,35 @@ public class BoardHumor {
 		return "/cambakMain/board/humor/listAll";
 	}
 	
+	@RequestMapping(value = "/like", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> BoardHumorLike(@RequestBody InsertLikeBoard dto){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		try {
+			entity = new ResponseEntity<Map<String,Object>>(service.insertLikeBoard(dto), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@RequestMapping(value = "/likeCheck", method = RequestMethod.POST)
+	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id, @RequestParam("board_no") int board_no){
+		
+		ResponseEntity<Integer> entity = null;
+
+		try {
+			entity = new ResponseEntity<Integer>(service.preCheckLike(member_id, board_no), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	public void test() {
