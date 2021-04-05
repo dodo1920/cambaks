@@ -41,7 +41,7 @@ public class HomeController {
       
       model.addAttribute("serverTime", formattedDate );
       
-      return "cambakMain/user/login/yet";
+      return "index/main";
    }
 
    @RequestMapping(value = "/testcambak21", method = RequestMethod.GET)

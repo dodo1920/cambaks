@@ -78,10 +78,11 @@
 
 				<div id="content">
 					<div>
-						<form action="../qa/modi.bo" method="post">
+						<form action="../qa/modi" method="post">
 							<input type="text" class="form-control" id="usr" name="board_title" value="${board.board_title }">
 							<textarea id="summernote" name="board_content" >${board.board_content }</textarea>
 							<input type="hidden" value="${board.board_no }" name="board_no">
+							<button type="button" class="btn btn-danger" style="float: right; margin: 10px 5px 0px 5px;" onclick="location.href='../qa/detail?no=${board.board_no}&page=${param.page }'">수정취소</button>
 							<button type="submit" class="btn btn-success">수정하기</button>
 						</form>
 					</div>
