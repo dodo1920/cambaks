@@ -105,4 +105,9 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 		return ses.selectList(namespace + ".prodQAReplyListAll", prodQA_no);
 	}
 
+	@Override
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception {
+		return ses.selectList(namespace + ".getLikes", member_id);
+	}
+
 }

@@ -147,4 +147,9 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 		return dao.prodQAReplyListAll(prodQA_no);
 	}
 
+	@Override
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception {
+		return dao.getLikes(member_id);
+	}
+
 }

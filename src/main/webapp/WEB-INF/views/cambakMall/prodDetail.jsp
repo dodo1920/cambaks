@@ -32,125 +32,176 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <script type="text/javascript">
-	
+	let loginUser = '${loginMember.member_id}';
+	let prodId = '${param.prodId}';
+	let page = '${param.page}';
+	let cate = '${param.cate}';
+
 	$(function() {
-		let prodId = $("#product_id").val();
-		console.log(prodId);
+		if(page.length == 0) {
+			page = 1;
+		}
 		
-		let page = $("#page").val();
-		console.log(page);
+		if(cate.length == 0) {
+			cate = "*";
+		}
 		
-		let cate = $("#cate").val();
-		console.log(cate);
+		futurePoints();
 		
-		prodQAListAll(prodId, page, 0, cate);
+		totProdQACnt(prodId);
 		
+		prodQAListAll(prodId, page, 0, cate); // 페이지 호출될 때 상품 문의 목록 함수 호출하는 함수
+		prodQAPagingParam(prodId, page, cate); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
+				
+		
+		// 상품 문의 카테고리가 변경될 때마다 상품 문의 목록 및 페이징 함수 다시 호출하는 함수
+		$("#prodQA_category").change(function(){ 
+        	let cate = $("#prodQA_category").val();
+        	console.log(cate)
+        	
+        	prodQAListAll(prodId, page, 0, cate);
+        	prodQAPagingParam(prodId, page, cate);
+        });
 	});
 	
+	function futurePoints() {
+		let sellPrice = '${prodDetail.product_sellPrice}';
+		
+// 		console.log(sellPrice);
+		
+		let pointA = Number(sellPrice) * 0.15;
+		let pointB = Number(sellPrice) * 0.1;
+		let pointC = Number(sellPrice) * 0;
+		
+		$("#A").html("A : " + pointA + " 원");
+		$("#B").html("B : " + pointB + " 원");
+		$("#C").html("C : " + pointC + " 원");
+	}
+	
+	function totProdQACnt(prodId) {
+		$.ajax({
+			url: '/mall/prodDetail/totProdQACnt?prodId=' + prodId,
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+// 				console.log(result);
+				$("#totprodQACnt").html(result);	
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	// 페이지 호출될 때 상품 문의 목록 함수
 	function prodQAListAll(prodId, page, flag, cate, no) {
 	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId  + "&cate=" + cate + "&page=" + page, function(data){
-	    	if(data.length == 0) {
+	    		let output = "";
+	    		$("#prodQA_category").val(cate).prop("selected",true);
+	    		
+	    	if(data.length == 0) { // 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
+	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
 	    		
-	    		let output = '<table class="table table-hover">';
-	    		output += '<thead><tr><th>';
-	    		output += '<select id="prodQA_category" name="prodQA_category">';
-	    		output += '<option value="*">분류</option>'
-	    		output += '<option value="product">상품</option>';
-	    		output += '<option value="delivery">배송</option>';
-	    		output += '<option value="refund">환불</option>';
-	    		output += '<option value="exchange">교환</option>';
-	    		output += '<option value="etc">기타</option></select></th>';
-	    		output += '<th>글제목</th>';
-	    		output += '<th>작성자</th>';
-	    		output += '<th>작성일</th>';
-	    		output += '<th>좋아요</th>';
-	    		output += '<th>조회수</th></tr></thead>';
-	    		output += '<tbody><tr><th colspan="6">상품 문의사항이 없습니다</th></tr><tbody>';
+	    	} else { // 등록된 상품 문의가 있다면, 
 	    		
-	    		$("#prodQATb").html(output);   
+	    		console.log(page);
 	    		
-	    		$("#prodQA_category").change(function(){
-		        	let cate = $("#prodQA_category").val();
-		        	console.log(cate)
-		        	
-		        	prodQAListAll(prodId, 1, 0, cate)
-		        });
-	    	} else {
-	    		console.log(data);
-	    		
-	    		let output = '<table class="table table-hover">';
-	    		output += '<thead><tr><th>';
-	    		output += '<select id="prodQA_category" name="prodQA_category">';
-	    		output += '<option value="*">분류</option>'
-	    		output += '<option value="product">상품</option>';
-	    		output += '<option value="delivery">배송</option>';
-	    		output += '<option value="refund">환불</option>';
-	    		output += '<option value="exchange">교환</option>';
-	    		output += '<option value="etc">기타</option></select></th>';
-	    		output += '<th>글제목</th>';
-	    		output += '<th>작성자</th>';
-	    		output += '<th>작성일</th>';
-	    		output += '<th>좋아요</th>';
-	    		output += '<th>조회수</th></tr></thead><tbody>';
-	    		
-		        $(data).each(function(index, item){
+	    		$(data).each(function(index, item){
 		        	let date = new Date(item.prodQA_date);
 		        	let dateFormat = date.toLocaleString();
-		        		
+		        	
 		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-	                output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ',\'' + cate + '\');">' + item.prodQA_title + '</div></td>';
+		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
+		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
+		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="showContent(this,' + item.prodQA_no + ',\'' + cate + '\');">' + item.prodQA_title + '</div></td>';	
+		        	}
 	                output += '<td>' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
 	                output += '<td>' + item.prodQA_likeCnt + '</td>';
 	                output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
-	                    
+	                
 	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
 	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div><div>';
-	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
+	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) { // img1에 데이터가 있다면,
 	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
 	                }
-	                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) {
+	                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) { // img2에 데이터가 있다면,
 	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
 	                }
-	                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
+	                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {// img3에 데이터가 있다면,
 	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 	                }
-	                output += '</div><div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
-	                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
+	                
+	                if(loginUser == item.member_id) {
+	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
+		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
+		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+	                }
+	                
 	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
-	                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
-	                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
-	               
-	               
-		        });	
-		        
-		        output+= '</tbody></table>';
-		        
-		        $("#prodQATb").html(output); 
-		        
-		        prodQAPagingParam(prodId, page, cate);
-		        
-		        if(flag == 1) {
-		        	$("#content" + no).show();
-		        	getReply(no, flag);
-		        } else if(flag == 2) {
-		        	$("#content" + no).show();
-		        	getReply(no, flag);
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ',\'' + cate + '\');"/>');
-		        } else {
-		        	$("#content" + no).show();
-		        	getReply(no, flag);
-		        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ',\'' + cate + '\');"/>');
-		        }
-		        
-		        $("#prodQA_category").change(function(){
-		        	let cate = $("#prodQA_category").val();
-		        	console.log(cate)
-		        	
-		        	prodQAListAll(prodId, page, 0, cate)
-		        });
-		        
+	    		});
+			    
+	    	}
+	    	
+	    	$("#prodQATbody").html(output); 
+	    	
+	    	if(flag == 1) {
+	        	$("#content" + no).show();
+	        	if(loginUser.lenght != 0) {
+	    			getLike(loginUser);
+	    		}
+	        	getReply(no, flag);
+	        } else if(flag == 2) {
+	        	$("#content" + no).show();
+	        	getReply(no, flag);
+	        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ',\'' + cate + '\');"/>');
+	        } else {
+	        	$("#content" + no).show();
+	        	getReply(no, flag);
+	        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ',\'' + cate + '\');"/>');
+	        }
+	    });
+	}
+	
+	function prodQAPagingParam(prodId, page, cate) {
+		$.getJSON("/mall/prodDetail/prodQAPP?prodId=" + prodId + "&cate=" + cate, function(data){
+	    	if(data.length == 0) {
+	    		console.log("데이터 없음")
+	    	} else {
+	    		console.log(data);
+	    		let prev = Number(page) - 1;
+	    		let next = Number(page) + 1;
+	    		
+	    		let output = '<ul class="pagination">';
+	    		
+	    		if(page > 1) {
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> < </a></li>';
+	    		}
+	    		
+	    		for(let i = 1; i < data.endPage + 1; i++) {
+	    			page = i;
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');">' + i + '</a></li>';
+	    		}
+	    		
+	    		if(page < data.endPage) {
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> > </a></li>';
+	    		}
+	    		
+	    		if(loginUser.length != 0) {
+	    			output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';	
+	    		}
+	    		
+	    		$("#pagingParamTb").html(output);
+
 	    	}
 	     });
 	}
@@ -186,6 +237,9 @@
 		                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
 		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 		                }
+		                if(item.prodQA_category == 'reply') {
+		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="replyWrite(this);" value="답글"/></div></div></td></tr>';
+		                }
 		                output += '</div></td></tr>'
 					});	
 					$(output).insertAfter("#content"+no);	
@@ -201,34 +255,10 @@
 		});	
 	}
 	
-	function prodQAPagingParam(prodId, page, cate) {
-		$.getJSON("/mall/prodDetail/prodQAPP?prodId=" + prodId + "&cate=" + cate, function(data){
-	    	if(data.length == 0) {
-	    		console.log("데이터 없음")
-	    	} else {
-	    		let prev = Number(page) - 1;
-	    		let next = Number(page) + 1;
-	    		
-	    		let output = '<ul class="pagination">';
-	    		
-	    		if(page > 1) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + prev + '"> < </a></li>';
-	    		}
-	    		
-	    		for(let i = 1; i < data.endPage + 1; i++) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + i + '">' + i + '</a></li>';
-	    		}
-	    		
-	    		if(page < data.endPage) {
-	    			output += '<li><a href="../prodDetail/main?prodId=' + prodId + '&cate=' + cate + '&page=' + next + '"> > </a></li>';
-	    		}
-	    		
-	    		output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';
-	    		
-	    		$("#pagingParamTb").html(output);
-
-	    	}
-	     });
+	function replyWrite(obj) {
+		console.log(obj);
+		
+		window.open('../prodDetail/writeReply', 'writeReply', 'width=400, height=600, left=400, top=400, resizable = yes');
 	}
 	
 	function showContent(obj, no, category) {
@@ -245,10 +275,7 @@
 	}
 	
 	function updateView(prodQA_no, cate) {
-		let prodId = $("#product_id").val();
 		console.log(prodId);
-		
-		let page = $("#page").val();
 		console.log(page);
 		
 		$.ajax({
@@ -274,68 +301,75 @@
 		});	
 	}
 	
+	function getLike(userId) {
+		$.getJSON("/mall/prodDetail/getLike?userId=" + userId, function(data){
+			if(data.length != 0) {
+				console.log(data);
+				$(data).each(function(index, item){
+					$("#likeCnt" + item.prodQA_no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + item.prodQA_no + ',\'' + cate + '\');"/>');
+				});
+			}
+		});
+	}
+	
 	function updateLike(prodQA_no, cate) {
-		let prodId = $("#product_id").val();
 		console.log(prodId);
 		
-		let page = $("#page").val();
-		console.log(page);
-		
-		let member_id = 'fff';
-		
-		$.ajax({
-			url: '/mall/prodDetail/updateLikeCnt',
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-				"Content-Type" : "application/json"
-					},
-			data : JSON.stringify({	// 요청하는 데이터
-				prodQA_no: prodQA_no,
-				member_id: member_id
-				}),
-			dataType : 'text', // 응답 받을 형식
-			type : 'post',
-			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-			success : function(result) {
-				console.log(result);
-				prodQAListAll(prodId, page, 2, cate, prodQA_no);
-			},
-			fail : function(result) {
-				alert(result);
-			}
-		});	
+		if(loginUser.length == 0) {
+			alert("로그인이 필요합니다");
+		} else {
+			$.ajax({
+				url: '/mall/prodDetail/updateLikeCnt',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					prodQA_no: prodQA_no,
+					member_id: loginUser
+					}),
+				dataType : 'text', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+					prodQAListAll(prodId, page, 2, cate, prodQA_no);
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});	
+		}
 	}
 	
 	function deleteLike(prodQA_no, cate) {
-		let prodId = $("#product_id").val();
 		console.log(prodId);
 		
-		let page = $("#page").val();
-		console.log(page);
-		
-		let member_id = 'fff';
-		
-		$.ajax({
-			url: '/mall/prodDetail/deleteLike',
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-				"Content-Type" : "application/json"
-					},
-			data : JSON.stringify({	// 요청하는 데이터
-				prodQA_no: prodQA_no,
-				member_id: member_id
-				}),
-			dataType : 'text', // 응답 받을 형식
-			type : 'post',
-			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-			success : function(result) {
-				console.log(result);
-				prodQAListAll(prodId, page, 3, cate, prodQA_no);
-			},
-			fail : function(result) {
-				alert(result);
-			}
-		});	
+		if(loginUser.length == 0) {
+			alert("로그인이 필요합니다");
+		} else {
+			$.ajax({
+				url: '/mall/prodDetail/deleteLike',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					prodQA_no: prodQA_no,
+					member_id: loginUser
+					}),
+				dataType : 'text', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+					prodQAListAll(prodId, page, 3, cate, prodQA_no);
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});	
+		}
 	}
 	
 	function showHiddenSecret(obj) {
@@ -345,11 +379,6 @@
 	}
 	
 	function chcekSecretPwd(obj) {
-		let prodId = $("#product_id").val();
-		console.log(prodId);
-		
-		let page = $("#page").val();
-		console.log(page);
 		
 		let checkSecretPwd = $(obj).prev().val();
 		console.log(checkSecretPwd);
@@ -371,18 +400,20 @@
 			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
-				prodQAListAll(prodId, page, 0, '*');
+				prodQAListAll(prodId, page, 0, cate);
 			},
 			fail : function(result) {
 				alert(result);
 			}
 		});	
 	}
-	
-	
-	
 </script>
 <style>
+
+	.product__details__widget {
+		padding-top : 0px;
+	}
+	
 	.hiddenSecretDiv {
 		display : none;
 	}
@@ -400,6 +431,7 @@
 		border : none;
 		color : #ca1515;
 	}
+
 </style>
 <body>
 
@@ -478,7 +510,7 @@
                                     <input type="text" value="1">
                                 </div>
                             </div>
-                            <a href="#" class="cart-btn"><span class="icon_bag_alt"></span> 주문하기 </a>
+                            <a href="void(0)" class="cart-btn"><span class="icon_bag_alt" onclick="buying(this);"></span> 주문하기 </a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             </ul>
@@ -486,50 +518,31 @@
                         <div class="product__details__widget">
                             <ul>
                                 <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
-                                        <label for="stockin">
-                                            In Stock
-                                            <input type="checkbox" id="stockin">
-                                            <span class="checkmark"></span>
+                                    <span>예상 적립금:</span>
+                                    <div class="size__btn">
+                                        <label for="xs-btn" id="A">
+                                        </label>
+                                        / 
+                                        <label for="xs-btn" id="B">
+                                        </label>
+                                        /
+                                        <label for="xs-btn" id="C">
                                         </label>
                                     </div>
                                 </li>
                                 <li>
-                                    <span>Available color:</span>
+                                    <span>예상 적립일:</span>
                                     <div class="color__checkbox">
                                         <label for="red">
-                                            <input type="radio" name="color__radio" id="red" checked>
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label for="black">
-                                            <input type="radio" name="color__radio" id="black">
-                                            <span class="checkmark black-bg"></span>
-                                        </label>
-                                        <label for="grey">
-                                            <input type="radio" name="color__radio" id="grey">
-                                            <span class="checkmark grey-bg"></span>
+                                            구매확정일 / 구매일로부터 7일 후
                                         </label>
                                     </div>
                                 </li>
                                 <li>
-                                    <span>Available size:</span>
+                                    <span>사이즈:</span>
                                     <div class="size__btn">
                                         <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            xs
-                                        </label>
-                                        <label for="s-btn">
-                                            <input type="radio" id="s-btn">
-                                            s
-                                        </label>
-                                        <label for="m-btn">
-                                            <input type="radio" id="m-btn">
-                                            m
-                                        </label>
-                                        <label for="l-btn">
-                                            <input type="radio" id="l-btn">
-                                            l
+                                            Free
                                         </label>
                                     </div>
                                 </li>
@@ -551,7 +564,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">상품평( 2 )</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab"><span onclick="showProdQA();">상품 문의</span></a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의(<span id="totprodQACnt"></span>)</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">배송/교환/반품 안내</a>
@@ -582,12 +595,34 @@
                             <div class="tab-pane active" id="tabs-3" role="tabpanel">
                                 <h6>상품 문의</h6>
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
-						     	<input type="hidden" id="product_id" value="${param.prodId }"/>
-						     	<input type="hidden" id="page" value="${param.page }" />
-						     	<input type="hidden" id="cate" value="${param.cate }" />
 						     	
 						     	<div class="container" id="prodQATb">
-						               
+						     		<table class="table table-hover">
+						     			<thead>
+						     				<tr>
+						     					<th>
+						     					<select id="prodQA_category" name="prodQA_category">
+						     						<option value="*">분류</option>
+						     						<option value="product">상품</option>
+						     						<option value="delivery">배송</option>
+						     						<option value="refund">환불</option>
+						     						<option value="exchange">교환</option>
+						     						<option value="etc">기타</option>
+						     					</select>
+						     					</th>
+						     					<th>글제목</th>
+						     					<th>작성자</th>
+						     					<th>작성일</th>
+						     					<th>좋아요</th>
+						     					<th>조회수</th>
+						     				</tr>
+						     			</thead>
+						     			<tbody id="prodQATbody">
+						     			
+						     			
+						     			</tbody>
+						     		</table>
+						              
 								</div>
 								<div class="container" id="pagingParamTb">
 									

@@ -7,7 +7,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -38,9 +40,11 @@ import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
+@Controller
+@RequestMapping("/mall/prodDetail/*")
 public class ProdDetail {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProdDetail2.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 	
 	@Inject
 	private BoardProdQAService QAService;
@@ -64,13 +68,33 @@ public class ProdDetail {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model) throws Exception {
 		logger.info("상품 상세 페이지");
 		
-		System.out.println(prodId);
+		ProductsVO prodDetail = prodService.getProdDetail(prodId);
+		System.out.println(prodDetail);
 		
-		return "cambakMall/prodDetail2";
+		model.addAttribute("prodDetail", prodDetail);
+		
+		return "cambakMall/prodDetail";
 	}
+	
+	@RequestMapping(value="/totProdQACnt", method=RequestMethod.POST)
+	public ResponseEntity<Integer> totProdQACnt(@RequestParam("prodId") int prodId) throws Exception {
+		logger.info("QA 개수 확인");
+		
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			entity = new ResponseEntity<Integer>(QAService.totalProdQACnt(1, prodId, "*"), HttpStatus.OK);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+		}
+		    
+		return entity;
+	}
+	
 	
 	/**
 	 * @Method Name : prodQAList
@@ -94,7 +118,7 @@ public class ProdDetail {
 		ResponseEntity<List<ProdQAVO>> entity = null;
 	      
 	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri, cate), HttpStatus.OK);
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, page, cri, cate), HttpStatus.OK);
 	    } catch (Exception e) {
 	       e.printStackTrace();
 	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -148,7 +172,7 @@ public class ProdDetail {
 		logger.info("QA 답글 리스트 호출");
 		
 		ResponseEntity<List<ProdQAVO>> entity = null;
-	      
+	    
 	    try {
 	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAReplyListAll(vo.getProdQA_no()), HttpStatus.OK);
 	    } catch (Exception e) {
@@ -170,7 +194,7 @@ public class ProdDetail {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/updateViewCnt", method=RequestMethod.POST)
-	public ResponseEntity<String> updateViewCnt(@RequestBody ProdQAVO vo) throws Exception {
+	public ResponseEntity<String> updateViewCnt(@RequestBody ProdQAVO vo, HttpServletRequest request) throws Exception {
 		logger.info("QA 조회수 +1 ");
 		
 		System.out.println(vo.toString());
@@ -182,6 +206,22 @@ public class ProdDetail {
 			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
+		return entity;
+	}
+	
+	@RequestMapping(value="/getLike", method=RequestMethod.GET)
+	public ResponseEntity<List<ProdQAsLikeVO>> getLike(@RequestParam("userId") String userId) throws Exception {
+		logger.info("pordQA 좋아요 불러오기");
+		
+		ResponseEntity<List<ProdQAsLikeVO>> entity = null;
+		
+		try {
+			entity = new ResponseEntity<List<ProdQAsLikeVO>>(QAService.getLikes(userId), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+		}
+		    
 		return entity;
 	}
 	
@@ -236,6 +276,24 @@ public class ProdDetail {
 			if(QAService.prodQALikeCnt(vo.getProdQA_no())) {
 				entity = new ResponseEntity<String>("success", HttpStatus.OK);
 			}			
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
+	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
+		logger.info("QA 글 삭제");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
+			if(QAService.deleteProdQA(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+			}
 		} else {
 			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
@@ -441,4 +499,39 @@ public class ProdDetail {
 			
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
+	
+	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.GET)
+	public String showModiProdQA(@RequestParam("no") int no, @RequestParam("prodId") int prodId, Model model) throws Exception {
+		logger.info("QA 글 수정 페이지 소환");
+		
+		model.addAttribute("prodQA", QAService.prodQADetail(prodId, no));
+		System.out.println(model);
+		
+		return "cambakMall/prodQAModiForm";
+	}
+	
+	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.POST)
+	public String modiProdQA(@RequestParam("prodId") int prodId, @RequestParam("no") int no, @RequestParam("page") int page, ProdQAUpdateDTO updateQA, RedirectAttributes rttr) throws Exception {
+		logger.info("QA 글 수정");
+		
+		updateQA.setProdQA_no(no);
+		
+		updateQA.setProduct_id(prodId);
+		
+		System.out.println(updateQA);
+		
+		if(updateQA.getProdQA_isSecret() != null) {
+			updateQA.setProdQA_isSecret("Y");
+		} else {
+			updateQA.setProdQA_isSecret("N");
+		}
+		
+		System.out.println(updateQA.toString());
+		
+		if(QAService.updateProdQA(updateQA)) {
+			rttr.addAttribute("result", "success");
+		}
+		
+		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
+	}
 }
