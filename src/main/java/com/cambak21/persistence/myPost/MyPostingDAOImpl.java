@@ -196,7 +196,6 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		param.put("board_category", board_category);
 		param.put("pageStart", cri.getListCount(6));
 		param.put("perPageNum", cri.getPerPageNum());
-		System.out.println("시작번호 : " + cri.getPageStart());
 		return ses.selectList(ns + ".readMyReplyList", param);
 	}
 	
