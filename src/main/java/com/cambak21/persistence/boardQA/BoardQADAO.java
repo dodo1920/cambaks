@@ -48,4 +48,6 @@ public interface BoardQADAO {
 	int getBoard_no(String member_id) throws Exception;
 
 	void boardQAViewUpdate(int board_no);
+
+	public boolean viewQACnt(int board_no) throws Exception;
 }
