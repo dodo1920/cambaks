@@ -79,8 +79,8 @@ public class MallController {
 	
 	// **************************************** 박종진 컨트롤러 **********************************************
 	@RequestMapping(value = "/destinationsList", method = RequestMethod.GET)
-	public void destinationsList() throws Exception {
-		
+	public String destinationsList() throws Exception {
+		return "/cambakMall/destinationsList";
 	}
 	
 	@RequestMapping(value = "/destinationsList/ajax/{member_id}", method = RequestMethod.GET)
