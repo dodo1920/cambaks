@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -72,6 +73,17 @@ public class MallController {
 		
 //		DestinationVO vo = service.selectDestOne(destination_no);
 //		System.out.println(vo.toString());
+		
+		return entity;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/prodOrder/default/", method= RequestMethod.GET)
+	public ResponseEntity<DestinationVO> defaultDest(@RequestParam("member_id") String member_id) throws Exception{
+		System.out.println(member_id);
+		ResponseEntity<DestinationVO> entity = null;
+		
+		entity = new ResponseEntity<DestinationVO>(service.defaultDest(member_id), HttpStatus.OK);
 		
 		return entity;
 	}

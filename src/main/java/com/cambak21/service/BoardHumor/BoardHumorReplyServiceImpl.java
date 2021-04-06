@@ -31,8 +31,8 @@ public class BoardHumorReplyServiceImpl implements BoardHumorReplyService {
 	}
 
 	@Override
-	public void delete(int board_no) throws Exception {
-		rdao.delete(board_no);
+	public void delete(int reply_no, int board_no) throws Exception {
+		rdao.delete(reply_no);
 		System.out.println("댓글삭제");
 		bdao.minusReply(board_no);
 		System.out.println("댓글완료");
@@ -45,5 +45,6 @@ public class BoardHumorReplyServiceImpl implements BoardHumorReplyService {
 		rdao.update(vo);
 		
 	}
+
 
 }

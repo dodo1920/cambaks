@@ -13,6 +13,11 @@
   	<select id="selectDestOne" resultType="com.cambak21.domain.DestinationVO">
   		select * from goot6.Destinations where destination_no = #{destination_no}
   	</select>
+  	<!-- 기본 주소록 -->
+  	<select id="defaultDest" resultType="com.cambak21.domain.DestinationVO">
+  		select * from goot6.Destinations where member_id = #{member_id} and default_address > 0
+  	</select>
+  	
   	
   	<!-- 장원영 맵퍼 -->
   	<select id="bucketInfoSelect" resultType="com.cambak21.domain.BucketVO">
@@ -92,7 +97,7 @@
   	</select>
   	
   	<update id="defaultModyAjax" >
-  		update Destinations set default_address = #{destination_no} where member_id = #{member_id}
+  		update Destinations set default_address = #{destination_no} where member_id = #{member_id} 
   	</update>
   	
   	<update id="destiModyAjax">
