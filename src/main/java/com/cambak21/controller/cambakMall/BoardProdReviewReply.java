@@ -17,7 +17,7 @@ import com.cambak21.dto.InsertReplyProdReviewDTO;
 import com.cambak21.service.boardProdReview.ReplyProdReviewService;
 
 @Controller
-@RequestMapping("/cambakMall")
+@RequestMapping("/mall/prodDetail/*")
 public class BoardProdReviewReply {
 
 	@Inject ReplyProdReviewService service;
@@ -83,9 +83,10 @@ public class BoardProdReviewReply {
 		// 댓글 출력
 		@RequestMapping(value="/getProdReviewReply/{prodReview_no}", method=RequestMethod.POST)
 		public @ResponseBody List<ReplyProdReviewVO> getReplyList(@PathVariable("prodReview_no") int prodReview_no) throws Exception {
-			//System.out.println("getProdReviewReply... post...");
+			System.out.println("getProdReviewReply... post...");
 			
 			List<ReplyProdReviewVO> prodReplyList = null;
+			System.out.println(prodReview_no);
 		
 			try {
 				prodReplyList = service.getListReply(prodReview_no);
