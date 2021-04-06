@@ -42,6 +42,30 @@
 	$(document).ready(function() {
 		textLimit(25);
 	});
+	
+	function showQa(no) {
+		let prodQA_no = "#" + no;
+		
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/myMall/answer/" + no, // 서블릿 주소
+			success : function(data) {
+				alert("답변글 가져오기 !!");
+				console.log(data);
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		
+		
+		// 다음에 추가
+		$(prodQA_no).after("<div>새로 추가</div>");
+		
+		
+	}
 </script>
 
 <style type="text/css">
@@ -113,7 +137,7 @@ th.myPageThead {
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
 										<li class="catagory-name"><a class="mini-category"
-											href="../myMall/myQnA">상품 문의</a></li>
+											href="../myMall/myQnA?page=1">상품 문의</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -133,7 +157,7 @@ th.myPageThead {
 									</thead>
 									<tbody class="list-content">
 										<c:forEach var="item" items="${QaList }">
-											<tr class="myPageBoard">
+											<tr class="myPageBoard" id="${item.prodQA_no}">
 												<th class="myPageThead">${item.product_id }</th>
 												<th class="myPageThead">${item.product_name }</th>
 												<th class="myPageThead" style="width: 370px"><a
@@ -143,10 +167,11 @@ th.myPageThead {
 														value="${item.prodQA_date }" pattern="yyyy.MM.dd"
 														type="DATE" /></th>
 												<c:if test="${item.prodQA_completed == 'Y'}">
-													<th class="myPageThead"><a
-														href="../mall/prodDetail/main?prodId=${item.product_id }"><button
-																type="button" class="btn btn-primary" id="qa-check">답변
-																완료</button></a></th>
+													<th class="myPageThead">
+													<button type="button" class="btn btn-primary" id="qa-check" onclick="showQa('${item.prodQA_no}')">답변
+														완료
+													</button>
+													</th>
 												</c:if>
 												<c:if test="${item.prodQA_completed == 'N'}">
 													<th class="myPageThead">답변 미완료</th>

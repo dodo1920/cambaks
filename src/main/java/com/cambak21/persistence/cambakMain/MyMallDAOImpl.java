@@ -1,6 +1,8 @@
 package com.cambak21.persistence.cambakMain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.ProdQAVO;
 
 @Repository
 public class MyMallDAOImpl implements MyMallDAO {
@@ -59,7 +62,29 @@ public class MyMallDAOImpl implements MyMallDAO {
 	public int getQaCnt(String member_id) throws Exception {
 		return ses.selectOne(ns + ".prodQaCnt", member_id);
 	}
+	
+	/**
+	  * @Method Name : getProdQAVO
+	  * @작성일 : 2021. 4. 6.
+	  * @작성자 : 답변 가져오기
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param member_id
+	  * @param prodQA_no
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public ProdQAVO getProdQAVO(String member_id, int prodQA_no) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("prodQA_no", prodQA_no);
+		return ses.selectOne(ns + ".getAnswer", map);
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
