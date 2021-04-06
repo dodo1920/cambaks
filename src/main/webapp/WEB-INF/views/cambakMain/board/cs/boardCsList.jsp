@@ -54,7 +54,7 @@
 <script>
 	$(document).ready(function() {
 		// 말 줄임 ...
-		textLimit();
+		textLimit(35);
 
 		// 공지사항 롤링
 		rolling();

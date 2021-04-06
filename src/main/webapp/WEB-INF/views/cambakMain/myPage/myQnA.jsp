@@ -35,16 +35,50 @@
 	rel='stylesheet' type='text/css'>
 
 <!-- tamplet js -->
-<script src="/resources/cambak21/js/SHWtamplet.js"></script>
-<script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="../../../resources/cambak21/js/SHWtamplet.js"></script>
+<script src="../../../resources/cambak21/js/bbskJS.js"></script>
 
 <script>
-
+	$(document).ready(function() {
+		textLimit(25);
+	});
+	
+	function showQa(no) {
+		let prodQA_no = "#" + no;
+		
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/myMall/answer/" + no, // 서블릿 주소
+			success : function(data) {
+				alert("답변글 가져오기 !!");
+				console.log(data);
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		
+		
+		// 다음에 추가
+		$(prodQA_no).after("<div>새로 추가</div>");
+		
+		
+	}
 </script>
 
 <style type="text/css">
 .myLikePageBtn:hover {
 	cursor: pointer;
+}
+
+th.myPageThead {
+	height: 40px;
+}
+
+#qa-check {
+	padding: 0px 10px;
 }
 </style>
 
@@ -102,8 +136,8 @@
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="catagory-name"><a class="mini-category" href="../myMall/myQnA">상품
-												문의</a></li>
+										<li class="catagory-name"><a class="mini-category"
+											href="../myMall/myQnA?page=1">상품 문의</a></li>
 									</ul>
 								</div>
 							</nav>
@@ -122,95 +156,51 @@
 										</tr>
 									</thead>
 									<tbody class="list-content">
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">미완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-										<tr class="myPageBoard">
-											<th class="myPageThead">1231231</th>
-											<th class="myPageThead">활활화로</th>
-											<th class="myPageThead" style="width: 370px">삼겹살 몇초컷
-												가능인가요 ?</th>
-											<th class="myPageThead">2020-01-01</th>
-											<th class="myPageThead">답변완료</th>
-										</tr>
-
+										<c:forEach var="item" items="${QaList }">
+											<tr class="myPageBoard" id="${item.prodQA_no}">
+												<th class="myPageThead">${item.product_id }</th>
+												<th class="myPageThead">${item.product_name }</th>
+												<th class="myPageThead" style="width: 370px"><a
+													class="board-title-a"
+													href="../mall/prodDetail/main?prodId=${item.product_id }">${item.prodQA_content }</a></th>
+												<th class="myPageThead"><fmt:formatDate
+														value="${item.prodQA_date }" pattern="yyyy.MM.dd"
+														type="DATE" /></th>
+												<c:if test="${item.prodQA_completed == 'Y'}">
+													<th class="myPageThead">
+													<button type="button" class="btn btn-primary" id="qa-check" onclick="showQa('${item.prodQA_no}')">답변
+														완료
+													</button>
+													</th>
+												</c:if>
+												<c:if test="${item.prodQA_completed == 'N'}">
+													<th class="myPageThead">답변 미완료</th>
+												</c:if>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						
 						<!-- 페이징 -->
 						<div class="myPagePagingBtn">
 							<ul class="pagination">
+								<!-- 이전 버튼 -->
+								<c:if test="${pp.prev }">
+									<li><a href="/myMall/myQnA?page=${param.page - 1 }">이전</a></li>
+								</c:if>
 
+								<!-- 페이징 버튼 -->
+								<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
+									var="pageNo">
+									<li><a href="/myMall/myQnA?page=${pageNo }">${pageNo }</a></li>
+								</c:forEach>
+
+								<!-- 다음 버튼 -->
+								<c:if test="${pp.next }">
+									<li><a href="/myMall/myQnA?page=${param.page + 1 }">다음</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>

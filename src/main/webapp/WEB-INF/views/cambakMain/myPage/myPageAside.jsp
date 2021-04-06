@@ -31,7 +31,7 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li id="myPostAside"><a href="/myPage/myPost">내가 쓴글</a></li>
 						<li id="myReplyAside"><a href="/myPage/myReply">내 댓글</a></li>
-						<li id="myLikeAside"><a href="/myPage/myLike.mp">내 좋아요 글</a></li>
+						<li id="myLikeAside"><a href="/myPage/myLike">내 좋아요 글</a></li>
 						<li id="myResellAside"><a href="/myPage/myPageResell">나의 중고거래</a></li>
 					</ul>
 				</div>
@@ -49,7 +49,7 @@
 						<li id="#"><a href="#">적립금 관리</a></li>
 						<li id="#"><a href="#">주문 목록</a></li>
 						<li id="#"><a href="#">취소 / 반품</a></li>
-						<li id="#"><a href="/myMall/myQnA">상품 문의</a></li>
+						<li id="#"><a href="/myMall/myQnA?page=1">상품 문의</a></li>
 					</ul>
 				</div>
 			</div>
