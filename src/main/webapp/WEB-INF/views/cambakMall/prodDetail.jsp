@@ -722,7 +722,7 @@
 	    		}
 	    		
 	    		if(loginUser.length != 0) {
-	    			output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="location.href=\'/mall/prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '\';">글쓰기</button>';	
+	    			output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
 	    		}
 	    		
 	    		$("#pagingParamTb").html(output);
@@ -766,7 +766,7 @@
 		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 		                }
 		                if(item.prodQA_category == 'reply' && loginUser == writer) {
-		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="replyWrite(this);" value="답글"/></div></div></td></tr>';
+		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/></div></div></td></tr>';
 		                }
 		                output += '</div></td></tr>'
 					});	
@@ -783,10 +783,14 @@
 		});	
 	}
 	
-	function replyWrite(obj) {
-		console.log(obj);
+	function goWrite(flag, no) {
+		console.log(flag);
 		
-		window.open('../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page, 'writeReply', 'width=400, height=600, left=400, top=400, resizable = yes');
+		if(flag == 1) {
+			window.open('../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page, 'writeBoard', 'width=400, height=600, left=400, top=400, resizable = yes');
+		} else if(flag == 2) {
+			window.open('../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '&no=' + no, 'writeReply', 'width=400, height=600, left=400, top=400, resizable = yes');
+		}		
 	}
 	
 	function updateView(prodQA_no, cate) {
@@ -924,13 +928,16 @@
 	}
 	
 	function buying(obj) {
+		console.log(prodId);
+		console.log(loginUser);
+		
 		$.ajax({
 			url: '/mall/prodDetail/checkBucket',
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 					},
 			data : JSON.stringify({	// 요청하는 데이터
-				product_id: prodId,
+				pruduct_id: prodId,
 				member_id : loginUser
 				}),
 			dataType : 'text', // 응답 받을 형식

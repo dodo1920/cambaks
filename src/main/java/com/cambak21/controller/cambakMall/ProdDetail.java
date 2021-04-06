@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,6 @@ import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
-import com.cambak21.service.boardCampingReview.CampingReviewService;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
 import com.cambak21.service.boardProdReview.ProdReviewService;
 import com.cambak21.service.cambakMall.prodDetailService;
@@ -50,6 +50,10 @@ import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
+/**
+ * @author goott6
+ *
+ */
 @Controller
 @RequestMapping("/mall/prodDetail/*")
 public class ProdDetail {
@@ -451,6 +455,16 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	/**
+	 * @Method Name : checkSecretPwd
+	 * @작성일 : 2021. 4. 6.
+	 * @작성자 : 
+	 * @변경이력 : 
+	 * @Method 설명 : 
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
 	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
 		logger.info("QA 글 삭제");
@@ -501,9 +515,10 @@ public class ProdDetail {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, Model model) throws Exception {
+	public ResponseEntity<String> uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 글쓰기 저장");
 		
+		ResponseEntity<String> entity = null;
 		insertQA.setProduct_id(prodId);
 		
 		System.out.println(insertQA.toString());
@@ -520,13 +535,46 @@ public class ProdDetail {
 		
 		insertQA.setProdQA_ref(newNo);
 		
-		System.out.println(insertQA.toString());
-		
 		if(QAService.insertProdQA(insertQA)) {
-			rttr.addAttribute("result", "success");
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
-		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
+		return entity;
+	}
+	
+	@RequestMapping(value="/prodQAReplyForm", method=RequestMethod.POST)
+	public void prodQAReplyForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("no") int no, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
+		logger.info("QA 답글 글쓰기 저장");
+		
+		ResponseEntity<String> entity = null;
+		insertQA.setProduct_id(prodId);
+		insertQA.setProdQA_ref(no);
+		
+		System.out.println(no);
+		System.out.println(insertQA.toString());
+
+		if(insertQA.getProdQA_isSecret() != null) {
+			insertQA.setProdQA_isSecret("Y");
+		} else {
+			insertQA.setProdQA_isSecret("N");
+		}
+		
+		int newRefOrder = QAService.getMaxRefOrder(no) + 1;
+		int newStep = QAService.getMaxStep(no) + 1;
+		
+		System.out.println(newRefOrder + ", " + newStep);
+		
+		insertQA.
+		
+		if(QAService.insertProdQA(insertQA)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	/**
@@ -704,7 +752,7 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
-	public void checkBucket(BucketVO vo) throws Exception {
+	public void checkBucket(@RequestBody BucketVO vo) throws Exception {
 		logger.info("주문하기 전 이미 장바구니에 있는 상품인지 확인");
 		System.out.println(vo.toString());
 	}

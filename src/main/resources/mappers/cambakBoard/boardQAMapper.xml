@@ -97,4 +97,13 @@
   		select * from ProdQAsLike where member_id = #{member_id}
   	</select>
   	
+  	<select id="getMaxRefOrder" resultType="int">
+  		select max(prodQA_refOrder) from ProdQAs where prodQA_ref=(select prodQA_ref from ProdQAs where prodQA_no = #{prodQA_no})
+  	</select>
+  	
+  	<select id="getMaxStep" resultType="int">
+  		select prodQA_step from ProdQAs where prodQA_no = #{prodQA_no}
+  	</select>
+  	
+  	
   </mapper>

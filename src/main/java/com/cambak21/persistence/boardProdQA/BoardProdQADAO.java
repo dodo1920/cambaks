@@ -136,6 +136,10 @@ public interface BoardProdQADAO {
 	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception;
 	
 	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception;
+
+	public int getMaxRefOrder(int prodQA_no) throws Exception;
+
+	public int getMaxStep(int prodQA_no) throws Exception;
 	
 	 
 }

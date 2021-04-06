@@ -124,24 +124,53 @@
 	}
 	
 	function checkStatus() {
-		let result = true;
 		let title = $("#prodQA_title").val();
 		let content = $("#prodQA_content").val();
 		let secretPasswd = $("#prodQA_secretPassword").val();
+		let form = $("#prodQAForm").serialize();
+		
+		console.log(window.name);
 		
 		if(title.length == 0 || title.lenght > 100) {
 			alert("수정 부탁드림다");
-			result = false;
 		} else if(content.length == 0) {
 			alert("내용 입력 부탁드림다");
-			result = false;
 		} else if(secretPasswd.length == 0 || secretPasswd.length > 5) {
 			alert("숫자 4자 이하 비밀번호를 입력해주세요");
-			result = false;
+		} else {
+			if(window.name == "writeBoard") {
+				$.ajax({
+	 				url: '/mall/prodDetail/prodQAForm?prodId=' + ${param.prodId } + '&page=' + ${param.page },
+	 				data : form,
+	 				dataType : 'text', // 응답 받을 형식
+	 				type : 'post',
+	 				success : function(result) {
+	 					console.log(result);
+	 					window.close();
+	 				},
+	 				fail : function(result) {
+	 					alert(result);
+	 				}
+	 			});
+			} else if(window.name == "writeReply") {
+				let no = '${param.no}';
+				
+				$.ajax({
+	 				url: '/mall/prodDetail/prodQAReplyForm?prodId=' + ${param.prodId } + '&page=' + ${param.page } + '&no=' + no,
+	 				data : form,
+	 				dataType : 'text', // 응답 받을 형식
+	 				type : 'post',
+	 				success : function(result) {
+	 					console.log(result);
+// 	 					window.close();
+	 				},
+	 				fail : function(result) {
+	 					alert(result);
+	 				}
+	 			});
+			}
+			
 		}
-		
-		return result;
-		self.close();
 	}
 </script>
 <body>
@@ -152,7 +181,7 @@
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
 		      
-				 <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post" enctype="multipart/form-data" id="prodQAForm">	
+				 <form id="prodQAForm" action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post" enctype="multipart/form-data" id="prodQAForm">	
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
@@ -205,7 +234,7 @@
 		            </div>
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
-		                  <button type="submit" class="btn btn-success" onclick="return checkStatus();">저장</button>
+		                  <button type="button" class="btn btn-success" onclick="checkStatus();">저장</button>
 		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&page=${param.page}'">취소</button>
 		               </div>
 		            </div>
