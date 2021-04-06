@@ -332,7 +332,27 @@
 									자리입니다.</a></span>
 						</header>
 						<!-- 검색창, 글쓰기 버튼 템플릿 -->
-						<%@include file="../../cambak21Search&Write.jsp"%>
+						<div class="research">
+							<!-- <form> -->
+							<div class="input">
+								<input type="text" class="form-control" size="50"
+									placeholder="Search" onkeypress="enterKey();">
+								
+									<button type="button" class="btn btn-danger search"
+										onclick="sendKeyword();">Search</button><button class="btn btn-danger write">
+										<a href="../campingreview/write">글쓰기</a>
+									</button>
+									
+								
+							</div>
+							<!-- <div class="input-group-btn write">
+		                        <button class="btn btn-danger write"><a href="SHW_board.html">글쓰기</a></button>
+		                    </div> -->
+							<!-- </form> -->
+						</div>
+
+
+
 					</section>
 
 					<!-- 컨텐츠 시작 -->
@@ -348,7 +368,7 @@
 							<div class="detail-top-author">
 								<p>${board.member_id }</p>
 								<p class="view">
-									조회수 <span>${board.board_viewCnt }</span>
+									조회수 <span>0</span>
 								</p>
 								<p class="like">
 									추천수 <span>${board.board_likeCnt }</span>
@@ -372,15 +392,17 @@
 
 
 
-							
+
 
 						</div>
 						<div class="detail-bottom-comment-write">
 							<p>댓글 작성</p>
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
-								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
+								<input type="text" class="form-control" placeholder="댓글을 입력해주세요"
+									id="replyBoard_content" name="replyBoard_content">
+								<button type="button" class="btn btn-success"
+									onclick="replyWrite();">댓글 작성</button>
 							</div>
 						</div>
 						<div class="detail-bottom">
@@ -408,8 +430,7 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">알림</h4>
 				</div>
-				<div class="modal-body" id="modalText">
-				</div>
+				<div class="modal-body" id="modalText"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
