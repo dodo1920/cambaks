@@ -3,7 +3,6 @@ package com.cambak21.service.boardQA;
 import java.util.List;
 
 import com.cambak21.domain.BoardQAVO;
-import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
