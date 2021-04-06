@@ -35,11 +35,78 @@
 <script>
    $(document).ready(function() {
 	  
-
+	   userIdCheck();
+	   
+	   
       
    });
    
-
+   
+   function userIdCheck() {
+	   
+	   let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
+	   
+	   $("#userId").on("keyup", function() {
+		  
+		   let userId = $("#userId").val();
+		   
+		   if (event.keyCode == '32') {
+			   alert("아이디는 공백 작성 불가합니다.");
+			   $("#userId").val(userId.replace(/ /g,""));
+		   }
+		   
+		   if (userId.length >= 4 && userId.length <= 20) { // 작성한 아이디 길이 체크
+			   
+			   if (idJ.test(userId)) { // 작성한 아이디 정규식 체크
+				   
+				   $.ajax({
+						  method: "POST",
+						  url: "/user/register/checkId",
+						  dataType: "text",
+						  data : {member_id : userId},
+						  success : function(data) {
+							 
+							 if (data == "success") {
+								 $("#idChkResult").attr("class", "changeTextBarMsg");
+								 $("#idChkResult").text("사용 가능한 아이디입니다.");
+							 }
+							 
+							 
+						  }, error : function(data) {
+							  
+				          }
+						  
+						}); 
+				   
+				   
+				   $("#idChkResult").attr("class", "");
+				   $("#idChkResult").text("사용가능합니다.");
+			   } else {
+				   
+				   $("#idChkResult").attr("class", "changeTextBarMsg");
+				   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+				   setTimeout(function() {
+					   $("#idChkResult").css("display", "none");
+                   }, 5000);
+				   
+			   }
+			   
+			   
+		   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
+			   $("#idChkResult").attr("class", "changeTextBarMsg");
+			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+			   setTimeout(function() {
+				   $("#idChkResult").css("display", "none");
+               }, 5000);
+		   }
+		   
+	   });
+	   
+   }
+   
+   
+   
+   
    
 </script>
 
@@ -62,8 +129,7 @@
 }
 
 .contentPlace{
-	margin-left: 330px;
-	margin-right: 200px;
+	margin-left: 25.5%;
 	width: 900px;
 }
 
@@ -101,6 +167,7 @@
 .textBarInfo {
 	font-size: 12px;
 	font-weight: bold;
+    margin-left: 5px;
 }
 
 .genderSideMan {
@@ -173,6 +240,12 @@
 	font-weight: 900;
 }
 
+.changeTextBarMsg {
+	color: #ea2940;
+    font-size: 12px;
+    font-weight: bold;
+}
+
 </style>
 
 </head>
@@ -198,11 +271,11 @@
 								<th class="tableTitleSize">아이디</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="" maxlength="40" size="40" />
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" />
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span id="idChkResult"></span>
 									</div>
 								</td>
 							</tr>
@@ -215,7 +288,7 @@
 									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</span>
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
@@ -226,7 +299,7 @@
 									<input type="password" name="" maxlength="40" size="40" />
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
@@ -237,7 +310,7 @@
 									<input type="text" name="" maxlength="40" size="40" />
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
@@ -279,7 +352,7 @@
 										</span>
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
@@ -313,7 +386,7 @@
 										</span>
 									</div>
 									<div>
-									<span id="">ㅇㄴㄹㅇ</span>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
