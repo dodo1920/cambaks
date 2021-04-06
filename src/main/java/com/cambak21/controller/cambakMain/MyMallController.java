@@ -69,8 +69,6 @@ public class MyMallController {
 			e.printStackTrace();
 			entity = new ResponseEntity<ProdQAVO>(HttpStatus.BAD_REQUEST);
 		}
-		
-		
 		return entity;
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

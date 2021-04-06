@@ -51,7 +51,7 @@
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
 			url : "/myMall/answer/" + no, // 서블릿 주소
 			success : function(data) {
-				alert("답변글 가져오기 !!");
+				answerOuput(data);
 				console.log(data);
 			}, // 통신 성공시
 			error : function(data) {
@@ -59,13 +59,41 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-		
-		
-		// 다음에 추가
-		$(prodQA_no).after("<div>새로 추가</div>");
-		
-		
 	}
+	
+	function answerOuput(data) {
+		let output = "<tr>";
+		output += "<td colspan='3' class='answer-content'>";
+		output += "<div class='answer-comment-wrap'><img src='../resources/cambak21/img/arrow.png' width='20px' style='margin:0 30px 0 20px'></div>";
+		output += "<div class='answer-comment-wrap'><span>"+data.prodQA_content+ "</span><div>";
+		output += "</td>"
+		output += "<td>"+date_to_str(new Date(data.prodQA_date));+"</td>";
+		output += '<td><a href="../mall/prodDetail/main?prodId='+data.product_id+'"><button type="button" class="btn btn-primary" id="qa-check">답변 보러가기</button></a></td>';
+		output += "</tr>";
+
+		let ref = "#" + data.prodQA_ref;
+		$(ref).after(output);
+	}
+	
+	// 작성시간 format
+	function date_to_str(format) {
+		// 댓글 달린 날짜
+		let year = format.getFullYear();
+		
+		// 월
+		let month = format.getMonth() + 1;
+		if (month < 10) {
+			month = '0' + month;
+		}
+		
+		// 일
+		let date = format.getDate();
+		if (date < 10) {
+			date = '0' + date;
+		}
+		
+		return year + "." + month + "." + date;
+	};
 </script>
 
 <style type="text/css">
@@ -79,6 +107,10 @@ th.myPageThead {
 
 #qa-check {
 	padding: 0px 10px;
+}
+
+.answer-comment-wrap {
+    display: inline-block;
 }
 </style>
 
@@ -168,8 +200,8 @@ th.myPageThead {
 														type="DATE" /></th>
 												<c:if test="${item.prodQA_completed == 'Y'}">
 													<th class="myPageThead">
-													<button type="button" class="btn btn-primary" id="qa-check" onclick="showQa('${item.prodQA_no}')">답변
-														완료
+													<button type="button" class="btn btn-primary" style="padding:0px 10px" id="${item.prodQA_no}" onclick="showQa('${item.prodQA_no}')">답변
+														보기
 													</button>
 													</th>
 												</c:if>
