@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,19 +50,19 @@ public class BoardQAController {
 	}
 	
 	@RequestMapping("/qa/write")
-	public String BoardQAWrite() {
+	public String BoardQAWrite(@RequestParam("page") int page) {
 		logger.info("게시글 작성");
 		
 		return "cambakMain/board/QA/boardQAWrite";
 	}
 	
 	@RequestMapping(value="/qa/write", method=RequestMethod.POST)
-	public String BoardQAWrite(InsertBoardQADTO dto, RedirectAttributes ra) throws Exception {
+	public String BoardQAWrite(@RequestParam("page") int page, InsertBoardQADTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("게시글 작성(POST)");
 		System.out.println(dto.toString());
 		ra.addFlashAttribute("status", "writeOk");
 		
-		return "redirect:/board/qa/detail?no=" + service.writeBoardQA(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
+		return "redirect:/board/qa/detail?no=" + service.writeBoardQA(dto) + "&page=" + page; // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
 	
 	@RequestMapping(value="/qa/detail", method=RequestMethod.GET)
