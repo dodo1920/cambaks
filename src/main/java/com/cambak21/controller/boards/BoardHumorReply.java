@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.service.BoardHumor.BoardHumorReplyService;
+import com.cambak21.service.BoardHumor.BoardHumorService;
 
 @RestController
 @RequestMapping("/cambakMain/board/humor/replies")
@@ -21,6 +22,9 @@ public class BoardHumorReply {
 	
 	@Inject
 	private BoardHumorReplyService service;
+	
+	@Inject
+	private BoardHumorService hservice;
 	
 	
 	
@@ -60,12 +64,13 @@ public class BoardHumorReply {
 	}
 	
 	@RequestMapping(value = "/{board_no}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> delete(@PathVariable("board_no") int board_no){
+	public ResponseEntity<String> delete(@PathVariable("board_no") int reply_no){
 		
 		ResponseEntity<String> entity = null;
 		
 		try {
-			service.delete(board_no);
+			service.delete(reply_no);
+			
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
