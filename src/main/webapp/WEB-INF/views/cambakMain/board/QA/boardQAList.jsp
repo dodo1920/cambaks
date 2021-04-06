@@ -5,7 +5,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Cambark's Q&A</title>
+<title>Cambark's</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="" />
 <meta name="keywords" content="" />
@@ -151,11 +151,9 @@
 <%-- 													<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a> --%>
 <%-- 												</c:if> --%>
 												<!-- 댓글 수 -->
-												<c:if test="${item.board_replyCnt > 0 }">
+												<c:if test="${item.board_replyCnt != null }">
 													(${item.board_replyCnt })
 												</c:if>
-												
-												</td>
 											</td>
 											<td style="text-align: center;">${item.member_id }</td>
 											<td style="text-align: center;"><fmt:formatDate value="${item.board_writeDate }"
