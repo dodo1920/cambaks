@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMain.MyMallService;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping("/myMall/*")
@@ -35,9 +37,14 @@ public class MyMallController {
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("myQnA")
-	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
+	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember, PagingCriteria cri) throws Exception {
 		logger.info("승권 / 상품문의 게시글 get 호출");
 		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.getQaCnt(loginMember.getMember_id()));
+		
+		model.addAttribute("pp", pp);
 		model.addAttribute("QaList", service.getMyQAList(loginMember.getMember_id()));
 		
 		return "cambakMain/myPage/myQnA";

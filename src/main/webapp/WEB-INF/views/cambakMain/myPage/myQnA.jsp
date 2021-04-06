@@ -39,9 +39,9 @@
 <script src="../../../resources/cambak21/js/bbskJS.js"></script>
 
 <script>
-$(document).ready(function() {
-	textLimit(25);
-});
+	$(document).ready(function() {
+		textLimit(25);
+	});
 </script>
 
 <style type="text/css">
@@ -50,7 +50,7 @@ $(document).ready(function() {
 }
 
 th.myPageThead {
-    height: 40px;
+	height: 40px;
 }
 
 #qa-check {
@@ -126,36 +126,56 @@ th.myPageThead {
 										<tr>
 											<th class="myPageThead">상품번호</th>
 											<th class="myPageThead">상품명</th>
-											<th class="myPageThead" style="width:370px">문의 내용</th>
+											<th class="myPageThead" style="width: 370px">문의 내용</th>
 											<th class="myPageThead">작성일</th>
 											<th class="myPageThead">답변</th>
 										</tr>
 									</thead>
 									<tbody class="list-content">
-									<c:forEach var="item" items="${QaList }">
-										<tr class="myPageBoard">
-											<th class="myPageThead">${item.product_id }</th>
-											<th class="myPageThead">${item.product_name }</th>
-											<th class="myPageThead" style="width: 370px"><a class="board-title-a" href="../mall/prodDetail/main?prodId=${item.product_id }">${item.prodQA_content }</a></th>
-											<th class="myPageThead"><fmt:formatDate value="${item.prodQA_date }" pattern="yyyy.MM.dd" type="DATE" /></th>
-										<c:if test="${item.prodQA_completed == 'Y'}">
-											<th class="myPageThead">
-												<a href="../mall/prodDetail/main?prodId=${item.product_id }"><button type="button" class="btn btn-primary" id="qa-check">답변 완료</button></a>
-											</th>
-										</c:if>
-										<c:if test="${item.prodQA_completed == 'N'}">
-											<th class="myPageThead">답변 미완료</th>
-										</c:if>
-										</tr>
-									</c:forEach>
+										<c:forEach var="item" items="${QaList }">
+											<tr class="myPageBoard">
+												<th class="myPageThead">${item.product_id }</th>
+												<th class="myPageThead">${item.product_name }</th>
+												<th class="myPageThead" style="width: 370px"><a
+													class="board-title-a"
+													href="../mall/prodDetail/main?prodId=${item.product_id }">${item.prodQA_content }</a></th>
+												<th class="myPageThead"><fmt:formatDate
+														value="${item.prodQA_date }" pattern="yyyy.MM.dd"
+														type="DATE" /></th>
+												<c:if test="${item.prodQA_completed == 'Y'}">
+													<th class="myPageThead"><a
+														href="../mall/prodDetail/main?prodId=${item.product_id }"><button
+																type="button" class="btn btn-primary" id="qa-check">답변
+																완료</button></a></th>
+												</c:if>
+												<c:if test="${item.prodQA_completed == 'N'}">
+													<th class="myPageThead">답변 미완료</th>
+												</c:if>
+											</tr>
+										</c:forEach>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						
 						<!-- 페이징 -->
 						<div class="myPagePagingBtn">
 							<ul class="pagination">
+								<!-- 이전 버튼 -->
+								<c:if test="${pp.prev }">
+									<li><a href="/myMall/myQnA?page=${param.page - 1 }">이전</a></li>
+								</c:if>
 
+								<!-- 페이징 버튼 -->
+								<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
+									var="pageNo">
+									<li><a href="/myMall/myQnA?page=${pageNo }">${pageNo }</a></li>
+								</c:forEach>
+
+								<!-- 다음 버튼 -->
+								<c:if test="${pp.next }">
+									<li><a href="/myMall/myQnA?page=${param.page + 1 }">다음</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>

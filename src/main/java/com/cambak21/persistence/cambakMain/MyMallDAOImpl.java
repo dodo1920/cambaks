@@ -43,6 +43,22 @@ public class MyMallDAOImpl implements MyMallDAO {
 	public List<MyQAVO> getMyQAList(String member_id) throws Exception {
 		return ses.selectList(ns + ".getListProdQa", member_id);
 	}
+	
+
+	/**
+	  * @Method Name : getQaCnt
+	  * @작성일 : 2021. 4. 6.
+	  * @작성자 : goott6
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public int getQaCnt(String member_id) throws Exception {
+		return ses.selectOne(ns + ".prodQaCnt", member_id);
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
