@@ -122,6 +122,27 @@
 			}
 		});
 	}
+	
+	function checkStatus() {
+		let result = true;
+		let title = $("#prodQA_title").val();
+		let content = $("#prodQA_content").val();
+		let secretPasswd = $("#prodQA_secretPassword").val();
+		
+		if(title.length == 0 || title.lenght > 100) {
+			alert("수정 부탁드림다");
+			result = false;
+		} else if(content.length == 0) {
+			alert("내용 입력 부탁드림다");
+			result = false;
+		} else if(secretPasswd.length == 0 || secretPasswd.length > 5) {
+			alert("숫자 4자 이하 비밀번호를 입력해주세요");
+			result = false;
+		}
+		
+		return result;
+		self.close();
+	}
 </script>
 <body>
 
@@ -184,7 +205,7 @@
 		            </div>
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
-		                  <button type="submit" class="btn btn-success">저장</button>
+		                  <button type="submit" class="btn btn-success" onclick="return checkStatus();">저장</button>
 		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&page=${param.page}'">취소</button>
 		               </div>
 		            </div>
