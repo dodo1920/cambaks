@@ -91,6 +91,7 @@ public class MyPostController {
 
 	@RequestMapping(value = "myPost", method = RequestMethod.GET)
 	public String showMain() throws Exception {
+		
 		return "cambakMain/myPage/myWriting";
 	}
 
