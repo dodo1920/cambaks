@@ -70,8 +70,14 @@
 		// 글 삭제 알림창
 		deleteOk();
 		
+		pageNumWrite();
 		
 	});
+	
+	function pageNumWrite() {
+		var param = '${param.page }';
+		$("#pageNum" + param).attr("class", "active");
+	}
 	
 	// 글 삭제(리스트 페이지로 이동)
 	function deleteOk() {
@@ -122,6 +128,7 @@
 										<th class="board-title" style="width: 400px; text-align: center;">제목</th>
 										<th style="text-align: center;">작성자</th>
 										<th style="text-align: center;">작성일</th>
+										<th style="text-align: center;">추천수</th>
 										<th style="text-align: center;">조회수</th>
 									</tr>
 								</thead>
@@ -150,14 +157,16 @@
 <%-- 												<c:if test="${item.board_replyCnt == 0 }"> --%>
 <%-- 													<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a> --%>
 <%-- 												</c:if> --%>
+												
 												<!-- 댓글 수 -->
-												<c:if test="${item.board_replyCnt != null }">
+												<c:if test="${item.board_replyCnt > 0 }">
 													(${item.board_replyCnt })
 												</c:if>
 											</td>
 											<td style="text-align: center;">${item.member_id }</td>
 											<td style="text-align: center;"><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											<td style="text-align: center;">${item.board_likeCnt }</td>
 											<td style="text-align: center;">${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
@@ -193,9 +202,8 @@
 										</c:if>
 
 										<!-- 페이징 버튼 -->
-										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }"
-											var="pageNo">
-											<li><a href="/board/qa/list?page=${pageNo }">${pageNo }</a></li>
+										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+											<li id="pageNum${pageNo }"><a href="/board/qa/list?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 
 										<!-- 다음 버튼 -->
@@ -207,15 +215,12 @@
 									<c:otherwise>
 										<!-- 이전 버튼 -->
 										<c:if test="${pagingParam.prev }">
-											<li><a
-												href="/board/qa/search?page=${param.page - 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">이전</a></li>
+											<li><a href="/board/qa/search?page=${param.page - 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">이전</a></li>
 										</c:if>
 
 										<!-- 페이징 버튼 -->
-										<c:forEach begin="${pagingParam.startPage }"
-											end="${pagingParam.endPage }" var="pageNo">
-											<li><a
-												href="/board/qa/search?page=${pageNo }&searchType=${search.searchType}&searchWord=${search.searchWord}">${pageNo }</a></li>
+										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+											<li id="pageNum${pageNo }"><a href="/board/qa/search?page=${pageNo }&searchType=${search.searchType}&searchWord=${search.searchWord}">${pageNo }</a></li>
 										</c:forEach>
 
 										<!-- 다음 버튼 -->
