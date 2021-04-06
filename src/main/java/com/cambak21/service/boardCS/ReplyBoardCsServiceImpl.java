@@ -1,6 +1,8 @@
 package com.cambak21.service.boardCS;
 
-import java.util.List;
+import java.util.HashMap;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.GetReplyInfo;
-import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
 import com.cambak21.persistence.boardCS.ReplyBoardCsDAO;
@@ -49,7 +50,6 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 			// getRefMax : 현재 댓글 번호들의 max()
 			dao.insertReplyBoardCS(dto, dao.getRefMax() + 1);
 		}
-
 	}
 
 	@Override
@@ -66,7 +66,10 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 	}
 
 	@Override
-	public List<ReplyBoardVO> getReplyListBoardCS(int board_no) throws Exception {
-		return dao.getReplyListBoardCS(board_no);
+	public Map<String, Object> getReplyListBoardCS(int board_no) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("replyList", dao.getReplyListBoardCS(board_no));
+		map.put("replyCnt", dao.getReplyCnt(board_no));
+		return map;
 	}
 }

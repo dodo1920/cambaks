@@ -45,7 +45,7 @@ function destList(){
 	let member = "${loginMember.member_id}"
 	console.log(member);
 	let output ="";
-	$.getJSON("/cambakMall/prodOrder/" + member, function(data) {
+	$.getJSON("/mall/prodOrder/" + member, function(data) {
 		console.log(data);
 		 $(data).each(function(index, item){
 			output += "<div>" + this.destination_nickname + "</div>"
@@ -62,7 +62,7 @@ function destList(){
 function selectDest(destination_no){
 	$.ajax({
 		  method: "GET",
-		  url: "/cambakMall/prodOrder/select/" + destination_no ,
+		  url: "/mall/prodOrder/select/" + destination_no ,
 		  headers : { // 요청하는 데이터의 헤더에 전송
 			  "Content-Type" : "application/json",
 			  "X-HTTP-Method-Override" : "GET"
@@ -73,6 +73,7 @@ function selectDest(destination_no){
 			  $("#user_name").html(result.destination_nickname);
 			  $("#user_number").html(result.destination_mobile);
 			  $("#user_dest").html(result.destination_address + " " + result.destination_addressDetail);
+			  $("#destination_no").val(result.destination_no);
 		  }
 		});
 	
@@ -80,21 +81,45 @@ function selectDest(destination_no){
 
 function shownoAccount() {
 	$("#creditCard").hide();
+	$("#creditCardBank").attr('disabled', 'true');
+	$("#creditCardInstallments").attr('disabled', 'true');
 	$("#transfer").hide();
+	$("#transferBank").attr('disabled', 'true');
 	$("#noAccount").show();
+	$("#noAccountBank").removeAttr('disabled'); 
 	
 }
 
 function showcreditCard(){
 	$("#noAccount").hide();
+	$("#noAccountBank").attr('disabled', 'true');
 	$("#transfer").hide();
+	$("#transferBank").attr('disabled', 'true');
 	$("#creditCard").show();
+	$("#creditCardBank").removeAttr('disabled'); 
+	$("#creditCardInstallments").removeAttr('disabled'); 
 }
 
 function showtransfer() {
 	$("#creditCard").hide();
+	$("#creditCardBank").attr('disabled', 'true');
+	$("#creditCardInstallments").attr('disabled', 'true');
 	$("#noAccount").hide();
+	$("#noAccountBank").attr('disabled', 'true');
 	$("#transfer").show();
+	$("#transferBank").removeAttr('disabled'); 
+}
+
+function checkForm(){
+	
+	agreement = $("#agreement").prop("checked");
+	console.log(agreement);
+	if(agreement == false){
+		alert("겔제 동의가 필요합니다.");
+		return false;
+	}
+	
+	
 }
 //김대기 script end
 
@@ -135,7 +160,7 @@ function showtransfer() {
       <div class="container">
       
     <!-- 배송지 선택 테이블 start -->
-    <form>
+    <form action = "" method ="post" onsubmit="checkForm(); return false;">
     <div>
     <h2>배송지 정보</h2>
     <div class="tbl_wrap">
@@ -170,6 +195,7 @@ function showtransfer() {
     		</tr>
     	</tbody>
     	</table>
+    	<input type="hidden" name="destination_no" value="" id="destination_no">
     </div>
     </div>
     <!-- 배송지 선택 테이블 end -->
@@ -186,20 +212,13 @@ function showtransfer() {
 								
 							</div>
 							<div class="modal-body" id="destList">
-							<!-- 
-								<div>김대기</div>
-								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
-								<div>010-2332-3232</div>
-								<button type="button" class="btn btn-default">선택하기</button>
-								<hr/>
-								<div>김대기</div>
-								<div>인천시 어쩌구 저쩌구 여기로 배달해주세요</div>
-								<div>010-2332-3232</div>
-								<button type="button" class="btn btn-default">선택하기</button>
-								 -->
+						
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default"
+								
+									<button type="button" class="btn btn-default"
+									onclick="location.href=#">배송지 수정하기</button>
+									<button type="button" class="btn btn-default"
 									data-dismiss="modal">Close</button>
 							</div>
 						</div>
@@ -329,7 +348,7 @@ function showtransfer() {
 										<li>
 										<div>
 											<label>입금은행</label>
-												<select>
+												<select id="noAccountBank">
 													<option>국민은행</option>
 													<option>신한은행</option>
 													<option>하나은행</option>
@@ -352,7 +371,7 @@ function showtransfer() {
 										<li>
 										<div>
 											<label>카드 선택</label>
-												<select>
+												<select id="creditCardBank">
 													<option>국민카드</option>
 													<option>신한카드</option>
 													<option>하나카드</option>
@@ -365,7 +384,7 @@ function showtransfer() {
 										<li>
 											<div>
 												<span>할부기한</span>
-												<select>
+												<select id="creditCardInstallments">
 													<option>일시불</option>
 													<option>3개월</option>
 													<option>6개월</option>
@@ -383,7 +402,7 @@ function showtransfer() {
 										<li>
 										<div>
 											<label>입금은행</label>
-												<select>
+												<select id="transferBank">
 													<option>국민은행</option>
 													<option>신한은행</option>
 													<option>하나은행</option>
@@ -414,11 +433,15 @@ function showtransfer() {
     		<div>
     			<dl>
     				<dt>
-    					 <label><input type="checkbox" value="">Option 1</label>
+    					 <label><input type="checkbox" value="" id="agreement">동의</label>
     				</dt>
     			</dl>
     		</div>
     	</div>
+    </div>
+    <div>
+    	<button type="submit" class="btn btn-default">결제하기</button>
+    	<button class="btn btn-default">취소</button>
     </div>
     </form>
     <!-- 약관동의 테이블 end -->

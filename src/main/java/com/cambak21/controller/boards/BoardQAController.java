@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,7 +33,7 @@ public class BoardQAController {
 	
 	private static Logger logger = LoggerFactory.getLogger(BoardQAController.class);
 	
-	@RequestMapping("/qa/list.bo")
+	@RequestMapping("/qa/list")
 	public String BoardQAList(Model model, PagingCriteria cri) throws Exception {
 		logger.info("게시글 리스트");
 		model.addAttribute("boardList", service.listBoardQA(cri));
@@ -48,23 +49,23 @@ public class BoardQAController {
 		return "cambakMain/board/QA/boardQAList";
 	}
 	
-	@RequestMapping("/qa/write.bo")
-	public String BoardQAWrite() {
+	@RequestMapping("/qa/write")
+	public String BoardQAWrite(@RequestParam("page") int page) {
 		logger.info("게시글 작성");
 		
 		return "cambakMain/board/QA/boardQAWrite";
 	}
 	
-	@RequestMapping(value="/qa/write.bo", method=RequestMethod.POST)
-	public String BoardQAWrite(InsertBoardQADTO dto, RedirectAttributes ra) throws Exception {
+	@RequestMapping(value="/qa/write", method=RequestMethod.POST)
+	public String BoardQAWrite(@RequestParam("page") int page, InsertBoardQADTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("게시글 작성(POST)");
 		System.out.println(dto.toString());
 		ra.addFlashAttribute("status", "writeOk");
 		
-		return "redirect:/board/qa/detail.bo?no=" + service.writeBoardQA(dto); // 해당 메서드 실행하면 max(board_no)값 반환해줌
+		return "redirect:/board/qa/detail?no=" + service.writeBoardQA(dto) + "&page=" + page; // 해당 메서드 실행하면 max(board_no)값 반환해줌
 	}
 	
-	@RequestMapping(value="/qa/detail.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/qa/detail", method=RequestMethod.GET)
 	public String BoardQADetail(@RequestParam("no") int no, Model model) throws Exception {
 		
 		logger.info("상세게시글 호출");
@@ -74,7 +75,7 @@ public class BoardQAController {
 		return "cambakMain/board/QA/boardQADetail";
 	}
 	
-	@RequestMapping(value="/qa/delete.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/qa/delete", method=RequestMethod.GET)
 	public String BoardQADelete(@RequestParam("no") int board_no, RedirectAttributes ra) throws Exception {
 		logger.info("게시글 삭제");
 		
@@ -82,10 +83,10 @@ public class BoardQAController {
 		
 		ra.addFlashAttribute("status", "deleteOk");
 		
-		return "redirect:/board/qa/list.bo";
+		return "redirect:/board/qa/list";
 	}
 	
-	@RequestMapping("/qa/modi.bo")
+	@RequestMapping("/qa/modi")
 	public String BoardModi(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("게시글 수정");
 		
@@ -94,7 +95,7 @@ public class BoardQAController {
 		return "cambakMain/board/QA/boardQAModi";
 	}
 	
-	@RequestMapping(value="/qa/modi.bo", method=RequestMethod.POST)
+	@RequestMapping(value="/qa/modi", method=RequestMethod.POST)
 	public String BoardModi(UpdateBoardQADTO dto, RedirectAttributes ra) throws Exception {
 		logger.info("게시글 수정(post)");
 		
@@ -103,10 +104,10 @@ public class BoardQAController {
 		ra.addFlashAttribute("status", "modiOk");
 		
 		
-		return "redirect:/board/qa/detail.bo?no=" + dto.getBoard_no();
+		return "redirect:/board/qa/detail?no=" + dto.getBoard_no();
 	}
 	
-	@RequestMapping(value="/qa/search.bo", method=RequestMethod.GET)
+	@RequestMapping(value="/qa/search", method=RequestMethod.GET)
 	public String BoardSearch(SearchCriteria scri, Model model, PagingCriteria cri) throws Exception {
 		logger.info("게시글 검색");
 		List<BoardQAVO> search = service.searchListBoardQA(scri, cri);

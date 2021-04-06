@@ -11,7 +11,7 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Logo</a>
+					<a class="navbar-brand" href="/index/main">Logo</a>
 					<a class="navbar-brand" href="/">캠박몰 바로가기</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
@@ -19,11 +19,21 @@
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">MENU<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="/user/login/">로그인</a></li>
-								<li><a href="board/notice/listCri">게시판</a></li>
-								<li><a href="">마이페이지</a></li>
-								<li><a href="">고객센터</a></li>
-								<li><a href="">관리자페이지</a></li>
+	                        	<c:choose>
+	                        		<c:when test="${loginMember != null }">
+			                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
+			                            <li><a href="/myPage/checkList">마이페이지</a></li>
+			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
+			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+	                            	</c:when>
+	                            	<c:otherwise>
+	                            		<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
+			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
+			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+	                            	</c:otherwise>
+	                            </c:choose>
 							</ul>
 						</li>
 					</ul>

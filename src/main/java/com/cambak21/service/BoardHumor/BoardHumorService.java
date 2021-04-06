@@ -1,8 +1,10 @@
 package com.cambak21.service.BoardHumor;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -23,4 +25,8 @@ public interface BoardHumorService {
 
 	public int searchBoardCnt(SearchCriteria scri) throws Exception;
 
+	// 추천하기
+	public Map<String, Object> insertLikeBoard(InsertLikeBoard dto) throws Exception;
+
+	public Integer preCheckLike(String member_id, int board_no);
 }

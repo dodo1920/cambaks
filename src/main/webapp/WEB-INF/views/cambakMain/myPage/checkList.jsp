@@ -35,6 +35,7 @@
 	let checkList_checked = "";
 	let checkedCnt = 0;
 	let noncheckedCnt = 0;
+	$("body,html").animate({scrollTop: 300}, 1);
 	
 	$(function() {
 		

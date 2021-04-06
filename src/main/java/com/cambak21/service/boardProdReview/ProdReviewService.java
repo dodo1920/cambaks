@@ -14,7 +14,7 @@ public interface ProdReviewService {
 		public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 		
 		// 페이징
-		public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception;
+		public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id, String orderList) throws Exception;
 		
 		public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 
@@ -29,6 +29,15 @@ public interface ProdReviewService {
 		
 		// 게시글 삭제
 		public int deleteProdBoard(int prodReview_no) throws Exception;
+
+		// 게시글 좋아요 인서트
+		public int insertLikeProdReviews(String member_id, int prodReview_no) throws Exception;
+
+		// 게시글 좋아요 여부 가져오기
+		public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception;
+		
+		// 게시글 좋아요 수 가져오기
+		public int getProdReviewsLikeCnt(int prodReview_no) throws Exception;
 		
 		
 		// 검색 결과 전체 글 수 가져오기

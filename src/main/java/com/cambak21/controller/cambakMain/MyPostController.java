@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
@@ -28,9 +29,10 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
-import com.cambak21.domain.ProdReviewVO;
-import com.cambak21.service.myPost.CheckListService;
-import com.cambak21.service.myPost.MyPostingService;
+import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardVO;
+import com.cambak21.service.cambakMain.CheckListService;
+import com.cambak21.service.cambakMain.MyPostingService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
@@ -41,6 +43,7 @@ public class MyPostController {
 	// 서비스 주입
 	@Inject
 	private MyPostingService service;
+	private CheckListService ckservice;
 
 	// 디버깅용 Logger
 	private static final Logger logger = LoggerFactory.getLogger(MyPostController.class);
@@ -84,11 +87,15 @@ public class MyPostController {
 
 	}
 
+	//--------------------------------------------------------------- 김정민 controller ---------------------------------------------------------------
+
 	@RequestMapping(value = "myPost", method = RequestMethod.GET)
 	public String showMain() throws Exception {
+		
 		return "cambakMain/myPage/myWriting";
 	}
 
+	//--------------------------------------------------------------- 김정민 내가 작성한 글controller ---------------------------------------------------------------
 	/**
 	 * @Method Name : myPageReplyInfo
 	 * @작성일 : 2021. 3. 29.
@@ -97,11 +104,13 @@ public class MyPostController {
 	 * @Method 설명 :
 	 * @throws Exception
 	 */
+	
+	
 	   @RequestMapping(value="myPost.mp", method=RequestMethod.GET)
 	   public @ResponseBody Map<String, Object> myPostList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("board_category")String board_category){
-	      System.out.println(member_id);
-	      System.out.println(page);
-	      System.out.println(board_category);
+	      //System.out.println(member_id);
+	      //System.out.println(page);
+	      //System.out.println(board_category);
 	       logger.info("/myPost의 ajax-GET방식 호출");
 	       Map<String, Object> result = new HashMap<String, Object>();
 	       
@@ -128,6 +137,61 @@ public class MyPostController {
 	       
 	      return result;
 	   }
+	//--------------------------------------------------------------- 김정민 나의 캠박장터 controller ---------------------------------------------------------------
+	//기본 페이지 호출
+	@RequestMapping(value="myPageResell", method=RequestMethod.GET)
+	public String myPageResell() throws Exception {
+		System.out.println("myPageResell");
+		
+		return "cambakMain/myPage/myPageResell";
+	} 
+	
+	@RequestMapping(value="myPageResellList", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> myPageResellList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("category")String category){
+
+	    logger.info("/myPageResell의 ajax-GET방식 호출");
+		System.out.println(member_id);
+		System.out.println(page);
+		System.out.println(category);
+
+	    Map<String, Object> result = new HashMap<String, Object>();
+		
+	    List<ResellBoardVO> boardList = null;
+	    List<ReplyResellVO> replyList = null;
+	    
+	    PagingCriteria cri = new PagingCriteria();
+	    PagingParam pp = new PagingParam();
+	    pp.setCri(cri);
+	    cri.setPage(page);
+	    if(category.equals("myReply")) {
+	    	System.out.println("myReply가 적용됨");
+	    	try {
+	    		replyList = service.getMyResellReply(member_id, cri, category);
+				pp.setTotalCount(service.getMyPageResellList(member_id, category));
+				result.put("boardList", replyList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    } else {
+	    	try {
+				boardList = service.getMyResellPosting(member_id, cri, category);
+				pp.setTotalCount(service.getMyPageResellList(member_id, category));
+				result.put("boardList", boardList);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    
+	    
+	    result.put("pagingParam", pp);
+	    
+		return result;
+	}
+	   
+	//--------------------------------------------------------------- 김정민 controller ---------------------------------------------------------------
 
 	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------
 	
@@ -139,7 +203,7 @@ public class MyPostController {
 	 * @Method 설명 : 
 	 * @throws Exception
 	 */
-	@RequestMapping(value="myReply.mp", method=RequestMethod.GET)
+	@RequestMapping(value="myReply", method=RequestMethod.GET)
 	public String myPageReplyInfo() throws Exception {
 		// 마이페이지 내 댓글 페이지로 이동
 		return "cambakMain/myPage/myPageReply";
@@ -154,7 +218,7 @@ public class MyPostController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value="myReplyList.mp", method=RequestMethod.POST)
+	@RequestMapping(value="myReplyList", method=RequestMethod.POST)
 	public Map<String, Object> myPageReplyList(@RequestParam("member_id") String member_id, @RequestParam("board_category")  String board_category, PagingCriteria cri)
 			throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 내용 가져오기
@@ -170,7 +234,6 @@ public class MyPostController {
 		
 		param.put("myReplyList", lst);
 		param.put("paging", pp);
-		System.out.println(member_id + ", " + board_category + ", " + cri.toString() + ", " + pp.toString());
 		return param;
 	}
 	
@@ -183,7 +246,7 @@ public class MyPostController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value="getMyCount.mp", method=RequestMethod.POST)
+	@RequestMapping(value="getMyCount", method=RequestMethod.POST)
 	public MyPageAllCountVO myPageAllCount(@RequestParam("member_id") String member_id) throws Exception {
 		// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
 		return service.myPageAllCount(member_id);
@@ -200,8 +263,18 @@ public class MyPostController {
 	  * @return
 	  * @throws Exception
 	  */
-	@RequestMapping("myLike.mp")
-	public String myPageLikeBoards() throws Exception {
+	@RequestMapping("myLike")
+	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 사이드 템플릿에서 세션값 쓸껄 map에 넣어줌
+		map.put("member_id", loginMember.getMember_id());
+		map.put("member_email", loginMember.getMember_email());
+		
+		// 각 갯수 들을 담아줌
+		map.put("allCnt", service.myPageAllCount(loginMember.getMember_id()));
+		
+		model.addAttribute("loginMember", map);
+		
 		return "cambakMain/myPage/myLikeBoard";
 	}
 
@@ -220,15 +293,11 @@ public class MyPostController {
 	@RequestMapping(value = "myLike/{category}/{page}", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getList(@PathVariable("category") String category,
-			@PathVariable("page") int page, PagingCriteria cri, HttpServletRequest request) {
+			@PathVariable("page") int page, PagingCriteria cri, @SessionAttribute("loginMember") MemberVO vo) {
 		logger.info("승권 / 마이페이지 내가 좋아요 누른글 카테고리 호출");
 
 		// json 담을 객체
 		ResponseEntity<Map<String, Object>> entity = null;
-
-		// 세션 정보 얻어오기
-		HttpSession session = request.getSession();
-		MemberVO vo = (MemberVO) session.getAttribute("loginMember");
 
 		try {
 			// 페이징, 리스트 map에 담기 위한 객체 생성
@@ -297,9 +366,6 @@ public class MyPostController {
 	
 	
 	// *****************************  종진 체크리스트 컨트롤러  **********************************//
-	
-	@Inject
-	private CheckListService ckservice;
 	
 	@RequestMapping(value="/checkList", method = RequestMethod.GET)
 	   public String checkList() {

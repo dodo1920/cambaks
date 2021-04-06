@@ -18,7 +18,7 @@
   	
 	<!-- 댓글 작성 부분 -->  
   	<insert id="addProdReply">
-  		insert into goot6.ReplyProdReviews(replyProdReview_no, prodReview_no, member_id, replyProdReview_content, replyProdReview_refOrder, replyProdReview_ref) values (#{replyProdReview_no}, #{prodReview_no}, #{member_id}, #{replyProdReview_content}, #{replyProdReview_refOrder}, #{replyProdReview_ref})
+  		insert into goot6.ReplyProdReviews(replyProdReview_no, prodReview_no, member_id, replyProdReview_content, replyProdReview_refOrder, replyProdReview_ref, replyProdReview_repMember_id) values (#{replyProdReview_no}, #{prodReview_no}, #{member_id}, #{replyProdReview_content}, #{replyProdReview_refOrder}, #{replyProdReview_ref}, #{replyProdReview_repMember_id})
   	</insert>
   
   

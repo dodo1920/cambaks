@@ -1,6 +1,6 @@
 package com.cambak21.controller.boards;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
 import com.cambak21.service.boardCS.ReplyBoardCsService;
@@ -38,13 +37,13 @@ public class BoardCsReplyController {
 	 * @return
 	 */
 	@RequestMapping("/reply/all/{board_no}")
-	public ResponseEntity<List<ReplyBoardVO>> replyList(@PathVariable("board_no") int board_no) {
+	public ResponseEntity<Map<String, Object>> replyList(@PathVariable("board_no") int board_no) {
 		log.info("댓글 리스트 get 방식 호출 ajax");
 
-		ResponseEntity<List<ReplyBoardVO>> entity = null;
+		ResponseEntity<Map<String, Object>> entity = null;
 
 		try {
-			entity = new ResponseEntity<List<ReplyBoardVO>>(service.getReplyListBoardCS(board_no), HttpStatus.OK);
+			entity = new ResponseEntity<Map<String, Object>>(service.getReplyListBoardCS(board_no), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

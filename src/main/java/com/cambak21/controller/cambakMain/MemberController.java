@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
-import com.cambak21.controller.cambakMall.ProdDetail;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
@@ -37,7 +36,7 @@ import com.cambak21.service.cambakMain.MemberService;
 @RequestMapping(value="/user")
 public class MemberController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
    @Inject
    private MemberService service;
@@ -101,7 +100,7 @@ public class MemberController {
        }
       
       }
-         return "redirect:/user/login/yet";
+         return "redirect:/index/main";
    }	
 	
 //	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

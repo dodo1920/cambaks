@@ -1,4 +1,4 @@
-package com.cambak21.service.myPost;
+package com.cambak21.service.cambakMain;
 
 import java.util.List;
 
@@ -7,7 +7,8 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.CheckListVO;
-import com.cambak21.persistence.myPost.CheckListDAO;
+import com.cambak21.persistence.cambakMain.CheckListDAO;
+
 
 
 @Service

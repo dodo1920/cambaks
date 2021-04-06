@@ -73,7 +73,6 @@ function gotoDeteilPage	(no) {
 $(window).scroll(function () {
 	
 	var height = $(document).scrollTop();
-	console.log(height);
 	if(height > (minHeight+980)){
 		console.log(minHeight);
 		minHeight += 980;
@@ -85,14 +84,14 @@ $(window).scroll(function () {
 				console.log(data)
 				$.each(data,function(index,item){
 					let output = ""
+					textLimit();
 					if(item.resellBoard_isDelete != "Y"){
 						output += '<tr class="bordListBox" onclick="gotoDeteilPage('+item.resellBoard_no+');">';
 						output +='<td class="tdTotolStyle"><span>'+item.member_id+'</span></td>';
 						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
 						output +='<td class="tdTotolStyle"><span>'+item.resellBoard_title+'</span></td>';
 						output +='<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">'+item.resellBoard_content+'</span></td>';
-						output +='<td class="tdTotolStyle">';
-						output +='<span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
+						output +='<td class="tdTotolStyle"><span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
 						output +='<td class="tdTotolStyle"><div><span>'+item.resellBoard_postDate+'</span><span class="rightSapn">'+item.resellBoard_price+'원</span></div></td>';
 						output +='</tr>';
 					}else{
@@ -100,12 +99,13 @@ $(window).scroll(function () {
 						output +='<td class="tdTotolStyle"><del><span>'+item.member_id+'</span></del></td>';
 						output +='<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>';
 						output +='<td class="tdTotolStyle"><del><span>'+item.resellBoard_title+'</span></del></td>';
-						output +='<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">'+item.resellBoard_content+'</span></del></td>';
-						output +='<td class="tdTotolStyle">';
-						output +='<del><span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
+						output +='<td class="tdTotolStyle tdContentBox" ><del><span style="word-break:normal;">'+item.resellBoard_content
+						+'</span></del></td>';
+						output +='<td class="tdTotolStyle"><del><span class="rightSapn">조회수 : '+item.resellBoard_viewCnt+'</span></div></td>';
 						output +='<td class="tdTotolStyle"><div><del><span>'+item.resellBoard_postDate+'</span></del><span class="rightSapn">판매완료</span></div></td>';
 						output +='</tr>';
 					}
+					
 					$("#nextPage").append(output)
 				});
 			}, // 통신 성공시
@@ -118,27 +118,24 @@ $(window).scroll(function () {
 		page+=1;
 	}
 });
+$(function() {
+	textLimit();
+});
+//게시글 제목 글자수를 조절하는 함수
+function textLimit() {
+   $(".tdContentBox").each(function() {
+      var length = 45; //표시할 글자수 정하기
 
-    
-function like() {
-	$.ajax({
-		method : "post",
-		url : "/like",
-		dataType : "text", // 응답 받는 데이터 타입
-		data : JSON.stringify({ // 요청하는 데이터
-		}),
-		success : function(result) {
-			if (result == 'Success') {
-				//alert('댓글 등록 완료!');
-				callReplyList(); // 댓글 다시 호출
-			}
-			
-		
-		}
-	});
-	
-}
+      $(this).each(function() {
 
+         if ($(this).text().length >= length) {
+
+            $(this).text($(this).text().substr(0, length) + '...')
+            //지정할 글자수 이후 표시할 텍스트
+         }
+      });
+   });
+};
 
 </script>
 <body>
@@ -155,9 +152,9 @@ function like() {
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important"style="width: 100%;float: revert;">
 				<section>
-					<header>
+					<header style="display: table;margin: auto;">
 						<h2>중고거래</h2>
-						<span class="byline" id="rollNot"><a href="../notice/listCri">공지사항</a></span>
+						<span class="byline" id="rollNot" style="text-align: center;"><a href="../notice/listCri">공지사항</a></span>
 					</header>
 				</section>
 						<table style="width: 100%x"id="nextPage">
@@ -174,10 +171,11 @@ function like() {
 								<input type="text" name="searchWord" placeholder="검색어 입력..." style="width: 550px"/>
 								<input type="submit" id="goSearch" value="검색" />
 							</form>
-						</div id="ResellList">
-						<c:if test="${loginMember.member_id != null }">
-							<a href="write"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
+							<c:if test="${loginMember.member_id != null }">
+							<a href="write" style="margin-left: 15px"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
 						</c:if>
+						</div id="ResellList">
+						
 						<c:forEach var="board" items="${board}">
 						<c:choose>
                   			<c:when test='${board.resellBoard_isDelete == "Y"}'>
@@ -197,7 +195,9 @@ function like() {
 								<td class="tdTotolStyle"><span>${board.member_id}</span></td>
 								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
 								<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
-								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">${board.resellBoard_content	}</span></td>
+								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">
+									${board.resellBoard_content}
+								</span></td>
 								<td class="tdTotolStyle">
 								<span class="rightSapn">조회수 : ${board.resellBoard_viewCnt}</span></div></td>
 								<td class="tdTotolStyle"><div><span>${board.resellBoard_postDate}</span><span class="rightSapn">${board.resellBoard_price}원</span></div></td>

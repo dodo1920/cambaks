@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cambak21.persistence.myPost;
+package com.cambak21.persistence.cambakMain;
 
 import java.util.HashMap;
 
@@ -17,6 +17,8 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
 @Repository
@@ -97,7 +99,7 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	
 	
 
-	
+	//--------------------------------------------------------------- 김정민 dao ---------------------------------------------------------------	
 	/**
 	  * @Method Name : getMyPosting
 	  * @작성일 : 2021. 3. 16.
@@ -166,11 +168,75 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	}
 	
 	
+	/**
+	  * @Method Name : getMyResellPosting
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public List<ResellBoardVO> getMyResellPosting(String member_id, PagingCriteria cri, String category) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		if(category.equals("myWriting")) {
+			return ses.selectList(ns + ".getMyResellPosting", param);
+		}else {
+			return ses.selectList(ns + ".getMyResellmyLike", param);
+		}
+		
+	}
 	
+	/**
+	  * @Method Name : getMyResellPosting
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 : 총게시글 수
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
 	
+	@Override
+	public int getMyPageResellList(String member_id, String category) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("category", category);
+		
+		if(category.equals("myWriting")) {
+			return ses.selectOne(ns + ".getMyPageResellList", param);
+		}else if(category.equals("myReply")) {
+			return ses.selectOne(ns + ".getMyResellReplyList", param);
+		}else {
+			return ses.selectOne(ns + ".getMyResellmyLikeList", param);
+		}
+	}
 	
-	
-	
+	/**
+	  * @Method Name : getMyResellReply
+	  * @작성일 : 2021. 04. 05.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 : 총 댓글
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public List<ReplyResellVO> getMyResellReply(String member_id, PagingCriteria cri, String category) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		return ses.selectList(ns + ".getMyResellReply", param);
+	}
 	
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
@@ -194,9 +260,8 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("member_id", member_id);
 		param.put("board_category", board_category);
-		param.put("pageStart", cri.getPageStart());
+		param.put("pageStart", cri.getListCount(6));
 		param.put("perPageNum", cri.getPerPageNum());
-		
 		return ses.selectList(ns + ".readMyReplyList", param);
 	}
 	
@@ -392,6 +457,51 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

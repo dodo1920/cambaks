@@ -118,26 +118,49 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th>번호</th>
-										<th class="board-title">제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-										<th>조회수</th>
+										<th style="text-align: center;">번호</th>
+										<th class="board-title" style="width: 400px; text-align: center;">제목</th>
+										<th style="text-align: center;">작성자</th>
+										<th style="text-align: center;">작성일</th>
+										<th style="text-align: center;">조회수</th>
 									</tr>
 								</thead>
 								<tbody>
 
 									<c:forEach var="item" items="${boardList }">
 										<tr>
-											<td>${item.board_no }</td>
-											<td><a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
-												<c:if test="${item.board_replyCnt != 0 }">
-													<a href="/board/qa/detail.bo?no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a>
-												</c:if></td>
-											<td>${item.member_id }</td>
-											<td><fmt:formatDate value="${item.board_writeDate }"
+											<td style="text-align: center;">${item.board_no }</td>
+											<td style="text-align: center;">
+												<c:choose>
+													<c:when test="${param.searchType == null }">
+														<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
+													</c:when>
+													<c:otherwise>
+														<c:if test="${param.page == null }">
+															<a href="/board/qa/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+														</c:if>
+														<c:if test="${param.page != null }">
+															<a href="/board/qa/detail?no=${item.board_no }&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
+														</c:if>
+													</c:otherwise>
+												</c:choose>
+<%-- 												<c:if test="${item.board_replyCnt != 0 }"> --%>
+<%-- 													<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}&replyFocus=true" class="viewPageLinkReply">[${item.board_replyCnt }]</a> --%>
+<%-- 												</c:if> --%>
+<%-- 												<c:if test="${item.board_replyCnt == 0 }"> --%>
+<%-- 													<a href="/board/qa/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a> --%>
+<%-- 												</c:if> --%>
+												<!-- 댓글 수 -->
+												<c:if test="${item.board_replyCnt > 0 }">
+													(${item.board_replyCnt })
+												</c:if>
+												
+												</td>
+											</td>
+											<td style="text-align: center;">${item.member_id }</td>
+											<td style="text-align: center;"><fmt:formatDate value="${item.board_writeDate }"
 													pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-											<td>${item.board_viewCnt }</td>
+											<td style="text-align: center;">${item.board_viewCnt }</td>
 										</tr>
 									</c:forEach>
 
@@ -146,7 +169,7 @@
 						</div>
 						<div class="text-center">
 							<div style="display: inline-block;">
-								<form action="/board/qa/search.bo" method="GET">
+								<form action="/board/qa/search" method="GET">
 									<select name="searchType"
 										style="font-size: 15px; height: 30px;">
 										<option value="title">제목</option>
@@ -159,7 +182,7 @@
 							</div>
 							<c:if test="${loginMember.member_id != null}">
 								<button class="btn btn-danger write"
-									onclick="location.href='/board/qa/write.bo'">글쓰기</button>
+									onclick="location.href='/board/qa/write?page=${param.page}'">글쓰기</button>
 							</c:if>
 							
 							<div class="pageBtn">
@@ -168,18 +191,18 @@
 									<c:when test="${param.searchWord == null }">
 										<!-- 이전 버튼 -->
 										<c:if test="${pagingParam.prev }">
-											<li><a href="/board/qa/list.bo?page=${param.page - 1 }">이전</a></li>
+											<li><a href="/board/qa/list?page=${param.page - 1 }">이전</a></li>
 										</c:if>
 
 										<!-- 페이징 버튼 -->
 										<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }"
 											var="pageNo">
-											<li><a href="/board/qa/list.bo?page=${pageNo }">${pageNo }</a></li>
+											<li><a href="/board/qa/list?page=${pageNo }">${pageNo }</a></li>
 										</c:forEach>
 
 										<!-- 다음 버튼 -->
 										<c:if test="${pagingParam.next }">
-											<li><a href="/board/qa/list.bo?page=${param.page + 1 }">다음</a></li>
+											<li><a href="/board/qa/list?page=${param.page + 1 }">다음</a></li>
 										</c:if>
 									</c:when>
 
@@ -187,23 +210,23 @@
 										<!-- 이전 버튼 -->
 										<c:if test="${pagingParam.prev }">
 											<li><a
-												href="/board/qa/search.bo?page=${param.page - 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">이전</a></li>
+												href="/board/qa/search?page=${param.page - 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">이전</a></li>
 										</c:if>
 
 										<!-- 페이징 버튼 -->
 										<c:forEach begin="${pagingParam.startPage }"
 											end="${pagingParam.endPage }" var="pageNo">
 											<li><a
-												href="/board/qa/search.bo?page=${pageNo }&searchType=${search.searchType}&searchWord=${search.searchWord}">${pageNo }</a></li>
+												href="/board/qa/search?page=${pageNo }&searchType=${search.searchType}&searchWord=${search.searchWord}">${pageNo }</a></li>
 										</c:forEach>
 
 										<!-- 다음 버튼 -->
 										<c:if test="${pagingParam.next }">
 											<c:if test="${param.page == null }">
-												<li><a href="/board/qa/search.bo?page=${param.page + 2 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
+												<li><a href="/board/qa/search?page=${param.page + 2 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
 											</c:if>
 											<c:if test="${param.page != null }">
-												<li><a href="/board/qa/search.bo?page=${param.page + 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
+												<li><a href="/board/qa/search?page=${param.page + 1 }&searchType=${search.searchType}&searchWord=${search.searchWord}">다음</a></li>
 											</c:if>
 										</c:if>
 									</c:otherwise>
@@ -241,7 +264,7 @@
 <%-- 											<c:forEach begin="${pagingParam.startPage }" --%>
 <%-- 												end="${pagingParam.endPage }" var="pageNo"> --%>
 <!-- 												<li class="page-item"> -->
-<%-- 													<a href="/board/qa/search.bo?page=${pageNo }&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a> --%>
+<%-- 													<a href="/board/qa/search?page=${pageNo }&searchType=${param.searchType}&searchWord=${param.searchWord}">${pageNo }</a> --%>
 <!-- 												</li> -->
 <%-- 											</c:forEach> --%>
 <%-- 											<c:if test="${pagingParam.next}"> --%>

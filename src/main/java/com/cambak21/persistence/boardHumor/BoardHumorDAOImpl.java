@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -83,7 +84,7 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 
 	@Override
 	public void updateReply(int no) throws Exception {
-		ses.update(namespace+ ".updateReplyCnt", no);
+		ses.update(namespace + ".updateReplyCnt", no);
 
 	}
 
@@ -96,8 +97,55 @@ public class BoardHumorDAOImpl implements BoardHumorDAO {
 	@Override
 	public void minusReply(int no) throws Exception {
 		System.out.println("여기가 마이너스 리플 다오");
+		System.out.println(no);
 		ses.update(namespace + ".minusReplyCnt" , no);
 		
+	}
+
+	@Override
+	public void updatePlusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(namespace + ".updatePlusLike", dto);
+		
+	}
+
+	@Override
+	public void updateMinusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(namespace +".minusReplyCnt", dto);
+		
+		
+	}
+
+	@Override
+	public int getLikeCnt(InsertLikeBoard dto) throws Exception {
+		
+		return ses.selectOne(namespace +".getLikeCnt", dto);
+	}
+
+	@Override
+	public String checkLike(InsertLikeBoard dto) throws Exception {
+		
+		return ses.selectOne(namespace + ".checkLike", dto);
+	}
+
+	@Override
+	public void insertLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.insert(namespace + ".insertLikeBoards", dto);
+		
+	}
+
+	@Override
+	public void deleteLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.delete(namespace + ".deleteLikeBoard", dto);
+		
+	}
+
+	@Override
+	public Integer preCheckLike(String member_id, int board_no) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("board_no", board_no);
+		
+		return ses.selectOne(namespace + ".preCheckLike", map);
 	}
 
 }

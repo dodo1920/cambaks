@@ -51,4 +51,9 @@
 		select * from ReplyBoards where board_no = #{board_no} order by replyBoard_ref asc, replyBoard_refOrder asc;
 	</select>
 	
+	<!-- 댓글 갯수 가져오기 -->
+	<select id="getReplyCnt" resultType="int">
+		select count(*) from ReplyBoards where board_no = #{board_no} and replyBoard_content != '[삭제된 댓글입니다.]';
+	</select>
+	
 </mapper>

@@ -57,15 +57,16 @@
 	
      
 	<!-- **************************************** 서효원 매핑 스캔 ********************************************** -->
-	     <mapping path="/board/campingTip/write.bo"/>
-         <mapping path="/board/campingTip/modify.bo"/>
-         <mapping path="/board/campingTip/delete.bo"/>
-         <mapping path="/board/campingTip/writeReply.bo"/>
-	     <mapping path="/board/campingTip/deleteReply.bo"/>
-         <mapping path="/board/campingTip/modifyReply.bo"/>
-         <mapping path="/board/campingTip/writeRereply.bo"/>
-         <mapping path="/board/campingTip/modifyRereply.bo"/>
-         <mapping path="/board/campingTip/deleteRereply.bo"/>
+	     <mapping path="/board/campingTip/write"/>
+         <mapping path="/board/campingTip/modify"/>
+         <mapping path="/board/campingTip/delete"/>
+         <mapping path="/board/campingTip/writeReply"/>
+	     <mapping path="/board/campingTip/deleteReply"/>
+         <mapping path="/board/campingTip/modifyReply"/>
+         <mapping path="/board/campingTip/writeRereply"/>
+         <mapping path="/board/campingTip/modifyRereply"/>
+         <mapping path="/board/campingTip/deleteRereply"/>
+         <mapping path="/myPage/myReply"/>
 	<!-- **************************************** 백승권 매핑 스캔 ********************************************** -->
 
 

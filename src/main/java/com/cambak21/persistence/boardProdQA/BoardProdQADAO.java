@@ -135,5 +135,7 @@ public interface BoardProdQADAO {
 	
 	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception;
 	
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception;
+	
 	 
 }

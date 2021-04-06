@@ -57,8 +57,7 @@
 			let formData = new FormData();
 			
 			let files = evt.originalEvent.dataTransfer.files; // 드래그 이벤트의 파일 데이터 전송 기능은 처리되도록
-			console.log(files);
-			
+			console.log(files);			
 			for(let i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
 			}
@@ -77,22 +76,13 @@
 					console.log(result);
 					
 					let output = '';
-					output += "<div>";
 					$(result).each(function(index, item){
 						if(checkImgType(item)) {
-							output += "<img id='" + index + "' src='displayFile?fileName=" + item + "'/>";
+							output += "<img id='img" + item + "' src='displayFile?fileName=" + item + "'/>";
 							output += "<span id='" + item + "' onclick='deleteFile(this)'>X</span>"; 
-							if(index == 0) {
-								$("#prodQA_img1").attr("value", item);
-							} else if(index == 1) {
-								$("#prodQA_img2").attr("value", item);
-							} else {
-								$("#prodQA_img3").attr("value", item);
-							}
+							$("#prodQA_img" + index).attr("value", item);
 						}		
 					});
-					
-					output += "</div>";
 					
 					$("#fDrop").append(output);
 				},
@@ -112,12 +102,8 @@
 	
 	function deleteFile(obj) {
 		let fileName = $(obj).attr('id');
-		let imgId = $(obj).prev().attr('id');
-		let pordQA_imgNum = Number(imgId) + 1;
 		
 		console.log(fileName);
-		console.log(imgId);
-		console.log(pordQA_imgNum);
 		
 		$.ajax({
 			url: '/mall/prodDetail/deleteFile',
@@ -126,7 +112,7 @@
 			type : 'post',
 			success : function(result) {
 				if(result == 'success') {
-					$("#" + imgId).hide();
+					$(obj).prev().hide();
 					$(obj).hide();
 					$("#prodQA_img" + pordQA_imgNum).attr("value", null)
 				}
@@ -149,7 +135,7 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid}">
+		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.member_id}" readonly>
 		               </div>
 		            </div>
 		            <div class="form-group">
@@ -185,9 +171,9 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="file1">파 일 :</label>
 		               <div class="col-sm-10" id="fDrop">
-		                  <input type="hidden" id="prodQA_img1" name="prodQA_img1" />
-		                  <input type="hidden" id="prodQA_img2" name="prodQA_img2" />
-		                  <input type="hidden" id="prodQA_img3" name="prodQA_img3" />
+		                  <input type="hidden" id="prodQA_img0" name="prodQA_img1" />
+		                  <input type="hidden" id="prodQA_img1" name="prodQA_img2" />
+		                  <input type="hidden" id="prodQA_img2" name="prodQA_img3" />
 		               </div>
 		            </div>
 		           	<div class="form-group" id="fileDrop">

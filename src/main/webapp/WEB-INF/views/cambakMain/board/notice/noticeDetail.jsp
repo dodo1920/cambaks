@@ -14,25 +14,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title> 공지사항 </title>
 
-<link
-	href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900'
-	rel='stylesheet' type='text/css'>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak21/js/skel-panels.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
-<link rel="icon" type="image/x-icon"
-	href="/resources/cambak21/assets/favicon.ico" />
+<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link href="https://fonts.googleapis.com/css?family=Lato"
-	rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Montserrat"
-	rel="stylesheet" type="text/css">
+<link rel="stylesheet" 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato"rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat"	rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/resources/cambak21/css/skel-noscript.css" />
 
 <link rel="stylesheet" href="../../../resources/cambak21/css/style.css" />
@@ -42,8 +32,7 @@
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
@@ -51,6 +40,7 @@
 <script src="/resources/cambak21/js/notice.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
+
 <!-- include summernote css/js -->
 <script	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
@@ -65,16 +55,24 @@ function callReplyList(){
 	let output = '<ul class="list-group">';
 	
 	$.getJSON("/board/notice/user/getReply/" + board_no, function(data){
-					
+
+		if(data.length == 0){
+			
+			output += '<li class="list-group-item">작성된 댓글이 없습니다.</li>';
+			
+		}
+			
+			
 		$(data).each(function(index, item){
-		
-			replyCnt++;
+			
+			replyCnt++;	
 			
 			let date = new Date(this.replyBoard_writeDate);
 			var now = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
 			let go = Number(item.replyBoard_no);
 			$("#replyBoard_no").val(go);
 			let date111 = new Date(this.replyBoard_updateDate);
+			
 			
 			if(this.member_id != '${loginMember.member_id}'){
 				output += '<li class="list-group-item"><input type="hidden" id="replyid" value="' + this.board_no + '"/><div>' + this.replyBoard_content + '</div><div><span style="float:right; margin:-10px;">' 

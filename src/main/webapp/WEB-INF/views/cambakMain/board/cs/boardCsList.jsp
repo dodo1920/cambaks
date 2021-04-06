@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -83,6 +85,7 @@
 		
 		return true;
 	}
+	
 </script>
 </head>
 
@@ -162,7 +165,7 @@
 												</td>
 
 												<td>${item.member_id }</td>
-												<td><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												<td class="writeDate"><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 												<td>${item.board_viewCnt }</td>
 												<td>${item.board_likeCnt }</td>
 											</tr>

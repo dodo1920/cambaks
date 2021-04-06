@@ -1,5 +1,5 @@
 
-package com.cambak21.service.myPost;
+package com.cambak21.service.cambakMain;
 
 import java.util.List;
 
@@ -9,9 +9,12 @@ import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
+import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
 public interface MyPostingService {
+	// ------------------------------------ 김정민 service ------------------------------------
 	// 내가 쓴 글
 	List<BoardVO> getMyPosting(String member_id, PagingCriteria cri, String board_category) throws Exception;
 	
@@ -48,6 +51,15 @@ public interface MyPostingService {
 		
 	// 내 체크리스트 등록하기
 	public List<CheckListVO> resisterCheckList(String member_id) throws Exception;
+	
+	// ------------------------------------ 김정민 service ------------------------------------
+	// 내가 작성한 중고캠핑마켓 리스트 가져오기
+	List<ResellBoardVO> getMyResellPosting(String member_id, PagingCriteria cri, String category) throws Exception;
+
+	// 총 게시글 수 가져오기
+	int getMyPageResellList(String member_id, String category) throws Exception;
+	// 내가 작성한 중고캠핑마켓 댓글 리스트 가져오기
+	List<ReplyResellVO> getMyResellReply(String member_id, PagingCriteria cri, String category) throws Exception;
 
 		
 	

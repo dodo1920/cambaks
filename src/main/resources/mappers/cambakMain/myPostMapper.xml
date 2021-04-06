@@ -7,9 +7,8 @@
 	<!-- getMyLikePostng 승권 -->
 	<select id="getList"
 		resultType="com.cambak21.domain.MyLikeBoardListVO">
-<!-- 		<if test="category != 'resell'"> -->
 		select b.board_no, b.board_category, b.member_id, b.board_title,
-		lb.likeBoard_date, b.board_writeDate
+		lb.likeBoard_date, b.board_writeDate, b.board_isDelete
 		from LikeBoards lb
 		inner join
 		Boards b
@@ -20,17 +19,7 @@
 		</if>
 		order by lb.likeBoard_date desc
 		limit #{pageStart}, #{perPageNum};
-<!-- 		</if> -->
-		
-<!-- 		<if test="category == 'resell'"> -->
-<!-- 		select rb.resellBoard_no, resellBoard_title, rb.member_id, rb.resellBoard_postDate, rlb.resellLikeBoards_date -->
-<!-- 		from ResellBoards rb  -->
-<!-- 		inner join ResellLikeBoards rlb  -->
-<!-- 		on rb.resellBoard_no = rlb.resellBoard_no  -->
-<!-- 		where rlb.member_id = #{member_id} -->
-<!-- 		order by rlb.resellLikeBoards_date desc -->
-<!-- 		limit #{pageStart}, #{perPageNum}; -->
-<!-- 		</if> -->
+
 	</select>
 
 
@@ -222,16 +211,33 @@
 		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category}
 	</select>
 	
+	<!-- getMyResellPosting 정민 -->
+	<select id="getMyResellPosting" resultType="com.cambak21.domain.ResellBoardVO">
+		select * from goot6.ResellBoards where member_id= #{member_id} and resellBoard_isDelete = 'N' order by resellBoard_postDate desc limit #{pageStart}, #{perPageNum}
+	</select>
 	
+	<!-- getMyPageResellList 총 게시글 수 정민 -->
+	<select id="getMyPageResellList" resultType="int">
+		select count(*) from goot6.ResellBoards where member_id=#{member_id} and resellBoard_isDelete='N'
+	</select>
 	
+	<!-- getMyResellReply 정민 -->
+	<select id="getMyResellReply" resultType="com.cambak21.domain.ReplyResellVO">
+		select rr.replyResell_no, rr.resellBoard_no, rr.member_id, rr.replyResell_content, rr.replyResell_writeDate, rr.replyResell_updateDate, rr.replyResell_ref, rr.replyResell_refOrder, rr.replyResell_step from ResellBoards rb, ReplyResells rr where rb.resellBoard_no = rr.resellBoard_no and rr.member_id=#{member_id} and rb.resellBoard_isDelete='N' limit #{pageStart}, #{perPageNum}
+	</select>
+	<!-- getMyResellReply 총 게시글 수 정민 -->
+	<select id="getMyResellReplyList" resultType="int">
+		select count(*) from ResellBoards rb, ReplyResells rr where rb.resellBoard_no = rr.resellBoard_no and rr.member_id=#{member_id} and rb.resellBoard_isDelete='N'
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
+	<!-- getMyResellmyLike 정민 -->
+	<select id="getMyResellmyLike" resultType="com.cambak21.domain.ResellBoardVO">
+		select rb.resellBoard_no, rb.member_id, rb.resellBoard_title, rb.resellBoard_content, rb.resellBoard_price, rb.resellBoard_postDate, rb.resellBoard_updateDate, rb.resellBoard_addr, rb.resellBoard_img1, rb.resellBoard_img2, rb.resellBoard_img3, rb.resellBoard_img4, rb.resellBoard_viewCnt, rb.resellBoard_likeCnt, rb.resellBoard_replyCnt, rb.resellBoard_isDelete, rb.resellBoard_deleteDate from ResellBoards rb, ResellLikeBoards rl where rb.resellBoard_no = rl.resellBoard_no and rl.member_id = #{member_id} and rb.resellBoard_isDelete = 'N' limit #{pageStart}, #{perPageNum}
+	</select>
+	<!-- getMyResellmyLikeList 총 게시글 수 정민 -->
+	<select id="getMyResellmyLikeList" resultType="int">
+		select count(*) from ResellBoards rb, ResellLikeBoards rl where rb.resellBoard_no = rl.resellBoard_no and rl.member_id='admin' and rb.resellBoard_isDelete = 'N'
+	</select>
 	
 	
 	
