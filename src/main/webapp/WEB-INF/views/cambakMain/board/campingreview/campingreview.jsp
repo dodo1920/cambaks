@@ -165,7 +165,7 @@
 													value="${CRboardlist.board_writeDate }" type="both"
 													pattern="yyyy-MM-dd HH:mm:ss" /></span></strike></td>
 									<td><strike>${CRboardlist.board_likeCnt }</strike></td>
-									<td><strike>${CRboardlist.board_viewCnt }</strike></td>
+									<td><strike>0</strike></td>
 									<td><strike>${CRboardlist.member_id }</strike></td>
 								</tr>
 							</c:when>
@@ -204,7 +204,7 @@
 				<input type="text" name="searchWord" style="color: chocolate;" id="searchWord" placeholder="검색어 입력..."/>
 				<input type="button" id="goSearch" style="color: chocolate;" value="검색" onclick="checkSearchInput();" />
 				<input type="hidden" name="page" value="1" />
-				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listcri?page=${pageNo }'"/>
+				<input type="button" style="color: chocolate;" value="전체보기" onclick="location.href='/board/campingreview/listcri'"/>
 				
 				
 				<div class="writeBtn">

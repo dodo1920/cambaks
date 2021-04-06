@@ -64,7 +64,7 @@ public class BoardCampingReviewController {
 	public String BoardCRWrite() {
 		logger.info("영광 / 글 쓰기 폼 get 방식 호출");
 		
-		return "cambakMain/board/campingreview/cpwrite";
+		return "cambakMain/board/campingreview/boardCRWrite";
 	}
 	
 	@RequestMapping(value="/write", method=RequestMethod.POST)

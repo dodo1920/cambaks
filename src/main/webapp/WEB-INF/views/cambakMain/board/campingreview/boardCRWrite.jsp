@@ -75,7 +75,7 @@
 	});
 	
 	function sendFile(file, el) {
-		let path = "/resources/uploads/boardCs";
+		let path = "/resources/uploads/campingreview";
 		
 	    var form_data = new FormData();
 	    
@@ -84,7 +84,7 @@
 	    $.ajax({
 	      data: form_data,
 	      type: "POST",
-	      url: '/board/cs/image',
+	      url: '/board/campingreview/image',
 	      cache: false,
 	      contentType: false,
 	      enctype: 'multipart/form-data',
@@ -93,7 +93,7 @@
 	    	  $(el).summernote('editor.insertImage', path + url);
 	      }, // 통신 성공시
 		  error : function(data) {
-		    $("#modalText").text("이미지 파일이 아닙니다");
+		    $("#modalText").text("이미지 파일이 아닌거 맞아요?");
 			$("#myModal").modal();
 		  },
 	   });
@@ -114,13 +114,13 @@
 
 				<div id="content">
 					<div>
-						<form action="../cs/write" method="post">
+						<form action="../campingreview/write" method="post">
 							<input type="text" class="form-control" id="usr"
 								name="board_title">
 							<textarea id="summernote" name="board_content"></textarea>
 							<input type="hidden" name="member_id"
 								value="${loginMember.member_id}"> <input type="hidden"
-								name="board_category" value="CS">
+								name="board_category" value="camping">
 							<button type="button" class="btn btn-danger"
 								onclick="history.back();">취소</button>
 							<button type="submit" class="btn btn-success">작성하기</button>

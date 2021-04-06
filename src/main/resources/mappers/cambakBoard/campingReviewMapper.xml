@@ -59,7 +59,7 @@
   		update Boards set board_replyCnt = board_replyCnt + #{amount} where board_no = #{board_no}
   </update>
   
-  <select id="getBoard_no" resultType="int">
+  <select id="getBoardNo" resultType="int">
   		select max(board_no) from Boards where member_id = #{member_id}
   </select>
   
