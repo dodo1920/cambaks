@@ -37,6 +37,11 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		return ses.selectOne(namespace + ".selectDestOne", destination_no);
 	}
 
+	@Override
+	public DestinationVO defaultDest(String member_id) throws Exception {
+		
+		return ses.selectOne(namespace + ".defaultDest", member_id);
+	}
 	
 //  	<!-- 장원영 DAO -->
   	
@@ -133,4 +138,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 			return ses.delete(namespace + ".deleteDestiny", paraMap);
 		
 	}
+
+
+	
 }

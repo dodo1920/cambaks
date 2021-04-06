@@ -91,17 +91,13 @@ function goDel(replyBoard_no){
 	
 	$.ajax({
 		  method: "DELETE",
-		  url: "/cambakMain/board/humor/replies/" + replyBoard_no,
+		  url: "/cambakMain/board/humor/replies/" + replyBoard_no+ "/" + board_no,
 		  headers : { // 요청하는 데이터의 헤더에 전송
 			  "Content-Type" : "application/json",
 			  "X-HTTP-Method-Override" : "DELETE"
 		  },
 		  dataType: "text", // 응답 받는 데이터 타입
-		  data : JSON.stringify({ // 요청하는 데이터
-			  board_no : board_no,
-			  replyBoard_no : replyBoard_no,
-			
-		  }),
+		  data : {replyBoard_no : replyBoard_no, board_no : board_no},
 		  success : function(result){
 			  if(result == "success"){
 				  alert("삭제완료");
@@ -353,7 +349,7 @@ p.category-title {
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
 								<div id="replyBox"></div>
-								작성자 : <input type="text" name="member_id" id="newReplyWriter" value="" />
+								작성자 : <input type="text" name="member_id" id="newReplyWriter" value="${loginMember.member_id}" />
 								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
 								<button type="button" class="btn btn-success" onclick="addReply();" >댓글 작성</button>
 							</div>

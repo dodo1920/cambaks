@@ -38,6 +38,11 @@
 	</script>
 </head>
 <script type="text/javascript">
+//화면시작시 실행할 함수들
+ $(function(){
+	 default_addr();
+});
+
 //김대기 script start
 //배송지 선택하기 버튼 클릭시
 function destList(){
@@ -120,12 +125,42 @@ function checkForm(){
 	}
 	
 	
+
 }
+
+function default_addr() {
+	let member_id = "${loginMember.member_id}";
+	console.log(member_id);
+	$.ajax({
+		  method: "GET",
+		  url: "/mall/prodOrder/default/" ,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "GET"
+		  },
+		  dataType: "JSON", // 응답 받는 데이터 타입
+		  data : {member_id : member_id},
+		  success : function(result){
+			 if(result != null){
+				 $("#user_name").html(result.destination_nickname);
+				  $("#user_number").html(result.destination_mobile);
+				  $("#user_dest").html(result.destination_address + " " + result.destination_addressDetail);
+				  $("#destination_no").val(result.destination_no);
+			
+			 }
+			
+		  }
+		});
+	}	
+
 //김대기 script end
 
 // 장원영 script Start
 
 //장원영 script End
+
+
+
 
 </script>
 <style>
@@ -181,16 +216,16 @@ function checkForm(){
     		</tr>
     		<tr>
     			<th>이름</th>
-    			<td id="user_name">이름 출력</td>
+    			<td id="user_name">배송지 선택 버튼을 클릭해주세요</td>
     			
     		</tr>
     		<tr>
     			<th>연락처</th>
-    			<td id="user_number">연락처 출력</td>
+    			<td id="user_number">배송지 선택 버튼을 클릭해주세요</td>
     		</tr>
     		<tr>
     			<th>주소</th>
-    			<td id = "user_dest">주소 출력란 인천광역시 부평구 부개로 58 어쩌구저꺼추 어쩌구 저쩌구 어쩌구 저쩌구</td>
+    			<td id = "user_dest">배송지 선택 버튼을 클릭해주세요</td>
     			
     		</tr>
     	</tbody>
@@ -217,7 +252,7 @@ function checkForm(){
 							<div class="modal-footer">
 								
 									<button type="button" class="btn btn-default"
-									onclick="location.href=#">배송지 수정하기</button>
+									onclick="location.href='http://localhost:8081/mall/destinationsList'">배송지 수정하기</button>
 									<button type="button" class="btn btn-default"
 									data-dismiss="modal">Close</button>
 							</div>
