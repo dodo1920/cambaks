@@ -32,7 +32,7 @@
 						<li id="myPostAside"><a href="/myPage/myPost">내가 쓴글</a></li>
 						<li id="myReplyAside"><a href="/myPage/myReply">내 댓글</a></li>
 						<li id="myLikeAside"><a href="/myPage/myLike.mp">내 좋아요 글</a></li>
-						<li id="myResellAside"><a href="/myPage/myResell">나의 중고거래</a></li>
+						<li id="myResellAside"><a href="/myPage/myPageResell">나의 중고거래</a></li>
 					</ul>
 				</div>
 			</div>
