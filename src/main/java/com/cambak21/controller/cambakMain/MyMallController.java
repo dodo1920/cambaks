@@ -1,8 +1,5 @@
 package com.cambak21.controller.cambakMain;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMain.MyMallService;
-import com.cambak21.service.cambakMain.MyPostingService;
 
 @Controller
 @RequestMapping("/myMall/*")
@@ -40,6 +36,9 @@ public class MyMallController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@RequestMapping("myQnA")
 	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
+		logger.info("승권 / 상품문의 게시글 get 호출");
+		
+		model.addAttribute("QaList", service.getMyQAList(loginMember.getMember_id()));
 		
 		return "cambakMain/myPage/myQnA";
 	}
