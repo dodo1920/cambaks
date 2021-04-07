@@ -185,7 +185,10 @@ public class MallController {
 	// **************************************** 서효원 컨트롤러 **********************************************
 	
 	// **************************************** 백승권 컨트롤러 ********************************************** 
-	
+	@RequestMapping("cart")
+	public String cart() {
+		return "cambakMall/mallCart";
+	}
 	// **************************************** 김태훈 컨트롤러 ********************************************** 
 	@RequestMapping(value = "/list",method = RequestMethod.GET)
 	public String BoardResellList(PagingCriteria cri,Model model) throws Exception {
