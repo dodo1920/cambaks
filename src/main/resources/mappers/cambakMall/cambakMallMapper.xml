@@ -42,6 +42,15 @@
   		from Products where product_id = #{product_id}
   	</select>
   	
+  	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
+  		select bucket_no, product_id, bucket_buyQty from Buckets where member_id = #{member_id} and product_id = #{product_id}
+  	</select>
+  	
+  	<insert id="insertBucket">
+  		insert into Buckets(member_id, product_id, bucket_buyQty, bucket_sellPrice, bucket_totBuyPrice)
+		value(#{member_id}, #{product_id}, #{bucket_buyQty}, #{bucket_sellPrice}, #{bucket_sellPrice})
+  	</insert>
+  	
   	
   	<!-- 김정민 맵퍼 -->
   	

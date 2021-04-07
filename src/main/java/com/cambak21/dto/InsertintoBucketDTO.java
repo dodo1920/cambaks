@@ -2,6 +2,7 @@ package com.cambak21.dto;
 
 public class InsertintoBucketDTO {
 	private String member_id;
+	private int product_id;
 	private int bucket_no;
 	private int bucket_buyQty;
 	private int bucket_sellPrice;
@@ -12,6 +13,12 @@ public class InsertintoBucketDTO {
 	}
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
+	}
+	public int getProduct_id() {
+		return product_id;
+	}
+	public void setProduct_id(int product_id) {
+		this.product_id = product_id;
 	}
 	public int getBucket_no() {
 		return bucket_no;
@@ -40,9 +47,9 @@ public class InsertintoBucketDTO {
 	
 	@Override
 	public String toString() {
-		return "InsertintoBuckets [member_id=" + member_id + ", bucket_no=" + bucket_no + ", bucket_buyQty="
-				+ bucket_buyQty + ", bucket_sellPrice=" + bucket_sellPrice + ", bucket_totBuyPrice="
-				+ bucket_totBuyPrice + "]";
-	}
+		return "InsertintoBucketDTO [member_id=" + member_id + ", product_id=" + product_id + ", bucket_no=" + bucket_no
+				+ ", bucket_buyQty=" + bucket_buyQty + ", bucket_sellPrice=" + bucket_sellPrice
+				+ ", bucket_totBuyPrice=" + bucket_totBuyPrice + "]";
+	}	
 	
 }
