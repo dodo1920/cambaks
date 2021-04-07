@@ -21,6 +21,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -225,15 +226,17 @@ public class MemberController {
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이영광 회원가입 파트
 	
 //	김태훈 회원정보 수정 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	@RequestMapping(value = "/Modify/{memberId}",method=RequestMethod.POST)
+	public String userModify(@PathVariable("memberId") String memberId,Model model) throws Exception{
+		System.out.println("memberId : "+memberId);
+		model.addAttribute("member",service.memberSelect(memberId));
+		System.out.println(service.memberSelect(memberId));
+		return "cambakMain/myPage/userModify";
+	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
+		
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김태훈 회원정보 수정 파트
 	
 

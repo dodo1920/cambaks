@@ -51,4 +51,7 @@
 			and member_id = #{member_id}
 		</if>
 	</select>
+	<select id="memberSelect" resultType="com.cambak21.domain.MemberVO">
+		SELECT * FROM Members where member_id = #{memberId}
+	</select>
   </mapper>
