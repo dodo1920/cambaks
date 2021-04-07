@@ -44,7 +44,6 @@ public class MemberServiceImpl implements MemberService {
 		if (dao.checkUserId(member_id) == 0) {
 			result = true;
 		}
-		
 		return result;
 	}
 	

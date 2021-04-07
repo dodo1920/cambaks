@@ -97,9 +97,9 @@ function getTotalCount() {
 		dataType: "json",
 		data : {member_id : member_id},
 		success : function(data) {
-			let totalBoard = data.boardCnt + data.resellBoardCnt;
-			let totalReply = data.replyCnt + data.resellReplyCnt;
-			let totalLike = data.likeCnt + data.resellLikeCnt;
+			let totalBoard = data.boardCnt;
+			let totalReply = data.replyCnt;
+			let totalLike = data.likeCnt;
 			let totalQuestion = data.myQuestion;
 			
 			$("#totalBoard").text(totalBoard);

@@ -215,11 +215,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 		
 		MyPageAllCountVO vo = new MyPageAllCountVO();
 		vo.setBoardCnt(dao.bringBoardCnt(member_id));
-		vo.setResellBoardCnt(dao.bringResellBoardCnt(member_id));
 		vo.setReplyCnt(dao.bringReplyCnt(member_id));
-		vo.setResellReplyCnt(dao.bringResellReplyCnt(member_id));
 		vo.setLikeCnt(dao.bringLikeCnt(member_id));
-		vo.setResellLikeCnt(dao.bringResellLikeCnt(member_id));
 		vo.setMyQuestion(dao.bringMyQuestion(member_id));
 		
 		return vo;

@@ -33,12 +33,8 @@ public class Register {
    public ResponseEntity<String> checkId(@RequestParam("member_id") String member_id) {
 	   // 유저가 작성한 ID 중복 확인
 	   ResponseEntity<String> entity = null;
-	   System.out.println("무야호");
-	   
 	   try {
-			System.out.println("무야호2");
 			if (service.checkUserId(member_id)) {
-				System.out.println("무야호3");
 				entity = new ResponseEntity<String>("success", HttpStatus.OK);
 			} else {
 				entity = new ResponseEntity<String>("fail", HttpStatus.OK);
@@ -47,7 +43,6 @@ public class Register {
 			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		
        return entity;
    }
 
