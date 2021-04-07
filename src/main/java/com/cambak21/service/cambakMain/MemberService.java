@@ -43,6 +43,18 @@ public interface MemberService {
 	 * @return
 	 * @throws Exception
 	 */
+	public boolean checkUserId(String member_id) throws Exception;
+	
+	/**
+	 * @Method Name : memberInsert
+	 * @작성일 : 2021. 3. 16.
+	 * @작성자 : 이영광
+	 * @변경이력 : 
+	 * @Method 설명 : 회원 가입시, 회원 정보를 저장하는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean memberInsert(MemberVO vo) throws Exception;
 	
 	/**

@@ -51,4 +51,11 @@
 			and member_id = #{member_id}
 		</if>
 	</select>
+	
+<!-- 	서효원 mapper -->
+	<select id="checkUserId" resultType="int">
+		select count(*) from Members where member_id = #{member_id}
+	</select>
+<!-- 	서효원 mapper -->
+
   </mapper>

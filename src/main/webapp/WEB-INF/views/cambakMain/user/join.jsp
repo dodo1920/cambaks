@@ -35,11 +35,78 @@
 <script>
    $(document).ready(function() {
 	  
-
+	   userIdCheck();
+	   
+	   
       
    });
    
-
+   
+   function userIdCheck() {
+	   
+	   let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
+	   
+	   $("#userId").on("keyup", function() {
+		  
+		   let userId = $("#userId").val();
+		   
+		   if (event.keyCode == '32') {
+			   alert("아이디는 공백 작성 불가합니다.");
+			   $("#userId").val(userId.replace(/ /g,""));
+		   }
+		   
+		   if (userId.length >= 4 && userId.length <= 20) { // 작성한 아이디 길이 체크
+			   
+			   if (idJ.test(userId)) { // 작성한 아이디 정규식 체크
+				   
+				   $.ajax({
+						  method: "POST",
+						  url: "/user/register/checkId",
+						  dataType: "text",
+						  data : {member_id : userId},
+						  success : function(data) {
+							 
+							 if (data == "success") {
+								 $("#idChkResult").attr("class", "changeTextBarMsg");
+								 $("#idChkResult").text("사용 가능한 아이디입니다.");
+							 }
+							 
+							 
+						  }, error : function(data) {
+							  
+				          }
+						  
+						}); 
+				   
+				   
+				   $("#idChkResult").attr("class", "");
+				   $("#idChkResult").text("사용가능합니다.");
+			   } else {
+				   
+				   $("#idChkResult").attr("class", "changeTextBarMsg");
+				   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+				   setTimeout(function() {
+					   $("#idChkResult").css("display", "none");
+                   }, 5000);
+				   
+			   }
+			   
+			   
+		   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
+			   $("#idChkResult").attr("class", "changeTextBarMsg");
+			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+			   setTimeout(function() {
+				   $("#idChkResult").css("display", "none");
+               }, 5000);
+		   }
+		   
+	   });
+	   
+   }
+   
+   
+   
+   
    
 </script>
 
@@ -50,48 +117,133 @@
 	font-family: 'Gothic A1', sans-serif;
 }
 
-.userInfo {
-	width: 160px;
-	text-align: center;
-	font-size: 15px;
-	padding: 15px;
-	background-color: #f3f3f3;
+.tableTitleSize {
+    padding: 20px 10px 0 20px;
+    border-bottom: 1px solid #dbdbdb;
+    background: #f9f9f9;
 }
 
-.userWrite {
-	padding-left: 10px;
-	width: 570px;
-	font-size: 13px;
-	border-bottom: 1px solid #f3f3f3;
+.tableContentSize {
+    padding: 12px 20px;
+    border-bottom: 1px solid #dbdbdb;
 }
 
-.userInfoRewrite {
-	text-align: center;
-	padding: 10px 0px 0px 0px;
+.contentPlace{
+	margin-left: 25.5%;
+	width: 900px;
 }
 
-.userAccount {
-	border-top: 1px solid #909090;
-	border-bottom: 1px solid #909090;
+.registerTitle {
+	border-bottom: 1px solid #dbdbdb;
+	margin-bottom: 40px;
 }
 
-.nickNameRewrite {
-	margin-left: 10px;
+.registerTitleHead {
+	display: inline-block;
+	font-size: 28px;
+	font-weight: bold;
+	padding-bottom: 10px;
 }
 
-#errPw {
-	color: red;
-	padding-left: 10px;
+.registerTitleBody {
+	display: inline-block;
+	font-size: 18px;
+	float: left;
+	padding-bottom: 5px;
 }
 
-#errPw2 {
-	color: red;
-	padding-left: 10px;
+.registerEtc {
+	float: right;
+	padding-bottom: 5px;
+	font-size: 12px;
+	color: #ea2940;
 }
 
-#errNick {
-	color: red;
-	padding-left: 10px;
+.registerTable {
+	width: 900px;
+	border-top: 1px solid;
+}
+
+.textBarInfo {
+	font-size: 12px;
+	font-weight: bold;
+    margin-left: 5px;
+}
+
+.genderSideMan {
+	margin-right: 20px;
+	margin-left: 5px;
+}
+
+.genderSideWoman {
+	margin-left: 5px;
+}
+
+.birthYear {
+	width: 88px;
+	margin-right: 5px;
+}
+
+.birthMonth {
+	height: 31px;
+	width: 82px;
+	margin-right: 5px;
+	margin-left: 5px;
+}
+
+.birthDate {
+	width: 88px;
+	margin-left: 5px;
+}
+
+.phoneFirst {
+	height: 31px;
+	width: 82px;
+	margin-right: 5px;
+}
+
+.phoneSecond {
+	width: 88px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.phoneThird {
+	width: 88px;
+	margin-left: 5px;
+}
+
+.registerBtn {
+	padding-right: 296px;
+	padding-left: 300px;
+	margin-top: 30px;
+}
+
+.registerBtnCancle {
+	width: 150px;
+	height: 55px;
+	line-height: 50px;
+	font-size: 14px;
+	border: 1px solid #3e3d3c;
+	color: #3e3d3c;
+	font-weight: 900;
+}
+
+.registerBtnSubmit {
+	width: 150px;
+	height: 55px;
+	line-height: 50px;
+	font-size: 14px;
+	background: #3e3d3c;
+	border: 1px solid #3e3d3c;
+	color: #fff;
+	font-weight: 900;
+}
+
+.changeTextBarMsg {
+	color: #ea2940;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 </style>
@@ -102,56 +254,172 @@
 	<%@include file="../cambak21Header.jsp"%>
 
 	<div id="main">
-		<div class="container">
-			<div class="row" style="width: 900px; margin-left: 210px;">
-				<div id="content" class="8u skel-cell-important" style="padding-left: 0px;">
+		<div id="content" class="container">
+				<div class="contentPlace">
 					<div>
-						<h3 style="text-align: center; font-size: 23px;">회원 가입</h3>
-					</div>
-					<div style="padding-top: 50px; border-top: 1px solid #dbdbdb;">
-						<div>
-							<h3 style="display: inline-block;">기본 정보 입력</h3>
-							<span style="float: right; color: #ab3e55;">* 표시의 정보는 필수로 입력바랍니다.</span>
+						<div class="registerTitle">
+							<h2 class="registerTitleHead">회원가입</h2>
 						</div>
-						<table class="userAccount">
+						<div>
+						<h3 class="registerTitleBody">기본 정보</h3>
+						<span class="registerEtc">* 아래의 항목을 모두 작성바랍니다.</span>
+						</div>
+					</div>
+					<form>
+						<table class="registerTable">
 							<tr>
-								<td class="userInfo">아이디</td>
-								<td class="userWrite">hyoniki</td>
+								<th class="tableTitleSize">아이디</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" />
+									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
+									</div>
+									<div>
+									<span id="idChkResult"></span>
+									</div>
+								</td>
+							</tr>
+	
+							<tr>
+								<th class="tableTitleSize">비밀번호</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="password" name="" maxlength="40" size="40" />
+									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</span>
+									</div>
+									<div>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">이름</td>
-								<td class="userWrite">서효원</td>
+								<th class="tableTitleSize">비밀번호 확인</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="password" name="" maxlength="40" size="40" />
+									</div>
+									<div>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">닉네임</td>
-								<td class="userWrite" id="nicknameInput">효니키<input type="button" value="변경"
-										class="nickNameRewrite" onclick="nickName();"></td>
+								<th class="tableTitleSize">이름</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="text" name="" maxlength="40" size="40" />
+									</div>
+									<div>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">비밀번호</td>
-								<td class="userWrite"><input type="password" name="password" onblur="tou2(this)"><span
-										id="errPw"></span></td>
+								<th class="tableTitleSize">성별</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="radio" name="gender" value="M" checked/><span class="genderSideMan">남</span>
+									<input type="radio" name="gender" value="F" /><span class="genderSideWoman">여</span>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">비밀번호확인</td>
-								<td class="userWrite"><input type="password" name="password" onblur="tou3(this)"><span
-										id="errPw2"></span></td>
+								<th class="tableTitleSize">생년월일</th>
+								<td class="tableContentSize">
+									<div>
+										<span>
+											<input type="text" maxlength="4" placeholder="년(4자)" class="birthYear"/>-
+										</span>
+										<span>
+											<select class="birthMonth">
+												<option value="empty">월</option>
+												<option value="01">1</option>
+												<option value="02">2</option>
+												<option value="03">3</option>
+												<option value="04">4</option>
+												<option value="05">5</option>
+												<option value="06">6</option>
+												<option value="07">7</option>
+												<option value="08">8</option>
+												<option value="09">9</option>
+												<option value="10">10</option>
+												<option value="11">11</option>
+												<option value="12">12</option>
+											</select>
+										</span>
+										<span>
+											-<input type="text" maxlength="4" placeholder="일" class="birthDate"/>
+										</span>
+									</div>
+									<div>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">E-mail</td>
-								<td class="userWrite">hyoniki@gmail.com</td>
+								<th class="tableTitleSize">이메일</th>
+								<td class="tableContentSize">
+									<div>
+									<input type="text" name="" size="40" placeholder="qwe@nd.co" readonly/>
+									</div>
+								</td>
 							</tr>
 							<tr>
-								<td class="userInfo">휴대전화</td>
-								<td class="userWrite" style="border-bottom: 1px solid #909090;">010-1234-5678</td>
+								<th class="tableTitleSize">휴대전화</th>
+								<td class="tableContentSize">
+									<div>
+										<span>
+											<select class="phoneFirst">
+												<option value="010">010</option>
+												<option value="011">011</option>
+												<option value="016">016</option>
+												<option value="017">017</option>
+												<option value="018">018</option>
+												<option value="019">019</option>
+											</select>
+										</span>
+										<span>
+											-<input type="text" maxlength="4" class="phoneSecond"/>-
+										</span>
+										<span>
+											<input type="text" maxlength="4" class="phoneThird"/>
+										</span>
+									</div>
+									<div>
+									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="tableTitleSize">주소</th>
+								<td class="tableContentSize">
+	
+									<input type="text" id="sample2_postcode" placeholder="우편번호">
+									<input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기"><br>
+									<input type="text" id="sample2_address" placeholder="주소"><br>
+									<input type="text" id="sample2_detailAddress" placeholder="상세주소">
+									<input type="text" id="sample2_extraAddress" placeholder="참고항목">
+									<div id="layer"
+										style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
+										<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
+											style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
+											onclick="closeDaumPostcode()" alt="닫기 버튼">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="tableTitleSize">프로필사진</th>
+								<td class="tableContentSize">
+									<input type="checkbox" id="agree" />약관에 동의합니다.
+									<button type="button" data-toggle="modal" data-target="#myModal">이용약관 확인하기</button>
+								</td>
 							</tr>
 						</table>
-						<div class="userInfoRewrite">
-							<input type="button" value="취소" onclick="goBack();" style="margin-right: 10px;">
-							<input type="submit" value="수정" onclick="check();">
+						<div class="registerBtn">
+							<button class="registerBtnCancle">취소</button>
+							<button class="registerBtnSubmit">회원가입</button>
 						</div>
-					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
