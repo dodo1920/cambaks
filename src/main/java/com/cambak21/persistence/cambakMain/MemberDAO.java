@@ -20,6 +20,7 @@ public interface MemberDAO {
 	 */
 	public int memberUpdate(MemberVO vo) throws Exception;
 	
+	public MemberVO memberSelect(String memberId) throws Exception;
 	/**
 	 * @Method Name : memberDelete
 	 * @작성일 : 2021. 3. 16.

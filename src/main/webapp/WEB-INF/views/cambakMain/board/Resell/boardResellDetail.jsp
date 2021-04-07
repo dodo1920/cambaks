@@ -116,9 +116,9 @@
 						console.log(item.replyResell_no)
 						output += "<li class='list-group-item'>"
 						output += "<div>작성자 : " + item.member_id + "</div>"
-						output += "<div>" + item.resellReplyBoard_content + "</div>"
+						output += "<div>" + item.replyResell_content + "</div>"
 						output += "<div>작성날짜 : "
-								+ new Date(item.resellReplyBoard_updateDate).toLocaleString()
+								+ new Date(item.replyResell_updateDate).toLocaleString()
 								+ "</div>"
 						output += "</li>"
 						output += '<li class="list-group-item"><span id="' + item.no 
@@ -130,6 +130,7 @@
 
 			$("#replyBox").html(output);
 		});
+	}
 	function goDelete(no) {
 		let mamberid = "${loginMember.member_id}"
 		if (mamberid != null){
@@ -155,7 +156,6 @@
 			}
 			
 		}
-	}
 
 	}
 	$(function() {

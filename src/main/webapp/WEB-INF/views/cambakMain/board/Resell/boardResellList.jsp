@@ -160,7 +160,7 @@ function textLimit() {
 						<table style="width: 100%x"id="nextPage">
 				
 						<tbody style="width: 100%">
-						<div style="display: table;margin: auto;">
+						<div id="ResellList" style="display: table;margin: auto;">
 							<form action="/board/resell/search" method="GET">
 								<select name="searchType" style="margin-right: 15px">
 									<option value="resellBoard_title">제목</option>
@@ -174,7 +174,7 @@ function textLimit() {
 							<c:if test="${loginMember.member_id != null }">
 							<a href="write" style="margin-left: 15px"><button type="button" class="btn btn-info" id="deleteBoard">글쓰기</button></a>
 						</c:if>
-						</div id="ResellList">
+						</div >
 						
 						<c:forEach var="board" items="${board}">
 						<c:choose>
@@ -193,7 +193,7 @@ function textLimit() {
 								<tr class="bordListBox" onclick="gotoDeteilPage(${board.resellBoard_no});">
 								
 								<td class="tdTotolStyle"><span>${board.member_id}</span></td>
-								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail" src="/resources/mallMain/img/shop/shop-5.jpg"/></td>
+								<td class="Thumbnail tdTotolStyle"><img class="Thumbnail"src='data:image/png;base64,' /></td>
 								<td class="tdTotolStyle"><span>${board.resellBoard_title}</span></td>
 								<td class="tdTotolStyle tdContentBox" ><span style="word-break:normal;">
 									${board.resellBoard_content}
@@ -206,7 +206,7 @@ function textLimit() {
 							</c:choose>
 							</c:forEach>
 							</tbody>
-						</table>
+						</table>	
 
 	
 			<!--  
