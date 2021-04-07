@@ -39,12 +39,12 @@
 	
 	let orderList;
 	
-	// ajax페이지 고침을 위한 전역변수
+	// ajax페이지 고침을 위한 전역변수 (정민)
     let currentPage;
 	let prodReviewNo;
 	let prodReview_likeCnt;
 	
-	// 원댓글 작성자 이름 가져오기
+	// 원댓글 작성자 이름 가져오기 (정민)
 	let replyMember_id;
 	let replyProdReview_no1;
 
@@ -81,7 +81,9 @@
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
 	// 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(prodId, pageNum, checkPoint, orderList) {
-		
+		if(prodId == 0){
+			prodId = '${param.prodId}';
+		}
     	// 유저의 등급
     	let grade_name = "${loginMember.grade_name}";
     	// 넘겨준 페이지 번호가 없을 때,
@@ -91,7 +93,7 @@
     	if(checkPoint == null){
     		checkPoint = 0;
     	}
-    	console.log(checkPoint);
+    	//console.log(checkPoint);
     	// 정렬 순서 선택을 나타내는 부분
     	if(orderList == null){
     		// 기본 설정은 최신순 정렬
@@ -99,7 +101,7 @@
     	} else{ // 선택한 카테고리가 있을 때,
     		orderList = orderList;
     	}
-//     	console.log(orderList);
+     	console.log(orderList);
 //     	console.log(prodId);
 //     	console.log(pageNum);
     	// ------------------게시판 리스트 출력-------------------------------
@@ -439,16 +441,7 @@
 		
 		//addReply 대댓글 처리 부분
 		function addReply(replyProdReview_no, replyProdReview_ref, prodReview_no, replyProdReview_repMember_id) {
-			// replyProdReview_content 수정 필요
-// 			console.log(replyProdReview_repMember_id);
-			//console.log(member_id);
-			/*if(replyProdReview_ref != 0){ 
-				replyProdReview_ref = replyProdReview_no;
-			}*/
-			
-			
-			
-			
+
 			let replyProdReview_content = $("#replyContent" + replyProdReview_no).val();
 			$.ajax({
 				  method: "post",
@@ -1139,7 +1132,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList(0,1,0,'latest');" id="prodReviewsCnt">상품평</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의(<span id="totprodQACnt"></span>)</a>

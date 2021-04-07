@@ -100,7 +100,7 @@ public class ProdDetail {
 	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("prodId") String prodId, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("orderList") String orderList) {
 //	      System.out.println(prodId);
 //	      System.out.println(page);
-//	      System.out.println(orderList.toString());
+	      System.out.println(orderList);
 	      logger.info("/prodReviews의 ajax-GET방식 호출");
 	      
 	      int product_id = Integer.parseInt(prodId);
