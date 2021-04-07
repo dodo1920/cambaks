@@ -29,7 +29,9 @@ public class MemberServiceImpl implements MemberService {
 	//	
 		return false;
 	}
-
+	public MemberVO memberSelect(String memberId) throws Exception{
+		return dao.memberSelect(memberId);
+	}
 	@Override
 	public boolean memberDelete(String member_id) throws Exception {
 		// TODO Auto-generated method stub

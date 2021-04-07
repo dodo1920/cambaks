@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.BucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.persistence.cambakMall.prodDetailDAO;
@@ -21,14 +22,20 @@ public class prodDetailServiceImpl implements prodDetailService {
 
 	@Override
 	public boolean insertBucket(InsertintoBucketDTO insertBucket) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		int i = dao.insertBucket(insertBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
-	public boolean checkBucket(String member_id, int product_id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public BucketVO checkBucket(String member_id, int product_id) throws Exception {		
+		return dao.checkBucket(member_id, product_id);
 	}
 
 	@Override

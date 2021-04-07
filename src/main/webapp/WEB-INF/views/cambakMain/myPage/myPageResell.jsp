@@ -41,6 +41,7 @@ function contentTopCategory(category) {
 
 // 카테고리를 위한 전역변수 선언
 let category;
+let member_id = "${loginMember.member_id}";
 
 // 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
@@ -74,7 +75,7 @@ function showCambakMarketList(pageNum, category) {
 	}
 	//console.log(category);
 
-	let member_id = "${loginMember.member_id}";
+	
 	
 	
 	// 게시판 리스트 출력 부분
@@ -199,7 +200,25 @@ function showCambakMarketList(pageNum, category) {
 	
 }
 
-
+	//상단 탭 카운트 가져오는 부분
+	function getTotalCntMyPage(member_id) {
+		$.ajax({
+		    type		: "get",
+		    url 		: "/myPage/myPageResellCnt",
+		    data		:  {
+		    		'member_id' : member_id
+		    }, 
+		    contentType : "application/json",
+		    success 	: function(data) {
+		    	console.log(data);
+		    	$("#myLikeCnt").html(data.resellBoardLikeCnt);
+		    	$("#myWriteCnt").html(data.resellBoardWriteCnt);
+		    	$("#myReplyCnt").html(data.resellBoardReplyCnt);
+		    	
+		    	
+		    }
+	});
+	}
     	
     	
     	
@@ -207,6 +226,7 @@ function showCambakMarketList(pageNum, category) {
     	// 내가 쓴 글 리스트 출력
     	showCambakMarketList();
     	
+    	getTotalCntMyPage(member_id);
     	// 글씨 색깔 효과
     	let myPageUri = searchMyPageUriAddress();
         myPageAsideBarDraw(myPageUri);
@@ -262,16 +282,13 @@ function showCambakMarketList(pageNum, category) {
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a href="" id="myWriteCnt" class="myPostCnt" onclick="showCambakMarketList(1, 'myWriting'); return false;"></a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a href="" id="myReplyCnt" class="myPostCnt" onclick="showCambakMarketList(1, 'myReply'); return false;"></a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" class="myPostCnt">0</a>개
-							</p>
-							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a href="" id="myLikeCnt" class="myPostCnt" onclick="showCambakMarketList(1, 'myLike'); return false;"></a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->

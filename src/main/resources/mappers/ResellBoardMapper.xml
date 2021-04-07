@@ -77,4 +77,17 @@
   <select id="ResellBoardReadDetail" resultType="com.cambak21.domain.ResellBoardVO">
   	select * FROM ResellBoards where resellBoard_no = #{no}
   </select>
+  
+  <!-- 김정민 좋아요, 댓글, 작성글 카운트 부분 -->
+  <!-- 작성글 카운트 -->
+  <select id="ResellBoardWriteCnt" resultType="int">
+  	select count(*) from goot6.ResellBoards where member_id=#{member_id}
+  </select>
+  <select id="ResellBoardLikeCnt" resultType="int">
+  	select count(*) from goot6.ResellLikeBoards where member_id=#{member_id}
+  </select>
+  <select id="ResellBoardReplyCnt" resultType="int">
+  	select count(*) from goot6.ReplyResells where member_id=#{member_id}
+  </select>
+  <!-- 김정민 좋아요, 댓글, 작성글 카운트 부분 -->
   </mapper>

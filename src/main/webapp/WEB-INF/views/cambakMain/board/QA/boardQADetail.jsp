@@ -51,10 +51,12 @@
 
 <script>
 	$(document).ready(function() {
-		// 말 줄임 ...
+		// 글 제한
 		textLimit();
+		
 		// 공지사항
 		rolling();
+		
 		// 댓글
 		replyList();
 		
@@ -63,44 +65,84 @@
 		
 		// 사이드바 현재 카테고리 표시
 		asideBarDraw(searchUriAddress());
+		
+		// 좋아요 체크 확인
+		checkLike();
 	
 	});
 	
+	// 좋아요 눌렀는지 체크
+	function checkLike() {
+		if (${loginMember.member_id == null}) {
+			$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 하기</button>');
+		} else {
+		
+		let board_no = ${board.board_no};
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 받을 데이터
+			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/board/qa/like/check",// 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id
+			},
+			success : function(data) {
+				if (data == 1) {
+					$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 취소</button>');
+				} else {
+					$("#boardLike_Btn").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		}
+	}
+	
 	// 추천 버튼
-	function likeBoardBtn() {
-		   let likeBtn_result = $("#likeBtn_status").val();
-		   
-		   $.ajax({
-				  method: "POST",
-				  url: "/board/qa/boardLikeUpdate",
-				  dataType: "text",
-				  data : {member_id : loginMember, board_no : board_no, likeBtn_result : likeBtn_result},
-				  success : function(data) {
-					  let output = "";
-					  if (likeBtn_result == "like") { // 추천취소 버튼으로 변경
-						  $("#boardLike_site").empty();
-						  output += '<input type="hidden" id="likeBtn_status" value="dislike" />' +
-						  '<img src="/resources/cambak21/img/campingTipDislike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천취소' +
-						  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span>';
-						  $("#boardLike_site").append(output);
-						  $("#viewBoardLikeCnt").text("추천 : " + data)
-					  } else if (likeBtn_result == "dislike") { // 추천하기 버튼으로 변경
-						  $("#boardLike_site").empty();
-						  output += '<input type="hidden" id="likeBtn_status" value="like" />' +
-						  '<img src="/resources/cambak21/img/campingTipLike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천하기' +
-						  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span></button>';
-						  $("#boardLike_site").append(output);
-						  $("#viewBoardLikeCnt").text("추천 : " + data)
-					  }
-					  
-				  }, error : function(data) {
-					  alert("페이지 로딩 시 문제가 발생했습니다. 다시 시도 후 실패 시 문의바랍니다.");
-					  history.back();
-		          }
-				  
-				}); 
-		   
-	   }
+	function likeBtn() {
+		if (${loginMember.member_id == null}) {
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let board_no = ${board.board_no};
+			let member_id = "${loginMember.member_id}";
+			
+			$.ajax({
+				type : "post",
+				dataType : "json", // 받을 데이터
+				contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+				url : "/board/qa/like",// 서블릿 주소
+				data : JSON.stringify({
+					board_no : board_no,
+					member_id : member_id
+				}),
+				success : function(data) {
+					if(data.status == "on") {
+						$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 취소</button>');
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 완료 되었습니다");
+						$("#myModal").modal();
+					} else if (data.status == "off") {
+						$("#boardLike_Btn").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 취소 되었습니다");
+						$("#myModal").modal();
+					}
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		}
+	}
 	
 	// 댓글 리스트 ajax 호출
 	function replyList() {
@@ -394,7 +436,7 @@
 								<p class="view">
 									조회수 <span>${board.board_viewCnt }</span>
 								</p>
-								<p class="like" id="boardLike_Btn">
+								<p class="like">
 									추천수 <span>${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
@@ -404,9 +446,9 @@
 						</div>
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
-							<c:if test="${not empty loginMember }">
-							<div class="boardLike" id="boardLike_Btn">
-								<button type="button" class="btn btn-danger" onclick="likeBoardBtn()">추천</button>
+							<c:if test="${loginMember.member_id != null}">
+							<div class="LikeCnt" id="boardLike_Btn">
+								<button type="button" class="btn btn-danger" onclick="likeBtn()">추천</button>
 							</div>
 							</c:if>
 

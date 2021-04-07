@@ -15,7 +15,7 @@
   	</select>
   	<!-- 기본 주소록 -->
   	<select id="defaultDest" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where member_id = #{member_id} and default_address > 0
+  		select * from goot6.Destinations where member_id = #{member_id} and destination_no = default_address;
   	</select>
   	
   	
@@ -41,6 +41,15 @@
   		select product_id, product_name, product_sellPrice, product_detail, product_img1, product_img2, product_img3, product_img4, product_shipPrice, product_title 
   		from Products where product_id = #{product_id}
   	</select>
+  	
+  	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
+  		select bucket_no, product_id, bucket_buyQty from Buckets where member_id = #{member_id} and product_id = #{product_id}
+  	</select>
+  	
+  	<insert id="insertBucket">
+  		insert into Buckets(member_id, product_id, bucket_buyQty, bucket_sellPrice, bucket_totBuyPrice)
+		value(#{member_id}, #{product_id}, #{bucket_buyQty}, #{bucket_sellPrice}, #{bucket_sellPrice})
+  	</insert>
   	
   	
   	<!-- 김정민 맵퍼 -->
@@ -93,7 +102,7 @@
   	<!-- 박종진 맵퍼 -->
   	
   	<select id="destinationsListAjax" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where member_id = #{member_id}
+  		select * from goot6.Destinations where member_id = #{member_id} and destination_isDelete = "N"
   	</select>
   	
   	<update id="defaultModyAjax" >
@@ -108,9 +117,9 @@
   		insert into Destinations(member_id, destination_nickname, destination_address, destination_addressDetail, destination_toUser, destination_mobile) values(#{member_id}, #{destination_nickname}, #{destination_address}, #{destination_addressDetail}, #{destination_toUser}, #{destination_mobile})
   	</insert>	
   	
-  	<delete id="deleteDestiny">
-  		delete from Destinations where destination_no = #{destination_no}
-  	</delete>
+  	<update id="deleteDestiny">
+  		update Destinations set destination_isDelete = "Y" where destination_no = #{destination_no}
+  	</update>
   	
   	<!-- 이영광 맵퍼 -->
   	
