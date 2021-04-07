@@ -17,7 +17,17 @@ public class MyMallSerivceImpl implements MyMallService {
 	private MyMallDAO dao;
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@Override
+	public int getTotalRefund(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getTotalRefund(member_id);
+	}
 	
+	@Override
+	public Object getRefundList(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getRefundList(member_id);
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -75,6 +85,10 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.getProdQAVO(member_id, prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	
+
+	
 
 	
 		

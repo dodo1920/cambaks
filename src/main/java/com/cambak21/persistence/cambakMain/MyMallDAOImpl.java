@@ -21,7 +21,18 @@ public class MyMallDAOImpl implements MyMallDAO {
 	private static String ns = "com.mappers.cambakMain.MyMallMapper";
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@Override
+	public int getTotalRefund(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".getTotalRefund", member_id);
+	}
 	
+	@Override
+	public Object getRefundList(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectList(ns + ".getRefundList", member_id);
+	}
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -83,6 +94,10 @@ public class MyMallDAOImpl implements MyMallDAO {
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+	
+
+
+	
 
 	
 		
