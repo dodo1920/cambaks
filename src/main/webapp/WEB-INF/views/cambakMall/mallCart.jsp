@@ -124,30 +124,6 @@ button.btn.btn-default.cntCh {
 									<td class="cart__close"><span class="icon_close"></span></td>
 								</tr>
 								<!-- --------------------------------------------------------------- -->
-								<tr>
-									<td class="cart__product__item"><img
-										src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">
-										<div class="cart__product__item__title">
-											<h6>활활 화로</h6>
-											<div class="rating">
-												<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-													class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-													class="fa fa-star"></i>
-											</div>
-										</div></td>
-									<td class="cart__price">￦ 6,000</td>
-									<td class="cart__quantity">
-										<div class="pro-qty">
-											<input type="text" value="10">
-										</div>
-										<div class="cntChBtn-wrap">
-											<button type="button" class="btn btn-default cntCh">수량 변경</button>
-										</div>
-									</td>
-									<td class="cart__total">￦ 60,000</td>
-									<td class="cart__close"><span class="icon_close"></span></td>
-								</tr>
-								
 							
 							</tbody>
 						</table>
@@ -159,27 +135,13 @@ button.btn.btn-default.cntCh {
 				<div class="totCnt-wrap">합계 : ￦ 50,000</div>
 			</div>
 			
-			
-			
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6 cart-btn">
 					<div class="cart__btn update__btn">
-						<a href="#">계속 쇼핑하기</a>
-						<a href="#">주문하기</a>
+						<button type="button" class="btn btn-default cntCh">계속 쇼핑하기</button>
+						<button type="button" class="btn btn-default cntCh">주문하기</button>
 					</div>
 				</div>
-			</div>
-		
-			<div class="row">
-				<!--                 <div class="col-lg-6"> -->
-				<!--                     <div class="discount__content"> -->
-				<!--                         <h6>Discount codes</h6> -->
-				<!--                         <form action="#"> -->
-				<!--                             <input type="text" placeholder="Enter your coupon code"> -->
-				<!--                             <button type="submit" class="site-btn">Apply</button> -->
-				<!--                         </form> -->
-				<!--                     </div> -->
-				<!--                 </div> -->
 			</div>
 		</div>
 	</section>
