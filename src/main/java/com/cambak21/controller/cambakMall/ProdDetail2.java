@@ -245,46 +245,23 @@ public class ProdDetail2 {
 		return entity;
 	}
 	
-	   /**
-	 * @Method Name : deleteFile
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품 문의 글 작성 페이지에서 유저가 업로드 한 이미지를 삭제하는 메서드
-	 * @param request
-	 * @param fileName
-	 * @return
-	 */
-	@RequestMapping(value="/deleteFile", method=RequestMethod.POST)
-		public ResponseEntity<String> deleteFile(HttpServletRequest request, String fileName) {
-			logger.info("삭제할 파일 : " + fileName);
-			
-			String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-			
-			String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
-			
-			MediaType mType = MediaConfirm.getMediaType(ext);
-			
-			String tmp = fileName.replace("thumb_", "");
-			String originalFile = path + tmp; // 삭제해야 할 오리지널 이미지 파일
-			String thumbFile = path + fileName; // 삭제해야 할 썸네일 이미지 파일
-			// *************우리의 OS가 windows이므로 아래 코드를 해줘야 함. (window는 File.seperator : \, linux : /) **************
-			originalFile = originalFile.replace('/', File.separatorChar);
-			thumbFile = thumbFile.replace('/', File.separatorChar);
-			// **********************************************************************************************************************
-			
-			logger.info("삭제할 파일 (original) : " + originalFile + ", (thumb) : " + thumbFile);
-			
-			if(mType != null) {
-				// 이미지 파일이면,
-				// 삭제할 파일과 경로
-				new File(originalFile).delete();
-				new File(thumbFile).delete();
-				
+	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
+	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
+		logger.info("QA 글 삭제");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
+			if(QAService.deleteProdQA(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
 			}
-			
-			return new ResponseEntity<String>("success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
+		
+		return entity;
+	}
 	
 	/**
 	 * @Method Name : ShowInsertProdQA
