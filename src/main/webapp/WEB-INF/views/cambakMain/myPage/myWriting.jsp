@@ -46,6 +46,7 @@ function contentTopCategory(board_category) {
 
 // 카테고리를 위한 전역변수 선언
 let board_category;
+let member_id = "${loginMember.member_id}";
 
 // 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
@@ -78,8 +79,6 @@ function showWritingList(pageNum, board_category) {
 		board_category = board_category;
 	}
 	console.log(board_category);
-	
-	member_id = "${loginMember.member_id}";
 	
 	// 게시판 리스트 출력 부분
 	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
@@ -196,14 +195,28 @@ function showWritingList(pageNum, board_category) {
 		});
 	
 }
-
-
-    	
+	//상단 탭 카운트 가져오는 부분
+	function getTotalCntMyPage(member_id) {
+		$.ajax({
+		    type		: "get",
+		    url 		: "/myPage/myPageCnt",
+		    data		:  {
+		    		'member_id' : member_id
+		    }, 
+		    contentType : "application/json",
+		    success 	: function(data) {
+		    	console.log(data);
+		    	
+		    }
+	});
+	}
     	
     	
     $(function() {
     	// 내가 쓴 글 리스트 출력
     	showWritingList();
+    	// 카운트 가져오기
+    	getTotalCntMyPage(member_id);
     	
     	// 글씨 색깔 효과
     	let myPageUri = searchMyPageUriAddress();
@@ -260,16 +273,16 @@ function showWritingList(pageNum, board_category) {
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">0</a>개
+								나의 문의 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->
