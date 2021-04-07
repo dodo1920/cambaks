@@ -43,6 +43,8 @@ public class MyPostController {
 	// 서비스 주입
 	@Inject
 	private MyPostingService service;
+	
+	@Inject
 	private CheckListService ckservice;
 
 	// 디버깅용 Logger

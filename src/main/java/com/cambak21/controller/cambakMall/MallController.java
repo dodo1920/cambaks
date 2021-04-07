@@ -131,6 +131,7 @@ public class MallController {
 	@RequestMapping(value = "/destinationsList/deleteDestiny/{member_id}/{dstno}", method = RequestMethod.GET)
 	public ResponseEntity<String> deleteDestiny(@PathVariable("member_id") String member_id, @PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
 		
+		System.out.println("삭제 컨트롤러 입장");
 		ResponseEntity<String> entity = null;
 		if(service.deleteDestiny(member_id, dstno)) {
 			System.out.println("삭제 성공");

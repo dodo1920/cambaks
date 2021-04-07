@@ -38,7 +38,7 @@ public interface MyPostingService {
 	// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
 	MyPageAllCountVO myPageAllCount(String member_id) throws Exception;
 	
-	// ------------------------------------ 서효원 service ------------------------------------
+	// ------------------------------------ 박종진 service ------------------------------------
 	
 	// 내 체크리스트 불러오기
 	public List<CheckListVO> getCheckList(String member_id) throws Exception;

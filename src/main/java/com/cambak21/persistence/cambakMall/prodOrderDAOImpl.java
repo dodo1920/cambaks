@@ -135,7 +135,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		paraMap.put("member_id", member_id);
 		paraMap.put("destination_no", destination_no);
 	
-			return ses.delete(namespace + ".deleteDestiny", paraMap);
+			return ses.update(namespace + ".deleteDestiny", paraMap);
 		
 	}
 
