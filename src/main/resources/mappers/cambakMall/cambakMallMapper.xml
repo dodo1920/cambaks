@@ -15,7 +15,7 @@
   	</select>
   	<!-- 기본 주소록 -->
   	<select id="defaultDest" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where member_id = #{member_id} and default_address > 0
+  		select * from goot6.Destinations where member_id = #{member_id} and destination_no = default_address;
   	</select>
   	
   	

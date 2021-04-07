@@ -8,7 +8,8 @@ public class RefundnExchangeVO {
 	private String refundnExchange_status;
 	private Date refundnExchange_date;
 	private String member_id;
-	private int payment_no;
+	private int payment_serialNo;
+	private String refundnExchange_isChecked;
 	
 	public int getRefundnExchange_no() {
 		return refundnExchange_no;
@@ -40,19 +41,26 @@ public class RefundnExchangeVO {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
-	public int getPayment_no() {
-		return payment_no;
+	public int getPayment_serialNo() {
+		return payment_serialNo;
 	}
-	public void setPayment_no(int payment_no) {
-		this.payment_no = payment_no;
+	public void setPayment_serialNo(int payment_serialNo) {
+		this.payment_serialNo = payment_serialNo;
 	}
 	
+	public String getRefundnExchange_isChecked() {
+		return refundnExchange_isChecked;
+	}
+	public void setRefundnExchange_isChecked(String refundnExchange_isChecked) {
+		this.refundnExchange_isChecked = refundnExchange_isChecked;
+	}
 	@Override
 	public String toString() {
 		return "RefundnExchangeVO [refundnExchange_no=" + refundnExchange_no + ", refundnExchange_reason="
 				+ refundnExchange_reason + ", refundnExchange_status=" + refundnExchange_status
-				+ ", refundnExchange_date=" + refundnExchange_date + ", member_id=" + member_id + ", payment_no="
-				+ payment_no + "]";
+				+ ", refundnExchange_date=" + refundnExchange_date + ", member_id=" + member_id + ", payment_serialNo="
+				+ payment_serialNo + ", refundnExchange_isChecked=" + refundnExchange_isChecked + "]";
 	}
+	
 	
 }
