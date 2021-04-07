@@ -28,7 +28,7 @@
 	<!-- 게시글 리스트 -->
 	<select id="listBoardQA" resultType="com.cambak21.domain.BoardQAVO">
 		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
-		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt
+		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as board_replyCnt
 		from Boards b
 		where board_category = 'QA'
 		order by board_no desc
@@ -113,5 +113,10 @@
 	  <select id="getTotalBoardCnt" resultType="int">
 	  	select count(*) from tbl_board
 	  </select>
+
+	<!-- 조회수 -->
+	<update id="viewQACount">
+		update Boards set board_viewCnt = board_viewCnt + 1 where board_no = #{board_no}
+	</update>
 	
 </mapper>

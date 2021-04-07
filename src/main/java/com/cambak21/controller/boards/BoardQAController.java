@@ -3,7 +3,9 @@ package com.cambak21.controller.boards;
 import java.util.List;
 
 import javax.inject.Inject;
-
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.BoardQAVO;
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
 import com.cambak21.dto.UpdateBoardQADTO;
@@ -37,6 +41,8 @@ public class BoardQAController {
 	public String BoardQAList(Model model, PagingCriteria cri) throws Exception {
 		logger.info("게시글 리스트");
 		model.addAttribute("boardList", service.listBoardQA(cri));
+		
+		System.out.println(service.listBoardQA(cri).toString());
 		
 		logger.info(cri.toString());
 		PagingParam pp = new PagingParam();
@@ -66,12 +72,25 @@ public class BoardQAController {
 	}
 	
 	@RequestMapping(value="/qa/detail", method=RequestMethod.GET)
-	public String BoardQADetail(@RequestParam("no") int no, Model model) throws Exception {
+	public String BoardQADetail(HttpServletRequest request, HttpServletResponse response, @RequestParam("no") int board_no, Model model) throws Exception {
 		
 		logger.info("상세게시글 호출");
 		
-		model.addAttribute("board", service.readBoardQA(no));
+		String no = String.valueOf(board_no);
+		Cookie cookie = WebUtils.getCookie(request, "readBoard" + no);
 		
+		if (cookie == null) { // 금일 상세 게시글 확인 전 조회수 1증가
+			
+			Cookie readCookie = new Cookie("readBoard" + no, no);
+			readCookie.setPath("/");
+			readCookie.setMaxAge(60 * 60 * 24); // 하루 동안
+			response.addCookie(readCookie);
+			
+			service.viewQACnt(board_no); // 조회수 1증가
+		}
+		
+		BoardQAVO vo = service.readBoardQA(board_no);
+		model.addAttribute("board", vo);
 		return "cambakMain/board/QA/boardQADetail";
 	}
 	

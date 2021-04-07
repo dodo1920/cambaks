@@ -38,5 +38,8 @@ public interface BoardQAService {
 
 	// 댓글 갯수
 	int boardQAReplyCnt(int board_no) throws Exception;
+
+	// 게시글 조회수
+	public boolean viewQACnt(int board_no) throws Exception;
 	
 }

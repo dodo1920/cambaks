@@ -66,6 +66,42 @@
 	
 	});
 	
+	// 추천 버튼
+	function likeBoardBtn() {
+		   let likeBtn_result = $("#likeBtn_status").val();
+		   
+		   $.ajax({
+				  method: "POST",
+				  url: "/board/qa/boardLikeUpdate",
+				  dataType: "text",
+				  data : {member_id : loginMember, board_no : board_no, likeBtn_result : likeBtn_result},
+				  success : function(data) {
+					  let output = "";
+					  if (likeBtn_result == "like") { // 추천취소 버튼으로 변경
+						  $("#boardLike_site").empty();
+						  output += '<input type="hidden" id="likeBtn_status" value="dislike" />' +
+						  '<img src="/resources/cambak21/img/campingTipDislike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천취소' +
+						  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span>';
+						  $("#boardLike_site").append(output);
+						  $("#viewBoardLikeCnt").text("추천 : " + data)
+					  } else if (likeBtn_result == "dislike") { // 추천하기 버튼으로 변경
+						  $("#boardLike_site").empty();
+						  output += '<input type="hidden" id="likeBtn_status" value="like" />' +
+						  '<img src="/resources/cambak21/img/campingTipLike.png" class="boardLike_siteImg" id="boardLike_siteImg"/>추천하기' +
+						  '<span class="badge" id="boardLike_likeCnt">' + data+ '</span></button>';
+						  $("#boardLike_site").append(output);
+						  $("#viewBoardLikeCnt").text("추천 : " + data)
+					  }
+					  
+				  }, error : function(data) {
+					  alert("페이지 로딩 시 문제가 발생했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+					  history.back();
+		          }
+				  
+				}); 
+		   
+	   }
+	
 	// 댓글 리스트 ajax 호출
 	function replyList() {
 		$.ajax({
@@ -358,7 +394,7 @@
 								<p class="view">
 									조회수 <span>${board.board_viewCnt }</span>
 								</p>
-								<p class="like">
+								<p class="like" id="boardLike_Btn">
 									추천수 <span>${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
@@ -368,7 +404,11 @@
 						</div>
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
-							<button type="button" class="btn btn-danger">추천</button>
+							<c:if test="${not empty loginMember }">
+							<div class="boardLike" id="boardLike_Btn">
+								<button type="button" class="btn btn-danger" onclick="likeBoardBtn()">추천</button>
+							</div>
+							</c:if>
 
 
 
@@ -393,7 +433,7 @@
 														
 							<!-- 검색 했을 시 전 주소 -->
 							<c:if test="${param.searchWord != null }">
-								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
+								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>
 							</c:if>

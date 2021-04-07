@@ -13,7 +13,6 @@ public class BoardQAVO {
 	private int board_likeCnt;
 	private int board_viewCnt;
 	private int board_replyCnt;
-	
 	public int getBoard_no() {
 		return board_no;
 	}
@@ -74,14 +73,12 @@ public class BoardQAVO {
 	public void setBoard_replyCnt(int board_replyCnt) {
 		this.board_replyCnt = board_replyCnt;
 	}
-	
 	@Override
 	public String toString() {
-		return "BoardQAVO [board_category=" + board_category + ", board_content=" + board_content + ", board_likeCnt="
-				+ board_likeCnt + ", board_no=" + board_no + ", board_replyCnt=" + board_replyCnt + ", board_title="
-				+ board_title + ", board_updateDate=" + board_updateDate + ", board_viewCnt=" + board_viewCnt
-				+ ", board_writeDate=" + board_writeDate + ", member_id=" + member_id + "]";
+		return "BoardQAVO [board_no=" + board_no + ", member_id=" + member_id + ", board_title=" + board_title
+				+ ", board_category=" + board_category + ", board_content=" + board_content + ", board_writeDate="
+				+ board_writeDate + ", board_updateDate=" + board_updateDate + ", board_likeCnt=" + board_likeCnt
+				+ ", board_viewCnt=" + board_viewCnt + ", board_replyCnt=" + board_replyCnt + "]";
 	}
-	
 	
 }

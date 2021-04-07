@@ -157,4 +157,9 @@ public class BoardQAServiceImpl implements BoardQAService {
 		return dao.boardQAReplyCnt(board_no);
 	}
 
+	@Override
+	public boolean viewQACnt(int board_no) throws Exception {
+		return dao.viewQACnt(board_no);
+	}
+
 }

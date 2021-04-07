@@ -112,4 +112,13 @@ public class BoardQADAOImpl implements BoardQADAO {
 		return ses.selectList(ns + ".listBoardCriteria", cri);
 	}
 
+	@Override
+	public boolean viewQACnt(int board_no) throws Exception {
+		boolean result = false;
+		if (ses.update(ns + ".viewQACount", board_no) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
 }
