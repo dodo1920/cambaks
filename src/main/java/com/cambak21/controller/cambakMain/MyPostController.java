@@ -30,6 +30,7 @@ import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.service.cambakMain.CheckListService;
 import com.cambak21.service.cambakMain.MyPostingService;
@@ -146,6 +147,7 @@ public class MyPostController {
 		return "cambakMain/myPage/myPageResell";
 	} 
 	
+	//ajax로 게시글 리스트 출력
 	@RequestMapping(value="myPageResellList", method=RequestMethod.GET)
 	public @ResponseBody Map<String, Object> myPageResellList(@RequestParam("member_id") String member_id, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("category")String category){
 
@@ -190,7 +192,37 @@ public class MyPostController {
 	    
 		return result;
 	}
-	   
+	
+	// 내가 작성한 중고장터 게시글, 좋아요, 댓글 카운트 가져오기
+	@RequestMapping(value="myPageResellCnt", method=RequestMethod.GET)
+	public @ResponseBody ResellBoardCntVO myPageResellCnt(@RequestParam("member_id") String member_id) throws Exception {
+		
+		logger.info("/myPost의 myPageResellCnt-GET방식 호출");
+		System.out.println(member_id);
+	    // 내가 작성한 총 게시글
+	    ResellBoardCntVO myResellCnt = service.getMyResellCnt(member_id);
+	    System.out.println(myResellCnt.toString());
+	    
+	    return myResellCnt;
+		
+	} 
+	
+	//--------------------------------------------------------------- 김정민 좋아요, 작성글, 댓글 count ---------------------------------------------------------------
+	@RequestMapping(value="myPageCnt", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> myPageCnt(@RequestParam("member_id") String member_id) throws Exception {
+		System.out.println(member_id);
+		logger.info("/myPost의 myPageCnt-GET방식 호출");
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    
+	    // 내가 작성한 총 게시글
+	    result.put("myPostingCnt", service.getMyPostingCnt(member_id, "all"));
+	    result.put("myLikeCnt", service.getMyLikePostngCnt(member_id, "all"));
+	    result.put("myReplyCnt", service.myReplyTotal(member_id, "total"));
+	    
+	    return result;
+		
+	} 
+	
 	//--------------------------------------------------------------- 김정민 controller ---------------------------------------------------------------
 
 	//--------------------------------------------------------------- 서효원 controller ---------------------------------------------------------------

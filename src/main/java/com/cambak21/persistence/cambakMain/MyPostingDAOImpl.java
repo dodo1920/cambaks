@@ -18,6 +18,7 @@ import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -27,7 +28,9 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 	@Inject
 	private SqlSession ses;
 	private static String ns = "com.cambak21.mappers.cambakMain.myPostMapper";
-
+	//Resell 카운트용
+	private static String names="com.cambak21.mapper.ResellBoardMapper";
+	
 	
 	
 	
@@ -238,6 +241,26 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		return ses.selectList(ns + ".getMyResellReply", param);
 	}
 	
+	
+	/**
+	  * @Method Name : getMyResellCnt
+	  * @작성일 : 2021. 04. 07.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터 카운트
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public ResellBoardCntVO getMyResellCnt(String member_id) throws Exception {
+		// 중고마켓 내가 작성한 글, 좋아요한 글, 내가 작성한 댓글 카운트 가져오기
+		ResellBoardCntVO result = new ResellBoardCntVO();
+		result.setResellBoardWriteCnt(ses.selectOne(names + ".ResellBoardWriteCnt", member_id));
+		result.setResellBoardLikeCnt(ses.selectOne(names + ".ResellBoardLikeCnt", member_id));
+		result.setResellBoardReplyCnt(ses.selectOne(names + ".ResellBoardReplyCnt", member_id));
+		return result;
+	}
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	
@@ -457,6 +480,21 @@ public class MyPostingDAOImpl implements MyPostingDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
