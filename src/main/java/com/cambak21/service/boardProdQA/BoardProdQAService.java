@@ -143,4 +143,6 @@ public interface BoardProdQAService {
 	public int getMaxRefOrder(int prodQA_no) throws Exception;
 
 	public int getMaxStep(int prodQA_no) throws Exception;
+
+	public int getRef(int prodQA_no) throws Exception;
 }
