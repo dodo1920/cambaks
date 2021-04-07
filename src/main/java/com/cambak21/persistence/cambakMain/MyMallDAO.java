@@ -25,7 +25,7 @@ public interface MyMallDAO {
 	public int getQaCnt(String member_id) throws Exception;
 	
 	// 답변 가져오기
-	public ProdQAVO getProdQAVO(String member_id, int prodQA_no) throws Exception;
+	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

@@ -57,14 +57,13 @@ public class MyMallController {
 	
 	@RequestMapping("answer/{no}")
 	@ResponseBody
-	public ResponseEntity<ProdQAVO> answer(@PathVariable("no") int prodQA_no, @SessionAttribute("loginMember") MemberVO loginMember) {
+	public ResponseEntity<ProdQAVO> answer(@PathVariable("no") int prodQA_no) {
 		ResponseEntity<ProdQAVO> entity = null;
 		
 		System.out.println("prodQA_no : " + prodQA_no);
-		System.out.println("로그인한 아이디 : " + loginMember.getMember_id());
 		
 		try {
-			entity = new ResponseEntity<ProdQAVO>(service.getProdQAVO(loginMember.getMember_id(), prodQA_no), HttpStatus.OK);
+			entity = new ResponseEntity<ProdQAVO>(service.getProdQAVO(prodQA_no), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<ProdQAVO>(HttpStatus.BAD_REQUEST);

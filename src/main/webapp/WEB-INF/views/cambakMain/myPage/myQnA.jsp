@@ -46,6 +46,7 @@
 	function showQa(no) {
 		let prodQA_no = "#" + no;
 		
+		console.log(no);
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
@@ -61,18 +62,35 @@
 		});
 	}
 	
+	// 답변창 열기
 	function answerOuput(data) {
-		let output = "<tr>";
+		let output = "<tr id='ans"+data.prodQA_ref+"'>";
 		output += "<td colspan='3' class='answer-content'>";
 		output += "<div class='answer-comment-wrap'><img src='../resources/cambak21/img/arrow.png' width='20px' style='margin:0 30px 0 20px'></div>";
 		output += "<div class='answer-comment-wrap'><span>"+data.prodQA_content+ "</span><div>";
 		output += "</td>"
 		output += "<td>"+date_to_str(new Date(data.prodQA_date));+"</td>";
-		output += '<td><a href="../mall/prodDetail/main?prodId='+data.product_id+'"><button type="button" class="btn btn-primary" id="qa-check">답변 보러가기</button></a></td>';
+		output += '<td><a href="../mall/prodDetail/main?prodId='+data.product_id+'"><button type="button" class="btn btn-primary" id="qa-check">보러 가기</button></a></td>';
 		output += "</tr>";
 
-		let ref = "#" + data.prodQA_ref;
+		let ref = "." + data.prodQA_ref;
 		$(ref).after(output);
+	
+		let refId = "#" + data.prodQA_ref;
+		$(refId).attr("onclick", "closeAns('"+data.prodQA_ref+"')");
+		$(refId).text("답변 닫기");
+	}
+	
+	// 답변창 닫기
+	function closeAns(no) {
+		
+		let refId = "#" + no;
+		let answer = "#ans" + no;
+		
+		$(refId).attr("onclick", "showQa('"+no+"')");
+		$(refId).text("답변 보기");
+		
+		$(answer).attr("style", "display:none");
 	}
 	
 	// 작성시간 format
@@ -189,7 +207,7 @@ th.myPageThead {
 									</thead>
 									<tbody class="list-content">
 										<c:forEach var="item" items="${QaList }">
-											<tr class="myPageBoard" id="${item.prodQA_no}">
+											<tr class="myPageBoard ${item.prodQA_no}">
 												<th class="myPageThead">${item.product_id }</th>
 												<th class="myPageThead">${item.product_name }</th>
 												<th class="myPageThead" style="width: 370px"><a
