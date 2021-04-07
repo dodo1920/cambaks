@@ -35,21 +35,44 @@
 <script>
 	let checkResult = false;
 	
-	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
-	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규식
-	let numberJ = /[0-9]/; // 숫자 정규식
-	let StringJ = /[a-zA-Z]/; // 문자 정규식
-	let specialJ = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규식
+	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규표현식
+	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
+	let numberJ = /[0-9]/; // 숫자 정규표현식
+	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
+	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
+	let nameJ = /^[가-힣]{2,6}$/; // 이름 정규표현식
 
    $(document).ready(function() {
 	  
-	   userIdCheck();
-	   
+	   userIdCheck(); // 아이디 유효성 체크
 	   
       
    });
    
-	function checkUserPwdSame() {
+	function checkUserName() {
+		let userName = $("#member_name").val();
+		
+		if (nameJ)
+		
+	}
+	
+	function reconfirmUserPwd() {
+		let userPwd = $("#member_password").val();
+		let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인 작성한 내용
+		
+	    if (userPwd != userPwdChk) {
+		    $("#pwdChkBar2").css("display", "inline-block");
+		    $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+		    $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+	    } else if (userPwd == userPwdChk) {
+	 	    $("#pwdChkBar2").css("display", "none");
+	    } else if (userPwd.length == 0) {
+		    $("#pwdChkBar2").css("display", "inline-block");
+		    $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+		    $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+	    } else if (userPwdChk.length == 0) {
+	    	$("#pwdChkBar2").css("display", "none");
+	    }
 		
 	}
 	
@@ -95,10 +118,15 @@
 			   $("#pwdChkContent").attr("class", "serviceable");
 		   	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
 		   }
+		   
 	   } else { // 비밀번호 확인이 작성 되어있을 경우
 		   
-		   if (userPwd == userPwdChk) {
-			   
+		   if (userPwd != userPwdChk) {
+			   $("#pwdChkBar2").css("display", "inline-block");
+			   $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+			   $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+		   } else {
+			   $("#pwdChkBar2").css("display", "none");
 		   }
 		   
 	   }
@@ -362,10 +390,10 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" id="reCheckPwd" maxlength="40" size="40" />
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"/>
 									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									<div id="pwdChkBar2">
+									<span class="changeTextBarMsg" id="pwdReChkContent"></span>
 									</div>
 								</td>
 							</tr>
@@ -373,10 +401,10 @@
 								<th class="tableTitleSize">이름</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="" maxlength="40" size="40" />
+									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();"/>
 									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									<div id="UserNameBar">
+									<span class="changeTextBarMsg" id="UserNameCheck"></span>
 									</div>
 								</td>
 							</tr>
