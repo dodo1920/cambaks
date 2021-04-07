@@ -1,9 +1,11 @@
 package com.cambak21.service.boardQA;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.BoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -41,5 +43,11 @@ public interface BoardQAService {
 
 	// 게시글 조회수
 	public boolean viewQACnt(int board_no) throws Exception;
+
+	// 추천하기
+	Map<String, Object> insertLikeBoard(InsertLikeBoard dto) throws Exception;;
+
+	// Detail에 Like체크여부 확인
+	int preCheckLike(String member_id, int board_no ) throws Exception;
 	
 }

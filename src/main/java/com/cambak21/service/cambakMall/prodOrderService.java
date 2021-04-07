@@ -2,6 +2,7 @@ package com.cambak21.service.cambakMall;
 
 import java.util.List;
 
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.ProductsVO;
@@ -17,8 +18,9 @@ public interface prodOrderService {
 	public DestinationVO selectDestOne(int destination_no) throws Exception;
 	
 	public DestinationVO defaultDest(String member_id) throws Exception;
-//  	<!-- 장원영 DAO -->
-  	
+
+	// 장원영 DAO
+	
   	
 //  	<!-- 김도연 DAO -->
   	

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -178,6 +179,7 @@ public class MallController {
 
 	
 	// **************************************** 장원영 컨트롤러 **********************************************
+	
 	
 	// **************************************** 김정민 컨트롤러 **********************************************
 	
