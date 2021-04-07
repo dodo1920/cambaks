@@ -566,15 +566,13 @@ public class ProdDetail {
 		
 		System.out.println(newRefOrder + ", " + newStep);
 		
-		insertQA.
+//		if(QAService.insertProdQA(insertQA)) {
+//			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+//		} else {
+//			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+//		}
 		
-		if(QAService.insertProdQA(insertQA)) {
-			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-		}
-		
-		return entity;
+//		return entity;
 	}
 	
 	/**
