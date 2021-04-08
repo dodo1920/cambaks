@@ -81,8 +81,8 @@ public class MyMallSerivceImpl implements MyMallService {
 	  * @throws Exception
 	  */
 	@Override
-	public ProdQAVO getProdQAVO(String member_id, int prodQA_no) throws Exception {
-		return dao.getProdQAVO(member_id, prodQA_no);
+	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception {
+		return dao.getProdQAVO(prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

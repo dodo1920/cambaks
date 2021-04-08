@@ -86,11 +86,8 @@ public class MyMallDAOImpl implements MyMallDAO {
 	  * @throws Exception
 	  */
 	@Override
-	public ProdQAVO getProdQAVO(String member_id, int prodQA_no) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("member_id", member_id);
-		map.put("prodQA_no", prodQA_no);
-		return ses.selectOne(ns + ".getAnswer", map);
+	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception {
+		return ses.selectOne(ns + ".getAnswer", prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

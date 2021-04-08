@@ -41,7 +41,7 @@
 	
 	<!-- 답변 가져오기 -->
 	<select id="getAnswer" resultType="com.cambak21.domain.ProdQAVO">
-		select * from ProdQAs where member_id = #{member_id} and prodQA_ref = #{prodQA_no} and prodQA_refOrder = 2;
+		select * from ProdQAs where prodQA_ref = #{prodQA_no} and prodQA_refOrder = 2;
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	

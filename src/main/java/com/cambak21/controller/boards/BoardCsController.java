@@ -1,7 +1,7 @@
 package com.cambak21.controller.boards;
 
 import java.io.IOException;
-
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -73,36 +73,84 @@ public class BoardCsController {
 	}
 
 	@RequestMapping(value = "/cs/detail", method = RequestMethod.GET)
-	public String BoardCsDetail(@RequestParam("no") int no, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String BoardCsDetail(@RequestParam("no") int no, Model model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		logger.info("승권 / 게시글 detail GET 호출");
-		
+
 		// 클라이언트에 등록된 쿠키 정보들
 		Cookie[] cookies = request.getCookies();
-		
+
 		// 쿠키 존재여부를 담을 변수 생성
-		String status = null;
+		String status = "noExist";
+
+		// 조회수 쿠키를 담을 그릇
+		Cookie userCookie = null;
 		
-		// 클라이언트가 가지고 있는 쿠키중에 해당 쿠키가 존재하는지 파악
+		// 클라이언트가 가지고 있는 쿠키중에 글번호 쿠키가 존재하는지 파악
 		for (int i = 0; i < cookies.length; i++) {
-			// 쿠키가 존재한다면 exist 아니면 noExist
-			status = cookies[i].getValue().equals("cs" + no) ? "exist" : "noExist";
-			// 쿠키가 존재하면 for문 빠져나가기
-			if(status.equals("exist")) {
+			if (cookies[i].getName().equals("boardCs")) {
+				userCookie = cookies[i];
 				break;
 			}
 		}
 		
-		// 쿠키가 존재하지 않는다면 쿠키를 생성하고 클라이언트 컴퓨터에 쿠키 생성
-		if (status.equals("noExist")) {
-			Cookie cookie = new Cookie("cs" + no, "cs" + no);
-			cookie.setMaxAge(60*60*24);
-			cookie.setPath("/");
-			response.addCookie(cookie);
+		// 해당 번호가 있는지 파악
+		String[] cValues = userCookie.getValue().split("-");
+		for (int i = 0; i < cValues.length; i++) {
+			if (Integer.parseInt(cValues[i]) == no) {
+				status = "exist";
+				break;
+			}
 		}
 		
-		model.addAttribute("board", service.readBoardCS(no, status));
-		model.addAttribute("prev", service.prevNo(no));
-		model.addAttribute("next", service.nextNo(no));
+
+//		for (int i = 0; i < cookies.length; i++) {
+//			
+//			// boardCs란 쿠키 찾기
+//			if (cookies[i].getName().equals("boardCs")) {
+//				
+//				// boardCs란 쿠키의 값들 (글 번호)
+//				String[] boards = cookies[i].getValue().split("-");
+//				
+//				// 값들을 비교해서 클릭한 글 번호가 있는지 체크
+//				for (int j = 0; j < boards.length; j++) {
+//					
+//					System.out.println("쿠키에 들어있는 값들 : " + boards[j].toString());
+//					
+//					if (Integer.parseInt(boards[j]) == no) {
+//						status = "exist";
+//						break;
+//					} else {
+//						// 쿠키 값 변경
+//						cookies[i].setValue(cookies[i].getValue() + "-" + no);
+//						
+//						// 기존 쿠키에 덮어쓰기
+//						response.addCookie(cookies[i]);
+//						
+//						status = "noExist";
+//					}
+//				}
+//			}
+//		}
+//			if () { // 없으면 쿠키 추가
+//				Cookie cookie = new Cookie("boardCs", no + "|");
+//				cookie.setMaxAge(60*60*24);
+//				cookie.setPath("/");
+//				response.addCookie(cookie);
+//				status = "noExist";
+//			}
+
+//		// 쿠키가 존재하지 않는다면 쿠키를 생성하고 클라이언트 컴퓨터에 쿠키 생성
+//		if (status.equals("noExist")) {
+//			Cookie cookie = new Cookie("boardCs", no + "");
+//			cookie.setMaxAge(60*60*24);
+//			cookie.setPath("/");
+//			response.addCookie(cookie);
+//		}
+//		
+//		model.addAttribute("board", service.readBoardCS(no, status));
+//		model.addAttribute("prev", service.prevNo(no));
+//		model.addAttribute("next", service.nextNo(no));
 
 		return "cambakMain/board/cs/boardCsDetail";
 	}
@@ -188,14 +236,14 @@ public class BoardCsController {
 	}
 
 	/**
-	  * @Method Name : BoardCsLike
-	  * @작성일 : 2021. 4. 2.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 추천하기 버튼 클릭시 on-off 기능을 위한 ...
-	  * @param dto : 테이블에 좋아요 기록 insert
-	  * @return
-	  */
+	 * @Method Name : BoardCsLike
+	 * @작성일 : 2021. 4. 2.
+	 * @작성자 : 승권
+	 * @변경이력 :
+	 * @Method 설명 : 추천하기 버튼 클릭시 on-off 기능을 위한 ...
+	 * @param dto : 테이블에 좋아요 기록 insert
+	 * @return
+	 */
 	@RequestMapping(value = "/cs/like", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> BoardCsLike(@RequestBody InsertLikeBoard dto) {
@@ -215,20 +263,21 @@ public class BoardCsController {
 
 		return entity;
 	}
-	
+
 	/**
-	  * @Method Name : LikeCheck
-	  * @작성일 : 2021. 4. 2.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 게시글 상세페이지 들어갈 시 유저가 좋아요를 눌렀나 안눌렀나 표시하기 위한 ... 
-	  * @param member_id : 유저
-	  * @param board_no : 게시글 번호
-	  * @return
-	  */
+	 * @Method Name : LikeCheck
+	 * @작성일 : 2021. 4. 2.
+	 * @작성자 : 승권
+	 * @변경이력 :
+	 * @Method 설명 : 게시글 상세페이지 들어갈 시 유저가 좋아요를 눌렀나 안눌렀나 표시하기 위한 ...
+	 * @param member_id : 유저
+	 * @param board_no  : 게시글 번호
+	 * @return
+	 */
 	@RequestMapping(value = "/cs/like/check", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id, @RequestParam("board_no") int board_no) {
+	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id,
+			@RequestParam("board_no") int board_no) {
 		logger.info("승권 / 게시글 좋아요 누르기 호출");
 		ResponseEntity<Integer> entity = null;
 
@@ -238,8 +287,8 @@ public class BoardCsController {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return entity;
 	}
-	
+
 }
