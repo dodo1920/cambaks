@@ -11,7 +11,7 @@ public interface prodDetailService {
 	
 	public BucketVO checkBucket(String member_id, int product_id) throws Exception;
 	
-	public boolean addBucketQty(String member_id, int product_id) throws Exception;
+	public boolean updateBucketQty(InsertintoBucketDTO updateBucket) throws Exception;
 	
-	public boolean resetBucketInfo(InsertintoBucketDTO updateBucket) throws Exception;
+	public int checkBucketQty(String member_id) throws Exception;
 }

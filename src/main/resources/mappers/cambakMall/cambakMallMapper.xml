@@ -43,13 +43,23 @@
   	</select>
   	
   	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
-  		select bucket_no, product_id, bucket_buyQty from Buckets where member_id = #{member_id} and product_id = #{product_id}
+  		select * from Buckets where member_id = #{member_id} and product_id = #{product_id}
   	</select>
   	
   	<insert id="insertBucket">
   		insert into Buckets(member_id, product_id, bucket_buyQty, bucket_sellPrice, bucket_totBuyPrice)
 		value(#{member_id}, #{product_id}, #{bucket_buyQty}, #{bucket_sellPrice}, #{bucket_sellPrice})
   	</insert>
+  	
+  	<update id="updateBucketQty">
+  		update Buckets 
+  		set bucket_buyQty = #{bucket_buyQty}, bucket_totBuyPrice = #{bucket_totBuyPrice}
+  		where member_id = #{member_id} and bucket_no = #{bucket_no}
+  	</update>
+  	
+  	<select id="checkBucketQty" resultType="int">
+  		select count(*) from Buckets where member_id = #{member_id}
+  	</select>
   	
   	
   	<!-- 김정민 맵퍼 -->
