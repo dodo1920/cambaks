@@ -29,6 +29,7 @@
 	                            	</c:when>
 	                            	<c:otherwise>
 	                            		<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
+	                            		<li><a href="/user/login/register">회원가입</a></li>
 			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>

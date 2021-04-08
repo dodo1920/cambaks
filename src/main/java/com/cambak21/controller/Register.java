@@ -25,7 +25,7 @@ public class Register {
    @RequestMapping(value="register", method = RequestMethod.GET)
    public String join() {
       logger.info("회원가입   작업중 . . . . .");
-      return "cambakMain/user/join";
+      return "cambakMain/user/registetConfirmation";
    }
    
    @RequestMapping(value="register/checkId", method = RequestMethod.POST)
