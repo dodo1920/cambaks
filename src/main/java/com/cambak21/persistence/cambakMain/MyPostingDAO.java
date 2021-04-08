@@ -10,6 +10,7 @@ import com.cambak21.domain.CheckListVO;
 import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -77,6 +78,9 @@ public interface MyPostingDAO {
 
 	// 내가 작성한 중고캠핑마켓 댓글 리스트 가져오기
 	List<ReplyResellVO> getMyResellReply(String member_id, PagingCriteria cri, String category) throws Exception;
+	
+	// 중고마켓 카운트
+	ResellBoardCntVO getMyResellCnt(String member_id) throws Exception;
 		
 	
 	

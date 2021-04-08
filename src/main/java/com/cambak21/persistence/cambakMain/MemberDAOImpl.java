@@ -26,7 +26,12 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
+	@Override
+	public MemberVO memberSelect(String memberId) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println(memberId);
+		return ses.selectOne(namespace+".memberSelect",memberId);
+	}
 	@Override
 	public int memberDelete(String member_id) throws Exception {
 		// TODO Auto-generated method stub
@@ -90,7 +95,6 @@ public class MemberDAOImpl implements MemberDAO {
 	public int memberDel(LoginDTO dto) throws Exception {
 		return ses.update(namespace + ".MemberDelete", dto);
 	}
-
 
 
 }

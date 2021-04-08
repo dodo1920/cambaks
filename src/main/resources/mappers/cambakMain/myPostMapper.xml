@@ -202,8 +202,7 @@
 	
 	<!-- getMyPostingCnt 정민 -->
 	<select id="getMyPostingCnt" resultType="int">
-		select count(*) from
-		goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
+		select count(*) from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 
 	<!-- getMyPostingCntWithCategory 정민 -->
@@ -273,19 +272,20 @@
 		</if>
 	</select>
 	
+
 <!-- 	내가 작성한 총 게시글 개수 -->
 	<select id="bringBoardCnt" resultType="int">
-		select count(*) from Boards where member_id = #{member_id}
+		select count(*) from Boards where member_id = #{member_id} and board_isDelete = 'N'
 	</select>
 	
 <!-- 	내가 작성한 중고마켓 총 게시글 -->
 	<select id="bringResellBoardCnt" resultType="int">
-		select count(*) from ResellBoards where member_id = #{member_id}
+		select count(*) from ResellBoards where member_id = #{member_id} and resellBoard_isDelete = 'N'
 	</select>
 	
 <!-- 	내가 작성한 총 댓글 -->
 	<select id="bringReplyCnt" resultType="int">
-		select count(*) from ReplyBoards where member_id = #{member_id}
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and b.board_isDelete = 'N' and b.member_id = #{member_id}
 	</select>
 	
 <!-- 	내가 작성한 중고마켓 총 댓글 -->
@@ -295,7 +295,7 @@
 	
 <!-- 	내가 작성한 총 좋아요 -->
 	<select id="bringLikeCnt" resultType="int">
-		select count(*) from LikeBoards where member_id = #{member_id}
+		select count(*) from Boards b, LikeBoards l where b.board_no = l.board_no and b.board_isDelete = 'N' and b.member_id = #{member_id}
 	</select>
 	
 <!-- 	내가 작성한 중고마켓 총 좋아요 -->
@@ -305,9 +305,8 @@
 	
 <!-- 	내가 작성한 총 문의글 -->
 	<select id="bringMyQuestion" resultType="int">
-		select count(*) from Boards where member_id = #{member_id} and board_category = 'CS'
+		select count(*) from Boards where member_id = #{member_id} and board_category = 'CS' and board_isDelete = 'N'
 	</select>
-	
 	
 	
 	

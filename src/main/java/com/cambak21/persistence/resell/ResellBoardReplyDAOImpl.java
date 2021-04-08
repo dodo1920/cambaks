@@ -23,6 +23,7 @@ public class ResellBoardReplyDAOImpl implements ResellBoardReplyDAO {
 	@Override
 	public List<ReplyResellVO> ResellBoardReplyRead(int bno) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println(bno);
 		return ses.selectList(namespace+".ResellBoardReplyRead",bno);
 	}
 

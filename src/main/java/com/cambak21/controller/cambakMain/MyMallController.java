@@ -29,6 +29,18 @@ public class MyMallController {
 	private static final Logger logger = LoggerFactory.getLogger(MyMallController.class);
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@RequestMapping("/myRefund")
+	public String myRefund(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception {
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotalRefund(member.getMember_id()));
+		
+		model.addAttribute("pp", pp);
+		model.addAttribute("refundList", service.getRefundList(member.getMember_id()));
+		
+		return "cambakMain/myPage/myRefund";
+	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	

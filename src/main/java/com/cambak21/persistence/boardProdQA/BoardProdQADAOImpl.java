@@ -120,4 +120,9 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 		return ses.selectOne(namespace + ".getMaxStep", prodQA_no);
 	}
 
+	@Override
+	public int getRef(int prodQA_no) throws Exception {
+		return ses.selectOne(namespace + ".getRef", prodQA_no);
+	}
+
 }

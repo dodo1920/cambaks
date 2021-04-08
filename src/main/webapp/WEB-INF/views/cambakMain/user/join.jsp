@@ -33,6 +33,14 @@
 
 
 <script>
+	let checkResult = false;
+	
+	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
+	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규식
+	let numberJ = /[0-9]/; // 숫자 정규식
+	let StringJ = /[a-zA-Z]/; // 문자 정규식
+	let specialJ = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규식
+
    $(document).ready(function() {
 	  
 	   userIdCheck();
@@ -41,10 +49,64 @@
       
    });
    
-   
-   function userIdCheck() {
+	function checkUserPwdSame() {
+		
+	}
+	
+	function checkUserPwdSize() {
+	   let userPwd = $("#member_password").val();
+	   let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인 작성한 내용
+	   let result = true;
 	   
-	   let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
+	   if (userPwdChk == "") {
+		   if (userPwd.length < 8) { // 비밀번호 길이가 유효하지 않을 경우
+			    $("#pwdChkBar1").css("display", "inline-block");
+			    $("#pwdChkContent").attr("class", "changeTextBarMsg");
+		   		$("#pwdChkContent").text("최소 8자 이상으로 입력해 주세요.");
+		   		result = false;
+		   } else if (userPwd.length > 16) {
+			   $("#pwdChkBar1").css("display", "inline-block");
+			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+		   	   $("#pwdChkContent").text("최소 16자 이하로 입력해 주세요.");
+		   	   result = false;
+		   } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
+			   $("#pwdChkBar1").css("display", "inline-block");
+			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+		   	   result = false;
+		   } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
+			   $("#pwdChkBar1").css("display", "inline-block");
+			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+		   	   result = false;
+		   } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
+			   $("#pwdChkBar1").css("display", "inline-block");
+			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+		   	   result = false;
+		   }
+		   
+		   if (userPwd.length == 0) {
+			   $("#pwdChkBar1").css("display", "none");
+			   result = false;
+		   }
+		   
+		   if (result) {
+			   $("#pwdChkContent").attr("class", "serviceable");
+		   	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
+		   }
+	   } else { // 비밀번호 확인이 작성 되어있을 경우
+		   
+		   if (userPwd == userPwdChk) {
+			   
+		   }
+		   
+	   }
+	   
+
+   }
+
+   function userIdCheck() {
 	   
 	   $("#userId").on("keyup", function() {
 		  
@@ -53,6 +115,12 @@
 		   if (event.keyCode == '32') {
 			   alert("아이디는 공백 작성 불가합니다.");
 			   $("#userId").val(userId.replace(/ /g,""));
+		   } else if (koreanJ.test(userId)) {
+			   $("#userId").val($("#userId").val().replace(koreanJ,""));
+		   } else if (userId.length > 19) {
+			   $("#userId").val($("#userId").val().substring(0, 20));
+		   } else if (userId.length == 0) {
+			   $("#idChkBar").css("display", "none");
 		   }
 		   
 		   if (userId.length >= 4 && userId.length <= 20) { // 작성한 아이디 길이 체크
@@ -67,10 +135,14 @@
 						  success : function(data) {
 							 
 							 if (data == "success") {
-								 $("#idChkResult").attr("class", "changeTextBarMsg");
+								 $("#idChkBar").css("display", "inline-block");
+								 $("#idChkResult").attr("class", "serviceable");
 								 $("#idChkResult").text("사용 가능한 아이디입니다.");
+							 } else if(data == "fail") {
+								 $("#idChkBar").css("display", "inline-block");
+								 $("#idChkResult").attr("class", "changeTextBarMsg");
+								 $("#idChkResult").text("이미 등록된 아이디입니다. 다른 아이디를 입력해 주세요.");
 							 }
-							 
 							 
 						  }, error : function(data) {
 							  
@@ -78,27 +150,17 @@
 						  
 						}); 
 				   
-				   
-				   $("#idChkResult").attr("class", "");
-				   $("#idChkResult").text("사용가능합니다.");
 			   } else {
-				   
+				   $("#idChkBar").css("display", "inline-block");
 				   $("#idChkResult").attr("class", "changeTextBarMsg");
 				   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-				   setTimeout(function() {
-					   $("#idChkResult").css("display", "none");
-                   }, 5000);
-				   
-			   }
-			   
+			   } // 아이디 정규식 체크
 			   
 		   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
+			   $("#idChkBar").css("display", "inline-block");
 			   $("#idChkResult").attr("class", "changeTextBarMsg");
 			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-			   setTimeout(function() {
-				   $("#idChkResult").css("display", "none");
-               }, 5000);
-		   }
+		   } // 아이디 길이 체크
 		   
 	   });
 	   
@@ -246,6 +308,11 @@
     font-weight: bold;
 }
 
+.serviceable {
+    font-size: 12px;
+    font-weight: bold;
+}
+
 </style>
 
 </head>
@@ -274,21 +341,20 @@
 									<input type="text" id="userId" name="member_id" maxlength="40" size="40" />
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
-									<div>
-									<span id="idChkResult"></span>
+									<div id="idChkBar">
+									<span class="serviceable" id="idChkResult"></span>
 									</div>
 								</td>
 							</tr>
-	
 							<tr>
 								<th class="tableTitleSize">비밀번호</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" name="" maxlength="40" size="40" />
-									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</span>
+									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();"/>
+									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span>
 									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									<div id="pwdChkBar1">
+									<span class="changeTextBarMsg" id="pwdChkContent"></span>
 									</div>
 								</td>
 							</tr>
@@ -296,7 +362,7 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" name="" maxlength="40" size="40" />
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" />
 									</div>
 									<div>
 									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>

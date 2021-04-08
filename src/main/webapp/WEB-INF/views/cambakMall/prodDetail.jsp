@@ -39,12 +39,12 @@
 	
 	let orderList;
 	
-	// ajax페이지 고침을 위한 전역변수
+	// ajax페이지 고침을 위한 전역변수 (정민)
     let currentPage;
 	let prodReviewNo;
 	let prodReview_likeCnt;
 	
-	// 원댓글 작성자 이름 가져오기
+	// 원댓글 작성자 이름 가져오기 (정민)
 	let replyMember_id;
 	let replyProdReview_no1;
 
@@ -65,7 +65,7 @@
 		totProdQACnt(prodId);
 		
 		prodQAListAll(prodId, page, 0, cate); // 페이지 호출될 때 상품 문의 목록 함수 호출하는 함수
-		prodQAPagingParam(prodId, page, cate); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
+		
 				
 		
 		// 상품 문의 카테고리가 변경될 때마다 상품 문의 목록 및 페이징 함수 다시 호출하는 함수
@@ -74,14 +74,16 @@
         	console.log(cate)
         	
         	prodQAListAll(prodId, page, 0, cate);
-        	prodQAPagingParam(prodId, page, cate);
+        	
         });
 	});
 	
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
 	// 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(prodId, pageNum, checkPoint, orderList) {
-		
+		if(prodId == 0){
+			prodId = '${param.prodId}';
+		}
     	// 유저의 등급
     	let grade_name = "${loginMember.grade_name}";
     	// 넘겨준 페이지 번호가 없을 때,
@@ -91,7 +93,7 @@
     	if(checkPoint == null){
     		checkPoint = 0;
     	}
-    	console.log(checkPoint);
+    	//console.log(checkPoint);
     	// 정렬 순서 선택을 나타내는 부분
     	if(orderList == null){
     		// 기본 설정은 최신순 정렬
@@ -99,7 +101,7 @@
     	} else{ // 선택한 카테고리가 있을 때,
     		orderList = orderList;
     	}
-//     	console.log(orderList);
+     	console.log(orderList);
 //     	console.log(prodId);
 //     	console.log(pageNum);
     	// ------------------게시판 리스트 출력-------------------------------
@@ -439,16 +441,7 @@
 		
 		//addReply 대댓글 처리 부분
 		function addReply(replyProdReview_no, replyProdReview_ref, prodReview_no, replyProdReview_repMember_id) {
-			// replyProdReview_content 수정 필요
-// 			console.log(replyProdReview_repMember_id);
-			//console.log(member_id);
-			/*if(replyProdReview_ref != 0){ 
-				replyProdReview_ref = replyProdReview_no;
-			}*/
-			
-			
-			
-			
+
 			let replyProdReview_content = $("#replyContent" + replyProdReview_no).val();
 			$.ajax({
 				  method: "post",
@@ -627,6 +620,7 @@
 	// 페이지 호출될 때 상품 문의 목록 함수
 	function prodQAListAll(prodId, page, flag, cate, no) {
 	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId  + "&cate=" + cate + "&page=" + page, function(data){
+	    	console.log(data);
 	    		let output = "";
 	    		$("#prodQA_category").val(cate).prop("selected",true);
 	    		
@@ -635,7 +629,9 @@
 	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
 	    		
 	    	} else { // 등록된 상품 문의가 있다면,		
-	    		console.log(page);	    	
+	    		console.log(page);	   
+	    	
+	    		prodQAPagingParam(prodId, page, cate); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
 	    		
 	    		$(data).each(function(index, item){
 		        	let date = new Date(item.prodQA_date);
@@ -665,7 +661,7 @@
 	                }
 	                
 	                if(loginUser == item.member_id) { // 로그인 유저와 글쓴이가 같아면, 수정/삭제 가능한 버튼 보여주도록
-	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="location.href=\'/mall/prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + item.prodQA_no +'\'"/>';
+	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="goModi(\'1\',' + item.prodQA_no + ');"/>';
 		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
 		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
@@ -766,8 +762,11 @@
 		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 		                }
 		                if(item.prodQA_category == 'reply' && loginUser == writer) {
-		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/></div></div></td></tr>';
+		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
 		                }
+		                if(loginUser == item.member_id) {
+	                		output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goModi(\'2\','+ item.prodQA_no +');" value="수정"/></div></div></td></tr>';
+	                	}
 		                output += '</div></td></tr>'
 					});	
 					$(output).insertAfter("#content"+no);	
@@ -785,12 +784,31 @@
 	
 	function goWrite(flag, no) {
 		console.log(flag);
+		let url = '';
+		let name = '';
 		
 		if(flag == 1) {
-			window.open('../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page, 'writeBoard', 'width=400, height=600, left=400, top=400, resizable = yes');
+			url = '../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page;
+			name = 'writeBoard';
 		} else if(flag == 2) {
-			window.open('../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '&no=' + no, 'writeReply', 'width=400, height=600, left=400, top=400, resizable = yes');
-		}		
+			url = '../prodDetail/prodQAForm?prodId=' + prodId + '&page=' + page + '&no=' + no;
+			name = 'writeReply';
+		}
+		
+		window.open(url, name, 'width=750, height=600, left=400, top=80, resizable = yes');
+	}
+	
+	function goModi(flag, no) {
+		let url ='../prodDetail/prodQAModiForm?prodId=' + prodId + '&page=' + page + '&no=' + no;
+		let name = '';
+		
+		if(flag == 1) {
+			name = 'modiBoard';
+		} else if(flag == 2) {
+			name = 'modiReply';
+		}
+		
+		window.open(url, name, 'width=750, height=600, left=400, top=80, resizable = yes');
 	}
 	
 	function updateView(prodQA_no, cate) {
@@ -927,18 +945,57 @@
 		});	
 	}
 	
-	function buying(obj) {
+	function buying() {		
 		console.log(prodId);
 		console.log(loginUser);
 		
+		if(loginUser.length == 0) {
+			alert("로그인해주세요!");
+		} else {
+			$.ajax({
+				url: '/mall/prodDetail/checkBucket',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					pruduct_id: prodId,
+					member_id : loginUser
+					}),
+				dataType : 'text', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					if(result.length == 0) {
+						insertBucket();
+					} else {
+						$("#buying").attr("data-toggle", "modal");
+						$("#buying").attr("data-target", "#myModal");
+					}
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});		
+		}
+	}
+	
+	function insertBucket() {
+		let sellPrice = Number($("#sellPrice").text());
+		let prodQty = Number($("#prodQty").val());
+		let totBuyPrice = sellPrice * prodQty;
+		
 		$.ajax({
-			url: '/mall/prodDetail/checkBucket',
+			url: '/mall/prodDetail/insertBucekt',
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 					},
 			data : JSON.stringify({	// 요청하는 데이터
-				pruduct_id: prodId,
-				member_id : loginUser
+				product_id: prodId,
+				member_id : loginUser,
+				bucket_sellPrice : sellPrice,
+				bucket_buyQty : prodQty,
+				totBuyPrice : totBuyPrice
 				}),
 			dataType : 'text', // 응답 받을 형식
 			type : 'post',
@@ -1079,16 +1136,16 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price"> ${prodDetail.product_sellPrice} <span>$ 83.0</span></div>
+                        <div class="product__details__price" > <strong id="sellPrice">${prodDetail.product_sellPrice}</strong> <span>$ 83.0</span></div>
                         <p>${prodDetail.product_detail }</p>
                         <div class="product__details__button">
                             <div class="quantity">
                                 <span>Quantity:</span>
                                 <div class="pro-qty">
-                                    <input type="text" value="1">
+                                    <input type="text" id="prodQty" value="1">
                                 </div>
                             </div>
-                            <a href="javascript:void(0);" class="cart-btn" onclick="buying(this);"><span class="icon_bag_alt" ></span> 주문하기 </a>
+                            <a href="javascript:void(0);" class="cart-btn" id="buying" onclick="buying();"><span class="icon_bag_alt" ></span> 주문하기 </a>
                             <ul>
                                 <li><a href="#"><span class="icon_heart_alt"></span></a></li>
                             </ul>
@@ -1139,7 +1196,7 @@
                                 <a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList();" id="prodReviewsCnt">상품평</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList(0,1,0,'latest');" id="prodReviewsCnt">상품평</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의(<span id="totprodQACnt"></span>)</a>
@@ -1221,6 +1278,27 @@
 								<div class="container" id="pagingParamTb">
 									
 						    	</div>
+						    	
+						    	<!-- Modal -->
+								  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								    <div class="modal-dialog">
+								    
+								      <!-- Modal content-->
+								      <div class="modal-content">
+								        <div class="modal-header">
+								          <button type="button" class="close" data-dismiss="modal">&times;</button>
+								          <h4 class="modal-title">Modal Header</h4>
+								        </div>
+								        <div class="modal-body">
+								          <p>Some text in the modal.</p>
+								        </div>
+								        <div class="modal-footer">
+								          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								        </div>
+								      </div>
+								      
+								    </div>
+								  </div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">

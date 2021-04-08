@@ -1,10 +1,14 @@
 package com.cambak21.persistence.cambakMall;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.BucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
 
@@ -22,14 +26,16 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 
 	@Override
 	public int insertBucket(InsertintoBucketDTO insertBucket) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		return ses.insert(namespace + ".insertBucket", insertBucket);
 	}
 
 	@Override
-	public int checkBucket(String member_id, int product_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public BucketVO checkBucket(String member_id, int product_id) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("product_id", product_id);
+		
+		return ses.selectOne(namespace + ".checkBucket", params);
 	}
 
 	@Override

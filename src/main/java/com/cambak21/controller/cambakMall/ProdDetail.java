@@ -40,6 +40,7 @@ import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
@@ -100,7 +101,7 @@ public class ProdDetail {
 	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("prodId") String prodId, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("orderList") String orderList) {
 //	      System.out.println(prodId);
 //	      System.out.println(page);
-//	      System.out.println(orderList.toString());
+	      System.out.println(orderList);
 	      logger.info("/prodReviews의 ajax-GET방식 호출");
 	      
 	      int product_id = Integer.parseInt(prodId);
@@ -458,9 +459,9 @@ public class ProdDetail {
 	/**
 	 * @Method Name : checkSecretPwd
 	 * @작성일 : 2021. 4. 6.
-	 * @작성자 : 
+	 * @작성자 : 김도연
 	 * @변경이력 : 
-	 * @Method 설명 : 
+	 * @Method 설명 : 유저가 입력한 비밀번호가 맞는지 확인 후, 일치하면 해당 게시판의 isDelete속성을 'Y'으로 변경하는 메서드
 	 * @param vo
 	 * @return
 	 * @throws Exception
@@ -534,6 +535,8 @@ public class ProdDetail {
 		int newNo = getMaxNo + 1;
 		
 		insertQA.setProdQA_ref(newNo);
+		insertQA.setProdQA_refOrder(1);
+		insertQA.setProdQA_step(1);
 		
 		if(QAService.insertProdQA(insertQA)) {
 			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
@@ -545,7 +548,7 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/prodQAReplyForm", method=RequestMethod.POST)
-	public void prodQAReplyForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("no") int no, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
+	public ResponseEntity<String> prodQAReplyForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("no") int no, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 답글 글쓰기 저장");
 		
 		ResponseEntity<String> entity = null;
@@ -561,18 +564,25 @@ public class ProdDetail {
 			insertQA.setProdQA_isSecret("N");
 		}
 		
+		int ref = QAService.getRef(no);
 		int newRefOrder = QAService.getMaxRefOrder(no) + 1;
 		int newStep = QAService.getMaxStep(no) + 1;
 		
 		System.out.println(newRefOrder + ", " + newStep);
 		
-//		if(QAService.insertProdQA(insertQA)) {
-//			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-//		} else {
-//			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-//		}
+		insertQA.setProdQA_ref(ref);
+		insertQA.setProdQA_refOrder(newRefOrder);
+		insertQA.setProdQA_step(newStep);
 		
-//		return entity;
+		System.out.println("최종 : " + insertQA.toString());
+		
+		if(QAService.insertProdQA(insertQA)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	/**
@@ -750,9 +760,32 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
-	public void checkBucket(@RequestBody BucketVO vo) throws Exception {
+	public ResponseEntity<BucketVO> checkBucket(@RequestBody BucketVO vo) throws Exception {
 		logger.info("주문하기 전 이미 장바구니에 있는 상품인지 확인");
+		
+		ResponseEntity<BucketVO> entity = null;
+		
 		System.out.println(vo.toString());
+		
+		try {
+			entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/insertBucekt", method=RequestMethod.POST)
+	public String insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+		System.out.println(vo.toString());
+		
+		if(prodService.insertBucket(vo)) {
+			return "redirect:/mall/cart";
+		}
+		
+		return "redirect:erro.jsp";
 	}
 	
 }

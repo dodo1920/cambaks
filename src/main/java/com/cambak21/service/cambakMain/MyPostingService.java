@@ -10,6 +10,7 @@ import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -38,7 +39,7 @@ public interface MyPostingService {
 	// 마이페이지 내 댓글 페이지 로딩 시 전체 게시글, 댓글, 좋아요, 문의 개수 가져오기
 	MyPageAllCountVO myPageAllCount(String member_id) throws Exception;
 	
-	// ------------------------------------ 서효원 service ------------------------------------
+	// ------------------------------------ 박종진 service ------------------------------------
 	
 	// 내 체크리스트 불러오기
 	public List<CheckListVO> getCheckList(String member_id) throws Exception;
@@ -60,6 +61,9 @@ public interface MyPostingService {
 	int getMyPageResellList(String member_id, String category) throws Exception;
 	// 내가 작성한 중고캠핑마켓 댓글 리스트 가져오기
 	List<ReplyResellVO> getMyResellReply(String member_id, PagingCriteria cri, String category) throws Exception;
+
+	//
+	ResellBoardCntVO getMyResellCnt(String member_id) throws Exception;
 
 		
 	

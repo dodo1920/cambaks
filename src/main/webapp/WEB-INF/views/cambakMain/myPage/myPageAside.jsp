@@ -10,9 +10,8 @@
 								<div class="profileEmail">${loginMember.member_email }</div>
 							</div>
 							<div class="profileCategory">
-								<ul>
 									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">회원 정보 수정</a></li>
+									<form action="/user/Modify/${loginMember.member_id}" method="post"  ><li class="profileMenu2"><input type="submit" value="회원 정보 수정" class="profileMenu" style="color: #80BA8E;background: none;border: none;"> </li></form>
 									<li class="profileMenu3"><a href="/myPage/checkList" class="profileMenu">체크리스트</a></li>
 								</ul>
 							</div>
@@ -48,7 +47,7 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li id="#"><a href="#">적립금 관리</a></li>
 						<li id="#"><a href="#">주문 목록</a></li>
-						<li id="#"><a href="#">취소 / 반품</a></li>
+						<li id="#"><a href="/myMall/myRefund">취소 / 반품</a></li>
 						<li id="#"><a href="/myMall/myQnA?page=1">상품 문의</a></li>
 					</ul>
 				</div>

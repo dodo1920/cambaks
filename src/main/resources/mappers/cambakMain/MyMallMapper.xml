@@ -6,7 +6,13 @@
 <mapper namespace="com.mappers.cambakMain.MyMallMapper">
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<select id="getTotalRefund" resultType="int">
+		select count(*) from goot6.RefundnExchanges where member_id = #{member_id}
+	</select>
 	
+	<select id="getRefundList" resultType="com.cambak21.domain.RefundnExchangeVO">
+		select * from goot6.RefundnExchanges where member_id = #{member_id}
+	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

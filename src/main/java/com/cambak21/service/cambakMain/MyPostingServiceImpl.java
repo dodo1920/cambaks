@@ -13,6 +13,7 @@ import com.cambak21.domain.MyLikeBoardListVO;
 import com.cambak21.domain.MyPageAllCountVO;
 import com.cambak21.domain.MyPageReplyVO;
 import com.cambak21.domain.ReplyResellVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMain.MyPostingDAO;
 import com.cambak21.util.PagingCriteria;
@@ -170,6 +171,22 @@ public class MyPostingServiceImpl implements MyPostingService {
 	}
 	
 	
+
+	/**
+	  * @Method Name : getMyResellCnt
+	  * @작성일 : 2021. 04. 07.
+	  * @작성자 : Kim Jeong Min
+	  * @변경이력 : 
+	  * @Method 설명 :마이페이지 중고장터 카운트
+	  * @param member_id
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public ResellBoardCntVO getMyResellCnt(String member_id) throws Exception {
+		return dao.getMyResellCnt(member_id);
+	}
+
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	
@@ -215,11 +232,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 		
 		MyPageAllCountVO vo = new MyPageAllCountVO();
 		vo.setBoardCnt(dao.bringBoardCnt(member_id));
-		vo.setResellBoardCnt(dao.bringResellBoardCnt(member_id));
 		vo.setReplyCnt(dao.bringReplyCnt(member_id));
-		vo.setResellReplyCnt(dao.bringResellReplyCnt(member_id));
 		vo.setLikeCnt(dao.bringLikeCnt(member_id));
-		vo.setResellLikeCnt(dao.bringResellLikeCnt(member_id));
 		vo.setMyQuestion(dao.bringMyQuestion(member_id));
 		
 		return vo;
@@ -233,7 +247,8 @@ public class MyPostingServiceImpl implements MyPostingService {
 	
 	
 	
-	
+	//--------------------------------------------------------------- 박종진 service ---------------------------------------------------------------
+
 	
 
 	/**
@@ -329,6 +344,15 @@ public class MyPostingServiceImpl implements MyPostingService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	//--------------------------------------------------------------- 박종진 service ---------------------------------------------------------------
+
+
+
+
+
+
 
 
 
