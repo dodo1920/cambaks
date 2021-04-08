@@ -10,8 +10,14 @@
 		select count(*) from goot6.RefundnExchanges where member_id = #{member_id}
 	</select>
 	
-	<select id="getRefundList" resultType="com.cambak21.domain.RefundnExchangeVO">
-		select * from goot6.RefundnExchanges where member_id = #{member_id}
+	<select id="getRefundList" resultType="com.cambak21.domain.RefundVO">
+		select pay.payment_serialNo, payment_date, refundnExchange_date,
+		refundnExchange_reason, refundnExchange_status,
+		refundnExchange_isChecked, product_name, buyProduct_totPrice
+		from goot6.RefundnExchanges ref join goot6.Payments pay on
+		ref.payment_serialNo = pay.payment_serialNo
+		join goot6.BuyProducts pro on pay.buyProduct_no = pro.buyProduct_no
+		where ref.member_id = #{member_id}
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	

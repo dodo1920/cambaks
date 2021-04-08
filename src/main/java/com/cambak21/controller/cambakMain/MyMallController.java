@@ -41,7 +41,9 @@ public class MyMallController {
 	public String myRefund(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception {
 		
 		PagingParam pp = new PagingParam();
+		
 		pp.setCri(cri);
+		
 		pp.setTotalCount(service.getTotalRefund(member.getMember_id()));
 		
 		model.addAttribute("pp", pp);
