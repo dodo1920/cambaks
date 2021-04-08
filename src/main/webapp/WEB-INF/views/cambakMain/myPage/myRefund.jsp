@@ -210,10 +210,13 @@ margin-top: 10px;
 
 								<!-- 게시물 리스트 출력 부분 -->
 								<div>
-									<table class="table table-hover">
+								<c:forEach var="item" items="${refundList }">
+									<table class="table">
+									
 										<thead>
 											<tr>
 												<th>취소접수일</th>
+												<th>주문일</th>
 												<th>사유</th>
 												<th class="board-title">주문번호</th>
 												<th>취소현황</th>
@@ -222,20 +225,58 @@ margin-top: 10px;
 											
 										</thead>
 										<tbody>
-											<c:forEach var="item" items="${refundList }">
-												<tr>
-													<td>${item.refundnExchange_date }</td>
+											
+												<tr style="border: 2px">
+													<td ><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value ="${item.refundnExchange_date }"/></td>
+													<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value ="${item.payment_date }"/></td>
 													<td>${item.refundnExchange_reason }</td>
 													<td>${item.payment_serialNo }</td>
-													<td>${item.refundnExchange_isChecked }</td>
+													<td>${item.refundnExchange_status }</td>
 												
 												</tr>
-											</c:forEach>
+												<tr>
+													<td colspan="3" style="text-align:center">
+														제품명
+													</td>
+													<td colspan="2" style="text-align:center">
+														금액 합계
+													</td>
+												</tr>
+												<tr>
+													<td colspan="3" style="text-align:center">
+														${item.product_name }
+													</td>
+													<td colspan="2" style="text-align:center">
+														<fmt:formatNumber value="${item.buyProduct_totPrice}" pattern="#,###"/><span>원</span>
+													</td>
+												</tr>
+										
 										</tbody>
 									</table>
-
+										</c:forEach>
 								</div>
 							</div>
+							
+							<!-- 페이징 -->
+						<div class="myPagePagingBtn">
+							<ul class="pagination">
+								<!-- 이전 버튼 -->
+								<c:if test="${pp.prev }">
+									<li><a href="/myMall/myQnA?page=${param.page - 1 }">이전</a></li>
+								</c:if>
+
+								<!-- 페이징 버튼 -->
+								<c:forEach begin="${pp.startPage }" end="${pp.endPage }"
+									var="pageNo">
+									<li><a href="/myMall/myRefund?page=${pageNo }">${pageNo }</a></li>
+								</c:forEach>
+
+								<!-- 다음 버튼 -->
+								<c:if test="${pp.next }">
+									<li><a href="/myMall/myQnA?page=${param.page + 1 }">다음</a></li>
+								</c:if>
+							</ul>
+						</div>
 						</div>
 					</section>
 				</div>
