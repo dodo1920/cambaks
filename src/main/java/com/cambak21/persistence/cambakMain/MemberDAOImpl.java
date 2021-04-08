@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
+import com.cambak21.dto.UpdateMemberDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -22,9 +23,9 @@ public class MemberDAOImpl implements MemberDAO {
 	private String namespace = "com.mappers.cambakMain.memeberMapper";
 
 	@Override
-	public int memberUpdate(MemberVO vo) throws Exception {
+	public int memberUpdate(UpdateMemberDTO dto) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return ses.update(namespace+".MemberUpdate",dto);
 	}
 	@Override
 	public MemberVO memberSelect(String memberId) throws Exception {
