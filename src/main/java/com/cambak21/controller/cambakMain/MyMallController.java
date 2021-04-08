@@ -1,5 +1,9 @@
 package com.cambak21.controller.cambakMain;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -10,10 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.service.cambakMain.MyMallService;
 import com.cambak21.util.PagingCriteria;
@@ -49,7 +57,27 @@ public class MyMallController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	@RequestMapping(value="myPoint", method=RequestMethod.GET)
+	public String showMyPointListMain(){
 		
+		return "cambakMain/myPage/myPoint";
+	}
+		
+	@RequestMapping(value="myPoint/{member_id}", method=RequestMethod.POST)
+	   public @ResponseBody List<PointVO> myPointList(@PathVariable("member_id") String member_id){
+	       logger.info("/myPointList의 ajax-POST방식 호출");
+	       List<PointVO> vo = null;
+	       try {
+			vo = service.getPointList(member_id);
+			System.out.println(vo.toString());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	       
+	      return vo;
+	   }
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

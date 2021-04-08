@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
 
@@ -35,7 +36,11 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	// 포인트 적립내역 가져오기
+	@Override
+	public List<PointVO> getPointList(String member_id) throws Exception {
+		return dao.getPointList(member_id);
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -85,6 +90,7 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.getProdQAVO(prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 
 	
 
