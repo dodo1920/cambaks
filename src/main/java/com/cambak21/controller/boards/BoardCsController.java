@@ -79,78 +79,49 @@ public class BoardCsController {
 
 		// 클라이언트에 등록된 쿠키 정보들
 		Cookie[] cookies = request.getCookies();
-
 		// 쿠키 존재여부를 담을 변수 생성
 		String status = "noExist";
-
 		// 조회수 쿠키를 담을 그릇
 		Cookie userCookie = null;
-		
+
 		// 클라이언트가 가지고 있는 쿠키중에 글번호 쿠키가 존재하는지 파악
 		for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("boardCs")) {
 				userCookie = cookies[i];
-				break;
 			}
 		}
-		
-		// 해당 번호가 있는지 파악
-		String[] cValues = userCookie.getValue().split("-");
-		for (int i = 0; i < cValues.length; i++) {
-			if (Integer.parseInt(cValues[i]) == no) {
-				status = "exist";
-				break;
+
+		// 유저가 조회수 쿠키를 가지고 있다면 ...
+		if (userCookie != null) {
+			// 쿠키안에 들어있는 글 번호를 가져오기
+			String[] cValues = userCookie.getValue().split("-");
+
+			for (int i = 0; i < cValues.length; i++) {
+				// 쿠키에 현재 조회하는 글번호가 있다면 ...
+				if (Integer.parseInt(cValues[i]) == no) {
+					status = "exist";
+					break;
+				}
 			}
+			// 쿠키에 조회하는 글 번호가 없다면 ..
+			if (status.equals("noExist")) {
+				Cookie newCookie = new Cookie("boardCs", userCookie.getValue() + "-" + no);
+				newCookie.setMaxAge(60*60*24);
+				newCookie.setPath("/");
+				response.addCookie(newCookie);
+			}
+		} else {
+			// 조회수 쿠키가 없다면...
+			Cookie cookie = new Cookie("boardCs", Integer.toString(no));
+			cookie.setMaxAge(60 * 60 * 24);
+			cookie.setPath("/");
+
+			response.addCookie(cookie);
 		}
-		
 
-//		for (int i = 0; i < cookies.length; i++) {
-//			
-//			// boardCs란 쿠키 찾기
-//			if (cookies[i].getName().equals("boardCs")) {
-//				
-//				// boardCs란 쿠키의 값들 (글 번호)
-//				String[] boards = cookies[i].getValue().split("-");
-//				
-//				// 값들을 비교해서 클릭한 글 번호가 있는지 체크
-//				for (int j = 0; j < boards.length; j++) {
-//					
-//					System.out.println("쿠키에 들어있는 값들 : " + boards[j].toString());
-//					
-//					if (Integer.parseInt(boards[j]) == no) {
-//						status = "exist";
-//						break;
-//					} else {
-//						// 쿠키 값 변경
-//						cookies[i].setValue(cookies[i].getValue() + "-" + no);
-//						
-//						// 기존 쿠키에 덮어쓰기
-//						response.addCookie(cookies[i]);
-//						
-//						status = "noExist";
-//					}
-//				}
-//			}
-//		}
-//			if () { // 없으면 쿠키 추가
-//				Cookie cookie = new Cookie("boardCs", no + "|");
-//				cookie.setMaxAge(60*60*24);
-//				cookie.setPath("/");
-//				response.addCookie(cookie);
-//				status = "noExist";
-//			}
-
-//		// 쿠키가 존재하지 않는다면 쿠키를 생성하고 클라이언트 컴퓨터에 쿠키 생성
-//		if (status.equals("noExist")) {
-//			Cookie cookie = new Cookie("boardCs", no + "");
-//			cookie.setMaxAge(60*60*24);
-//			cookie.setPath("/");
-//			response.addCookie(cookie);
-//		}
-//		
-//		model.addAttribute("board", service.readBoardCS(no, status));
-//		model.addAttribute("prev", service.prevNo(no));
-//		model.addAttribute("next", service.nextNo(no));
+		model.addAttribute("board", service.readBoardCS(no, status));
+		model.addAttribute("prev", service.prevNo(no));
+		model.addAttribute("next", service.nextNo(no));
 
 		return "cambakMain/board/cs/boardCsDetail";
 	}
