@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
+import com.cambak21.dto.UpdateMemberDTO;
 import com.cambak21.persistence.boardProdQA.BoardProdQADAO;
 import com.cambak21.persistence.cambakMain.MemberDAO;
 
@@ -20,14 +21,14 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO dao;
 	
 	@Override
-	public boolean memberUpdate(MemberVO vo) throws Exception {
-//		boolean result = false;
-//		int i = dao.MemberUpdate(vo);
-//		if (i == 1) {
-//			result = true;
-//		}
-	//	
-		return false;
+	public boolean memberUpdate(UpdateMemberDTO dto) throws Exception {
+		boolean result = false;
+		int i = dao.memberUpdate(dto);
+		if (i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 	public MemberVO memberSelect(String memberId) throws Exception{
 		return dao.memberSelect(memberId);

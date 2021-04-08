@@ -6,6 +6,7 @@ import java.util.List;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
+import com.cambak21.dto.UpdateMemberDTO;
 
 public interface MemberDAO {
 	/**
@@ -18,7 +19,7 @@ public interface MemberDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int memberUpdate(MemberVO vo) throws Exception;
+	public int memberUpdate(UpdateMemberDTO dto) throws Exception;
 	
 	public MemberVO memberSelect(String memberId) throws Exception;
 	/**

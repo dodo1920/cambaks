@@ -31,6 +31,7 @@ import org.springframework.web.util.WebUtils;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
+import com.cambak21.dto.UpdateMemberDTO;
 import com.cambak21.service.cambakMain.MemberService;
 
 @Controller
@@ -234,7 +235,18 @@ public class MemberController {
 		return "cambakMain/myPage/userModify";
 	}
 	
-	
+	@RequestMapping(value = "/userDateUpdate",method = RequestMethod.POST)
+	public String userUpdate(UpdateMemberDTO dto)throws Exception {
+		System.out.println("userDateUpdate...POST통신 성공");
+		System.out.println(dto.toString());
+		if(service.memberUpdate(dto)) {
+			System.out.println("수정완료");
+		}else{
+			System.out.println("수정 실패");
+		}
+		
+		return "redirect:/myPage/checkList";		
+	}
 	
 		
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김태훈 회원정보 수정 파트
