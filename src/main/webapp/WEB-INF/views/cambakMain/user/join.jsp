@@ -30,26 +30,88 @@
 <!-- 게시판 공통 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
-
+<!-- 다음 지도 api js -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/resources/cambak21/js/registerDaumPost.js"></script>
 
 <script>
 	let checkResult = false;
 	
-	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규식
-	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규식
-	let numberJ = /[0-9]/; // 숫자 정규식
-	let StringJ = /[a-zA-Z]/; // 문자 정규식
-	let specialJ = /[~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규식
+	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규표현식
+	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
+	let numberJ = /[0-9]/; // 숫자 정규표현식
+	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
+	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
+	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
 
    $(document).ready(function() {
-	  
-	   userIdCheck();
-	   
-	   
       
    });
    
-	function checkUserPwdSame() {
+   	function checkAllContent() {
+   		
+   		// 아이디 체크
+   		let userId = $("#userId").val();
+   		
+   		if (userId.length == 0) {
+   			alert("아이디를 입력해주세요.");
+   		} else if (!idJ.test(userId)) {
+   			alert("입력하신 아이디를 사용할 수 없습니다.");
+   		} 
+   		
+	}
+	
+	function onlyNumberChk(obj) { // 숫자 입력 창 유효성 검사
+		let inputId = $(obj).attr("id");
+		let userInput = $("#" + inputId).val();
+		
+		if (!numberJ.test(userInput)) { // 숫자 외의 문자 작성 시 작성한 글자 삭제
+		    $("#" + inputId).val($("#" + inputId).val().replace(StringJ,""));
+		    $("#" + inputId).val($("#" + inputId).val().replace(koreanJ,""));
+		    $("#" + inputId).val($("#" + inputId).val().replace(specialJ,""));
+	    }
+		
+	}
+	
+	
+	function checkUserName() {
+		let userName = $("#member_name").val();
+		
+		if (!nameJ.test(userName)) {
+		    $("#userNameBar").css("display", "inline-block");
+		    $("#userNameCheck").attr("class", "changeTextBarMsg");
+		    $("#userNameCheck").text("이름을 정확히 작성바랍니다.");
+		} else if (userName.length < 1 && userName.length > 18) { // 이름이 2~17과 다를 경우
+		    $("#userNameBar").css("display", "inline-block");
+		    $("#userNameCheck").attr("class", "changeTextBarMsg");
+		    $("#userNameCheck").text("이름을 정확히 작성바랍니다.");
+		} else if (nameJ.test(userName)) {
+			$("#userNameBar").css("display", "none");
+		} 
+		
+		if (userName.length == 0) {
+			$("#userNameBar").css("display", "none");
+		}
+		
+	}
+	
+	function reconfirmUserPwd() {
+		let userPwd = $("#member_password").val();
+		let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인 작성한 내용
+		
+	    if (userPwd != userPwdChk) {
+		    $("#pwdChkBar2").css("display", "inline-block");
+		    $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+		    $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+	    } else if (userPwd == userPwdChk) {
+	 	    $("#pwdChkBar2").css("display", "none");
+	    } else if (userPwd.length == 0) {
+		    $("#pwdChkBar2").css("display", "inline-block");
+		    $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+		    $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+	    } else if (userPwdChk.length == 0) {
+	    	$("#pwdChkBar2").css("display", "none");
+	    }
 		
 	}
 	
@@ -95,10 +157,15 @@
 			   $("#pwdChkContent").attr("class", "serviceable");
 		   	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
 		   }
+		   
 	   } else { // 비밀번호 확인이 작성 되어있을 경우
 		   
-		   if (userPwd == userPwdChk) {
-			   
+		   if (userPwd != userPwdChk) {
+			   $("#pwdChkBar2").css("display", "inline-block");
+			   $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+			   $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
+		   } else {
+			   $("#pwdChkBar2").css("display", "none");
 		   }
 		   
 	   }
@@ -107,8 +174,6 @@
    }
 
    function userIdCheck() {
-	   
-	   $("#userId").on("keyup", function() {
 		  
 		   let userId = $("#userId").val();
 		   
@@ -162,9 +227,8 @@
 			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
 		   } // 아이디 길이 체크
 		   
-	   });
+	   }
 	   
-   }
    
    
    
@@ -313,6 +377,20 @@
     font-weight: bold;
 }
 
+.searchPost {
+	height: 33px;
+    border: 1px solid #dbdbdb;
+    font-size: 13px;
+    background-color: #f9f9f9;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+.resultPost {
+	margin-top: 5px;
+    margin-bottom: 10px;
+}
+
 </style>
 
 </head>
@@ -332,13 +410,13 @@
 						<span class="registerEtc">* 아래의 항목을 모두 작성바랍니다.</span>
 						</div>
 					</div>
-					<form>
+					<form action="">
 						<table class="registerTable">
 							<tr>
 								<th class="tableTitleSize">아이디</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" id="userId" name="member_id" maxlength="40" size="40" />
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();" />
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
 									<div id="idChkBar">
@@ -362,10 +440,10 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" id="reCheckPwd" maxlength="40" size="40" />
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"/>
 									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									<div id="pwdChkBar2">
+									<span class="changeTextBarMsg" id="pwdReChkContent"></span>
 									</div>
 								</td>
 							</tr>
@@ -373,10 +451,10 @@
 								<th class="tableTitleSize">이름</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="" maxlength="40" size="40" />
+									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();"/>
 									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
+									<div id="userNameBar">
+									<span class="changeTextBarMsg" id="userNameCheck"></span>
 									</div>
 								</td>
 							</tr>
@@ -384,8 +462,8 @@
 								<th class="tableTitleSize">성별</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="radio" name="gender" value="M" checked/><span class="genderSideMan">남</span>
-									<input type="radio" name="gender" value="F" /><span class="genderSideWoman">여</span>
+									<input type="radio" name="member_gender" value="남" checked/><span class="genderSideMan">남</span>
+									<input type="radio" name="member_gender" value="여" /><span class="genderSideWoman">여</span>
 									</div>
 								</td>
 							</tr>
@@ -394,10 +472,10 @@
 								<td class="tableContentSize">
 									<div>
 										<span>
-											<input type="text" maxlength="4" placeholder="년(4자)" class="birthYear"/>-
+											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)"/>-
 										</span>
 										<span>
-											<select class="birthMonth">
+											<select class="birthMonth" id="userBirthMonth">
 												<option value="empty">월</option>
 												<option value="01">1</option>
 												<option value="02">2</option>
@@ -414,11 +492,8 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="4" placeholder="일" class="birthDate"/>
+											-<input type="text" maxlength="4" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"/>
 										</span>
-									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
@@ -426,7 +501,7 @@
 								<th class="tableTitleSize">이메일</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="" size="40" placeholder="qwe@nd.co" readonly/>
+										<input type="text" size="40" placeholder="qwe@nd.com" readonly/>
 									</div>
 								</td>
 							</tr>
@@ -435,7 +510,7 @@
 								<td class="tableContentSize">
 									<div>
 										<span>
-											<select class="phoneFirst">
+											<select class="phoneFirst" id="phoneFirst">
 												<option value="010">010</option>
 												<option value="011">011</option>
 												<option value="016">016</option>
@@ -445,32 +520,25 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="4" class="phoneSecond"/>-
+											-<input type="text" maxlength="4" id="phoneSecond" class="phoneSecond" onkeyup="onlyNumberChk(this)"/>-
 										</span>
 										<span>
-											<input type="text" maxlength="4" class="phoneThird"/>
+											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)"/>
 										</span>
-									</div>
-									<div>
-									<span class="changeTextBarMsg">ㅇㄴㄹㅇ</span>
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<th class="tableTitleSize">주소</th>
 								<td class="tableContentSize">
-	
-									<input type="text" id="sample2_postcode" placeholder="우편번호">
-									<input type="button" onclick="sample2_execDaumPostcode()" value="우편번호 찾기"><br>
-									<input type="text" id="sample2_address" placeholder="주소"><br>
-									<input type="text" id="sample2_detailAddress" placeholder="상세주소">
-									<input type="text" id="sample2_extraAddress" placeholder="참고항목">
-									<div id="layer"
-										style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
-										<img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer"
-											style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1"
-											onclick="closeDaumPostcode()" alt="닫기 버튼">
-									</div>
+									<input type="text" id="sample6_postcode" readonly>
+									<input type="button" onclick="sample6_execDaumPostcode()" class="searchPost" value="우편번호 찾기">
+									<br>
+									<input type="text" class="resultPost" id="sample6_address" size="50" readonly>
+									<span class="textBarInfo">기본주소</span>
+									<br>
+									<input type="text" id="sample6_detailAddress" size="50">
+									<span class="textBarInfo">나머지주소 (선택입력가능)</span>
 								</td>
 							</tr>
 							<tr>
@@ -483,7 +551,7 @@
 						</table>
 						<div class="registerBtn">
 							<button class="registerBtnCancle">취소</button>
-							<button class="registerBtnSubmit">회원가입</button>
+							<button type="submit" class="registerBtnSubmit" onclick="checkAllContent(); return false;">회원가입</button>
 						</div>
 				</form>
 			</div>
