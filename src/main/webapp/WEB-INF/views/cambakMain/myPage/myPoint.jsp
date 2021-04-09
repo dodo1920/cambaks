@@ -32,22 +32,27 @@ let member_id = "${loginMember.member_id}";
 console.log(member_id);
 
 function showPointList() {
-	member_id = "aaa";
 
+	let output="<div>";
 	$.ajax({
     type		: "post",
-    url 		: "/myPage/myPoint/"+ "'" + member_id + "'",
+    url 		: "/myMall/myPoint/" + member_id,
     contentType : "application/json",
     success 	: function(data) {
     	console.log(data);
+    	$(data).each(function(index, item) {
+    		output += "<span>" + item.point_usedPoint +"</span>";
+    	});
+    	output += "</div>";
     }
+	
 });
 
+	$("#myPoint").html(output);
 }
 
 $(function() {
 	showPointList();
-	
 });
 </script>
 <style>
@@ -68,6 +73,7 @@ $(function() {
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
 					<h1>포인트 내역</h1>
+					<div id="myPoint"></div>
 				</div>
 			</div>
 
