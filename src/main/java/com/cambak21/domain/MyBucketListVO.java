@@ -4,7 +4,7 @@ public class MyBucketListVO {
 	private int product_id;
 	private String product_name;
 	private String product_img1;
-	private int sellPrice;
+	private int bucket_sellPrice;
 	private int bucket_buyQty;
 	private int bucket_totBuyPrice;
 	private String bucket_isChecked;
@@ -33,12 +33,12 @@ public class MyBucketListVO {
 		this.product_img1 = product_img1;
 	}
 
-	public int getSellPrice() {
-		return sellPrice;
+	public int getBucket_sellPrice() {
+		return bucket_sellPrice;
 	}
 
-	public void setSellPrice(int sellPrice) {
-		this.sellPrice = sellPrice;
+	public void setBucket_sellPrice(int bucket_sellPrice) {
+		this.bucket_sellPrice = bucket_sellPrice;
 	}
 
 	public int getBucket_buyQty() {
@@ -67,8 +67,8 @@ public class MyBucketListVO {
 
 	@Override
 	public String toString() {
-		return "MyBucketList [product_id=" + product_id + ", product_name=" + product_name + ", product_img1="
-				+ product_img1 + ", sellPrice=" + sellPrice + ", bucket_buyQty=" + bucket_buyQty
+		return "MyBucketListVO [product_id=" + product_id + ", product_name=" + product_name + ", product_img1="
+				+ product_img1 + ", bucket_sellPrice=" + bucket_sellPrice + ", bucket_buyQty=" + bucket_buyQty
 				+ ", bucket_totBuyPrice=" + bucket_totBuyPrice + ", bucket_isChecked=" + bucket_isChecked + "]";
 	}
 

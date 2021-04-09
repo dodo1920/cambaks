@@ -73,7 +73,7 @@
         	let cate = $("#prodQA_category").val();
         	console.log(cate)
         	
-        	prodQAListAll(prodId, page, 0, cate);
+        	prodQAListAll(prodId, 1, 0, cate);
         	
         });
 		
@@ -85,6 +85,13 @@
 		    buying("2");
 		});
 		
+		$("#updatdBtn1").click(function() {
+			updateBucket(1);
+		});
+		
+		$("#updatdBtn2").click(function() {
+			updateBucket(2);
+		});
 	});
 	
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
@@ -627,8 +634,13 @@
 	}
 	
 	// 페이지 호출될 때 상품 문의 목록 함수
-	function prodQAListAll(prodId, page, flag, cate, no) {
-	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId  + "&cate=" + cate + "&page=" + page, function(data){
+	function prodQAListAll(product_Id, pageNum, flag, category, no) {
+	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + product_Id  + "&cate=" + category + "&page=" + pageNum, function(data){
+	    	prodId = product_Id;
+	    	page = pageNum;
+	    	cate = category;
+	    	
+	    	console.log(product_Id + ", " + category + ", " + pageNum);
 	    	console.log(data);
 	    		let output = "";
 	    		$("#prodQA_category").val(cate).prop("selected",true);
@@ -636,11 +648,11 @@
 	    	if(data.length == 0) { // 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
 	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
+	    		$("#pagingParamTb").html('');
 	    		
 	    	} else { // 등록된 상품 문의가 있다면,		
-	    		console.log(page);	   
 	    	
-	    		prodQAPagingParam(prodId, page, cate); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
+	    		prodQAPagingParam(product_Id, pageNum, category); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
 	    		
 	    		$(data).each(function(index, item){
 		        	let date = new Date(item.prodQA_date);
@@ -650,7 +662,7 @@
 		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
 		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
 		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + cate + '\');">' + item.prodQA_title + '</div></td>';	
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + '</div></td>';	
 		        	}
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
@@ -672,12 +684,12 @@
 	                if(loginUser == item.member_id) { // 로그인 유저와 글쓴이가 같아면, 수정/삭제 가능한 버튼 보여주도록
 	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="goModi(\'1\',' + item.prodQA_no + ');"/>';
 		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
+		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
 		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 	                }
 	                
-	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span></div></td></tr>';
+	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span></div></td></tr>';
 	    		});
 			    
 	    	}
@@ -707,6 +719,7 @@
 	    	if(data.length == 0) {
 	    		console.log("데이터 없음")
 	    	} else {
+	    		console.log(prodId + ", " + cate + ", " + page);
 	    		console.log(data);
 	    		let prev = Number(page) - 1;
 	    		let next = Number(page) + 1;
@@ -714,16 +727,17 @@
 	    		let output = '<ul class="pagination">';
 	    		
 	    		if(page > 1) {
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + 1 + ',0,\'' + cate + '\');"> << </a></li>';
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> < </a></li>';
 	    		}
 	    		
 	    		for(let i = 1; i < data.endPage + 1; i++) {
-	    			page = i;
-	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');">' + i + '</a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + i + ',0,\'' + cate + '\');">' + i + '</a></li>';
 	    		}
 	    		
 	    		if(page < data.endPage) {
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> > </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + data.endPage + ',0,\'' + cate + '\');"> >> </a></li>';
 	    		}
 	    		
 	    		if(loginUser.length != 0) {
@@ -971,14 +985,18 @@
 					pruduct_id: prodId,
 					member_id : loginUser
 					}),
-				dataType : 'json', // 응답 받을 형식
+// 				dataType : 'json', // 응답 받을 형식
 				type : 'post',
 				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
 					console.log(result);
 					if(result.length == 0) {
+						console.log(flag);
 						insertBucket(flag);
+					} if(result.bucket_buyQty == 11) {
+						$("#myModal").modal();
+						changeModalButtons("over");
 					} else {
 						$("#myModal").modal();
 						addAlreadyItem(flag, result);
@@ -989,6 +1007,21 @@
 				}
 			});		
 		}
+	}
+	
+	function changeModalButtons(flag) {
+		let output ='';
+		let cOutput = '';
+		
+		if(flag == "stay") {
+			cOutput = '<p>변경이 완료되었습니다</p>';	
+			$("#alreadyItem").html(cOutput);
+		}
+		
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>';
+		
+		$("#modalButtons").html(output);
 	}
 	
 	function insertBucket(flag) {
@@ -1015,7 +1048,7 @@
 			success : function(result) {
 				console.log(result);
 				if(flag == 1) {
-					location.href="../mall/card";	
+					location.href="../cart";	
 				} else if(flag == 2) {
 					alert("장바구니에 담기 완료!");
 				}				
@@ -1086,9 +1119,9 @@
 			success : function(result) {
 				console.log(isMoveFlag);
 				if(isMoveFlag == "move") {
-					location.href="../mall/card";	
+					location.href="../cart";	
 				} else if(isMoveFlag == "stay") {
-					$("#myModal").modal();
+					changeModalButtons(isMoveFlag);
 				}
 			},
 			fail : function(result) {
@@ -1385,12 +1418,12 @@
 								          <h4 class="modal-title">주문하기</h4>
 								        </div>
 								        <div class="modal-body" id="alreadyItem">
-								          
+								          <p> 장바구니로 가시겠습니까? </p>
 								        </div>
-								        <div class="modal-footer">
-								        	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('1')">추가하기</button>
-								        	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('2')">변경하기</button>
-								        	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='mall/cart'">장바구니로 가기</button>
+								        <div class="modal-footer" id="modalButtons">
+								        	<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>
+								        	<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>
+								        	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='../cart'">장바구니로 가기</button>
 								        </div>
 								      </div>
 								      
