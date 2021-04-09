@@ -491,6 +491,7 @@
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
+								<input type="file" name="replyBoard_img">
 								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
 							</div>
 						</div>
