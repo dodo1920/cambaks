@@ -51,6 +51,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public boolean checkRegisterEmail(String userEmail) throws Exception {
+		// 작성한 ID가 사용가능한지 확인하는 메서드
+		boolean result = false;
+		
+		if (dao.checkRegisterEmail(userEmail) == 0) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Override
 	public boolean memberInsert(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return false;

@@ -50,7 +50,7 @@
 	   googleCapchaChk();
 	   
 	   if (capchaResult == "OK") {
-		   
+		   sendEamil();
 		   alert("이메일 보냈삼");
 	   } else if (capchaResult == "FAIL") {
 		   alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
@@ -60,20 +60,16 @@
    
    function sendEamil() {
 	   
+	   let userEmail = $("#userEmail").val();
+	   
 		$.ajax({
             url: '/user/register/sendRegisterEmail',
             type: 'post',
             dataType: "text",
             async: false,
-            data: { recaptcha: $("#g-recaptcha-response").val() },
+            data: { userEmail : userEmail },
             success: function(data) {
-            	if (data == "success") {
-            		capchaResult = "OK";
-            	} else if (data == "fail") {
-            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
-            	} else if (data == "error") {
-            		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
-                }
+            	
             }
         });
 		
@@ -219,8 +215,8 @@
 								  <div class="modal-body" style="padding:40px 50px;">
 								    <form role="form">
 								      <div class="form-group">
-								        <label for="usrname"><span class="glyphicon glyphicon-user"></span> </label>
-								        <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+								        <label for="userEmail"><span class="glyphicon glyphicon-user"></span> </label>
+								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요.">
 								      </div>
 									  <div class="g-recaptcha" data-sitekey="6LcPSqIaAAAAAH_msgzY3LP3lNJ207FQ4ujognJW"></div>
 								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="userEmailChk();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
@@ -229,7 +225,6 @@
 								  <div class="modal-footer">
 								    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
 								    <p>Not a member? <a href="#">Sign Up</a></p>
-								    <p>Forgot <a href="#">Password?</a></p>
 								  </div>
 								</div>
 							    
