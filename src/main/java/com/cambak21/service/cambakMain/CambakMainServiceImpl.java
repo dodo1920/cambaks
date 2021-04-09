@@ -46,11 +46,15 @@ public class CambakMainServiceImpl implements CambakMainService {
 		
 		return param;
 	}
+
 	
 //	=============================효원 Service 끝=======================================================
 	
 //	=============================도연 Service=======================================================
-	
+	@Override
+	public List<CampingVO> getCampings(String searchWord) throws Exception {
+		return dao.getCampings(searchWord);
+	}
 	
 	
 	

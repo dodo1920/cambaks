@@ -66,7 +66,10 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 //	=============================효원 DAO 끝=======================================================
 	
 //	=============================도연 DAO=======================================================
-	
+	@Override
+	public List<CampingVO> getCampings(String searchWord) throws Exception {
+		return session.selectList(nameSpace + ".getCampings", searchWord);
+	}
 	
 	
 	

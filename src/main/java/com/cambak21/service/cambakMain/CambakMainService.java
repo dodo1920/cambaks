@@ -22,7 +22,7 @@ public interface CambakMainService {
 //	=============================효원 인터페이스 끝=======================================================
 	
 //	=============================도연 인터페이스=======================================================
-	
+	public List<CampingVO> getCampings(String searchWord) throws Exception;
 	
 	
 	

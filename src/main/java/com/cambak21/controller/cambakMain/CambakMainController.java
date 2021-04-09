@@ -1,12 +1,17 @@
 package com.cambak21.controller.cambakMain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cambak21.domain.CampingVO;
 import com.cambak21.service.cambakMain.CambakMainService;
 
 @Controller
@@ -34,8 +39,10 @@ public class CambakMainController {
 // ================================================효원 메인 끝 ==================================================================
 //	==============================================도연 검색 결과 부분 ============================================================
 	@RequestMapping(value="/result", method=RequestMethod.GET)
-	private String getResultPage(Model model) throws Exception {
-		return "/cambakMain/cambak21Result";
+	private void getResultPage(@RequestParam("keyword") String keyword) throws Exception {
+		List<CampingVO> campingLst = new ArrayList<CampingVO>();
+		campingLst = service.getCampings(keyword);
+//		return "/cambakMain/cambak21Result";
 	}
 	
 	
