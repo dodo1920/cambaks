@@ -25,6 +25,36 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+<script>
+
+ $(document).ready(function() {
+
+	alert("12313");
+	console.log("${NewProduct7.product_id}");
+ });
+
+
+	 
+</script>
+
+
+
+<style>
+	.middleCategory_Title{
+		margin-left:15px;
+	}
+	.filerCategory_Middle{
+    	margin-left: 135px;
+	}
+
+
+
+
+
+</style>
+
+
 </head>
 <body>
 
@@ -95,12 +125,12 @@
 <section class="product spad">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-4">
+            <div class="middleCategory_Title">
                 <div class="section-title">
                     <h4>New product</h4>
                 </div>
             </div>
-            <div class="col-lg-8 col-md-8">
+            <div class="filerCategory_Middle">
                 <ul class="filter__controls">
                     <li class="active" data-filter=".tent">텐트/타프</li>
                     <li data-filter=".women">침낭/매트</li>
@@ -114,12 +144,43 @@
             </div>
         </div>
         <div class="row property__gallery">
+        
+<%--         <c:forEach var="NewProduct1" items="${para.NewProduct1 }" varStatus="status"> --%>
+<%-- 			 <c:choose> --%>
+						
+<!-- 			     <div class="col-lg-3 col-md-4 col-sm-6 mix women"> -->
+<!-- 	                <div class="product__item"> -->
+<!-- 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg"> -->
+<!-- 	                        <div class="label new">New</div> -->
+<!-- 	                        <ul class="product__hover"> -->
+<!-- 	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li> -->
+<!-- 	                        </ul> -->
+<!-- 	                    </div> -->
+<!-- 	                    <div class="product__item__text"> -->
+<%-- 	                        <h6><a href="#">${para.NewProduct1.product_name }</a></h6> --%>
+<!-- 	                        <div class="rating"> -->
+<!-- 	                            <i class="fa fa-star"></i> -->
+<!-- 	                            <i class="fa fa-star"></i> -->
+<!-- 	                            <i class="fa fa-star"></i> -->
+<!-- 	                            <i class="fa fa-star"></i> -->
+<!-- 	                            <i class="fa fa-star"></i> -->
+<!-- 	                        </div> -->
+<%-- 	                        <div class="product__price">${para.NewProduct1.product_sellPrice}</div> --%>
+<!-- 	                    </div> -->
+<!-- 	                </div> -->
+<!-- 	             </div> -->
+								 
+<%-- 						</c:choose> --%>
+<%-- 					</c:forEach> --%>
+        
+        
+        
+     	
             <div class="col-lg-3 col-md-4 col-sm-6 mix women">
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
                         <div class="label new">New</div>
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -136,11 +197,14 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            
             <div class="col-lg-3 col-md-4 col-sm-6 mix men">
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-2.jpg">
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -162,7 +226,7 @@
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-3.jpg">
                         <div class="label stockout">out of stock</div>
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                           
                    			<li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -183,7 +247,7 @@
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-4.jpg">
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                           
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -204,7 +268,7 @@
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-5.jpg">
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-5.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                           
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -226,7 +290,7 @@
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-6.jpg">
                         <div class="label sale">Sale</div>
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-6.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                          
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -247,7 +311,7 @@
                 <div class="product__item">
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-7.jpg">
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-7.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                           
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -269,7 +333,7 @@
                     <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-8.jpg">
                         <div class="label">Sale</div>
                         <ul class="product__hover">
-                            <li><a href="../../resources/mallMain/img/product/product-8.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                          
                             <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                         </ul>
                     </div>
@@ -552,7 +616,7 @@
                 <div class="services__item">
                     <i class="fa fa-car"></i>
                     <h6>저렴한 배송비</h6>
-                    <p>전세계 어디든 동일한 가격</p>
+                    <p>기본 2,500원</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-4 col-sm-6">
