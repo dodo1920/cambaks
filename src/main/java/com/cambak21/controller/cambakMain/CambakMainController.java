@@ -16,6 +16,7 @@ public class CambakMainController {
 	@Inject
 	private CambakMainService service;
 	
+//	=============================================효원 메인부분 =================================================================
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	private String mainPageIndex(Model model) throws Exception {
 		
@@ -23,5 +24,36 @@ public class CambakMainController {
 		model.addAttribute("Boards", service.readRecentBoard());
 		return "/cambakMain/cambak21Main";
 	}
+	
+	
+	
+	
+	
+	
+	
+// ================================================효원 메인 끝 ==================================================================
+//	==============================================도연 검색 결과 부분 ============================================================
+	@RequestMapping(value="/result", method=RequestMethod.GET)
+	private String getResultPage(Model model) throws Exception {
+		return "/cambakMain/cambak21Result";
+	}
+	
+	
+	
+	
+	
+	
+//	==============================================도연 검색 결과 끝 ================================================================
+	
+//	==============================================정민 상세페이지 부분 =============================================================
+	
+	
+	
+	
+	
+	
+//	===============================================정민 상세페이지 끝 ===============================================================
+	
+	
 	
 }
