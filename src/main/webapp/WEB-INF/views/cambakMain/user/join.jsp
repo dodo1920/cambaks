@@ -35,8 +35,6 @@
 <script src="/resources/cambak21/js/registerDaumPost.js"></script>
 
 <script>
-	let checkResult = false;
-	
 	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규표현식
 	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
 	let numberJ = /[0-9]/; // 숫자 정규표현식
@@ -45,22 +43,137 @@
 	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
 
    $(document).ready(function() {
-      
+	   
    });
    
    	function checkAllContent() {
+   		let result = true;
    		
    		// 아이디 체크
    		let userId = $("#userId").val();
    		
    		if (userId.length == 0) {
    			alert("아이디를 입력해주세요.");
+   			result = false;
+   			return;
    		} else if (!idJ.test(userId)) {
-   			alert("입력하신 아이디를 사용할 수 없습니다.");
-   		} 
+   			alert("입력하신 아이디는 사용할 수 없습니다.");
+   			result = false;
+   			return;
+   		}
    		
+   		// 아이디 중복 확인
+	    $.ajax({
+			   method: "POST",
+			   url: "/user/register/checkId",
+			   dataType: "text",
+			   async: false,
+			   data : {member_id : userId},
+			   success : function(data) {
+					 if(data == "fail") {
+					  alert("입력하신 아이디는 사용할 수 없습니다.");
+					  result = false;
+					  return;
+				  }
+			   }
+			 }); 
+   		
+   		
+   		// 비밀번호 체크
+	    let userPwd = $("#member_password").val(); // 비밀번호
+	    let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인
+   		
+	    if (userPwd.length < 8 || userPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
+	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+	   		result = false;
+	   		return;
+	    } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
+	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+	   		result = false;
+	   		return;
+	    } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
+	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+	   		result = false;
+	   		return;
+	    } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
+	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+	   	    result = false;
+	   		return;
+	    } else if (userPwd.length == 0) {
+	    	alert("비밀번호를 입력해주세요.");
+	   		result = false;
+	   		return;
+	    } else if (userPwd != userPwdChk) {
+	    	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
+	   		result = false;
+	   		return;
+	    }
+   		
+	    
+	 	// 이름 체크
+	 	let userName = $("#member_name").val();
+	 	
+	 	if (userName.length == 0) {
+			alert("이름을 입력해주세요.");
+	   		result = false;
+	   		return;
+		} else if (!nameJ.test(userName)) {
+	    	alert("이름을 확인바랍니다.(한글만 작성 가능)");
+	   		result = false;
+	   		return;
+		} else if (userName.length < 1 && userName.length > 18) { // 이름이 2~17과 다를 경우
+			alert("입력하신 이름은 사용할 수 없습니다.");
+	   		result = false;
+	   		return;
+		}
+	    
+	 	// 생년월일 체크 및 submit 가능하도록 input 태그에 값 넣기
+	    let userBirthYear = $("#userBirthYear").val();
+	    let userBirthMonth = $("#userBirthMonth").val();
+	    let userBirthDate = $("#userBirthDate").val();
+	    
+	    if (userBirthYear.length == 0 || userBirthYear < 1920 || userBirthYear > 2021 || userBirthDate.length == 0 || userBirthDate < 1 
+	    		|| userBirthDate > 31 || !numberJ.test(userBirthYear) || userBirthMonth == "empty") {
+			alert("생년월일을 확인해주세요.");
+	   		result = false;
+	   		return;
+	    }
+	    
+	    // submit 실행 시 생년월일이 전달될 수 있도록 value에 넣기
+	    $("#member_birth").val(userBirthYear + "-" + userBirthMonth + "-" + userBirthDate);
+	    
+	    
+	 	// 휴대전화 번호 체크 및 submit 가능하도록 input 태그에 값 넣기
+	    let phoneFirst = $("#phoneFirst").val();
+	    let phoneSecond = $("#phoneSecond").val();
+	    let phoneThird = $("#phoneThird").val();
+	    
+	    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
+			alert("휴대전화 번호를 확인해주세요.");
+	   		result = false;
+	   		return;
+	    }
+	    
+	    // submit 실행 시 휴대폰 번호가 전달될 수 있도록 value에 넣기
+	    $("#member_mobile").val(phoneFirst + "-" + phoneSecond + "-" + phoneThird);
+	    
+	    
+	 	// 주소 체크 및 submit 가능하도록 input 태그에 값 넣기
+	    let address = $("#sample6_address").val();
+	    
+	    if (address.length == 0) {
+			alert("주소를 입력해주세요.");
+	   		result = false;
+	   		return;
+	    }
+
+	    // 유효성 검사 완료 시 submit
+   		if (result) {
+   			$("#saveNewMember").submit();
+   		}
 	}
 	
+   	
 	function onlyNumberChk(obj) { // 숫자 입력 창 유효성 검사
 		let inputId = $(obj).attr("id");
 		let userInput = $("#" + inputId).val();
@@ -80,7 +193,7 @@
 		if (!nameJ.test(userName)) {
 		    $("#userNameBar").css("display", "inline-block");
 		    $("#userNameCheck").attr("class", "changeTextBarMsg");
-		    $("#userNameCheck").text("이름을 정확히 작성바랍니다.");
+		    $("#userNameCheck").text("이름은 한글만 작성 가능합니다.");
 		} else if (userName.length < 1 && userName.length > 18) { // 이름이 2~17과 다를 경우
 		    $("#userNameBar").css("display", "inline-block");
 		    $("#userNameCheck").attr("class", "changeTextBarMsg");
@@ -255,7 +368,7 @@
 }
 
 .contentPlace{
-	margin-left: 25.5%;
+	margin: 0 auto;
 	width: 900px;
 }
 
@@ -283,6 +396,7 @@
 	padding-bottom: 5px;
 	font-size: 12px;
 	color: #ea2940;
+	font-weight: bold;
 }
 
 .registerTable {
@@ -389,6 +503,7 @@
 .resultPost {
 	margin-top: 5px;
     margin-bottom: 10px;
+    font-size: 13px;
 }
 
 </style>
@@ -410,7 +525,7 @@
 						<span class="registerEtc">* 아래의 항목을 모두 작성바랍니다.</span>
 						</div>
 					</div>
-					<form action="">
+					<form action="" id="saveNewMember">
 						<table class="registerTable">
 							<tr>
 								<th class="tableTitleSize">아이디</th>
@@ -471,6 +586,7 @@
 								<th class="tableTitleSize">생년월일</th>
 								<td class="tableContentSize">
 									<div>
+										<input type="hidden" name="member_birth" id="member_birth" />
 										<span>
 											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)"/>-
 										</span>
@@ -492,7 +608,7 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="4" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"/>
+											-<input type="text" maxlength="2" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"/>
 										</span>
 									</div>
 								</td>
@@ -501,7 +617,7 @@
 								<th class="tableTitleSize">이메일</th>
 								<td class="tableContentSize">
 									<div>
-										<input type="text" size="40" placeholder="qwe@nd.com" readonly/>
+										<input type="text" size="40" name="member_email" value="qwe@nd.com" readonly/>
 									</div>
 								</td>
 							</tr>
@@ -509,6 +625,7 @@
 								<th class="tableTitleSize">휴대전화</th>
 								<td class="tableContentSize">
 									<div>
+										<input type="hidden" name="member_mobile" id="member_mobile" />
 										<span>
 											<select class="phoneFirst" id="phoneFirst">
 												<option value="010">010</option>
@@ -531,13 +648,13 @@
 							<tr>
 								<th class="tableTitleSize">주소</th>
 								<td class="tableContentSize">
-									<input type="text" id="sample6_postcode" readonly>
-									<input type="button" onclick="sample6_execDaumPostcode()" class="searchPost" value="우편번호 찾기">
+									<input type="text" id="sample6_postcode" name="member_postCode" style="font-size: 13px;" readonly>
+									<input type="button" onclick="sample6_execDaumPostcode();" class="searchPost" value="우편번호 찾기">
 									<br>
-									<input type="text" class="resultPost" id="sample6_address" size="50" readonly>
+									<input type="text" class="resultPost" id="sample6_address" name="member_addr" size="55" readonly>
 									<span class="textBarInfo">기본주소</span>
 									<br>
-									<input type="text" id="sample6_detailAddress" size="50">
+									<input type="text" id="sample6_detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;">
 									<span class="textBarInfo">나머지주소 (선택입력가능)</span>
 								</td>
 							</tr>
@@ -551,7 +668,7 @@
 						</table>
 						<div class="registerBtn">
 							<button class="registerBtnCancle">취소</button>
-							<button type="submit" class="registerBtnSubmit" onclick="checkAllContent(); return false;">회원가입</button>
+							<button type="button" class="registerBtnSubmit" onclick="checkAllContent();">회원가입</button>
 						</div>
 				</form>
 			</div>
