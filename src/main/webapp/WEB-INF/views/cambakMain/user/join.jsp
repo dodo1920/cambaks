@@ -133,7 +133,7 @@
 	    let userBirthDate = $("#userBirthDate").val();
 	    
 	    if (userBirthYear.length == 0 || userBirthYear < 1920 || userBirthYear > 2021 || userBirthDate.length == 0 || userBirthDate < 1 
-	    		|| userBirthDate > 31 || !numberJ.test(userBirthYear) || userBirthMonth == "empty") {
+	    		|| userBirthDate > 31 || !numberJ.test(userBirthYear) || !numberJ.test(userBirthDate) || userBirthMonth == "empty") {
 			alert("생년월일을 확인해주세요.");
 	   		result = false;
 	   		return;

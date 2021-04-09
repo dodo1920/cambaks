@@ -34,12 +34,74 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/resources/cambak21/js/registerDaumPost.js"></script>
 
+
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
 <script>
+   let capchaResult = "FAIL";
+   
    $(document).ready(function() {
+
 	   
    });
    
+   function userEmailChk() {
+	   
+	   googleCapchaChk();
+	   
+	   if (capchaResult == "OK") {
+		   
+		   alert("이메일 보냈삼");
+	   } else if (capchaResult == "FAIL") {
+		   alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+	   }
+	   
+   }
+   
+   function sendEamil() {
+	   
+		$.ajax({
+            url: '/user/register/sendRegisterEmail',
+            type: 'post',
+            dataType: "text",
+            async: false,
+            data: { recaptcha: $("#g-recaptcha-response").val() },
+            success: function(data) {
+            	if (data == "success") {
+            		capchaResult = "OK";
+            	} else if (data == "fail") {
+            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+            	} else if (data == "error") {
+            		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+                }
+            }
+        });
+		
+   }
 
+   function googleCapchaChk() {
+	   
+		$.ajax({
+            url: '/user/register/checkRecaptcha',
+            type: 'post',
+            dataType: "text",
+            async: false,
+            data: { recaptcha: $("#g-recaptcha-response").val() },
+            success: function(data) {
+            	if (data == "success") {
+            		capchaResult = "OK";
+            	} else if (data == "fail") {
+            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+            	} else if (data == "error") {
+            		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+                }
+            }
+            
+        });
+				
+   }
+   
+   
    
    
 </script>
@@ -160,11 +222,8 @@
 								        <label for="usrname"><span class="glyphicon glyphicon-user"></span> </label>
 								        <input type="text" class="form-control" id="usrname" placeholder="Enter email">
 								      </div>
-								      
-								      
-								      
-								      
-								        <button type="submit" class="btn btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+									  <div class="g-recaptcha" data-sitekey="6LcPSqIaAAAAAH_msgzY3LP3lNJ207FQ4ujognJW"></div>
+								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="userEmailChk();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
 								    </form>
 								  </div>
 								  <div class="modal-footer">
