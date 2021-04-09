@@ -1,6 +1,9 @@
 package com.cambak21.controller;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cambak21.service.cambakMain.MemberService;
+import com.cambak21.util.GoogleCapcha;
 
 @Controller
 @RequestMapping(value="/user/*")
@@ -45,5 +49,47 @@ public class Register {
        return entity;
    }
 
+   @RequestMapping(value="register/checkRecaptcha", method = RequestMethod.POST)
+   public ResponseEntity<String> checkRecaptcha(@RequestParam("recaptcha") String recaptcha, HttpServletRequest request) {
+	   // 유저 recapcha 체크하기
+	   ResponseEntity<String> entity = null;
+	   
+	   GoogleCapcha.setSecretKey("6LcPSqIaAAAAAJL1k-pAZ1KuLXHzGCDG_aB80L8s");
+        //0 = 성공, 1 = 실패, -1 = 오류
+        try {
+            if(GoogleCapcha.verify(recaptcha)) {
+            	entity = new ResponseEntity<String>("success", HttpStatus.OK);
+            } else {
+            	entity = new ResponseEntity<String>("fail", HttpStatus.OK);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>("error", HttpStatus.OK);
+        }
+
+        return entity;
+   }
+   
+   @RequestMapping(value="register/sendRegisterEmail", method = RequestMethod.POST)
+   public ResponseEntity<String> sendRegisterEmail(@RequestParam("recaptcha") String recaptcha, HttpServletRequest request) {
+	   // 유저 recapcha 체크하기
+	   ResponseEntity<String> entity = null;
+	   
+	   GoogleCapcha.setSecretKey("6LcPSqIaAAAAAJL1k-pAZ1KuLXHzGCDG_aB80L8s");
+        //0 = 성공, 1 = 실패, -1 = 오류
+        try {
+            if(GoogleCapcha.verify(recaptcha)) {
+            	entity = new ResponseEntity<String>("success", HttpStatus.OK);
+            } else {
+            	entity = new ResponseEntity<String>("fail", HttpStatus.OK);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>("error", HttpStatus.OK);
+        }
+
+        return entity;
+   }
+   
 }
 
