@@ -268,24 +268,43 @@ function default_addr() {
     <table class="table">
     	<thead>
     	<tr>
+    		<th style="display: none">번호</th>
     		<th colspan="2">상품정보</th>
     		<th>상품금액</th>
     		<th>수량</th>
-    		<th>할인금액</th>
     		<th>배송비</th>
     		<th>주문금액</th>
     	</tr>
     	</thead>
     	<tbody>
-    	<tr>
+    	
+    	
+		<tr>
+			<td style="display: none">번호</th>
     		<td><img alt="" src="../../resources/img/test.jpg" style="width:100px"> </td>
     		<td>컵누들</td>
     		<td>10,000<i>원</i></td>
     		<td>1</td>
-    		<td>0<i>원</i></td>
     		<td>2500<i>원</i></td>
     		<td>12,500<i>원</i></td>
-    	</tr>
+   		</tr>
+    	
+    	
+    	<c:forEach var="item" items="${prodList }">
+    		<c:if test="${item.boyProduct_isFinished == Y and loginMember.member_id == item.member_id}">
+				<tr>
+					<td style="text-align: center;">${item.buyProduct_no }</td>
+					<td style="text-align: center; width: 100px;">${item.product_img1 }</td>
+		    		<td style="text-align: center;">${item.product_name }</td>
+		    		<td style="text-align: center;">${item.product_sellPrice }</td>
+		    		<td style="text-align: center;">${item.buyProduct_qty }</td>
+		    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td>
+		    		<td style="text-align: center;">${item.totPrice }</td>
+	    		</tr>
+	    	</c:if>
+    	</c:forEach>
+    	
+    	
     	</tbody>
     	<tfoot>
     		<tr>
