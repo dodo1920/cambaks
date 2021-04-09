@@ -54,8 +54,8 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	@Override
 	public int memberInsert(MemberVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		// 유저가 작성한 회원 정보 저장
+		return ses.insert(namespace + ".MemberInsert", vo);
 	}
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	

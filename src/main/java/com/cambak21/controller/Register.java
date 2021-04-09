@@ -13,15 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailParseException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMain.MemberService;
 import com.cambak21.util.GoogleCapcha;
 
@@ -45,6 +46,27 @@ public class Register {
    @RequestMapping(value="join", method = RequestMethod.GET)
    public String join() {
       return "cambakMain/user/join";
+   }
+   
+   @RequestMapping(value="joinComplete", method = RequestMethod.POST)
+   public String joinMember(MemberVO vo, Model model) throws Exception {
+	   String result;
+	   System.out.println(vo.toString());
+	   
+	   if (vo.getMember_img() == null) {
+		   vo.setMember_img("/resources/cambak21/img/profileDefualt.png");
+	   }
+	   
+	   if (service.memberInsert(vo)) {
+		   model.addAttribute("joinMember", vo);
+		   result = "success";
+		   model.addAttribute("result", result);
+	   } else {
+		   result = "fail";
+		   model.addAttribute("result", result);
+	   }
+	   	   
+	   return "cambakMain/user/joinComplete";
    }
    
    @RequestMapping(value="register/checkId", method = RequestMethod.POST)
@@ -79,7 +101,7 @@ public class Register {
             }
         } catch (IOException e) {
         	e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<String>("error", HttpStatus.BAD_REQUEST);
         }
 
         return entity;
@@ -118,6 +140,7 @@ public class Register {
 				mailSender.send(preparator); // 메일 발송
 				HttpSession ses = request.getSession();
 				ses.setAttribute("registerUUID", uuid);
+				ses.setAttribute("registerEmail", userEmail);
 				
 		   } else { // 중복되는 이메일이 있음
 			   entity = new ResponseEntity<String>("impossibility", HttpStatus.OK);

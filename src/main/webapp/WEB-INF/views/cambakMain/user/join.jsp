@@ -43,6 +43,15 @@
 	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
 
    $(document).ready(function() {
+	   let user = '${param.user }';
+	   let userEmail = '${param.email }';
+	   let checkId = '${registerUUID }';
+	   let checkEmail = '${registerEmail }';
+	   
+	   if (user != checkId || userEmail != checkEmail) {
+		   alert("잘못된 접근입니다.");
+		   history.back();
+	   }
 	   
    });
    
@@ -139,8 +148,13 @@
 	   		return;
 	    }
 	    
+	    if (userBirthDate.length == 1) {
+	    	userBirthDate = "0" + userBirthDate;
+	    }
+	    
 	    // submit 실행 시 생년월일이 전달될 수 있도록 value에 넣기
-	    $("#member_birth").val(userBirthYear + "-" + userBirthMonth + "-" + userBirthDate);
+	    let birthday = new Date(userBirthYear, userBirthMonth-1, userBirthDate);
+	    $("#member_birth").val(birthday);
 	    
 	    
 	 	// 휴대전화 번호 체크 및 submit 가능하도록 input 태그에 값 넣기
@@ -177,7 +191,7 @@
 	function onlyNumberChk(obj) { // 숫자 입력 창 유효성 검사
 		let inputId = $(obj).attr("id");
 		let userInput = $("#" + inputId).val();
-		
+	    
 		if (!numberJ.test(userInput)) { // 숫자 외의 문자 작성 시 작성한 글자 삭제
 		    $("#" + inputId).val($("#" + inputId).val().replace(StringJ,""));
 		    $("#" + inputId).val($("#" + inputId).val().replace(koreanJ,""));
@@ -525,7 +539,7 @@
 						<span class="registerEtc">* 아래의 항목을 모두 작성바랍니다.</span>
 						</div>
 					</div>
-					<form action="" id="saveNewMember">
+					<form id="saveNewMember" action="joinComplete" method="post">
 						<table class="registerTable">
 							<tr>
 								<th class="tableTitleSize">아이디</th>
@@ -617,7 +631,7 @@
 								<th class="tableTitleSize">이메일</th>
 								<td class="tableContentSize">
 									<div>
-										<input type="text" size="40" name="member_email" value="qwe@nd.com" readonly/>
+										<input type="text" size="40" name="member_email" id="member_email" value="${registerEmail }" readonly/>
 									</div>
 								</td>
 							</tr>
