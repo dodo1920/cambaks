@@ -33,7 +33,9 @@ console.log(member_id);
 
 function showPointList() {
 
-	let output="<div>";
+	let showDate;
+	let showThisDate;
+	let output="<div><table class='table table-hover'>";
 	$.ajax({
     type		: "post",
     url 		: "/myMall/myPoint/" + member_id,
@@ -41,14 +43,34 @@ function showPointList() {
     success 	: function(data) {
     	console.log(data);
     	$(data).each(function(index, item) {
-    		output += "<span>" + item.point_usedPoint +"</span>";
+    		// 날짜 출력 포맷 변경 부분
+   		 	showDate = new Date(item.payment_date);
+            showThisDate = showDate.toLocaleString();
+            //console.log(typeof(item.buyProduct_totPrice));
+            if(item.buyProduct_totPrice != 0){
+            	output += "<tr><td><span>사용</span></td>";
+            	output += "<td><span>" + item.product_name +"</span></td>";
+        		output += "<td><span>" + item.buyProduct_totPrice +"</span></td>";
+        		output += "<td><span>" + item.point_reason +"</span></td>";
+        		output += "<td><span>" + item.point_usedPoint +"</span></td>";
+        		output += "<td><span>" + item.point_futurePoint +"</span></td>";
+        		output += "<td><span>" + showThisDate +"</span></td></tr>";
+            } else{
+                output += "<tr><td><span>" + item.product_name +"</span></td>";
+        		output += "<td><span>" + item.buyProduct_totPrice +"</span></td>";
+        		output += "<td><span>" + item.point_reason +"</span></td>";
+        		output += "<td><span>" + item.point_usedPoint +"</span></td>";
+        		output += "<td><span>" + item.point_futurePoint +"</span></td>";
+        		output += "<td><span>" + showThisDate +"</span></td></tr>";
+            }
+    		
     	});
-    	output += "</div>";
+    	output += "</table></div>";
+    	$("#myPoint").html(output);
     }
 	
 });
 
-	$("#myPoint").html(output);
 }
 
 $(function() {
@@ -72,7 +94,6 @@ $(function() {
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
-					<h1>포인트 내역</h1>
 					<div id="myPoint"></div>
 				</div>
 			</div>

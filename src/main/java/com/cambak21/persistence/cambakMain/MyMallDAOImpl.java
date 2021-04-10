@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
@@ -43,7 +44,7 @@ public class MyMallDAOImpl implements MyMallDAO {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 포인트 적립 내역 가져오기
 	@Override
-	public List<PointVO> getPointList(String member_id) throws Exception {
+	public List<MyPointVO> getPointList(String member_id) throws Exception {
 		return ses.selectList(ns + ".getPointList", member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

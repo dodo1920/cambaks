@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
@@ -38,7 +39,7 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 포인트 적립내역 가져오기
 	@Override
-	public List<PointVO> getPointList(String member_id) throws Exception {
+	public List<MyPointVO> getPointList(String member_id) throws Exception {
 		return dao.getPointList(member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

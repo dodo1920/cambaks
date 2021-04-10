@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.service.cambakMain.MyMallService;
@@ -66,21 +67,19 @@ public class MyMallController {
 	}
 		
 	@RequestMapping(value="myPoint/{member_id}", method=RequestMethod.POST)
-	   public @ResponseBody Map<String, Object> myPointList(@PathVariable("member_id") String member_id){
+	   public @ResponseBody List<MyPointVO> myPointList(@PathVariable("member_id") String member_id){
 	       logger.info("/myPointList의 ajax-POST방식 호출");
 	       System.out.println(member_id);
-	       Map<String, Object> result = new HashMap<String, Object>();
-	       List<PointVO> vo = null;
+	       List<MyPointVO> vo = null;
 	       try {
 			vo = service.getPointList(member_id);
 			System.out.println(vo.toString());
-			result.put("PointList", vo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	       
-	      return result;
+	      return vo;
 	   }
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

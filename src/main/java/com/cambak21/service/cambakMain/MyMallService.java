@@ -2,6 +2,7 @@ package com.cambak21.service.cambakMain;
 
 import java.util.List;
 
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
@@ -21,7 +22,7 @@ public interface MyMallService {
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-	public List<PointVO> getPointList(String member_id) throws Exception;	
+	public List<MyPointVO> getPointList(String member_id) throws Exception;	
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
