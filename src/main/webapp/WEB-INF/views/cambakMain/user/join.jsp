@@ -41,6 +41,8 @@
 	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
 	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
 	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
+	let fileFormJ = /(.*?)\.(jpg|jpeg|png|gif)$/;
+	let savedProFile ="";
 
    $(document).ready(function() {
 	   let user = '${param.user }';
@@ -48,12 +50,90 @@
 	   let checkId = '${registerUUID }';
 	   let checkEmail = '${registerEmail }';
 	   
-	   if (user != checkId || userEmail != checkEmail) {
-		   alert("잘못된 접근입니다.");
-		   history.back();
-	   }
+// 	   if (user != checkId || userEmail != checkEmail) {
+// 		   alert("잘못된 접근입니다.");
+// 		   history.back();
+// 	   }
+	   
+	   $('#clickFileSelector').click(function (e) {
+			// 업로드 버튼이 클릭되면 파일 찾기 창을 띄운다.
+			e.preventDefault();
+			$('#profile').click();
+		});
+
+
 	   
    });
+   
+	function saveUserProFile() {
+
+		let imgFile = $('#profile').val();
+		imgFile = imgFile.substring(imgFile.lastIndexOf(".") + 1);
+		
+		let maxSize = 10 * 1024 * 1024; // 10485760 byte
+		
+		if(imgFile != "") {
+			let fileSize = $("#profile")[0].files[0].size;
+		    
+		    if(fileFormJ.test(imgFile)) {
+		    	alert("이미지 파일만 업로드 가능");
+		        return;
+		    } else if(fileSize > maxSize) {
+		    	alert("파일 사이즈는 10MB까지 가능");
+		        return;
+		    }
+		}
+		
+		if (savedProFile == "") {
+			profileSave();
+		} else {
+			deleteTmpProfile();
+			profileSave();
+		}
+		
+	}
+	
+	function deleteTmpProfile() {
+		
+		$.ajax({
+			url : '/user/deleteProfile',
+			data : {tmpProfile : savedProFile},
+			dataType : 'text', // 응답받을 타입
+			type : 'post',
+			success : function(result) {
+				
+			},
+			fail : function(result) {
+				alert("사진 첨부를 실패했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			}
+		})
+		
+	}
+	
+	function profileSave() {
+		
+		let formData = new FormData();
+		formData.append("file", $("#profile")[0].files[0]);
+		
+		$.ajax({
+			url : '/user/uploadAjax',
+			data : formData,
+			dataType : 'text', // 응답받을 타입
+			type : 'post',
+			processData : false, // 전송하는 데이터를 쿼리스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : apllication/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				savedProFile = result;
+				$("#member_img").val("memberProfile/" + result);
+				$("#tmpUserProfile").attr("src", "/resources/uploads/memberProfile/" + result);
+			},
+			fail : function(result) {
+				alert("사진 첨부를 실패했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+			}
+		})
+		
+	}
+   
    
    	function checkAllContent() {
    		let result = true;
@@ -356,11 +436,6 @@
 		   
 	   }
 	   
-   
-   
-   
-   
-   
 </script>
 
 <style type="text/css">
@@ -520,6 +595,26 @@
     font-size: 13px;
 }
 
+.tmpProfile {
+    float: left;
+    overflow: hidden;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 15px;
+}
+
+.uploadBtn {
+	margin-top: 8px;
+    vertical-align: middle;
+    background-color: #353535;
+    font-size: 14px;
+    color: #fff;
+    display: inline-block;
+    font-weight: bold;
+}
+
 </style>
 
 </head>
@@ -675,14 +770,21 @@
 							<tr>
 								<th class="tableTitleSize">프로필사진</th>
 								<td class="tableContentSize">
-									<input type="checkbox" id="agree" />약관에 동의합니다.
-									<button type="button" data-toggle="modal" data-target="#myModal">이용약관 확인하기</button>
+									<input type="hidden" name="member_img" id="member_img" value="memberProfile/profileDefualt.png"/>
+									<input type="file" id="profile" accept="image/jpeg, image/png, image/jpg, image/gif" onchange="saveUserProFile();" style="display : none;">
+									<div>
+									<img src="/resources/uploads/memberProfile/profileDefualt.png" id="tmpUserProfile" class="tmpProfile" />
+									</div>
+									<div>
+									<button id="clickFileSelector" class="uploadBtn">업로드</button>
+									</div>
+									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(gif/jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
 							</tr>
 						</table>
 						<div class="registerBtn">
 							<button class="registerBtnCancle">취소</button>
-							<button type="button" class="registerBtnSubmit" onclick="checkAllContent();">회원가입</button>
+							<button class="registerBtnSubmit" onclick="checkAllContent();">회원가입</button>
 						</div>
 				</form>
 			</div>

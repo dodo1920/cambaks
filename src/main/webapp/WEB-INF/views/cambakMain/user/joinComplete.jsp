@@ -194,9 +194,10 @@ $(document).ready(function() {
 
 .userProfile {
 	margin: 0 200px;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
 </style>
@@ -216,7 +217,7 @@ $(document).ready(function() {
 					</div>
 					<div class="informationSite">
 						<div class="informationBar">
-							<div><img src="${joinMember.member_img }" class="userProfile" /></div>
+							<div><img src="/resources/uploads/${joinMember.member_img }" class="userProfile" /></div>
 							<div class="welcomeInfo">회원가입이 완료 되었습니다.</div>
 							<div class="welcomeMsg">
 								<p class="userInfo"><strong>${joinMember.member_name }</strong>님의 회원가입을 축하드립니다.</p>

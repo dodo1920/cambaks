@@ -1,6 +1,10 @@
 package com.cambak21.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -18,13 +22,17 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMain.MemberService;
+import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.GoogleCapcha;
+import com.cambak21.util.MediaConfirm;
 
 @Controller
 @RequestMapping(value="/user/*")
@@ -37,7 +45,6 @@ public class Register {
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	
-   
    @RequestMapping(value="register", method = RequestMethod.GET)
    public String register() {
       return "cambakMain/user/registetConfirmation";
@@ -52,10 +59,6 @@ public class Register {
    public String joinMember(MemberVO vo, Model model) throws Exception {
 	   String result;
 	   System.out.println(vo.toString());
-	   
-	   if (vo.getMember_img() == null) {
-		   vo.setMember_img("/resources/cambak21/img/profileDefualt.png");
-	   }
 	   
 	   if (service.memberInsert(vo)) {
 		   model.addAttribute("joinMember", vo);
@@ -149,5 +152,77 @@ public class Register {
         return entity;
    }
    
+   
+   @RequestMapping(value="test", method = RequestMethod.GET)
+   public String test() {
+      return "cambakMain/user/test";
+   }
+   
+   @RequestMapping(value="/deleteProfile", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteProfile(HttpServletRequest request, @RequestParam("tmpProfile") String tmpProfile) {
+	   String path = request.getSession().getServletContext().getRealPath("resources/uploads/memberProfile");
+	   String thumbFile = path + File.separator + tmpProfile;
+	   System.out.println(thumbFile);
+	   new File(thumbFile).delete();
+	   
+	   return new ResponseEntity<String>("tmpDelete", HttpStatus.OK);
+   }
+   
+	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> fileTest(HttpServletRequest request, MultipartFile file) {
+
+		ResponseEntity<String> entity = null;
+		
+		System.out.println("업로드 파일 이름 : " + file.getOriginalFilename());
+		System.out.println("파일 사이즈 : " + file.getSize());
+		System.out.println("업로드 파일의 타입 : " + file.getContentType());
+		System.out.println("파일 separator : " + File.separator);
+		
+		String path = request.getSession().getServletContext().getRealPath("resources/uploads/memberProfile");
+		System.out.println(path);
+		
+		String name = file.getOriginalFilename();
+		
+		System.out.println(name.substring(name.lastIndexOf(".") + 1));
+		
+		try {
+			String saveFileName = uploadFile(path, file.getOriginalFilename(), file.getBytes());
+			
+			if (saveFileName == "noImg") {
+				entity = new ResponseEntity<String>("noImg", HttpStatus.OK);
+			} else {
+				String sendFileName = saveFileName.substring(saveFileName.lastIndexOf(File.separator) + 1);
+				entity = new ResponseEntity<String>(sendFileName, HttpStatus.OK);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+   
+	public String uploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
+		UUID uuid = UUID.randomUUID();
+		String ext = originalName.substring(originalName.lastIndexOf(".") + 1); // 확장자
+		
+		String savedName = uuid.toString() + "." + ext;
+		
+		File target = new File(uploadPath, savedName);
+		FileCopyUtils.copy(fileDate, target); // 실제 저장
+		
+		String uploadFileName = null;
+		if(MediaConfirm.getMediaType(ext) != null) {
+			uploadFileName = uploadPath + File.separator + savedName;
+		} else {
+			uploadFileName = "noImg";
+		}
+		
+		System.out.println("uploadFileName : " + uploadFileName);
+		
+		return uploadFileName;
+	}
+	
+	
 }
 
