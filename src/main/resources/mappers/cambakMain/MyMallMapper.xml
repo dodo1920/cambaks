@@ -34,7 +34,7 @@
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<select id="getPointList"
 		resultType="com.cambak21.domain.MyPointVO">
-		select p.point_no, p.member_id, p.grade_name, p.buyProduct_totPrice, p.point_reason, p.point_usedPoint, p.point_futurePoint, p.payment_date, b.product_name from Points p, BuyProducts b where p.buyProduct_no = b.buyProduct_no and p.member_id = #{member_id}
+		select p.point_no, p.member_id, p.grade_name, p.buyProduct_totPrice, p.point_reason, p.point_usedPoint, p.point_savingDate, p.point_futurePoint, p.payment_date, b.product_name from Points p, BuyProducts b where p.buyProduct_no = b.buyProduct_no and p.member_id = #{member_id} order by payment_date desc
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
