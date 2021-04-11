@@ -66,20 +66,31 @@ public class MyMallController {
 		return "cambakMain/myPage/myPoint";
 	}
 		
-	@RequestMapping(value="myPoint/{member_id}", method=RequestMethod.POST)
-	   public @ResponseBody List<MyPointVO> myPointList(@PathVariable("member_id") String member_id){
+	@RequestMapping(value="myPoint/{member_id}/{pageNum}", method=RequestMethod.POST)
+	   public @ResponseBody Map<String, Object> myPointList(@PathVariable("member_id") String member_id, @PathVariable("pageNum") int page){
+
+	       Map<String, Object> result = new HashMap<String, Object>();
 	       logger.info("/myPointList의 ajax-POST방식 호출");
 	       System.out.println(member_id);
+	       System.out.println(page);
 	       List<MyPointVO> vo = null;
+	       PagingCriteria cri = new PagingCriteria();
+	       PagingParam pp = new PagingParam();
+	       pp.setCri(cri);
+	       cri.setPage(page);
+	       
 	       try {
-			vo = service.getPointList(member_id);
+			vo = service.getPointList(member_id, cri);
+			pp.setTotalCount(service.getPointListCnt(member_id));
 			System.out.println(vo.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	       result.put("vo", vo);
+	       result.put("pagingParam", pp);
 	       
-	      return vo;
+	      return result;
 	   }
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

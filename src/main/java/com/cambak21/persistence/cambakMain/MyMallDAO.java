@@ -6,6 +6,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface MyMallDAO {
 
@@ -22,7 +23,9 @@ public interface MyMallDAO {
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 포인트 적립내역 가져오기
-	public List<MyPointVO> getPointList(String member_id) throws Exception;
+	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception;
+	
+	public int getPointListCnt(String member_id) throws Exception;
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
@@ -34,6 +37,8 @@ public interface MyMallDAO {
 	// 답변 가져오기
 	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
 
 
 

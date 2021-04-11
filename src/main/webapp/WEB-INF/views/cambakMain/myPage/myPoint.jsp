@@ -31,19 +31,25 @@
 
 let member_id = "${loginMember.member_id}";
 console.log(member_id);
+let pageNum;
 
-function showPointList() {
-
+function showPointList(pageNum) {
+	// 페이지 번호가 null인 경우, 1
+	if(pageNum == null){
+		pageNum =1;
+	}
+	
 	let showDate;
 	let showThisDate;
-	let output="<div><table class='table table-hover'>";
+	let output="<table class='table table-hover'>";
 	$.ajax({
     type		: "post",
-    url 		: "/myMall/myPoint/" + member_id,
+    url 		: "/myMall/myPoint/" + member_id + "/" + pageNum,
     contentType : "application/json",
     success 	: function(data) {
     	console.log(data);
-    	$(data).each(function(index, item) {
+    	pointList = data.vo;
+    	$(pointList).each(function(index, item) {
     		// 날짜 출력 포맷 변경 부분
    		 	showDate = new Date(item.payment_date);
             showThisDate = showDate.toLocaleString();
@@ -52,35 +58,36 @@ function showPointList() {
             //console.log(item.point_savingDate);
             console.log(typeof(item.point_reason));
             
+        	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //1.주문이 취소된 건인 경우,
             if(item.point_reason == "주문취소"){
             	
             	 if(item.point_usedPoint != 0){ //1-1.주문취소 + 포인트 사용
                  	//사용 포인트 반환
-                 	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div style="color: blue;">사용취소</div></td>';
+                 	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div style="color: red;">사용취소</div></td>';
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                 	output += '<td><div>포인트</div><div>+' + item.point_usedPoint +'</div></td></tr>';
+                 	output += '<td><div>포인트</div><div  style="color: red;">+' + item.point_usedPoint +'</div></td></tr>';
 
                  
                  if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정
                  	//적립 포인트 회수
-                 	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div>적립취소</div></td>';
+                 	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div  style="color: blue;">적립포인트회수</div></td>';
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                 	output += '<td><div>포인트</div><div>-' + item.point_futurePoint +'</div></td></tr>';
+                 	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
                  } 
                  else {
                 	 //주문취소+포인트 적립 예정
                  	//적립 예정 포인트 회수 표시
                  	
-                 	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: green;">적립예정포인트회수</div></td>';
+                 	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: blue;"">적립예정포인트회수</div></td>';
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                 	output += '<td><div>포인트</div><div>-' + item.point_futurePoint +'</div></td></tr>';
+                 	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
                  } 
                  }// end of 주문취소 + 포인트 사용
                  
@@ -89,21 +96,21 @@ function showPointList() {
                       
                       if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정
                       	//적립 포인트 회수
-                      	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div>적립취소</div></td>';
+                      	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div  style="color: blue;">적립포인트회수</div></td>';
                       	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                      	output += '<td><div>포인트</div><div>-' + item.point_futurePoint +'</div></td></tr>';
+                      	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
                       } 
                       //주문취소+포인트 적립 예정
                       else {
                       	//적립 예정 포인트 회수 표시
                       	
-                      	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: green;">적립예정포인트회수</div></td>';
+                      	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: blue;">적립예정포인트회수</div></td>';
                       	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                      	output += '<td><div>포인트</div><div>-' + item.point_futurePoint +'</div></td></tr>';
+                      	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
                       } 
     			}
             	 
@@ -120,22 +127,22 @@ function showPointList() {
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                 	output += '<td><div>포인트</div><div>-' + item.point_usedPoint +'</div></td></tr>';
+                 	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_usedPoint +'</div></td></tr>';
 
                  
                  if(item.point_savingDate != 978188400000){//주문취소x, 포인트 적립 확정
                  	//포인트 적립 적용
-                 	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div>적립완료</div></td>';
+                 	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div  style="color: green;">적립완료</div></td>';
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                 	output += '<td><div>포인트</div><div>+' + item.point_futurePoint +'</div></td></tr>';
+                 	output += '<td><div>포인트</div><div  style="color: green;">+' + item.point_futurePoint +'</div></td></tr>';
                  } 
                  else {
                 	 //주문취소x+포인트 적립 예정
                  	//적립 예정 포인트 표시
                  	
-                 	output += '<tr><td><img src="../../../resources/img/piggy-saving.png" class="pointImg" style="width: 50px;" /><div style="color: green;">적립예정</div></td>';
+                 	output += '<tr><td><img src="../../../resources/img/piggy-saving.png" class="pointImg" style="width: 50px;" /><div>적립예정</div></td>';
                  	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
@@ -147,17 +154,17 @@ function showPointList() {
                       
                       if(item.point_savingDate != 978188400000){//주문취소x+포인트 적립 확정
                       	//적립 포인트 확정
-                      	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div>적립완료</div></td>';
+                      	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div  style="color: green;">적립완료</div></td>';
                       	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
-                      	output += '<td><div>포인트</div><div>+' + item.point_futurePoint +'</div></td></tr>';
+                      	output += '<td><div>포인트</div><div  style="color: green;">+' + item.point_futurePoint +'</div></td></tr>';
                       } 
                       //주문취소x+포인트 적립 예정
                       else {
                       	//적립 예정 포인트 표시
                       	
-                      	output += '<tr><td><img src="../../../resources/img/piggy-saving.png" class="pointImg" style="width: 50px;" /><div style="color: green;">적립예정</div></td>';
+                      	output += '<tr><td><img src="../../../resources/img/piggy-saving.png" class="pointImg" style="width: 50px;" /><div>적립예정</div></td>';
                       	output += '<td><div>구매제품</div><div>' + item.product_name +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
@@ -168,17 +175,37 @@ function showPointList() {
             }
             
     		
-    	});
-    	output += "</table></div>";
-    	$("#myPoint").html(output);
-    }
-	
-});
+    	});// end of foreach
+    	output += "</table>";
+    	
+    	
+    	$("#myPoint").append(output);
+    	
+    }// end of success
+	, complete : function(data) {
+		console.log(data.responseJSON.pagingParam);
+		console.log(data.responseJSON.pagingParam.tempEndPage);
+		
 
-}
+		//무한 스크롤 처리 부분
+		$(window).scroll(function() {
+			if(pageNum < data.responseJSON.pagingParam.tempEndPage){
+		        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+				          pageNum++;
+				          showPointList(pageNum);
+		        }
+        	}
+		});
+	}// end of complete  
+	});// end of ajax
+
+
+}// end of showPointList(page)
 
 $(function() {
 	showPointList();
+	
+	
 });
 </script>
 <style>

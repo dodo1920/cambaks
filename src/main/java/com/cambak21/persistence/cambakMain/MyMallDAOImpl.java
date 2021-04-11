@@ -13,6 +13,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.util.PagingCriteria;
 
 @Repository
 public class MyMallDAOImpl implements MyMallDAO {
@@ -44,9 +45,22 @@ public class MyMallDAOImpl implements MyMallDAO {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 포인트 적립 내역 가져오기
 	@Override
-	public List<MyPointVO> getPointList(String member_id) throws Exception {
-		return ses.selectList(ns + ".getPointList", member_id);
+	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception {
+
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("member_id", member_id);
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".getPointList", params);
 	}
+	
+
+	@Override
+	public int getPointListCnt(String member_id) throws Exception {
+		return ses.selectOne(ns + ".getPointListCnt", member_id);
+	}
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

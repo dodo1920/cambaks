@@ -11,6 +11,7 @@ import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
+import com.cambak21.util.PagingCriteria;
 
 @Service
 public class MyMallSerivceImpl implements MyMallService {
@@ -39,8 +40,14 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 포인트 적립내역 가져오기
 	@Override
-	public List<MyPointVO> getPointList(String member_id) throws Exception {
-		return dao.getPointList(member_id);
+	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception {
+		return dao.getPointList(member_id, cri);
+	}
+	
+	// 총 게시물 개수 가져오기
+	@Override
+	public int getPointListCnt(String member_id) throws Exception {
+		return dao.getPointListCnt(member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
@@ -91,6 +98,8 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.getProdQAVO(prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
 
 
 	
