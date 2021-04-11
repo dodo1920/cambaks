@@ -1,8 +1,10 @@
 package com.cambak21.service.cambakMain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -21,15 +23,30 @@ public class CambakMainServiceImpl implements CambakMainService {
 //	=============================효원 Service 끝=======================================================
 	
 	@Override
-	public List<String> searchCambak(String searchWord, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CampingVO> randomListCambak(int[] randomId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CampingVO> randomListCambak() throws Exception {
+		// 랜덤 캠핑장 3곳 조회
+		
+		Random rd = new Random();
+		int maxNum = dao.getCampingsiteNum();
+		boolean repeat = true;
+		int repeatNum = 0;
+		List<CampingVO> vo = new ArrayList<CampingVO>();
+		
+		do {
+			int randomNo = rd.nextInt(maxNum);
+			
+			if (dao.checkRandomCampingImg(randomNo) != 0) {
+				vo.add(dao.randomCambakInfo(randomNo));
+				repeatNum++;
+			}
+			
+			if (repeatNum == 3) {
+				repeat = false;
+			}
+			
+		} while (repeat);
+		
+		return vo;
 	}
 
 	@Override

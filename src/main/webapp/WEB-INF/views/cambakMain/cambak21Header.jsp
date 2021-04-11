@@ -21,11 +21,11 @@
 							<ul class="dropdown-menu">
 	                        	<c:choose>
 	                        		<c:when test="${loginMember != null }">
-			                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
 			                            <li><a href="/myPage/checkList">마이페이지</a></li>
 			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+			                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
 	                            	</c:when>
 	                            	<c:otherwise>
 	                            		<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>

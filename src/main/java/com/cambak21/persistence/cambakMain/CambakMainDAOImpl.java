@@ -22,15 +22,21 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	
 //	=============================효원 DAO=======================================================
 	@Override
-	public List<String> searchCambak(String searchWord, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int getCampingsiteNum() throws Exception {
+		// DB에 있는 캠핑장 정보 개수 검색
+		return session.selectOne(nameSpace + "getCampingsiteNum");
 	}
 
 	@Override
-	public List<CampingVO> randomListCambak(int[] randomId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public int checkRandomCampingImg(int randomNo) throws Exception {
+		// 랜덤 번호로 캠핑장에 사진이 있는지 없는지 체크
+		return session.selectOne(nameSpace + "checkRandomCampingImg", randomNo);
+	}
+	
+	@Override
+	public CampingVO randomCambakInfo(int randomNo) throws Exception {
+		// 랜덤 캠핑장 조회
+		return session.selectOne(nameSpace + "randomCapingsite", randomNo);
 	}
 
 	@Override
@@ -62,6 +68,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 		// 메인페이지에 유머 게시판의 최신 게시글 5개 출력
 		return session.selectList(nameSpace + "readRecentHumor");
 	}
+
 	
 //	=============================효원 DAO 끝=======================================================
 	

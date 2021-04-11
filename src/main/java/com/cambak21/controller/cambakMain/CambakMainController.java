@@ -20,8 +20,12 @@ public class CambakMainController {
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	private String mainPageIndex(Model model) throws Exception {
 		
+		// 캠박이일 추천 캠핑장 3곳 랜덤으로 담아서 전달
+		model.addAttribute("CampingSites", service.randomListCambak());
+		
 		// 캠박이일 게시판 5개의 최신글 5개 씩 담아서 전달
 		model.addAttribute("Boards", service.readRecentBoard());
+		
 		return "/cambakMain/cambak21Main";
 	}
 	
