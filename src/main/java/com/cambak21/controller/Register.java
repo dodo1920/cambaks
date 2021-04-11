@@ -50,15 +50,24 @@ public class Register {
       return "cambakMain/user/registetConfirmation";
    }
    
-   @RequestMapping(value="join", method = RequestMethod.GET)
+   @RequestMapping(value="joinAgreement", method = RequestMethod.GET)
+   public String joinAgreement() {
+      return "cambakMain/user/joinAgreement";
+   }
+   
+   @RequestMapping(value="join", method = RequestMethod.POST)
    public String join() {
       return "cambakMain/user/join";
    }
    
    @RequestMapping(value="joinComplete", method = RequestMethod.POST)
-   public String joinMember(MemberVO vo, Model model) throws Exception {
+   public String joinMember(MemberVO vo, Model model, HttpServletRequest request) throws Exception {
 	   String result;
 	   System.out.println(vo.toString());
+	   
+	   HttpSession ses = request.getSession();
+	   ses.removeAttribute("registerUUID");
+	   ses.removeAttribute("registerEmail");
 	   
 	   if (service.memberInsert(vo)) {
 		   model.addAttribute("joinMember", vo);
@@ -126,11 +135,11 @@ public class Register {
 					
 					@Override
 					public void prepare(MimeMessage mimeMessage) throws Exception {
-						String subject = "<Cambak21>에서 보낸 이메일 인증번호 입니다"; // 메일 제목
-						String message = "회원님, <br />"; // 메일 본문
-						message += "회원가입 하려면 ";
-						message += "http://localhost:8081/user/join?user=" + uuid + "&email=" + userEmail;
-						message += " 로 들어오셈";
+						String subject = "Cambak's 회원가입을 환영합니다"; // 메일 제목
+						String message = "<p>안녕하세요 회원님! 캠박이일 입니다.</p>"; // 메일 본문
+						message += "<p><a href='http://localhost:8081/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
+						+ " 오른쪽 버튼을 클릭하여 회원가입을 진행해주세요."
+						+ "</p><p>감사합니다:)</p>";
 						
 						final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 						helper.setFrom("goot6 <goot6610@gmail.com>");
@@ -144,6 +153,7 @@ public class Register {
 				HttpSession ses = request.getSession();
 				ses.setAttribute("registerUUID", uuid);
 				ses.setAttribute("registerEmail", userEmail);
+				ses.setMaxInactiveInterval(60 * 5);
 				
 		   } else { // 중복되는 이메일이 있음
 			   entity = new ResponseEntity<String>("impossibility", HttpStatus.OK);

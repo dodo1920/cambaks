@@ -58,8 +58,12 @@
 	   if (googleCapchaChk()) {
 		   
 		   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) {
-			   sendEamil();
-			   alert("작성해주신 주소로 메일이 전송되었습니다.");
+			   if (!sendEamil()) {
+				   alert("이미 사용 중인 이메일입니다. 아이디 찾기를 이용해주세요.");
+				   return;
+			   } else {
+				   alert("작성해주신 주소로 메일이 전송되었습니다.");
+			   }
 			   location.reload();
 		   } else {
 			   alert("이메일 형식에 맞게 작성해주세요.");
@@ -72,7 +76,7 @@
    }
    
    function sendEamil() {
-	   
+	   let result = true;
 	   let userEmail = $("#userEmail").val();
 	   
 		$.ajax({
@@ -82,9 +86,13 @@
             async: false,
             data: { userEmail : userEmail },
             success: function(data) {
-            	
+            	if (data == "impossibility") {
+            		result = false;
+            	}
             }
         });
+		
+		return result;
 		
    }
 

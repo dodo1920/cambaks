@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -44,26 +45,24 @@
 	let fileFormJ = /(.*?)\.(jpg|jpeg|png|gif)$/;
 	let savedProFile ="";
 
+	window.history.forward();
+	function noBack() {
+		window.history.forward();
+		alert("잘못된 접근입니다.");
+	}
+	
    $(document).ready(function() {
-	   let user = '${param.user }';
-	   let userEmail = '${param.email }';
-	   let checkId = '${registerUUID }';
-	   let checkEmail = '${registerEmail }';
-	   
-// 	   if (user != checkId || userEmail != checkEmail) {
-// 		   alert("잘못된 접근입니다.");
-// 		   history.back();
-// 	   }
 	   
 	   $('#clickFileSelector').click(function (e) {
 			// 업로드 버튼이 클릭되면 파일 찾기 창을 띄운다.
 			e.preventDefault();
 			$('#profile').click();
 		});
-
-
-	   
+   
    });
+   
+   
+   
    
 	function saveUserProFile() {
 
@@ -152,7 +151,8 @@
    		}
    		
    		// 아이디 중복 확인
-	    $.ajax({
+	    let userIdChk = true;
+   		$.ajax({
 			   method: "POST",
 			   url: "/user/register/checkId",
 			   dataType: "text",
@@ -161,18 +161,27 @@
 			   success : function(data) {
 					 if(data == "fail") {
 					  alert("입력하신 아이디는 사용할 수 없습니다.");
-					  result = false;
-					  return;
+					  userIdChk = false;
 				  }
 			   }
 			 }); 
+   		
+   		if (!userIdChk) return false;
    		
    		
    		// 비밀번호 체크
 	    let userPwd = $("#member_password").val(); // 비밀번호
 	    let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인
    		
-	    if (userPwd.length < 8 || userPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
+	    if (userPwd.length == 0) {
+	    	alert("비밀번호를 입력해주세요.");
+	   		result = false;
+	   		return;
+	    } else if (userPwd != userPwdChk) {
+	    	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
+	   		result = false;
+	   		return;
+	    } else if (userPwd.length < 8 || userPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
 	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
 	   		result = false;
 	   		return;
@@ -188,15 +197,8 @@
 	    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
 	   	    result = false;
 	   		return;
-	    } else if (userPwd.length == 0) {
-	    	alert("비밀번호를 입력해주세요.");
-	   		result = false;
-	   		return;
-	    } else if (userPwd != userPwdChk) {
-	    	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
-	   		result = false;
-	   		return;
 	    }
+
    		
 	    
 	 	// 이름 체크
@@ -441,7 +443,7 @@
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&display=swap');
 
-#content {
+#main {
 	font-family: 'Gothic A1', sans-serif;
 }
 
@@ -620,6 +622,7 @@
 </head>
 
 <body>
+
 	<%@include file="../cambak21Header.jsp"%>
 
 	<div id="main">
@@ -627,7 +630,7 @@
 				<div class="contentPlace">
 					<div>
 						<div class="registerTitle">
-							<h2 class="registerTitleHead">회원가입</h2>
+							<h2 class="registerTitleHead">회원가입 - 정보입력</h2>
 						</div>
 						<div>
 						<h3 class="registerTitleBody">기본 정보</h3>
@@ -776,16 +779,18 @@
 									<img src="/resources/uploads/memberProfile/profileDefualt.png" id="tmpUserProfile" class="tmpProfile" />
 									</div>
 									<div>
-									<button id="clickFileSelector" class="uploadBtn">업로드</button>
+									<button type="button" id="clickFileSelector" class="uploadBtn">업로드</button>
 									</div>
 									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(gif/jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
 							</tr>
 						</table>
+						
 						<div class="registerBtn">
-							<button class="registerBtnCancle">취소</button>
-							<button class="registerBtnSubmit" onclick="checkAllContent();">회원가입</button>
+							<button type="button" class="registerBtnCancle">취소</button>
+							<button type="button" class="registerBtnSubmit" onclick="checkAllContent();">회원가입</button>
 						</div>
+						
 				</form>
 			</div>
 		</div>

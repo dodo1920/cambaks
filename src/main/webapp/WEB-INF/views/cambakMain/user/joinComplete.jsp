@@ -213,14 +213,14 @@ $(document).ready(function() {
 			<div class="contentPlace">
 				<div>
 					<div class="registerTitle">
-							<h2 class="registerTitleHead">회원가입</h2>
+							<h2 class="registerTitleHead">회원가입 - 가입완료</h2>
 					</div>
 					<div class="informationSite">
 						<div class="informationBar">
 							<div><img src="/resources/uploads/${joinMember.member_img }" class="userProfile" /></div>
 							<div class="welcomeInfo">회원가입이 완료 되었습니다.</div>
 							<div class="welcomeMsg">
-								<p class="userInfo"><strong>${joinMember.member_name }</strong>님의 회원가입을 축하드립니다.</p>
+								<p class="userInfo"><strong style="font-weight: bold;">${joinMember.member_name }</strong>님의 회원가입을 축하드립니다.</p>
 								<p class="userInfo">아이디 : ${joinMember.member_id }</p>
 								<p style="margin-bottom: 0px;">이메일 : ${joinMember.member_email }</p>
 							</div>

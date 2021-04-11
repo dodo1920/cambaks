@@ -48,7 +48,7 @@ public class GoogleCapcha {
         wr.flush();
         wr.close();
  
-        int responseCode = con.getResponseCode();
+//        int responseCode = con.getResponseCode();
 //        System.out.println("\nSending 'POST' request to URL : " + url);
 //        System.out.println("Post parameters : " + postParams);
 //        System.out.println("Response Code : " + responseCode);
