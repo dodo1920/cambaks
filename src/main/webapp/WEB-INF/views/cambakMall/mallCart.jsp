@@ -254,7 +254,6 @@ button.btn.btn-default.cntCh {
 									<th>Price</th>
 									<th>Quantity</th>
 									<th>Total</th>
-									<th></th>
 								</tr>
 							</thead>
 							<tbody class="cart_list">
