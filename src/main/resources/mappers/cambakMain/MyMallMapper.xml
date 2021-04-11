@@ -86,17 +86,21 @@
 		and product_id = #{product_id};
 	</update>
 
-	<!-- 장바구니 아이템 삭제 -->
-	<delete id="deleteItem">
-		delete from Buckets where member_id = #{member_id}
-		and product_id = #{product_id};
-	</delete>
-
-	<!-- 주문하기 버튼 클릭시 실행 될 쿼리문들 -->
+	<!-- 체크박스 on off -->
 	<update id="checkOnOff">
 		update Buckets set bucket_isChecked = if(bucket_isChecked = 'Y', 'N', 'Y') where member_id = #{member_id} and product_id = #{product_id};
 	</update>
 
+	<!-- 장바구니 개별아이템 삭제 -->
+	<!-- BuyProduct 테이블에 있는 데이터 지우기 -->
+	<delete id="deleteItemBP">
+		delete from BuyProducts where member_id = #{member_id} and product_id = #{product_id};
+	</delete>
+	<!-- 장바구니 테이블에 있는 데이터 지우기 -->
+	<delete id="deleteItemB">
+		delete from Buckets where member_id = #{member_id} and product_id = #{product_id};
+	</delete>
+	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

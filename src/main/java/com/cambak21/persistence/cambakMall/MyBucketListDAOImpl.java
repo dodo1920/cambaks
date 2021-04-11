@@ -56,24 +56,6 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 	}
 
 	/**
-	  * @Method Name : deleteItem
-	  * @작성일 : 2021. 4. 9.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 장바구니 아이템 선택 삭제
-	  * @param member_id
-	  * @param product_id
-	  * @throws Exception
-	  */
-	@Override
-	public int deleteItem(String member_id, int product_id) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("member_id", member_id);
-		map.put("product_id", product_id);
-		return ses.delete(ns + ".deleteItem", map);
-	}
-
-	/**
 	  * @Method Name : checkOnOff
 	  * @작성일 : 2021. 4. 9.
 	  * @작성자 : 승권
@@ -90,6 +72,42 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		map.put("member_id", member_id);
 		map.put("product_id", product_id);
 		return ses.update(ns + ".checkOnOff", map);
+	}
+
+	/**
+	  * @Method Name : deleteItemBP
+	  * @작성일 : 2021. 4. 11.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 장바구니에서 선택삭제 했을 시 BuyProduct테이블에 있는 데이터 지우기
+	  * @param member_id
+	  * @param product_id
+	  * @throws Exception
+	  */
+	@Override
+	public void deleteItemBP(String member_id, int product_id) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("product_id", product_id);
+		ses.delete(ns + ".deleteItemBP", map);
+	}
+
+	/**
+	  * @Method Name : deleteItemB
+	  * @작성일 : 2021. 4. 11.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 장바구니에서 선택삭제 했을 시 BuyProduct테이블에 있는 데이터 지우기
+	  * @param member_id
+	  * @param product_id
+	  * @throws Exception
+	  */
+	@Override
+	public void deleteItemB(String member_id, int product_id) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("product_id", product_id);
+		ses.delete(ns + ".deleteItemB", map);
 	}
 
 }
