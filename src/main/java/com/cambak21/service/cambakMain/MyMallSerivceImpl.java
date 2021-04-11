@@ -38,16 +38,27 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// 포인트 적립내역 가져오기
+	// 마이페이지-나의 적립금 포인트 적립내역 가져오기
 	@Override
 	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception {
 		return dao.getPointList(member_id, cri);
 	}
 	
-	// 총 게시물 개수 가져오기
+	// 마이페이지-나의 적립금 총 게시물 개수 가져오기
 	@Override
 	public int getPointListCnt(String member_id) throws Exception {
 		return dao.getPointListCnt(member_id);
+	}
+	
+	// 마이페이지-나의 적립금 총 보유 포인트 가져오기
+	@Override
+	public int getTotMyPoint(String member_id) throws Exception {
+		return dao.getTotMyPoint(member_id);
+	}
+	// 마이페이지-나의 적립금 총 적립예정 포인트 가져오기
+	@Override
+	public int getTotMyFuturePoint(String member_id) throws Exception {
+		return dao.getTotMyFuturePoint(member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
@@ -98,6 +109,10 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.getProdQAVO(prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
 
 
 

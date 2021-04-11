@@ -60,12 +60,31 @@ public class MyMallController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/**
+	 * @Method Name : showMyPointListMain
+	 * @작성일 : 2021. 4. 11.
+	 * @작성자 : Kim Jeong Min
+	 * @변경이력 : 
+	 * @Method 설명 : myPage의 나의 적립금 기본 get방식 호출
+	 * @return
+	 */
 	@RequestMapping(value="myPoint", method=RequestMethod.GET)
 	public String showMyPointListMain(){
 		
 		return "cambakMain/myPage/myPoint";
 	}
 		
+	
+	/**
+	 * @Method Name : myPointList
+	 * @작성일 : 2021. 4. 11.
+	 * @작성자 : Kim Jeong Min
+	 * @변경이력 : 
+	 * @Method 설명 : myPage-나의 적립금 리스트 가져오는 부분
+	 * @param member_id
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping(value="myPoint/{member_id}/{pageNum}", method=RequestMethod.POST)
 	   public @ResponseBody Map<String, Object> myPointList(@PathVariable("member_id") String member_id, @PathVariable("pageNum") int page){
 
@@ -92,6 +111,22 @@ public class MyMallController {
 	       
 	      return result;
 	   }
+	
+	@RequestMapping(value="myPointInfo/{member_id}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> myPointInfo(@PathVariable("member_id") String member_id){
+		   Map<String, Object> result = new HashMap<String, Object>();
+	       logger.info("/myPointInfo의 ajax-POST방식 호출");
+	       
+	       try {
+			result.put("myTotPoint", service.getTotMyPoint(member_id));
+			result.put("myTotFuturePoint", service.getTotMyFuturePoint(member_id));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	       System.out.println(result.toString());
+	       return result;
+	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		

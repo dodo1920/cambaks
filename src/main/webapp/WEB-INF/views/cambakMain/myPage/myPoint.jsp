@@ -41,7 +41,7 @@ function showPointList(pageNum) {
 	
 	let showDate;
 	let showThisDate;
-	let output="<table class='table table-hover'>";
+	let output="<table class='table table-hover' style='table-layout: fixed'>";
 	$.ajax({
     type		: "post",
     url 		: "/myMall/myPoint/" + member_id + "/" + pageNum,
@@ -194,6 +194,11 @@ function showPointList(pageNum) {
 				          pageNum++;
 				          showPointList(pageNum);
 		        }
+        	} 
+			// 페이지 스크롤이 완료된 경우,
+			else{
+				let output1 = '<div style="float:right;"><a href="" onclick="goToTop(); return false;"><img src ="../../../resources/img/go-up.png" style="width: 70px;"/></a></div>';
+        		$("#goUp").html(output1);
         	}
 		});
 	}// end of complete  
@@ -202,9 +207,44 @@ function showPointList(pageNum) {
 
 }// end of showPointList(page)
 
+// 나의 포인트 정보를 보여주는 함수
+function showMyPointInfo() {
+	// 내가 보유한 총 포인트
+	let myTotPoint;
+	// 적립 예정인 총 포인트
+	let myTotFuturePoint;
+	$.ajax({
+	    type		: "post",
+	    url 		: "/myMall/myPointInfo/" + member_id,
+	    contentType : "application/json",
+	    success 	: function(data) {
+	    	console.log(data);
+	    	//console.log(typeof(data.myTotPoint));
+	    	myTotPoint = String(data.myTotPoint);
+	    	myTotFuturePoint = String(data.myTotFuturePoint);
+
+	    	//console.log(myTotPoint);
+	    	//console.log(typeof(myTotPoint));
+	    	// 포인트 출력
+			$("#myTotAvlPoint").html(myTotPoint);
+			$("#myFuturePoint").html(myTotFuturePoint);
+	    	}
+			
+		});
+	
+	
+}
+
+// ajax로 리스트 출력 완료 후 마지막 페이지에서 클릭시 맨 위로 올라가는 함수
+function goToTop() {
+	$('body,html').animate({
+	      scrollTop:300 
+	    },400 );
+}
+
 $(function() {
 	showPointList();
-	
+	showMyPointInfo();
 	
 });
 </script>
@@ -224,7 +264,10 @@ $(function() {
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
+					<div>보유 포인트 : <span id="myTotAvlPoint"></span>점</div>
+					<div>적립 예정 포인트 : <span id="myFuturePoint"></span>점</div>
 					<div id="myPoint"></div>
+					<div id="goUp"></div>
 				</div>
 			</div>
 
