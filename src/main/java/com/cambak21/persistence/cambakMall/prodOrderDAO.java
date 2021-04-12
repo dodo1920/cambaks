@@ -29,6 +29,8 @@ public interface prodOrderDAO {
 	  	public int prodBoardReadAllCnt()throws Exception;
 	  	public List<ProductsVO> prodBoardRead(PagingCriteria cri,SearchCriteria scri) throws Exception;
 	  	public int prodBoardReadCnt(SearchCriteria scri)throws Exception;
+	  	public List<ProductsVO> prodBoardSearch(PagingCriteria cri,SearchCriteria scri)throws Exception;
+	  	public int prodBoardSearchId(SearchCriteria scri)throws Exception;
 //	  	<!-- 백승권 DAO -->
 	  	
 	  	

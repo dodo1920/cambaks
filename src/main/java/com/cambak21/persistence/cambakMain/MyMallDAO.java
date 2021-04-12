@@ -2,6 +2,7 @@ package com.cambak21.persistence.cambakMain;
 
 import java.util.List;
 
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
@@ -59,6 +60,7 @@ public interface MyMallDAO {
 
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

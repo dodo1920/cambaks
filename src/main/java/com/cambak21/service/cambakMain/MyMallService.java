@@ -2,6 +2,7 @@ package com.cambak21.service.cambakMain;
 
 import java.util.List;
 
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
@@ -54,6 +55,6 @@ public interface MyMallService {
 
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

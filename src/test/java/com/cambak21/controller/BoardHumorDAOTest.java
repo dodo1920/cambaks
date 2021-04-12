@@ -39,12 +39,13 @@ public class BoardHumorDAOTest {
 		System.out.println(dao.readBoardHumor(4).toString());
 	}
 	
-	@Test
-	public void listBoard() throws Exception{
-		PagingCriteria cri = new PagingCriteria();
-		cri.setPage(1);
-		cri.setPerPageNum(10);
-		
-		System.out.println(dao.listBoardHumorCriteria(cri).toString());
-	}
+//	@Test
+//	public void listBoard() throws Exception{
+//		PagingCriteria cri = new PagingCriteria();
+//		cri.setPage(1);
+//		cri.setPerPageNum(10);
+//		
+//		System.out.println(dao.listBoardHumorCriteria(cri).toString());
+//	}
+	//======================================
 }

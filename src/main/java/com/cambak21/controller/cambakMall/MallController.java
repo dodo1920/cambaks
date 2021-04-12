@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+	
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
@@ -268,7 +268,7 @@ public class MallController {
 	}
 
 	// **************************************** 김태훈 컨트롤러
-	// **********************************************
+	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String BoardResellList(PagingCriteria cri, Model model) throws Exception {
 		System.out.println("boardResellList 테스트");
@@ -298,20 +298,21 @@ public class MallController {
 
 		return entity;
 	}
-
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String seach(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
-		System.out.println("검색을 시작합니다....");
-		System.out.println(scri.toString());
-		model.addAttribute("board", service.prodBoardRead(cri, scri));
-		System.out.println(cri.toString());
-
-		PagingParam pp = new PagingParam();
-		pp.setCri(cri);
-		pp.setTotalCount(service.prodBoardReadCnt(scri));
-		System.out.println(pp.toString());
-		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체
-
+	
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String seach(PagingCriteria cri,@RequestParam("searchType") String searchType,@RequestParam("optionType") String optionType,@RequestParam("searchWord") String searchWord,Model model) throws Exception {
+		System.out.println("search 테스트");
+		SearchCriteria sri = new SearchCriteria();
+		System.out.println("optionType : "+optionType+"\n searchType : "+searchType+"\n searchWord : "+searchWord+"\n page : "+cri.getPage()+"\n pageStart"+cri.getPageStart());
+		sri.setOptionType(optionType);
+		sri.setSearchType(searchType);
+		sri.setSearchWord(searchWord);
+		List<ProductsVO> searchProd = service.prodBoardSearch(cri,sri);
+		System.out.println(searchProd);
+		model.addAttribute("board",searchProd);
+		
 		return "cambakMall/prodList";
-	}
+		}
+
+	// **********************************************
 }

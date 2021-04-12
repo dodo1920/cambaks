@@ -80,6 +80,19 @@ public class prodOrderServiceImpl implements prodOrderService {
 			// TODO Auto-generated method stub
 			return dao.prodBoardReadCnt(scri);
 		}
+		
+		@Override
+		public List<ProductsVO> prodBoardSearch(PagingCriteria cri, SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.prodBoardSearch(cri,scri);
+		}
+
+		@Override
+		public int prodBoardSearchId(SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.prodBoardSearchId(scri);
+		}
+
 			  	
 //		  	<!-- 백승권 DAO -->
 		  	
@@ -139,6 +152,7 @@ public class prodOrderServiceImpl implements prodOrderService {
 	}
 
 	
+
 
 
 	
