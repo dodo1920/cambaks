@@ -43,10 +43,13 @@ public class CambakMainController {
 // ================================================효원 메인 끝 ==================================================================
 //	==============================================도연 검색 결과 부분 ============================================================
 	@RequestMapping(value="/result", method=RequestMethod.GET)
-	private void getResultPage(@RequestParam("keyword") String keyword) throws Exception {
+	private String getResultPage(@RequestParam("keyword") String keyword, Model model) throws Exception {
 		List<CampingVO> campingLst = new ArrayList<CampingVO>();
+		
 		campingLst = service.getCampings(keyword);
-//		return "/cambakMain/cambak21Result";
+		model.addAttribute("campings", campingLst);
+		
+		return "/cambakMain/cambak21Result";
 	}
 	
 	

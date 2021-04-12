@@ -27,15 +27,19 @@
 	
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ea8351e29d05bbce3e8af30705e5907"></script>
+<!-- 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0ea8351e29d05bbce3e8af30705e5907"></script> -->
 	
 	<!-- 템플릿 js, css 파일 -->
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
 	<style>
 		@import url(/resources/cambak21/css/SHWtamplet.css);
 		
+		#main {
+			padding-bottom: 0px;
+		}
+		
 		.\38 u {
-			width : 90%;
+			width : 100%;
 		}
 		
 		.\34 u {
@@ -43,33 +47,34 @@
 			margin : 0px;
 		}
 		
-		#input-group {
-			margin-bottom : 3%;
+		#research {
+			margin-bottom: 3%;
 		}
+		
+		.row {
+			margin-right: 0px;
+		}
+		.container {
+ 			padding-left: 0px;
+ 		}
+ 		
+ 		.campingImg {
+ 			padding-bottom: 0px;
+ 		}
 		
 		#campingListContainer {
+			height:788px;
 			border : 1px solid black;
-			width : 35%;
-			height : 650px;
-			float : left;
+			overflow: scroll;
 		}
 		
-		#campingMapContainer {
-			float : left;
-			display : inline-block;
-			width : 65%;
+		iframe {
+			width: 100%;
 		}
-		
-		#map {
-			margin : 0px;
-			width:100%;
-			height:650px;
-			border: 1px solid red
-		}
+    
 	</style>
 	
 	<script>
-	let keyword = '${param.keyword}';
 	
     $(document).ready(function () {
         // 공지들을 배열로 넣는 함수
@@ -101,7 +106,6 @@
                 console.log(index);
             });
         };
-        dataLoading();
 
         $(".row").on("click", ".heartIcon", function () {
             fix(this);
@@ -110,69 +114,93 @@
         $(".row").on("click", ".commentIcon", function () {
             fix2(this);
         });
-        
-        campingList(keyword);
     });
-    
-    function campingList(kw) {
-	    $.getJSON("/index/result?keyword=" + kw, function(data){
-	    	console.log(data);
-	    }
-    };
-    
 	</script>
 </head>
 
 <body>
     <%@include file="cambak21Header.jsp"%>
-
-	<!-- Main -->
-	<div id="main">
-		<div class="container">
-			<div class="row">
-
-				<!-- Content -->
-				<div id="content" class="8u skel-cell-important">
-					<section>
-						<header>
-							<h2>캠핑장 검색</h2>
-<!--                     		<span class="byline" id="rollNot"><a href="#">공지가 들어갈 자리입니다.</a></span> -->
-						</header>
-						<div class="research">
-		                    <!-- <form> -->
-		                    <div class="input-group">
-		                        <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
-		                        <div class="input-group-btn">
-		                            <button type="button" class="btn btn-danger search" onclick="sendKeyword();">Search</button>
-		                        </div>
-		                    </div>
-		                    <div id="campingListContainer">
-		                        
-		                    </div>
-		                    <div id="campingMapContainer">
-		                        <div id="map">
-		                        </div>
-		                    </div>
-		                </div>
+    
+    	<!-- Main -->
+		<div id="main">
+			<div class="container">
+				<div class="row">
+				<section>
+				<header>
+					<h2>캠핑장 검색</h2>
+<!--            	<span class="byline" id="rollNot"><a href="#">공지가 들어갈 자리입니다.</a></span> -->
+				</header>
+				<div id="research">
+		        <!-- <form> -->
+		           <div class="input-group">
+		              <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
+		                 <div class="input-group-btn">
+		                    <button type="button" class="btn btn-danger search" onclick="sendKeyword();">Search</button>
+		                 </div>
+		            </div>
+		        </div>
+		        <div id="content">
+		            <div class="row">
+		            	<div class="col-lg-6 col-md-6">
+		            		<div class="contact__content" id="campingListContainer">
+				                            <c:if test="${campings == null}">
+					                        	<p> 검색결과 없음 </p>
+					                        </c:if>
+					                        <c:if test="${campings != null}">
+					                        	
+					                        	<c:forEach var="camping" items="${campings }">
+					                        	<table>
+					                        		<tr>
+					                        			<td rowspan="4" class="campingImg"><img src="${camping.camping_firstImageUrl }"  width="150px" height="150px"/></td>
+					                        			<td><a href="../index/detail?contentId=${camping.camping_contentId}">${camping.camping_facltNm }</a></td>
+					                        		</tr>
+					                        		<tr>
+			<!-- 		                        			<td>3</td> -->
+					                        			<td>${camping.camping_addr1 } 
+					                        				<c:if test="${camping.camping_addr2 } == null"> </c:if>
+					                        			</td>
+					                        		</tr>
+					                        		<tr>
+			<!-- 		                        			<td>5</td> -->
+					                        			<td>${camping.camping_tel }</td>
+					                        		</tr>
+					                        		<tr>
+			<!-- 		                        			<td>7</td> -->
+					                        			<td>8</td>
+					                        		</tr>
+					                        	</table>
+					                        	</c:forEach>
+					                        	
+					                        </c:if>
+				                    </div>
+				                </div>
+				                <div class="col-lg-6 col-md-6">
+				                    <div class="contact__map" id="map">
+				                        <iframe
+				                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48158.305462977965!2d-74.13283844036356!3d41.02757295168286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2e440473470d7%3A0xcaf503ca2ee57958!2sSaddle%20River%2C%20NJ%2007458%2C%20USA!5e0!3m2!1sen!2sbd!4v1575917275626!5m2!1sen!2sbd"
+				                        height="780" style="border:0" allowfullscreen="">
+				                    </iframe>
+				                </div>
+				            </div>
+						</div>
+					</div>                    
 					</section>
 				</div>
-
 			</div>
 		</div>
-	</div>
-	<!-- /Main -->
- 	<script> 
-	var container = document.getElementById('map');
-	var options = {
-		center: new kakao.maps.LatLng(33.450701, 126.570667),
-		level: 3
-	};
+<!--  	<script>  -->
+// 	var container = document.getElementById('map');
+// 	var options = {
+// 		center: new kakao.maps.LatLng(33.450701, 126.570667),
+// 		level: 3
+// 	};
 
-	var map = new kakao.maps.Map(container, options);
- 	</script> 
+// 	var map = new kakao.maps.Map(container, options);
+<!--  	</script>  -->
 
     <%@include file="cambak21Footer.jsp"%>
 	
 </body>
+
 
 </html>

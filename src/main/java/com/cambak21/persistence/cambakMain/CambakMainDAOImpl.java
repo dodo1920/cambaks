@@ -17,7 +17,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	
 	@Inject
 	private SqlSession session;
-	private static String nameSpace = "com.cambak21.mappers.cambakMain.CambakMainPageMapper.";
+	private static String nameSpace = "com.cambak21.mappers.cambakMain.CambakMainPageMapper";
 	
 	
 //	=============================효원 DAO=======================================================

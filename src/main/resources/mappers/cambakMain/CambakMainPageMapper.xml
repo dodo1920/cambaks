@@ -60,7 +60,7 @@
 	or camping_operPdCl like concat('%', #{searchWord} ,'%') or camping_operDeCl like concat('%', #{searchWord} ,'%') or camping_sbrsCl like concat('%', #{searchWord} ,'%') 
 	or camping_sbrsEtc like concat('%', #{searchWord} ,'%') or camping_posblFcltyCl like concat('%', #{searchWord} ,'%') or camping_posblFcltyEtc like concat('%', #{searchWord} ,'%')
 	or camping_themaEnvrnCl like concat('%', #{searchWord} ,'%') or camping_eqpmnLendCl like concat('%', #{searchWord} ,'%') or camping_animalCmgCl like concat('%', #{searchWord} ,'%')
-	limit 1, 10;
+	limit 1, 10
 	</select>
 
 
