@@ -104,6 +104,12 @@
 	text-align: center;
 }
 
+.informationText {
+	text-align: center;
+    font-size: 1vw;
+    color: white;
+}
+
 .moreView {
 	float: right;
 }
@@ -197,24 +203,24 @@
 
         <div class="carousel-search">
             <div class="thema">
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=야영장">봄</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=계곡" >여름</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=글램핑" >가을</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=카라반" >겨울</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=봄">봄</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=여름" >여름</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=가을" >가을</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=겨울" >겨울</a></div>
             </div>
             <h1>캠박이일</h1>
-            <p>We are specialized in camping</p>
+            <p class="informationText" style="margin-bottom: 50px;">We are specialized in camping</p>
             <br />
-            <!-- <form> -->
+            <form action="/index/result" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
+                    <input type="text" class="form-control" size="50" placeholder="검색어를 입력해주세요." name="keyword">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-danger" onclick="sendKeyword();">Search</button>
+                        <button type="submit" class="btn btn-danger">Search</button>
                     </div>
                 </div>
                 <div id="search-res">
                 </div>
-            <!-- </form> -->
+            </form>
         </div>
 
     </div>
@@ -391,10 +397,10 @@
 					<p>캠박이일 제작 2팀</p>
 				</div>
 				<div class="col-md-2" id="footerContent" style="border-top: 1px solid #dedede;">
-					<p><a>봄</a></p>
-					<p><a>여름</a></p>
-					<p><a>가을</a></p>
-					<p><a>겨울</a></p>
+					<p><a href="/index/result?keyword=봄">봄</a></p>
+					<p><a href="/index/result?keyword=여름">여름</a></p>
+					<p><a href="/index/result?keyword=가을">가을</a></p>
+					<p><a href="/index/result?keyword=겨울">겨울</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>

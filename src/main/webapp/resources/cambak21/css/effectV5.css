@@ -114,7 +114,7 @@ h4 {
     margin: 0 0 35%;
 }
 
-.carousel-search h1 {
+.carousel-search h1, p {
   text-align: center;
   font-size: 1vw;
   color: white;
