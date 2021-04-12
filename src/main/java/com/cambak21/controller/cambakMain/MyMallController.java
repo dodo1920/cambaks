@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.service.cambakMain.MyMallService;
@@ -59,29 +60,73 @@ public class MyMallController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	/**
+	 * @Method Name : showMyPointListMain
+	 * @작성일 : 2021. 4. 11.
+	 * @작성자 : Kim Jeong Min
+	 * @변경이력 : 
+	 * @Method 설명 : myPage의 나의 적립금 기본 get방식 호출
+	 * @return
+	 */
 	@RequestMapping(value="myPoint", method=RequestMethod.GET)
 	public String showMyPointListMain(){
 		
 		return "cambakMain/myPage/myPoint";
 	}
 		
-	@RequestMapping(value="myPoint/{member_id}", method=RequestMethod.POST)
-	   public @ResponseBody Map<String, Object> myPointList(@PathVariable("member_id") String member_id){
+	
+	/**
+	 * @Method Name : myPointList
+	 * @작성일 : 2021. 4. 11.
+	 * @작성자 : Kim Jeong Min
+	 * @변경이력 : 
+	 * @Method 설명 : myPage-나의 적립금 리스트 가져오는 부분
+	 * @param member_id
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="myPoint/{member_id}/{pageNum}", method=RequestMethod.POST)
+	   public @ResponseBody Map<String, Object> myPointList(@PathVariable("member_id") String member_id, @PathVariable("pageNum") int page){
+
+	       Map<String, Object> result = new HashMap<String, Object>();
 	       logger.info("/myPointList의 ajax-POST방식 호출");
 	       System.out.println(member_id);
-	       Map<String, Object> result = new HashMap<String, Object>();
-	       List<PointVO> vo = null;
+	       System.out.println(page);
+	       List<MyPointVO> vo = null;
+	       PagingCriteria cri = new PagingCriteria();
+	       PagingParam pp = new PagingParam();
+	       pp.setCri(cri);
+	       cri.setPage(page);
+	       
 	       try {
-			vo = service.getPointList(member_id);
+			vo = service.getPointList(member_id, cri);
+			pp.setTotalCount(service.getPointListCnt(member_id));
 			System.out.println(vo.toString());
-			result.put("PointList", vo);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	       result.put("vo", vo);
+	       result.put("pagingParam", pp);
 	       
 	      return result;
 	   }
+	
+	@RequestMapping(value="myPointInfo/{member_id}", method=RequestMethod.POST)
+	public @ResponseBody Map<String, Object> myPointInfo(@PathVariable("member_id") String member_id){
+		   Map<String, Object> result = new HashMap<String, Object>();
+	       logger.info("/myPointInfo의 ajax-POST방식 호출");
+	       
+	       try {
+			result.put("myTotPoint", service.getTotMyPoint(member_id));
+			result.put("myTotFuturePoint", service.getTotMyFuturePoint(member_id));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	       System.out.println(result.toString());
+	       return result;
+	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
