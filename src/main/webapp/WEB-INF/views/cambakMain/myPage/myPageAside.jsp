@@ -5,7 +5,7 @@
 				<div class="profile">
 						<div>
 							<div class="profileSize">
-								<a href=""></a><img src="../../resources/uploads/${loginMember.member_img }" style="width: 70px; height: 70px; border-radius: 5px;">
+								<a href=""></a><img src="../../resources/uploads/${loginMember.member_img }" style="border-radius: 50%; border: 1px solid #ccc;">
 								<h4>${loginMember.member_id }</h4>
 								<div class="profileEmail">${loginMember.member_email }</div>
 							</div>

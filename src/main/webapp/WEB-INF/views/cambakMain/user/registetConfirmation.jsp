@@ -69,8 +69,6 @@
 			   alert("이메일 형식에 맞게 작성해주세요.");
 		   }
 		   
-	   } else {
-		   alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
 	   }
 	   
    }
@@ -110,6 +108,7 @@
             	if (data == "success") {
             		result =  true;
             	} else if (data == "fail") {
+            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
             		result =  false;
             	} else if (data == "error") {
             		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
