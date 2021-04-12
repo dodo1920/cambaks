@@ -43,6 +43,11 @@ public class CambakMainServiceImpl implements CambakMainService {
 		return param;
 	}
 
+	@Override
+	public List<String> autoSearch(String keyword) throws Exception {
+		// 메인페이지 자동검색
+		return dao.autoSearch(keyword);
+	}
 	
 //	=============================효원 Service 끝=======================================================
 	

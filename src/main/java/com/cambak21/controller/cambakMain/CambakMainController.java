@@ -5,11 +5,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.domain.CampingVO;
 import com.cambak21.service.cambakMain.CambakMainService;
@@ -33,6 +36,16 @@ public class CambakMainController {
 		
 		return "/cambakMain/cambak21Main";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/main/autoSearch", method=RequestMethod.POST)
+	private ResponseEntity<List<String>> autoSearch(@RequestParam("keyword") String keyword) throws Exception {
+		ResponseEntity<List<String>> entity = null;
+		entity = new ResponseEntity<List<String>>(service.autoSearch(keyword), HttpStatus.OK);
+		
+		return entity;
+	}
+	
 	
 	
 	

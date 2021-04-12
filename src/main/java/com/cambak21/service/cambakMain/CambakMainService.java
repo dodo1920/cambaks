@@ -16,6 +16,9 @@ public interface CambakMainService {
 	// 메인페이지에 캠박이일의 각 게시판의 최신 게시글 5개 출력
 	public Map<String, Object> readRecentBoard() throws Exception;
 	
+	// 메인페이지 자동검색
+	public List<String> autoSearch(String keyword) throws Exception;
+	
 //	=============================효원 인터페이스 끝=======================================================
 	
 //	=============================도연 인터페이스=======================================================

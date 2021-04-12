@@ -49,7 +49,58 @@
 
         textLimitBoard(); // 게시글 길이 줄여주기
     });
-
+	
+	function checkSearchBar() {
+		let inputKeyword = $("#searchBar").val();
+		
+		if (inputKeyword.length <= 1) {
+			$("#autoSearchBar").empty();
+			$("#autoSearchBar").css("display", "none");
+		}
+		
+	}
+	
+	function getSearchList() {
+		let inputKeyword = $("#searchBar").val();
+		
+		if (inputKeyword.length > 1) {
+		   $("#autoSearchBar").empty();
+		   
+		   
+	   		$.ajax({
+				   method: "POST",
+				   url: "main/autoSearch",
+				   dataType: "json",
+				   async: false,
+				   data : {keyword : inputKeyword},
+				   success : function(data) {
+					   let output = '';
+					   for (i = 0; i < data.length; i++) {
+						   console.log(data);
+						   console.log(data.length);
+						   if (data.length == 0) {
+							   $("#autoSearchBar").css("display", "none");
+						   } else {
+							   $("#autoSearchBar").css("display", "flex");
+							   output += '<li><a href="#" class="searchListBar" onmouseover="resultColorIn(this);" onmouseout="resultColorOut(this);" '
+							   output += 'onclick="clickKeyword(this); return false;"><span id="test"><span><img src="/resources/cambak21/img/searchIcon.png"'
+							   output += ' class="searchImgSize"></span>' + data[i] + '</span></a></li>';
+						   }
+					   }
+					   output += '<li class="searchListLastBar">* 자동검색은 2글자 이상부터 자동으로 생성됩니다.</li>';
+					   $("#autoSearchBar").append(output);
+				   }
+				 });
+			
+		} else {
+			$("#autoSearchBar").empty();
+			$("#autoSearchBar").css("display", "none");
+		}
+		
+		
+	}
+	
+	
  	// 게시글 제목의 길이가 30개를 넣을 시 21번째 글짜부터 ...으로로 변환
     function textLimitBoard() {
     	$(".boardLinkSize").each(function() {
@@ -73,6 +124,25 @@
         // output += theamVal;
         console.log(output);
         // location.href = output; // 페이지 완성 후 주석 해제
+    }
+    
+    function clickKeyword(obj) {
+    	// 자동 검색 결과 중 하나 누를 시 검색
+    	let clickKeyword = $(obj).text();
+    	
+    	$("#searchBar").val(clickKeyword);
+    	$("#searchCambaks").submit();
+    	
+    }
+    
+    function resultColorIn(obj) {
+    	
+    	$(obj).attr("class", "searchListBarMouseIn");
+    }
+    
+    function resultColorOut(obj) {
+    	
+    	$(obj).attr("class", "searchListBar");
     }
     
 </script>
@@ -142,10 +212,60 @@
 	text-decoration: none;
 }
 
+.searchList {
+	background: #fff;
+    box-shadow: 0 9px 8px -3px rgb(64 60 67 / 24%), 8px 0 8px -7px rgb(64 60 67 / 24%), -8px 0 8px -7px rgb(64 60 67 / 24%);
+    display: none;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0 0 7px 7px;
+    padding-bottom: 4px;
+    overflow: hidden;
+    list-style: none;
+}
+
+.searchListBar {
+	display: block;
+    position: relative;
+    padding-left: 30px;
+    font-size: 1.7rem;
+    line-height: 40px;
+}
+
+.searchListBarMouseIn {
+	display: block;
+    position: relative;
+    padding-left: 30px;
+    font-size: 1.7rem;
+    line-height: 40px;
+    background-color: #F1F1F1;
+}
+
+.searchListLastBar {
+	border-top: 1px solid #f1f4f6;
+    font-size: 1.4rem;
+    line-height: 35px;
+    background-color: #f9fafb;
+    padding-left: 25px;
+    margin-top: 5px;
+}
+
+.searchImgSize {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 9px;
+    width: 17px;
+    height: 17px;
+    margin-top: -8px;
+}
+
 </style>
 </head>
 
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50" ondragstart="return false">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -211,12 +331,15 @@
             <h1>캠박이일</h1>
             <p class="informationText" style="margin-bottom: 50px;">We are specialized in camping</p>
             <br />
-            <form action="/index/result" method="get">
+            <form action="/index/result" id="searchCambaks" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" size="50" placeholder="검색어를 입력해주세요." name="keyword">
+                    <input type="text" class="form-control" size="50" style="font-size: 18px;" id="searchBar" placeholder="검색어를 입력해주세요." name="keyword" onchange="checkSearchBar();" onkeyup="getSearchList();">
                     <div class="input-group-btn">
-                        <button type="submit" class="btn btn-danger">Search</button>
+                        <button type="button" class="btn btn-danger">Search</button>
                     </div>
+                </div>
+                <div>
+                	<ul class="searchList" id="autoSearchBar"></ul>
                 </div>
                 <div id="search-res">
                 </div>

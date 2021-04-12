@@ -21,6 +21,8 @@ public interface CambakMainDAO {
 	public List<BoardVO> readRecentQA() throws Exception;
 	public List<BoardVO> readRecentHumor() throws Exception;
 
+	// 메인페이지 자동검색
+	public List<String> autoSearch(String keyword) throws Exception;
 	
 	
 //	=============================효원 인터페이스 끝=======================================================
