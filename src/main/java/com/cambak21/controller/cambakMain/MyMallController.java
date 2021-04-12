@@ -115,6 +115,10 @@ public class MyMallController {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	@RequestMapping(value = "/userProdOrder/{userName}",method =RequestMethod.POST)
+	public String userProdOrder(PagingCriteria cri,@PathVariable("userName") String userName) throws Exception{
+		System.out.println(service.MemberLittleOrder(cri, userName));
+		return "cambakMall/userProdOrder";
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

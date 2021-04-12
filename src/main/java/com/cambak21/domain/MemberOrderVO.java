@@ -19,7 +19,6 @@ public class MemberOrderVO {
 	private String delivery_status;
 	private String payInfo_way;
 	private String refundnExchange_status;
-	private String product_img1;
 	public int getPayment_no() {
 		return payment_no;
 	}
@@ -117,12 +116,6 @@ public class MemberOrderVO {
 		this.refundnExchange_status = refundnExchange_status;
 	}
 	
-	public String getProduct_img1() {
-		return product_img1;
-	}
-	public void setProduct_img1(String product_img1) {
-		this.product_img1 = product_img1;
-	}
 	@Override
 	public String toString() {
 		return "MemberOrderVO [payment_no=" + payment_no + ", payment_date=" + payment_date + ", product_name="
@@ -132,7 +125,7 @@ public class MemberOrderVO {
 				+ ", point_usedPoint=" + point_usedPoint + ", buyProduct_deliveriPay=" + buyProduct_deliveriPay
 				+ ", buyProduct_totPrice=" + buyProduct_totPrice + ", point_futurePoint=" + point_futurePoint
 				+ ", delivery_status=" + delivery_status + ", payInfo_way=" + payInfo_way + ", refundnExchange_status="
-				+ refundnExchange_status + ", product_img1=" + product_img1 + "]";
+				+ refundnExchange_status + "]";
 	}
 
 	

@@ -86,11 +86,51 @@
   	<if test="searchType == 'product_detail'">
   			product_detail like concat('%',#{searchWord},'%')
   	</if>
-  	and product_show="Y" order by product_id desc limit #{pageStert} ,#{pageNum}
+  	and product_show="Y" order by product_id desc limit #{pageStart}, #{perPageNum};
   </select>
-  	
-  	
+  
   	<select id="prodBoardReadCnt" resultType="int">
+  	select count(*)  from Products where
+  <if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y" limit #{pageStert} ,#{pageNum}
+  </select>
+  
+<select id="prodBoardSearch" resultType="com.cambak21.domain.ProductsVO">
+	  	select * from Products where
+  	<if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y" order by
+  	<!-- 기본 가격순 -->
+  	<if test="optionType == 'defualt'">
+  		product_id desc
+  	</if>
+  	<!-- 높은 가격순 -->
+  	<if test="optionType == 'product_sellPrice_desc'">
+  		product_sellPrice desc
+  	</if>
+  	<!-- 낮은 가격순 -->
+  	<if test="optionType == 'product_sellPrice'">
+  		product_sellPrice
+  	</if>
+  	limit #{pageStert} ,#{pageNum}	
+</select>
+
+  	<select id="prodBoardSearchId" resultType="int">
   	select count(*)  from Products where
   <if test="searchType == 'product_name'">
   			product_name like concat('%',#{searchWord},'%')

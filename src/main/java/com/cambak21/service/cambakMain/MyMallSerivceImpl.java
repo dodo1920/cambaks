@@ -6,10 +6,12 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
+import com.cambak21.util.PagingCriteria;
 
 @Service
 public class MyMallSerivceImpl implements MyMallService {
@@ -92,6 +94,7 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
+
 	
 
 	
@@ -99,6 +102,11 @@ public class MyMallSerivceImpl implements MyMallService {
 	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	@Override
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
+		// TODO Auto-generated method stub
+		return dao.MemberLittleOrder(cri, userName);
+	}
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

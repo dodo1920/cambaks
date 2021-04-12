@@ -147,29 +147,29 @@
 	$(function() {
 		//아이디 체크
 		$("#userNameCheck").on("focusout",function() {
-			setTimeout(userIdcheck(), 500000);
+			setTimeout(userIdcheck, 500);
 		});
 		
 		//비밀번호 체크
 		$("#userPasswordCheck").on("focusout",function() {
-			setTimeout(userPWDCheck(), 5000);
+			setTimeout(userPWDCheck, 500);
 			
 		});
 		//생년월일 체크
 		$("#userBrithCheck").on("focusout",function() {
-			setTimeout(userBrithCheck(), 5000);
+			setTimeout(userBrithCheck, 500);
 		});
 		//주소 체크
 		$("#userAddresCheck").on("focusout",function() {
-			setTimeout(userAddressCheck(), 1000);
+			setTimeout(userAddressCheck, 500);
 		});
 	     //e-Mail주소 체크
 	   	$("#userEmailCheck").on("focusout",function() {
-	   		setTimeout(userEmailCheck(), 1000);
+	   		setTimeout(userEmailCheck, 500);
 		});
         //휴대전화 체크
         $("#userMobileCheck").on("focusout",function(){
-        	setTimeout(userMobileCheck(), 1000);
+        	setTimeout(userMobileCheck(), 500);
         });
 	$("#modal-backdrop").click(function() {
 		$("#modifyBox").hide();

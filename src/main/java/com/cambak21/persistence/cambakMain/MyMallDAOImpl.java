@@ -9,9 +9,11 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.util.PagingCriteria;
 
 @Repository
 public class MyMallDAOImpl implements MyMallDAO {
@@ -20,6 +22,7 @@ public class MyMallDAOImpl implements MyMallDAO {
 	private SqlSession ses;
 	
 	private static String ns = "com.mappers.cambakMain.MyMallMapper";
+	private static String nsOrder ="com.mapper.MemberOrderMapper";
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@Override
@@ -105,6 +108,16 @@ public class MyMallDAOImpl implements MyMallDAO {
 	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	@Override
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
+		System.out.println("userName : "+userName+"\n PageStart"+cri.getPageStart()+"\n PerPageNum"+cri.getPerPageNum());
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userName", userName);
+		param.put("pageStert", cri.getPageStart());
+		param.put("pageNum", cri.getPerPageNum());
+		return ses.selectList(nsOrder+".MemberLittleOrder",param);
+	}
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
