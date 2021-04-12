@@ -25,6 +25,7 @@ import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.MyBucketListService;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -38,7 +39,7 @@ public class MallController {
 	@Inject
 	private prodOrderService service;
 	private static final Logger logger = LoggerFactory.getLogger(MallController.class);
-
+ 
 	@Inject
 	private MyBucketListService bucketService;
 	// **************************************** 김도연 컨트롤러
@@ -47,9 +48,14 @@ public class MallController {
 	// **************************************** 김대기 컨트롤러
 	// **********************************************
 	@RequestMapping(value = "/prodOrder", method = RequestMethod.GET)
-	public String order() throws Exception {
-		return "cambakMall/prodOrder";
-	}
+	public String order(@SessionAttribute("loginMember") MemberVO vo, Model model) throws Exception {
+//	      System.out.println(vo.toString());
+		
+		// 장바구니에서 주문하기 눌렀을 때 상품정보 가져오기
+		model.addAttribute("prodInfo", service.prodOrderInfo(vo.getMember_id()));
+		
+	    return "cambakMall/prodOrder";
+	   }	
 
 	@RequestMapping(value = "/prodOrder/{member_id}", method = RequestMethod.GET)
 	public ResponseEntity<List<DestinationVO>> destList(@PathVariable("member_id") String member_id) {
