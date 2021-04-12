@@ -52,9 +52,10 @@ button.btn.btn-default.cntCh {
 }
 
 .totCnt-wrap {
-	margin-bottom: 20px;
-	font-size: 20px;
-	font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-left: 85%;
 }
 
 .col-lg-6.col-md-6.col-sm-6.cart-btn {
@@ -72,6 +73,13 @@ button.btn.btn-default.cntCh {
     padding: 0 30px;
 }
 
+.choiceDelete {
+    padding-left: 3.5%;
+    margin-top: 10px;
+}
+.allDelete {
+    float: left;
+}
 
 </style>
 
@@ -90,7 +98,6 @@ button.btn.btn-default.cntCh {
 			url : "/mall/cart/" + member_id, // 서블릿 주소
 			success : function(data) {
 				listOutput(data);
-				console.log(data);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -108,6 +115,7 @@ button.btn.btn-default.cntCh {
 			
 			output += "<tr>";
 			if (item.bucket_isChecked == "Y") {
+				totPrice += item.bucket_totBuyPrice;
 				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')" checked></label></td>';
 			} else {
 				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
@@ -115,19 +123,16 @@ button.btn.btn-default.cntCh {
 			output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
 			output += '<div class="cart__product__item__title"><h6>'+item.product_name+'</h6>';
 			output += '<div class="rating"><i class="fa fa-star"></i></div></td>';
-			output += '<td class="cart__price">￦ '+item.bucket_sellPrice+'</td>';
+			output += '<td class="cart__price">￦ '+item.bucket_sellPrice.toLocaleString()+'</td>';
 			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'"><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
-			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div></td>';
-			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice+'</td>'
+			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="deleteItem('+item.product_id+')">선택삭제</button></div></td>';
+			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
 			output += "</tr>";
 			
-			if(item.bucket_isChecked == "Y") {
-				totPrice += item.bucket_totBuyPrice;
-			}
 		});
 		
 		$(".cart_list").html(output);
-		$(".totPrice-value").text(totPrice);
+		$(".totPrice-value").text(totPrice.toLocaleString());
 	}
 	
 	// 수량 변경 함수
@@ -136,12 +141,14 @@ button.btn.btn-default.cntCh {
 		
 		let qty = $(product_id).val();
 		
+		// -1이면 빼기
 		if(click == -1) {
 			if (qty > 0) {
 				qty--;
 				$(product_id).val(qty);
 			}	
 		} else {
+			// 수량 더하기
 			qty++;
 			$(product_id).val(qty);
 		}
@@ -173,6 +180,7 @@ button.btn.btn-default.cntCh {
 		});
 	}
 	
+	// 장바구니에서 개별 아이템 삭제
 	function deleteItem(no) {
 		let product_id = no;
 		let member_id = "${loginMember.member_id}";
@@ -182,7 +190,6 @@ button.btn.btn-default.cntCh {
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
 			url : "/mall/cart/delete/" + member_id + "/" + product_id, // 서블릿 주소
 			success : function(data) {
-				console.log(data);
 				if(data == 1) {
 					cartList();
 				}
@@ -202,7 +209,6 @@ button.btn.btn-default.cntCh {
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
 			url : "/mall/cart/check/" + member_id + "/" + product_id, // 서블릿 주소
 			success : function(data) {
-				console.log(data);
 				if(data == 1) {
 					cartList();
 				}
@@ -258,8 +264,8 @@ button.btn.btn-default.cntCh {
 			</div>
 
 			<div>
-				<div>선택삭제</div>
-				<div>전체선택</div>
+				
+				<div class="allDelete"><button type="button" class="btn btn-default cntCh allDelete">전체삭제</button></div>
 				<div class="totCnt-wrap">합계 : ￦ <span class="totPrice-value"></span></div>
 			</div>
 

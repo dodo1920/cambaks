@@ -243,7 +243,8 @@ public class MallController {
 		ResponseEntity<Integer> entity = null;
 
 		try {
-			entity = new ResponseEntity<Integer>(bucketService.deleteItem(member_id, product_id), HttpStatus.OK);
+			bucketService.deleteItem(member_id, product_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

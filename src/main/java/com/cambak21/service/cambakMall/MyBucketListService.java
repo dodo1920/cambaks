@@ -10,7 +10,7 @@ public interface MyBucketListService {
 	
 	int changeQty(String member_id, int product_id, int qty) throws Exception;
 	
-	int deleteItem(String member_id, int product_id) throws Exception;
-	
 	int checkOnOff(String member_id, int product_id) throws Exception;
+	
+	void deleteItem(String member_id, int product_id) throws Exception;
 }

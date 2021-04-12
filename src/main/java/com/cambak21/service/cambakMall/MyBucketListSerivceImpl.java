@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.MyBucketListVO;
 import com.cambak21.persistence.cambakMall.MyBucketListDAO;
@@ -48,21 +49,6 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	}
 
 	/**
-	  * @Method Name : deleteItem
-	  * @작성일 : 2021. 4. 9.
-	  * @작성자 : goott6
-	  * @변경이력 : 
-	  * @Method 설명 :
-	  * @param member_id
-	  * @param product_id
-	  * @throws Exception
-	  */
-	@Override
-	public int deleteItem(String member_id, int product_id) throws Exception {
-		return dao.deleteItem(member_id, product_id);
-	}
-
-	/**
 	  * @Method Name : checkOnOff
 	  * @작성일 : 2021. 4. 9.
 	  * @작성자 : 승권
@@ -76,6 +62,13 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	@Override
 	public int checkOnOff(String member_id, int product_id) throws Exception {
 		return dao.checkOnOff(member_id, product_id);
+	}
+
+	@Override
+	@Transactional
+	public void deleteItem(String member_id, int product_id) throws Exception {
+		dao.deleteItemBP(member_id, product_id);
+		dao.deleteItemB(member_id, product_id);
 	}
 
 }
