@@ -1,5 +1,6 @@
 package com.cambak21.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -7,11 +8,15 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
+import org.imgscalr.Scalr.Mode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +109,7 @@ public class Register {
 	   ResponseEntity<String> entity = null;
 	   
 	   GoogleCapcha.setSecretKey("6LcPSqIaAAAAAJL1k-pAZ1KuLXHzGCDG_aB80L8s");
-        //0 = 성공, 1 = 실패, -1 = 오류
+        
         try {
             if(GoogleCapcha.verify(recaptcha)) {
             	entity = new ResponseEntity<String>("success", HttpStatus.OK);
@@ -162,12 +167,6 @@ public class Register {
         return entity;
    }
    
-   
-   @RequestMapping(value="test", method = RequestMethod.GET)
-   public String test() {
-      return "cambakMain/user/test";
-   }
-   
    @RequestMapping(value="/deleteProfile", method=RequestMethod.POST)
 	public ResponseEntity<String> deleteProfile(HttpServletRequest request, @RequestParam("tmpProfile") String tmpProfile) {
 	   String path = request.getSession().getServletContext().getRealPath("resources/uploads/memberProfile");
@@ -178,8 +177,8 @@ public class Register {
 	   return new ResponseEntity<String>("tmpDelete", HttpStatus.OK);
    }
    
-	@RequestMapping(value="/uploadAjax", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
-	public ResponseEntity<String> fileTest(HttpServletRequest request, MultipartFile file) {
+	@RequestMapping(value="/userProfileImgMake", method=RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	public ResponseEntity<String> userProfileImgMake(HttpServletRequest request, MultipartFile file) {
 
 		ResponseEntity<String> entity = null;
 		
@@ -220,6 +219,7 @@ public class Register {
 		
 		File target = new File(uploadPath, savedName);
 		FileCopyUtils.copy(fileDate, target); // 실제 저장
+		makeProfileImg(uploadPath, savedName); // 프로필 사진 사이즈로 변경
 		
 		String uploadFileName = null;
 		if(MediaConfirm.getMediaType(ext) != null) {
@@ -233,6 +233,19 @@ public class Register {
 		return uploadFileName;
 	}
 	
+	private static void makeProfileImg(String uploadPath, String savedName) throws IOException {
+		
+		BufferedImage sourceImg =  ImageIO.read(new File(uploadPath, savedName));
+		BufferedImage destImg = Scalr.resize(sourceImg, Method.QUALITY, Mode.FIT_EXACT, 70); // 높이 70px 리사이징
+		
+		String profileImgName = uploadPath + File.separator + savedName; // 썸네일 이미지의 경로와 이름
+		File newThumbFile = new File(profileImgName);
+		
+		String ext = savedName.substring(savedName.lastIndexOf(".") + 1);
+		System.out.println(ext);
+		
+		ImageIO.write(destImg, ext.toLowerCase(), newThumbFile);
+	}
 	
 }
 

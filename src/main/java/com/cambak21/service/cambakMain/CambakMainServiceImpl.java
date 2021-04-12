@@ -25,28 +25,7 @@ public class CambakMainServiceImpl implements CambakMainService {
 	@Override
 	public List<CampingVO> randomListCambak() throws Exception {
 		// 랜덤 캠핑장 3곳 조회
-		
-		Random rd = new Random();
-		int maxNum = dao.getCampingsiteNum();
-		boolean repeat = true;
-		int repeatNum = 0;
-		List<CampingVO> vo = new ArrayList<CampingVO>();
-		
-		do {
-			int randomNo = rd.nextInt(maxNum);
-			
-			if (dao.checkRandomCampingImg(randomNo) != 0) {
-				vo.add(dao.randomCambakInfo(randomNo));
-				repeatNum++;
-			}
-			
-			if (repeatNum == 3) {
-				repeat = false;
-			}
-			
-		} while (repeat);
-		
-		return vo;
+		return dao.randomCambakInfo();
 	}
 
 	@Override
