@@ -143,7 +143,7 @@ $(window).scroll(function () {
 									<option value="product_name">상품명</option>
 								</select>
 								
-								<input type="text" name="searchWord" placeholder="검색어 입력..." style="width: 550px"/>
+								<input type="text" name="searchWord" value="${param.searchWord }" placeholder="검색어 입력..." style="width: 550px"/>
 								
 								<select name="optionType" style="margin-right: 15px">
 									<option value="defualt">제품 번호순</option>

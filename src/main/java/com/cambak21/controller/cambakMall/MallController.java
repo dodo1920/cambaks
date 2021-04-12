@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+	
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
@@ -314,20 +314,5 @@ public class MallController {
 		return "cambakMall/prodList";
 		}
 
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public String seach(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
-		System.out.println("검색을 시작합니다....");
-		System.out.println(scri.toString());
-		model.addAttribute("board", service.prodBoardRead(cri, scri));
-		System.out.println(cri.toString());
-
-		PagingParam pp = new PagingParam();
-		pp.setCri(cri);
-		pp.setTotalCount(service.prodBoardReadCnt(scri));
-		System.out.println(pp.toString());
-		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체
-
-		return "cambakMall/prodList";
-	}
 	// **********************************************
 }

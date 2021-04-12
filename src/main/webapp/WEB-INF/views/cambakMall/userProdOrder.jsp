@@ -1,110 +1,150 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page session="true" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>CambakMall</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>체크리스트 뉴 버전</title>
+<link rel="icon" type="image/x-icon" href="../../resources/cambak21/assets/favicon.ico" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="/resources/cambak21/js/checkList.js"></script>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+<!-- tamplet css -->
+<link rel="stylesheet" href="../../resources/cambak21/css/skel-noscript.css" />
+<link rel="stylesheet" href="../../resources/cambak21/css/style.css" />
+<link rel="stylesheet" href="../../resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/SHWtamplet.css" />
+<link rel="stylesheet" href="../../../resources/cambak21/css/myPageAside.css" />
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500,900' rel='stylesheet' type='text/css'>
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="../../resources/mallMain/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+<!-- tamplet js -->
+<script src="/resources/cambak21/js/SHWtamplet.js"></script>
+
+
+
+
 <style>
-	
-	.MyaddrList{
-		width: 100%;
-	    height: 140px;
-	    text-align: center;
-	    font-size: 14px;
-	}
-	
-	
-	.MyaddrList th {
-	text-align: center;
-	font-size: 20px;
-	border-bottom-style: double;
-	    
-	}
-	
-	.MyaddrList td {
-	
-	border-bottom-style: outset;
-	    
-	}
-	
-	input[class^="modiform"] {
-	text-align: center;
-	readonly;
-	border-style: none;
-	
-	}
-	.DateArray,.BtnArray{
-	 width:	250px;
-	 height: 155px
-	}
-	.ContentArray{
-	 width: 600px;
-	 height: 45px
-	}
+.\34 u {
+   width: 100%;
+}
+
+.profile {
+   box-sizing: border-box;
+   width: 200px;
+   text-align: center;
+   border: 1px solid #F0F2F0;
+   margin-bottom: 120px 50px 0px 0px;
+       
+}
+
+.profileSize {
+   background-color: #F0F2F0;
+   padding: 20px 0px;
+}
+
+.userProfileImg {
+    width: 64px;
+    height: 64px;
+    border-radius: 70%;
+    overflow: hidden;   
+}
+
+.profileEmail {
+    font-size: 13px;
+}
+
+.nav-stacked>li{
+   margin-top: -10px;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 5px 15px;
+}
+
+#category-title{
+
+    text-align-last: center;
+    
+    }
+
+.panel-success {
+    margin-top: 25px;
+    border-color: #d6e9c6;
+}
+
+.profileMenu1{
+margin-top: 10px;
+}
+.DateArray,.BtnArray{
+	width: 150px;
+	height: 155px;
+	border: solid 1px black;
+}
+.ContentArray{
+	width: 400px;
+	height: 155px;
+	border: solid 1px black;
+}
+.textArray{
+	display: block;
+	margin: 10px 0 0 10px;
+}
+
 </style>
+
+<script type="text/javascript">
+
+</script>
+
+</head>
 <body>
+<%@include file="../cambakMain/cambak21Header.jsp"%>
 
 
-	<%@include file="mallHeader.jsp" %>
+<!-- Main -->
+<div id="main">
+	<div class="container">
+		<div class="row">
+			
+		<%@include file="../cambakMain/myPage/myPageAside.jsp"%>
 
+			<table style="margin-left: 20px">
+				 <c:forEach var="order" items="${order}">
+	               
+						<tr>
+							<td class="DateArray">
+							<span class="textArray" style="text-align: center;"><fmt:formatDate value="${order.payment_date}" type="both" pattern="yyyy-MM-dd" /></span>
+							</td>
+							<td class="ContentArray">
+							<span class="textArray">제품 이름 : ${order.product_name }</span>
+							<span class="textArray"><c:if test="${empty order.product_factory }"> 없음</c:if>
+							${order.product_factory }</span>
+							<span class="textArray">상품번호 : ${order.payment_no }</span>
+							<span class="textArray price" >제품가격 : ${order.buyProduct_totPrice }</span>
+							</td>
+							<td class="BtnArray">테스트</td>
+						</tr>
+					
+				</c:forEach>
+			</table>
+
+      		</div>
+    
+  
+	</div>
+</div>
+
+<%@include file="../cambakMain/cambak21Footer.jsp"%>
 	
-    <!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <table border="1">
-					<tr>
-						<td class="DateArray">테스트</td><td class="ContentArray">테스트</td><td class="BtnArray">테스트</td>
-					</tr>
-				</table>
-            </div>
-        </div>
-    </div>
-
-
-
-<%@include file="mallFooter.jsp" %>
-
-
-<!-- Js Plugins -->
-
-<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../../resources/mallMain/js/main.js"></script>
-
-
-</body>
+	
+	
+     </body>
 </html>
