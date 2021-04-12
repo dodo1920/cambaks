@@ -1,6 +1,8 @@
 package com.cambak21.persistence.cambakMain;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -62,8 +64,18 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	
 //	=============================도연 DAO=======================================================
 	@Override
-	public List<CampingVO> getCampings(String searchWord) throws Exception {
-		return session.selectList(nameSpace + "getCampings", searchWord);
+	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchWord", searchWord);
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return session.selectList(nameSpace + "getCampings", params);
+	}
+
+	@Override
+	public int getTotCnt(String keyword) throws Exception {
+		return session.selectOne(nameSpace + "getTotCnt", keyword);
 	}
 	
 	

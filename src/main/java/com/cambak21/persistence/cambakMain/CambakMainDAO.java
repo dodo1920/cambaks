@@ -26,7 +26,9 @@ public interface CambakMainDAO {
 //	=============================효원 인터페이스 끝=======================================================
 	
 //	=============================도연 인터페이스=======================================================
-	public List<CampingVO> getCampings(String searchWord) throws Exception;
+	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception;
+
+	public int getTotCnt(String keyword) throws Exception;
 	
 	
 	

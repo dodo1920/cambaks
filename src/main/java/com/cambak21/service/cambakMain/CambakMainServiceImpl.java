@@ -48,8 +48,13 @@ public class CambakMainServiceImpl implements CambakMainService {
 	
 //	=============================도연 Service=======================================================
 	@Override
-	public List<CampingVO> getCampings(String searchWord) throws Exception {
-		return dao.getCampings(searchWord);
+	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception {
+		return dao.getCampings(searchWord, cri);
+	}
+
+	@Override
+	public int getTotCnt(String keyword) throws Exception {
+		return dao.getTotCnt(keyword);
 	}
 	
 	
