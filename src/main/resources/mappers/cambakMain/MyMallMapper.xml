@@ -23,7 +23,7 @@
 		join goot6.BuyProducts pro
 		on pay.buyProduct_no = pro.buyProduct_no
 		where ref.member_id =
-		#{member_id}
+		#{member_id} order by pay.payment_serialNo desc limit #{pageStart}, #{perPageNum} 
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 

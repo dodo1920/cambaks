@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.mapper.MemberOrderMapper">
 	<select id="MemberLittleOrder" resultType="com.cambak21.domain.MemberLittleOrderVO">
-		select payment.payment_date,payment.payment_no
+		select payment.payment_date,payment.payment_no,
 		product.product_name,buyProduct.buyProduct_totPrice,
 		deliverie.delivery_status
 		 from Payments payment

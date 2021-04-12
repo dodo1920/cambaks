@@ -42,9 +42,8 @@
 	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
 	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
 	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
-	let fileFormJ = /(.*?)\.(jpg|jpeg|png|gif)$/;
 	let savedProFile ="";
-
+	
 	window.history.forward();
 	function noBack() {
 		window.history.forward();
@@ -74,21 +73,25 @@
 		if(imgFile != "") {
 			let fileSize = $("#profile")[0].files[0].size;
 		    
-		    if(fileFormJ.test(imgFile)) {
-		    	alert("이미지 파일만 업로드 가능");
-		        return;
+		    if(imgFile == "jpg" || imgFile == "jpeg" || imgFile == "png") {
+		    	
+				if (savedProFile == "") {
+					profileSave();
+				} else {
+					deleteTmpProfile();
+					profileSave();
+				}
+		    	
 		    } else if(fileSize > maxSize) {
 		    	alert("파일 사이즈는 10MB까지 가능");
+		        return;
+		    } else {
+		    	alert("jpg, jpeg, png파일만 업로드 가능");
 		        return;
 		    }
 		}
 		
-		if (savedProFile == "") {
-			profileSave();
-		} else {
-			deleteTmpProfile();
-			profileSave();
-		}
+
 		
 	}
 	
@@ -115,7 +118,7 @@
 		formData.append("file", $("#profile")[0].files[0]);
 		
 		$.ajax({
-			url : '/user/uploadAjax',
+			url : '/user/userProfileImgMake',
 			data : formData,
 			dataType : 'text', // 응답받을 타입
 			type : 'post',
@@ -600,9 +603,7 @@
 .tmpProfile {
     float: left;
     overflow: hidden;
-    width: 70px;
-    height: 70px;
-    border-radius: 5px;
+    border-radius: 50%;
     border: 1px solid #ccc;
     margin-right: 15px;
 }
@@ -774,14 +775,14 @@
 								<th class="tableTitleSize">프로필사진</th>
 								<td class="tableContentSize">
 									<input type="hidden" name="member_img" id="member_img" value="memberProfile/profileDefualt.png"/>
-									<input type="file" id="profile" accept="image/jpeg, image/png, image/jpg, image/gif" onchange="saveUserProFile();" style="display : none;">
+									<input type="file" id="profile" accept="image/jpeg, image/png, image/jpg" onchange="saveUserProFile();" style="display : none;">
 									<div>
 									<img src="/resources/uploads/memberProfile/profileDefualt.png" id="tmpUserProfile" class="tmpProfile" />
 									</div>
 									<div>
 									<button type="button" id="clickFileSelector" class="uploadBtn">업로드</button>
 									</div>
-									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(gif/jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
+									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
 							</tr>
 						</table>

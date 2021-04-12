@@ -8,11 +8,12 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
 
 @Repository
@@ -22,6 +23,7 @@ public class MyMallDAOImpl implements MyMallDAO {
 	private SqlSession ses;
 	
 	private static String ns = "com.mappers.cambakMain.MyMallMapper";
+	private static String nsOrder ="com.mapper.MemberOrderMapper";
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@Override
@@ -30,10 +32,17 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(ns + ".getTotalRefund", member_id);
 	}
 	
+	
+
 	@Override
-	public Object getRefundList(String member_id) throws Exception {
+	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.selectList(ns + ".getRefundList", member_id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("pageStart", cri.getListCount(1));
+		params.put("perPageNum", cri.getPerPageNum());
+		System.out.println(params);
+		return ses.selectList(ns + ".getRefundList", params);
 	}
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -133,6 +142,16 @@ public class MyMallDAOImpl implements MyMallDAO {
 	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	@Override
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
+		System.out.println("userName : "+userName+"\n PageStart"+cri.getPageStart()+"\n PerPageNum"+cri.getPerPageNum());
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("userName", userName);
+		param.put("pageStert", cri.getPageStart());
+		param.put("pageNum", cri.getPerPageNum());
+		return ses.selectList(nsOrder+".MemberLittleOrder",param);
+	}
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

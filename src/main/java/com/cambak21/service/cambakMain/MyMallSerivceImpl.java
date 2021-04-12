@@ -6,10 +6,12 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
 import com.cambak21.util.PagingCriteria;
 
@@ -27,9 +29,9 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public Object getRefundList(String member_id) throws Exception {
+	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.getRefundList(member_id);
+		return dao.getRefundList(member_id, cri);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -108,22 +110,18 @@ public class MyMallSerivceImpl implements MyMallService {
 	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception {
 		return dao.getProdQAVO(prodQA_no);
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
-
-
-
-
-
-	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	
 
 	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	@Override
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
+		// TODO Auto-generated method stub
+		return dao.MemberLittleOrder(cri, userName);
+	}
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

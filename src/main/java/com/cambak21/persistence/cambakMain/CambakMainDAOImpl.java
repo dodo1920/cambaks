@@ -22,21 +22,9 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	
 //	=============================효원 DAO=======================================================
 	@Override
-	public int getCampingsiteNum() throws Exception {
-		// DB에 있는 캠핑장 정보 개수 검색
-		return session.selectOne(nameSpace + "getCampingsiteNum");
-	}
-
-	@Override
-	public int checkRandomCampingImg(int randomNo) throws Exception {
-		// 랜덤 번호로 캠핑장에 사진이 있는지 없는지 체크
-		return session.selectOne(nameSpace + "checkRandomCampingImg", randomNo);
-	}
-	
-	@Override
-	public CampingVO randomCambakInfo(int randomNo) throws Exception {
+	public List<CampingVO> randomCambakInfo() throws Exception {
 		// 랜덤 캠핑장 조회
-		return session.selectOne(nameSpace + "randomCapingsite", randomNo);
+		return session.selectList(nameSpace + "randomCapingsite");
 	}
 
 	@Override
@@ -75,7 +63,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 //	=============================도연 DAO=======================================================
 	@Override
 	public List<CampingVO> getCampings(String searchWord) throws Exception {
-		return session.selectList(nameSpace + ".getCampings", searchWord);
+		return session.selectList(nameSpace + "getCampings", searchWord);
 	}
 	
 	

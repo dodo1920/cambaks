@@ -3,19 +3,12 @@ package com.cambak21.domain;
 import java.util.Date;
 
 public class MemberLittleOrderVO {
-	private String product_img1;
 	private Date payment_date;
 	private String product_name;
 	private String product_factory;
 	private int payment_no;
 	private int buyProduct_totPrice;
 	private String delivery_status;
-	public String getProduct_img1() {
-		return product_img1;
-	}
-	public void setProduct_img1(String product_img1) {
-		this.product_img1 = product_img1;
-	}
 	public Date getPayment_date() {
 		return payment_date;
 	}
@@ -56,7 +49,7 @@ public class MemberLittleOrderVO {
 	
 	@Override
 	public String toString() {
-		return "MemberLittleOrderVO [product_img1=" + product_img1 + ", payment_date=" + payment_date
+		return "MemberLittleOrderVO [payment_date=" + payment_date
 				+ ", product_name=" + product_name + ", product_factory=" + product_factory + ", payment_no="
 				+ payment_no + ", buyProduct_totPrice=" + buyProduct_totPrice + ", delivery_status=" + delivery_status
 				+ "]";

@@ -156,6 +156,20 @@ function default_addr() {
 //김대기 script end
 
 // 장원영 script Start
+	function usePoint() {
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/mall/prodOrder/select/" + ${member.member_totPoint}, // 서블릿 주소
+			success : function(data) {
+				listOutput(data);
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
 
 //장원영 script End
 

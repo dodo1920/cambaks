@@ -5,7 +5,7 @@
 				<div class="profile">
 						<div>
 							<div class="profileSize">
-								<a href=""></a><img src="../../resources/uploads/${loginMember.member_img }" style="width: 70px; height: 70px; border-radius: 5px;">
+								<a href=""></a><img src="../../resources/uploads/${loginMember.member_img }" style="border-radius: 50%; border: 1px solid #ccc;">
 								<h4>${loginMember.member_id }</h4>
 								<div class="profileEmail">${loginMember.member_email }</div>
 							</div>
@@ -46,7 +46,7 @@
 					</div>
 					<ul class="nav nav-pills nav-stacked">
 						<li id="#"><a href="/myMall/myPoint">적립금 관리</a></li>
-						<li id="#"><a href="#">주문 목록</a></li>
+						<form action="/myMall/userProdOrder/${loginMember.member_id}" method="post" ><li id="#"><input type="submit" value="주문 목록" class="profileMenu" style="color: #80BA8E;background: none;border: none;"></li></form>
 						<li id="#"><a href="/myMall/myRefund">취소 / 반품</a></li>
 						<li id="#"><a href="/myMall/myQnA?page=1">상품 문의</a></li>
 					</ul>
