@@ -14,4 +14,8 @@ public interface MyBucketListDAO {
 	void deleteItemBP(String member_id, int product_id) throws Exception;
 	
 	void deleteItemB(String member_id, int product_id) throws Exception;
+	
+	void deleteItemAllBP(String member_id) throws Exception;
+	
+	void deleteItemAllB(String member_id) throws Exception;
 }

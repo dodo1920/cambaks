@@ -240,10 +240,27 @@ public class MallController {
 
 	@RequestMapping("/cart/delete/{member_id}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> deleteItem(@PathVariable("member_id") String member_id, @PathVariable("product_id") int product_id) {
+		// 장바구니 개별아이템 삭제
 		ResponseEntity<Integer> entity = null;
 
 		try {
 			bucketService.deleteItem(member_id, product_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	@RequestMapping("/cart/delete/all/{member_id}")
+	public @ResponseBody ResponseEntity<Integer> deleteItemAll(@PathVariable("member_id") String member_id) {
+		// 장바구니 전체 삭제
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			bucketService.deleteItemAll(member_id);
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -266,7 +283,7 @@ public class MallController {
 
 		return entity;
 	}
-
+	
 	// **************************************** 김태훈 컨트롤러
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

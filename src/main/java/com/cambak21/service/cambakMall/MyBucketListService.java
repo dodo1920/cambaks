@@ -13,4 +13,6 @@ public interface MyBucketListService {
 	int checkOnOff(String member_id, int product_id) throws Exception;
 	
 	void deleteItem(String member_id, int product_id) throws Exception;
+	
+	void deleteItemAll(String member_id) throws Exception;
 }

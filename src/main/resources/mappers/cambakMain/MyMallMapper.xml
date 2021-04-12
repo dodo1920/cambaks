@@ -118,6 +118,14 @@
 		delete from Buckets where member_id = #{member_id} and product_id = #{product_id};
 	</delete>
 	
+	<!-- 장바구니 아이템 전체 삭제 -->
+	<delete id="deleteItemAllBP">
+		delete from BuyProducts where member_id = #{member_id};
+	</delete>
+	<!-- 장바구니 테이블에 있는 데이터 지우기 -->
+	<delete id="deleteItemAllB">
+		delete from Buckets where member_id = #{member_id};
+	</delete>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

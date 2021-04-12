@@ -110,4 +110,32 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		ses.delete(ns + ".deleteItemB", map);
 	}
 
+	/**
+	  * @Method Name : deleteItemAllBP
+	  * @작성일 : 2021. 4. 12.
+	  * @작성자 :  승권
+	  * @변경이력 : 
+	  * @Method 설명 : 장바구니 아이템 전체삭제 시 BuyProducts테이블 데이터 지우기
+	  * @param member_id
+	  * @throws Exception
+	  */
+	@Override
+	public void deleteItemAllBP(String member_id) throws Exception {
+		ses.delete(ns + ".deleteItemAllBP", member_id);
+	}
+
+	/**
+	  * @Method Name : deleteItemAllB
+	  * @작성일 : 2021. 4. 12.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 :장바구니 아이템 전체삭제 시 Buckets테이블 데이터 지우기
+	  * @param member_id
+	  * @throws Exception
+	  */
+	@Override
+	public void deleteItemAllB(String member_id) throws Exception {
+		ses.delete(ns + ".deleteItemAllB", member_id);
+	}
+
 }

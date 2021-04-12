@@ -71,4 +71,11 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 		dao.deleteItemB(member_id, product_id);
 	}
 
+	@Override
+	@Transactional
+	public void deleteItemAll(String member_id) throws Exception {
+		dao.deleteItemAllBP(member_id);
+		dao.deleteItemAllB(member_id);
+	}
+
 }

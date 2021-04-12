@@ -201,6 +201,26 @@ button.btn.btn-default.cntCh {
 		});
 	}
 	
+	// 장바구니 아이템 전체 삭제
+	function deleteItemAll() {
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/mall/cart/delete/all/" + member_id, // 서블릿 주소
+			success : function(data) {
+				if(data == 1) {
+					cartList();
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
 	// 체크 on off
 	function checkClick(product_id) {
 		let member_id = "${loginMember.member_id}";
@@ -265,7 +285,7 @@ button.btn.btn-default.cntCh {
 
 			<div>
 				
-				<div class="allDelete"><button type="button" class="btn btn-default cntCh allDelete">전체삭제</button></div>
+				<div class="allDelete"><button type="button" class="btn btn-default cntCh allDelete" onclick="deleteItemAll()">전체삭제</button></div>
 				<div class="totCnt-wrap">합계 : ￦ <span class="totPrice-value"></span></div>
 			</div>
 
