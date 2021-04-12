@@ -91,7 +91,9 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	  * @throws Exception
 	  */
 	@Override
+	@Transactional
 	public void goOrder(String member_id) throws Exception {
+		dao.deleteItemAllBP(member_id);
 		dao.insertBP(dao.getCheckedY(member_id));
 	}
 
