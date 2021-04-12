@@ -222,7 +222,6 @@ public class MallController {
 	}
 
 	// 장바구니 수량 변경
-	// 장바구니 목록
 	@RequestMapping("/cart/{member_id}/{product_id}/{qty}")
 	public @ResponseBody ResponseEntity<Integer> changeQty(@PathVariable("member_id") String member_id,
 			@PathVariable("product_id") int product_id, @PathVariable("qty") int qty) {
@@ -272,7 +271,7 @@ public class MallController {
 	
 	@RequestMapping("/cart/order/{member_id}")
 	public @ResponseBody ResponseEntity<Integer> goOrder(@PathVariable("member_id") String member_id) {
-		// 장바구니 전체 삭제
+		// 장바구니에서 체크 Y인것만 주문하기
 		ResponseEntity<Integer> entity = null;
 		
 		try {
@@ -286,6 +285,7 @@ public class MallController {
 		return entity;
 	}
 	
+	// 장바구니에서 체크 OnOff
 	@RequestMapping("/cart/check/{member_id}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> checkOnOff(@PathVariable("member_id") String member_id, @PathVariable("product_id") int product_id) {
 		ResponseEntity<Integer> entity = null;
