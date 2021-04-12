@@ -291,7 +291,7 @@ function default_addr() {
     	
     	
     	<c:forEach var="item" items="${prodList }">
-    		<c:if test="${item.boyProduct_isFinished == Y and loginMember.member_id == item.member_id}">
+    		<c:if test="${item.buyProduct_isFinished == Y and loginMember.member_id == item.member_id}">
 				<tr>
 					<td style="text-align: center;">${item.buyProduct_no }</td>
 					<td style="text-align: center; width: 100px;">${item.product_img1 }</td>
