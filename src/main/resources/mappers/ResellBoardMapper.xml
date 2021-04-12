@@ -81,13 +81,13 @@
   <!-- 김정민 좋아요, 댓글, 작성글 카운트 부분 -->
   <!-- 작성글 카운트 -->
   <select id="ResellBoardWriteCnt" resultType="int">
-  	select count(*) from goot6.ResellBoards where member_id=#{member_id}
+  	select count(*) from goot6.ResellBoards where member_id=#{member_id} and resellBoard_isDelete ='N'
   </select>
   <select id="ResellBoardLikeCnt" resultType="int">
-  	select count(*) from goot6.ResellLikeBoards where member_id=#{member_id}
+  	select count(*) from ResellLikeBoards r, ResellBoards rb where r.member_id=#{member_id} and  r.resellBoard_no=rb.resellBoard_no and rb.resellBoard_isDelete='N'
   </select>
   <select id="ResellBoardReplyCnt" resultType="int">
-  	select count(*) from goot6.ReplyResells where member_id=#{member_id}
+  	select count(*) from ReplyResells rr, ResellBoards rb where rr.member_id=#{member_id} and rr.resellBoard_no=rb.resellBoard_no and rb.resellBoard_isDelete='N';
   </select>
   <!-- 김정민 좋아요, 댓글, 작성글 카운트 부분 -->
   </mapper>
