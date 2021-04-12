@@ -20,6 +20,7 @@ public class BoardHumorDAOTest {
 	@Inject
 	private BoardHumorDAO dao;
 	
+	
 //	@Test
 //	public void insertBoard() throws Exception{
 //		BoardVO vo = new BoardVO();
