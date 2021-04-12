@@ -270,6 +270,22 @@ public class MallController {
 		return entity;
 	}
 	
+	@RequestMapping("/cart/order/{member_id}")
+	public @ResponseBody ResponseEntity<Integer> goOrder(@PathVariable("member_id") String member_id) {
+		// 장바구니 전체 삭제
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			bucketService.goOrder(member_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
 	@RequestMapping("/cart/check/{member_id}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> checkOnOff(@PathVariable("member_id") String member_id, @PathVariable("product_id") int product_id) {
 		ResponseEntity<Integer> entity = null;

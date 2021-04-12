@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cambak21.domain.MyBucketCheckdVO;
 import com.cambak21.domain.MyBucketListVO;
 import com.cambak21.persistence.cambakMall.MyBucketListDAO;
 
@@ -76,6 +77,22 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	public void deleteItemAll(String member_id) throws Exception {
 		dao.deleteItemAllBP(member_id);
 		dao.deleteItemAllB(member_id);
+	}
+
+	/**
+	  * @Method Name : goOrder
+	  * @작성일 : 2021. 4. 12.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 주문 이벤트 발생 시, 
+	  * 				1. Buckets 테이블에서 isChecked Y인것만 가져온다
+	  * 				2. 가져온 데이터를 BuyProducts테이블에 insert 시킨다
+	  * @param member_id
+	  * @throws Exception
+	  */
+	@Override
+	public void goOrder(String member_id) throws Exception {
+		dao.insertBP(dao.getCheckedY(member_id));
 	}
 
 }

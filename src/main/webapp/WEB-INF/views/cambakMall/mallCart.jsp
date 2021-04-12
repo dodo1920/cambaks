@@ -221,6 +221,26 @@ button.btn.btn-default.cntCh {
 		});
 	}
 	
+	// 주문하기
+	function goOrder() {
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/mall/cart/order/" + member_id, // 서블릿 주소
+			success : function(data) {
+				if(data == 1) {
+					location.href="../mall/prodOrder"
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
 	// 체크 on off
 	function checkClick(product_id) {
 		let member_id = "${loginMember.member_id}";
@@ -294,7 +314,7 @@ button.btn.btn-default.cntCh {
 					<div class="cart__btn update__btn">
 						<button type="button" class="btn btn-default cntCh">계속
 							쇼핑하기</button>
-						<button type="button" class="btn btn-default cntCh">주문하기</button>
+						<button type="button" class="btn btn-default cntCh" onclick="goOrder()">주문하기</button>
 					</div>
 				</div>
 			</div>
