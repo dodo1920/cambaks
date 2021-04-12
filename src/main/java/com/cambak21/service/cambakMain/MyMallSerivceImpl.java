@@ -10,6 +10,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
 import com.cambak21.util.PagingCriteria;
 
@@ -27,9 +28,9 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public Object getRefundList(String member_id) throws Exception {
+	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.getRefundList(member_id);
+		return dao.getRefundList(member_id, cri);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	

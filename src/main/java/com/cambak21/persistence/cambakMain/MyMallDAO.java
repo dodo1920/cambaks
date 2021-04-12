@@ -6,6 +6,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
 
 public interface MyMallDAO {
@@ -14,14 +15,15 @@ public interface MyMallDAO {
 
 	public int getTotalRefund(String member_id) throws Exception;
 	
-	public Object getRefundList(String member_id) throws Exception;
+	List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Override
+	
 	// 마이페이지-나의 적립금 포인트 적립내역 가져오기
 	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception;
 	// 마이페이지-나의 적립금 총 게시물 개수 가져오기
@@ -40,6 +42,10 @@ public interface MyMallDAO {
 	
 	// 답변 가져오기
 	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception;
+
+
+
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 

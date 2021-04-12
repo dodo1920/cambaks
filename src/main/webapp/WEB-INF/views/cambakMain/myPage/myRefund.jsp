@@ -231,7 +231,13 @@ margin-top: 10px;
 													<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value ="${item.payment_date }"/></td>
 													<td>${item.refundnExchange_reason }</td>
 													<td>${item.payment_serialNo }</td>
-													<td>${item.refundnExchange_status }</td>
+													<c:if test="${item.refundnExchange_isChecked == 'Y' }">
+													<td>처리완료</td>
+													</c:if>
+													<c:if test="${item.refundnExchange_isChecked == 'N' }">
+													<td>처리중</td>
+													</c:if>
+													
 												
 												</tr>
 												<tr>
@@ -258,11 +264,11 @@ margin-top: 10px;
 							</div>
 							
 							<!-- 페이징 -->
-						<div class="myPagePagingBtn">
+						<div class="myPagePagingBtn" style="text-align: center">
 							<ul class="pagination">
 								<!-- 이전 버튼 -->
 								<c:if test="${pp.prev }">
-									<li><a href="/myMall/myQnA?page=${param.page - 1 }">이전</a></li>
+									<li><a href="/myMall/myRefund?page=${param.page - 1 }">이전</a></li>
 								</c:if>
 
 								<!-- 페이징 버튼 -->
@@ -273,7 +279,7 @@ margin-top: 10px;
 
 								<!-- 다음 버튼 -->
 								<c:if test="${pp.next }">
-									<li><a href="/myMall/myQnA?page=${param.page + 1 }">다음</a></li>
+									<li><a href="/myMall/myRefund?page=${param.page + 1 }">다음</a></li>
 								</c:if>
 							</ul>
 						</div>

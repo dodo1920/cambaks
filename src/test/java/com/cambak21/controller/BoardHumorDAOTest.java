@@ -20,24 +20,24 @@ public class BoardHumorDAOTest {
 	@Inject
 	private BoardHumorDAO dao;
 	
-//	@Test
-//	public void insertBoard() throws Exception{
-//		BoardVO vo = new BoardVO();
-//		vo.setMember_id("aaa");
-//		vo.setBoard_title("김대기 test");
-//		
-//		vo.setBoard_content("rere test");
-//		
-//		int i = dao.insertBoardHumor(vo);
-//		if(i == 1) {
-//			System.out.println("글등록 성공");
-//		}
-//	}
+	@Test
+	public void insertBoard() throws Exception{
+		BoardVO vo = new BoardVO();
+		vo.setMember_id("aaa");
+		vo.setBoard_title("김대기 test");
+		
+		vo.setBoard_content("rere test");
+		
+		int i = dao.insertBoardHumor(vo);
+		if(i == 1) {
+			System.out.println("글등록 성공");
+		}
+	}
 	
-//	@Test
-//	public void readBoardHumor() throws Exception{
-//		System.out.println(dao.readBoardHumor(4).toString());
-//	}
+	@Test
+	public void readBoardHumor() throws Exception{
+		System.out.println(dao.readBoardHumor(4).toString());
+	}
 	
 	@Test
 	public void listBoard() throws Exception{

@@ -24,6 +24,7 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.service.cambakMain.MyMallService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -42,13 +43,15 @@ public class MyMallController {
 	public String myRefund(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception {
 		
 		PagingParam pp = new PagingParam();
-		
+		cri.setPerPageNum(1);
+		cri.getListCount(1);
 		pp.setCri(cri);
 		
 		pp.setTotalCount(service.getTotalRefund(member.getMember_id()));
+		System.out.println("총페이지 수는 " + service.getTotalRefund(member.getMember_id()));
 		
 		model.addAttribute("pp", pp);
-		model.addAttribute("refundList", service.getRefundList(member.getMember_id()));
+		model.addAttribute("refundList", service.getRefundList(member.getMember_id(), cri));
 		
 		return "cambakMain/myPage/myRefund";
 	}

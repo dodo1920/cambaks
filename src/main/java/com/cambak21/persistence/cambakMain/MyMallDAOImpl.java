@@ -13,6 +13,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
 
 @Repository
@@ -30,10 +31,17 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(ns + ".getTotalRefund", member_id);
 	}
 	
+	
+
 	@Override
-	public Object getRefundList(String member_id) throws Exception {
+	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.selectList(ns + ".getRefundList", member_id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("pageStart", cri.getListCount(1));
+		params.put("perPageNum", cri.getPerPageNum());
+		System.out.println(params);
+		return ses.selectList(ns + ".getRefundList", params);
 	}
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
