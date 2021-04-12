@@ -38,7 +38,8 @@
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
 <script>
-   let capchaResult = "FAIL";
+   let emailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 정규식
+   let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
    
    $(document).ready(function() {
 
@@ -46,40 +47,57 @@
    });
    
    function userEmailChk() {
+	   let userEmail = $("#userEmail").val();
 	   
-	   googleCapchaChk();
+	   if (userEmail.length == 0) {
+		   alert("이메일을 작성해주세요.");
+		   $("#userEmail").focus();
+		   return;
+	   }
 	   
-	   if (capchaResult == "OK") {
+	   if (googleCapchaChk()) {
 		   
-		   alert("이메일 보냈삼");
-	   } else if (capchaResult == "FAIL") {
+		   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) {
+			   if (!sendEamil()) {
+				   alert("이미 사용 중인 이메일입니다. 아이디 찾기를 이용해주세요.");
+				   return;
+			   } else {
+				   alert("작성해주신 주소로 메일이 전송되었습니다.");
+			   }
+			   location.reload();
+		   } else {
+			   alert("이메일 형식에 맞게 작성해주세요.");
+		   }
+		   
+	   } else {
 		   alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
 	   }
 	   
    }
    
    function sendEamil() {
+	   let result = true;
+	   let userEmail = $("#userEmail").val();
 	   
 		$.ajax({
             url: '/user/register/sendRegisterEmail',
             type: 'post',
             dataType: "text",
             async: false,
-            data: { recaptcha: $("#g-recaptcha-response").val() },
+            data: { userEmail : userEmail },
             success: function(data) {
-            	if (data == "success") {
-            		capchaResult = "OK";
-            	} else if (data == "fail") {
-            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
-            	} else if (data == "error") {
-            		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
-                }
+            	if (data == "impossibility") {
+            		result = false;
+            	}
             }
         });
+		
+		return result;
 		
    }
 
    function googleCapchaChk() {
+	   let result = false;
 	   
 		$.ajax({
             url: '/user/register/checkRecaptcha',
@@ -88,17 +106,19 @@
             async: false,
             data: { recaptcha: $("#g-recaptcha-response").val() },
             success: function(data) {
+            	
             	if (data == "success") {
-            		capchaResult = "OK";
+            		result =  true;
             	} else if (data == "fail") {
-            		alert("자동 가입 방지 봇을 확인 한뒤 진행 해 주세요.");
+            		result =  false;
             	} else if (data == "error") {
             		alert("자동 가입 방지 봇을 실행 하던 중 오류가 발생 했습니다.");
+            		result =  false;
                 }
             }
             
         });
-				
+		return result;		
    }
    
    
@@ -149,6 +169,7 @@
     display: block;
     text-align: center;
     background-color: #fafafa;
+    cursor: pointer;
 }
 
 .kakaoRegisterBtn {
@@ -163,6 +184,7 @@
     display: block;
     text-align: center;
     background-color: #fafafa;
+    cursor: pointer;
 }
 
 .kakaoInfo {
@@ -182,6 +204,35 @@
   background-color: #f9f9f9;
 }
 
+.memberBtn {
+	color: #3e3d3c;
+    text-decoration: none;
+}
+
+.signIn {
+	padding: 15px 0 0;
+	color: #666;
+	font-size: 12px;
+}
+
+.signInBtn {
+	color: #3e3d3c;
+	text-decoration: underline;
+}
+
+.registerBar {
+	margin: 17px 0 0;
+	padding: 53px 54px 59px;
+	border: 1px solid #dcdcdc;
+}
+
+.registerSite {
+	width: 579px; margin: 0 auto; padding: 60px 0;
+}
+
+.registerBar a:hover {
+	text-decoration: none;
+}
 
 </style>
 
@@ -198,8 +249,8 @@
 					<div class="registerTitle">
 							<h2 class="registerTitleHead">회원가입</h2>
 					</div>
-					<div style="width: 579px; margin: 0 auto; padding: 60px 0;">
-						<div style="margin: 17px 0 0; padding: 53px 54px 59px; border: 1px solid #dcdcdc;">
+					<div class="registerSite">
+						<div class="registerBar">
 							<a class="registerBtn" data-toggle="modal" data-target="#myModal">캠박's 통합 회원가입</a>
 							<a class="kakaoRegisterBtn">Daum Kakao 아이디 회원가입</a>
 							<p class="kakaoInfo">
@@ -219,17 +270,16 @@
 								  <div class="modal-body" style="padding:40px 50px;">
 								    <form role="form">
 								      <div class="form-group">
-								        <label for="usrname"><span class="glyphicon glyphicon-user"></span> </label>
-								        <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+								        <label for="userEmail"><span class="glyphicon glyphicon-user"></span> </label>
+								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요.">
 								      </div>
 									  <div class="g-recaptcha" data-sitekey="6LcPSqIaAAAAAH_msgzY3LP3lNJ207FQ4ujognJW"></div>
 								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="userEmailChk();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
 								    </form>
 								  </div>
 								  <div class="modal-footer">
-								    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-								    <p>Not a member? <a href="#">Sign Up</a></p>
-								    <p>Forgot <a href="#">Password?</a></p>
+								    <button type="submit" class="btn btn-danger btn-default pull-left" style="margin-top: 21px;" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> 취소</button>
+								    <p>이미 캠박's 회원이세요? <br /><a href="login/yet" class="memberBtn">로그인</a> | <a href="find_idPwd" class="memberBtn">아이디/비밀번호 찾기</a></p>
 								  </div>
 								</div>
 							    
@@ -238,9 +288,9 @@
 							
 						</div>
 						<div style="text-align: center;">
-							<p style="padding: 15px 0 0; color: #666; font-size: 12px;">
+							<p class="signIn">
 								이미 캠박's 회원이세요?
-								<a href="/user/login/yet" style="color: #3e3d3c; text-decoration: underline;">로그인</a>
+								<a href="/user/login/yet" class="signInBtn">로그인</a>
 							</p>
 						</div>
 					</div>

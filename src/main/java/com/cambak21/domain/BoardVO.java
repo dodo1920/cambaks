@@ -17,7 +17,7 @@ public class BoardVO {
 	private Date board_updateDate;
 	private int board_likeCnt;
 	private int board_viewCnt;
-	private int camping_contentId;
+	private int camping_no;
 	private String board_isDelete;
 	private int board_replyCnt;
 	
@@ -99,11 +99,11 @@ public class BoardVO {
 	public void setBoard_viewCnt(int board_viewCnt) {
 		this.board_viewCnt = board_viewCnt;
 	}
-	public int getCamping_contentId() {
-		return camping_contentId;
+	public int getCamping_no() {
+		return camping_no;
 	}
-	public void setCamp_contentId(int camp_contentId) {
-		this.camping_contentId = camp_contentId;
+	public void setCamping_no(int camping_no) {
+		this.camping_no = camping_no;
 	}
 	public String getBoard_isDelete() {
 		return board_isDelete;
@@ -111,16 +111,6 @@ public class BoardVO {
 	public void setBoard_isDelete(String board_isDelete) {
 		this.board_isDelete = board_isDelete;
 	}
-	@Override
-	public String toString() {
-		return "BoardVO [board_no=" + board_no + ", member_id=" + member_id + ", board_title=" + board_title
-				+ ", board_category=" + board_category + ", board_content=" + board_content + ", board_img1="
-				+ board_img1 + ", board_img2=" + board_img2 + ", board_img3=" + board_img3 + ", board_img4="
-				+ board_img4 + ", board_writeDate=" + board_writeDate + ", board_updateDate=" + board_updateDate
-				+ ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt + ", camping_contentId="
-				+ camping_contentId + ", board_isDelete=" + board_isDelete + ", board_replyCnt=" + board_replyCnt + "]";
-	}
-	
 	public int getBoard_replyCnt() {
 		return board_replyCnt;
 	}
@@ -128,7 +118,14 @@ public class BoardVO {
 		this.board_replyCnt = board_replyCnt;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return "BoardVO [board_no=" + board_no + ", member_id=" + member_id + ", board_title=" + board_title
+				+ ", board_category=" + board_category + ", board_content=" + board_content + ", board_img1="
+				+ board_img1 + ", board_img2=" + board_img2 + ", board_img3=" + board_img3 + ", board_img4="
+				+ board_img4 + ", board_writeDate=" + board_writeDate + ", board_updateDate=" + board_updateDate
+				+ ", board_likeCnt=" + board_likeCnt + ", board_viewCnt=" + board_viewCnt + ", camping_no=" + camping_no
+				+ ", board_isDelete=" + board_isDelete + ", board_replyCnt=" + board_replyCnt + "]";
+	}
 	
 }

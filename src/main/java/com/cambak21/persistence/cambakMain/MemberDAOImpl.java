@@ -47,9 +47,15 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 	
 	@Override
+	public int checkRegisterEmail(String userEmail) throws Exception {
+		// 작성한 ID가 사용가능한지 확인하는 메서드
+		return ses.selectOne(namespace + ".registerEmailChk", userEmail);
+	}
+	
+	@Override
 	public int memberInsert(MemberVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		// 유저가 작성한 회원 정보 저장
+		return ses.insert(namespace + ".MemberInsert", vo);
 	}
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
@@ -96,6 +102,5 @@ public class MemberDAOImpl implements MemberDAO {
 	public int memberDel(LoginDTO dto) throws Exception {
 		return ses.update(namespace + ".MemberDelete", dto);
 	}
-
 
 }

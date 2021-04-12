@@ -11,7 +11,6 @@ import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
-import com.cambak21.persistence.boardProdQA.BoardProdQADAO;
 import com.cambak21.persistence.cambakMain.MemberDAO;
 
 @Service
@@ -51,9 +50,27 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public boolean checkRegisterEmail(String userEmail) throws Exception {
+		// 작성한 ID가 사용가능한지 확인하는 메서드
+		boolean result = false;
+		
+		if (dao.checkRegisterEmail(userEmail) == 0) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
+	@Override
 	public boolean memberInsert(MemberVO vo) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+		// 유저가 작성한 회원 정보 저장
+		boolean result = false;
+		
+		if (dao.memberInsert(vo) == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
