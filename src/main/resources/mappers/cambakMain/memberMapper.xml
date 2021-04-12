@@ -18,11 +18,6 @@
     	update Members set member_isDelete = 'Y' where member_id = #{member_id}
     </update>
     
-    <insert id="MemberInsert">
-    	Insert into Members(member_id, member_name, member_gender, member_birth, member_addr, member_email, member_mobile, member_password) 
-    	values(#{member_id}, #{member_name}, member_gender}, #{member_birth}, #{member_addr}, #{member_email}, #{member_mobile}, #{member_password}); 
-    </insert>
-        	
     <select id="findId" resultType="com.cambak21.domain.FindIdVO">
     	select member_id, member_name from Members where member_name = #{member_name} and member_email = #{member_email}
     </select>
@@ -36,7 +31,7 @@
     </update>
 
 	<select id="login" resultType="com.cambak21.domain.MemberVO">
-	 	select * from Members where member_id = #{member_id} and member_password = #{member_password}
+	 	select * from Members where member_id = #{member_id} and member_password = md5(sha1(#{member_password}))
 	</select>
 	  	
 	<update id="keepLogin">
@@ -62,7 +57,25 @@
 		select count(*) from Members where member_id = #{member_id}
 	</select>
 	
+	<select id="registerEmailChk" resultType="int">
+	select count(*) from Members where member_email = #{userEmail}
+	</select>
+	
+	<insert id="MemberInsert">
+		Insert into Members
+		<if test="member_addrDetail != null">
+		(member_id, member_password, member_name, member_gender, member_birth, member_postCode, member_addr, member_addrDetail, member_email, member_mobile, member_img)
+		values (#{member_id}, md5(sha1(#{member_password})), #{member_name}, #{member_gender}, #{member_birth}, #{member_postCode}, #{member_addr}, #{member_addrDetail}, #{member_email}, #{member_mobile}, #{member_img})
+		</if>
+		<if test="member_addrDetail == null">
+		(member_id, member_password, member_name, member_gender, member_birth, member_postCode, member_addr, member_email, member_mobile, member_img)
+		values (#{member_id}, md5(sha1(#{member_password})), #{member_name}, #{member_gender}, #{member_birth}, #{member_postCode}, #{member_addr}, #{member_email}, #{member_mobile}, #{member_img})
+		</if>
+    </insert>
+	
 	<select id="memberSelect" resultType="com.cambak21.domain.MemberVO">
 		SELECT * FROM Members where member_id = #{memberId}
 	</select>
+<!-- 	서효원 mapper -->
+	
   </mapper>

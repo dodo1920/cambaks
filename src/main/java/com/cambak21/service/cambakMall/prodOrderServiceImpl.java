@@ -41,7 +41,11 @@ public class prodOrderServiceImpl implements prodOrderService {
 	}
 	
 //		  	<!-- 장원영 DAO -->
+	@Override
+	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception {
 
+		return dao.prodOrderInfo(member_id);
+	}
 	
 		  	
 		  	
@@ -146,6 +150,8 @@ public class prodOrderServiceImpl implements prodOrderService {
 		}
 		return result;
 	}
+
+	
 
 
 

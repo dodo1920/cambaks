@@ -20,7 +20,7 @@ public interface prodOrderService {
 	public DestinationVO defaultDest(String member_id) throws Exception;
 
 	// 장원영 DAO
-	
+	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception;
   	
 //  	<!-- 김도연 DAO -->
   	

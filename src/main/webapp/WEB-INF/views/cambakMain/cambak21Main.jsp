@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script>
-	let pageNo = 0;
     
 	$(document).ready(function () {
         // Initialize Tooltip
@@ -48,8 +47,7 @@
             } // End if
         });
 
-        dataLoading();
-        textLimitBoard();
+        textLimitBoard(); // 게시글 길이 줄여주기
     });
 
  	// 게시글 제목의 길이가 30개를 넣을 시 21번째 글짜부터 ...으로로 변환
@@ -76,123 +74,6 @@
         console.log(output);
         // location.href = output; // 페이지 완성 후 주석 해제
     }
-
-    // search창에 keyword를 입력하고 search버튼을 누르면, 해당 keyword에 대한 결과 페이지로 이동 함수
-    function sendKeyword() {
-        let keyword = document.getElementsByClassName("form-control")[0].value;
-        if (keyword.length > 1) {
-            let output = "http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=" + keyword;
-            // output += theamVal;
-            console.log(output);
-            location.href = output; // 페이지 완성 후 주석 해제
-        }
-    };
-
-    // search창에 keyword를 입력하고 엔터 누르면, 해당 keyword의 결과 페이지로 이동 함수
-    function enterKey() {
-        if (event.keyCode == 13) {
-            sendKeyword();
-        };
-    };
-
-    // 페이지 로딩하면 고캠핑 api 로딩하는 함수 (추천 캠핑장을 위해)
-    function dataLoading() {
-        pageNo = Math.floor(Math.random() * 257 + 1);
-        // console.log(pageNo);
-        let serviceKey =
-            "LZek9TowzX7QwARv08FuPHojIPTBkuOzAUcTq592PziGQXdZjxOvllpYByBchlb7mDz9soxa9Fg39BYdhg%2FEHQ%3D%3D";
-        let dataURL = "http://api.visitkorea.or.kr/openapi/service/rest/GoCamping/basedList?serviceKey=" +
-            serviceKey + "&pageNo=" + pageNo + "&MobileOS=ETC&MobileApp=AppTest";
-
-        $.ajax({
-            url: dataURL, // 데이터 송수신 될 곳
-            dataType: "json", // 수신할 데이터의 타입
-            type: "GET", // 통신 방식
-            success: function (data) { // 통신이 성공 했을때 수행되는 callBack 함수
-                console.log(data);
-                parseTour(data);
-            },
-            error: function (response) { // 통신이 실패 했을 때 수행되는 callBack 함수
-                alert("통신실패 : " + response.responseText);
-            }
-        });
-    };
-
-    // 로딩된 캠핑장 데이터를 파싱하고(객체로 배열 저장), 임의로 3개 선택하여 출력하는 함수
-    // 캠핑장 데이터 중 필요한 자료만 추출해서 객체화 하기 위한 틀 만들기
-    function RecomCamp(photo, title, addr, contentId) {
-        this.photo = photo;
-        this.title = title;
-        this.addr = addr;
-        this.contentId = contentId;
-    };
-
-    // 필요한 데이터 추출 및 객체화 & 배열로 묶기
-    function parseTour(data) {
-        let itemAr = data.response.body.items.item;
-        console.log(itemAr);
-        // console.log(itemAr.item);
-
-        let recomcamps = new Array();
-
-        $.each(itemAr, function (i, e) {
-            let photo = e.firstImageUrl;
-            let title = e.facltNm;
-            let addr = e.addr1;
-            let contentId = e.contentId;
-
-            if (e.firstImageUrl != null) {
-                recomcamps.push(new RecomCamp(photo, title, addr, contentId));
-            };
-        });
-
-        // recomcamps.push(new RecomCamp());
-
-        console.log(recomcamps);
-
-        // 겹치지 않는 랜덤 번호 3개 추출 
-        function isDuplicate(rndNum, ranNumAr) {
-            var result = ranNumAr.indexOf(rndNum);
-            if (result !== -1) {
-                //중복 된다
-                return true;
-            }
-            return false;
-        }
-
-        var ranNumAr = [0, 0, 0] // 배열 생성과 초기화
-
-
-        for (var i = 0; i < ranNumAr.length; i++) {
-            var rndNum = 0;
-            do {
-                //랜덤 한 수 생성
-                rndNum = Math.floor(Math.random() * recomcamps.length);
-                // console.log(rndNum);
-            }
-            while (isDuplicate(rndNum, ranNumAr))
-            ranNumAr[i] = rndNum;
-        }
-        console.log(ranNumAr);
-        // console.log(photoAr[ranNumAr[0]]);
-
-        // 배열로 만든 데이터와 랜덤 번호 매칭해서 출력
-        for (let i = 0; i < ranNumAr.length; i++) {
-            document.getElementsByClassName("effect-milo")[i].innerHTML = '<img src="' + recomcamps[ranNumAr[i]]
-                .photo + '" alt="img11" id="' + recomcamps[ranNumAr[i]].contentId + '" /><figcaption><h2><span>' +
-                recomcamps[ranNumAr[i]].title + '</span></h2><p>' + recomcamps[ranNumAr[i]].addr +
-                '</p><a href="#">View more</a></figcaption>';
-        };
-
-        $(".effect-milo").click(function () {
-            let contentId = $(this).children()[0].attributes[2].value;
-            // console.log(contentId);
-            let output = "http://zinsimi.cafe24.com/1_project/KJM_tampletSub.html?contentId=" +
-                contentId;
-            console.log(output);
-            location.href = output; // 페이지 완성 후 주석 해제
-        });
-    };
     
 </script>
 
@@ -277,15 +158,15 @@
                         <ul class="dropdown-menu">
                         	<c:choose>
                         		<c:when test="${loginMember != null }">
-		                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
 		                            <li><a href="/myPage/checkList">마이페이지</a></li>
 		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+		                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
                             	</c:when>
                             	<c:otherwise>
                             		<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
-                            		<li><a href="/user/register" id="loginBtn">회원가입</a></li>
+                            		<li><a href="/user/register">회원가입</a></li>
 		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
@@ -298,12 +179,6 @@
         </div>
     </nav>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <!-- <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol> -->
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
@@ -342,29 +217,26 @@
             <!-- </form> -->
         </div>
 
-        <!-- Left and right controls -->
-        <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a> -->
-
     </div>
 
     <div class="grid">
-        <h3 class="text-center" id="footerTitle">이달의 추천 둘레길</h3>
-        <p class="text-center">What do you think about going there for this month break?<br> Enjoy your trip
-            with fresh
-            air and wonderful landscape!</p><br />
-        <figure class="effect-milo">
-        </figure>
-        <figure class="effect-milo">
-        </figure>
-        <figure class="effect-milo">
-        </figure>
+        <h3 class="text-center" id="footerTitle">Cambak's 추천 캠핑장</h3>
+        <p class="text-center">
+        What do you think about going there for this month break?<br> 
+        Enjoy your trip with fresh air and wonderful landscape!
+        </p><br />
+        <c:forEach var="Campings" items="${CampingSites }">
+	        <figure class="effect-milo">
+	        <img src="${Campings.camping_firstImageUrl }" alt="img11" id="${Campings.camping_contentId }" style="width: 312px;"/>
+		        <figcaption>
+			        <h2>
+			        	<span>${Campings.camping_facltNm }</span>
+			        </h2>
+			        <p>${Campings.camping_addr1 }</p>
+			        <a href="#">링크</a>
+		        </figcaption>
+	        </figure>
+        </c:forEach>
     </div>
     <div id="contact" class="container">
         <h3 class="text-center" id="footerTitle">Cambark's board</h3>
@@ -527,7 +399,7 @@
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
 					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
-					<p><a href="">캠박마켓 게시판</a></p>
+					<p><a href="/board/resell/list?page=1">캠박마켓 게시판</a></p>
 					<p><a href="/board/qa/list.bo?page=1">Q&amp;A 게시판</a></p>
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>

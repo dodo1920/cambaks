@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-
 import com.cambak21.domain.MemberLittleOrderVO;
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
@@ -44,10 +44,32 @@ public class MyMallDAOImpl implements MyMallDAO {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	// 포인트 적립 내역 가져오기
+	// 마이페이지-나의 적립금 포인트 적립 내역 가져오기
 	@Override
-	public List<PointVO> getPointList(String member_id) throws Exception {
-		return ses.selectList(ns + ".getPointList", member_id);
+	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception {
+
+	    Map<String, Object> params = new HashMap<String, Object>();
+	    params.put("member_id", member_id);
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".getPointList", params);
+	}
+	
+	// 마이페이지-나의 적립금 총 게시물 개수 가져오기
+	@Override
+	public int getPointListCnt(String member_id) throws Exception {
+		return ses.selectOne(ns + ".getPointListCnt", member_id);
+	}
+	// 마이페이지-나의 적립금 총 보유 포인트 가져오기
+	@Override
+	public int getTotMyPoint(String member_id) throws Exception {
+		return ses.selectOne(ns + ".getTotMyPoint", member_id);
+	}
+	// 마이페이지-나의 적립금 총 적립예정 포인트 가져오기
+	@Override
+	public int getTotMyFuturePoint(String member_id) throws Exception {
+		return ses.selectOne(ns + ".getTotMyFuturePoint", member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
@@ -98,6 +120,10 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(ns + ".getAnswer", prodQA_no);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+
 
 
 	

@@ -9,11 +9,14 @@ import com.cambak21.util.PagingCriteria;
 
 public interface CambakMainDAO {
 	
-	// 캠핑장 검색 자동완성 select
-	public List<String> searchCambak(String searchWord, PagingCriteria cri) throws Exception;
+//	=============================효원 인터페이스=======================================================
+	
+	// DB에 있는 캠핑장 정보 개수 검색
+	public int getCampingsiteNum() throws Exception;
 	
 	// 랜덤 캠핑장 3곳 조회
-	public List<CampingVO> randomListCambak(int[] randomId) throws Exception;
+	public int checkRandomCampingImg(int randomNo) throws Exception; // 랜덤 번호로 캠핑장에 사진이 있는지 없는지 체크
+	public CampingVO randomCambakInfo(int randomNo) throws Exception; // 랜덤 캠핑장 조회
 	
 	// 메인페이지에 캠박이일의 각 게시판의 최신 게시글 5개 출력
 	public List<BoardVO> readRecentReview() throws Exception;
@@ -21,5 +24,29 @@ public interface CambakMainDAO {
 	public List<ResellBoardVO> readRecentResell() throws Exception;
 	public List<BoardVO> readRecentQA() throws Exception;
 	public List<BoardVO> readRecentHumor() throws Exception;
+
 	
+	
+//	=============================효원 인터페이스 끝=======================================================
+	
+//	=============================도연 인터페이스=======================================================
+	public List<CampingVO> getCampings(String searchWord) throws Exception;
+	
+	
+	
+	
+//	=============================도연 인터페이스 끝=======================================================
+	
+//	=============================정민 인터페이스=======================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	=============================정민 인터페이스 끝=======================================================
+		
 }

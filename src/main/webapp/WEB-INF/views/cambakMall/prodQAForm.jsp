@@ -184,9 +184,6 @@
 	}
 </script>
 <body>
-
-<%@include file="mallHeader.jsp" %>
-
  		<div class="content-wrapper">
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
@@ -245,9 +242,6 @@
 		         </form>
 		      </div>
 		</div>
-
-<%@include file="mallFooter.jsp" %>
-
 
 <!-- Js Plugins -->
 <script src="resources/mallMain/js/jquery-3.3.1.min.js"></script>

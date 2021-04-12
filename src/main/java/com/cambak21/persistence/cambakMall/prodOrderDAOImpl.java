@@ -44,7 +44,11 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	}
 	
 //  	<!-- 장원영 DAO -->
-  	
+	@Override
+	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception {
+		
+		return ses.selectList(namespace + ".bucketInfoSelect", member_id);
+	}
   	
 //  	<!-- 김도연 DAO -->
   	
@@ -161,6 +165,9 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	}
 
 
+
+
+	
 
 
 	

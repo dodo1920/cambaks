@@ -1,8 +1,10 @@
 package com.cambak21.service.cambakMain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -18,16 +20,33 @@ public class CambakMainServiceImpl implements CambakMainService {
 	@Inject
 	private CambakMainDAO dao;
 	
+//	=============================효원 Service 끝=======================================================
+	
 	@Override
-	public List<String> searchCambak(String searchWord, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CampingVO> randomListCambak(int[] randomId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CampingVO> randomListCambak() throws Exception {
+		// 랜덤 캠핑장 3곳 조회
+		
+		Random rd = new Random();
+		int maxNum = dao.getCampingsiteNum();
+		boolean repeat = true;
+		int repeatNum = 0;
+		List<CampingVO> vo = new ArrayList<CampingVO>();
+		
+		do {
+			int randomNo = rd.nextInt(maxNum);
+			
+			if (dao.checkRandomCampingImg(randomNo) != 0) {
+				vo.add(dao.randomCambakInfo(randomNo));
+				repeatNum++;
+			}
+			
+			if (repeatNum == 3) {
+				repeat = false;
+			}
+			
+		} while (repeat);
+		
+		return vo;
 	}
 
 	@Override
@@ -44,6 +63,32 @@ public class CambakMainServiceImpl implements CambakMainService {
 		
 		return param;
 	}
+
+	
+//	=============================효원 Service 끝=======================================================
+	
+//	=============================도연 Service=======================================================
+	@Override
+	public List<CampingVO> getCampings(String searchWord) throws Exception {
+		return dao.getCampings(searchWord);
+	}
+	
+	
+	
+	
+//	=============================도연 Service 끝=======================================================
+	
+//	=============================정민 Service=======================================================
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	=============================정민 Service 끝=======================================================
 
 
 }
