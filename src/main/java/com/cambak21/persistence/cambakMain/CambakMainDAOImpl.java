@@ -17,7 +17,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	
 	@Inject
 	private SqlSession session;
-	private static String nameSpace = "com.cambak21.mappers.cambakMain.CambakMainPageMapper";
+	private static String nameSpace = "com.cambak21.mappers.cambakMain.CambakMainPageMapper.";
 	
 	
 //	=============================효원 DAO=======================================================
@@ -63,7 +63,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 //	=============================도연 DAO=======================================================
 	@Override
 	public List<CampingVO> getCampings(String searchWord) throws Exception {
-		return session.selectList(nameSpace + ".getCampings", searchWord);
+		return session.selectList(nameSpace + "getCampings", searchWord);
 	}
 	
 	
