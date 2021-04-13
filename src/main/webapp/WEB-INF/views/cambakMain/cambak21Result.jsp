@@ -137,29 +137,8 @@
             fix2(this);
         });
         
-        addCampings(page);
-        
-        pagingScroll();
-        
+        addCampings(page);        
     });
-    
-    function pagingScroll() {
-    	$("#campingListContainer").scroll(function() {
-//     		if(page < ${pagingInfo.endPage}){
-//     			console.log($("#campingListContainer").scrollTop());
-//     			console.log($(document).height()-282);
-//     	        if ($("#campingListContainer").scrollTop() == $(document).height()-282) {
-//     	        	page++;
-//     	        	addCampings(page);
-//     	        }
-//         	} 
-//     		// 페이지 스크롤이 완료된 경우,
-//     		else{
-//     			let output1 = '<div style="float:right;"><a href="" onclick="goToTop(); return false;"><img src ="../../../resources/img/go-up.png" style="width: 70px;"/></a></div>';
-//         		$("#goUp").html(output1);
-//         	}
-    	});    	
-    }
     
     function addCampings(pageNum) {
     	$.ajax({
@@ -168,19 +147,58 @@
     	    contentType : "application/json",
     	    success 	: function(data) {
     	    	console.log(data);
-//     	    	myTotPoint = String(data.myTotPoint);
-//     	    	myTotFuturePoint = String(data.myTotFuturePoint);
-
-//     	    	//console.log(myTotPoint);
-//     	    	//console.log(typeof(myTotPoint));
-//     	    	// 포인트 출력
-//     			$("#myTotAvlPoint").html(myTotPoint);
-//     			$("#myFuturePoint").html(myTotFuturePoint);
+    	    	
+    	    	showResult(data);
+    	    	pagingScroll(data);
     	    	}
     			
     		});
     }
     
+    function showResult(data) {
+    	let paging = data.pagings;
+    	let campings = data.campings;
+    	
+    	console.log(campings);
+    	let output ="";
+    	
+    	if(campings.length == 0) {
+    		output += '<p> 검색결과 없음 </p>';
+    	} else {
+    		$(campings).each(function(index, item) {
+    			output += '<table>';
+    			output += '<tr><td rowspan="4" class="campingImg"><img src="' + item.camping_firstImageUrl + '"  width="150px" height="150px"/></td>';
+    			output += '<td><a href="../index/detail?contentId=' + item.camping_contentId + '">' + item.camping_facltNm + '</a></td></tr>';
+    			output += '<tr><td>' + item.camping_addr1 + '</td></tr>';
+    			output += '<tr><td>' + item.camping_tel + '</td></tr>';
+    			output += '<tr><td>8</td></tr>';
+    			output += '</table>';
+    		});
+    	}
+    	
+    	$("#campingListContainer").append(output);
+    }
+    
+    
+    function pagingScroll(data) {
+    	$("#campingListContainer").scroll(function() {
+    		let paging = data.pagings;
+    		if(page < paging.endPage){
+    			let scroll = 0;
+    			console.log($("#campingListContainer").height());
+//     	        if () {
+//     	        	scroll += $("#campingListContainer").scrollTop() - $(window).height() + 30;
+//     	        	page++;
+//     	        	addCampings(page);
+//     	        }
+        	} 
+//     		// 페이지 스크롤이 완료된 경우,
+//     		else{
+//     			let output1 = '<div style="float:right;"><a href="" onclick="goToTop(); return false;"><img src ="../../../resources/img/go-up.png" style="width: 70px;"/></a></div>';
+//         		$("#goUp").html(output1);
+//         	}
+    	});    	
+    }
     
 	</script>
 </head>
@@ -207,40 +225,28 @@
 	                </div>
             <!-- </form> -->
 		        </div>
+		        <!-- 위에 카테고리 -->
+						<div class="small-category">
+							<nav class="navbar navbar-default" id="bsk-nav">
+								<div class="container-fluid" id="bsk-smallCat">
+									<ul class="nav navbar-nav">
+										<li class="bsk-focus catagory-name"><a href="#">전체보기</a></li>
+										<li class="catagory-name"><a href="#">캠핑 후기</a></li>
+										<li class="catagory-name"><a href="#">유머</a></li>
+										<li class="catagory-name"><a href="#">Q&A</a></li>
+										<li class="catagory-name"><a href="#">중고거래</a></li>
+										<li class="catagory-name"><a href="#">캠핑Tip</a></li>
+										<li class="catagory-name"><a href="#">공지사항</a></li>
+										<li class="catagory-name"><a href="#">고객센터</a></li>
+									</ul>
+								</div>
+							</nav>
+						</div>
 		        <div id="content">
 		            <div class="row">
 		            	<div class="col-lg-6 col-md-6">
 		            		<div class="contact__content" id="campingListContainer">
-<%-- 				                            <c:if test="${campings == null}"> --%>
-<!-- 					                        	<p> 검색결과 없음 </p> -->
-<%-- 					                        </c:if> --%>
-<%-- 					                        <c:if test="${campings != null}"> --%>
-					                        	
-<%-- 					                        	<c:forEach var="camping" items="${campings }"> --%>
-<!-- 					                        	<table> -->
-<!-- 					                        		<tr> -->
-<%-- 					                        			<td rowspan="4" class="campingImg"><img src="${camping.camping_firstImageUrl }"  width="150px" height="150px"/></td> --%>
-<%-- 					                        			<td><a href="../index/detail?contentId=${camping.camping_contentId}">${camping.camping_facltNm }</a></td> --%>
-<!-- 					                        		</tr> -->
-<!-- 					                        		<tr> -->
-<!-- 			<!-- 		                        			<td>3</td> --> -->
-<%-- 					                        			<td>${camping.camping_addr1 }  --%>
-<%-- 					                        				<c:if test="${camping.camping_addr2 } == null"> </c:if> --%>
-<!-- 					                        			</td> -->
-<!-- 					                        		</tr> -->
-<!-- 					                        		<tr> -->
-<!-- 			<!-- 		                        			<td>5</td> --> -->
-<%-- 					                        			<td>${camping.camping_tel }</td> --%>
-<!-- 					                        		</tr> -->
-<!-- 					                        		<tr> -->
-<!-- 			<!-- 		                        			<td>7</td> --> -->
-<!-- 					                        			<td>8</td> -->
-<!-- 					                        		</tr> -->
-<!-- 					                        	</table> -->
-<%-- 					                        	</c:forEach> --%>
-					                        	
-<%-- 					                        </c:if> --%>
-				                    </div>
+				                </div>
 				                </div>
 				                <div class="col-lg-6 col-md-6">
 				                    <div class="contact__map" id="map">

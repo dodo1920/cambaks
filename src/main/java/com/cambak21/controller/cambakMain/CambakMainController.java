@@ -81,7 +81,7 @@ public class CambakMainController {
 		campingLst = service.getCampings(keyword, cri);
 		
 		result.put("campings", campingLst);
-		result.put("pagings", campingLst);
+		result.put("pagings", pp);
 		
 		return result;
 	}
