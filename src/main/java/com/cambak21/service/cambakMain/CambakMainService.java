@@ -20,6 +20,7 @@ public interface CambakMainService {
 	
 //	=============================도연 인터페이스=======================================================
 	public List<CampingVO> getCampings(String searchWord) throws Exception;
+
 	
 	
 	
@@ -28,7 +29,8 @@ public interface CambakMainService {
 	
 //	=============================정민 인터페이스=======================================================
 	
-	
+	// 캠핑장 상세 항목 가져오기
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception;
 	
 	
 	

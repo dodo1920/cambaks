@@ -1,6 +1,7 @@
 package com.cambak21.persistence.cambakMain;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
@@ -27,6 +28,9 @@ public interface CambakMainDAO {
 	
 //	=============================도연 인터페이스=======================================================
 	public List<CampingVO> getCampings(String searchWord) throws Exception;
+
+
+
 	
 	
 	
@@ -34,8 +38,8 @@ public interface CambakMainDAO {
 //	=============================도연 인터페이스 끝=======================================================
 	
 //	=============================정민 인터페이스=======================================================
-	
-	
+	// 캠핑장 상세 내용 가져오기
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception;
 	
 	
 	

@@ -51,6 +51,7 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public List<CampingVO> getCampings(String searchWord) throws Exception {
 		return dao.getCampings(searchWord);
 	}
+
 	
 	
 	
@@ -59,7 +60,11 @@ public class CambakMainServiceImpl implements CambakMainService {
 	
 //	=============================정민 Service=======================================================
 	
-	
+	// 캠핑장 디테일
+	@Override
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
+		return dao.getCampingDetail(camping_contentId);
+	}
 	
 	
 	
