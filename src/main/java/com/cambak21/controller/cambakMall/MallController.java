@@ -18,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-	
-import com.cambak21.domain.BoardVO;
-import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.MyBucketListService;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -44,13 +41,29 @@ public class MallController {
 	// **************************************** 김도연 컨트롤러
 	// **********************************************
 
+	// **************************************** 장원영 컨트롤러
+	// **********************************************
+
+	@RequestMapping(value = "/prodOrder", method = RequestMethod.GET)
+	public String order(@SessionAttribute("loginMember") MemberVO vo, Model model) throws Exception {
+//	      System.out.println(vo.toString());
+		 List<ProdInfoVO> prodOrderInfo = service.prodOrderInfo(vo.getMember_id());
+		// 장바구니에서 주문하기 눌렀을 때 상품정보 가져오기
+		
+		// 토탈Price 합치기
+		int totPrice = 0;
+		for (int i = 0; i < prodOrderInfo.size(); i++) {
+			totPrice += prodOrderInfo.get(i).getBuyProduct_totPrice();
+		}
+		
+		model.addAttribute("prodInfo", prodOrderInfo);
+		model.addAttribute("totPrice", totPrice);
+		
+	    return "cambakMall/prodOrder";
+	   }	
+
 	// **************************************** 김대기 컨트롤러
 	// **********************************************
-	@RequestMapping(value = "/prodOrder", method = RequestMethod.GET)
-	public String order() throws Exception {
-		return "cambakMall/prodOrder";
-	}
-
 	@RequestMapping(value = "/prodOrder/{member_id}", method = RequestMethod.GET)
 	public ResponseEntity<List<DestinationVO>> destList(@PathVariable("member_id") String member_id) {
 
@@ -194,8 +207,6 @@ public class MallController {
 
 	}
 
-	// **************************************** 장원영 컨트롤러
-	// **********************************************
 
 	// **************************************** 김정민 컨트롤러
 	// **********************************************
