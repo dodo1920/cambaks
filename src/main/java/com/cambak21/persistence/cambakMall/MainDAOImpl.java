@@ -7,7 +7,10 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.dto.mallMainTotalDTO;
 
 @Repository
@@ -25,6 +28,22 @@ public class MainDAOImpl implements MainDAO {
 	
 	public List<mallMainTotalDTO> getTotalCount() throws Exception {
 		return ses.selectList(namespace + ".getTotalCount");
+	}
+
+	@Override
+	public List<mallMainTopCountDTO> getTopReview() throws Exception {
+	
+		return ses.selectList(namespace + ".getTopReview");
+	}
+
+	@Override
+	public List<mallMainTopCountDTO> getTopSelling() throws Exception {
+		return ses.selectList(namespace + ".getTopSelling");
+	}
+
+	@Override
+	public List<mallMainTopCountDTO> countReviews() throws Exception {
+		return ses.selectList(namespace + ".countReviews");
 	}
 
 }

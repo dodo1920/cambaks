@@ -6,7 +6,10 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.dto.mallMainTotalDTO;
 import com.cambak21.persistence.cambakMall.MainDAO;
 
@@ -30,6 +33,25 @@ public class MainServiceImpl implements MainService {
 	public List<mallMainTotalDTO> getTotalCount() throws Exception {
 		
 		return dao.getTotalCount();
+	}
+
+
+	@Override
+	public List<mallMainTopCountDTO> getTopReview() throws Exception {
+		
+		return dao.getTopReview();
+	}
+
+
+	@Override
+	public List<mallMainTopCountDTO> getTopSelling() throws Exception {
+		return dao.getTopSelling();
+	}
+
+
+	@Override
+	public List<mallMainTopCountDTO> countReviews() throws Exception {
+		return dao.countReviews();
 	}
 
 }

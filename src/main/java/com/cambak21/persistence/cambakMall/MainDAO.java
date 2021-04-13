@@ -2,7 +2,10 @@ package com.cambak21.persistence.cambakMall;
 
 import java.util.List;
 
+import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.dto.mallMainTotalDTO;
 
 public interface MainDAO {
@@ -10,4 +13,10 @@ public interface MainDAO {
 		public List<ProductsVO> getNewProduct4(int i) throws Exception;
 	
 		public List<mallMainTotalDTO> getTotalCount() throws Exception;
+		
+		public List<mallMainTopCountDTO> getTopReview() throws Exception;
+		
+		public List<mallMainTopCountDTO> getTopSelling() throws Exception;
+		
+		public List<mallMainTopCountDTO> countReviews() throws Exception;
 	}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
 import com.cambak21.service.cambakMall.MainService;
 import com.cambak21.util.PagingParam;
@@ -57,10 +58,16 @@ public class MallMainController {
 				e.printStackTrace();
 			}
 	      }
-	       System.out.println(para.toString());
-	        
 	        try {
-				model.addAttribute("total", service.getTotalCount());
+	        	
+	        	 List<mallMainTopCountDTO> topSelling;
+	        	 topSelling = service.getTopSelling();
+	        	 
+	           	para.put("topSelling", );
+	        	para.put("total", service.getTotalCount());
+	        	para.put("topReview", service.getTopReview());
+	        	para.put("countReviews", service.countReviews());
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

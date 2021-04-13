@@ -31,7 +31,9 @@
 
  $(document).ready(function() {
 
-	         	console.log("${total}");
+	         	console.log("${para.topReview}");
+	         	console.log("${para.topSelling}");
+	         	console.log("${para.countReviews}");
  });
 
 
@@ -406,13 +408,21 @@
                 <div class="trend__content">
                     <div class="section-title">
                         <h4>인기순</h4>
+                        
+<%--                console.log("${para.topReview}"); --%>
+<%-- 	         	console.log("${para.topSelling}"); --%>
+<%-- 	         	console.log("${para.countReviews}"); --%>
+	         	
+	         	
                     </div>
-                    <div class="trend__item">
+                     
+        <c:forEach var="topSelling" items="${para.topSelling }" varStatus="status">
+			             <div class="trend__item">
                         <div class="trend__item__pic">
                             <img src="../../resources/mallMain/img/trend/ht-1.jpg" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>Chain bucket bag</h6>
+                            <h6>${topSelling.product_name }</h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -420,41 +430,11 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price">$ 59.0</div>
+                            <div class="product__price"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/ht-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Pendant earrings</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/ht-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Cotton T-Shirt</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+			</c:forEach>
+				
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6">
@@ -462,12 +442,13 @@
                     <div class="section-title">
                         <h4>평점순</h4>
                     </div>
-                    <div class="trend__item">
+                       <c:forEach var="topReview" items="${para.topReview }" varStatus="status">
+			             <div class="trend__item">
                         <div class="trend__item__pic">
                             <img src="../../resources/mallMain/img/trend/bs-1.jpg" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>Cotton T-Shirt</h6>
+                            <h6>${topReview.product_name }</h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -475,41 +456,11 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price">$ 59.0</div>
+                            <div class="product__price"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/bs-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Zip-pockets pebbled tote <br />briefcase</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/bs-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Round leather bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+					</c:forEach>
+						           
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-6">
@@ -517,12 +468,14 @@
                     <div class="section-title">
                         <h4>리뷰순</h4>
                     </div>
-                    <div class="trend__item">
+                    
+                      <c:forEach var="countReviews" items="${para.countReviews }" varStatus="status">
+			             <div class="trend__item">
                         <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/f-1.jpg" alt="">
+                            <img src="../../resources/mallMain/img/trend/bs-1.jpg" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>Bow wrap skirt</h6>
+                            <h6>${countReviews.product_name }</h6>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -530,41 +483,12 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                             </div>
-                            <div class="product__price">$ 59.0</div>
+                            <div class="product__price"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/f-2.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Metallic earrings</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                    <div class="trend__item">
-                        <div class="trend__item__pic">
-                            <img src="../../resources/mallMain/img/trend/f-3.jpg" alt="">
-                        </div>
-                        <div class="trend__item__text">
-                            <h6>Flap cross-body bag</h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
+					</c:forEach>
+					
+			
                 </div>
             </div>
         </div>
