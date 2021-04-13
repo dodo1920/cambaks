@@ -118,6 +118,33 @@
 		delete from Buckets where member_id = #{member_id} and product_id = #{product_id};
 	</delete>
 	
+	<!-- 장바구니 아이템 전체 삭제 -->
+	<delete id="deleteItemAllBP">
+		delete from BuyProducts where member_id = #{member_id};
+	</delete>
+	<!-- 장바구니 테이블에 있는 데이터 지우기 -->
+	<delete id="deleteItemAllB">
+		delete from Buckets where member_id = #{member_id};
+	</delete>
+	
+	<!-- 주문하기 -->
+	<!-- 장바구니에서 Y체크 된것들만 가져오기 -->
+	<select id="getBucketInfos" resultType="com.cambak21.domain.MyBucketCheckdVO">
+		select b.member_id, b.bucket_no, p.product_name, b.bucket_buyQty, b.bucket_sellPrice, b.bucket_totBuyPrice, p.product_id, b.bucket_isChecked 
+		from Buckets b
+		inner join Products p
+		on b.product_id = p.product_id
+		where b.member_id = #{member_id}
+		and b.bucket_isChecked = 'Y';
+	</select>
+	<!-- BuyProducts테이블에 insert -->
+	<insert id="insertBP" parameterType="java.util.Map"> <!-- DAO에서 Map을 보냈기 때문에 -->
+		insert into BuyProducts (member_id, bucket_no, product_name, buyProduct_qty, product_sellPrice, buyProduct_totPrice, product_id) values
+		<foreach collection="vo" item="item" separator=",">
+			(#{item.member_id}, #{item.bucket_no}, #{item.product_name}, #{item.bucket_buyQty}, #{item.bucket_sellPrice}, #{item.bucket_totBuyPrice}, #{item.product_id})
+		</foreach>
+	</insert>
+	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
