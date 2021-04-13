@@ -345,7 +345,7 @@ button.btn.btn-default.cntCh {
 			<div class="row">
 				<div class="col-lg-6 col-md-6 col-sm-6 cart-btn">
 					<div class="cart__btn update__btn">
-						<button type="button" class="btn btn-default cntCh">계속
+						<button type="button" class="btn btn-default cntCh" onclick="window.history.back()">계속
 							쇼핑하기</button>
 						<button type="button" class="btn btn-default cntCh" onclick="goOrder()">주문하기</button>
 					</div>
