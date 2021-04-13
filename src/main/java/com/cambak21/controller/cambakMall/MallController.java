@@ -25,6 +25,7 @@ import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.MyBucketListService;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -38,7 +39,7 @@ public class MallController {
 	@Inject
 	private prodOrderService service;
 	private static final Logger logger = LoggerFactory.getLogger(MallController.class);
-
+ 
 	@Inject
 	private MyBucketListService bucketService;
 	// **************************************** 김도연 컨트롤러
@@ -47,9 +48,14 @@ public class MallController {
 	// **************************************** 김대기 컨트롤러
 	// **********************************************
 	@RequestMapping(value = "/prodOrder", method = RequestMethod.GET)
-	public String order() throws Exception {
-		return "cambakMall/prodOrder";
-	}
+	public String order(@SessionAttribute("loginMember") MemberVO vo, Model model) throws Exception {
+//	      System.out.println(vo.toString());
+		
+		// 장바구니에서 주문하기 눌렀을 때 상품정보 가져오기
+		model.addAttribute("prodInfo", service.prodOrderInfo(vo.getMember_id()));
+		
+	    return "cambakMall/prodOrder";
+	   }	
 
 	@RequestMapping(value = "/prodOrder/{member_id}", method = RequestMethod.GET)
 	public ResponseEntity<List<DestinationVO>> destList(@PathVariable("member_id") String member_id) {
@@ -228,7 +234,6 @@ public class MallController {
 	}
 
 	// 장바구니 수량 변경
-	// 장바구니 목록
 	@RequestMapping("/cart/{member_id}/{product_id}/{qty}")
 	public @ResponseBody ResponseEntity<Integer> changeQty(@PathVariable("member_id") String member_id,
 			@PathVariable("product_id") int product_id, @PathVariable("qty") int qty) {
@@ -246,6 +251,7 @@ public class MallController {
 
 	@RequestMapping("/cart/delete/{member_id}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> deleteItem(@PathVariable("member_id") String member_id, @PathVariable("product_id") int product_id) {
+		// 장바구니 개별아이템 삭제
 		ResponseEntity<Integer> entity = null;
 
 		try {
@@ -259,6 +265,39 @@ public class MallController {
 		return entity;
 	}
 	
+	@RequestMapping("/cart/delete/all/{member_id}")
+	public @ResponseBody ResponseEntity<Integer> deleteItemAll(@PathVariable("member_id") String member_id) {
+		// 장바구니 전체 삭제
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			bucketService.deleteItemAll(member_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	@RequestMapping("/cart/order/{member_id}")
+	public @ResponseBody ResponseEntity<Integer> goOrder(@PathVariable("member_id") String member_id) {
+		// 장바구니에서 체크 Y인것만 주문하기
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			bucketService.goOrder(member_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	// 장바구니에서 체크 OnOff
 	@RequestMapping("/cart/check/{member_id}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> checkOnOff(@PathVariable("member_id") String member_id, @PathVariable("product_id") int product_id) {
 		ResponseEntity<Integer> entity = null;
@@ -272,7 +311,7 @@ public class MallController {
 
 		return entity;
 	}
-
+	
 	// **************************************** 김태훈 컨트롤러
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)

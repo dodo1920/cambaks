@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
@@ -42,7 +43,7 @@ public class prodOrderServiceImpl implements prodOrderService {
 	
 //		  	<!-- 장원영 DAO -->
 	@Override
-	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception {
+	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception {
 
 		return dao.prodOrderInfo(member_id);
 	}

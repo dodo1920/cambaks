@@ -1,18 +1,26 @@
 package com.cambak21.controller.cambakMain;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.domain.CampingVO;
 import com.cambak21.service.cambakMain.CambakMainService;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
 
 @Controller
 @RequestMapping(value="/index/*")
@@ -34,6 +42,16 @@ public class CambakMainController {
 		return "/cambakMain/cambak21Main";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/main/autoSearch", method=RequestMethod.POST)
+	private ResponseEntity<List<String>> autoSearch(@RequestParam("keyword") String keyword) throws Exception {
+		ResponseEntity<List<String>> entity = null;
+		entity = new ResponseEntity<List<String>>(service.autoSearch(keyword), HttpStatus.OK);
+		
+		return entity;
+	}
+	
+	
 	
 	
 	
@@ -43,13 +61,29 @@ public class CambakMainController {
 // ================================================효원 메인 끝 ==================================================================
 //	==============================================도연 검색 결과 부분 ============================================================
 	@RequestMapping(value="/result", method=RequestMethod.GET)
-	private String getResultPage(@RequestParam("keyword") String keyword, Model model) throws Exception {
-		List<CampingVO> campingLst = new ArrayList<CampingVO>();
-		
-		campingLst = service.getCampings(keyword);
-		model.addAttribute("campings", campingLst);
+	private String getResultPage() throws Exception {
 		
 		return "/cambakMain/cambak21Result";
+	}
+	
+	@RequestMapping(value="/result", method=RequestMethod.POST)
+	private @ResponseBody Map<String, Object> getCampings(@RequestParam("keyword") String keyword, @RequestParam(value="page", required=false, defaultValue="1") int page, PagingCriteria cri) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<CampingVO> campingLst = new ArrayList<CampingVO>();
+		PagingParam pp = new PagingParam();
+		
+		cri.setPage(page);
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotCnt(keyword));
+		
+		System.out.println(pp);
+		
+		campingLst = service.getCampings(keyword, cri);
+		
+		result.put("campings", campingLst);
+		result.put("pagings", campingLst);
+		
+		return result;
 	}
 	
 	
@@ -60,7 +94,22 @@ public class CambakMainController {
 //	==============================================도연 검색 결과 끝 ================================================================
 	
 //	==============================================정민 상세페이지 부분 =============================================================
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	private String getDetailPage() throws Exception {
+		
+		return "/cambakMain/cambak21Detail";
+	}
 	
+	@RequestMapping(value="/campingDetail/{contentId}", method=RequestMethod.POST)
+	private @ResponseBody CampingVO showCampingDetail(@PathVariable("contentId") String camping_contentId) throws Exception {
+		System.out.println("campingDetail Post방식");
+		System.out.println(camping_contentId);
+		CampingVO vo = null;
+		vo = service.getCampingDetail(camping_contentId);
+		System.out.println(vo.toString());
+		
+		return vo;
+	}
 	
 	
 	

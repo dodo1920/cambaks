@@ -101,6 +101,26 @@ margin-top: 10px;
 </style>
 
 <script type="text/javascript">
+$(function() {
+	$(".DetailOrder").dblclick(function() {
+		console.log("!!")
+		let payment_serialNo = Number($(".serialNo").val)
+		$.ajax({
+			type : "post",
+			contentType : "application/json",
+			url : "/myMall/userOrderDetail/"+payment_serialNo+"/+${loginMember.member_id}", 
+			success : function(data) {
+				console.log(data)
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		console.log("page : "+page)
+		page+=1;
+	});
+})
 
 </script>
 
@@ -119,15 +139,16 @@ margin-top: 10px;
 			<table style="margin-left: 20px">
 				 <c:forEach var="order" items="${order}">
 	               
-						<tr>
+						<tr style="margin: 10px">
 							<td class="DateArray">
 							<span class="textArray" style="text-align: center;"><fmt:formatDate value="${order.payment_date}" type="both" pattern="yyyy-MM-dd" /></span>
 							</td>
-							<td class="ContentArray">
+							<td class="ContentArray DetailOrder">
+							<input type="text" class="serialNo" style="display: none;" value="${payment_serialNo}">
 							<span class="textArray">제품 이름 : ${order.product_name }</span>
 							<span class="textArray"><c:if test="${empty order.product_factory }"> 없음</c:if>
 							${order.product_factory }</span>
-							<span class="textArray">상품번호 : ${order.payment_no }</span>
+							<span class="textArray">주문번호 : ${order.payment_no }</span>
 							<span class="textArray price" >제품가격 : ${order.buyProduct_totPrice }</span>
 							</td>
 							<td class="BtnArray">테스트</td>

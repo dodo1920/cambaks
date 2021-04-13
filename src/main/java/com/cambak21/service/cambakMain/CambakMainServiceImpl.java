@@ -43,14 +43,25 @@ public class CambakMainServiceImpl implements CambakMainService {
 		return param;
 	}
 
+	@Override
+	public List<String> autoSearch(String keyword) throws Exception {
+		// 메인페이지 자동검색
+		return dao.autoSearch(keyword);
+	}
 	
 //	=============================효원 Service 끝=======================================================
 	
 //	=============================도연 Service=======================================================
 	@Override
-	public List<CampingVO> getCampings(String searchWord) throws Exception {
-		return dao.getCampings(searchWord);
+	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception {
+		return dao.getCampings(searchWord, cri);
 	}
+
+	@Override
+	public int getTotCnt(String keyword) throws Exception {
+		return dao.getTotCnt(keyword);
+	}
+
 	
 	
 	
@@ -59,7 +70,11 @@ public class CambakMainServiceImpl implements CambakMainService {
 	
 //	=============================정민 Service=======================================================
 	
-	
+	// 캠핑장 디테일
+	@Override
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
+		return dao.getCampingDetail(camping_contentId);
+	}
 	
 	
 	

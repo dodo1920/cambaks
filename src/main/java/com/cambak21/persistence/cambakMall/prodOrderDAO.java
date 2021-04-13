@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -16,7 +17,7 @@ public interface prodOrderDAO {
 		
 		public DestinationVO defaultDest(String member_id) throws Exception;
 //	  	<!-- 장원영 DAO -->
-	  	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception;
+	  	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception;
 	  	
 //	  	<!-- 김도연 DAO -->
 	  	

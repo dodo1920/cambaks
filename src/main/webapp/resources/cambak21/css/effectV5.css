@@ -115,15 +115,11 @@ h4 {
 }
 
 .carousel-search h1 {
-  text-align: center;
-  font-size: 1vw;
-  color: white;
-}
-
-.carousel-search h1 {
   border: 9px double white;
   font-size: 7vw;
   margin: 0;
+  text-align: center;
+  color: white;
 }
 
 .carousel-search .form-control {

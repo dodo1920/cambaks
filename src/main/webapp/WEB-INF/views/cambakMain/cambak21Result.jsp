@@ -51,9 +51,28 @@
 			margin-bottom: 3%;
 		}
 		
+		#keyword {
+			border-radius: 0;
+		}
+		
+		.btn {
+			border: 1px solid #333;
+			background-color: #333;
+			color: #f1f1f1;
+			border-radius: 0;
+			transition: .2s;
+			
+		}
+		
+		.btn:hover {
+			background-color: white;
+			color: #333;
+		}
+		
 		.row {
 			margin-right: 0px;
 		}
+		
 		.container {
  			padding-left: 0px;
  		}
@@ -75,6 +94,9 @@
 	</style>
 	
 	<script>
+	
+	let page = 1;
+	let keyword = "${param.keyword}";
 	
     $(document).ready(function () {
         // 공지들을 배열로 넣는 함수
@@ -114,7 +136,52 @@
         $(".row").on("click", ".commentIcon", function () {
             fix2(this);
         });
+        
+        addCampings(page);
+        
+        pagingScroll();
+        
     });
+    
+    function pagingScroll() {
+    	$("#campingListContainer").scroll(function() {
+//     		if(page < ${pagingInfo.endPage}){
+//     			console.log($("#campingListContainer").scrollTop());
+//     			console.log($(document).height()-282);
+//     	        if ($("#campingListContainer").scrollTop() == $(document).height()-282) {
+//     	        	page++;
+//     	        	addCampings(page);
+//     	        }
+//         	} 
+//     		// 페이지 스크롤이 완료된 경우,
+//     		else{
+//     			let output1 = '<div style="float:right;"><a href="" onclick="goToTop(); return false;"><img src ="../../../resources/img/go-up.png" style="width: 70px;"/></a></div>';
+//         		$("#goUp").html(output1);
+//         	}
+    	});    	
+    }
+    
+    function addCampings(pageNum) {
+    	$.ajax({
+    	    type		: "post",
+    	    url 		: "/index/result?keyword=" + keyword + "&page=" + pageNum,
+    	    contentType : "application/json",
+    	    success 	: function(data) {
+    	    	console.log(data);
+//     	    	myTotPoint = String(data.myTotPoint);
+//     	    	myTotFuturePoint = String(data.myTotFuturePoint);
+
+//     	    	//console.log(myTotPoint);
+//     	    	//console.log(typeof(myTotPoint));
+//     	    	// 포인트 출력
+//     			$("#myTotAvlPoint").html(myTotPoint);
+//     			$("#myFuturePoint").html(myTotFuturePoint);
+    	    	}
+    			
+    		});
+    }
+    
+    
 	</script>
 </head>
 
@@ -132,46 +199,47 @@
 				</header>
 				<div id="research">
 		        <!-- <form> -->
-		           <div class="input-group">
-		              <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
-		                 <div class="input-group-btn">
-		                    <button type="button" class="btn btn-danger search" onclick="sendKeyword();">Search</button>
-		                 </div>
-		            </div>
+	                <div class="input-group">
+	                    <input type="text" class="form-control" id="keyword" size="50" placeholder="Search" onkeypress="enterKey();">
+	                    <div class="input-group-btn">
+	                        <button type="button" class="btn" onclick="sendKeyword();">Search</button>
+	                    </div>
+	                </div>
+            <!-- </form> -->
 		        </div>
 		        <div id="content">
 		            <div class="row">
 		            	<div class="col-lg-6 col-md-6">
 		            		<div class="contact__content" id="campingListContainer">
-				                            <c:if test="${campings == null}">
-					                        	<p> 검색결과 없음 </p>
-					                        </c:if>
-					                        <c:if test="${campings != null}">
+<%-- 				                            <c:if test="${campings == null}"> --%>
+<!-- 					                        	<p> 검색결과 없음 </p> -->
+<%-- 					                        </c:if> --%>
+<%-- 					                        <c:if test="${campings != null}"> --%>
 					                        	
-					                        	<c:forEach var="camping" items="${campings }">
-					                        	<table>
-					                        		<tr>
-					                        			<td rowspan="4" class="campingImg"><img src="${camping.camping_firstImageUrl }"  width="150px" height="150px"/></td>
-					                        			<td><a href="../index/detail?contentId=${camping.camping_contentId}">${camping.camping_facltNm }</a></td>
-					                        		</tr>
-					                        		<tr>
-			<!-- 		                        			<td>3</td> -->
-					                        			<td>${camping.camping_addr1 } 
-					                        				<c:if test="${camping.camping_addr2 } == null"> </c:if>
-					                        			</td>
-					                        		</tr>
-					                        		<tr>
-			<!-- 		                        			<td>5</td> -->
-					                        			<td>${camping.camping_tel }</td>
-					                        		</tr>
-					                        		<tr>
-			<!-- 		                        			<td>7</td> -->
-					                        			<td>8</td>
-					                        		</tr>
-					                        	</table>
-					                        	</c:forEach>
+<%-- 					                        	<c:forEach var="camping" items="${campings }"> --%>
+<!-- 					                        	<table> -->
+<!-- 					                        		<tr> -->
+<%-- 					                        			<td rowspan="4" class="campingImg"><img src="${camping.camping_firstImageUrl }"  width="150px" height="150px"/></td> --%>
+<%-- 					                        			<td><a href="../index/detail?contentId=${camping.camping_contentId}">${camping.camping_facltNm }</a></td> --%>
+<!-- 					                        		</tr> -->
+<!-- 					                        		<tr> -->
+<!-- 			<!-- 		                        			<td>3</td> --> -->
+<%-- 					                        			<td>${camping.camping_addr1 }  --%>
+<%-- 					                        				<c:if test="${camping.camping_addr2 } == null"> </c:if> --%>
+<!-- 					                        			</td> -->
+<!-- 					                        		</tr> -->
+<!-- 					                        		<tr> -->
+<!-- 			<!-- 		                        			<td>5</td> --> -->
+<%-- 					                        			<td>${camping.camping_tel }</td> --%>
+<!-- 					                        		</tr> -->
+<!-- 					                        		<tr> -->
+<!-- 			<!-- 		                        			<td>7</td> --> -->
+<!-- 					                        			<td>8</td> -->
+<!-- 					                        		</tr> -->
+<!-- 					                        	</table> -->
+<%-- 					                        	</c:forEach> --%>
 					                        	
-					                        </c:if>
+<%-- 					                        </c:if> --%>
 				                    </div>
 				                </div>
 				                <div class="col-lg-6 col-md-6">
