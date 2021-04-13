@@ -230,7 +230,7 @@
 	display: block;
     position: relative;
     padding-left: 30px;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     line-height: 40px;
 }
 
@@ -238,7 +238,7 @@
 	display: block;
     position: relative;
     padding-left: 30px;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     line-height: 40px;
     background-color: #F1F1F1;
 }
@@ -275,7 +275,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="/index/main">Logo</a>
-                <a class="navbar-brand" href="/">캠박몰 바로가기</a>
+                <a class="navbar-brand" href="/mall/main/">캠박몰 바로가기</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -333,7 +333,7 @@
             <br />
             <form action="/index/result" id="searchCambaks" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" size="50" style="font-size: 18px;" id="searchBar" placeholder="검색어를 입력해주세요." name="keyword" onchange="checkSearchBar();" onkeyup="getSearchList();">
+                    <input type="text" class="form-control" size="50" style="font-size: 18px;" id="searchBar" placeholder="검색어를 입력해주세요." name="keyword" onchange="checkSearchBar();" onkeyup="getSearchList();" autocomplete="off">
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-danger">Search</button>
                     </div>
@@ -362,7 +362,7 @@
 			        	<span>${Campings.camping_facltNm }</span>
 			        </h2>
 			        <p>${Campings.camping_addr1 }</p>
-			        <a href="#">링크</a>
+			        <a href="/index/result?keyword=${Campings.camping_facltNm }">링크</a>
 		        </figcaption>
 	        </figure>
         </c:forEach>

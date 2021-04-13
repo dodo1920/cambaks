@@ -194,10 +194,7 @@ $(document).ready(function() {
 
 .userProfile {
 	margin: 0 200px;
-    width: 70px;
-    height: 70px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    border-radius: 50%;
 }
 
 </style>

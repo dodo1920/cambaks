@@ -644,7 +644,7 @@
 								<th class="tableTitleSize">아이디</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();" />
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();"  autocomplete="off"/>
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
 									<div id="idChkBar">
@@ -656,7 +656,7 @@
 								<th class="tableTitleSize">비밀번호</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();"/>
+									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();"  autocomplete="off"/>
 									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span>
 									</div>
 									<div id="pwdChkBar1">
@@ -668,7 +668,7 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"/>
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"  autocomplete="off"/>
 									</div>
 									<div id="pwdChkBar2">
 									<span class="changeTextBarMsg" id="pwdReChkContent"></span>
@@ -679,7 +679,7 @@
 								<th class="tableTitleSize">이름</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();"/>
+									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();"  autocomplete="off"/>
 									</div>
 									<div id="userNameBar">
 									<span class="changeTextBarMsg" id="userNameCheck"></span>
@@ -701,7 +701,7 @@
 									<div>
 										<input type="hidden" name="member_birth" id="member_birth" />
 										<span>
-											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)"/>-
+											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>-
 										</span>
 										<span>
 											<select class="birthMonth" id="userBirthMonth">
@@ -721,7 +721,7 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="2" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"/>
+											-<input type="text" maxlength="2" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>
 										</span>
 									</div>
 								</td>
@@ -730,7 +730,7 @@
 								<th class="tableTitleSize">이메일</th>
 								<td class="tableContentSize">
 									<div>
-										<input type="text" size="40" name="member_email" id="member_email" value="${registerEmail }" readonly/>
+										<input type="text" size="40" name="member_email" id="member_email" value="${registerEmail }" readonly  autocomplete="off"/>
 									</div>
 								</td>
 							</tr>
@@ -750,10 +750,10 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="4" id="phoneSecond" class="phoneSecond" onkeyup="onlyNumberChk(this)"/>-
+											-<input type="text" maxlength="4" id="phoneSecond" class="phoneSecond" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>-
 										</span>
 										<span>
-											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)"/>
+											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>
 										</span>
 									</div>
 								</td>
@@ -761,10 +761,10 @@
 							<tr>
 								<th class="tableTitleSize">주소</th>
 								<td class="tableContentSize">
-									<input type="text" id="sample6_postcode" name="member_postCode" style="font-size: 13px;" readonly>
+									<input type="text" id="sample6_postcode" name="member_postCode" style="font-size: 13px;" readonly  autocomplete="off">
 									<input type="button" onclick="sample6_execDaumPostcode();" class="searchPost" value="우편번호 찾기">
 									<br>
-									<input type="text" class="resultPost" id="sample6_address" name="member_addr" size="55" readonly>
+									<input type="text" class="resultPost" id="sample6_address" name="member_addr" size="55" readonly  autocomplete="off">
 									<span class="textBarInfo">기본주소</span>
 									<br>
 									<input type="text" id="sample6_detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;">
