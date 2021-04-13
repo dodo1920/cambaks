@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE HTML>
 <html>
@@ -49,6 +49,10 @@
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
+
+th.board-title {
+    width: 500px;
+}
 </style>
 
 <script>
@@ -142,30 +146,32 @@
 										<c:if test="${item.board_isDelete != 'Y' }">
 											<tr>
 												<td>${item.board_no }</td>
-												<td>
-												<c:choose>
-													<c:when test="${param.searchType == null }">
-														<a href="/board/cs/detail?no=${item.board_no }&page=${param.page}" class="board-title-a">${item.board_title }</a>
-													</c:when>
-													<c:otherwise>
-														<c:if test="${param.page == null }">
-															<a href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
-														</c:if>
-														<c:if test="${param.page != null }">
-															<a href="/board/cs/detail?no=${item.board_no }&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}" class="board-title-a">${item.board_title }</a>
-														</c:if>
-													</c:otherwise>
-												</c:choose>
-												
-												<!-- 댓글 수 -->
-												<c:if test="${item.replyCnt > 0 }">
+												<td><c:choose>
+														<c:when test="${param.searchType == null }">
+															<a
+																href="/board/cs/detail?no=${item.board_no }&page=${param.page}"
+																class="board-title-a">${item.board_title }</a>
+														</c:when>
+														<c:otherwise>
+															<c:if test="${param.page == null }">
+																<a
+																	href="/board/cs/detail?no=${item.board_no }&page=1&searchType=${param.searchType }&searchWord=${param.searchWord}"
+																	class="board-title-a">${item.board_title }</a>
+															</c:if>
+															<c:if test="${param.page != null }">
+																<a
+																	href="/board/cs/detail?no=${item.board_no }&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}"
+																	class="board-title-a">${item.board_title }</a>
+															</c:if>
+														</c:otherwise>
+													</c:choose> <!-- 댓글 수 --> <c:if test="${item.replyCnt > 0 }">
 													(${item.replyCnt })
-												</c:if>
-												
-												</td>
+												</c:if></td>
 
 												<td>${item.member_id }</td>
-												<td class="writeDate"><fmt:formatDate value="${item.board_writeDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												<td class="writeDate"><fmt:formatDate
+														value="${item.board_writeDate }"
+														pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 												<td>${item.board_viewCnt }</td>
 												<td>${item.board_likeCnt }</td>
 											</tr>
@@ -213,10 +219,12 @@
 										<!-- 다음 버튼 -->
 										<c:if test="${searchPP.next }">
 											<c:if test="${param.page == null }">
-												<li><a href="/board/cs/search?page=${param.page + 2 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+												<li><a
+													href="/board/cs/search?page=${param.page + 2 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
 											</c:if>
 											<c:if test="${param.page != null }">
-												<li><a href="/board/cs/search?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
+												<li><a
+													href="/board/cs/search?page=${param.page + 1 }&searchType=${param.searchType}&searchWord=${param.searchWord}">다음</a></li>
 											</c:if>
 										</c:if>
 									</c:otherwise>
@@ -225,10 +233,34 @@
 							</ul>
 
 						</div>
+
+
 						<div class="writeBtn">
-							<a href="/board/cs/write" onclick="return checkMember();">
-								<button class="btn btn-danger write">글쓰기</button>
-							</a>
+							<c:choose>
+								<c:when test="${param.searchType == null }">
+									<a
+										href="/board/cs/write?page=${param.page}"
+										onclick="return checkMember();">
+										<button class="btn btn-danger write">글쓰기</button>
+									</a>
+								</c:when>
+								<c:otherwise>
+									<c:if test="${param.page == null }">
+										<a
+											href="/board/cs/write?page=1&searchType=${param.searchType }&searchWord=${param.searchWord}"
+											onclick="return checkMember();">
+											<button class="btn btn-danger write">글쓰기</button>
+										</a>
+									</c:if>
+									<c:if test="${param.page != null }">
+										<a
+											href="/board/cs/write?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}"
+											onclick="return checkMember();">
+											<button class="btn btn-danger write">글쓰기</button>
+										</a>
+									</c:if>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</div>
