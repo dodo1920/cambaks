@@ -131,13 +131,13 @@
 				
 		    	
 		    	output += "<div class='cont_tb'><table class='table'><tbody>";
-		    	output += "<tr><th>주소</th><td>" + data.camping_addr1 + "</td></tr>";
-		    	output += "<tr><th>문의처</th><td>" + data.camping_tel + "</td></tr>";
-		    	output += "<tr><th>캠핑장 환경</th><td>" + data.camping_lctCl + "</td></tr>";
-		    	output += "<tr><th>캠핑장 유형</th><td>" + data.camping_induty + "</td></tr>";
-		    	output += "<tr><th>운영기간</th><td>" + data.camping_operPdCl + "</td></tr>";
-		    	output += "<tr><th>운영일</th><td>" + data.camping_operDeCl + "</td></tr>";
-		    	output += "<tr><th>예약방법</th><td>" + data.camping_resveCl + "</td></tr>";
+		    	output += "<tr><th>주소</th><td>" + nullCheck(data.camping_addr1) + "</td></tr>";
+		    	output += "<tr><th>문의처</th><td>" + nullCheck(data.camping_tel) + "</td></tr>";
+		    	output += "<tr><th>캠핑장 환경</th><td>" + nullCheck(data.camping_lctCl) + "</td></tr>";
+		    	output += "<tr><th>캠핑장 유형</th><td>" + nullCheck(data.camping_induty) + "</td></tr>";
+		    	output += "<tr><th>운영기간</th><td>" + nullCheck(data.camping_operPdCl) + "</td></tr>";
+		    	output += "<tr><th>운영일</th><td>" + nullCheck(data.camping_operDeCl) + "</td></tr>";
+		    	output += "<tr><th>예약방법</th><td>" + nullCheck(data.camping_resveCl) + "</td></tr>";
 		    	output += "</tbody></table><div>";
 		    	
 		    	let campingInfoDetail = "<div>" + nullCheck(data.camping_intro) + "</div>";
