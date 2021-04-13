@@ -85,7 +85,7 @@
 		resultType="com.cambak21.domain.MyBucketListVO">
 		select p.product_id, p.product_name, p.product_img1,
 		bk.bucket_sellPrice, bk.bucket_buyQty, bk.bucket_totBuyPrice,
-		bk.bucket_isChecked
+		bk.bucket_isChecked, (select floor(avg(pr.prodReview_grade)) from ProdReviews pr where product_id = p.product_id) as 'star'
 		from Buckets bk
 		inner join Products p
 		on bk.product_id = p.product_id

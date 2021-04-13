@@ -112,7 +112,6 @@ button.btn.btn-default.cntCh {
 		let totPrice = 0;
 		
 		$.each(data, function(index, item) {
-			
 			output += "<tr>";
 			if (item.bucket_isChecked == "Y") {
 				totPrice += item.bucket_totBuyPrice;
@@ -121,8 +120,15 @@ button.btn.btn-default.cntCh {
 				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
 			}
 			output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
-			output += '<div class="cart__product__item__title"><h6>'+item.product_name+'</h6>';
-			output += '<div class="rating"><i class="fa fa-star"></i></div></td>';
+			output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
+			
+			// 상품 별 찍기
+			output += '<div class="rating">';
+			for(var i = 0; i < item.star; i++) {
+				output += '<i class="fa fa-star" style="margin-right:0px"></i>';
+			}
+			output += '</div></td>';
+			
 			output += '<td class="cart__price">￦ '+item.bucket_sellPrice.toLocaleString()+'</td>';
 			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
 			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
@@ -184,6 +190,7 @@ button.btn.btn-default.cntCh {
 	
 	// 장바구니 아이템 삭제 시 알림창 띄우기
 	function openBox(product_id, del) {
+		// del : 1이면 개별 상품 삭제, 2면 전체 상품 삭제
 		if(del == 2) {
 			// 전체 상품 삭제
 			$("#piece").attr("onclick", "deleteItemAll()");
@@ -261,7 +268,7 @@ button.btn.btn-default.cntCh {
 			});
 		} else {
 			$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-			$("#modalText").text("장바구니에 상품이 없습니다");
+			$("#modalText").text("선택된 상품이 없습니다");
 			$("#myModal").modal();
 		}
 
