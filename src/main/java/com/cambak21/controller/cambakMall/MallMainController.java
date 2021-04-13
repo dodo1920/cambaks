@@ -46,7 +46,7 @@ public class MallMainController {
 	   public String homeheader(Locale locale, Model model) {
 		    Map<String, Object> para = new HashMap<String, Object>();
 		
-	      for(int i = 0; i < 8; i++) {
+	      for(int i = 1; i < 9; i++) {
 	    	  
 	    	  List<ProductsVO> lst;
 			try {
@@ -58,6 +58,14 @@ public class MallMainController {
 			}
 	      }
 	       System.out.println(para.toString());
+	        
+	        try {
+				model.addAttribute("total", service.getTotalCount());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
 			model.addAttribute("para", para);
 			
 	

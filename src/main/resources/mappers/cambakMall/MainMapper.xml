@@ -9,5 +9,8 @@
   		select * from Products where mainCategory_id = #{no} limit 0, 4
   </select>
   
+  <select id="getTotalCount" resultType="com.cambak21.dto.mallMainTotalDTO">
+  		select count(*) as totcount, mainCategory_id from Products group by mainCategory_id
+  </select>
   
 </mapper>

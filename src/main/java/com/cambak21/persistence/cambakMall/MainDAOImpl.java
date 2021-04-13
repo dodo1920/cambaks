@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.mallMainTotalDTO;
 
 @Repository
 public class MainDAOImpl implements MainDAO {
@@ -20,6 +21,10 @@ public class MainDAOImpl implements MainDAO {
 	public List<ProductsVO> getNewProduct4(int no) throws Exception {
 		
 		return ses.selectList(namespace + ".getNewProduct4", no);
+	}
+	
+	public List<mallMainTotalDTO> getTotalCount() throws Exception {
+		return ses.selectList(namespace + ".getTotalCount");
 	}
 
 }

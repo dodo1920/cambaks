@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ProductsVO;
-
+import com.cambak21.dto.mallMainTotalDTO;
 import com.cambak21.persistence.cambakMall.MainDAO;
 
 
@@ -23,6 +23,13 @@ public class MainServiceImpl implements MainService {
 	public List<ProductsVO> getNewProduct4(int i) throws Exception {
 		
 		return dao.getNewProduct4(i);
+	}
+
+
+	@Override
+	public List<mallMainTotalDTO> getTotalCount() throws Exception {
+		
+		return dao.getTotalCount();
 	}
 
 }

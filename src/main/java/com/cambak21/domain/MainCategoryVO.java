@@ -1,13 +1,14 @@
 package com.cambak21.domain;
 
 public class MainCategoryVO {
-	private int mainCategory_id;
+	private String mainCategory_id;
 	private String mainCategory_content;
 	
-	public int getMainCategory_id() {
+	
+	public String getMainCategory_id() {
 		return mainCategory_id;
 	}
-	public void setMainCategory_id(int mainCategory_id) {
+	public void setMainCategory_id(String mainCategory_id) {
 		this.mainCategory_id = mainCategory_id;
 	}
 	public String getMainCategory_content() {
@@ -19,9 +20,10 @@ public class MainCategoryVO {
 	
 	@Override
 	public String toString() {
-		return "MainCategory [mainCategory_id=" + mainCategory_id + ", mainCategory_content=" + mainCategory_content
+		return "MainCategoryVO [mainCategory_id=" + mainCategory_id + ", mainCategory_content=" + mainCategory_content
 				+ "]";
 	}
-	
+
+
 	
 }
