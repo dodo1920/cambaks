@@ -1,8 +1,10 @@
 package com.cambak21.service.cambakMain;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -18,16 +20,12 @@ public class CambakMainServiceImpl implements CambakMainService {
 	@Inject
 	private CambakMainDAO dao;
 	
+//	=============================효원 Service 끝=======================================================
+	
 	@Override
-	public List<String> searchCambak(String searchWord, PagingCriteria cri) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<CampingVO> randomListCambak(int[] randomId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<CampingVO> randomListCambak() throws Exception {
+		// 랜덤 캠핑장 3곳 조회
+		return dao.randomCambakInfo();
 	}
 
 	@Override
@@ -44,6 +42,47 @@ public class CambakMainServiceImpl implements CambakMainService {
 		
 		return param;
 	}
+
+	@Override
+	public List<String> autoSearch(String keyword) throws Exception {
+		// 메인페이지 자동검색
+		return dao.autoSearch(keyword);
+	}
+	
+//	=============================효원 Service 끝=======================================================
+	
+//	=============================도연 Service=======================================================
+	@Override
+	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception {
+		return dao.getCampings(searchWord, cri);
+	}
+
+	@Override
+	public int getTotCnt(String keyword) throws Exception {
+		return dao.getTotCnt(keyword);
+	}
+
+	
+	
+	
+	
+//	=============================도연 Service 끝=======================================================
+	
+//	=============================정민 Service=======================================================
+	
+	// 캠핑장 디테일
+	@Override
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
+		return dao.getCampingDetail(camping_contentId);
+	}
+	
+	
+	
+	
+	
+	
+	
+//	=============================정민 Service 끝=======================================================
 
 
 }

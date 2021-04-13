@@ -73,9 +73,25 @@
         	let cate = $("#prodQA_category").val();
         	console.log(cate)
         	
-        	prodQAListAll(prodId, page, 0, cate);
+        	prodQAListAll(prodId, 1, 0, cate);
         	
         });
+		
+		$("#buyingBtn").click(function(){
+		    buying("1");
+		});
+		
+		$("#bucketBtn").click(function(){
+		    buying("2");
+		});
+		
+		$("#updatdBtn1").click(function() {
+			updateBucket(1);
+		});
+		
+		$("#updatdBtn2").click(function() {
+			updateBucket(2);
+		});
 	});
 	
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
@@ -618,8 +634,13 @@
 	}
 	
 	// 페이지 호출될 때 상품 문의 목록 함수
-	function prodQAListAll(prodId, page, flag, cate, no) {
-	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + prodId  + "&cate=" + cate + "&page=" + page, function(data){
+	function prodQAListAll(product_Id, pageNum, flag, category, no) {
+	    $.getJSON("/mall/prodDetail/prodQAList?prodId=" + product_Id  + "&cate=" + category + "&page=" + pageNum, function(data){
+	    	prodId = product_Id;
+	    	page = pageNum;
+	    	cate = category;
+	    	
+	    	console.log(product_Id + ", " + category + ", " + pageNum);
 	    	console.log(data);
 	    		let output = "";
 	    		$("#prodQA_category").val(cate).prop("selected",true);
@@ -627,11 +648,11 @@
 	    	if(data.length == 0) { // 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
 	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
+	    		$("#pagingParamTb").html('');
 	    		
 	    	} else { // 등록된 상품 문의가 있다면,		
-	    		console.log(page);	   
 	    	
-	    		prodQAPagingParam(prodId, page, cate); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
+	    		prodQAPagingParam(product_Id, pageNum, category); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
 	    		
 	    		$(data).each(function(index, item){
 		        	let date = new Date(item.prodQA_date);
@@ -641,7 +662,7 @@
 		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
 		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
 		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + cate + '\');">' + item.prodQA_title + '</div></td>';	
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + '</div></td>';	
 		        	}
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
@@ -663,12 +684,12 @@
 	                if(loginUser == item.member_id) { // 로그인 유저와 글쓴이가 같아면, 수정/삭제 가능한 버튼 보여주도록
 	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="goModi(\'1\',' + item.prodQA_no + ');"/>';
 		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span>';
+		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
 		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 	                }
 	                
-	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + cate + '\');"/></span></div></td></tr>';
+	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span></div></td></tr>';
 	    		});
 			    
 	    	}
@@ -698,6 +719,7 @@
 	    	if(data.length == 0) {
 	    		console.log("데이터 없음")
 	    	} else {
+	    		console.log(prodId + ", " + cate + ", " + page);
 	    		console.log(data);
 	    		let prev = Number(page) - 1;
 	    		let next = Number(page) + 1;
@@ -705,16 +727,17 @@
 	    		let output = '<ul class="pagination">';
 	    		
 	    		if(page > 1) {
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + 1 + ',0,\'' + cate + '\');"> << </a></li>';
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> < </a></li>';
 	    		}
 	    		
 	    		for(let i = 1; i < data.endPage + 1; i++) {
-	    			page = i;
-	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');">' + i + '</a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + i + ',0,\'' + cate + '\');">' + i + '</a></li>';
 	    		}
 	    		
 	    		if(page < data.endPage) {
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> > </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + data.endPage + ',0,\'' + cate + '\');"> >> </a></li>';
 	    		}
 	    		
 	    		if(loginUser.length != 0) {
@@ -945,9 +968,10 @@
 		});	
 	}
 	
-	function buying() {		
+	function buying(flag) {		
 		console.log(prodId);
 		console.log(loginUser);
+		console.log(flag);
 		
 		if(loginUser.length == 0) {
 			alert("로그인해주세요!");
@@ -961,16 +985,21 @@
 					pruduct_id: prodId,
 					member_id : loginUser
 					}),
-				dataType : 'text', // 응답 받을 형식
+// 				dataType : 'json', // 응답 받을 형식
 				type : 'post',
 				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
+					console.log(result);
 					if(result.length == 0) {
-						insertBucket();
+						console.log(flag);
+						insertBucket(flag);
+					} if(result.bucket_buyQty == 11) {
+						$("#myModal").modal();
+						changeModalButtons("over");
 					} else {
-						$("#buying").attr("data-toggle", "modal");
-						$("#buying").attr("data-target", "#myModal");
+						$("#myModal").modal();
+						addAlreadyItem(flag, result);
 					}
 				},
 				fail : function(result) {
@@ -980,7 +1009,22 @@
 		}
 	}
 	
-	function insertBucket() {
+	function changeModalButtons(flag) {
+		let output ='';
+		let cOutput = '';
+		
+		if(flag == "stay") {
+			cOutput = '<p>변경이 완료되었습니다</p>';	
+			$("#alreadyItem").html(cOutput);
+		}
+		
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>';
+		
+		$("#modalButtons").html(output);
+	}
+	
+	function insertBucket(flag) {
 		let sellPrice = Number($("#sellPrice").text());
 		let prodQty = Number($("#prodQty").val());
 		let totBuyPrice = sellPrice * prodQty;
@@ -1003,6 +1047,82 @@
 			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 			success : function(result) {
 				console.log(result);
+				if(flag == 1) {
+					location.href="../cart";	
+				} else if(flag == 2) {
+					alert("장바구니에 담기 완료!");
+				}				
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function addAlreadyItem(flag, obj) {
+		let isMoveFlag = '';
+		console.log(flag);
+		
+		if(flag == 1) {
+			isMoveFlag = "move";	
+		} else if(flag == 2) {
+			isMoveFlag = "stay";
+		}
+		
+		let output = '<div><p>이미 장바구니에 들어있는 상품입니다.</p>';
+		output += obj.bucket_buyQty;
+		output += '<input type="hidden" id="isMoveFlag" value="' + isMoveFlag + '" />';
+		output += '<input type="hidden" id="bucket_no" value="' + obj.bucket_no + '" />';
+		output += '<input type="hidden" id="bucket_buyQty" value="' + obj.bucket_buyQty + '" />';
+		output += '</div>';
+		$("#alreadyItem").html(output);
+	}
+	
+	function updateBucket(flag) {
+		let isMoveFlag = $("#isMoveFlag").val();
+		let bucket_no = $("#bucket_no").val();
+		let sellPrice = Number($("#sellPrice").text());
+		let prodQty = Number($("#prodQty").val());
+		let alreadyProdQty = Number($("#bucket_buyQty").val());
+		let resultProdQty = 0;
+		let totBuyPrice = 0;
+		
+		
+		if(flag == 1) {
+			resultProdQty = alreadyProdQty;
+			totBuyPrice = sellPrice * (prodQty + alreadyProdQty);
+		} else if(flag == 2) {
+			resultProdQty = prodQty;
+			totBuyPrice = sellPrice * prodQty;
+		}
+		
+		console.log(resultProdQty);
+		console.log(totBuyPrice);
+		
+		$.ajax({
+			url: '/mall/prodDetail/updateBucekt',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				bucket_no : bucket_no,
+				product_id: prodId,
+				member_id : loginUser,
+				bucket_sellPrice : sellPrice,
+				bucket_buyQty : resultProdQty,
+				bucket_totBuyPrice : totBuyPrice
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(isMoveFlag);
+				if(isMoveFlag == "move") {
+					location.href="../cart";	
+				} else if(isMoveFlag == "stay") {
+					changeModalButtons(isMoveFlag);
+				}
 			},
 			fail : function(result) {
 				alert(result);
@@ -1065,6 +1185,14 @@
 	.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
 		border : none;
 		color : #ca1515;
+	}
+	
+	.show {
+		opacity: 1;
+	}
+	
+	.modal-header {
+ 		display: inline;
 	}
 
 </style>
@@ -1145,9 +1273,9 @@
                                     <input type="text" id="prodQty" value="1">
                                 </div>
                             </div>
-                            <a href="javascript:void(0);" class="cart-btn" id="buying" onclick="buying();"><span class="icon_bag_alt" ></span> 주문하기 </a>
+                             <button type="button" class="cart-btn" id="buyingBtn"><span class="icon_bag_alt" ></span> 주문하기</button>
                             <ul>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
+                                <li><button type="button" id="bucketBtn"><span class="icon_heart_alt"></span></button></li>
                             </ul>
                         </div>
                         <div class="product__details__widget">
@@ -1280,25 +1408,28 @@
 						    	</div>
 						    	
 						    	<!-- Modal -->
-								  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								  <div class="modal fade" id="myModal" role="dialog">
 								    <div class="modal-dialog">
 								    
 								      <!-- Modal content-->
 								      <div class="modal-content">
 								        <div class="modal-header">
 								          <button type="button" class="close" data-dismiss="modal">&times;</button>
-								          <h4 class="modal-title">Modal Header</h4>
+								          <h4 class="modal-title">주문하기</h4>
 								        </div>
-								        <div class="modal-body">
-								          <p>Some text in the modal.</p>
+								        <div class="modal-body" id="alreadyItem">
+								          <p> 장바구니로 가시겠습니까? </p>
 								        </div>
-								        <div class="modal-footer">
-								          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								        <div class="modal-footer" id="modalButtons">
+								        	<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>
+								        	<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>
+								        	<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='../cart'">장바구니로 가기</button>
 								        </div>
 								      </div>
 								      
 								    </div>
 								  </div>
+
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">

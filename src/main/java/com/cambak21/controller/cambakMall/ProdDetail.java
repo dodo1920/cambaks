@@ -274,13 +274,15 @@ public class ProdDetail {
 	public ResponseEntity<List<ProdQAVO>> prodQAList(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 호출");
 		
+		System.out.println(prodId + ", " + cate + ", " + page);
+		
 		cri.setPage(page);
 		System.out.println(cri);
 		
 		ResponseEntity<List<ProdQAVO>> entity = null;
 	      
 	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, page, cri, cate), HttpStatus.OK);
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri, cate), HttpStatus.OK);
 	    } catch (Exception e) {
 	       e.printStackTrace();
 	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -761,14 +763,23 @@ public class ProdDetail {
 	
 	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
 	public ResponseEntity<BucketVO> checkBucket(@RequestBody BucketVO vo) throws Exception {
-		logger.info("주문하기 전 이미 장바구니에 있는 상품인지 확인");
+		logger.info("주문하기 전 장바구니에 빈 공간 있는지 확인");
 		
 		ResponseEntity<BucketVO> entity = null;
+		
+		BucketVO tmpVO = vo;
 		
 		System.out.println(vo.toString());
 		
 		try {
-			entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+			if(prodService.checkBucketQty(vo.getMember_id()) < 10 || prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()) != null) {
+				logger.info("빈 공간이 있다면, 장바구니에 있는 상품인지 확인");
+				entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+			} else {
+				tmpVO.setBucket_buyQty(11);
+				entity = new ResponseEntity<BucketVO>(tmpVO, HttpStatus.OK);
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -778,14 +789,38 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/insertBucekt", method=RequestMethod.POST)
-	public String insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+	public ResponseEntity<String> insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+		logger.info("장바구니에 상품 넣기");
+		
+		ResponseEntity<String> entity = null;
+		
 		System.out.println(vo.toString());
 		
 		if(prodService.insertBucket(vo)) {
-			return "redirect:/mall/cart";
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
-		return "redirect:erro.jsp";
+		return entity;
 	}
+	
+	@RequestMapping(value="/updateBucekt", method=RequestMethod.POST)
+	public ResponseEntity<String> updateBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+		logger.info("장바구니에 정보 업데이트하기");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(vo.toString());
+		
+		if(prodService.updateBucketQty(vo)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
 	
 }

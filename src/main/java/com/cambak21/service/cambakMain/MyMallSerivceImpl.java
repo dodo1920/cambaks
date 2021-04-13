@@ -6,9 +6,15 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.MemberLittleOrderVO;
+import com.cambak21.domain.MemberOrderVO;
+import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
+import com.cambak21.domain.RefundVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
+import com.cambak21.util.PagingCriteria;
 
 @Service
 public class MyMallSerivceImpl implements MyMallService {
@@ -24,9 +30,9 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public Object getRefundList(String member_id) throws Exception {
+	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.getRefundList(member_id);
+		return dao.getRefundList(member_id, cri);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -35,7 +41,28 @@ public class MyMallSerivceImpl implements MyMallService {
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	// 마이페이지-나의 적립금 포인트 적립내역 가져오기
+	@Override
+	public List<MyPointVO> getPointList(String member_id, PagingCriteria cri) throws Exception {
+		return dao.getPointList(member_id, cri);
+	}
+	
+	// 마이페이지-나의 적립금 총 게시물 개수 가져오기
+	@Override
+	public int getPointListCnt(String member_id) throws Exception {
+		return dao.getPointListCnt(member_id);
+	}
+	
+	// 마이페이지-나의 적립금 총 보유 포인트 가져오기
+	@Override
+	public int getTotMyPoint(String member_id) throws Exception {
+		return dao.getTotMyPoint(member_id);
+	}
+	// 마이페이지-나의 적립금 총 적립예정 포인트 가져오기
+	@Override
+	public int getTotMyFuturePoint(String member_id) throws Exception {
+		return dao.getTotMyFuturePoint(member_id);
+	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -81,18 +108,27 @@ public class MyMallSerivceImpl implements MyMallService {
 	  * @throws Exception
 	  */
 	@Override
-	public ProdQAVO getProdQAVO(String member_id, int prodQA_no) throws Exception {
-		return dao.getProdQAVO(member_id, prodQA_no);
+	public ProdQAVO getProdQAVO(int prodQA_no) throws Exception {
+		return dao.getProdQAVO(prodQA_no);
 	}
-	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-	
+	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 	
 
 	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
+	@Override
+	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
+		// TODO Auto-generated method stub
+		return dao.MemberLittleOrder(cri, userName);
+	}
+
+	@Override
+	public MemberOrderVO MemberDetailOrder(int serialNo, String userName) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.MemberDetailOrder(serialNo, userName);
+	}
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

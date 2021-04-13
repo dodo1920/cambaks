@@ -4,15 +4,14 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.mapper.MemberOrderMapper">
 	<select id="MemberLittleOrder" resultType="com.cambak21.domain.MemberLittleOrderVO">
-		select payment.payment_date,payment.payment_no
+	select payment.payment_date,payment.payment_no,
 		product.product_name,buyProduct.buyProduct_totPrice,
-		deliverie.delivery_status
+		deliverie.delivery_status,payment.payment_serialNo
 		 from Payments payment
 		 join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
 		 join Products product on buyProduct.product_name = product.product_name
 		 left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
 		 where payment.member_id = #{userName}
-		 group by payment.payment_serialNo
 		 order by payment.payment_serialNo
 		 desc limit #{pageStert},#{pageNum};
 	</select>
@@ -46,7 +45,7 @@
 		left join RefundnExchanges refundnExchange  on payment.payment_serialNo = refundnExchange.payment_serialNo
 		left join Points poin on poin.buyProduct_no = payment.buyProduct_no
 		join Members member on member.member_id = payment.member_id
-		where payment.member_id = #{userName}
+		where payment.member_id = #{userName} and payment.payment_serialNo #{serialNo}
 		group by payment.payment_serialNo
 		order by payment.payment_serialNo
 	</select>

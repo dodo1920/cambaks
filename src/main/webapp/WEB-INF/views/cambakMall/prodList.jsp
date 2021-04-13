@@ -74,7 +74,7 @@
 		}
 	</style>
 </head>
-<script type="text/javascript">
+<script type="text/javascript">	
 var minHeight = 0
 let page = 2;
 function gotoDeteilPage	(no) {
@@ -90,7 +90,7 @@ $(window).scroll(function () {
 		$.ajax({
 			type : "post",
 			contentType : "application/json",
-			url : "/cambakMall/list/"+page, 
+			url : "/mall/list/"+page, 
 			success : function(data) {
 				console.log(data)
 				$.each(data,function(index,item){
@@ -135,18 +135,25 @@ $(window).scroll(function () {
 						<table style="width: 100%x"id="nextPage">
 				
 						<tbody style="width: 100%">
-						<div style="display: table;margin: auto;">
-							<form action="/cambakMall/search" method="GET">
+						<div id="ResellList" style="display: table;margin: auto;">
+							<form action="/mall/search" method="GET">
 								<select name="searchType" style="margin-right: 15px">
 									<option value="product_title">제목</option>
 									<option value="product_detail">내용</option>
 									<option value="product_name">상품명</option>
 								</select>
 								
-								<input type="text" name="searchWord" placeholder="검색어 입력..." style="width: 550px"/>
+								<input type="text" name="searchWord" value="${param.searchWord }" placeholder="검색어 입력..." style="width: 550px"/>
+								
+								<select name="optionType" style="margin-right: 15px">
+									<option value="defualt">제품 번호순</option>
+									<option value=product_sellPrice_desc>높은 가격순</option>
+									<option value="product_sellPrice">낮은 가격순</option>
+								</select>
+								
 								<input type="submit" id="goSearch" value="검색" />
 							</form>
-						</div id="ResellList">
+						</div>
 						<c:forEach var="board" items="${board}">
 								<tr class="bordListBox" onclick="gotoDeteilPage(${board.product_id});">
 								<td class="tdTotolStyle"><span>${board.product_name}</span></td>
@@ -163,6 +170,7 @@ $(window).scroll(function () {
 		</div>
 		
 		
+		</div>
 	</div>
 <%@include file="mallFooter.jsp" %>
 

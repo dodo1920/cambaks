@@ -5,6 +5,7 @@ import java.util.List;
 import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -20,7 +21,7 @@ public interface prodOrderService {
 	public DestinationVO defaultDest(String member_id) throws Exception;
 
 	// 장원영 DAO
-	
+	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception;
   	
 //  	<!-- 김도연 DAO -->
   	
@@ -33,6 +34,9 @@ public interface prodOrderService {
   	public int prodBoardReadAllCnt()throws Exception;
   	public List<ProductsVO> prodBoardRead(PagingCriteria cri,SearchCriteria scri) throws Exception;
   	public int prodBoardReadCnt(SearchCriteria scri)throws Exception;
+  	public List<ProductsVO> prodBoardSearch(PagingCriteria cri,SearchCriteria scri) throws Exception;
+  	public int prodBoardSearchId(SearchCriteria scri)throws Exception;
+  	
 //  	<!-- 백승권 DAO -->
   	
   	

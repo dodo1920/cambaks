@@ -187,6 +187,7 @@
 	
 	
 
+	<!-- @@@@@@@@@@@@@@@@@@@@@@정민@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<select id="getMyPosting"
 		resultType="com.cambak21.domain.BoardVO">
 		select * from goot6.Boards where member_id = #{member_id}
@@ -194,7 +195,6 @@
 		#{pageStart}, #{perPageNum}
 
 	</select>
-	
 	<!-- getMyPostingWithCategory -->
 	<select id="getMyPostingWithCategory" resultType="com.cambak21.domain.BoardVO">
 		select * from goot6.Boards where member_id = #{member_id} and board_isDelete = 'N' and board_category = #{board_category} order by board_writeDate desc limit #{pageStart}, #{perPageNum}
@@ -235,9 +235,9 @@
 	</select>
 	<!-- getMyResellmyLikeList 총 게시글 수 정민 -->
 	<select id="getMyResellmyLikeList" resultType="int">
-		select count(*) from ResellBoards rb, ResellLikeBoards rl where rb.resellBoard_no = rl.resellBoard_no and rl.member_id='admin' and rb.resellBoard_isDelete = 'N'
+		select count(*) from ResellBoards rb, ResellLikeBoards rl where rb.resellBoard_no = rl.resellBoard_no and rl.member_id=#{member_id} and rb.resellBoard_isDelete = 'N'
 	</select>
-	
+	<!-- @@@@@@@@@@@@@@@@@@@@@@정민@@@@@@@@@@@@@@@@@@@@@@@ -->
 	
 	
 	

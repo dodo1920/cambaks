@@ -6,6 +6,7 @@ import java.util.List;
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.dto.LoginDTO;
+import com.cambak21.dto.UpdateMemberDTO;
 
 public interface MemberDAO {
 	/**
@@ -18,7 +19,7 @@ public interface MemberDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public int memberUpdate(MemberVO vo) throws Exception;
+	public int memberUpdate(UpdateMemberDTO dto) throws Exception;
 	
 	public MemberVO memberSelect(String memberId) throws Exception;
 	/**
@@ -36,9 +37,9 @@ public interface MemberDAO {
 	/**
 	 * @Method Name : memberInsert
 	 * @작성일 : 2021. 3. 16.
-	 * @작성자 : 이영광
+	 * @작성자 : 서효원
 	 * @변경이력 : 
-	 * @Method 설명 : 회원 가입시, 회원 정보를 저장하는 메서드
+	 * @Method 설명 : 작성한 ID가 사용가능한지 확인하는 메서드
 	 * @param vo
 	 * @return
 	 * @throws Exception
@@ -47,8 +48,20 @@ public interface MemberDAO {
 	
 	/**
 	 * @Method Name : memberInsert
+	 * @작성일 : 2021. 4. 9.
+	 * @작성자 : 서효원
+	 * @변경이력 : 
+	 * @Method 설명 : 작성한 email이 사용가능한지 확인하는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkRegisterEmail(String userEmail) throws Exception;
+	
+	/**
+	 * @Method Name : memberInsert
 	 * @작성일 : 2021. 3. 16.
-	 * @작성자 : 이영광
+	 * @작성자 : 서효원
 	 * @변경이력 : 
 	 * @Method 설명 : 회원 가입시, 회원 정보를 저장하는 메서드
 	 * @param vo

@@ -20,11 +20,11 @@
   	
   	
   	<!-- 장원영 맵퍼 -->
-  	<select id="bucketInfoSelect" resultType="com.cambak21.domain.BucketVO">
+  	<select id="bucketInfoSelect" resultType="com.cambak21.domain.ProdInfoVO">
   		select bp.buyProduct_no, p.product_name, p.product_img1, bp.buyProduct_qty, p.product_sellPrice, bp.buyProduct_deliveriPay, bp.buyProduct_totPrice, m.member_id
 		from BuyProducts bp inner join Members m inner join Products p
 		on bp.member_id = m.member_id and bp.product_id = p.product_id
-		where bp.bucket_no = #{bucket_no}
+		where bp.member_id = #{member_id} and bp.buyProduct_isFinished = 'N'
   	</select>
   	
   	<select id="viewPoint" resultType="com.cambak21.domain.PointVO">
@@ -43,13 +43,23 @@
   	</select>
   	
   	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
-  		select bucket_no, product_id, bucket_buyQty from Buckets where member_id = #{member_id} and product_id = #{product_id}
+  		select * from Buckets where member_id = #{member_id} and product_id = #{product_id}
   	</select>
   	
   	<insert id="insertBucket">
   		insert into Buckets(member_id, product_id, bucket_buyQty, bucket_sellPrice, bucket_totBuyPrice)
 		value(#{member_id}, #{product_id}, #{bucket_buyQty}, #{bucket_sellPrice}, #{bucket_sellPrice})
   	</insert>
+  	
+  	<update id="updateBucketQty">
+  		update Buckets 
+  		set bucket_buyQty = #{bucket_buyQty}, bucket_totBuyPrice = #{bucket_totBuyPrice}
+  		where member_id = #{member_id} and bucket_no = #{bucket_no}
+  	</update>
+  	
+  	<select id="checkBucketQty" resultType="int">
+  		select count(*) from Buckets where member_id = #{member_id}
+  	</select>
   	
   	
   	<!-- 김정민 맵퍼 -->
@@ -76,11 +86,51 @@
   	<if test="searchType == 'product_detail'">
   			product_detail like concat('%',#{searchWord},'%')
   	</if>
-  	and product_show="Y" order by product_id desc limit #{pageStert} ,#{pageNum}
+  	and product_show="Y" order by product_id desc limit #{pageStart}, #{perPageNum};
   </select>
-  	
-  	
+  
   	<select id="prodBoardReadCnt" resultType="int">
+  	select count(*)  from Products where
+  <if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y" limit #{pageStert} ,#{pageNum}
+  </select>
+  
+<select id="prodBoardSearch" resultType="com.cambak21.domain.ProductsVO">
+	  	select * from Products where
+  	<if test="searchType == 'product_name'">
+  			product_name like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_title'">
+  			product_title like concat('%',#{searchWord},'%')
+  	</if>
+  	<if test="searchType == 'product_detail'">
+  			product_detail like concat('%',#{searchWord},'%')
+  	</if>
+  	and product_show="Y" order by
+  	<!-- 기본 가격순 -->
+  	<if test="optionType == 'defualt'">
+  		product_id desc
+  	</if>
+  	<!-- 높은 가격순 -->
+  	<if test="optionType == 'product_sellPrice_desc'">
+  		product_sellPrice desc
+  	</if>
+  	<!-- 낮은 가격순 -->
+  	<if test="optionType == 'product_sellPrice'">
+  		product_sellPrice
+  	</if>
+  	limit #{pageStert} ,#{pageNum}	
+</select>
+
+  	<select id="prodBoardSearchId" resultType="int">
   	select count(*)  from Products where
   <if test="searchType == 'product_name'">
   			product_name like concat('%',#{searchWord},'%')

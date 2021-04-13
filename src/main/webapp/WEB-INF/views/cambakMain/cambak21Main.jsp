@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script>
-	let pageNo = 0;
     
 	$(document).ready(function () {
         // Initialize Tooltip
@@ -48,10 +47,60 @@
             } // End if
         });
 
-        dataLoading();
-        textLimitBoard();
+        textLimitBoard(); // 게시글 길이 줄여주기
     });
-
+	
+	function checkSearchBar() {
+		let inputKeyword = $("#searchBar").val();
+		
+		if (inputKeyword.length <= 1) {
+			$("#autoSearchBar").empty();
+			$("#autoSearchBar").css("display", "none");
+		}
+		
+	}
+	
+	function getSearchList() {
+		let inputKeyword = $("#searchBar").val();
+		
+		if (inputKeyword.length > 1) {
+		   $("#autoSearchBar").empty();
+		   
+		   
+	   		$.ajax({
+				   method: "POST",
+				   url: "main/autoSearch",
+				   dataType: "json",
+				   async: false,
+				   data : {keyword : inputKeyword},
+				   success : function(data) {
+					   let output = '';
+					   for (i = 0; i < data.length; i++) {
+						   console.log(data);
+						   console.log(data.length);
+						   if (data.length == 0) {
+							   $("#autoSearchBar").css("display", "none");
+						   } else {
+							   $("#autoSearchBar").css("display", "flex");
+							   output += '<li><a href="#" class="searchListBar" onmouseover="resultColorIn(this);" onmouseout="resultColorOut(this);" '
+							   output += 'onclick="clickKeyword(this); return false;"><span id="test"><span><img src="/resources/cambak21/img/searchIcon.png"'
+							   output += ' class="searchImgSize"></span>' + data[i] + '</span></a></li>';
+						   }
+					   }
+					   output += '<li class="searchListLastBar">* 자동검색은 2글자 이상부터 자동으로 생성됩니다.</li>';
+					   $("#autoSearchBar").append(output);
+				   }
+				 });
+			
+		} else {
+			$("#autoSearchBar").empty();
+			$("#autoSearchBar").css("display", "none");
+		}
+		
+		
+	}
+	
+	
  	// 게시글 제목의 길이가 30개를 넣을 시 21번째 글짜부터 ...으로로 변환
     function textLimitBoard() {
     	$(".boardLinkSize").each(function() {
@@ -76,123 +125,25 @@
         console.log(output);
         // location.href = output; // 페이지 완성 후 주석 해제
     }
-
-    // search창에 keyword를 입력하고 search버튼을 누르면, 해당 keyword에 대한 결과 페이지로 이동 함수
-    function sendKeyword() {
-        let keyword = document.getElementsByClassName("form-control")[0].value;
-        if (keyword.length > 1) {
-            let output = "http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=" + keyword;
-            // output += theamVal;
-            console.log(output);
-            location.href = output; // 페이지 완성 후 주석 해제
-        }
-    };
-
-    // search창에 keyword를 입력하고 엔터 누르면, 해당 keyword의 결과 페이지로 이동 함수
-    function enterKey() {
-        if (event.keyCode == 13) {
-            sendKeyword();
-        };
-    };
-
-    // 페이지 로딩하면 고캠핑 api 로딩하는 함수 (추천 캠핑장을 위해)
-    function dataLoading() {
-        pageNo = Math.floor(Math.random() * 257 + 1);
-        // console.log(pageNo);
-        let serviceKey =
-            "LZek9TowzX7QwARv08FuPHojIPTBkuOzAUcTq592PziGQXdZjxOvllpYByBchlb7mDz9soxa9Fg39BYdhg%2FEHQ%3D%3D";
-        let dataURL = "http://api.visitkorea.or.kr/openapi/service/rest/GoCamping/basedList?serviceKey=" +
-            serviceKey + "&pageNo=" + pageNo + "&MobileOS=ETC&MobileApp=AppTest";
-
-        $.ajax({
-            url: dataURL, // 데이터 송수신 될 곳
-            dataType: "json", // 수신할 데이터의 타입
-            type: "GET", // 통신 방식
-            success: function (data) { // 통신이 성공 했을때 수행되는 callBack 함수
-                console.log(data);
-                parseTour(data);
-            },
-            error: function (response) { // 통신이 실패 했을 때 수행되는 callBack 함수
-                alert("통신실패 : " + response.responseText);
-            }
-        });
-    };
-
-    // 로딩된 캠핑장 데이터를 파싱하고(객체로 배열 저장), 임의로 3개 선택하여 출력하는 함수
-    // 캠핑장 데이터 중 필요한 자료만 추출해서 객체화 하기 위한 틀 만들기
-    function RecomCamp(photo, title, addr, contentId) {
-        this.photo = photo;
-        this.title = title;
-        this.addr = addr;
-        this.contentId = contentId;
-    };
-
-    // 필요한 데이터 추출 및 객체화 & 배열로 묶기
-    function parseTour(data) {
-        let itemAr = data.response.body.items.item;
-        console.log(itemAr);
-        // console.log(itemAr.item);
-
-        let recomcamps = new Array();
-
-        $.each(itemAr, function (i, e) {
-            let photo = e.firstImageUrl;
-            let title = e.facltNm;
-            let addr = e.addr1;
-            let contentId = e.contentId;
-
-            if (e.firstImageUrl != null) {
-                recomcamps.push(new RecomCamp(photo, title, addr, contentId));
-            };
-        });
-
-        // recomcamps.push(new RecomCamp());
-
-        console.log(recomcamps);
-
-        // 겹치지 않는 랜덤 번호 3개 추출 
-        function isDuplicate(rndNum, ranNumAr) {
-            var result = ranNumAr.indexOf(rndNum);
-            if (result !== -1) {
-                //중복 된다
-                return true;
-            }
-            return false;
-        }
-
-        var ranNumAr = [0, 0, 0] // 배열 생성과 초기화
-
-
-        for (var i = 0; i < ranNumAr.length; i++) {
-            var rndNum = 0;
-            do {
-                //랜덤 한 수 생성
-                rndNum = Math.floor(Math.random() * recomcamps.length);
-                // console.log(rndNum);
-            }
-            while (isDuplicate(rndNum, ranNumAr))
-            ranNumAr[i] = rndNum;
-        }
-        console.log(ranNumAr);
-        // console.log(photoAr[ranNumAr[0]]);
-
-        // 배열로 만든 데이터와 랜덤 번호 매칭해서 출력
-        for (let i = 0; i < ranNumAr.length; i++) {
-            document.getElementsByClassName("effect-milo")[i].innerHTML = '<img src="' + recomcamps[ranNumAr[i]]
-                .photo + '" alt="img11" id="' + recomcamps[ranNumAr[i]].contentId + '" /><figcaption><h2><span>' +
-                recomcamps[ranNumAr[i]].title + '</span></h2><p>' + recomcamps[ranNumAr[i]].addr +
-                '</p><a href="#">View more</a></figcaption>';
-        };
-
-        $(".effect-milo").click(function () {
-            let contentId = $(this).children()[0].attributes[2].value;
-            // console.log(contentId);
-            let output = "http://zinsimi.cafe24.com/1_project/KJM_tampletSub.html?contentId=" +
-                contentId;
-            console.log(output);
-            location.href = output; // 페이지 완성 후 주석 해제
-        });
-    };
+    
+    function clickKeyword(obj) {
+    	// 자동 검색 결과 중 하나 누를 시 검색
+    	let clickKeyword = $(obj).text();
+    	
+    	$("#searchBar").val(clickKeyword);
+    	$("#searchCambaks").submit();
+    	
+    }
+    
+    function resultColorIn(obj) {
+    	
+    	$(obj).attr("class", "searchListBarMouseIn");
+    }
+    
+    function resultColorOut(obj) {
+    	
+    	$(obj).attr("class", "searchListBar");
+    }
     
 </script>
 
@@ -221,6 +172,12 @@
 
 .BoardListBody {
 	text-align: center;
+}
+
+.informationText {
+	text-align: center;
+    font-size: 1vw;
+    color: white;
 }
 
 .moreView {
@@ -255,10 +212,60 @@
 	text-decoration: none;
 }
 
+.searchList {
+	background: #fff;
+    box-shadow: 0 9px 8px -3px rgb(64 60 67 / 24%), 8px 0 8px -7px rgb(64 60 67 / 24%), -8px 0 8px -7px rgb(64 60 67 / 24%);
+    display: none;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0 0 7px 7px;
+    padding-bottom: 4px;
+    overflow: hidden;
+    list-style: none;
+}
+
+.searchListBar {
+	display: block;
+    position: relative;
+    padding-left: 30px;
+    font-size: 1.7rem;
+    line-height: 40px;
+}
+
+.searchListBarMouseIn {
+	display: block;
+    position: relative;
+    padding-left: 30px;
+    font-size: 1.7rem;
+    line-height: 40px;
+    background-color: #F1F1F1;
+}
+
+.searchListLastBar {
+	border-top: 1px solid #f1f4f6;
+    font-size: 1.4rem;
+    line-height: 35px;
+    background-color: #f9fafb;
+    padding-left: 25px;
+    margin-top: 5px;
+}
+
+.searchImgSize {
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 9px;
+    width: 17px;
+    height: 17px;
+    margin-top: -8px;
+}
+
 </style>
 </head>
 
-<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50">
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="50" ondragstart="return false">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -277,15 +284,15 @@
                         <ul class="dropdown-menu">
                         	<c:choose>
                         		<c:when test="${loginMember != null }">
-		                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
 		                            <li><a href="/myPage/checkList">마이페이지</a></li>
 		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+		                            <li><a href="/user/login/yet" id="loginBtn">로그아웃</a></li>
                             	</c:when>
                             	<c:otherwise>
                             		<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
-                            		<li><a href="/user/login/yet" id="loginBtn">회원가입</a></li>
+                            		<li><a href="/user/register">회원가입</a></li>
 		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
@@ -298,12 +305,6 @@
         </div>
     </nav>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <!-- <ol class="carousel-indicators">
-          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-          <li data-target="#myCarousel" data-slide-to="1"></li>
-          <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol> -->
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
@@ -322,49 +323,49 @@
 
         <div class="carousel-search">
             <div class="thema">
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=야영장">봄</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=계곡" >여름</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=글램핑" >가을</a></div>
-                <div class="themaBtn"><a href="http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=카라반" >겨울</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=봄">봄</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=여름" >여름</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=가을" >가을</a></div>
+                <div class="themaBtn"><a href="/index/result?keyword=겨울" >겨울</a></div>
             </div>
             <h1>캠박이일</h1>
-            <p>We are specialized in camping</p>
+            <p class="informationText" style="margin-bottom: 50px;">We are specialized in camping</p>
             <br />
-            <!-- <form> -->
+            <form action="/index/result" id="searchCambaks" method="get">
                 <div class="input-group">
-                    <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
+                    <input type="text" class="form-control" size="50" style="font-size: 18px;" id="searchBar" placeholder="검색어를 입력해주세요." name="keyword" onchange="checkSearchBar();" onkeyup="getSearchList();">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-danger" onclick="sendKeyword();">Search</button>
+                        <button type="button" class="btn btn-danger">Search</button>
                     </div>
+                </div>
+                <div>
+                	<ul class="searchList" id="autoSearchBar"></ul>
                 </div>
                 <div id="search-res">
                 </div>
-            <!-- </form> -->
+            </form>
         </div>
-
-        <!-- Left and right controls -->
-        <!-- <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a> -->
 
     </div>
 
     <div class="grid">
-        <h3 class="text-center" id="footerTitle">이달의 추천 둘레길</h3>
-        <p class="text-center">What do you think about going there for this month break?<br> Enjoy your trip
-            with fresh
-            air and wonderful landscape!</p><br />
-        <figure class="effect-milo">
-        </figure>
-        <figure class="effect-milo">
-        </figure>
-        <figure class="effect-milo">
-        </figure>
+        <h3 class="text-center" id="footerTitle">Cambak's 추천 캠핑장</h3>
+        <p class="text-center">
+        What do you think about going there for this month break?<br> 
+        Enjoy your trip with fresh air and wonderful landscape!
+        </p><br />
+        <c:forEach var="Campings" items="${CampingSites }">
+	        <figure class="effect-milo">
+	        <img src="${Campings.camping_firstImageUrl }" alt="img11" id="${Campings.camping_contentId }" style="width: 312px;"/>
+		        <figcaption>
+			        <h2>
+			        	<span>${Campings.camping_facltNm }</span>
+			        </h2>
+			        <p>${Campings.camping_addr1 }</p>
+			        <a href="#">링크</a>
+		        </figcaption>
+	        </figure>
+        </c:forEach>
     </div>
     <div id="contact" class="container">
         <h3 class="text-center" id="footerTitle">Cambark's board</h3>
@@ -519,15 +520,15 @@
 					<p>캠박이일 제작 2팀</p>
 				</div>
 				<div class="col-md-2" id="footerContent" style="border-top: 1px solid #dedede;">
-					<p><a>봄</a></p>
-					<p><a>여름</a></p>
-					<p><a>가을</a></p>
-					<p><a>겨울</a></p>
+					<p><a href="/index/result?keyword=봄">봄</a></p>
+					<p><a href="/index/result?keyword=여름">여름</a></p>
+					<p><a href="/index/result?keyword=가을">가을</a></p>
+					<p><a href="/index/result?keyword=겨울">겨울</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
 					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
-					<p><a href="">캠박마켓 게시판</a></p>
+					<p><a href="/board/resell/list?page=1">캠박마켓 게시판</a></p>
 					<p><a href="/board/qa/list.bo?page=1">Q&amp;A 게시판</a></p>
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>
