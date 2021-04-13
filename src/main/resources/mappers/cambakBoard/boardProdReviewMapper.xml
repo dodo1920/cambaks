@@ -56,7 +56,7 @@
 	
 	<!-- 게시글 좋아요 가져오기 -->
 	<select id="getProdReviewsLike" resultType="int">
-		select count(*) from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}
+			select count(*) from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}	
 	</select>
 	
 	<!-- 게시글 좋아요 삭제 -->

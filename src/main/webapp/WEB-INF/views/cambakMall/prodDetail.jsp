@@ -65,7 +65,7 @@
 		totProdQACnt(prodId);
 		
 		prodQAListAll(prodId, page, 0, cate); // 페이지 호출될 때 상품 문의 목록 함수 호출하는 함수
-		
+
 				
 		
 		// 상품 문의 카테고리가 변경될 때마다 상품 문의 목록 및 페이징 함수 다시 호출하는 함수
@@ -337,12 +337,15 @@
 	            	
 				
 	        }// end of complete
-				
-					//
-	        
+									//		
 
 	    });
+
+
+		
 	} // end of showProdList
+	
+
 	
 	 // ajax 방식 onclick 시 content 및 댓글을 보여주는 부분
 	 function showContent(prodReview_no, prodReview_likeCnt) {
@@ -364,7 +367,7 @@
 				// 좋아요 표시 가져오기
 				$.ajax({
 					  method: "post",
-					  url: "/mall/prodDetail/getProdReviewsLike/" + loginUser + "/" + prodReview_no,
+					  url: "/mall/prodDetail/getProdReviewsLike/" + prodReview_no + "/" + loginUser,
 					  headers: {	// 요청하는 데이터의 헤더에 전송
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "POST"
@@ -372,7 +375,6 @@
 					  dataType: "text", // 응답 받는 데이터 타입
 					  success : function(data) {
 
-// 					      console.log(data);
 					      
 					      // 좋아요를 클릭 안 했으면,
 					      if(data==0){
@@ -1364,8 +1366,10 @@
                                 <div>
                                 
 						     	<div>
-						     	<div class="form-row float-right">
-						        <button type="button" class="btn btn-success" onclick="location.href='/cambakMall/writingProdReviews'">글쓰기</button>
+						     	<div class="form-row float-right" id="writingProdReviews">
+						     		<c:if test="${loginMember.member_id }">
+						        	<button type="button" class="btn btn-success" onclick="location.href=\'/cambakMall/writingProdReviews\'">글쓰기</button>
+						        	</c:if>
 						        </div>
 						     	<div id="prodBoardList"></div>
 								<div id="prodBoardListPage"></div>

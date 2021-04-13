@@ -184,17 +184,19 @@ public class ProdDetail {
 		}
 		
 		// 상품후기 게시글에 대한 좋아요 클릭
-		@RequestMapping(value="/insertLikeProdReviews/{member_id}/{prodReview_no}", method=RequestMethod.POST)
-		public @ResponseBody int insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+		@RequestMapping(value="/insertLikeProdReviews/{loginUser}/{prodReview_no}", method=RequestMethod.POST)
+		public @ResponseBody int insertLikeProdReviews(@PathVariable("loginUser") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
 			logger.info("/insertLikeProdReviews의 post방식 호출");
 //			System.out.println(member_id);
 //			System.out.println(prodReview_no);
 			int result = 0;
 			try {
-				// 해당 게시글에 좋아요 처리
-				service.insertLikeProdReviews(member_id, prodReview_no);
+					// 해당 게시글에 좋아요 처리
+					service.insertLikeProdReviews(member_id, prodReview_no);
+
 				// 게시글 좋아요 수
 				result = service.getProdReviewsLikeCnt(prodReview_no);
+				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
