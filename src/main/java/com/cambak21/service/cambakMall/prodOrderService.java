@@ -2,9 +2,7 @@ package com.cambak21.service.cambakMall;
 
 import java.util.List;
 
-import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
-import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;

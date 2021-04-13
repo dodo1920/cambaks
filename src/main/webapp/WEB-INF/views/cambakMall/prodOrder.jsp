@@ -41,7 +41,7 @@
 //화면시작시 실행할 함수들
  $(function(){
 	 default_addr();
-	 myPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
+	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 });
 
 //김대기 script start
@@ -157,16 +157,24 @@ function default_addr() {
 //김대기 script end
 
 // 장원영 script Start
-function myPoint() {
+function myAllPoint() {
 	
-	$("#myPoint").text('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	$("#myAllPoint").text('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	
 }
 
 function allPoint() {
 	
-	$("#myAllPoint").val('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	$("#myPoint").val('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+
+}
+
+function usePoint() {
 	
+	let dis = $("#myPoint").val();
+	console.log(dis);
+	
+	$("#disCnt").text(dis.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 }
 	
 
@@ -285,7 +293,6 @@ function allPoint() {
     		<th colspan="2">상품정보</th>
     		<th>상품금액</th>
     		<th>수량</th>
-    		<th>배송비</th>
     		<th>주문금액</th>
     	</tr>
     	</thead>
@@ -304,12 +311,12 @@ function allPoint() {
     	
     	<c:forEach var="item" items="${prodInfo }">
 			<tr>
-				<td>${item.buyProduct_no }</td>
+				<td style="display: none">${item.buyProduct_no }</td>
 				<td><img alt="" src="../../resources/img/${item.product_img1 }" style="width: 100px;"></td>
 	    		<td style="text-align: center;">${item.product_name }</td>
 	    		<td style="text-align: center;">${item.product_sellPrice }</td>
 	    		<td style="text-align: center;">${item.buyProduct_qty }</td>
-	    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td>
+<%-- 	    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td> --%>
 	    		<td style="text-align: center;">${item.buyProduct_totPrice }</td>
     		</tr>
     	</c:forEach>
@@ -326,12 +333,12 @@ function allPoint() {
 	   					<ul style="float:right; margin-right:80px; font-style:normal; list-style:none;">
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">보유</em>
-	   							<span><em id="myPoint"></em><i>점</i></span>
+	   							<span><em id="myAllPoint"></em><i>점</i></span>
 	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="allPoint()">전액사용</button>
 	   						</li>
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
-	   							<span><input type="text" id="myAllPoint" value="0"><i>점</i></span>
+	   							<span><input type="text" id="myPoint" value="0"><i>점</i></span>
 	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
 	   						</li>
 	   					</ul>
@@ -348,16 +355,18 @@ function allPoint() {
     						<li>
     							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">상품 금액</em>
     							<span>
-    							<em>3,000</em><i>원</i>
+    							<em>${totPrice }</em><i>원</i>
     							</span>
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">할인 금액</em>
-    							<span><em id=>0</em><i>원</i></span>
+    							<span><em id="disCnt"></em><i>원</i></span>
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">배송 금액</em>
-    							<span><em>2,500</em><i>원</i></span>
+    							<span>
+    							<em>${prodInfo[0].buyProduct_deliveriPay }</em><i>원</i>
+    							</span>
     						</li>	
     					</ul>
     				</div>
