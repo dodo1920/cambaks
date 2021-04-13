@@ -59,6 +59,11 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 		return session.selectList(nameSpace + "readRecentHumor");
 	}
 
+	@Override
+	public List<String> autoSearch(String keyword) throws Exception {
+		// 메인페이지 자동검색
+		return session.selectList(nameSpace + "autoSearch", keyword);
+	}
 	
 //	=============================효원 DAO 끝=======================================================
 	

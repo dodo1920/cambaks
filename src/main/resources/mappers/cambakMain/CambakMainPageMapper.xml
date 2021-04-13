@@ -38,6 +38,10 @@
 		select * from Boards where board_category = 'humor' order by board_writeDate desc limit 0, 5
 	</select>
 	
+<!-- 	메인페이지 자동검색 -->
+	<select id="autoSearch" resultType="String">
+		select camping_facltNm from Campings where camping_facltNm like concat('%', #{searchWord} ,'%') limit 10
+	</select>
 	
 <!-- ===========================효원 매퍼 끝============================================================================= -->
 		
