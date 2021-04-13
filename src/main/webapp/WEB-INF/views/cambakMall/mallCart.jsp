@@ -41,7 +41,7 @@
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css"
 	type="text/css">
 
-<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+<script src="../../../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 button.btn.btn-default.cntCh {
 	background: lightgrey;
@@ -125,7 +125,7 @@ button.btn.btn-default.cntCh {
 			output += '<div class="rating"><i class="fa fa-star"></i></div></td>';
 			output += '<td class="cart__price">￦ '+item.bucket_sellPrice.toLocaleString()+'</td>';
 			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
-			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="deleteItem('+item.product_id+')">요거삭제</button></div></td>';
+			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
 			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
 			output += "</tr>";
 			
@@ -182,6 +182,21 @@ button.btn.btn-default.cntCh {
 		});
 	}
 	
+	// 장바구니 아이템 삭제 시 알림창 띄우기
+	function openBox(product_id, del) {
+		if(del == 2) {
+			// 전체 상품 삭제
+			$("#piece").attr("onclick", "deleteItemAll()");
+			$("#modalText").text("상품 전체 삭제 하시겠습니까?");
+			$("#myModal").modal();
+		} else {
+			// 개별 상품 삭제
+			$("#piece").attr("onclick", "deleteItem("+product_id+")");
+			$("#modalText").text("해당 상품을 삭제 하시겠습니까?");
+			$("#myModal").modal();
+		}
+	}
+	
 	// 장바구니에서 개별 아이템 삭제
 	function deleteItem(no) {
 		let product_id = no;
@@ -227,20 +242,29 @@ button.btn.btn-default.cntCh {
 	function goOrder() {
 		let member_id = "${loginMember.member_id}";
 		
-		$.ajax({
-			type : "get",
-			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/order/" + member_id, // 서블릿 주소
-			success : function(data) {
-				if(data == 1) {
-					location.href="../mall/prodOrder"
-				}
-			}, // 통신 성공시
-			error : function(data) {
-			}, // 통신 실패시
-			complete : function(data) {
-			} // 통신 완료시
-		});
+		let totPrice = $(".totPrice-value").text();
+		
+		if(totPrice != 0) {
+			$.ajax({
+				type : "get",
+				dataType : "json", // 응답을 어떤 형식으로 받을지	
+				url : "/mall/cart/order/" + member_id, // 서블릿 주소
+				success : function(data) {
+					if(data == 1) {
+						location.href="../mall/prodOrder"
+					}
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		} else {
+			$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
+			$("#modalText").text("장바구니에 상품이 없습니다");
+			$("#myModal").modal();
+		}
+
 	}
 	
 	// 체크 on off
@@ -307,7 +331,7 @@ button.btn.btn-default.cntCh {
 
 			<div>
 				
-				<div class="allDelete"><button type="button" class="btn btn-default cntCh allDelete" onclick="deleteItemAll()">전체삭제</button></div>
+				<div class="allDelete"><button type="button" class="btn btn-default cntCh allDelete" onclick="openBox(-1, 2)">전체삭제</button></div>
 				<div class="totCnt-wrap">합계 : ￦ <span class="totPrice-value"></span></div>
 			</div>
 
@@ -393,18 +417,35 @@ button.btn.btn-default.cntCh {
 		</div>
 	</div>
 	<!-- Search End -->
+	<!-- modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"></h4>
+				</div>
+				<div class="modal-body" id="modalText"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="piece">삭제</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				</div>
+			</div>
 
+		</div>
+	</div>
 	<!-- Js Plugins -->
-	<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-	<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
-	<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-	<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
-	<script src="../../resources/mallMain/js/mixitup.min.js"></script>
-	<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
-	<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
-	<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
-	<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-	<script src="../../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
+<script src="../../resources/mallMain/js/mixitup.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
+<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
+<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+<script src="../../resources/mallMain/js/main.js"></script>
 </body>
 
 </html>
