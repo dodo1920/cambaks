@@ -46,7 +46,16 @@
 	}
 </style>
 <script>
+	
+	let loginUser = '${loginMember.member_id}';
+	
 	$(function() {
+
+		if(loginUser.length == 0) {
+			opener.document.location.reload();
+			self.close();
+		}
+		
 		checkCategory();
 		
 		$("#fDrop").on("dragenter dragover", function(evt) {

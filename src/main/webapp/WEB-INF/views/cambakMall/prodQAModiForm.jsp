@@ -32,7 +32,15 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <script>
+
+	let loginUser = '${loginMember.member_id}';
+
 	$(function() {
+		
+		if(loginUser.length == 0) {
+			opener.document.location.reload();
+			self.close();
+		}
 		
 		checkCategory();
 		
