@@ -124,13 +124,12 @@ button.btn.btn-default.cntCh {
 			output += '<div class="cart__product__item__title"><h6>'+item.product_name+'</h6>';
 			output += '<div class="rating"><i class="fa fa-star"></i></div></td>';
 			output += '<td class="cart__price">￦ '+item.bucket_sellPrice.toLocaleString()+'</td>';
-			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'"><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
-			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="deleteItem('+item.product_id+')">선택삭제</button></div></td>';
+			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
+			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="deleteItem('+item.product_id+')">요거삭제</button></div></td>';
 			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
 			output += "</tr>";
 			
 		});
-		
 		$(".cart_list").html(output);
 		$(".totPrice-value").text(totPrice.toLocaleString());
 	}
@@ -143,16 +142,19 @@ button.btn.btn-default.cntCh {
 		
 		// -1이면 빼기
 		if(click == -1) {
-			if (qty > 0) {
+			if (qty > 1) {
 				qty--;
 				$(product_id).val(qty);
 			}	
 		} else {
 			// 수량 더하기
 			qty++;
+			if(qty > 10) {
+				qty--;
+				alert("최대 10개 까지만 가능합니다")
+			} 
 			$(product_id).val(qty);
 		}
-		
 	}
 	
 	// 수량 변경 ajax
