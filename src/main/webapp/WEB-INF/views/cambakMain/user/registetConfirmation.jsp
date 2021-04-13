@@ -270,7 +270,7 @@
 								    <form role="form">
 								      <div class="form-group">
 								        <label for="userEmail"><span class="glyphicon glyphicon-user"></span> </label>
-								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요.">
+								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요." autocomplete="off">
 								      </div>
 									  <div class="g-recaptcha" data-sitekey="6LcPSqIaAAAAAH_msgzY3LP3lNJ207FQ4ujognJW"></div>
 								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="userEmailChk();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
