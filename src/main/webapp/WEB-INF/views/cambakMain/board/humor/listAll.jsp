@@ -100,15 +100,15 @@ p.category-title {
 							<!-- <form> -->
 							<div class="input-group">
 								<!-- 검색버튼 -->
-								<form action="/cambakMain/board/humor/search" method="GET">
+								<form action="/board/humor/search" method="GET">
 								<input type="text" name="searchWord" class="form-control" size="50"
 									placeholder="Search" onkeypress="enterKey();">
 								<div class="input-group-btn">
-									<input type="submit" id="goSearch" value="검색" />
+									<input class="btn btn-danger" type="submit" id="goSearch" value="검색" />
 								
 									<button class="btn btn-danger write">
 								
-										<a href="/cambakMain/board/humor/write">글쓰기</a>
+										<a href="/board/humor/write">글쓰기</a>
 									</button>
 								</div>
 								</form>
@@ -137,7 +137,7 @@ p.category-title {
 											<c:when test="${board != null }">
 												<tr>
 
-													<td><a href = "/cambakMain/board/humor/read?no=${board.board_no }&page=${param.page}">${board.board_title }</a><span>[${board.board_replyCnt }]</span></td>
+													<td><a href = "/board/humor/read?no=${board.board_no }&page=${param.page}">${board.board_title }</a><span>[${board.board_replyCnt }]</span></td>
 													<td>${board.member_id }</td>
 													<td><span><fmt:formatDate
 																pattern="yyyy-MM-dd HH:mm:ss"

@@ -26,7 +26,7 @@ import com.cambak21.util.PagingParam;
 import com.cambak21.util.SearchCriteria;
 
 @Controller
-@RequestMapping("cambakMain/board/humor/*")
+@RequestMapping("board/humor/*")
 public class BoardHumor {
 	
 	@Inject
@@ -35,7 +35,7 @@ public class BoardHumor {
 	private static final Logger logger = LoggerFactory.getLogger(BoardHumor.class);
 	
 	@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-	public void listAll(PagingCriteria cri, Model model) throws Exception{
+	public String listAll(PagingCriteria cri, Model model) throws Exception{
 		
 		
 		model.addAttribute("boardList", service.listBoardHumorCriteria(cri));
@@ -50,6 +50,7 @@ public class BoardHumor {
 		model.addAttribute("pagingParam", pp);
 		logger.info(pp.toString());
 		
+		return "cambakMain/board/humor/listAll";
 	}
 	
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
@@ -71,13 +72,15 @@ public class BoardHumor {
 	}
 	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public void readBoard(@RequestParam("no") int no, Model model) throws Exception{
+	public String readBoard(@RequestParam("no") int no, Model model) throws Exception{
 		model.addAttribute("board", service.readBoardHumor(no));
+		return "/cambakMain/board/humor/read";
 	}
 	
 	@RequestMapping(value = "/modi", method = RequestMethod.GET)
-	public void modiBoard(@RequestParam("no") int no, Model model) throws Exception{
+	public String modiBoard(@RequestParam("no") int no, Model model) throws Exception{
 		model.addAttribute("board", service.readBoardHumor(no));
+		return "/cambakMain/board/humor/modi";
 	}
 	
 	@RequestMapping(value = "/modi", method = RequestMethod.POST)
@@ -88,14 +91,14 @@ public class BoardHumor {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		return "redirect:/cambakMain/board/humor/listAll?page=1";
+		return "redirect:/board/humor/listAll?page=1";
 	}
 	@RequestMapping(value = "/remove", method = RequestMethod.GET)
 	public String delBoard(@RequestParam("no") int no, RedirectAttributes rttr) throws Exception{
 		if(service.removeBoardHumor(no)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/cambakMain/board/humor/listAll?page=1";
+		return "redirect:/board/humor/listAll?page=1";
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -145,8 +148,5 @@ public class BoardHumor {
 		
 	}
 	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public void test() {
-		
-	}
+	
 }
