@@ -97,6 +97,12 @@ public class MallController {
 
 		return entity;
 	}
+	
+	@RequestMapping(value = "/orderFin")
+	public String orderFin() {
+		
+		return "cambakMall/orderFin";
+	}
 
 	// **************************************** 박종진 컨트롤러
 	// **********************************************
