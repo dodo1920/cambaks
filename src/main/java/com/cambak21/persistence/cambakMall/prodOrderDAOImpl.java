@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -45,7 +46,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	
 //  	<!-- 장원영 DAO -->
 	@Override
-	public List<ProductsVO> prodOrderInfo(String member_id) throws Exception {
+	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception {
 		
 		return ses.selectList(namespace + ".bucketInfoSelect", member_id);
 	}

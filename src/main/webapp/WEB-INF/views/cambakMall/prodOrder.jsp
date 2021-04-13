@@ -32,15 +32,16 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 	<script>
-		function usePoint() {
+// 		function usePoint() {
 			
-		}
+// 		}
 	</script>
 </head>
 <script type="text/javascript">
 //화면시작시 실행할 함수들
  $(function(){
 	 default_addr();
+	 myPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 });
 
 //김대기 script start
@@ -156,6 +157,18 @@ function default_addr() {
 //김대기 script end
 
 // 장원영 script Start
+function myPoint() {
+	
+	$("#myPoint").text('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	
+}
+
+function allPoint() {
+	
+	$("#myAllPoint").val('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	
+}
+	
 
 //장원영 script End
 
@@ -279,29 +292,26 @@ function default_addr() {
     	<tbody>
     	
     	
-		<tr>
-			<td style="display: none">번호</th>
-    		<td><img alt="" src="../../resources/img/test.jpg" style="width:100px"> </td>
-    		<td>컵누들</td>
-    		<td>10,000<i>원</i></td>
-    		<td>1</td>
-    		<td>2500<i>원</i></td>
-    		<td>12,500<i>원</i></td>
-   		</tr>
+<!-- 		<tr> -->
+<!-- 			<td style="display: none">번호</th> -->
+<!--     		<td><img alt="" src="../../resources/img/test.jpg" style="width:100px"> </td> -->
+<!--     		<td>컵누들</td> -->
+<!--     		<td>10,000<i>원</i></td> -->
+<!--     		<td>1</td> -->
+<!--     		<td>2500<i>원</i></td> -->
+<!--     		<td>12,500<i>원</i></td> -->
+<!--    		</tr> -->
     	
-    	
-    	<c:forEach var="item" items="${prodList }">
-    		<c:if test="${item.boyProduct_isFinished == Y and loginMember.member_id == item.member_id}">
-				<tr>
-					<td style="text-align: center;">${item.buyProduct_no }</td>
-					<td style="text-align: center; width: 100px;">${item.product_img1 }</td>
-		    		<td style="text-align: center;">${item.product_name }</td>
-		    		<td style="text-align: center;">${item.product_sellPrice }</td>
-		    		<td style="text-align: center;">${item.buyProduct_qty }</td>
-		    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td>
-		    		<td style="text-align: center;">${item.totPrice }</td>
-	    		</tr>
-	    	</c:if>
+    	<c:forEach var="item" items="${prodInfo }">
+			<tr>
+				<td>${item.buyProduct_no }</td>
+				<td><img alt="" src="../../resources/img/${item.product_img1 }" style="width: 100px;"></td>
+	    		<td style="text-align: center;">${item.product_name }</td>
+	    		<td style="text-align: center;">${item.product_sellPrice }</td>
+	    		<td style="text-align: center;">${item.buyProduct_qty }</td>
+	    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td>
+	    		<td style="text-align: center;">${item.buyProduct_totPrice }</td>
+    		</tr>
     	</c:forEach>
     	
     	
@@ -316,13 +326,13 @@ function default_addr() {
 	   					<ul style="float:right; margin-right:80px; font-style:normal; list-style:none;">
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">보유</em>
-	   							<span>
-	   							<em>3,000</em><i>점</i>
-	   							</span>
+	   							<span><em id="myPoint"></em><i>점</i></span>
+	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="allPoint()">전액사용</button>
 	   						</li>
 	   						<li>
-	   							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">사용</em>
-	   							<span><em>2,000</em><i>점</i></span><button class="btn btn-info" style="padding: 6px;" onclick="usePoint()">전액사용</button>
+	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
+	   							<span><input type="text" id="myAllPoint" value="0"><i>점</i></span>
+	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
 	   						</li>
 	   					</ul>
 	   				</div>
@@ -343,7 +353,7 @@ function default_addr() {
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">할인 금액</em>
-    							<span><em>3,000</em><i>원</i></span>
+    							<span><em id=>0</em><i>원</i></span>
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">배송 금액</em>
