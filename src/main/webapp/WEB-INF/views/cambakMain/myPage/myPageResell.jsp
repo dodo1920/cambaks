@@ -92,6 +92,8 @@ function showCambakMarketList(pageNum, category) {
 	    	console.log(data);
 	    	console.log(category);
 	    	let boardList = data.boardList;
+	    	//console.log(boardList);
+	    	let nullCheck = data.boardList.length;
 	    	//let replyList = data.replyList;
 	    	//console.log(replyList);
         	let pagingParam = data.pagingParam;
@@ -101,6 +103,16 @@ function showCambakMarketList(pageNum, category) {
 	    	// 날짜 출력 방식 변경을 위한 변수 설정
         	let showDate;
         	let showThisDate;
+        	
+        	// 리스트가 없는 경우
+        	if(nullCheck == 0)
+        	{
+        		output = "<div style='text-align: center;'>게시물이 존재하지 않습니다.</div>";
+        	}
+        	else
+        	{
+        	
+        	// 카테고리가 myReply인 경우,
         	if(category == "myReply"){
         		output = '<table class="table table-hover"><thead><tr><th>댓글번호</th><th>글번호</th><th>제목</th><th>작성자</th><th>작성일</th></tr></thead><tbody>';
     	    	
@@ -119,7 +131,9 @@ function showCambakMarketList(pageNum, category) {
                 	output += '</tr>'; 
     	    	});
         		
-        	}else{
+        	}
+        	// 그외의 카테고리인 경우
+        	else{
         		
         	
         	output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>제목</th><th>가격</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
@@ -142,6 +156,9 @@ function showCambakMarketList(pageNum, category) {
 	    	// 테이블 닫아주기
 	    	output += '</tbody></table>';
 	    	
+        	}// end of else
+        	
+        	
 	    	$("#myWritingList").html(output);
 	    	
 	    	// ------------페이징 처리 부분-------------------------

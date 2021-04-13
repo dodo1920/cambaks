@@ -51,31 +51,7 @@ public class MyPostController {
 	// 디버깅용 Logger
 	private static final Logger logger = LoggerFactory.getLogger(MyPostController.class);
 
-	/**
-	 * @Method Name : showMyPostList
-	 * @작성일 : 2021. 3. 27.
-	 * @작성자 : Kim Jeong Min
-	 * @변경이력 :
-	 * @Method 설명 : 페이징 처리를 한 나의 게시글 목록
-	 * @return
-	 * @throws Exception
-	 */
-//	@RequestMapping(value="/myPost", method=RequestMethod.GET)
-//	public String showMyPostList(PagingCriteria cri, Model model, @RequestParam("member_id") String member_id) throws Exception {
-//		logger.info("페이징 처리를 한 내가 작성한 게시글 목록...");
-//		// 게시물 데이터 바인딩
-//		model.addAttribute("myPostList", service.getMyPosting(member_id, cri));
-//		System.out.println(service.getMyPosting(member_id, cri));
-//		PagingParam pp = new PagingParam();
-//		pp.setCri(cri);
-//		// 내가 작성한 총 게시물 수를 가져와서 세팅
-//		pp.setTotalCount(service.getMyPostingCnt(member_id));
-//		System.out.println(pp.toString());
-//		
-//		model.addAttribute("pagingParam", pp);
-//		
-//		return "cambakMain/myPage/myPost";
-//	}
+
 
 	/**
 	 * @Method Name : myPageReplyInfo

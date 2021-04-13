@@ -184,17 +184,19 @@ public class ProdDetail {
 		}
 		
 		// 상품후기 게시글에 대한 좋아요 클릭
-		@RequestMapping(value="/insertLikeProdReviews/{member_id}/{prodReview_no}", method=RequestMethod.POST)
-		public @ResponseBody int insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+		@RequestMapping(value="/insertLikeProdReviews/{loginUser}/{prodReview_no}", method=RequestMethod.POST)
+		public @ResponseBody int insertLikeProdReviews(@PathVariable("loginUser") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
 			logger.info("/insertLikeProdReviews의 post방식 호출");
 //			System.out.println(member_id);
 //			System.out.println(prodReview_no);
 			int result = 0;
 			try {
-				// 해당 게시글에 좋아요 처리
-				service.insertLikeProdReviews(member_id, prodReview_no);
+					// 해당 게시글에 좋아요 처리
+					service.insertLikeProdReviews(member_id, prodReview_no);
+
 				// 게시글 좋아요 수
 				result = service.getProdReviewsLikeCnt(prodReview_no);
+				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -274,13 +276,15 @@ public class ProdDetail {
 	public ResponseEntity<List<ProdQAVO>> prodQAList(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 호출");
 		
+		System.out.println(prodId + ", " + cate + ", " + page);
+		
 		cri.setPage(page);
 		System.out.println(cri);
 		
 		ResponseEntity<List<ProdQAVO>> entity = null;
 	      
 	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, page, cri, cate), HttpStatus.OK);
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri, cate), HttpStatus.OK);
 	    } catch (Exception e) {
 	       e.printStackTrace();
 	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -686,14 +690,23 @@ public class ProdDetail {
 	
 	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
 	public ResponseEntity<BucketVO> checkBucket(@RequestBody BucketVO vo) throws Exception {
-		logger.info("주문하기 전 이미 장바구니에 있는 상품인지 확인");
+		logger.info("주문하기 전 장바구니에 빈 공간 있는지 확인");
 		
 		ResponseEntity<BucketVO> entity = null;
+		
+		BucketVO tmpVO = vo;
 		
 		System.out.println(vo.toString());
 		
 		try {
-			entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+			if(prodService.checkBucketQty(vo.getMember_id()) < 10 || prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()) != null) {
+				logger.info("빈 공간이 있다면, 장바구니에 있는 상품인지 확인");
+				entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+			} else {
+				tmpVO.setBucket_buyQty(11);
+				entity = new ResponseEntity<BucketVO>(tmpVO, HttpStatus.OK);
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -703,14 +716,38 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/insertBucekt", method=RequestMethod.POST)
-	public String insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+	public ResponseEntity<String> insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+		logger.info("장바구니에 상품 넣기");
+		
+		ResponseEntity<String> entity = null;
+		
 		System.out.println(vo.toString());
 		
 		if(prodService.insertBucket(vo)) {
-			return "redirect:/mall/cart";
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
-		return "redirect:erro.jsp";
+		return entity;
 	}
+	
+	@RequestMapping(value="/updateBucekt", method=RequestMethod.POST)
+	public ResponseEntity<String> updateBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+		logger.info("장바구니에 정보 업데이트하기");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(vo.toString());
+		
+		if(prodService.updateBucketQty(vo)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
 	
 }

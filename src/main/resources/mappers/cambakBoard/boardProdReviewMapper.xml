@@ -10,7 +10,8 @@
   	</select>
 	
 	<insert id="insertProdBoard">
-		insert into goot6.ProdReviews(product_id, member_id, prodReview_title, prodReview_content, prodReview_grade, prodReview_img, buyProduct_no) values(#{product_id}, #{member_id}, #{prodReview_title}, #{prodReview_content}, #{prodReview_grade}, #{prodReview_img}, #{buyProduct_no})
+		insert into goot6.ProdReviews(product_id, member_id, prodReview_title, prodReview_content, prodReview_grade, prodReview_img, buyProduct_no) 
+		values(#{product_id}, #{member_id}, #{prodReview_title}, #{prodReview_content}, #{prodReview_grade}, #{prodReview_img}, #{buyProduct_no})
 	</insert>
 	<!-- 최신순 전체 게시물 가져오기 -->
 	<select id="listProdBoardCriteria" resultType="com.cambak21.domain.ProdReviewVO">
@@ -55,7 +56,7 @@
 	
 	<!-- 게시글 좋아요 가져오기 -->
 	<select id="getProdReviewsLike" resultType="int">
-		select count(*) from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}
+			select count(*) from goot6.ProdReviewsLike where member_id = #{member_id} and prodReview_no = #{prodReview_no}	
 	</select>
 	
 	<!-- 게시글 좋아요 삭제 -->

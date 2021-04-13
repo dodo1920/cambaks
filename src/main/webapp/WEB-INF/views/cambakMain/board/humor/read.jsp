@@ -157,7 +157,7 @@ function callReplyList(){
           + new Date(this.replyBoard_writeDate) + '</span>' + '<span>작성자' + this.member_id + '</span></div></li>';
           output += '<li><span id=""' + item.replyBoard_no + '" onclick="gomodify(' + item.replyBoard_no + ');"><img id=' + item.replyBoard_no + ' src = "../../../resources/img/modify.png" width="50px"  /></span>' 
           output +="<span id'"+ item.replyBoard_no+"' onclick='goDel("+ item.replyBoard_no +")'><img src='../../../resources/img/delete.png' width='50px'/> </span></li><hr/>"
-          
+          //output += '<div id="modifyBox"><div>댓글 수정</div><div><input type="text" id="replytext'+item.replyBoard_no +'" /><button type="button" id="replymodBtn" onclick="modiProc();">수정</button><button type="button" id="replyModClose" onclick="modiBoxClose();">	닫기</button>	</div>'
        });
        output += "</ul>";
        $("#replyBox").html(output);
@@ -165,9 +165,15 @@ function callReplyList(){
  }   
  
  //좋아요 
+ 
+ function modiBoxClose(){
+	 $("#modifyBox").hide();
+ }
  function likeButton() {
 	 let board_no = ${board.board_no};
 		let member_id = "${loginMember.member_id}";
+	console.log(member_id);
+	if(member_id != ''){
 		
 		$.ajax({
 			type : "post",
@@ -196,6 +202,10 @@ function callReplyList(){
 			complete : function(data) {
 			} // 통신 완료시
 		});
+		
+	}else if(member_id == ''){
+		alert("로그인이 필요한 서비스입니다.")
+	}
 }
 
  function checkLike() {
@@ -255,14 +265,7 @@ p.category-title {
 	font-size: 20px;
 }
 #modifyBox{
-		width:400px;
-		height : 150px;
-		background-color: gray;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin-top: -50px;
-		margin-left: -150px;
+		
 		z-index: 999;
 		display: none;
 		padding: 15px;
@@ -322,24 +325,18 @@ p.category-title {
 						<button type="button" class="btn btn-danger" id="likeButton" onclick="likeButton();">추천</button>
 
 <!-- if문 로그인한 회원과 작성자와 비교 -->
+					<c:if test="${board.member_id == loginMember.member_id }">
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='/cambakMain/board/humor/remove?no=${board.board_no}'">삭제하기</button>
+								onclick="location.href='/board/humor/remove?no=${board.board_no}'">삭제하기</button>
 							<!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
-								onclick="location.href='/cambakMain/board/humor/modi?no=${board.board_no}'">수정하기</button>
+								onclick="location.href='/board/humor/modi?no=${board.board_no}'">수정하기</button>
+						</c:if>
 							<button type="button" class="btn btn-primary"
-						onclick="location.href='/cambakMain/board/humor/listAll?page=${param.page}'">리스트페이지로</button>
+						onclick="location.href='/board/humor/listAll?page=${param.page}'">리스트페이지로</button>
+					
 
-<div id="modifyBox">
-					<div>댓글 수정</div>
-					<div>
-						<input type="text" id="replytext" />
 
-						<button type="button" id="replymodBtn" onclick="modiProc();">
-							수정</button>
-						<button type="button" id="replyModClose" onclick="modiBoxClose();">
-							닫기</button>
-					</div>
 				</div>
 							
 
@@ -362,7 +359,7 @@ p.category-title {
 
 </div>
 </div>
-</div>
+
 
 
 

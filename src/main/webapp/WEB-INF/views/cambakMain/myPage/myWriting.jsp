@@ -195,22 +195,33 @@ function showWritingList(pageNum, board_category) {
 		});
 	
 }
-	//상단 탭 카운트 가져오는 부분
+
+	// 로그인한 회원이 작성한 게시글, 댓글, 좋아요, 문의 개수 가져오기
 	function getTotalCntMyPage(member_id) {
+		
 		$.ajax({
-		    type		: "get",
-		    url 		: "/myPage/myPageCnt",
-		    data		:  {
-		    		'member_id' : member_id
-		    }, 
-		    contentType : "application/json",
-		    success 	: function(data) {
-		    	console.log(data);
-		    	
-		    }
-	});
+			method: "POST",
+			url: "/myPage/getMyCount",
+			dataType: "json",
+			data : {member_id : member_id},
+			success : function(data) {
+				let totalBoard = data.boardCnt;
+				let totalReply = data.replyCnt;
+				let totalLike = data.likeCnt;
+				let totalQuestion = data.myQuestion;
+				
+				$("#totalBoard").text(totalBoard);
+				$("#totalReply").text(totalReply);
+				$("#totalLike").text(totalLike);
+				$("#totalQuestion").text(totalQuestion);
+				
+			}, error : function(data) {
+				
+			}
+			
+		});
+		
 	}
-    	
     	
     $(function() {
     	// 내가 쓴 글 리스트 출력
@@ -273,16 +284,16 @@ function showWritingList(pageNum, board_category) {
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" id="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a href="/myPage/myPost" class="myPostCnt" id="totalBoard">0</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" id="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a href="/myPage/myReply" class="myPostCnt" id="totalReply">0</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" id="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a href="/myPage/myLike.mp" class="myPostCnt" id="totalLike">0</a>개
 							</p>
 							<p class="myPost">
-								나의 문의 : <a href="" id="" class="myPostCnt">0</a>개
+								나의 문의 : <a href="#" class="myPostCnt" id="totalQuestion">0</a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->

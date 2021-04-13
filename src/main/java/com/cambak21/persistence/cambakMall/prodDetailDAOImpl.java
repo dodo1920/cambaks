@@ -39,15 +39,13 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 	}
 
 	@Override
-	public int addBucketQty(String member_id, int product_id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int updateBucketQty(InsertintoBucketDTO updateBucket) throws Exception {
+		return ses.update(namespace + ".updateBucketQty", updateBucket);
 	}
 
 	@Override
-	public int resetBucketInfo(InsertintoBucketDTO updateBucket) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int checkBucketQty(String member_id) throws Exception {
+		return ses.selectOne(namespace + ".checkBucketQty", member_id);
 	}
 
 }

@@ -15,22 +15,15 @@
             <div class="col-lg-4 col-md-6 col-sm-7">
                 <div class="footer__about">
                     <div class="footer__logo">
-                        <a href="#"><img src="../../resources/mallMain/img/logo.png" alt=""></a>
+                        <a href="#" style="font-size: 38px;color: black;font-weight: bold;">캠박몰</a>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                    cilisis.</p>
-                    <div class="footer__payment">
-                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-1.png" alt=""></a>
-                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-2.png" alt=""></a>
-                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-3.png" alt=""></a>
-                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-4.png" alt=""></a>
-                        <a href="#"><img src="../../resources/mallMain/img/payment/payment-5.png" alt=""></a>
-                    </div>
+                    <p>김도연, 장원영, 김대기, 김정민, 이영광, 서효원, 백승권, 김태훈, 박종진</p>
+              
                 </div>
             </div>
             <div class="col-lg-2 col-md-3 col-sm-5">
                 <div class="footer__widget">
-                    <h6>Quick links</h6>
+                    <h6>빠른 메뉴</h6>
                     <ul>
                         <li><a href="#">상품 전체 보기</a></li>
                         <li><a href="#">1:1문의</a></li>
@@ -41,12 +34,12 @@
             </div>
             <div class="col-lg-2 col-md-3 col-sm-4">
                 <div class="footer__widget">
-                    <h6>Account</h6>
+                    <h6>마이 페이지</h6>
                     <ul>
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Orders Tracking</a></li>
-                        <li><a href="#">Checkout</a></li>
-                        <li><a href="#">Wishlist</a></li>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
                     </ul>
                 </div>
             </div>

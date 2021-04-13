@@ -39,15 +39,21 @@ public class prodDetailServiceImpl implements prodDetailService {
 	}
 
 	@Override
-	public boolean addBucketQty(String member_id, int product_id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateBucketQty(InsertintoBucketDTO updateBucket) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updateBucketQty(updateBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 	@Override
-	public boolean resetBucketInfo(InsertintoBucketDTO updateBucket) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
+	public int checkBucketQty(String member_id) throws Exception {
+		return dao.checkBucketQty(member_id);
 	}
 
 }

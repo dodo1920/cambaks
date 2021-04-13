@@ -46,7 +46,16 @@
 	}
 </style>
 <script>
+	
+	let loginUser = '${loginMember.member_id}';
+	
 	$(function() {
+
+		if(loginUser.length == 0) {
+			opener.document.location.reload();
+			self.close();
+		}
+		
 		checkCategory();
 		
 		$("#fDrop").on("dragenter dragover", function(evt) {
@@ -184,9 +193,6 @@
 	}
 </script>
 <body>
-
-<%@include file="mallHeader.jsp" %>
-
  		<div class="content-wrapper">
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
@@ -245,9 +251,6 @@
 		         </form>
 		      </div>
 		</div>
-
-<%@include file="mallFooter.jsp" %>
-
 
 <!-- Js Plugins -->
 <script src="resources/mallMain/js/jquery-3.3.1.min.js"></script>

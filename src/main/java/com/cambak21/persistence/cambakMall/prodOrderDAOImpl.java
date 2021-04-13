@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -44,7 +45,11 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	}
 	
 //  	<!-- 장원영 DAO -->
-  	
+	@Override
+	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception {
+		
+		return ses.selectList(namespace + ".bucketInfoSelect", member_id);
+	}
   	
 //  	<!-- 김도연 DAO -->
   	
@@ -91,6 +96,27 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 			return ses.selectOne(namespace+".prodBoardReadCnt",scri);
 		}
 		
+		@Override
+		public List<ProductsVO> prodBoardSearch(PagingCriteria cri, SearchCriteria scri) throws Exception {
+			System.out.println("DAO_PageStart : "+cri.getPageStart());
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("searchType", scri.getSearchType());
+			param.put("searchWord", scri.getSearchWord());
+			param.put("optionType", scri.getOptionType());
+			param.put("pageStert", cri.getPageStart());
+			param.put("pageNum", cri.getPerPageNum());
+			
+			
+			return ses.selectList(namespace+".prodBoardSearch",param);
+		}
+
+
+		@Override
+		public int prodBoardSearchId(SearchCriteria scri) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(namespace+".prodBoardSearchId",scri);
+		}
+
 //  	<!-- 백승권 DAO -->
   	
   	
@@ -138,6 +164,11 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 			return ses.update(namespace + ".deleteDestiny", paraMap);
 		
 	}
+
+
+
+
+	
 
 
 	
