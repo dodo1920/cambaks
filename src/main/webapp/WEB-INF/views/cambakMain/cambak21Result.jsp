@@ -212,40 +212,152 @@
     	let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
     	let options = { //지도를 생성할 때 필요한 기본 옵션
         	center: new kakao.maps.LatLng(campings[0].camping_mapY,campings[0].camping_mapX), //지도의 중심좌표.
-        	level: 3 //지도의 레벨(확대, 축소 정도)
+        	level: 13 //지도의 레벨(확대, 축소 정도)
         };
 
     	let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
         
-//      	// 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다 
-//         let points = [campings.length];
+     	// 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다 
+        let positions = [campings.length];
     	
-//         for (let i = 0; i < points.length; i++) {
-//         	points.push(new kakao.maps.LatLng(campings[i].camping_mapY, campings[i].camping_mapX));
-//         };
-        
-//         console.log(points);
-        
-//      	// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
-//         let bounds = new kakao.maps.LatLngBounds();    
 
-//         let i, marker;
-//         for (i = 0; i < points.length; i++) {
-//             // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-//             marker =     new kakao.maps.Marker({ position : points[i] });
-//             marker.setMap(map);
-            
-//             // LatLngBounds 객체에 좌표를 추가합니다
-//             bounds.extend(points[i]);
-//         }
+    	
+        for (let i = 0; i < campings.length; i++) {
+        	let content1 = '<div class="wrap">';
+        	content1 += '<div class="info">';
+        	content1 += '<div class="title">';
+        	content1 += campings[i].camping_facltNm;
+        	content1 += '<div class="close" onclick="closeOverlay()" title="닫기"></div></div>';
+        	content1 += '<div class="body">';
+        	content1 += '<div class="img">';
+        	content1 += '<img src="' + campings[i].camping_firstImageUrl + '" width="73" height="70"></div>';
+        	content1 += '<div class="desc">';
+        	content1 += '<div class="ellipsis">' + campings[i].camping_addr1 + '</div>';
+        	content1 += '<div class="jibun ellipsis">(우) ' + campings[i].camping_zipcode + '</div>';
+        	content1 += '<div><a href="' + campings[i].camping_resveUrl + '" target="_blank" class="link">홈페이지</a></div></div></div></div></div>';
 
-//         function setBounds() {
-//             // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
-//             // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-//             map.setBounds(bounds);
-//         }
+        	let position = {
+        			content: content1, 
+                    latlng: new kakao.maps.LatLng(campings[i].camping_mapY,campings[i].camping_mapX)	
+        	}
+        	
+        	positions.push(position);
+        	
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: positions[i + 1].latlng // 마커의 위치
+            });
+
+            // 마커에 표시할 인포윈도우를 생성합니다 
+            var infowindow = new kakao.maps.InfoWindow({
+                content: positions[i].content // 인포윈도우에 표시할 내용
+            });
+
+            // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+            // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+            // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+        }
+        
+        console.log(positions);
+
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+        function makeOverListener(map, marker, infowindow) {
+            return function() {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+        function makeOutListener(infowindow) {
+            return function() {
+                infowindow.close();
+            }; 
+        }
     }
     
+    function sendKeyword() {
+    	let keyword = $("#keyword").val();
+    	
+    	location.href="/index/result?keyword=" + keyword;
+    }
+    
+    function showBoard(flag) {
+    	$.ajax({
+			  method: "post",
+			  url: "/index/resultBoard/" + flag + "/" + keyword + "/" + page,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "json", // 응답 받는 데이터 타입
+			  success : function(data) {
+				  console.log(data);
+				  showList(data.boards);
+				  addPaging(data.pagings, flag);
+			  }			  
+			}); 
+    }
+    
+    function showList(data) {
+    	let output = '';
+    	
+    	if(data.length == 0) {
+    		output += '<p>데이터 없음</p>';
+    	} else {
+    		output += '<ul class="list-group">';
+        	
+        	$(data).each(function(index, item) {
+        		output += '<li class="list-group-item">';
+        		output += '<a href="#">' + item.board_title + '</a>';
+        		output += '<div><span>작성자: ' + item.member_id + '</span>';
+        		output += '<span> 작성일: ' + item.board_updateDate + '</span>'
+        		output += '<span> 조회수: ' + item.board_viewCnt + '</span>'
+        		output += '<span> 좋아요: ' + item.board_likeCnt + '</span>'
+        		output += '</div>';
+        		output += '<div>' + item.board_content + '</div>';
+        		output += '</li>';
+        	});
+        	
+        	output += '</ul><div id="paging"></div>';    	
+    	}
+    	
+    	$("#content").html(output);
+    }
+    
+    function addPaging(data, flag) {
+    	if(data.length == 0) {
+    		console.log("데이터 없음")
+    	} else {
+    		console.log(data);
+    		let prev = Number(page) - 1;
+    		let next = Number(page) + 1;
+    		
+    		let output = '<ul class="pagination">';
+    		
+    		if(page > 1) {
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> << </a></li>';
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> < </a></li>';
+    		}
+    		
+    		for(let i = 1; i < data.endPage + 1; i++) {
+    			page = i;
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')">' + i + '</a></li>';
+    		}
+    		
+    		if(page < data.endPage) {
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> > </a></li>';
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> >> </a></li>';
+    		}
+    		
+    		output += '</ul>';
+    		
+    		$("#paging").html(output);
+
+    	}
+    }
 	</script>
 </head>
 
@@ -264,7 +376,7 @@
 				<div id="research">
 		        	<!-- <form> -->
 	            	<div class="input-group">
-	            		<input type="text" class="form-control" id="keyword" size="50" placeholder="Search" onkeypress="enterKey();" />
+	            		<input type="text" class="form-control" id="keyword" size="50" placeholder="Search" />
 	                	<div class="input-group-btn">
 	                    	 <button type="button" class="btn" onclick="sendKeyword();">Search</button>
 	                	</div>
@@ -277,13 +389,13 @@
 						<div class="container-fluid" id="bsk-smallCat">
 							<ul class="nav navbar-nav">
 								<li class="bsk-focus catagory-name"><a href="http://localhost:8081/index/result?keyword=${param.keyword }">전체보기</a></li>
-								<li class="catagory-name"><a href="#">캠핑 후기</a></li>
-								<li class="catagory-name"><a href="#">유머</a></li>
-								<li class="catagory-name"><a href="#">Q&A</a></li>
-								<li class="catagory-name"><a href="#">중고거래</a></li>
-								<li class="catagory-name"><a href="#">캠핑Tip</a></li>
-								<li class="catagory-name"><a href="#">공지사항</a></li>
-								<li class="catagory-name"><a href="#">고객센터</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('1');">캠핑 후기</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('2');">유머</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('3');">Q&A</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('4');">중고거래</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('5');">캠핑Tip</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('6');">공지사항</a></li>
+								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('7');">고객센터</a></li>
 							</ul>
 						</div>
 					</nav>

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
 import com.cambak21.persistence.cambakMain.CambakMainDAO;
 import com.cambak21.util.PagingCriteria;
@@ -61,7 +62,16 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public int getTotCnt(String keyword) throws Exception {
 		return dao.getTotCnt(keyword);
 	}
+	
+	@Override
+	public int getTotBoardCnt(String searchWord, int flag) throws Exception {
+		return dao.getTotBoardCnt(searchWord, flag);
+	}
 
+	@Override
+	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag) {
+		return dao.getBoards(searchWord, cri, flag);
+	}
 	
 	
 	
@@ -75,6 +85,9 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
 		return dao.getCampingDetail(camping_contentId);
 	}
+
+
+
 	
 	
 	
