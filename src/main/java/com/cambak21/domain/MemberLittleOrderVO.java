@@ -9,6 +9,14 @@ public class MemberLittleOrderVO {
 	private int payment_no;
 	private int buyProduct_totPrice;
 	private String delivery_status;
+	private int payment_serialNo;
+	
+	public int getPayment_serialNo() {
+		return payment_serialNo;
+	}
+	public void setPayment_serialNo(int payment_serialNo) {
+		this.payment_serialNo = payment_serialNo;
+	}
 	public Date getPayment_date() {
 		return payment_date;
 	}
@@ -46,15 +54,15 @@ public class MemberLittleOrderVO {
 	public void setDelivery_status(String delivery_status) {
 		this.delivery_status = delivery_status;
 	}
-	
 	@Override
 	public String toString() {
-		return "MemberLittleOrderVO [payment_date=" + payment_date
-				+ ", product_name=" + product_name + ", product_factory=" + product_factory + ", payment_no="
-				+ payment_no + ", buyProduct_totPrice=" + buyProduct_totPrice + ", delivery_status=" + delivery_status
-				+ "]";
+		return "MemberLittleOrderVO [payment_date=" + payment_date + ", product_name=" + product_name
+				+ ", product_factory=" + product_factory + ", payment_no=" + payment_no + ", buyProduct_totPrice="
+				+ buyProduct_totPrice + ", delivery_status=" + delivery_status + ", payment_serialNo="
+				+ payment_serialNo + "]";
 	}
 	
+
 	
 	
 }

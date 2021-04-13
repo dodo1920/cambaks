@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.MemberLittleOrderVO;
+import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
@@ -121,6 +122,12 @@ public class MyMallSerivceImpl implements MyMallService {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri, String userName) {
 		// TODO Auto-generated method stub
 		return dao.MemberLittleOrder(cri, userName);
+	}
+
+	@Override
+	public MemberOrderVO MemberDetailOrder(int serialNo, String userName) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.MemberDetailOrder(serialNo, userName);
 	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

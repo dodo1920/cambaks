@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberLittleOrderVO;
+import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.PointVO;
@@ -173,6 +174,13 @@ public class MyMallController {
 		List<MemberLittleOrderVO> vo = service.MemberLittleOrder(cri, userName);
 		System.out.println(vo);
 		model.addAttribute("order",vo);
+		return "cambakMall/userProdOrder";
+	}
+	@RequestMapping(value = "/userProdOrder/{serialNo}/{userName}",method =RequestMethod.POST)
+	public String userOrderDetail(@PathVariable("serialNo") int serialNo,@PathVariable("userName") String userName,Model model) throws Exception{
+		
+		MemberOrderVO vo = service.MemberDetailOrder(serialNo, userName);
+		System.out.println(vo);
 		return "cambakMall/userProdOrder";
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

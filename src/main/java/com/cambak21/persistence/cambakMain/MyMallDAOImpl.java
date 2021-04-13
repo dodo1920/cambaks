@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 import com.cambak21.domain.MemberLittleOrderVO;
+import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
 import com.cambak21.domain.PointVO;
@@ -151,6 +152,16 @@ public class MyMallDAOImpl implements MyMallDAO {
 		param.put("pageStert", cri.getPageStart());
 		param.put("pageNum", cri.getPerPageNum());
 		return ses.selectList(nsOrder+".MemberLittleOrder",param);
+	}
+
+
+
+	@Override
+	public MemberOrderVO MemberDetailOrder(int serialNo, String userName) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("serialNo", serialNo);
+		param.put("userName", userName);
+		return ses.selectOne(nsOrder+".MemberDetailOrder",param);
 	}
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
