@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cambak21.mappers.mallMainMapper">
+  
+  <select id="getNewProduct4" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products where mainCategory_id = #{no} limit 0, 4
+  </select>
+  
+  <select id="getTotalCount" resultType="com.cambak21.dto.mallMainTotalDTO">
+  		select count(*) as totcount, mainCategory_id from Products group by mainCategory_id
+  </select>
+  
+</mapper>

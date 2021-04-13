@@ -5,26 +5,41 @@
 
 <head>
  <meta charset="UTF-8">
+ 
+ <script>
+ 
+ 
+ 
+ 
+ 
+ 
+ </script>
+ 
+ 
+ 
+ 
+ 
+<style>
+
+.mainHeader_title{
+
+
+}
+
+
+</style> 
+ 
+
 </head>
     <!-- Offcanvas Menu Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
-        <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><span class="icon_search search-switch"></span></li>
-     
-            <li><a href="#"><span class="icon_bag_alt"></span>
-                <div class="tip">2</div>
-            </a></li>
-        </ul>
+      
         <div class="offcanvas__logo">
             <a href="/index.html"><img src="../../resources/mallMain/img/logo.png" alt=""></a>
         </div>
         <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="#">Login</a>
-            <a href="#">Register</a>
-        </div>
+    
     </div>
     <!-- Offcanvas Menu End -->
 
@@ -36,7 +51,7 @@
                     <div class="header__logo">
                         <a href="#" style="font-size: 38px; color: black; font-weight: bold;">캠박몰</a>                     </div>
                 </div>
-                <div class="col-xl-6 col-lg-7">
+                <div class="mainHeader_title">
                     <nav class="header__menu">
                         <ul>
                             <li><a href="#">텐트/타프</a>
@@ -76,20 +91,7 @@
              		    </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3">
-                    <div class="header__right">
-                        <div class="header__right__auth">
-                            <a href="#">Login</a>
-                            <a href="#">Register</a>
-                        </div>
-                        <ul class="header__right__widget">
-                            <li><span class="icon_search search-switch"></span></li>
-                            <li><a href="#"><span class="icon_bag_alt"></span>
-                                <div class="tip">2</div>
-                            </a></li>
-                        </ul>
-                    </div>
-                </div>
+           
             </div>
             <div class="canvas__open">
                 <i class="fa fa-bars"></i>
