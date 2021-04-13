@@ -83,7 +83,7 @@ p.category-title {
     
        
 				<div class="col-lg-12">
-					<form action="/cambakMain/board/humor/modi" method="post">
+					<form action="/board/humor/modi" method="post">
 					
 					<input type="hidden" value="${board.board_no }" name="board_no">
 					<input type="hidden" id="member_id" name="member_id" value="${board.member_id }"/>
@@ -99,7 +99,7 @@ p.category-title {
 					  <textarea id="summernote" id="board_content" name="board_content" >${board.board_content }</textarea>
 					  <div class="form-row float-right">
 			                  <button type="submit" class="btn btn-success">저장하기</button>
-			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMain/board/humor/listAll?page=1'">목록</button>
+			                  <button type="button" class="btn btn-primary" onclick="location.href='/board/humor/listAll?page=1'">목록</button>
 		                  </div>
 					</form>
 				    <script>
