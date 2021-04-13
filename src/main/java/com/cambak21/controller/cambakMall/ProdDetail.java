@@ -204,17 +204,18 @@ public class ProdDetail {
 		}
 		
 		// 상품후기 게시글 좋아요 가져오기
-		@RequestMapping(value="/getProdReviewsLike/{member_id}/{prodReview_no}",  method=RequestMethod.POST)
-		public @ResponseBody int getProdReviewsLike(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+		@RequestMapping(value="/getProdReviewsLike/{prodReview_no}/{loginUser}",  method=RequestMethod.POST)
+		public @ResponseBody Map<String, Object> getProdReviewsLike(@PathVariable("loginUser") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
 			logger.info("/getProdReviewsLike의 post방식 호출");
-//			System.out.println(member_id);
-//			System.out.println(prodReview_no);
-			int result = 0;
+			Map<String, Object> result = new HashMap<String, Object>();
+			System.out.println(member_id);
+			System.out.println(prodReview_no);
 			
 			try {
 				// 해당 게시글에 좋아요 가져오기
-				result = service.getProdReviewsLike(member_id, prodReview_no);
-				
+				result.put("myLike", service.getProdReviewsLike(member_id, prodReview_no));
+				result.put("likeCnt", service.getProdReviewsLikeCnt(prodReview_no));
+				System.out.println(result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
