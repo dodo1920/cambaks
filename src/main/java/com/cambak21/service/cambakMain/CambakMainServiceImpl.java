@@ -61,6 +61,7 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public int getTotCnt(String keyword) throws Exception {
 		return dao.getTotCnt(keyword);
 	}
+
 	
 	
 	
@@ -69,7 +70,11 @@ public class CambakMainServiceImpl implements CambakMainService {
 	
 //	=============================정민 Service=======================================================
 	
-	
+	// 캠핑장 디테일
+	@Override
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
+		return dao.getCampingDetail(camping_contentId);
+	}
 	
 	
 	

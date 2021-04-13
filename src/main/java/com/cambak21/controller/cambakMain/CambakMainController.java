@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,7 +94,22 @@ public class CambakMainController {
 //	==============================================도연 검색 결과 끝 ================================================================
 	
 //	==============================================정민 상세페이지 부분 =============================================================
+	@RequestMapping(value="/detail", method=RequestMethod.GET)
+	private String getDetailPage() throws Exception {
+		
+		return "/cambakMain/cambak21Detail";
+	}
 	
+	@RequestMapping(value="/campingDetail/{contentId}", method=RequestMethod.POST)
+	private @ResponseBody CampingVO showCampingDetail(@PathVariable("contentId") String camping_contentId) throws Exception {
+		System.out.println("campingDetail Post방식");
+		System.out.println(camping_contentId);
+		CampingVO vo = null;
+		vo = service.getCampingDetail(camping_contentId);
+		System.out.println(vo.toString());
+		
+		return vo;
+	}
 	
 	
 	

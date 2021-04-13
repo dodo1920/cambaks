@@ -22,6 +22,7 @@ public interface CambakMainService {
 //	=============================효원 인터페이스 끝=======================================================
 	
 //	=============================도연 인터페이스=======================================================
+
 	public List<CampingVO> getCampings(String searchWord, PagingCriteria cri) throws Exception;
 
 	public int getTotCnt(String keyword) throws Exception;
@@ -33,7 +34,8 @@ public interface CambakMainService {
 	
 //	=============================정민 인터페이스=======================================================
 	
-	
+	// 캠핑장 상세 항목 가져오기
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception;
 	
 	
 	

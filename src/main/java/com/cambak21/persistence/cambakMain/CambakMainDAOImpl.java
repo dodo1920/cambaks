@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
+import com.cambak21.domain.ResellBoardCntVO;
 import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -82,14 +83,20 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	public int getTotCnt(String keyword) throws Exception {
 		return session.selectOne(nameSpace + "getTotCnt", keyword);
 	}
-	
+
+
 	
 	
 	
 //	=============================도연 DAO 끝=======================================================
 	
 //	=============================정민 DAO=======================================================
-	
+	// 캠핑장 상세 내용 가져오기
+	@Override
+	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
+		
+		return session.selectOne(nameSpace +"getCampingDetail", camping_contentId);
+	}
 	
 	
 	
