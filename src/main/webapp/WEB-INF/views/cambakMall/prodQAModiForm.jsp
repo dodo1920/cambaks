@@ -34,17 +34,10 @@
 <script>
 	$(function() {
 		
-		let categoryVal = $("#prodQA_categoryVal").val();
-		console.log(categoryVal);
+		checkCategory();
 		
-		$("#prodQA_category").val(categoryVal).prop("selected",true);
-		
-		
-		let isSecretVal = $("#prodQA_isSecretVal").val();
-		console.log(isSecretVal);
-		
-		if(isSecretVal == "Y") {
-			$("#prodQA_isSecret").prop("checked", true);
+		if(window.name == "modiBoard") {
+			setCategory();	
 		}
 
 		$("#fDrop").on("dragenter dragover", function(evt) {
@@ -103,6 +96,42 @@
 		});
 	});
 	
+	function checkCategory() {
+		let output ='';
+		
+		console.log(window.name);
+		
+		if(window.name == "modiBoard") {
+			output += '<input type="hidden" class="form-control" id="prodQA_categoryVal" value="${prodQA.prodQA_category }">';
+			output += '<select id="prodQA_category" name="prodQA_category" class="form-control">';
+			output += '<option value="product">상품</option>';
+			output += '<option value="delivery">배송</option>';
+			output += '<option value="refund">환불</option>';
+			output += '<option value="exchange">교환</option>';
+			output += '<option value="etc">기타</option>';
+			output += '</select>';	
+		} else if(window.name == "modiReply") {
+			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="reply" readonly>';
+		}
+		
+		$("#prodQA_categoryDiv").html(output);
+	}
+	
+	function setCategory() {
+		let categoryVal = $("#prodQA_categoryVal").attr("value");
+		console.log(categoryVal);
+		
+		$("#prodQA_category").val(categoryVal).prop("selected",true);
+		
+		
+		let isSecretVal = $("#prodQA_isSecretVal").val();
+		console.log(isSecretVal);
+		
+		if(isSecretVal == "Y") {
+			$("#prodQA_isSecret").prop("checked", true);
+		}
+	}
+	
 	// 파일 이름을 넘겨 받아 확장자가 패턴에 있는지 없는지 참/거짓 반환
 	function checkImgType(fileName) {
 		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
@@ -136,6 +165,35 @@
 			}
 		});
 	}
+	
+	function checkStatus() {
+		let title = $("#prodQA_title").val();
+		let content = $("#prodQA_content").val();
+		let form = $("#prodQAForm").serialize();
+		
+		console.log(window.name);
+		
+		if(title.length == 0 || title.lenght > 100) {
+			alert("수정 부탁드림다");
+		} else if(content.length == 0) {
+			alert("내용 입력 부탁드림다");
+		} else {
+			$.ajax({
+ 				url: 'prodQAModiForm?prodId=' + ${param.prodId} + '&page=' + ${param.page} + '&no=' + ${param.no },
+ 				data : form,
+ 				dataType : 'text', // 응답 받을 형식
+ 				type : 'post',
+ 				success : function(result) {
+ 					console.log(result);
+ 					opener.document.location.reload();
+	 				self.close();
+ 				},
+ 				fail : function(result) {
+ 					alert(result);
+ 				}
+ 			});
+		}
+	}
 </script>
 <style>
 	@media (min-width: 768px) {
@@ -160,7 +218,7 @@
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
 		
-		         <form action="/mall/prodDetail/prodQAModiForm?prodId=${param.prodId}&page=${param.page}&no=${param.no }" method="post">
+		         <form id="prodQAForm" action="/mall/prodDetail/prodQAModiForm?prodId=${param.prodId}&page=${param.page}&no=${param.no }" method="post">
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
@@ -169,15 +227,8 @@
 		            </div>
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="prodQA_title">분 류 :</label>
-		               <div class="col-sm-10">
-		               	  <input type="hidden" class="form-control" id="prodQA_categoryVal" value="${prodQA.prodQA_category }">
-		                  <select id="prodQA_category" name="prodQA_category" class="form-control">
-		                  	<option id="product" value="product">상품</option>
-		                  	<option id="delivery" value="delivery">배송</option>
-		                  	<option id="refund" value="refund">환불</option>
-		                  	<option id="exchange" value="exchange">교환</option>
-		                  	<option id="etc" value="etc">기타</option>
-		                  </select>
+		               <div class="col-sm-10" id="prodQA_categoryDiv">
+		               	  
 		               </div>
 		            </div>
 		            <div class="form-group">
@@ -209,7 +260,7 @@
 		            </div>
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
-		                  <button type="submit" class="btn btn-success">저장</button>
+		                  <button type="submit" class="btn btn-success" onclick="checkStatus();">저장</button>
 		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&cate=*&page=${param.page}'">취소</button>
 		               </div>
 		            </div>

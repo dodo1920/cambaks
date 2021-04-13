@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.cambak21.domain.BoardQAVO;
 import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -110,6 +111,54 @@ public class BoardQADAOImpl implements BoardQADAO {
 	@Override
 	public List<BoardQAVO> listBoardCriteria(PagingCriteria cri) throws Exception {
 		return ses.selectList(ns + ".listBoardCriteria", cri);
+	}
+
+	@Override
+	public boolean viewQACnt(int board_no) throws Exception {
+		boolean result = false;
+		if (ses.update(ns + ".viewQACount", board_no) == 1) {
+			result = true;
+		}
+		return result;
+	}
+
+	@Override
+	public String checkLike(InsertLikeBoard dto) throws Exception {
+		return ses.selectOne(ns + ".checkLike", dto);
+	}
+
+	@Override
+	public void insertLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.insert(ns + ".insertLikeBoards", dto);
+	}
+
+	@Override
+	public void updatePlusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(ns + ".updatePlusLike", dto.getBoard_no());
+	}
+
+	@Override
+	public int getLikeCnt(InsertLikeBoard dto) throws Exception {
+		return ses.selectOne(ns + ".getLikeCnt", dto.getBoard_no());
+	}
+
+	@Override
+	public void deleteLikeBoard(InsertLikeBoard dto) throws Exception {
+		ses.delete(ns + ".deleteLikeBoard", dto);
+	}
+
+	@Override
+	public void updateMinusLikeCnt(InsertLikeBoard dto) throws Exception {
+		ses.update(ns + ".updateMinusLike", dto.getBoard_no());
+	}
+
+	@Override
+	public int preCheckLike(String member_id, int board_no) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("board_no", board_no);
+		
+		return ses.selectOne(ns + ".preCheckLike", map);
 	}
 
 }

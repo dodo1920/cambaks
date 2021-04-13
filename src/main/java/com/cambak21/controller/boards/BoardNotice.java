@@ -154,6 +154,8 @@ public class BoardNotice {
 		return "cambakMain/board/notice/registerNotice";
 	}
 	
+	
+	
 	@RequestMapping(value = "user/getReply/{bno}", method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyBoardVO>> lst(@PathVariable("bno") int bno) throws Exception{
 		logger.info("종진 / 공지사항 해당 댓글 불러오기");

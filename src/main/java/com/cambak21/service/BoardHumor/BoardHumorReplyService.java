@@ -11,9 +11,9 @@ public interface BoardHumorReplyService {
 	
 	public void insert(ReplyBoardVO vo) throws Exception;
 	
-	public void delete(int board_no) throws Exception;
-	
 	public void update(ReplyBoardVO vo) throws Exception;
+
+	void delete(int reply_no, int board_no) throws Exception;
 
 
 

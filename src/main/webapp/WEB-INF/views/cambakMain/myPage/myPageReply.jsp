@@ -97,9 +97,9 @@ function getTotalCount() {
 		dataType: "json",
 		data : {member_id : member_id},
 		success : function(data) {
-			let totalBoard = data.boardCnt + data.resellBoardCnt;
-			let totalReply = data.replyCnt + data.resellReplyCnt;
-			let totalLike = data.likeCnt + data.resellLikeCnt;
+			let totalBoard = data.boardCnt;
+			let totalReply = data.replyCnt;
+			let totalLike = data.likeCnt;
 			let totalQuestion = data.myQuestion;
 			
 			$("#totalBoard").text(totalBoard);
@@ -317,7 +317,7 @@ function getDateParam(millisecond) {
 										<li id="totalBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'total')">전체보기</a></li>
 										<li id="campingBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'camping')">캠핑 후기</a></li>
 										<li id="humorBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'humor')">유머</a></li>
-										<li id="QABar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'QA')">Q&A</a></li>
+										<li id="QABar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'QA')">Q&amp;A</a></li>
 										<li id="ResellBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'Resell')">중고거래</a></li>
 										<li id="TipBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'Tip')">캠핑Tip</a></li>
 										<li id="noticeBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'notice')">공지사항</a></li>

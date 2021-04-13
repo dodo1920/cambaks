@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.service.BoardHumor.BoardHumorReplyService;
+import com.cambak21.service.BoardHumor.BoardHumorService;
 
 @RestController
 @RequestMapping("/cambakMain/board/humor/replies")
@@ -21,6 +24,9 @@ public class BoardHumorReply {
 	
 	@Inject
 	private BoardHumorReplyService service;
+	
+	@Inject
+	private BoardHumorService hservice;
 	
 	
 	
@@ -59,13 +65,15 @@ public class BoardHumorReply {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/{board_no}", method=RequestMethod.DELETE)
-	public ResponseEntity<String> delete(@PathVariable("board_no") int board_no){
+	@RequestMapping(value = "/{reply_no}/{board_no}", method=RequestMethod.DELETE)
+	public ResponseEntity<String> delete(@PathVariable("reply_no") int reply_no, @PathVariable("board_no") int board_no){
 		
 		ResponseEntity<String> entity = null;
 		
 		try {
-			service.delete(board_no);
+			System.out.println(board_no);
+			service.delete(reply_no, board_no);
+			
 			entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

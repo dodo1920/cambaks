@@ -1,6 +1,5 @@
 package com.cambak21.controller.boards;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertReplyCSBoardDTO;
 import com.cambak21.dto.UpdateReplyCSBoardDTO;
 import com.cambak21.service.boardCS.ReplyBoardCsService;

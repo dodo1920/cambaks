@@ -147,4 +147,24 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 		return dao.prodQAReplyListAll(prodQA_no);
 	}
 
+	@Override
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception {
+		return dao.getLikes(member_id);
+	}
+
+	@Override
+	public int getMaxRefOrder(int prodQA_no) throws Exception {
+		return dao.getMaxRefOrder(prodQA_no);
+	}
+
+	@Override
+	public int getMaxStep(int prodQA_no) throws Exception {
+		return dao.getMaxStep(prodQA_no);
+	}
+
+	@Override
+	public int getRef(int prodQA_no) throws Exception {
+		return dao.getRef(prodQA_no);
+	}
+
 }

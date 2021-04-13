@@ -25,10 +25,28 @@
 
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
 
 <script>
+
+function contentTopCategory(board_category) {
+	
+	$("#allBar").attr("class", "");
+	$("#campingBar").attr("class", "");
+	$("#humorBar").attr("class", "");
+	$("#QABar").attr("class", "");
+	$("#ResellBar").attr("class", "");
+	$("#TipBar").attr("class", "");
+	$("#noticeBar").attr("class", "");
+	$("#CSBar").attr("class", "");
+	
+	$("#" + board_category + "Bar").attr("class", "topCategoryBar");
+	
+}
+
 // 카테고리를 위한 전역변수 선언
 let board_category;
+let member_id = "${loginMember.member_id}";
 
 // 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
@@ -61,8 +79,6 @@ function showWritingList(pageNum, board_category) {
 		board_category = board_category;
 	}
 	console.log(board_category);
-	
-	member_id = "${loginMember.member_id}";
 	
 	// 게시판 리스트 출력 부분
 	let output = '<table class="table table-hover"><thead><tr><th>글번호</th><th>카테고리</th><th>글제목</th><th>작성자</th><th>작성일</th><th>좋아요</th></tr></thead><tbody>';
@@ -169,7 +185,7 @@ function showWritingList(pageNum, board_category) {
             
             pageOutput += '</ul></div></div>';
             $("#myWritingListPage").html(pageOutput);
-           
+            contentTopCategory(board_category);
 	    	
 	    }// end of Success
 	    , complete : function(data) {
@@ -179,20 +195,45 @@ function showWritingList(pageNum, board_category) {
 		});
 	
 }
-
-
-    	
+	//상단 탭 카운트 가져오는 부분
+	function getTotalCntMyPage(member_id) {
+		$.ajax({
+		    type		: "get",
+		    url 		: "/myPage/myPageCnt",
+		    data		:  {
+		    		'member_id' : member_id
+		    }, 
+		    contentType : "application/json",
+		    success 	: function(data) {
+		    	console.log(data);
+		    	
+		    }
+	});
+	}
     	
     	
     $(function() {
     	// 내가 쓴 글 리스트 출력
     	showWritingList();
+    	// 카운트 가져오기
+    	getTotalCntMyPage(member_id);
+    	
+    	// 글씨 색깔 효과
+    	let myPageUri = searchMyPageUriAddress();
+        myPageAsideBarDraw(myPageUri);
+        $("body,html").animate({scrollTop: 300}, 1);
 	});
 
 
 </script>
 <style>
 
+.topCategoryBar {
+	background-color: lightgrey;
+    border-radius: 0%;
+    text-decoration: underline;
+    text-underline-position: under;
+}
 
 </style>
 </head>
@@ -232,16 +273,16 @@ function showWritingList(pageNum, board_category) {
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="" class="myPostCnt">0</a>개
+								작성한 게시글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="" class="myPostCnt">0</a>개
+								작성한 댓글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="" class="myPostCnt">0</a>개
+								좋아요 누른 글 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">0</a>개
+								나의 문의 : <a href="" id="" class="myPostCnt">0</a>개
 							</p>
 						</div>
 						<!-- 위에 카테고리 -->
@@ -249,14 +290,13 @@ function showWritingList(pageNum, board_category) {
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name"><a href="#" onclick="showWritingList(); return false;">전체보기</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'camping'); return false;">캠핑 후기</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'humor'); return false;">유머</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'QA'); return false;">Q&A</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'Resell'); return false;">중고거래</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'Tip'); return false;">캠핑Tip</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'notice'); return false;">공지사항</a></li>
-										<li class="catagory-name"><a href="#" onclick="showWritingList(1, 'CS'); return false;">고객센터</a></li>
+										<li id="allBar" class="bsk-focus catagory-name"><a href="#" onclick="showWritingList(); return false;">전체보기</a></li>
+										<li id="campingBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'camping'); return false;">캠핑 후기</a></li>
+										<li id="humorBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'humor'); return false;">유머</a></li>
+										<li id="QABar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'QA'); return false;">Q&A</a></li>
+										<li id="TipBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'Tip'); return false;">캠핑Tip</a></li>
+										<li id="noticeBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'notice'); return false;">공지사항</a></li>
+										<li id="CSBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'CS'); return false;">고객센터</a></li>
 									</ul>
 								</div>
 							</nav>

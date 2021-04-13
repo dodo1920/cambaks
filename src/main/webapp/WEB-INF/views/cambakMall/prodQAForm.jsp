@@ -47,6 +47,8 @@
 </style>
 <script>
 	$(function() {
+		checkCategory();
+		
 		$("#fDrop").on("dragenter dragover", function(evt) {
 			evt.preventDefault();
 		});
@@ -93,6 +95,24 @@
 		});
 	});
 	
+	function checkCategory() {
+		let output ='';
+		
+		if(window.name == "writeBoard") {
+			output += '<select id="prodQA_category" name="prodQA_category" class="form-control">';
+			output += '<option value="product">상품</option>';
+			output += '<option value="delivery">배송</option>';
+			output += '<option value="refund">환불</option>';
+			output += '<option value="exchange">교환</option>';
+			output += '<option value="etc">기타</option>';
+			output += '</select>';
+		} else if(window.name == "writeReply") {
+			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="reply" readonly>';
+		}
+		
+		$("#prodQA_categoryDiv").html(output);
+	}
+	
 	// 파일 이름을 넘겨 받아 확장자가 패턴에 있는지 없는지 참/거짓 반환
 	function checkImgType(fileName) {
 		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
@@ -122,6 +142,46 @@
 			}
 		});
 	}
+	
+	function checkStatus() {
+		let title = $("#prodQA_title").val();
+		let content = $("#prodQA_content").val();
+		let secretPasswd = $("#prodQA_secretPassword").val();
+		let form = $("#prodQAForm").serialize();
+		
+		console.log(window.name);
+		
+		if(title.length == 0 || title.lenght > 100) {
+			alert("수정 부탁드림다");
+		} else if(content.length == 0) {
+			alert("내용 입력 부탁드림다");
+		} else if(secretPasswd.length == 0 || secretPasswd.length > 5) {
+			alert("숫자 4자 이하 비밀번호를 입력해주세요");
+		} else {
+			let url = '';
+			if(window.name == "writeBoard") {
+				url = '/mall/prodDetail/prodQAForm?prodId=' + ${param.prodId } + '&page=' + ${param.page };
+			} else if(window.name == "writeReply") {
+				let no = '${param.no}';
+				url = '/mall/prodDetail/prodQAReplyForm?prodId=' + ${param.prodId } + '&page=' + ${param.page } + '&no=' + no;
+			}
+			
+			$.ajax({
+ 				url: url,
+ 				data : form,
+ 				dataType : 'text', // 응답 받을 형식
+ 				type : 'post',
+ 				success : function(result) {
+ 					console.log(result);
+	 				opener.document.location.reload();
+	 				self.close();
+ 				},
+ 				fail : function(result) {
+ 					alert(result);
+ 				}
+ 			});
+		}
+	}
 </script>
 <body>
 
@@ -131,23 +191,17 @@
     		<div class="container">
 		      <h1>게시판 글쓰기 페이지</h1><hr />
 		      
-				 <form action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post" enctype="multipart/form-data" id="prodQAForm">	
+				 <form id="prodQAForm" action="/mall/prodDetail/prodQAForm?prodId=${param.prodId }&page=${param.page }" method="post" enctype="multipart/form-data" id="prodQAForm">	
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.uid}">
+		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${loginMember.member_id}" readonly>
 		               </div>
 		            </div>
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="prodQA_title">분 류 :</label>
-		               <div class="col-sm-10">
-		                  <select id="prodQA_category" name="prodQA_category" class="form-control">
-		                  	<option value="product">상품</option>
-		                  	<option value="delivery">배송</option>
-		                  	<option value="refund">환불</option>
-		                  	<option value="exchange">교환</option>
-		                  	<option value="etc">기타</option>
-		                  </select>
+		               <div class="col-sm-10" id="prodQA_categoryDiv">
+		                  
 		               </div>
 		            </div>
 		            <div class="form-group">
@@ -184,7 +238,7 @@
 		            </div>
 		            <div class="form-group">
 		               <div class="col-sm-offset-2 col-sm-10">
-		                  <button type="submit" class="btn btn-success">저장</button>
+		                  <button type="button" class="btn btn-success" onclick="checkStatus();">저장</button>
 		                  <button type="button" class="btn btn-danger" onclick="location.href='/mall/prodDetail/main?prodId=${param.prodId}&page=${param.page}'">취소</button>
 		               </div>
 		            </div>

@@ -1,6 +1,8 @@
 package com.cambak21.service.boardQA;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -8,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.BoardQAVO;
-import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.persistence.boardQA.BoardQADAO;
 import com.cambak21.util.PagingCriteria;
@@ -156,6 +158,37 @@ public class BoardQAServiceImpl implements BoardQAService {
 	@Override
 	public int boardQAReplyCnt(int board_no) throws Exception {
 		return dao.boardQAReplyCnt(board_no);
+	}
+
+	@Override
+	public boolean viewQACnt(int board_no) throws Exception {
+		return dao.viewQACnt(board_no);
+	}
+
+	@Transactional
+	@Override
+	public Map<String, Object> insertLikeBoard(InsertLikeBoard dto) throws Exception {
+		// 반환값이 null이면 좋아요 누르지 않은 글, else 이면 누른 글
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		if (dao.checkLike(dto) == null) {
+			dao.insertLikeBoard(dto);
+			dao.updatePlusLikeCnt(dto);
+			map.put("status", "on");
+			map.put("cnt", dao.getLikeCnt(dto));
+		} else {
+			dao.deleteLikeBoard(dto);
+			dao.updateMinusLikeCnt(dto);
+			map.put("status", "off");
+			map.put("cnt", dao.getLikeCnt(dto));
+		}
+
+		return map;
+	}
+
+	@Override
+	public int preCheckLike(String member_id, int board_no) throws Exception {
+		return dao.preCheckLike(member_id, board_no);
 	}
 
 }

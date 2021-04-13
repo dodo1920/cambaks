@@ -50,7 +50,6 @@ public class ReplyBoardCsServiceImpl implements ReplyBoardCsService {
 			// getRefMax : 현재 댓글 번호들의 max()
 			dao.insertReplyBoardCS(dto, dao.getRefMax() + 1);
 		}
-
 	}
 
 	@Override

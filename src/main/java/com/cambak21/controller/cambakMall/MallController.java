@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.prodOrderService;
@@ -76,11 +78,22 @@ public class MallController {
 		return entity;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/prodOrder/default/", method= RequestMethod.GET)
+	public ResponseEntity<DestinationVO> defaultDest(@RequestParam("member_id") String member_id) throws Exception{
+		System.out.println(member_id);
+		ResponseEntity<DestinationVO> entity = null;
+		
+		entity = new ResponseEntity<DestinationVO>(service.defaultDest(member_id), HttpStatus.OK);
+		
+		return entity;
+	}
+	
 	
 	// **************************************** 박종진 컨트롤러 **********************************************
 	@RequestMapping(value = "/destinationsList", method = RequestMethod.GET)
-	public void destinationsList() throws Exception {
-		
+	public String destinationsList() throws Exception {
+		return "/cambakMall/destinationsList";
 	}
 	
 	@RequestMapping(value = "/destinationsList/ajax/{member_id}", method = RequestMethod.GET)
@@ -119,6 +132,7 @@ public class MallController {
 	@RequestMapping(value = "/destinationsList/deleteDestiny/{member_id}/{dstno}", method = RequestMethod.GET)
 	public ResponseEntity<String> deleteDestiny(@PathVariable("member_id") String member_id, @PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
 		
+		System.out.println("삭제 컨트롤러 입장");
 		ResponseEntity<String> entity = null;
 		if(service.deleteDestiny(member_id, dstno)) {
 			System.out.println("삭제 성공");
@@ -165,6 +179,7 @@ public class MallController {
 
 	
 	// **************************************** 장원영 컨트롤러 **********************************************
+	
 	
 	// **************************************** 김정민 컨트롤러 **********************************************
 	

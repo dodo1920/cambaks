@@ -13,6 +13,8 @@ public interface prodOrderDAO {
 		public List<DestinationVO> selectDestNickName(String member_id) throws Exception;
 		
 		public DestinationVO selectOneDest(int destination_no) throws Exception;
+		
+		public DestinationVO defaultDest(String member_id) throws Exception;
 //	  	<!-- 장원영 DAO -->
 	  	
 	  	
@@ -43,6 +45,8 @@ public interface prodOrderDAO {
 	  	public int destiModyAjax(DestinationVO vo) throws Exception;
 
 	  	public int insertDestiny(DestinationVO vo) throws Exception;
+
+	
 	  	
 	  	
 	  	

@@ -21,6 +21,8 @@ public interface MemberService {
 	 */
 	public boolean memberUpdate(MemberVO vo) throws Exception;
 	
+	public MemberVO memberSelect(String memberId) throws Exception;
+	
 	/**
 	 * @Method Name : memberDelete
 	 * @작성일 : 2021. 3. 16.
@@ -32,6 +34,18 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	public boolean memberDelete(String member_id) throws Exception;
+	
+	/**
+	 * @Method Name : memberInsert
+	 * @작성일 : 2021. 3. 16.
+	 * @작성자 : 이영광
+	 * @변경이력 : 
+	 * @Method 설명 : 회원 가입시, 회원 정보를 저장하는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean checkUserId(String member_id) throws Exception;
 	
 	/**
 	 * @Method Name : memberInsert

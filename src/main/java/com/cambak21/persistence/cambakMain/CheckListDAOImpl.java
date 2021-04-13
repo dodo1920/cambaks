@@ -1,4 +1,4 @@
-package com.cambak21.persistence.myPost;
+package com.cambak21.persistence.cambakMain;
 
 import java.util.HashMap;
 import java.util.List;

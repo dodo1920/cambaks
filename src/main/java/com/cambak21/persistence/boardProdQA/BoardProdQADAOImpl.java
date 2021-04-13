@@ -105,4 +105,24 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 		return ses.selectList(namespace + ".prodQAReplyListAll", prodQA_no);
 	}
 
+	@Override
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception {
+		return ses.selectList(namespace + ".getLikes", member_id);
+	}
+
+	@Override
+	public int getMaxRefOrder(int prodQA_no) throws Exception {
+		return ses.selectOne(namespace + ".getMaxRefOrder", prodQA_no);
+	}
+
+	@Override
+	public int getMaxStep(int prodQA_no) throws Exception {
+		return ses.selectOne(namespace + ".getMaxStep", prodQA_no);
+	}
+
+	@Override
+	public int getRef(int prodQA_no) throws Exception {
+		return ses.selectOne(namespace + ".getRef", prodQA_no);
+	}
+
 }

@@ -106,7 +106,7 @@ public interface BoardProdQAService {
 	 * @return
 	 * @throws Exception
 	 */
-	public int totalProdQACnt(int product_id, int prodQA_no, String prodQA_category) throws Exception;
+	public int totalProdQACnt(int product_id, int prodQA_refOrder, String prodQA_category) throws Exception;
 	
 	/**
 	 * @Method Name : prodQAViewCnt
@@ -137,4 +137,12 @@ public interface BoardProdQAService {
 	public boolean prodQADeleteLike(ProdQAsLikeVO vo) throws Exception;
 	
 	public List<ProdQAVO> prodQAReplyListAll(int prodQA_no) throws Exception;
+	
+	public List<ProdQAsLikeVO> getLikes(String member_id) throws Exception;
+
+	public int getMaxRefOrder(int prodQA_no) throws Exception;
+
+	public int getMaxStep(int prodQA_no) throws Exception;
+
+	public int getRef(int prodQA_no) throws Exception;
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.cambak21.domain.BoardQAVO;
 import com.cambak21.domain.SearchBoardQAVO;
 import com.cambak21.dto.InsertBoardQADTO;
+import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.dto.UpdateBoardQADTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -48,4 +49,21 @@ public interface BoardQADAO {
 	int getBoard_no(String member_id) throws Exception;
 
 	void boardQAViewUpdate(int board_no);
+
+	public boolean viewQACnt(int board_no) throws Exception;
+
+	String checkLike(InsertLikeBoard dto) throws Exception;
+
+	void insertLikeBoard(InsertLikeBoard dto) throws Exception;
+
+	void updatePlusLikeCnt(InsertLikeBoard dto) throws Exception;
+
+	int getLikeCnt(InsertLikeBoard dto) throws Exception;
+
+	void deleteLikeBoard(InsertLikeBoard dto) throws Exception;
+
+	void updateMinusLikeCnt(InsertLikeBoard dto) throws Exception;
+
+	int preCheckLike(String member_id, int board_no) throws Exception;
+		
 }

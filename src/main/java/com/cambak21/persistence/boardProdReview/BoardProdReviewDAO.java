@@ -14,7 +14,7 @@ public interface BoardProdReviewDAO {
 	public List<ProdReviewVO> listProdBoard(int product_id) throws Exception;
 	
 	// 페이징
-	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id) throws Exception;
+	public List<ProdReviewVO> listProdBoardCriteria(PagingCriteria cri, int product_id, String orderList) throws Exception;
 	
 	public List<ProdReviewVO> listProdBoardPaging(int page) throws Exception;
 	
@@ -26,10 +26,26 @@ public interface BoardProdReviewDAO {
 	public ProdReviewVO readProdBoard(int no) throws Exception;
 
 	// 게시글 수정
-	public int updateProdBoard(ProdReviewVO vo);
+	public int updateProdBoard(ProdReviewVO vo) throws Exception;
 
 	// 게시글 삭제
-	public int deleteProdBoard(int prodReview_no);
+	public int deleteProdBoard(int prodReview_no) throws Exception;
+
+	// 게시글 좋아요 인서트
+	public void insertLikeProdReviews(String member_id, int prodReview_no) throws Exception;
+	// 게시글 좋아요 후 게시판 좋아요 카운트 1증가
+	public void updateLikeProdReviews(int prodReview_no) throws Exception;
+	
+	// 게시글 좋아요 가져오기
+	public int getProdReviewsLike(String member_id, int prodReview_no) throws Exception;
+	
+	// 게시글 좋아요 취소하기
+	public void deleteLikeProdReviews(String member_id, int prodReview_no) throws Exception;
+	// 취소 후 카운트 1 감소
+	public void updateDisLikeProdReviews(int prodReview_no) throws Exception;
+	
+	// 게시글 좋아요 수 가져오기
+	public int getProdReviewsLikeCnt(int prodReview_no) throws Exception;
 	
 	
 	// 검색 결과 전체 글 수 가져오기

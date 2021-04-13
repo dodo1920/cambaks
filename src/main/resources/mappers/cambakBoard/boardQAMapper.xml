@@ -45,8 +45,8 @@
   	</select>
   	
   	<insert id="insertProdQA">
-  		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_img1, prodQA_isSecret, prodQA_secretPassword, prodQA_category, prodQA_img2, prodQA_img3)
-		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, #{prodQA_img1}, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category}, #{prodQA_img2}, #{prodQA_img3})
+  		insert into ProdQAs(product_id, member_id, prodQA_title, prodQA_content, prodQA_ref, prodQA_refOrder, prodQA_step, prodQA_img1, prodQA_isSecret, prodQA_secretPassword, prodQA_category, prodQA_img2, prodQA_img3)
+		values(#{product_id}, #{member_id}, #{prodQA_title}, #{prodQA_content}, #{prodQA_ref}, #{prodQA_refOrder}, #{prodQA_step}, #{prodQA_img1}, #{prodQA_isSecret}, md5(sha1(#{prodQA_secretPassword})), #{prodQA_category}, #{prodQA_img2}, #{prodQA_img3})
   	</insert>
   	
   	<select id="getMaxNo" resultType="int">
@@ -58,8 +58,8 @@
   	</select>
   	
   	<update id="updateProdQA">
-  		update ProdQAs set prodQA_title = #{prodQA_title}, prodQA_content = #{prodQA_content}, prodQA_img = #{prodQA_img}, 
-  		prodQA_isSecret = #{prodQA_isSecret}
+  		update ProdQAs set prodQA_title = #{prodQA_title}, prodQA_content = #{prodQA_content}, 
+  		prodQA_img1 = #{prodQA_img1}, prodQA_img2 = #{prodQA_img2}, prodQA_img3 = #{prodQA_img3}, prodQA_isSecret = #{prodQA_isSecret}
 		where product_id = #{product_id} and prodQA_no = #{prodQA_no}
   	</update>
   	
@@ -91,6 +91,22 @@
   	
   	<select id="prodQAReplyListAll" resultType="com.cambak21.domain.ProdQAVO">
   		select * from ProdQAs where prodQA_ref = #{prodQA_no} and prodQA_refOrder > any(select prodQA_refOrder from ProdQAs where prodQA_no = #{prodQA_no})
+  	</select>
+  	
+  	<select id="getLikes" resultType="com.cambak21.domain.ProdQAsLikeVO">
+  		select * from ProdQAsLike where member_id = #{member_id}
+  	</select>
+  	
+  	<select id="getMaxRefOrder" resultType="int">
+  		select max(prodQA_refOrder) from ProdQAs where prodQA_ref=(select prodQA_ref from ProdQAs where prodQA_no = #{prodQA_no})
+  	</select>
+  	
+  	<select id="getMaxStep" resultType="int">
+  		select prodQA_step from ProdQAs where prodQA_no = #{prodQA_no}
+  	</select>
+  	
+  	<select id="getRef" resultType="int">
+  		select prodQA_ref from ProdQAs where prodQA_no = #{prodQA_no}
   	</select>
   	
   </mapper>

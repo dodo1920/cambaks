@@ -49,7 +49,7 @@
 		$.ajax({
 			
 			method: "POST",
-			url: "/cambakMall/destinationsList/insertDestiny/",
+			url: "/mall/destinationsList/insertDestiny/",
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 			},
@@ -89,7 +89,7 @@
 		$.ajax({
 			
 			method: "POST",
-			url: "/cambakMall/destinationsList/modiajax/",
+			url: "/mall/destinationsList/modiajax/",
 			headers: {	// 요청 하는 데이터의 헤더에 전송
 				"Content-Type" : "application/json"
 			},
@@ -131,7 +131,7 @@
 	     $.ajax({
 	         
 	            method: "post",
-	            url: "/cambakMall/destinationsList/ajax/" + member_id + "/" + dstno,
+	            url: "/mall/destinationsList/ajax/" + member_id + "/" + dstno,
 	            dataType: "text", // 응답 받는 데이터 타입
 	            
 	            success : function(result){
@@ -143,13 +143,10 @@
 	}	
 	
 	function deleteDestiny(dstno){
-		
-	     $.ajax({
-	         
+		   $.ajax({
 	            method: "get",
-	            url: "/cambakMall/destinationsList/deleteDestiny/" + member_id + "/" + dstno,
+	            url: "/mall/destinationsList/deleteDestiny/" + member_id + "/" + dstno,
 	            dataType: "text", // 응답 받는 데이터 타입
-	            
 	            success : function(result){
 	            	
 	                alert("삭제 완료.");
@@ -222,12 +219,11 @@
 
 function getDestinationsList(){
 	
-	$.getJSON("/cambakMall/destinationsList/ajax/" + member_id, function(data){
+	$.getJSON("/mall/destinationsList/ajax/" + member_id, function(data){
 	
 		DestinyList = "";
 		let DestinyInsertBtn = 0;
 		$(data).each(function(index, item){
-		
 		
 		if(this.default_address == this.destination_no){
 			

@@ -51,10 +51,12 @@
 
 <script>
 	$(document).ready(function() {
-		// 말 줄임 ...
+		// 글 제한
 		textLimit();
+		
 		// 공지사항
 		rolling();
+		
 		// 댓글
 		replyList();
 		
@@ -63,15 +65,91 @@
 		
 		// 사이드바 현재 카테고리 표시
 		asideBarDraw(searchUriAddress());
+		
+		// 좋아요 체크 확인
+		checkLike();
 	
 	});
+	
+	// 좋아요 눌렀는지 체크
+	function checkLike() {
+		if (${loginMember.member_id == null}) {
+			$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 하기</button>');
+		} else {
+		
+		let board_no = ${board.board_no};
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 받을 데이터
+			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/board/qa/like/check",// 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id
+			},
+			success : function(data) {
+				if (data == 1) {
+					$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 취소</button>');
+				} else {
+					$("#boardLike_Btn").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+		}
+	}
+	
+	// 추천 버튼
+	function likeBtn() {
+		if (${loginMember.member_id == null}) {
+			$("#modalText").text("로그인이 필요한 서비스 입니다");
+			$(".modal-footer").html('<a href="/user/login"><button type="button" class="btn btn-default">로그인하러 가기</button></a>');
+			$("#myModal").modal();
+		} else {
+			let board_no = ${board.board_no};
+			let member_id = "${loginMember.member_id}";
+			
+			$.ajax({
+				type : "post",
+				dataType : "json", // 받을 데이터
+				contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+				url : "/board/qa/like",// 서블릿 주소
+				data : JSON.stringify({
+					board_no : board_no,
+					member_id : member_id
+				}),
+				success : function(data) {
+					if(data.status == "on") {
+						$("#boardLike_Btn").html('<button type="button" class="btn btn-default" onclick="likeBtn();">추천 취소</button>');
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 완료 되었습니다");
+						$("#myModal").modal();
+					} else if (data.status == "off") {
+						$("#boardLike_Btn").html('<button type="button" class="btn btn-danger" onclick="likeBtn();">추천</button>');
+						$(".likeCnt").text(data.cnt);
+						$("#modalText").text("추천이 취소 되었습니다");
+						$("#myModal").modal();
+					}
+				}, // 통신 성공시
+				error : function(data) {
+				}, // 통신 실패시
+				complete : function(data) {
+				} // 통신 완료시
+			});
+		}
+	}
 	
 	// 댓글 리스트 ajax 호출
 	function replyList() {
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/board/qa/reply.bo/all/" + ${board.board_no}, // 서블릿 주소
+			url : "/board/qa/reply/all/" + ${board.board_no}, // 서블릿 주소
 			success : function(data) {
 				listOutput(data);
 			}, // 통신 성공시
@@ -143,7 +221,7 @@
 					type : "post",
 					dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 					contentType : "application/json",
-					url : "/board/qa/reply.bo/insert", // 서블릿 주소
+					url : "/board/qa/reply/insert", // 서블릿 주소
 					data : JSON.stringify({
 						board_no : board_no,
 						member_id : member_id,
@@ -193,7 +271,7 @@
 			type : "post",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
 			contentType : "application/json",
-			url : "/board/qa/reply.bo/insert", // 서블릿 주소
+			url : "/board/qa/reply/insert", // 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content,
@@ -215,7 +293,7 @@
 		$.ajax({
 			type : "delete",
 			dataType : "text", // Controller단에서 "ok" 보냈기 때문에 text	
-			url : "/board/qa/reply.bo/delete/" + replyBoard_no, // 서블릿 주소
+			url : "/board/qa/reply/delete/" + replyBoard_no, // 서블릿 주소
 			success : function(data) {
 				replyList();
 				ajaxStatus(data);
@@ -254,7 +332,7 @@
 			type : "put",
 			dataType : "text", // 받을 데이터
 			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-			url : "/board/qa/reply.bo/update/" + replyno,// 서블릿 주소
+			url : "/board/qa/reply/update/" + replyno,// 서블릿 주소
 			data : JSON.stringify({
 				replyBoard_no : replyno,
 				replyBoard_content : replyBoard_content
@@ -368,24 +446,28 @@
 						</div>
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
-							<button type="button" class="btn btn-danger">추천</button>
+							<c:if test="${loginMember.member_id != null}">
+							<div class="LikeCnt" id="boardLike_Btn">
+								<button type="button" class="btn btn-danger" onclick="likeBtn()">추천</button>
+							</div>
+							</c:if>
 
 
 
 
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id }">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/delete.bo?no=${board.board_no}'">삭제하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/delete?no=${board.board_no}'">삭제하기</button>
 						   	</c:if>
 							
 							<!-- 로그인한 회원과 작성자와 비교 후 작성자에게만 표출 -->
 							<c:if test="${loginMember.member_id == board.member_id}">
-						      	<button class="btn btn-danger" onclick="location.href='../qa/modi.bo?no=${board.board_no}'">수정하기</button>
+						      	<button class="btn btn-danger" onclick="location.href='../qa/modi?no=${board.board_no}&page=${param.page }'">수정하기</button>
 						   	</c:if>
 							
 							<!-- 검색하지 않았을 시 전 주소 -->
 							<c:if test="${param.searchWord == null }">
-								<a href="/board/qa/list.bo?page=${param.page}" id="listBtn">
+								<a href="/board/qa/list?page=${param.page}" id="listBtn">
 									<button type="button" class="btn btn-danger">목록보기</button>
 								</a>
 							</c:if>
@@ -393,7 +475,7 @@
 														
 							<!-- 검색 했을 시 전 주소 -->
 							<c:if test="${param.searchWord != null }">
-								<a href="/board/qa/search.bo?page=${param.page}&searchType=${param.searchType}&searchWord=${pagingParam.searchWord}" id="listBtn">
+								<a href="/board/qa/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}" id="listBtn">
 									<button type="button" class="btn btn-danger detailNext">목록보기</button>
 								</a>
 							</c:if>

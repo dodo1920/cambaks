@@ -29,19 +29,33 @@ public class MemberServiceImpl implements MemberService {
 	//	
 		return false;
 	}
-
+	public MemberVO memberSelect(String memberId) throws Exception{
+		return dao.memberSelect(memberId);
+	}
 	@Override
 	public boolean memberDelete(String member_id) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
+	@Override
+	public boolean checkUserId(String member_id) throws Exception {
+		// 유저가 작성한 ID 중복 확인
+		boolean result = false;
+		if (dao.checkUserId(member_id) == 0) {
+			result = true;
+		}
+		return result;
+	}
+	
 	@Override
 	public boolean memberInsert(MemberVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
+	
 	@Override
 	public List<FindIdVO> findId(FindIdVO fId) throws Exception {
 		return dao.findId(fId);
@@ -104,4 +118,5 @@ public class MemberServiceImpl implements MemberService {
 		
 		return result;
 	}
+
 }

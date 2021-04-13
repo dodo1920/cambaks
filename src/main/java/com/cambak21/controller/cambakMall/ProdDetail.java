@@ -8,9 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -21,7 +26,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,32 +37,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
+import com.cambak21.domain.BucketVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.ProdQAsLikeVO;
+import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
+import com.cambak21.service.boardProdReview.ProdReviewService;
 import com.cambak21.service.cambakMall.prodDetailService;
 import com.cambak21.util.FileUploadProdcess;
 import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
-
+@Controller
+@RequestMapping("/mall/prodDetail/*")
 public class ProdDetail {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProdDetail.class);
 	
 	@Inject
+	private ProdReviewService service;
+	
+	@Inject
 	private BoardProdQAService QAService;
 	
 	@Inject
-	private prodDetailService prodService;
+	private prodDetailService prodService;	
 	
+	/**
+	 * @Method Name : prodDetailPage
+	 * @작성일 : 2021. 4. 1.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 상세 페이지를 호출하고, 해당 상세 정보를 불러오는 메서드 
+	 * @param prodId
+	 * @param page
+	 * @param cate
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, Model model) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model) throws Exception {
 		logger.info("상품 상세 페이지");
 		
 		ProductsVO prodDetail = prodService.getProdDetail(prodId);
@@ -66,6 +95,181 @@ public class ProdDetail {
 		return "cambakMall/prodDetail";
 	}
 	
+//	==========================================정민오빠 class 부분 ========================================================================
+	// ajax이용 get방식 리스트 출력
+	   @RequestMapping(value = "/prodReviews/{prodId}", method=RequestMethod.GET)
+	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("prodId") String prodId, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("orderList") String orderList) {
+//	      System.out.println(prodId);
+//	      System.out.println(page);
+	      System.out.println(orderList);
+	      logger.info("/prodReviews의 ajax-GET방식 호출");
+	      
+	      int product_id = Integer.parseInt(prodId);
+	      Map<String, Object> result = new HashMap<String, Object>();
+	      
+	      List<ProdReviewVO> prodList = null;
+	      
+	      PagingCriteria cri = new PagingCriteria();
+	      PagingParam pp = new PagingParam();
+	      pp.setCri(cri);
+	      cri.setPage(page);
+	      //System.out.println("pp" + pp);
+	      
+	      try {
+	         prodList = service.listProdBoardCriteria(cri, product_id, orderList);
+	         pp.setTotalCount(service.getTotalBoardCnt(product_id));
+	         result.put("prodList", prodList);
+	         result.put("pagingParam", pp);
+	      } catch (Exception e) {
+	         e.printStackTrace();
+	      }
+	      
+	      return result;
+	   }
+	   
+	// 상품후기 게시글 작성 페이지로 이동
+		@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
+		public String writingProdReviewGet() throws Exception{
+			logger.info("/writingProdReviews의 get방식 호출");
+			return "cambakMall/prodReviewsWriting";
+		}
+		
+		// 상품후기 게시글 작성
+		@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
+		public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+			// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
+			logger.info("/writingProdReviews의 post방식 호출");
+			logger.info(vo.toString());
+			
+			if(service.insert(vo) == 1) {
+				rttr.addFlashAttribute("result", "success");
+			}
+			
+			// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
+			return "cambakMall/prodReviews";
+		}
+		
+		// 상품후기 게시글 수정 페이지 출력
+		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.GET)
+		public void modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
+			logger.info("/prodReviewsModify 페이지 GET 호출");
+			
+			model.addAttribute("board", service.readProdBoard(prodReview_no));
+			model.addAttribute("prodReview_no", prodReview_no);
+			
+		}
+		
+		// 상품후기 게시글 수정 업데이트
+		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
+		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+			logger.info("/prodReviewsModify의 post방식 호출");
+//			System.out.println("vo : " + vo);
+//			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
+			if(service.updateProdBoard(vo) == 1) {
+				rttr.addFlashAttribute("result", "updateSuccess");
+			}
+			return "cambakMall/prodReviews";
+		}
+		
+		
+		// 상품후기 게시글 삭제
+		@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
+		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, RedirectAttributes rttr) throws Exception {
+			logger.info("/prodReviewsDelete의 post방식 호출");
+			if(service.deleteProdBoard(prodReview_no) ==1) {
+				rttr.addFlashAttribute("result", "deleteSuccess");
+			}
+
+			return "cambakMall/prodReviews";
+		}
+		
+		// 상품후기 게시글에 대한 좋아요 클릭
+		@RequestMapping(value="/insertLikeProdReviews/{member_id}/{prodReview_no}", method=RequestMethod.POST)
+		public @ResponseBody int insertLikeProdReviews(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+			logger.info("/insertLikeProdReviews의 post방식 호출");
+//			System.out.println(member_id);
+//			System.out.println(prodReview_no);
+			int result = 0;
+			try {
+				// 해당 게시글에 좋아요 처리
+				service.insertLikeProdReviews(member_id, prodReview_no);
+				// 게시글 좋아요 수
+				result = service.getProdReviewsLikeCnt(prodReview_no);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+		
+		// 상품후기 게시글 좋아요 가져오기
+		@RequestMapping(value="/getProdReviewsLike/{member_id}/{prodReview_no}",  method=RequestMethod.POST)
+		public @ResponseBody int getProdReviewsLike(@PathVariable("member_id") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
+			logger.info("/getProdReviewsLike의 post방식 호출");
+//			System.out.println(member_id);
+//			System.out.println(prodReview_no);
+			int result = 0;
+			
+			try {
+				// 해당 게시글에 좋아요 가져오기
+				result = service.getProdReviewsLike(member_id, prodReview_no);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+	   
+	   
+	
+	
+	
+	
+//	==========================================정민 오빠 class 끝!! ======================================================================
+	
+	/**
+	 * @Method Name : totProdQACnt
+	 * @작성일 : 2021. 4. 6.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품문의 게시판의 글 개수를 세는 메서드
+	 * @param prodId
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/totProdQACnt", method=RequestMethod.POST)
+	public ResponseEntity<Integer> totProdQACnt(@RequestParam("prodId") int prodId) throws Exception {
+		logger.info("QA 개수 확인");
+		
+		System.out.println(prodId);
+		
+		ResponseEntity<Integer> entity = null;
+		
+		System.out.println(QAService.totalProdQACnt(prodId, 1, "*"));
+		
+		try {
+			entity = new ResponseEntity<Integer>(QAService.totalProdQACnt(prodId, 1, "*"), HttpStatus.OK);
+		} catch (Exception e) {
+		    e.printStackTrace();
+		    entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+		}
+		    
+		return entity;
+	}
+	
+	
+	/**
+	 * @Method Name : prodQAList
+	 * @작성일 : 2021. 4. 1.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시글 목록을 불러오는 메서드
+	 * @param prodId
+	 * @param page
+	 * @param cate
+	 * @param cri
+	 * @return
+	 */
 	@RequestMapping(value="/prodQAList", method=RequestMethod.GET)
 	public ResponseEntity<List<ProdQAVO>> prodQAList(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 호출");
@@ -76,7 +280,7 @@ public class ProdDetail {
 		ResponseEntity<List<ProdQAVO>> entity = null;
 	      
 	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, 1, cri, cate), HttpStatus.OK);
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAListAll(prodId, page, cri, cate), HttpStatus.OK);
 	    } catch (Exception e) {
 	       e.printStackTrace();
 	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
@@ -90,7 +294,7 @@ public class ProdDetail {
 		logger.info("QA 답글 리스트 호출");
 		
 		ResponseEntity<List<ProdQAVO>> entity = null;
-	      
+	    
 	    try {
 	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAReplyListAll(vo.getProdQA_no()), HttpStatus.OK);
 	    } catch (Exception e) {
@@ -120,7 +324,146 @@ public class ProdDetail {
 		
 		return entity;
 	}
+
+	/**
+	 * @Method Name : updateViewCnt
+	 * @작성일 : 2021. 4. 1.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 유저가 클릭한 상품 문의 게시글의 조회수를 증가시키는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/updateViewCnt", method=RequestMethod.POST)
+	public ResponseEntity<String> updateViewCnt(@RequestBody ProdQAVO vo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		logger.info("QA 조회수 +1 ");
+		
+		System.out.println(vo.toString());
+		
+		ResponseEntity<String> entity = null;
+		
+		String no = String.valueOf(vo.getProdQA_no());
+		Cookie readCookie = WebUtils.getCookie(request, "view" + no);
+		
+		if(readCookie == null) {
+			Cookie newCookie = new Cookie("view" + no, no);
+			newCookie.setPath("/mall/prodDetail/");
+			newCookie.setMaxAge(60*60*24);
+			response.addCookie(newCookie);
+			
+			if(QAService.prodQAViewCnt(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			} else {
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		return entity;
+	}
+
+	@RequestMapping(value="/getLike", method=RequestMethod.GET)
+	public ResponseEntity<List<ProdQAsLikeVO>> getLike(@RequestParam("userId") String userId) throws Exception {
+		logger.info("pordQA 좋아요 불러오기");
+		
+		ResponseEntity<List<ProdQAsLikeVO>> entity = null;
+		
+		try {
+			entity = new ResponseEntity<List<ProdQAsLikeVO>>(QAService.getLikes(userId), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+		}
+		    
+		return entity;
+	}
 	
+	/**
+	 * @Method Name : updateLikeCnt
+	 * @작성일 : 2021. 4. 1.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 유저가 좋아요 누른 상품 문의 게시글의 좋아요수를 증가시키는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/updateLikeCnt", method=RequestMethod.POST)
+	public ResponseEntity<String> updateLikeCnt(@RequestBody ProdQAsLikeVO vo) throws Exception {
+		logger.info("QA 좋아요 +1 ");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.prodQAInsertLike(vo)) {
+			logger.info("좋아요 정보 입력 성공");
+			if(QAService.prodQALikeCnt(vo.getProdQA_no())) {
+				logger.info("좋아요 +1 성공");
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}			
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
+	public ResponseEntity<String> deleteLike(@RequestBody ProdQAsLikeVO vo) throws Exception {
+		logger.info("QA 좋아요 -1 ");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.prodQADeleteLike(vo)) {
+			if(QAService.prodQALikeCnt(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}			
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+
+	/**
+	 * @Method Name : checkSecretPwd
+	 * @작성일 : 2021. 4. 6.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 유저가 입력한 비밀번호가 맞는지 확인 후, 일치하면 해당 게시판의 isDelete속성을 'Y'으로 변경하는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
+	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
+		logger.info("QA 글 삭제");
+		
+		System.out.println(vo.toString());
+		ResponseEntity<String> entity = null;
+		
+		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
+			if(QAService.deleteProdQA(vo.getProdQA_no())) {
+				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+			}
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	/**
+	 * @Method Name : ShowInsertProdQA
+	 * @작성일 : 2021. 4. 1.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 글 작성 페이지를 호출하는 메서드
+	 * @param prodId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.GET)
 	public String ShowInsertProdQA(@RequestParam("prodId") int prodId) throws Exception {
 		logger.info("QA 글쓰기 페이지 소환");
@@ -129,9 +472,10 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, ProdQAInsertDTO insertQA, RedirectAttributes rttr, Model model) throws Exception {
+	public ResponseEntity<String> uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 글쓰기 저장");
 		
+		ResponseEntity<String> entity = null;
 		insertQA.setProduct_id(prodId);
 		
 		System.out.println(insertQA.toString());
@@ -147,14 +491,54 @@ public class ProdDetail {
 		int newNo = getMaxNo + 1;
 		
 		insertQA.setProdQA_ref(newNo);
-		
-		System.out.println(insertQA.toString());
+		insertQA.setProdQA_refOrder(1);
+		insertQA.setProdQA_step(1);
 		
 		if(QAService.insertProdQA(insertQA)) {
-			rttr.addAttribute("result", "success");
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
 		}
 		
-		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
+		return entity;
+	}
+	
+	@RequestMapping(value="/prodQAReplyForm", method=RequestMethod.POST)
+	public ResponseEntity<String> prodQAReplyForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("no") int no, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
+		logger.info("QA 답글 글쓰기 저장");
+		
+		ResponseEntity<String> entity = null;
+		insertQA.setProduct_id(prodId);
+		insertQA.setProdQA_ref(no);
+		
+		System.out.println(no);
+		System.out.println(insertQA.toString());
+
+		if(insertQA.getProdQA_isSecret() != null) {
+			insertQA.setProdQA_isSecret("Y");
+		} else {
+			insertQA.setProdQA_isSecret("N");
+		}
+		
+		int ref = QAService.getRef(no);
+		int newRefOrder = QAService.getMaxRefOrder(no) + 1;
+		int newStep = QAService.getMaxStep(no) + 1;
+		
+		System.out.println(newRefOrder + ", " + newStep);
+		
+		insertQA.setProdQA_ref(ref);
+		insertQA.setProdQA_refOrder(newRefOrder);
+		insertQA.setProdQA_step(newStep);
+		
+		System.out.println("최종 : " + insertQA.toString());
+		
+		if(QAService.insertProdQA(insertQA)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -300,73 +684,33 @@ public class ProdDetail {
 		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 	}
 	
-	@RequestMapping(value="/checkSecretPwd", method=RequestMethod.POST)
-	public ResponseEntity<String> checkSecretPwd(@RequestBody ProdQAVO vo) throws Exception {
-		logger.info("QA 글 삭제");
+	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
+	public ResponseEntity<BucketVO> checkBucket(@RequestBody BucketVO vo) throws Exception {
+		logger.info("주문하기 전 이미 장바구니에 있는 상품인지 확인");
+		
+		ResponseEntity<BucketVO> entity = null;
 		
 		System.out.println(vo.toString());
-		ResponseEntity<String> entity = null;
 		
-		if(QAService.checkSecretPwd(vo.getProdQA_secretPassword(), vo.getProdQA_no())) {
-			if(QAService.deleteProdQA(vo.getProdQA_no())) {
-				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-			}
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		try {
+			entity = new ResponseEntity<BucketVO>(prodService.checkBucket(vo.getMember_id(), vo.getPruduct_id()), HttpStatus.OK);
+		} catch (IOException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;
 	}
 	
-	@RequestMapping(value="/updateViewCnt", method=RequestMethod.POST)
-	public ResponseEntity<String> updateViewCnt(@RequestBody ProdQAVO vo) throws Exception {
-		logger.info("QA 조회수 +1 ");
-		
+	@RequestMapping(value="/insertBucekt", method=RequestMethod.POST)
+	public String insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
 		System.out.println(vo.toString());
-		ResponseEntity<String> entity = null;
 		
-		if(QAService.prodQAViewCnt(vo.getProdQA_no())) {
-			entity = new ResponseEntity<String>("success", HttpStatus.OK);
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		if(prodService.insertBucket(vo)) {
+			return "redirect:/mall/cart";
 		}
 		
-		return entity;
+		return "redirect:erro.jsp";
 	}
 	
-	@RequestMapping(value="/updateLikeCnt", method=RequestMethod.POST)
-	public ResponseEntity<String> updateLikeCnt(@RequestBody ProdQAsLikeVO vo) throws Exception {
-		logger.info("QA 좋아요 +1 ");
-		
-		System.out.println(vo.toString());
-		ResponseEntity<String> entity = null;
-		
-		if(QAService.prodQAInsertLike(vo)) {
-			if(QAService.prodQALikeCnt(vo.getProdQA_no())) {
-				entity = new ResponseEntity<String>("success", HttpStatus.OK);
-			}			
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-		}
-		
-		return entity;
-	}
-	
-	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
-	public ResponseEntity<String> deleteLike(@RequestBody ProdQAsLikeVO vo) throws Exception {
-		logger.info("QA 좋아요 -1 ");
-		
-		System.out.println(vo.toString());
-		ResponseEntity<String> entity = null;
-		
-		if(QAService.prodQADeleteLike(vo)) {
-			if(QAService.prodQALikeCnt(vo.getProdQA_no())) {
-				entity = new ResponseEntity<String>("success", HttpStatus.OK);
-			}			
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
-		}
-		
-		return entity;
-	}		
 }

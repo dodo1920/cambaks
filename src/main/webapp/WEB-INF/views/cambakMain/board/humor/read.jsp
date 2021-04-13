@@ -87,19 +87,17 @@ function gomodify(no) {
 }
 
 function goDel(replyBoard_no){
+	let board_no = ${param.no};
 	
 	$.ajax({
 		  method: "DELETE",
-		  url: "/cambakMain/board/humor/replies/" + replyBoard_no,
+		  url: "/cambakMain/board/humor/replies/" + replyBoard_no+ "/" + board_no,
 		  headers : { // 요청하는 데이터의 헤더에 전송
 			  "Content-Type" : "application/json",
 			  "X-HTTP-Method-Override" : "DELETE"
 		  },
 		  dataType: "text", // 응답 받는 데이터 타입
-		  data : JSON.stringify({ // 요청하는 데이터
-			  replyBoard_no : replyBoard_no,
-			
-		  }),
+		  data : {replyBoard_no : replyBoard_no, board_no : board_no},
 		  success : function(result){
 			  if(result == "success"){
 				  alert("삭제완료");
@@ -166,9 +164,72 @@ function callReplyList(){
     });
  }   
  
+ //좋아요 
+ function likeButton() {
+	 let board_no = ${board.board_no};
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 받을 데이터
+			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/cambakMain/board/humor/like",// 서블릿 주소
+			data : JSON.stringify({
+				board_no : board_no,
+				member_id : member_id
+			}),
+			success : function(data) {
+				if(data.status == "on") {
+					alert("추천완료");
+					$("#likeButton").text("추천취소")
+					$(".likeCnt").text(data.cnt);
+					
+				} else if (data.status == "off") {
+					alert("추천취소");
+					$("#likeButton").text("추천")
+					$(".likeCnt").text(data.cnt);
+					
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+}
+
+ function checkLike() {
+	 let board_no = ${board.board_no};
+		let member_id = "${loginMember.member_id}";
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 받을 데이터
+			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+			url : "/cambakMain/board/humor/likeCheck",// 서블릿 주소
+			data : {
+				board_no : board_no,
+				member_id : member_id
+			},
+			success : function(data) {
+				if (data == 1) {
+					$("#likeButton").text("추천취소")
+				} else {
+					
+					$("#likeButton").text("추천")
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+}
+ 
  $(function(){
 	
 	 callReplyList(); 
+	 checkLike();
  });
 </script>
 <style>
@@ -247,7 +308,7 @@ p.category-title {
 									조회수 <span>${board.board_viewCnt }</span>
 								</p>
 								<p class="like">
-									추천수 <span>${board.board_likeCnt }</span>
+									추천수 <span class="likeCnt">${board.board_likeCnt }</span>
 								</p>
 								<!--  
 								<p class="reply">
@@ -258,7 +319,7 @@ p.category-title {
 				
 						<div class="detail-content">${board.board_content }</div>
 						<div class="recommend-btn">
-							<button type="button" class="btn btn-danger">추천</button>
+						<button type="button" class="btn btn-danger" id="likeButton" onclick="likeButton();">추천</button>
 
 <!-- if문 로그인한 회원과 작성자와 비교 -->
 							<button type="button" class="btn btn-danger"
@@ -288,7 +349,7 @@ p.category-title {
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
 								<div id="replyBox"></div>
-								작성자 : <input type="text" name="member_id" id="newReplyWriter" value="" />
+								작성자 : <input type="text" name="member_id" id="newReplyWriter" value="${loginMember.member_id}" />
 								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
 								<button type="button" class="btn btn-success" onclick="addReply();" >댓글 작성</button>
 							</div>

@@ -57,7 +57,6 @@
 
 	$(function(){
 		
-		
 		checkPage();
 		
 		if('${noticeBoard.member_id}' != '${loginMember.member_id}'){
@@ -82,10 +81,6 @@
 	});
 
 </script>
-
-
-
-
 
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
@@ -176,37 +171,8 @@ form, form input{
 						<input	type="hidden" name="board_category" value="notice">
 						<button type="button" style="float:right; margin-top:10px; margin-left:10px;" class="btn btn-warning" id="rewriteBoard" onclick="location.href='/board/notice/read?no=${noticeBoard.board_no }&page=${param.page }'">수정 취소</button>
 						<button type="submit" style="float:right; "class="btn btn-success">수정 완료</button>
-							
-		           
-		               
-            </form>
+		     </form>
         </section>   
-        <!--  로그인 한 유저와 작성자가 같을 때만 수정하기 삭제하기 버튼이 보여짐  -->
-  
-<!-- 	<!-- Main --> 
-<!-- 	<div id="main"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<div class="row"> -->
-
-<!-- 				사이드바 템플릿 -->
-<%-- 				<%@include file="../../cambak21Aside2.jsp"%> --%>
-
-<!-- 				<div id="content"> -->
-<!-- 					<div> -->
-<!-- 						<form action="/board/notice/user/register" id="registerFormAction"  method="post"> -->
-<!-- 							<input type="text" class="form-control" id="board_title" name="board_title"> -->
-<!-- 							<textarea id="summernote" name="board_content"></textarea> -->
-<%-- 							<input type="hidden" name="member_id" value="${loginMember.member_id }"> --%>
-<!-- 							<button type="button" style="float:right; margin:0px;" class="btn btn-success" onclick="checkRegisterForm();" >작성완료</button> -->
-<!-- 							<button type="button" style="float:left; margin:0px 5px;" onclick="location.href='/board/notice/listCri?page=1'" class="btn btn-info">리스트페이지로 이동</button> -->
-<!-- 						</form> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-<!-- 	<!-- /Main --> 
-					
 			</div>
 		</div>
 	</div>

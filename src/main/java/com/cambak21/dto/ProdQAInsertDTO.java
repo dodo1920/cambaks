@@ -12,6 +12,8 @@ public class ProdQAInsertDTO {
 	private String prodQA_category;
 	private String prodQA_img2;
 	private String prodQA_img3;
+	private int prodQA_refOrder;
+	private int prodQA_step;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -79,6 +81,18 @@ public class ProdQAInsertDTO {
 	public void setProdQA_img3(String prodQA_img3) {
 		this.prodQA_img3 = prodQA_img3;
 	}
+	public int getProdQA_refOrder() {
+		return prodQA_refOrder;
+	}
+	public void setProdQA_refOrder(int prodQA_refOrder) {
+		this.prodQA_refOrder = prodQA_refOrder;
+	}
+	public int getProdQA_step() {
+		return prodQA_step;
+	}
+	public void setProdQA_step(int prodQA_step) {
+		this.prodQA_step = prodQA_step;
+	}
 	
 	@Override
 	public String toString() {
@@ -86,7 +100,8 @@ public class ProdQAInsertDTO {
 				+ prodQA_title + ", prodQA_content=" + prodQA_content + ", prodQA_ref=" + prodQA_ref + ", prodQA_img1="
 				+ prodQA_img1 + ", prodQA_isSecret=" + prodQA_isSecret + ", prodQA_secretPassword="
 				+ prodQA_secretPassword + ", prodQA_category=" + prodQA_category + ", prodQA_img2=" + prodQA_img2
-				+ ", prodQA_img3=" + prodQA_img3 + "]";
+				+ ", prodQA_img3=" + prodQA_img3 + ", prodQA_refOrder=" + prodQA_refOrder + ", prodQA_step="
+				+ prodQA_step + "]";
 	}
 	
 }

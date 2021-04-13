@@ -34,6 +34,11 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return dao.selectOneDest(destination_no);
 	}
 
+	@Override
+	public DestinationVO defaultDest(String member_id) throws Exception {
+		
+		return dao.defaultDest(member_id);
+	}
 	
 //		  	<!-- 장원영 DAO -->
 
@@ -128,6 +133,8 @@ public class prodOrderServiceImpl implements prodOrderService {
 		}
 		return result;
 	}
+
+
 	
 		  	
 //		  	<!-- 이영광 DAO -->

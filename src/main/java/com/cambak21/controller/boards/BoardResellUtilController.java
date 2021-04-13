@@ -43,6 +43,7 @@ public class BoardResellUtilController {
 	
 	@RequestMapping(value = "/reply/all/{bno}",method = RequestMethod.GET)
 	public ResponseEntity<List<ReplyResellVO>> list(@PathVariable("bno") int bno) throws Exception{
+		System.out.println("ReplyResellVO....연결완료");
 		System.out.println("bno : "+bno);
 		 ResponseEntity<List<ReplyResellVO>> entity = null;
 		System.out.println(ReplyService.ResellBoardReplyRead(bno));
