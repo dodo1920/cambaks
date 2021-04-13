@@ -86,11 +86,11 @@
 		});
 		
 		$("#updatdBtn1").click(function() {
-			updateBucket(1);
+			updateBucket("1");
 		});
 		
 		$("#updatdBtn2").click(function() {
-			updateBucket(2);
+			updateBucket("2");
 		});
 	});
 	
@@ -973,8 +973,13 @@
 		console.log(loginUser);
 		console.log(flag);
 		
+		let prodQty = $("#prodQty").val();
+		console.log(prodQty);
+		
 		if(loginUser.length == 0) {
 			alert("로그인해주세요!");
+		} else if(prodQty == 0) {
+			alert("수량을 0 이상으로 선택해주세요!");
 		} else {
 			$.ajax({
 				url: '/mall/prodDetail/checkBucket',
@@ -994,7 +999,7 @@
 					if(result.length == 0) {
 						console.log(flag);
 						insertBucket(flag);
-					} if(result.bucket_buyQty == 11) {
+					} else if(result.bucket_buyQty == 11) {
 						$("#myModal").modal();
 						changeModalButtons("over");
 					} else {
@@ -1089,7 +1094,7 @@
 		
 		
 		if(flag == 1) {
-			resultProdQty = alreadyProdQty;
+			resultProdQty = alreadyProdQty + prodQty;
 			totBuyPrice = sellPrice * (prodQty + alreadyProdQty);
 		} else if(flag == 2) {
 			resultProdQty = prodQty;
