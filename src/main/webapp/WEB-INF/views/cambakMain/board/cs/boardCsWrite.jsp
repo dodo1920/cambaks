@@ -121,8 +121,14 @@
 							<input type="hidden" name="member_id"
 								value="${loginMember.member_id}"> <input type="hidden"
 								name="board_category" value="CS">
-							<button type="button" class="btn btn-danger"
-								onclick="history.back();">취소</button>
+								
+							<c:if test="${param.searchType != null }">
+								<a href="/board/cs/search?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}"><button type="button" class="btn btn-danger" >취소</button></a>
+							</c:if>
+							<c:if test="${param.searchType == null }">
+								<a href="/board/cs/list?page=${param.page }"><button type="button" class="btn btn-danger" >취소</button></a>
+							</c:if>
+							
 							<button type="submit" class="btn btn-success">작성하기</button>
 						</form>
 					</div>

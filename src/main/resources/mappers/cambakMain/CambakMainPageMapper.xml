@@ -54,7 +54,7 @@
 		or camping_operPdCl like concat('%', #{searchWord} ,'%') or camping_operDeCl like concat('%', #{searchWord} ,'%') or camping_sbrsCl like concat('%', #{searchWord} ,'%') 
 		or camping_sbrsEtc like concat('%', #{searchWord} ,'%') or camping_posblFcltyCl like concat('%', #{searchWord} ,'%') or camping_posblFcltyEtc like concat('%', #{searchWord} ,'%')
 		or camping_themaEnvrnCl like concat('%', #{searchWord} ,'%') or camping_eqpmnLendCl like concat('%', #{searchWord} ,'%') or camping_animalCmgCl like concat('%', #{searchWord} ,'%')
-		limit #{pageStart}, #{perPageNum}
+		order by camping_contentId, camping_addr1 asc limit #{pageStart}, #{perPageNum}
 	</select>
 	
 	<select id="getTotCnt" resultType="int">
@@ -65,6 +65,68 @@
 		or camping_operPdCl like concat('%', #{searchWord} ,'%') or camping_operDeCl like concat('%', #{searchWord} ,'%') or camping_sbrsCl like concat('%', #{searchWord} ,'%') 
 		or camping_sbrsEtc like concat('%', #{searchWord} ,'%') or camping_posblFcltyCl like concat('%', #{searchWord} ,'%') or camping_posblFcltyEtc like concat('%', #{searchWord} ,'%')
 		or camping_themaEnvrnCl like concat('%', #{searchWord} ,'%') or camping_eqpmnLendCl like concat('%', #{searchWord} ,'%') or camping_animalCmgCl like concat('%', #{searchWord} ,'%')
+	</select>
+	
+	<select id="getTotBoardCnt" resultType="int">
+		<if test='flag == 4'>
+			select count(*) from ResellBoards 
+			where resellBoard_title like concat('%', #{searchWord} ,'%') or resellBoard_content like concat('%', #{searchWord} ,'%') 
+			or member_id like concat('%', #{searchWord} ,'%')
+		</if>
+		<if test='flag != 4'>
+			select count(*) from Boards
+			<if test='flag == 1'>
+				where board_category = 'camping' and
+			</if>
+			<if test='flag == 2'>
+				where board_category = 'humor' and
+			</if>
+			<if test='flag == 3'>
+				where board_category = 'QA' and
+			</if>
+			<if test='flag == 5'>
+				where board_category = 'Tip' and
+			</if>
+			<if test='flag == 6'>
+				where board_category = 'notice' and
+			</if>
+			<if test='flag == 7'>
+				where board_category = 'CS' and
+			</if>
+			
+			board_title like concat('%', #{searchWord} ,'%') or board_content like concat('%', #{searchWord} ,'%') or member_id like concat('%', #{searchWord} ,'%')
+		</if>
+	</select>
+	
+	<select id="getBoards" resultType="com.cambak21.domain.BoardVO">
+		<if test='flag == 4'>
+			select * from ResellBoards 
+			where resellBoard_title like concat('%', #{searchWord} ,'%') or resellBoard_content like concat('%', #{searchWord} ,'%') 
+			or member_id like concat('%', #{searchWord} ,'%')
+		</if>
+		<if test='flag != 4'>
+			select * from Boards
+			<if test='flag == 1'>
+				where board_category = 'camping' and
+			</if>
+			<if test='flag == 2'>
+				where board_category = 'humor' and
+			</if>
+			<if test='flag == 3'>
+				where board_category = 'QA' and
+			</if>
+			<if test='flag == 5'>
+				where board_category = 'Tip' and
+			</if>
+			<if test='flag == 6'>
+				where board_category = 'notice' and
+			</if>
+			<if test='flag == 7'>
+				where board_category = 'CS' and
+			</if>
+			
+			board_title like concat('%', #{searchWord} ,'%') or board_content like concat('%', #{searchWord} ,'%') or member_id like concat('%', #{searchWord} ,'%')
+		</if>
 	</select>
 
 

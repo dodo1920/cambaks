@@ -544,13 +544,23 @@
 								</c:if>
 								<c:if test="${prev == null }">
 									<a id="prevBtn">
-										<button type="button" class="btn btn-default detailPrev" onclick="alert('첫번째 글입니다.')">이전글</button>
+										<button type="button" class="btn btn-default detailPrev"
+											onclick="alert('첫번째 글입니다.')">이전글</button>
 									</a>
 								</c:if>
-								
-								<a href="/board/cs/list?page=${param.page}" id="listBtn">
-									<button type="button" class="btn btn-default detailNext">목록보기</button>
-								</a>
+
+								<!-- 글 작성 후 리다이렉트 했을 때------------------------ -->
+								<c:if test="${param.page != null }">
+									<a href="/board/cs/list?page=${param.page}" id="listBtn">
+										<button type="button" class="btn btn-default detailNext">목록보기</button>
+									</a>
+								</c:if>
+								<c:if test="${param.page == null }">
+									<a href="/board/cs/list?page=1" id="listBtn">
+										<button type="button" class="btn btn-default detailNext">목록보기</button>
+									</a>
+								</c:if>
+								<!-- --------------------------------------------- -->
 								
 								<c:if test="${next != null }">
 									<a href="/board/cs/detail?no=${next }&page=${param.page}"
@@ -560,7 +570,8 @@
 								</c:if>
 								<c:if test="${next == null }">
 									<a id="nextBtn">
-										<button type="button" class="btn btn-default detailNext" onclick="alert('마지막 글입니다.')">다음글</button>
+										<button type="button" class="btn btn-default detailNext"
+											onclick="alert('마지막 글입니다.')">다음글</button>
 									</a>
 								</c:if>
 							</c:if>
@@ -569,10 +580,12 @@
 							<c:if test="${param.searchType != null }">
 								<a
 									href="/board/cs/search?page=${param.page}&searchType=${param.searchType}&searchWord=${param.searchWord}"
-									id="listBtn" style="margin:0 50%">
+									id="listBtn" style="margin: 0 50%">
 									<button type="button" class="btn btn-default detailNext">목록보기</button>
 								</a>
 							</c:if>
+
+
 						</div>
 						<div class="recommend-btn">
 
@@ -582,7 +595,7 @@
 								<!-- if문 로그인한 회원과 작성자와 비교 -->
 								<button type="button" class="btn btn-danger"
 									onclick="location.href='/board/cs/delete?no=${board.board_no}'">삭제하기</button>
-									
+
 								<c:if test="${param.searchType == null}">
 									<!-- if문 로그인한 회원과 작성자와 비교 -->
 									<button type="button" class="btn btn-danger"
@@ -593,7 +606,7 @@
 									<button type="button" class="btn btn-danger"
 										onclick="location.href='/board/cs/modi?no=${board.board_no}&page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord }'">수정하기</button>
 								</c:if>
-								
+
 							</c:if>
 						</div>
 

@@ -71,6 +71,17 @@
 	   
    }
    
+   function changeCheckbox() {
+	   let check1 = $("#check_1").prop("checked");
+	   let check2 = $("#check_2").prop("checked");
+	   
+	   if (check1 == true && check2 == true) {
+		   $("#check_all").prop("checked", true);
+	   } else if (check1 == false || check2 == false) {
+		   $("#check_all").prop("checked", false);
+	   }
+	   
+   }
    
 </script>
 
@@ -184,7 +195,7 @@
 							</label>
 						</p>
 						<div style="padding: 32px 0 0;">
-							<input type="checkbox" id="check_1" style="cursor: pointer;"/>
+							<input type="checkbox" id="check_1" style="cursor: pointer;" onchange="changeCheckbox();"/>
 							<label for="check_1">
 								<span class="userTerms"><strong style="font-weight: bold;">(필수)</strong> 회원약관</span>
 							</label>
@@ -210,7 +221,7 @@
 							</div>
 						</div>
 							<div style="padding: 32px 0 20px 0;">
-							<input type="checkbox" id="check_2" style="cursor: pointer;"/>
+							<input type="checkbox" id="check_2" style="cursor: pointer;" onchange="changeCheckbox();" />
 							<label for="check_2">
 								<span class="userTerms"><strong style="font-weight: bold;">(필수)</strong> 개인정보 수집 및 이용</span>
 							</label>

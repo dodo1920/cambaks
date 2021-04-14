@@ -83,9 +83,26 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	public int getTotCnt(String keyword) throws Exception {
 		return session.selectOne(nameSpace + "getTotCnt", keyword);
 	}
-
-
 	
+	@Override
+	public int getTotBoardCnt(String searchWord, int flag) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchWord", searchWord);
+		params.put("flag", flag);
+		
+		return session.selectOne(nameSpace + "getTotBoardCnt", params);
+	}
+	
+	@Override
+	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchWord", searchWord);
+		params.put("flag", flag);
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return session.selectList(nameSpace + "getBoards", params);
+	}	
 	
 	
 //	=============================도연 DAO 끝=======================================================
@@ -97,6 +114,7 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 		
 		return session.selectOne(nameSpace +"getCampingDetail", camping_contentId);
 	}
+
 	
 	
 	

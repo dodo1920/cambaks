@@ -42,6 +42,7 @@
  $(function(){
 	 default_addr();
 	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
+	 addPoint();  // 페이지 로딩 시, 유저의 적립 예정금액
 });
 
 //김대기 script start
@@ -175,6 +176,18 @@ function usePoint() {
 	console.log(dis);
 	
 	$("#disCnt").text(dis.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+}
+
+function addPoint() {
+	
+	let pointGrade = $("#addPoint").text('${loginMember.grade_name}'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); 
+	if ('${loginMember.grade_name}' == 'A' ) {
+		$("#addPoint").text('${totPrice * 0.1 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	} else if ('${loginMember.grade_name}' == 'B' ) {
+		$("#addPoint").text('${totPrice * 0.05 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	} else {
+		$("#addPoint").text('0');
+	}
 }
 	
 
@@ -378,7 +391,7 @@ function usePoint() {
    			<tr>
 	   			<td colspan="6">
 	   				<div>
-	   					<span style="text-align:right; float:right;margin-right:80px"><em>1,000</em><i>원</i></span>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em id="addPoint"></em><i>원</i></span>
 	   				</div>
 	   			</td>
    			</tr>
@@ -388,7 +401,7 @@ function usePoint() {
    			<tr>
 	   			<td colspan="6">
 	   				<div>
-	   					<span style="text-align:right; float:right;margin-right:80px"><em>11,000</em><i>원</i></span>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em>${totPrice + prodInfo[0].buyProduct_deliveriPay }</em><i>원</i></span>
 	   				</div>
 	   			</td>
    			</tr>
