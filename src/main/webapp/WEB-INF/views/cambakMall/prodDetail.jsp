@@ -177,7 +177,7 @@
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
 	                 // 부모 댓글 작성을 위한 양식 출력 부분
-	                 if(loginUser != null){ // 로그인되어 있는 경우에만 댓글 작성을 보여준다.
+	                 if(${loginMember.member_id != null}){ // 로그인되어 있는 경우에만 댓글 작성을 보여준다.
 	                	 output += '<div class="card mb-2"><div class="card-header bg-light">댓글 작성</div>';
 	                	 output += '<div class="card-body"><ul class="list-group list-group-flush"><li class="list-group-item"><div class="form-inline mb-2"><label for="replyId"></label></div>';
 	                	 output += '<div><p class="card-text"><textarea id="replyProdReview_content' + item.prodReview_no + '" name="replyProdReview_content" placeholder="댓글을 입력해주세요." ></textarea><div class="form-row float-right"><button class="btn btn-success" id="replyAddBtn" onclick="addReplyProdReviews(' + item.prodReview_no + ');">댓글등록</button></div></p></li></ul></div>';
@@ -353,17 +353,12 @@
 			let showLike;
 		 	prodReviewNo = prodReview_no;
 		 	
-		 	prodReview_likeCnt = prodReview_likeCnt;
-		 		/*if($('#content' + prodReview_no).is(':visible')==true){
-		 			$("#content" + prodReview_no).hide();
-		 		} else{
-		 			$("#content" + prodReview_no).show();
-		 		}*/
 		 		$("#content" + prodReview_no).toggle();
-		 	//console.log(member_id);
-			// 접이식 보여주기
-				//$("#content" + prodReview_no).toggle();
-			
+		 		// 로그인 안 한 유저 초기화
+		 		console.log(typeof(loginUser));
+		 		if(loginUser == ""){
+		 			loginUser = "a";
+		 		}
 				// 좋아요 표시 가져오기
 				$.ajax({
 					  method: "post",
@@ -372,16 +367,21 @@
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "POST"
 					  },
-					  dataType: "text", // 응답 받는 데이터 타입
+					  dataType: "json", // 응답 받는 데이터 타입
 					  success : function(data) {
-
-					      
+					      	let myLike = data.myLike;
+					      	let likeCnt = data.likeCnt;
 					      // 좋아요를 클릭 안 했으면,
-					      if(data==0){
-					    	  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + prodReview_likeCnt;
+					      if(myLike==0){
+					    	  if(loginUser != "a"){
+					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;  
+					    	  }else{
+					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + likeCnt;
+					    	  }
+					    	  
 					    	  $("#likeProd" + prodReview_no).html(showLike);
 					      }else{// 좋아요를 클릭했으면
-					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + prodReview_likeCnt;
+					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;
 					    	  $("#likeProd" + prodReview_no).html(showLike);
 					      }
 					      
@@ -584,7 +584,6 @@
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "POST"
 					  },
-					  dataType: "text", // 응답 받는 데이터 타입
 					  success : function(result) {
 // 						  console.log(result);
 						  $("#content" + prodReview_no).hide();
