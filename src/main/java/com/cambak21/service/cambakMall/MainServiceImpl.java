@@ -23,7 +23,7 @@ public class MainServiceImpl implements MainService {
 	
 	
 	@Override
-	public List<ProductsVO> getNewProduct4(int i) throws Exception {
+	public List<mallMainTopCountDTO> getNewProduct4(int i) throws Exception {
 		
 		return dao.getNewProduct4(i);
 	}
@@ -57,8 +57,10 @@ public class MainServiceImpl implements MainService {
 
 	@Override
 	public int getStar(int id) throws Exception {
-	
-		return dao.getStar(id);
+		if(dao.checkReview(id) != 0) {
+			return dao.getStar(id);
+		}
+		return 0;
 	}
 
 }
