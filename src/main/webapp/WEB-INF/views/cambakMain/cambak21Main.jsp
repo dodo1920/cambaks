@@ -262,6 +262,10 @@
     margin-top: -8px;
 }
 
+.themaBtn {
+	text-decoration-line: none;
+}
+
 </style>
 </head>
 
@@ -362,7 +366,7 @@
 			        	<span>${Campings.camping_facltNm }</span>
 			        </h2>
 			        <p>${Campings.camping_addr1 }</p>
-			        <a href="/index/result?keyword=${Campings.camping_facltNm }">링크</a>
+			        <a href="/index/detail?contentId=${Campings.camping_contentId }">링크</a>
 		        </figcaption>
 	        </figure>
         </c:forEach>
@@ -385,6 +389,7 @@
 				<table class="table">
 				  <thead>
 				    <tr>
+				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
 				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
@@ -393,6 +398,7 @@
 				  <tbody>
 				  	<c:forEach var="review" items="${Boards.review }">
 				    <tr class="BoardListBody">
+				      <td><fmt:formatDate value="${review.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
 				      <td class="boardPageLink"><a href="/board/campingreview/detail?no=${review.board_no }" class="boardLinkSize">${review.board_title }</a></td>
 				      <td>${review.board_likeCnt }</td>
 				      <td>${review.board_viewCnt }</td>
@@ -408,6 +414,7 @@
 				<table class="table">
 				  <thead>
 				    <tr>
+				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
 				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
@@ -416,6 +423,7 @@
 				  <tbody>
 				  	<c:forEach var="Tip" items="${Boards.Tip }">
 				    <tr class="BoardListBody">
+				      <td><fmt:formatDate value="${Tip.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
 				      <td class="boardPageLink"><a href="/board/campingTip/view?id=Tip&no=${Tip.board_no }" class="boardLinkSize">${Tip.board_title }</a></td>
 				      <td>${Tip.board_likeCnt }</td>
 				      <td>${Tip.board_viewCnt }</td>
@@ -431,6 +439,7 @@
 				<table class="table">
 				  <thead>
 				    <tr>
+				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
 				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
@@ -439,6 +448,7 @@
 				  <tbody>
 				  	<c:forEach var="Resell" items="${Boards.Resell }">
 				    <tr class="BoardListBody">
+				      <td><fmt:formatDate value="${Resell.resellBoard_postDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
 				      <td class="boardPageLink"><a href="/board/resell/detail?no=${Resell.resellBoard_no }" class="boardLinkSize">${Resell.resellBoard_title }</a></td>
 				      <td>${Resell.resellBoard_likeCnt }</td>
 				      <td>${Resell.resellBoard_viewCnt }</td>
@@ -454,6 +464,7 @@
 				<table class="table">
 				  <thead>
 				    <tr>
+				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
 				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
@@ -462,6 +473,7 @@
 				  <tbody>
 				  	<c:forEach var="QA" items="${Boards.QA }">
 				    <tr class="BoardListBody">
+				      <td><fmt:formatDate value="${QA.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
 				      <td class="boardPageLink"><a href="/board/qa/detail.bo?no=${QA.board_no }" class="boardLinkSize">${QA.board_title }</a></td>
 				      <td>${QA.board_likeCnt }</td>
 				      <td>${QA.board_viewCnt }</td>
@@ -477,6 +489,7 @@
 				<table class="table">
 				  <thead>
 				    <tr>
+				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
 				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
@@ -485,6 +498,7 @@
 				  <tbody>
 				  	<c:forEach var="Humor" items="${Boards.Humor }">
 				    <tr class="BoardListBody">
+				      <td><fmt:formatDate value="${Humor.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
 				      <td class="boardPageLink"><a href="/cambakMain/board/humor/read?no=${Humor.board_no }" class="boardLinkSize">${Humor.board_title }</a></td>
 				      <td>${Humor.board_likeCnt }</td>
 				      <td>${Humor.board_viewCnt }</td>

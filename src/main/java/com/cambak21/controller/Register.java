@@ -49,12 +49,7 @@ public class Register {
    
    @Autowired
    private JavaMailSenderImpl mailSender;
-   
-   @RequestMapping(value="test", method = RequestMethod.GET)
-   public String test() {
-      return "cambakMain/user/test";
-   }
-   
+      
    @RequestMapping(value="addrSearch", method = RequestMethod.GET)
    public String addrSearch() {
       return "cambakMain/user/addrSearch";
@@ -70,7 +65,7 @@ public class Register {
       return "cambakMain/user/joinAgreement";
    }
    
-   @RequestMapping(value="join", method = RequestMethod.POST)
+   @RequestMapping(value="join", method = RequestMethod.GET)
    public String join() {
       return "cambakMain/user/join";
    }
