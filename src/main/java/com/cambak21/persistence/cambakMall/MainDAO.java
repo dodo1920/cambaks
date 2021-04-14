@@ -19,4 +19,6 @@ public interface MainDAO {
 		public List<mallMainTopCountDTO> getTopSelling() throws Exception;
 		
 		public List<mallMainTopCountDTO> countReviews() throws Exception;
+		
+		public int getStar(int id) throws Exception;
 	}

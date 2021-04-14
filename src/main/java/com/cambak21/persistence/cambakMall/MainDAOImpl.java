@@ -46,4 +46,10 @@ public class MainDAOImpl implements MainDAO {
 		return ses.selectList(namespace + ".countReviews");
 	}
 
+	@Override
+	public int getStar(int id) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(namespace + ".getStar", id);
+	}
+
 }

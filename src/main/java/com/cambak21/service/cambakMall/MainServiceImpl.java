@@ -54,4 +54,11 @@ public class MainServiceImpl implements MainService {
 		return dao.countReviews();
 	}
 
+
+	@Override
+	public int getStar(int id) throws Exception {
+	
+		return dao.getStar(id);
+	}
+
 }

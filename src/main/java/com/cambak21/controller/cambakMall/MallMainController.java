@@ -60,10 +60,17 @@ public class MallMainController {
 	      }
 	        try {
 	        	
-	        	 List<mallMainTopCountDTO> topSelling;
-	        	 topSelling = service.getTopSelling();
+	        	List<mallMainTopCountDTO> topSelling;
+	        	List<mallMainTopCountDTO> topSellingAvg;
+	        	topSelling = service.getTopSelling();
+	        	
+	        	for(int i = 0; i < topSelling.size(); i++) {
+	        		topSelling.get(i).setStar(service.getStar(topSelling.get(i).getProduct_id()));
+	        	}
+	        	
+	        	
 	        	 
-	           	para.put("topSelling", );
+	           	para.put("topSelling", service.getTopSelling());
 	        	para.put("total", service.getTotalCount());
 	        	para.put("topReview", service.getTopReview());
 	        	para.put("countReviews", service.countReviews());

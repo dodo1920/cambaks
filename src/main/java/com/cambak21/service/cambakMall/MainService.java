@@ -18,4 +18,6 @@ public interface MainService {
 	
 	public List<mallMainTopCountDTO> countReviews() throws Exception;
 	
+	public int getStar(int id) throws Exception;
+	
 }

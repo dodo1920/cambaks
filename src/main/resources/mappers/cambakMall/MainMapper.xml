@@ -25,6 +25,10 @@
   		select count(*) as count , product_id, product_name, product_sellPrice from BuyProducts where buyProduct_isFinished = 'Y'group by product_name order by count desc limit 0, 3
   </select>
   
+  <select id="getStar" resultType="int">
+  		select 
+  </select>
+  
   
   
   
