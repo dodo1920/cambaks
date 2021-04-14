@@ -5,8 +5,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -24,6 +26,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,10 +55,6 @@ import com.cambak21.util.MediaConfirm;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
-/**
- * @author goott6
- *
- */
 @Controller
 @RequestMapping("/mall/prodDetail/*")
 public class ProdDetail {
@@ -291,19 +291,24 @@ public class ProdDetail {
 	    }
 	    
 	    return entity;
-	}	
+	}
 	
-	/**
-	 * @Method Name : prodQAPageing
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품 문의 게시글 목록 페이지 처리하는 메서드
-	 * @param prodId
-	 * @param cate
-	 * @param cri
-	 * @return
-	 */
+	@RequestMapping(value="/prodQAReplyList", method=RequestMethod.POST)
+	public ResponseEntity<List<ProdQAVO>> prodQAReplyList(@RequestBody ProdQAVO vo) {
+		logger.info("QA 답글 리스트 호출");
+		
+		ResponseEntity<List<ProdQAVO>> entity = null;
+	    
+	    try {
+	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAReplyListAll(vo.getProdQA_no()), HttpStatus.OK);
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+	    }
+	    
+	    return entity;
+	}
+	
 	@RequestMapping(value="/prodQAPP", method=RequestMethod.GET)
 	public ResponseEntity<PagingParam> prodQAPageing(@RequestParam("prodId") int prodId, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 페이징 호출");
@@ -323,32 +328,7 @@ public class ProdDetail {
 		
 		return entity;
 	}
-	
-	/**
-	 * @Method Name : prodQAReplyList
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품문의 게시글에 대한 댓글을 불러오는 메서드
-	 * @param vo
-	 * @return
-	 */
-	@RequestMapping(value="/prodQAReplyList", method=RequestMethod.POST)
-	public ResponseEntity<List<ProdQAVO>> prodQAReplyList(@RequestBody ProdQAVO vo) {
-		logger.info("QA 답글 리스트 호출");
-		
-		ResponseEntity<List<ProdQAVO>> entity = null;
-	    
-	    try {
-	       entity = new ResponseEntity<List<ProdQAVO>>(QAService.prodQAReplyListAll(vo.getProdQA_no()), HttpStatus.OK);
-	    } catch (Exception e) {
-	       e.printStackTrace();
-	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
-	    }
-	    
-	    return entity;
-	}
-	
+
 	/**
 	 * @Method Name : updateViewCnt
 	 * @작성일 : 2021. 4. 1.
@@ -432,16 +412,6 @@ public class ProdDetail {
 		return entity;
 	}
 	
-	/**
-	 * @Method Name : deleteLike
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 유저가 좋아요 상태를 해지하여 좋아요 수를 감소시키는 메서드 
-	 * @param vo
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
 	public ResponseEntity<String> deleteLike(@RequestBody ProdQAsLikeVO vo) throws Exception {
 		logger.info("QA 좋아요 -1 ");
@@ -459,7 +429,7 @@ public class ProdDetail {
 		
 		return entity;
 	}
-	
+
 	/**
 	 * @Method Name : checkSecretPwd
 	 * @작성일 : 2021. 4. 6.
@@ -505,20 +475,6 @@ public class ProdDetail {
 		return "cambakMall/prodQAForm";
 	}
 	
-	/**
-	 * @Method Name : uploadForm
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품 문의 글 작성 데이터를 전송하는 메서드
-	 * @param prodId
-	 * @param page
-	 * @param insertQA
-	 * @param rttr
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
 	public ResponseEntity<String> uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 글쓰기 저장");
@@ -589,16 +545,6 @@ public class ProdDetail {
 		return entity;
 	}
 	
-	/**
-	 * @Method Name : uploadFile
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 상품 문의 글 작성에서 업로드한 이미지를 서버에 저장하는 메서드
-	 * @Method 설명 : 
-	 * @param files
-	 * @param request
-	 * @return
-	 */
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, HttpServletRequest request) {
 		logger.info("파일 업로드");
@@ -632,17 +578,6 @@ public class ProdDetail {
 		return entity;
 	}
 	
-	/**
-	 * @Method Name : displayFile
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품 문의 글 작성에서 업로드한 이미지를 보여주는 메서드
-	 * @param request
-	 * @param fileName
-	 * @return
-	 * @throws IOException
-	 */
 	@ResponseBody // byte[]의 데이터(파일 데이터)가 web에 그대로 전송 되도록
 	@RequestMapping("/displayFile")
 	   public ResponseEntity<byte[]> displayFile(HttpServletRequest request, String fileName) throws IOException {
@@ -687,17 +622,7 @@ public class ProdDetail {
 	      return entity;
 	   }
 	   
-	   /**
-	 * @Method Name : deleteFile
-	 * @작성일 : 2021. 4. 1.
-	 * @작성자 : 김도연
-	 * @변경이력 : 
-	 * @Method 설명 : 상품 문의 글 작성 페이지에서 유저가 업로드 한 이미지를 삭제하는 메서드
-	 * @param request
-	 * @param fileName
-	 * @return
-	 */
-	@RequestMapping(value="/deleteFile", method=RequestMethod.POST)
+	   @RequestMapping(value="/deleteFile", method=RequestMethod.POST)
 		public ResponseEntity<String> deleteFile(HttpServletRequest request, String fileName) {
 			logger.info("삭제할 파일 : " + fileName);
 			
