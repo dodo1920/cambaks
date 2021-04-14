@@ -33,7 +33,9 @@ public interface CambakMainDAO {
 
 	public int getTotCnt(String keyword) throws Exception;
 	
+	public int getTotBoardCnt(String searchWord, int flag) throws Exception;
 	
+	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag);
 	
 	
 //	=============================도연 인터페이스 끝=======================================================
@@ -41,6 +43,8 @@ public interface CambakMainDAO {
 //	=============================정민 인터페이스=======================================================
 	// 캠핑장 상세 내용 가져오기
 	public CampingVO getCampingDetail(String camping_contentId) throws Exception;
+
+
 	
 	
 	

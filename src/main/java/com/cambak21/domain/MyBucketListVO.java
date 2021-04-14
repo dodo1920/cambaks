@@ -8,6 +8,7 @@ public class MyBucketListVO {
 	private int bucket_buyQty;
 	private int bucket_totBuyPrice;
 	private String bucket_isChecked;
+	private int star;
 
 	public int getProduct_id() {
 		return product_id;
@@ -65,11 +66,20 @@ public class MyBucketListVO {
 		this.bucket_isChecked = bucket_isChecked;
 	}
 
+	public int getStar() {
+		return star;
+	}
+
+	public void setStar(int star) {
+		this.star = star;
+	}
+
 	@Override
 	public String toString() {
 		return "MyBucketListVO [product_id=" + product_id + ", product_name=" + product_name + ", product_img1="
 				+ product_img1 + ", bucket_sellPrice=" + bucket_sellPrice + ", bucket_buyQty=" + bucket_buyQty
-				+ ", bucket_totBuyPrice=" + bucket_totBuyPrice + ", bucket_isChecked=" + bucket_isChecked + "]";
+				+ ", bucket_totBuyPrice=" + bucket_totBuyPrice + ", bucket_isChecked=" + bucket_isChecked + ", star="
+				+ star + "]";
 	}
 
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
 import com.cambak21.service.cambakMain.CambakMainService;
 import com.cambak21.util.PagingCriteria;
@@ -86,7 +87,27 @@ public class CambakMainController {
 		return result;
 	}
 	
-	
+	@RequestMapping(value="/resultBoard/{flag}/{keyword}/{page}", method=RequestMethod.POST)
+	private @ResponseBody Map<String, Object> resultBoard(@PathVariable("keyword") String keyword, @PathVariable(value="page") int page, PagingCriteria cri, @PathVariable("flag") int flag) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<BoardVO> boardLst = new ArrayList<BoardVO>();
+		PagingParam pp = new PagingParam();
+		System.out.println(flag);
+		
+		cri.setPage(page);
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotBoardCnt(keyword, flag));
+		
+		System.out.println(pp);
+		
+		boardLst = service.getBoards(keyword, cri, flag);
+		System.out.println(boardLst);
+		
+		result.put("boards", boardLst);
+		result.put("pagings", pp);
+		
+		return result;
+	}
 	
 	
 	

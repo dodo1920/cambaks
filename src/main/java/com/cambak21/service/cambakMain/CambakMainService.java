@@ -3,6 +3,7 @@ package com.cambak21.service.cambakMain;
 import java.util.List;
 import java.util.Map;
 
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -27,8 +28,9 @@ public interface CambakMainService {
 
 	public int getTotCnt(String keyword) throws Exception;
 	
+	public int getTotBoardCnt(String searchWord, int flag) throws Exception;
 	
-	
+	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag);	
 	
 //	=============================도연 인터페이스 끝=======================================================
 	
@@ -36,6 +38,8 @@ public interface CambakMainService {
 	
 	// 캠핑장 상세 항목 가져오기
 	public CampingVO getCampingDetail(String camping_contentId) throws Exception;
+
+	
 	
 	
 	

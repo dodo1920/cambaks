@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -41,6 +42,20 @@ $(document).ready(function() {
 	}
 	
 });
+
+document.onkeydown = noEvent;
+function noEvent() { 
+	if (event.keyCode == 116) { 
+		location.href="/index/main";
+		alert('만료된 페이지입니다');
+		return false;
+	} 
+	else if (event.ctrlKey && event.keyCode == 82) { 
+		location.href="/index/main";
+		alert('만료된 페이지입니다');
+		return false;
+	} 
+} 
 
 </script>
 
