@@ -137,7 +137,7 @@ function MyReplyCategory(page, board_category) {
 			let paging = data.paging;
 			
 			$("#myPageBoardList").empty();
-			
+			console.log(data.myReplyList.length);
 			for (let i = 0; i < myReplyList.length; i++) {
 				
 				let board_writeDate = myReplyList[i].board_writeDate;
