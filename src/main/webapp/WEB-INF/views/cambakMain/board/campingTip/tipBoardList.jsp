@@ -262,6 +262,12 @@
 	color : #80BA8E;
 }
 
+.nowSideBar {
+	color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    font-weight: 500;
+}
 </style>
 
 </head>
