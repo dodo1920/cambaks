@@ -162,7 +162,7 @@
 	                 output += '<tr id="content' + item.prodReview_no +'" style="display: none">';
 	                 output += '<td colspan="6">';
 	                 
-	                 if(loginUser == item.member_id || grade_name =='M'){
+	                 if("${loginMember.member_id}" == item.member_id || grade_name =='M'){
 	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
 	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
 	                 }
