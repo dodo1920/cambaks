@@ -58,7 +58,10 @@ function addrSearch(currentPage) {
 			let totalCount = data.results.common.totalCount;
 			let output = "";
 			
-			if (data.results.common.errorCode != 0) {
+			if (totalCount > 9000) {
+				alert("검색결과가 너무 많습니다. 주소를 자세히 작성바랍니다.");
+				return false;
+			} else if (data.results.common.errorCode != 0) {
 				alert(data.results.common.errorMessage);
 				return false;
 			}
