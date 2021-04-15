@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.persistence.cambakMain.CambakMainDAO;
 import com.cambak21.util.PagingCriteria;
 
@@ -73,7 +74,10 @@ public class CambakMainServiceImpl implements CambakMainService {
 		return dao.getBoards(searchWord, cri, flag);
 	}
 	
-	
+	@Override
+	public List<ResellBoardVO> getResellBoards(String searchWord, PagingCriteria cri) {
+		return dao.getResellBoards(searchWord, cri);
+	}	
 	
 	
 //	=============================도연 Service 끝=======================================================
@@ -85,6 +89,7 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public CampingVO getCampingDetail(String camping_contentId) throws Exception {
 		return dao.getCampingDetail(camping_contentId);
 	}
+
 
 
 

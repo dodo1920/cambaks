@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.CampingVO;
+import com.cambak21.domain.ResellBoardVO;
 import com.cambak21.service.cambakMain.CambakMainService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -91,6 +92,7 @@ public class CambakMainController {
 	private @ResponseBody Map<String, Object> resultBoard(@PathVariable("keyword") String keyword, @PathVariable(value="page") int page, PagingCriteria cri, @PathVariable("flag") int flag) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<BoardVO> boardLst = new ArrayList<BoardVO>();
+		List<ResellBoardVO> resellBoardLst = new ArrayList<ResellBoardVO>();
 		PagingParam pp = new PagingParam();
 		System.out.println(flag);
 		
@@ -100,10 +102,16 @@ public class CambakMainController {
 		
 		System.out.println(pp);
 		
-		boardLst = service.getBoards(keyword, cri, flag);
-		System.out.println(boardLst);
+		if(flag == 4) {
+			resellBoardLst = service.getResellBoards(keyword, cri);
+			result.put("boards", resellBoardLst);
+			System.out.println(resellBoardLst);
+		} else {
+			boardLst = service.getBoards(keyword, cri, flag);
+			result.put("boards", boardLst);
+			System.out.println(boardLst);
+		}
 		
-		result.put("boards", boardLst);
 		result.put("pagings", pp);
 		
 		return result;

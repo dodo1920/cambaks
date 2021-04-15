@@ -40,6 +40,7 @@
 <script type="text/javascript">
 //화면시작시 실행할 함수들
  $(function(){
+	console.log($("#12345").html());
 	 default_addr();
 	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 	 addPoint();  // 페이지 로딩 시, 유저의 적립 예정금액
@@ -176,6 +177,15 @@ function usePoint() {
 	console.log(dis);
 	
 	$("#disCnt").text(dis.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	let PrevPrice = $("#disCnt").text();
+	let FinalPrice = $("#12345").html()
+	console.log(PrevPrice);
+	console.log(FinalPrice);
+	FinalPrice = FinalPrice - PrevPrice;
+	console.log(FinalPrice);
+	$("#12345").html(FinalPrice);
+	
+	
 }
 
 function addPoint() {
@@ -401,7 +411,7 @@ function addPoint() {
    			<tr>
 	   			<td colspan="6">
 	   				<div>
-	   					<span style="text-align:right; float:right;margin-right:80px"><em>${totPrice + prodInfo[0].buyProduct_deliveriPay }</em><i>원</i></span>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em id="12345">${totPrice + prodInfo[0].buyProduct_deliveriPay }</em><i>원</i></span>
 	   				</div>
 	   			</td>
    			</tr>
