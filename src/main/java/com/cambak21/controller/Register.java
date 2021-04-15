@@ -49,6 +49,11 @@ public class Register {
    
    @Autowired
    private JavaMailSenderImpl mailSender;
+      
+   @RequestMapping(value="addrSearch", method = RequestMethod.GET)
+   public String addrSearch() {
+      return "cambakMain/user/addrSearch";
+   }
    
    @RequestMapping(value="register", method = RequestMethod.GET)
    public String register() {
@@ -68,20 +73,20 @@ public class Register {
    @RequestMapping(value="joinComplete", method = RequestMethod.POST)
    public String joinMember(MemberVO vo, Model model, HttpServletRequest request) throws Exception {
 	   String result;
-//	   System.out.println(vo.toString());
-//	   
-//	   HttpSession ses = request.getSession();
-//	   ses.removeAttribute("registerUUID");
-//	   ses.removeAttribute("registerEmail");
-//	   
-//	   if (service.memberInsert(vo)) {
-//		   model.addAttribute("joinMember", vo);
-//		   result = "success";
-//		   model.addAttribute("result", result);
-//	   } else {
-//		   result = "fail";
-//		   model.addAttribute("result", result);
-//	   }
+	   System.out.println(vo.toString());
+	   
+	   HttpSession ses = request.getSession();
+	   ses.removeAttribute("registerUUID");
+	   ses.removeAttribute("registerEmail");
+	   
+	   if (service.memberInsert(vo)) {
+		   model.addAttribute("joinMember", vo);
+		   result = "success";
+		   model.addAttribute("result", result);
+	   } else {
+		   result = "fail";
+		   model.addAttribute("result", result);
+	   }
 	   	   
 	   return "cambakMain/user/joinComplete";
    }
