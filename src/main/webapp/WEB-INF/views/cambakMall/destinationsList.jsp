@@ -121,6 +121,11 @@
 	
 	$(function(){
 		
+		if(${loginMember == null}){
+			alert("로그인 후 이용 가능합니다.");
+			location.href="/user/login/yet";
+		}
+		
 		getDestinationsList();
 		
 		
@@ -337,6 +342,7 @@ function getDestinationsList(){
             </div>
         
         </div>
+        <div style="font-weight: bold; float: right; margin-right: 20%; margin-top: 10px; font-size: 15px; color: chocolate;"> ※ &nbsp 최대 3개까지 저장 가능합니다.</div>
     </section>
     <!-- Shop Cart Section End -->
 

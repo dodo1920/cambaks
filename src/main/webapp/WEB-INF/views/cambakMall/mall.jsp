@@ -29,15 +29,33 @@
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script>
 
+let loginUser = '${loginMember.member_id}';
+
  $(document).ready(function() {
 
-	         	console.log("${para.topReview}");
-	         	console.log("${para.topSelling}");
-	         	console.log("${para.countReviews}");
+	 
+	 
+	 
+	 
  });
 
-
+ 
+ 
+ function goCheckBuckets(data){
+	 	 
 	 
+	 console.log(data);
+	 
+	 
+	 
+	 
+ }
+ 
+ 
+ 
+ 
+
+ 
 </script>
 
 
@@ -162,11 +180,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct1.product_id});" ><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct1.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct1.product_id }">${NewProduct1.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	                   
@@ -216,11 +234,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct2.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct2.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct2.product_id }">${NewProduct2.product_name }</a></h6>
 	                        
 	                             <div class="rating">
                               		<c:if test="${NewProduct2.star == 0 }">
@@ -266,11 +284,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct3.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct3.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct3.product_id }">${NewProduct3.product_name }</a></h6>
 	                        
 	                            <div class="rating">
 	                            
@@ -316,11 +334,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct4.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct4.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct4.product_id }">${NewProduct4.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	                   
@@ -367,11 +385,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct5.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct5.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct5.product_id }">${NewProduct5.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	                   
@@ -418,11 +436,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct6.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct6.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct6.product_id }">${NewProduct6.product_name }</a></h6>
 	                        
 	                  <div class="rating">
 	                  
@@ -468,11 +486,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct7.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct7.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct7.product_id }">${NewProduct7.product_name }</a></h6>
 	                        
 	                  <div class="rating">
 	               				    <c:if test="${NewProduct7.star == 0 }">
@@ -517,11 +535,11 @@
 	                    <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/product-1.jpg">
 	                        <div class="label new">New</div>
 	                        <ul class="product__hover">
-	                            <li><a href="#"><span class="icon_bag_alt"></span></a></li>
+	                            <li><a onclick="goCheckBuckets(${NewProduct8.product_id});"><span class="icon_bag_alt"></span></a></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><a href="#">${NewProduct8.product_name }</a></h6>
+	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct8.product_id }">${NewProduct8.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	              				    <c:if test="${NewProduct8.star == 0 }">
@@ -567,10 +585,39 @@
 <!-- Product Section End -->
 
 
+
 <!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="../../resources/mallMain/img/banner/banner-1.jpg">
-    
-</section>
+<!-- <section class="banner set-bg" data-setbg="../../resources/mallMain/img/banner/banner-1.jpg"> -->
+<!--     <div class="container"> -->
+<!--         <div class="row"> -->
+<!--             <div class="col-xl-7 col-lg-8 m-auto"> -->
+<!--                 <div class="banner__slider owl-carousel"> -->
+<!--                     <div class="banner__item"> -->
+<!--                         <div class="banner__text"> -->
+<!--                             <span>The Chloe Collection</span> -->
+<!--                             <h1>The Project Jacket</h1> -->
+<!--                             <a href="#">Shop now</a> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="banner__item"> -->
+<!--                         <div class="banner__text"> -->
+<!--                             <span>The Chloe Collection</span> -->
+<!--                             <h1>The Project Jacket</h1> -->
+<!--                             <a href="#">Shop now</a> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="banner__item"> -->
+<!--                         <div class="banner__text"> -->
+<!--                             <span>The Chloe Collection</span> -->
+<!--                             <h1>The Project Jacket</h1> -->
+<!--                             <a href="#">Shop now</a> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
+<!--     </div> -->
+<!-- </section> -->
 <!-- Banner Section End -->
 
 <!-- Trend Section Begin -->
@@ -581,16 +628,11 @@
                 <div class="trend__content">
                     <div class="section-title">
                         <h4>인기순</h4>
-                        
-<%--                console.log("${para.topReview}"); --%>
-<%-- 	         	console.log("${para.topSelling}"); --%>
-<%-- 	         	console.log("${para.countReviews}"); --%>
-	         	
 	         	
                     </div>
                      
         <c:forEach var="topSelling" items="${para.topSelling }" varStatus="status">
-			             <div class="trend__item">
+			           <a href="/mall/prodDetail/main?prodId=${topSelling.product_id }"><div class="trend__item">
                         <div class="trend__item__pic">
                             <img src="../../resources/mallMain/img/trend/ht-1.jpg" alt="">
                         </div>
@@ -630,7 +672,7 @@
                             </div>
                            <div class="product__price"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div>
+                    </div></a>
 			</c:forEach>
 				
                 </div>
@@ -641,7 +683,7 @@
                         <h4>평점순</h4>
                     </div>
                        <c:forEach var="topReview" items="${para.topReview }" varStatus="status">
-			             <div class="trend__item">
+			             <a href="/mall/prodDetail/main?prodId=${topReview.product_id }"><div class="trend__item">
                         <div class="trend__item__pic">
                             <img src="../../resources/mallMain/img/trend/bs-1.jpg" alt="">
                         </div>
@@ -681,7 +723,7 @@
                             </div>
                             <div class="product__price"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div>
+                    </div></a>
 					</c:forEach>
 						           
                 </div>
@@ -693,7 +735,7 @@
                     </div>
                     
                       <c:forEach var="countReviews" items="${para.countReviews }" varStatus="status">
-			             <div class="trend__item">
+			            <a href="/mall/prodDetail/main?prodId=${countReviews.product_id }"><div class="trend__item">
                         <div class="trend__item__pic">
                             <img src="../../resources/mallMain/img/trend/bs-1.jpg" alt="">
                         </div>
@@ -733,7 +775,7 @@
                             </div>
                             <div class="product__price"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div>
+                    </div></a>
 					</c:forEach>
 					
 			

@@ -85,7 +85,7 @@ public class BoardNotice {
 		
 		String readno = String.valueOf(no);
 		String compaere = "notice" + readno;
-		Cookie getloginCook = WebUtils.getCookie(request, "readBoard");
+		Cookie getloginCook = WebUtils.getCookie(request, "readBoard" + readno);
 
 		if(getloginCook != null) {
 			
@@ -94,12 +94,11 @@ public class BoardNotice {
 				model.addAttribute("noticeBoard", service.noticeRead(no, "stay"));
 				return "cambakMain/board/notice/noticeDetail";
 			}
-			
 		}
 
 			
 			model.addAttribute("noticeBoard", service.noticeRead(no, "up"));
-			Cookie readCook = new Cookie("readBoard", "notice" + readno);  // ssid 라는 이름으로 세션 ID를 남긴다..(실제 아이디나 비밀번호는 안됨!!)
+			Cookie readCook = new Cookie("readBoard" + readno, "notice" + readno);  // ssid 라는 이름으로 세션 ID를 남긴다..(실제 아이디나 비밀번호는 안됨!!)
 			readCook.setPath("/");
 			readCook.setMaxAge(60 * 60 * 24); // 일주일 동안 
 	        response.addCookie(readCook);
