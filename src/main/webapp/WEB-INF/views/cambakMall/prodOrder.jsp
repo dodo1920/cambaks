@@ -38,9 +38,12 @@
 	</script>
 </head>
 <script type="text/javascript">
+let commaJ = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+let numberJ= /^[0-9]/g;
+
 //화면시작시 실행할 함수들
  $(function(){
-	console.log($("#12345").html());
+	console.log($("#finalPay").html());
 	 default_addr();
 	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 	 addPoint();  // 페이지 로딩 시, 유저의 적립 예정금액
@@ -161,36 +164,34 @@ function default_addr() {
 // 장원영 script Start
 function myAllPoint() {
 	
-	$("#myAllPoint").text('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	$("#myAllPoint").text('${loginMember.member_totPoint }'.replace(commaJ, ","));
 	
 }
 
 function allPoint() {
 	
-	$("#myPoint").val('${loginMember.member_totPoint }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+	$("#myPoint").val('${loginMember.member_totPoint }');
 
 }
 
 function usePoint() {
+	let dis = $("#myPoint").val().replace(',', '');
+	let totalPrice = '${totPrice }'
+	let totalPoint = '${loginMember.member_totPoint }';
 	
-	let dis = $("#myPoint").val();
-	console.log(dis);
+	dis = parseInt(dis);
 	
-	$("#disCnt").text(dis.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
-	let PrevPrice = $("#disCnt").text();
-	let FinalPrice = $("#12345").html()
-	console.log(PrevPrice);
-	console.log(FinalPrice);
-	FinalPrice = FinalPrice - PrevPrice;
-	console.log(FinalPrice);
-	$("#12345").html(FinalPrice);
-	
-	
+	if (dis <= totalPoint) {
+		let discountPrice = totalPrice - dis + 2500;
+		$("#finalPay").text(String(discountPrice).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인된 총 결제해야할 금액
+		$("#disCnt").text(String(dis).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인 금액에 사용 포인트 넣어주기
+	} else {
+		alert("보유 포인트보다 많음")
+	}
 }
 
 function addPoint() {
-	
-	let pointGrade = $("#addPoint").text('${loginMember.grade_name}'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); 
+	 
 	if ('${loginMember.grade_name}' == 'A' ) {
 		$("#addPoint").text('${totPrice * 0.1 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else if ('${loginMember.grade_name}' == 'B' ) {
@@ -337,10 +338,10 @@ function addPoint() {
 				<td style="display: none">${item.buyProduct_no }</td>
 				<td><img alt="" src="../../resources/img/${item.product_img1 }" style="width: 100px;"></td>
 	    		<td style="text-align: center;">${item.product_name }</td>
-	    		<td style="text-align: center;">${item.product_sellPrice }</td>
-	    		<td style="text-align: center;">${item.buyProduct_qty }</td>
+	    		<td style="text-align: center;"><fmt:formatNumber value="${item.product_sellPrice}" pattern="#,##0" /></td>
+	    		<td style="text-align: center;"><fmt:formatNumber value="${item.buyProduct_qty }" pattern="#,##0" /></td>
 <%-- 	    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td> --%>
-	    		<td style="text-align: center;">${item.buyProduct_totPrice }</td>
+	    		<td style="text-align: center;"><fmt:formatNumber value="${item.buyProduct_totPrice }" pattern="#,##0" /></td>
     		</tr>
     	</c:forEach>
     	
@@ -361,7 +362,7 @@ function addPoint() {
 	   						</li>
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
-	   							<span><input type="text" id="myPoint" value="0"><i>점</i></span>
+	   							<span><input type="number" id="myPoint" value="0"><i>점</i></span>
 	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
 	   						</li>
 	   					</ul>
@@ -378,7 +379,7 @@ function addPoint() {
     						<li>
     							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">상품 금액</em>
     							<span>
-    							<em>${totPrice }</em><i>원</i>
+    							<em><fmt:formatNumber value="${totPrice }" pattern="#,##0" /></em><i>원</i>
     							</span>
     						</li>
     						<li>
@@ -388,7 +389,7 @@ function addPoint() {
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">배송 금액</em>
     							<span>
-    							<em>${prodInfo[0].buyProduct_deliveriPay }</em><i>원</i>
+    							<em><fmt:formatNumber value="${prodInfo[0].buyProduct_deliveriPay }" pattern="#,##0" /></em><i>원</i>
     							</span>
     						</li>	
     					</ul>
@@ -411,7 +412,7 @@ function addPoint() {
    			<tr>
 	   			<td colspan="6">
 	   				<div>
-	   					<span style="text-align:right; float:right;margin-right:80px"><em id="12345">${totPrice + prodInfo[0].buyProduct_deliveriPay }</em><i>원</i></span>
+	   					<span style="text-align:right; float:right;margin-right:80px"><em id="finalPay"><fmt:formatNumber value="${totPrice + prodInfo[0].buyProduct_deliveriPay }" pattern="#,##0" /></em><i>원</i></span>
 	   				</div>
 	   			</td>
    			</tr>
