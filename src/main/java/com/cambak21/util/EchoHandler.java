@@ -1,5 +1,8 @@
 package com.cambak21.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -8,7 +11,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @RequestMapping("/echo")
 public class EchoHandler extends TextWebSocketHandler {
+	
+	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 
+	
 	/**
 	  * @Method Name : afterConnectionEstablished
 	  * @작성일 : 2021. 4. 14.
@@ -20,8 +26,9 @@ public class EchoHandler extends TextWebSocketHandler {
 	  */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		// TODO Auto-generated method stub
-		super.afterConnectionEstablished(session);
+		sessionList.add(session);
+		
+		System.out.println("참여자 : " + session.getPrincipal().getName());
 	}
 
 	/**
@@ -36,8 +43,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	  */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		// TODO Auto-generated method stub
-		super.handleTextMessage(session, message);
+		System.out.println("~로부터 ~받음 : " + session.getId() + ", "+ message.getPayload());
 	}
 
 	/**
@@ -52,10 +58,9 @@ public class EchoHandler extends TextWebSocketHandler {
 	  */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		// TODO Auto-generated method stub
-		super.afterConnectionClosed(session, status);
+		System.out.println("status : " + status.toString());
+		System.out.println("status code : " + status.getCode());
+		System.out.println("session : " + session.getId());
 	}
-	
-	
 	
 }
