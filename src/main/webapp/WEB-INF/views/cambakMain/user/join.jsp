@@ -31,10 +31,6 @@
 <!-- 게시판 공통 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
-<!-- 다음 지도 api js -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/resources/cambak21/js/registerDaumPost.js"></script>
-
 <script>
 	let idJ = /^[a-z0-9]{4,20}$/; // 아이디 정규표현식
 	let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
@@ -60,8 +56,21 @@
    
    });
    
+	function getSelectAddress(sendAddress) {
+		$("#getZipCode").val(sendAddress[1]);
+		$("#getAddress").val(sendAddress[0]);
+		closeAddrBar();
+	}
    
+	function closeAddrBar() {
+		$("#searchAddrBar").css("display", "none");
+		$("#searchAddrBar").html("");
+	}
    
+	function viewAddressFrame() {
+		$("#searchAddrBar").css("display", "block");
+		$("#searchAddrBar").html('<iframe id="addrSearchBar" width="650" height="478" src="/user/addrSearch" class="addressFrame"></iframe>');
+	}
    
 	function saveUserProFile() {
 
@@ -108,7 +117,7 @@
 			fail : function(result) {
 				alert("사진 첨부를 실패했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 			}
-		})
+		});
 		
 	}
 	
@@ -618,6 +627,30 @@
     font-weight: bold;
 }
 
+.addressBar {
+	display: none;
+	position: fixed;
+	overflow: hidden;
+	z-index: 10;
+	width: 600px;
+	height: 488px;
+	border: 5px solid;
+	left: 754px;
+	top: 300px;
+}
+
+.addressFrame {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	min-width: 300px;
+}
+
 </style>
 
 </head>
@@ -644,7 +677,7 @@
 								<th class="tableTitleSize">아이디</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();"  autocomplete="off"/>
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();" autocomplete="off"/>
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
 									<div id="idChkBar">
@@ -656,7 +689,7 @@
 								<th class="tableTitleSize">비밀번호</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();"  autocomplete="off"/>
+									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();" autocomplete="off"/>
 									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span>
 									</div>
 									<div id="pwdChkBar1">
@@ -668,7 +701,7 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"  autocomplete="off"/>
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();" autocomplete="off"/>
 									</div>
 									<div id="pwdChkBar2">
 									<span class="changeTextBarMsg" id="pwdReChkContent"></span>
@@ -679,7 +712,7 @@
 								<th class="tableTitleSize">이름</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();"  autocomplete="off"/>
+									<input type="text" name="member_name" id="member_name" maxlength="40" size="40" onblur="checkUserName();" autocomplete="off"/>
 									</div>
 									<div id="userNameBar">
 									<span class="changeTextBarMsg" id="userNameCheck"></span>
@@ -701,7 +734,7 @@
 									<div>
 										<input type="hidden" name="member_birth" id="member_birth" />
 										<span>
-											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>-
+											<input type="text" maxlength="4" placeholder="년(4자)" id="userBirthYear" class="birthYear" onkeyup="onlyNumberChk(this)" autocomplete="off"/>-
 										</span>
 										<span>
 											<select class="birthMonth" id="userBirthMonth">
@@ -721,7 +754,7 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="2" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>
+											-<input type="text" maxlength="2" placeholder="일" id="userBirthDate" class="birthDate" onkeyup="onlyNumberChk(this)" autocomplete="off"/>
 										</span>
 									</div>
 								</td>
@@ -730,7 +763,7 @@
 								<th class="tableTitleSize">이메일</th>
 								<td class="tableContentSize">
 									<div>
-										<input type="text" size="40" name="member_email" id="member_email" value="${registerEmail }" readonly  autocomplete="off"/>
+										<input type="text" size="40" name="member_email" id="member_email" value="${registerEmail }" readonly autocomplete="off"/>
 									</div>
 								</td>
 							</tr>
@@ -750,10 +783,10 @@
 											</select>
 										</span>
 										<span>
-											-<input type="text" maxlength="4" id="phoneSecond" class="phoneSecond" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>-
+											-<input type="text" maxlength="4" id="phoneSecond" class="phoneSecond" onkeyup="onlyNumberChk(this)" autocomplete="off"/>-
 										</span>
 										<span>
-											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)"  autocomplete="off"/>
+											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)" autocomplete="off"/>
 										</span>
 									</div>
 								</td>
@@ -761,14 +794,15 @@
 							<tr>
 								<th class="tableTitleSize">주소</th>
 								<td class="tableContentSize">
-									<input type="text" id="sample6_postcode" name="member_postCode" style="font-size: 13px;" readonly  autocomplete="off">
-									<input type="button" onclick="sample6_execDaumPostcode();" class="searchPost" value="우편번호 찾기">
+									<input type="text" id="getZipCode" name="member_postCode" style="font-size: 13px;" readonly autocomplete="off">
+									<input type="button" onclick="viewAddressFrame();" class="searchPost" value="우편번호 찾기">
 									<br>
-									<input type="text" class="resultPost" id="sample6_address" name="member_addr" size="55" readonly  autocomplete="off">
+									<input type="text" class="resultPost" id="getAddress" name="member_addr" size="55" readonly autocomplete="off">
 									<span class="textBarInfo">기본주소</span>
 									<br>
-									<input type="text" id="sample6_detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;">
+									<input type="text" id="sample6_detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;" autocomplete="off">
 									<span class="textBarInfo">나머지주소 (선택입력가능)</span>
+									<div id="searchAddrBar" class="addressBar"></div>
 								</td>
 							</tr>
 							<tr>
