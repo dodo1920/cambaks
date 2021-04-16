@@ -129,8 +129,12 @@ $(function(){
 			<div class="radios" id="checkListCntContainer" style="cursor:pointer;" onclick="viewCheckList();">
 	  		<div id="chklistIframe"  style=" position: fixed; display:none; left:29%; top:35%; width:600px; height: -webkit-fill-available; overflow:hidden; max-height: 140px;">
 	  		
-  			<iframe onload="getChkListYet();" id="iframeForScroll" style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe>
-  			
+<!--   			<iframe onload="getChkListYet();" id="iframeForScroll" style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe> -->
+  				
+<!-- 			<iframe id="iframeForScroll" style="border: none; width: 100%;height:-webkit-fill-available; "src="/mall/destinationsList/register"></iframe> -->
+			<iframe id="iframeForScroll" style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe>
+			
+			
   			</div>
 	  		<span id="CheckListCnt" style="margin-left: 15px; ">체크리스트(회원 전용)</span>
 	  	</div>
