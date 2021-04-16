@@ -162,6 +162,10 @@ function default_addr() {
 //김대기 script end
 
 // 장원영 script Start
+function oderFin() {
+	alert("결제하기");
+}
+
 function myAllPoint() {
 	
 	$("#myAllPoint").text('${loginMember.member_totPoint }'.replace(commaJ, ","));
@@ -181,6 +185,13 @@ function usePoint() {
 	
 	dis = parseInt(dis);
 	
+	console.log(Number.isInteger(dis * 0.01));
+	
+	if (!Number.isInteger(dis * 0.01)) {
+		alert("포인트 사용은 100단위로 가능합니다.");
+		return;
+	}
+	
 	if (dis <= totalPoint) {
 		let discountPrice = totalPrice - dis + 2500;
 		$("#finalPay").text(String(discountPrice).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인된 총 결제해야할 금액
@@ -192,10 +203,17 @@ function usePoint() {
 
 function addPoint() {
 	 
+	console.log(parseInt('${totPrice * 0.05 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")))
+	console.log('${totPrice * 0.05 }');
+	
 	if ('${loginMember.grade_name}' == 'A' ) {
-		$("#addPoint").text('${totPrice * 0.1 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+		let test = Math.ceil(parseInt('${totPrice * 0.1 }')); // 1500.0
+		
+		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else if ('${loginMember.grade_name}' == 'B' ) {
-		$("#addPoint").text('${totPrice * 0.05 }'.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
+		let test = Math.ceil(parseInt('${totPrice * 0.05 }')); // 1500.0
+		
+		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else {
 		$("#addPoint").text('0');
 	}
@@ -364,6 +382,7 @@ function addPoint() {
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
 	   							<span><input type="number" id="myPoint" value="0"><i>점</i></span>
 	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
+	   							<div style="color: red; font-size: 13px; font-weight: 600;  padding: 0 40px;">* 포인트 사용은 100단위로 가능합니다.</div>
 	   						</li>
 	   					</ul>
 	   				</div>
@@ -384,7 +403,7 @@ function addPoint() {
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">할인 금액</em>
-    							<span><em id="disCnt"></em><i>원</i></span>
+    							<span><em id="disCnt">0</em><i>원</i></span>
     						</li>
     						<li>
     							<em style="margin-right:10px;margin-bottom:10px;font-style:NORMAL">배송 금액</em>
@@ -422,6 +441,7 @@ function addPoint() {
     
     
     </div>
+	
     <!-- 주문 상품 정보 테이블 end -->
     <!-- 결제 방법테이블 테이블 start -->
     <div style="margin-top: 50px;">
@@ -537,11 +557,23 @@ function addPoint() {
     	</div>
     </div>
     <div>
-    	<button type="submit" class="btn btn-default">결제하기</button>
+    	<button type="submit" class="btn btn-default" onclick="oderFin">결제하기</button>
     	<button class="btn btn-default">취소</button>
     </div>
-    </form>
+    </form>    
     <!-- 약관동의 테이블 end -->
+    
+    <!-- 결제하기 폼태그 start -->
+    <form name="FinalOder" action="/orderFin.jsp" method="POST">
+		<input type="hidden" name="" id="totalBuy" value="totalBuy" />
+		<input type="hidden" name="" id="disPt" value="disPt" />
+		<input type="hidden" name="" id="addPt" value="addPt" />
+		<input type="hidden" name="" id="isFinishied" value="isFinishied" />
+		<input type="hidden" name="" id="payinfo-id" value="payinfo-id" />
+		<input type="hidden" name="" id="payinfo-way" value="payinfo-way" />
+		<input type="hidden" name="" id="payinfo-date" value="payinfo-date" />
+	</form>
+	<!-- 결제하기 폼태그 end -->
 
 
     </div>
