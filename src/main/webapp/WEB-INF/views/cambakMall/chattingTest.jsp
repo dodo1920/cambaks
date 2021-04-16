@@ -16,49 +16,82 @@
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
 <script type="text/javascript">
-
-	let sock = new SockJS("http://localhost:8081/echo");
-
-	sock.onmessage = onMessage;
-	sock.onclose = onClose;
-
+	//웹소켓 전역 변수 생성
+	let webSocket;
+	let member_id = "${loginMember.member_id}";
+	
 	$(document).ready(function() {
-		$("#sendBtn").click(function() {
-			sendMsg();
-		});
+		// 웹 소켓 초기화
+		webSocketInit();
+	})
+
+	function webSocketInit() {
+		// 해당 주소로 웹소켓 객체 생성
+		webSocket = new WebSocket("ws://localhost:8081/chatting/"+member_id);
+		console.log(webSocket);
+
+		webSocket.onopen = function(event) {
+			socketOpen(event);
+		};
+		webSocket.onclose = function(event) {
+			socketClose(event);
+		};
+		webSocket.onmessage = function(event) {
+			socketMessage(event);
+		};
+		webSocket.onerror = function(event) {
+			socketError(event);
+		};
+	}
+	
+	//웹소켓 연결
+	function socketOpen(event) {
+		console.log("연결 완료");
+	}
+
+	//웹소켓 닫힘
+	function socketClose(event) {
+		console.log("웹소켓이 닫혔습니다.");
 		
-	});
-
-
-	function sendMsg() {
-		console.log($("#msg").val());
-
-		sock.send($("#msg").val());
-
-		console.log(sock);
+		// 웹소켓이 닫히면 연결을 재시도함
+		webSocketInit();
 	}
 
-	// 서버로부터 메시지를 받았을 때
-	function onMessage(msg) {
-		let data = msg.data;
-		console.log(data);
-		$("#messageArea").append(data + "<br/>");
+	//메세지를 보내는 메서드
+	function socketMsgSend() {
+		// 메시지 포맷
+		let msg = $("#msg").val();
+		
+		console.log("보낸 메시지 : " + msg);
+		// 세션리스트에 메시지를 송신한다.
+		webSocket.send(msg)
 	}
 
-	// 서버와 연결을 끊었을 때
-	function onClose(evt) {
-		console.log("evt : " + evt);
-		$("#messageArea").append("연결 끊김");
+	//메세지 받는 메서드
+	function socketMessage(event) {
+		console.log(event);
+		$("#msgOutput").append("<div>"+event.data+"님이 접속 하셨습니다</div>");
+	}
 
+	//웹소켓 에러
+	function socketError(event) {
+		alert("에러가 발생하였습니다.");
+	}
+
+	//웹소켓 종료
+	function disconnect() {
+		webSocket.close();
 	}
 </script>
-
-</head>
 <body>
 
 	<input type="text" id="msg">
-	<button id="sendBtn">전송</button>
+	<input type="button" id="btnSend" value="전송하기"
+		onclick="socketMsgSend()">
 
-	<div id="messageArea"></div>
+	<div id="welcome"></div>
+	<div id="msgOutput"></div>
+
+
 </body>
 </html>
