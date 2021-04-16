@@ -38,6 +38,7 @@
 	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
 	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
 	let nameJ = /^[가-힣]{2,17}$/; // 이름 정규표현식
+	let blankJ = /\s/; // 공백 정규표현식
 	let savedProFile ="";
 	
 	window.history.forward();
@@ -189,7 +190,11 @@
 	    	alert("비밀번호를 입력해주세요.");
 	   		result = false;
 	   		return;
-	    } else if (userPwd != userPwdChk) {
+	    } else if (userPwdChk == 0) {
+	    	alert("비밀번호 확인을 입력해주세요.");
+	   		result = false;
+	   		return;
+	    }  else if (userPwd != userPwdChk) {
 	    	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
 	   		result = false;
 	   		return;
@@ -267,7 +272,7 @@
 	    
 	    
 	 	// 주소 체크 및 submit 가능하도록 input 태그에 값 넣기
-	    let address = $("#sample6_address").val();
+	    let address = $("#getAddress").val();
 	    
 	    if (address.length == 0) {
 			alert("주소를 입력해주세요.");
@@ -333,7 +338,7 @@
 	    } else if (userPwdChk.length == 0) {
 	    	$("#pwdChkBar2").css("display", "none");
 	    }
-		
+		console.log("비밀번호 확인 실행");
 	}
 	
 	function checkUserPwdSize() {
@@ -341,75 +346,60 @@
 	   let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인 작성한 내용
 	   let result = true;
 	   
-	   if (userPwdChk == "") {
-		   if (userPwd.length < 8) { // 비밀번호 길이가 유효하지 않을 경우
-			    $("#pwdChkBar1").css("display", "inline-block");
-			    $("#pwdChkContent").attr("class", "changeTextBarMsg");
-		   		$("#pwdChkContent").text("최소 8자 이상으로 입력해 주세요.");
-		   		result = false;
-		   } else if (userPwd.length > 16) {
-			   $("#pwdChkBar1").css("display", "inline-block");
-			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
-		   	   $("#pwdChkContent").text("최소 16자 이하로 입력해 주세요.");
-		   	   result = false;
-		   } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
-			   $("#pwdChkBar1").css("display", "inline-block");
-			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
-		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-		   	   result = false;
-		   } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
-			   $("#pwdChkBar1").css("display", "inline-block");
-			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
-		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-		   	   result = false;
-		   } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
-			   $("#pwdChkBar1").css("display", "inline-block");
-			   $("#pwdChkContent").attr("class", "changeTextBarMsg");
-		   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-		   	   result = false;
-		   }
-		   
-		   if (userPwd.length == 0) {
-			   $("#pwdChkBar1").css("display", "none");
-			   result = false;
-		   }
-		   
-		   if (result) {
-			   $("#pwdChkContent").attr("class", "serviceable");
-		   	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
-		   }
-		   
-	   } else { // 비밀번호 확인이 작성 되어있을 경우
-		   
-		   if (userPwd != userPwdChk) {
-			   $("#pwdChkBar2").css("display", "inline-block");
-			   $("#pwdReChkContent").attr("class", "changeTextBarMsg");
-			   $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.")
-		   } else {
-			   $("#pwdChkBar2").css("display", "none");
-		   }
-		   
+	   if (userPwd.length < 8) { // 비밀번호 길이가 유효하지 않을 경우
+		    $("#pwdChkBar1").css("display", "inline-block");
+		    $("#pwdChkContent").attr("class", "changeTextBarMsg");
+	   		$("#pwdChkContent").text("최소 8자 이상으로 입력해 주세요.");
+	   		$("#member_password").focus();
+	   		result = false;
+	   } else if (userPwd.length > 16) {
+		   $("#pwdChkBar1").css("display", "inline-block");
+		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+	   	   $("#pwdChkContent").text("최소 16자 이하로 입력해 주세요.");
+	   	   $("#member_password").focus();
+	   	   result = false;
+	   } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
+		   $("#pwdChkBar1").css("display", "inline-block");
+		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+	   	   $("#member_password").focus();
+	   	   result = false;
+	   } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
+		   $("#pwdChkBar1").css("display", "inline-block");
+		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+	   	   $("#member_password").focus();
+	   	   result = false;
+	   } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
+		   $("#pwdChkBar1").css("display", "inline-block");
+		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
+	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
+	   	   $("#member_password").focus();
+	   	   result = false;
 	   }
 	   
-
+	   if (userPwd.length == 0) {
+		   $("#pwdChkBar1").css("display", "none");
+		   result = false;
+	   } else if (userPwd == userPwdChk) {
+		   $("#pwdChkBar2").css("display", "none");
+	   } else if (userPwd != userPwdChk && userPwdChk.length != 0) {
+		   $("#pwdChkBar2").css("display", "inline-block");
+		   $("#pwdReChkContent").attr("class", "changeTextBarMsg");
+		   $("#pwdReChkContent").text("비밀번호가 서로 다릅니다.");
+	   }
+	   
+	   if (result) {
+		   $("#pwdChkContent").attr("class", "serviceable");
+	   	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
+	   }
+	   console.log("비밀번호 실행");
    }
 
    function userIdCheck() {
-		  
 		   let userId = $("#userId").val();
 		   
-		   if (event.keyCode == '32') {
-			   alert("아이디는 공백 작성 불가합니다.");
-			   $("#userId").val(userId.replace(/ /g,""));
-		   } else if (koreanJ.test(userId)) {
-			   $("#userId").val($("#userId").val().replace(koreanJ,""));
-		   } else if (userId.length > 19) {
-			   $("#userId").val($("#userId").val().substring(0, 20));
-		   } else if (userId.length == 0) {
-			   $("#idChkBar").css("display", "none");
-		   }
-		   
-		   if (userId.length >= 4 && userId.length <= 20) { // 작성한 아이디 길이 체크
+		   if (userId.length >= 4 && userId.length <= 20 && blankJ.test(userId) == false) { // 작성한 아이디 길이 체크
 			   
 			   if (idJ.test(userId)) { // 작성한 아이디 정규식 체크
 				   
@@ -428,6 +418,7 @@
 								 $("#idChkBar").css("display", "inline-block");
 								 $("#idChkResult").attr("class", "changeTextBarMsg");
 								 $("#idChkResult").text("이미 등록된 아이디입니다. 다른 아이디를 입력해 주세요.");
+								 $("#userId").focus();
 							 }
 							 
 						  }, error : function(data) {
@@ -440,12 +431,24 @@
 				   $("#idChkBar").css("display", "inline-block");
 				   $("#idChkResult").attr("class", "changeTextBarMsg");
 				   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+				   $("#userId").focus();
 			   } // 아이디 정규식 체크
 			   
+		   } else if (blankJ.test(userId) == true) { // 작성한 아이디에 공백이 포함되었을 경우
+			   $("#idChkBar").css("display", "inline-block");
+			   $("#idChkResult").attr("class", "changeTextBarMsg");
+			   $("#idChkResult").text("아이디는 공백없이 작성바랍니다.");
+			   $("#userId").focus();
+		   } else if (userId.length < 4) { // 작성한 아이디의 길이가 4자 이하일 때
+			   $("#idChkBar").css("display", "inline-block");
+			   $("#idChkResult").attr("class", "changeTextBarMsg");
+			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+			   $("#userId").focus();
 		   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
 			   $("#idChkBar").css("display", "inline-block");
 			   $("#idChkResult").attr("class", "changeTextBarMsg");
 			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
+			   $("#userId").focus();
 		   } // 아이디 길이 체크
 		   
 	   }
@@ -677,7 +680,7 @@
 								<th class="tableTitleSize">아이디</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onkeyup="userIdCheck();" autocomplete="off"/>
+									<input type="text" id="userId" name="member_id" maxlength="40" size="40" onblur="userIdCheck();" autocomplete="off"/>
 									<span class="textBarInfo">(영문소문자/숫자, 4~20자)</span>
 									</div>
 									<div id="idChkBar">
@@ -689,7 +692,7 @@
 								<th class="tableTitleSize">비밀번호</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();" autocomplete="off"/>
+									<input type="password" name="member_password" id="member_password" maxlength="40" size="40" onblur="checkUserPwdSize();"/>
 									<span class="textBarInfo">(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 8자~16자)</span>
 									</div>
 									<div id="pwdChkBar1">
@@ -701,7 +704,7 @@
 								<th class="tableTitleSize">비밀번호 확인</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();" autocomplete="off"/>
+									<input type="password" id="reCheckPwd" maxlength="40" size="40" onblur="reconfirmUserPwd();"/>
 									</div>
 									<div id="pwdChkBar2">
 									<span class="changeTextBarMsg" id="pwdReChkContent"></span>

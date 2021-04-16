@@ -158,3 +158,10 @@ button.btn.btn-danger.write {
     float: right;
 }
 
+.nowSideBar {
+	color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    font-weight: 500;
+    border-radius: 5px;
+}

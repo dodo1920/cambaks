@@ -249,7 +249,7 @@
 
 <!-- 	작성한 댓글 가져오기 -->
 	<select id="readMyReplyList" resultType="com.cambak21.domain.MyPageReplyVO">
-		select r.member_id, r.board_no, b.board_category, b.board_title, b.board_writeDate, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+		select r.member_id, r.board_no, b.board_category, b.board_title, b.board_writeDate, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_isdelete from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id} and r.replyBoard_isdelete = 'N'
 		<if test="board_category != 'total'">
 		 and b.board_category = #{board_category} 
 		</if>
@@ -258,7 +258,7 @@
 	
 <!-- 	작성한 댓글의 총 개수 -->
 	<select id="readMyReplyTotal" resultType="int">
-		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id}
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and r.member_id = #{member_id} and r.replyBoard_isdelete = 'N'
 		<if test="board_category != 'total'">
 		  and b.board_category = #{board_category}
 		</if>
@@ -285,7 +285,7 @@
 	
 <!-- 	내가 작성한 총 댓글 -->
 	<select id="bringReplyCnt" resultType="int">
-		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and b.board_isDelete = 'N' and b.member_id = #{member_id}
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and b.board_isDelete = 'N' and b.member_id = #{member_id} and r.replyBoard_isdelete = 'N'
 	</select>
 	
 <!-- 	내가 작성한 중고마켓 총 댓글 -->
