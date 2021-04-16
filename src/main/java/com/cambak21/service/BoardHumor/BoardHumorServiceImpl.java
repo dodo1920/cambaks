@@ -39,10 +39,17 @@ public class BoardHumorServiceImpl implements BoardHumorService{
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public BoardVO readBoardHumor(int no) throws Exception {
-		dao.updateViewCnt(no);
+		
 		
 		return dao.readBoardHumor(no);
 	}
+	
+	@Override
+	public void updateViewCnt(int no) throws Exception {
+		dao.updateViewCnt(no);
+		
+	}
+
 
 	@Override
 	public boolean modifyBoardHumor(BoardVO vo) throws Exception {
@@ -117,6 +124,8 @@ public class BoardHumorServiceImpl implements BoardHumorService{
 		
 		return dao.preCheckLike(member_id, board_no);
 	}
+
+	
 
 	
 

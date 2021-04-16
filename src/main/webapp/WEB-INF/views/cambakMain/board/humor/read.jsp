@@ -179,7 +179,7 @@ function callReplyList(){
 			type : "post",
 			dataType : "json", // 받을 데이터
 			contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-			url : "/cambakMain/board/humor/like",// 서블릿 주소
+			url : "/board/humor/like",// 서블릿 주소
 			data : JSON.stringify({
 				board_no : board_no,
 				member_id : member_id
@@ -216,7 +216,7 @@ function callReplyList(){
 			type : "post",
 			dataType : "json", // 받을 데이터
 			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-			url : "/cambakMain/board/humor/likeCheck",// 서블릿 주소
+			url : "/board/humor/likeCheck",// 서블릿 주소
 			data : {
 				board_no : board_no,
 				member_id : member_id
