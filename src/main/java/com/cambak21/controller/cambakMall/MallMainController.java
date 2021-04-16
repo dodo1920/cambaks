@@ -49,28 +49,32 @@ public class MallMainController {
 		
 	      for(int i = 1; i < 9; i++) {
 	    	  
-	    	  List<ProductsVO> lst;
+	    	  List<mallMainTopCountDTO> lst;
 			try {
 				lst = service.getNewProduct4(i);
+				
+				for(int j = 0; j < lst.size(); j++) {
+				
+					lst.get(j).setStar(service.getStar(lst.get(j).getProduct_id()));
+				}
 				para.put("NewProduct" + Integer.toString(i), lst);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 	      }
+	      
 	        try {
-	        	
+	        	para.put("total", service.getTotalCount());
 	        	List<mallMainTopCountDTO> topSelling;
-	        	List<mallMainTopCountDTO> topSellingAvg;
 	        	topSelling = service.getTopSelling();
 	        	
 	        	for(int i = 0; i < topSelling.size(); i++) {
+	   
 	        		topSelling.get(i).setStar(service.getStar(topSelling.get(i).getProduct_id()));
 	        	}
 	        	
-	        	
-	        	 
-	           	para.put("topSelling", service.getTopSelling());
+	           	para.put("topSelling", topSelling);
 	        	para.put("total", service.getTotalCount());
 	        	para.put("topReview", service.getTopReview());
 	        	para.put("countReviews", service.countReviews());

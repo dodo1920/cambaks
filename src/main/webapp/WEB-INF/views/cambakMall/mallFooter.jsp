@@ -6,6 +6,84 @@
 
 <head>
  <meta charset="UTF-8">
+ 
+ <script>
+ 
+ $(window).on("scroll", function(){
+	if($(window).scrollTop() > 1000){
+		
+		$(".top").css("display","block")
+	}else{
+		$(".top").css("display","none")
+
+	} 
+	 
+	 
+ });
+ 
+ 
+ 
+ 
+ 
+ $(function(){
+	
+// 	  $(html).scroll(function(){
+// 		  var scrollTop = $(this).scrollTop();
+// 	      var innerHeight = $(this).innerHeight();
+// 	      var scrollHeight = $(this).prop('scrollHeight');
+	      
+// 	      if (scrollTop + innerHeight >= scrollHeight - 100) {
+// 	    		alert("!");
+	    		
+// 	    		console.log(scrollTop);
+// 	    		console.log(innerHeight);
+// 	    		console.log(scrollHeight);
+// 	      } 
+// 	});
+	  
+	 
+ });
+ 
+ 
+ 
+ </script>
+ 
+ 
+ <style>
+ 
+ .top{
+    left: 90%;
+    width: 40px;
+    position: fixed;
+    bottom: 80px;
+    display: none;
+ }
+ 
+ #main-sidebar{
+ 	left: 90%;
+    width: 110px;
+    position: fixed;
+    top: 150px;
+    display: block;
+ 
+ }
+ 
+ .recently-viewed-products, side-cart{
+     background-color: darkolivegreen;
+ }
+ 
+  #main-sidebar strong{
+		color:white;
+		
+ }
+ .recently-viewed-page{
+ 
+ }
+ 
+ </style>
+ 
+ 
+ 
 </head>
 
 <!-- Footer Section Begin -->
@@ -43,23 +121,32 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-8 col-sm-8">
-                <div class="footer__newslatter">
-                    <h6>NEWSLETTER</h6>
-                    <form action="#">
-                        <input type="text" placeholder="Email">
-                        <button type="submit" class="site-btn">Subscribe</button>
-                    </form>
-                    <div class="footer__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+		</div>
+		
+		
+		
+		<section id="main-sidebar">
+	        <div class="side-cart"><a href="#" title="장바구니"><strong>장바구니</strong><em class="cart-count">0</em></a></div>
+		        <div class="recently-viewed-products" >
+		            <strong>최근본상품</strong>
+		            <em class="total-element">0</em>
+		        </div>
+		        <div class="recently-viewed-list">
+		            <ul class="recently-viewed-page" data-href="" style="display: block;"><li class="no-item">최근본 상품이<br>없습니다.</li></ul>
+		           
+	        </div>
+   		 </section>
+	  
+	  
+        <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
+		<img src="/resources/img/pageUp.png" />
+		</a>
+		
+
+        
+        
+		
+		
         <div class="row">
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

@@ -21,7 +21,7 @@ public class MainDAOImpl implements MainDAO {
 	private static String namespace = "com.cambak21.mappers.mallMainMapper";
 	
 	@Override
-	public List<ProductsVO> getNewProduct4(int no) throws Exception {
+	public List<mallMainTopCountDTO> getNewProduct4(int no) throws Exception {
 		
 		return ses.selectList(namespace + ".getNewProduct4", no);
 	}
@@ -50,6 +50,12 @@ public class MainDAOImpl implements MainDAO {
 	public int getStar(int id) throws Exception {
 		// TODO Auto-generated method stub
 		return ses.selectOne(namespace + ".getStar", id);
+	}
+
+	@Override
+	public int checkReview(int id) throws Exception {
+		
+		return ses.selectOne(namespace + ".checkReview", id);
 	}
 
 }

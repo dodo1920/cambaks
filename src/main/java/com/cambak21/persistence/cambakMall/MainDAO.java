@@ -10,7 +10,7 @@ import com.cambak21.dto.mallMainTotalDTO;
 
 public interface MainDAO {
 	
-		public List<ProductsVO> getNewProduct4(int i) throws Exception;
+		public List<mallMainTopCountDTO> getNewProduct4(int i) throws Exception;
 	
 		public List<mallMainTotalDTO> getTotalCount() throws Exception;
 		
@@ -21,4 +21,6 @@ public interface MainDAO {
 		public List<mallMainTopCountDTO> countReviews() throws Exception;
 		
 		public int getStar(int id) throws Exception;
+		
+		public int checkReview(int id) throws Exception;
 	}

@@ -5,8 +5,8 @@
   
 <mapper namespace="com.cambak21.mappers.mallMainMapper">
   
-  <select id="getNewProduct4" resultType="com.cambak21.domain.ProductsVO">
-  		select * from Products where mainCategory_id = #{no} limit 0, 4
+  <select id="getNewProduct4" resultType="com.cambak21.dto.mallMainTopCountDTO">
+  		select product_id, product_name, product_sellPrice from Products where mainCategory_id = #{no} limit 0, 4
   </select>
   
   <select id="getTotalCount" resultType="com.cambak21.dto.mallMainTotalDTO">
@@ -26,10 +26,12 @@
   </select>
   
   <select id="getStar" resultType="int">
-  		select 
+  		select floor(avg(prodReview_grade)) as star from ProdReviews where product_id = #{no} 
   </select>
   
-  
+  <select id="checkReview" resultType="int">
+		select count(*) from ProdReviews where product_id = #{no}
+  </select>
   
   
 </mapper>
