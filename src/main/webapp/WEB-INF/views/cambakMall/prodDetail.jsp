@@ -36,6 +36,7 @@
 	let prodId = '${param.prodId}';
 	let page = '${param.page}';
 	let cate = '${param.cate}';
+	let restProdQty = 0;
 	
 	let orderList;
 	
@@ -65,7 +66,8 @@
 		totProdQACnt(prodId);
 		
 		prodQAListAll(prodId, page, 0, cate); // 페이지 호출될 때 상품 문의 목록 함수 호출하는 함수
-
+		
+		getRestofProducts();
 				
 		
 		// 상품 문의 카테고리가 변경될 때마다 상품 문의 목록 및 페이징 함수 다시 호출하는 함수
@@ -656,6 +658,8 @@
 	    		prodQAPagingParam(product_Id, pageNum, category); // 페이지 호출될 때 상품 문의 페이징 함수 호출하는 함수
 	    		
 	    		$(data).each(function(index, item){
+	    			addReplyCnt(item.prodQA_no);
+	    			
 		        	let date = new Date(item.prodQA_date);
 		        	let dateFormat = date.toLocaleString();
 		        	
@@ -663,7 +667,7 @@
 		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
 		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
 		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + '</div></td>';	
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';	
 		        	}
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
@@ -729,7 +733,7 @@
 	    		
 	    		if(page > 1) {
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + 1 + ',0,\'' + cate + '\');"> << </a></li>';
-	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> < </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + prev + ',0,\'' + cate + '\');"> < </a></li>';
 	    		}
 	    		
 	    		for(let i = 1; i < data.endPage + 1; i++) {
@@ -737,7 +741,7 @@
 	    		}
 	    		
 	    		if(page < data.endPage) {
-	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + page + ',0,\'' + cate + '\');"> > </a></li>';
+	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + next + ',0,\'' + cate + '\');"> > </a></li>';
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + data.endPage + ',0,\'' + cate + '\');"> >> </a></li>';
 	    		}
 	    		
@@ -749,6 +753,31 @@
 
 	    	}
 	     });
+	}
+	
+	function addReplyCnt(no) {
+		$.ajax({
+			url: '/mall/prodDetail/addReplyCnt',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				prodQA_no: no,
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				if(result != 0) {
+					$("#replyCnt" + no).html("(" + result + ")");	
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
 	}
 	
 	function getReply(no, flag) {		
@@ -969,6 +998,19 @@
 		});	
 	}
 	
+	function getRestofProducts() {
+		$.getJSON("/mall/prodDetail/restProd?prodId=" + prodId, function(data){
+			restProdQty = data;
+			
+			if(data == 0) {
+				let output ='Sold Out';
+				$("#quantity").html(output);
+				$("#buyingBtn").attr("disabled", "disabled");
+				$("#bucketBtn").attr("disabled", "disabled");
+			}
+		});
+	}
+	
 	function buying(flag) {		
 		console.log(prodId);
 		console.log(loginUser);
@@ -981,6 +1023,10 @@
 			alert("로그인해주세요!");
 		} else if(prodQty == 0) {
 			alert("수량을 0 이상으로 선택해주세요!");
+		} else if(prodQty > restProdQty) {
+			alert("재고 수량보다 많습니다. 주문 가능 수량 : " + restProdQty + " 개");
+		} else if(prodQty > 100) {
+			alert("최대 주문 수량은 100개입니다.");
 		} else {
 			$.ajax({
 				url: '/mall/prodDetail/checkBucket',
@@ -1137,6 +1183,9 @@
 	}
 </script>
 <style>
+	.pro-qty {
+		width: 160px;
+	}
 
 		.fa {
 		  color: grey;
@@ -1273,13 +1322,13 @@
                         <div class="product__details__price" > <strong id="sellPrice">${prodDetail.product_sellPrice}</strong> <span>$ 83.0</span></div>
                         <p>${prodDetail.product_detail }</p>
                         <div class="product__details__button">
-                            <div class="quantity">
+                            <div class="quantity" >
                                 <span>Quantity:</span>
-                                <div class="pro-qty">
+                                <div class="pro-qty" id="quantity">
                                     <input type="text" id="prodQty" value="1">
                                 </div>
                             </div>
-                             <button type="button" class="cart-btn" id="buyingBtn"><span class="icon_bag_alt" ></span> 주문하기</button>
+                             <button type="button" class="cart-btn" id="buyingBtn" ><span class="icon_bag_alt" ></span> 주문하기</button>
                             <ul>
                                 <li><button type="button" id="bucketBtn"><span class="icon_heart_alt"></span></button></li>
                             </ul>

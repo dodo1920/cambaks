@@ -145,4 +145,9 @@ public interface BoardProdQAService {
 	public int getMaxStep(int prodQA_no) throws Exception;
 
 	public int getRef(int prodQA_no) throws Exception;
+
+	public int getReplyCnt(int prodQA_no) throws Exception;
+
+	public int getRestProdQty(int product_id) throws Exception;;
+
 }
