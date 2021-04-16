@@ -31,19 +31,45 @@
 	<!-- 템플릿 js, css 파일 -->
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
 	<script>
+	
+	let numberJ = /[0-9]/; // 숫자 정규표현식
+	let StringJ = /[a-zA-Z]/; // 문자 정규표현식
+	let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
+	
 		function checkPwd() {
 			let newPwd = $("#newPassword").val();
 			let checkNewPwd = $("#checkNewPassword").val();
+			let result = true;
 			
 			console.log(newPwd, checkNewPwd);
 			
-			if(newPwd == checkNewPwd) {
-				return true;
+			if (newPwd.length == 0) {
+				$("#result").html("비밀번호를 입력해주세요.");
+		   		result = false;
+		    } else if (checkNewPwd == 0) {
+		    	$("#result").html("비밀번호 확인을 입력해주세요.");
+		   		result = false;
+		    }  else if (newPwd != checkNewPwd) {
+		    	$("#result").html("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
+		   		result = false;
+		    } else if (newPwd.length < 8 || newPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
+		    	$("#result").html("입력하신 비밀번호는 사용할 수 없습니다.");
+		   		result = false;
+		    } else if (!numberJ.test(newPwd) && !StringJ.test(newPwd)) {
+		    	$("#result").html("입력하신 비밀번호는 사용할 수 없습니다.");
+		   		result = false;
+		    } else if (!numberJ.test(newPwd) && !specialJ.test(newPwd)) {
+		    	$("#result").html("입력하신 비밀번호는 사용할 수 없습니다.");
+		   		result = false;
+		    } else if (!specialJ.test(newPwd) && !StringJ.test(newPwd)) {
+		    	$("#result").html("입력하신 비밀번호는 사용할 수 없습니다.");
+		   	    result = false;
+		    } else if(newPwd == checkNewPwd) {
+		    	$("#result").html(" ");
+				result = true;
 			}
 			
-			$("#result").html("새로운 비밀번호가 다릅니다")
-			
-			return false;
+			return result;
 		}
 	</script>
 </head>
@@ -67,16 +93,16 @@
 						  <form action="/user/reset_pwd" method="post">
 						    <div class="form-group">
 						      <label for="member_name">새로운 비밀번호 :</label>
-						      <input type="text" class="form-control" id="newPassword" placeholder="Enter new password" name="member_password">
+						      <input type="password" class="form-control" id="newPassword" placeholder="Enter new password" name="member_password">
 						      <input type="hidden" name="member_id" value="${memberInfo.member_id }" />
 						    </div>
 						    <div class="form-group">
 						      <label for="email" class="email">새로운 비밀번호 확인 :</label>
-						      <input type="text" class="form-control" id="checkNewPassword" placeholder="Enter new password">
+						      <input type="password" class="form-control" id="checkNewPassword" placeholder="Enter new password">
 						      <span id="result"></span>
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkPwd();">저장</button>
-						    <button type="button" class="btn btn-default">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../user/login/yet'">취소</button>
 						  </form>
 						</div>
 					</section>
