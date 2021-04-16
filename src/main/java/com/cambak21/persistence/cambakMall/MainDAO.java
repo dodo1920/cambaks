@@ -23,4 +23,6 @@ public interface MainDAO {
 		public int getStar(int id) throws Exception;
 		
 		public int checkReview(int id) throws Exception;
+		
+		public ProductsVO getBasicInfo(int id) throws Exception;
 	}

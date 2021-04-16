@@ -33,5 +33,9 @@
 		select count(*) from ProdReviews where product_id = #{no}
   </select>
   
+  <select id="getBasicInfo" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products where product_id = #{id}
+  </select>
+  
   
 </mapper>

@@ -63,4 +63,11 @@ public class MainServiceImpl implements MainService {
 		return 0;
 	}
 
+
+	@Override
+	public ProductsVO getBasicInfo(int id) throws Exception {
+	
+		return dao.getBasicInfo(id);
+	}
+
 }

@@ -15,4 +15,6 @@ public interface CheckListService {
 	public boolean saveList(CheckListVO vo) throws Exception;
 	
 	public boolean deleteThisAll(String member_id) throws Exception;
+	
+	public int getChkListYet(String member_id) throws Exception;
 }

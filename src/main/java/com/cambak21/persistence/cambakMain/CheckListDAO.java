@@ -15,4 +15,6 @@ public interface CheckListDAO {
 	public int saveList(CheckListVO vo) throws Exception;
 
 	public int deleteThisAll(String member_id) throws Exception;
+	
+	public int getChkListYet(String member_id) throws Exception;
 }

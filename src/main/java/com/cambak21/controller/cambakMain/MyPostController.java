@@ -382,7 +382,7 @@ public class MyPostController {
 	      logger.info("JJONG ckeckList2 작업중 . . . . .");
 	   
 	      
-	      return "cambakMain/myPage/checkList";
+	      return "cambakMain/myPage/checkList2";
 	   }
 		   
 		   

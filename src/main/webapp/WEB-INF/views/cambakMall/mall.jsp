@@ -26,7 +26,9 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+ 
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+
 <script>
 
 let loginUser = '${loginMember.member_id}';

@@ -16,7 +16,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/resources/cambak21/css/effectV5.css">
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
+<link rel="stylesheet" href="/resources/cambak21/css/pjj21checkList.css" />
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
+
 <script>
     
 	$(document).ready(function () {
@@ -543,7 +545,7 @@
 					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
 					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
 					<p><a href="/board/resell/list?page=1">캠박마켓 게시판</a></p>
-					<p><a href="/board/qa/list.bo?page=1">Q&amp;A 게시판</a></p>
+					<p><a href="/board/qa/list.bo?7page=1">Q&amp;A 게시판</a></p>
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
@@ -578,6 +580,8 @@
 		</div>
 	</footer>
 	<!-- /Footer -->
+ 	<%@include file="cambak21checkList.jsp"%> 
+
 
 </body>
 

@@ -16,7 +16,7 @@ public class CheckListDAOImpl implements CheckListDAO {
 
 	@Inject
 	private SqlSession ses;
-	private static String namespace = "com.cambak21.mappers.cambakMain.myPostMapper";
+	private static String namespace = "com.cambak21.mappers.cambakMain.CheckListMapper";
 	
 	@Override
 	public List<CheckListVO> getCheckListAll(String member_id) throws Exception {
@@ -45,6 +45,12 @@ public class CheckListDAOImpl implements CheckListDAO {
 	@Override
 	public int deleteThisAll(String member_id) throws Exception {
 		return ses.delete(namespace + ".deleteThisAll", member_id);
+	}
+
+	@Override
+	public int getChkListYet(String member_id) throws Exception {
+		return ses.selectOne(namespace + ".getChkListYet", member_id);
+		
 	}
 
 }

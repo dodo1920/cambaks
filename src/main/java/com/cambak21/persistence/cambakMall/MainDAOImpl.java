@@ -58,4 +58,9 @@ public class MainDAOImpl implements MainDAO {
 		return ses.selectOne(namespace + ".checkReview", id);
 	}
 
+	@Override
+	public ProductsVO getBasicInfo(int id) throws Exception {
+		return ses.selectOne(namespace + ".getBasicInfo", id);
+	}
+
 }

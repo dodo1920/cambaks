@@ -20,4 +20,6 @@ public interface MainService {
 	
 	public int getStar(int id) throws Exception;
 	
+	public ProductsVO getBasicInfo(int id) throws Exception;
+	
 }
