@@ -8,6 +8,8 @@ import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
@@ -44,6 +46,21 @@ public class MyMallDAOImpl implements MyMallDAO {
 		params.put("perPageNum", cri.getPerPageNum());
 		System.out.println(params);
 		return ses.selectList(ns + ".getRefundList", params);
+	}
+
+	@Override
+	public int getTotalOrder(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".getTotalOrder", member_id);
+	}
+	
+	@Override
+	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		return ses.selectList(ns + ".getTotalOrderList", params);
 	}
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -163,6 +180,13 @@ public class MyMallDAOImpl implements MyMallDAO {
 		param.put("userName", userName);
 		return ses.selectOne(nsOrder+".MemberDetailOrder",param);
 	}
+
+
+
+	
+
+
+	
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

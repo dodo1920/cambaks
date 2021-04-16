@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
@@ -33,6 +34,16 @@ public class MyMallSerivceImpl implements MyMallService {
 	public List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getRefundList(member_id, cri);
+	}
+	@Override
+	public int getTotalOrder(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getTotalOrder(member_id);
+	}
+	@Override
+	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getTotalOrderList(member_id, cri);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -129,6 +140,10 @@ public class MyMallSerivceImpl implements MyMallService {
 		// TODO Auto-generated method stub
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
+
+	
+
+	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }
