@@ -3,6 +3,9 @@ package com.cambak21.controller.boards;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.BoardVO;
-import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.dto.InsertLikeBoard;
 import com.cambak21.service.BoardHumor.BoardHumorService;
 import com.cambak21.util.PagingCriteria;
@@ -72,7 +74,20 @@ public class BoardHumor {
 	}
 	
 	@RequestMapping(value = "/read", method = RequestMethod.GET)
-	public String readBoard(@RequestParam("no") int no, Model model) throws Exception{
+	public String readBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam("no") int no, Model model) throws Exception{
+		
+		Cookie cookie = WebUtils.getCookie(request, "read" + no);
+		
+		if(cookie ==null) {
+			
+			Cookie readCookie = new Cookie("read" + no + "", no+"");
+			readCookie.setPath("/");
+			readCookie.setMaxAge(60*60*24);
+			response.addCookie(readCookie);
+			
+			service.updateViewCnt(no);
+		}
+		
 		model.addAttribute("board", service.readBoardHumor(no));
 		return "/cambakMain/board/humor/read";
 	}
