@@ -16,7 +16,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/resources/cambak21/css/effectV5.css">
 <link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
-<link rel="stylesheet" href="/resources/cambak21/css/pjj21checkList.css" />
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script>
