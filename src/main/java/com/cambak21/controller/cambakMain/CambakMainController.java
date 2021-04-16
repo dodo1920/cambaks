@@ -94,7 +94,7 @@ public class CambakMainController {
 		List<BoardVO> boardLst = new ArrayList<BoardVO>();
 		List<ResellBoardVO> resellBoardLst = new ArrayList<ResellBoardVO>();
 		PagingParam pp = new PagingParam();
-		System.out.println(flag);
+		System.out.println(flag + ", " + keyword + ", " + page);
 		
 		cri.setPage(page);
 		pp.setCri(cri);
@@ -104,12 +104,12 @@ public class CambakMainController {
 		
 		if(flag == 4) {
 			resellBoardLst = service.getResellBoards(keyword, cri);
-			result.put("boards", resellBoardLst);
 			System.out.println(resellBoardLst);
+			result.put("boards", resellBoardLst);
 		} else {
 			boardLst = service.getBoards(keyword, cri, flag);
-			result.put("boards", boardLst);
 			System.out.println(boardLst);
+			result.put("boards", boardLst);
 		}
 		
 		result.put("pagings", pp);
