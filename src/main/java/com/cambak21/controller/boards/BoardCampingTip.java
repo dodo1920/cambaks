@@ -127,6 +127,7 @@ public class BoardCampingTip {
 			String uploadFile = BoardCsFileUpload.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 			if (!uploadFile.equals("-1")) {
 				// -1이 아니라면 이미지 파일
+				System.out.println(uploadPath);
 				return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
 			} else {
 				// 이미지 파일 아닌것
