@@ -27,7 +27,7 @@
 
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/userChatting");
+		webSocket = new WebSocket("ws://localhost:8081/admingChatting");
 		console.log(webSocket);
 
 		webSocket.onopen = function(event) {
@@ -62,14 +62,26 @@
 		// 메시지 포맷
 		let msg = $("#msg").val();
 		
+		let key = $("#userKey").val();
+		
 		// 세션리스트에 메시지를 송신한다.
-		webSocket.send(msg)
+		webSocket.send(msg + ":" + key);
 	}
 
 	//메세지 받는 메서드
 	function socketMessage(event) {
+		let fromUserData = event.data.split(":");
+		
+		// 유저가 보낸 메시지
+		let msg = fromUserData[0];
+		
+		// 유저 key값
+		let key = fromUserData[1];
+		$("#userKey").val(key);
+		
+		
 		console.log(event);
-		$("#msgOutput").append("<div>"+event.data+"님이 접속 하셨습니다</div>");
+		$("#msgOutput").append("<div>유저가 보낸메시지 : "+msg+"</div>");
 	}
 
 	//웹소켓 에러
@@ -90,7 +102,7 @@
 
 	<div id="welcome"></div>
 	<div id="msgOutput"></div>
-
+	<input type="hidden" id="userKey">
 
 </body>
 </html>

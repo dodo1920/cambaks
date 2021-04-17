@@ -11,5 +11,10 @@ public class ChattingController {
 	public String test () {
 		return "cambakMall/chattingTest";
 	}
+	
+	@RequestMapping("/chattingTest2")
+	public String test2 () {
+		return "cambakMall/chattingTest2";
+	}
 
 }
