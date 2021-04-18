@@ -41,9 +41,9 @@ let ratingSorter = '${param.ratingSorter}';
 let prodScore = '${param.prodScore}';
 let page = '${param.page}';
 let perPageNum = '${param.perPageNum}';
+let keyword = '${param.keyword}';
 
 $(document).ready(function() {
-	categoryOpen(); // 카테고리 파라메터로 css 설정
 	filterCheck(); // 페이지 로딩 시 파라메터 확인하여 체크박스 체크
 	pageBtnChange(); // 현재 페이지번호의 버튼 색상 변경
 });
@@ -54,20 +54,6 @@ function pageBtnChange() {
 	
 	$("#pageNum" + thisPage).attr("class", "thisPagination");
 	$("#pageNum" + thisPage).attr("onclick", "");
-}
-
-function categoryOpen() {
-	// 카테고리 파라메터로 css 설정
-	let mainCategory_id = '${param.mainCategory_id}';
-	let middleCategory_id = '${param.middleCategory_id}';
-	
-	if (mainCategory_id == "" && middleCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
-	} else if (mainCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
-	} else {
-		$("#collapse" + mainCategory_id).attr("class", "collapse show");
-	}
 }
 
 function filterCheck() {
@@ -163,7 +149,7 @@ function pageNumMove(movePage) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=" + movePage + "&perPageNum=" + perPageNum;
+	location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=" + movePage + "&perPageNum=" + perPageNum + "&keyword=" + keyword;
 }
 
 function prodScoreViewMove(sorter, score) {
@@ -199,7 +185,7 @@ function prodScoreViewMove(sorter, score) {
 		alert("잘못된 접근입니다.");
 		history.back();
 	} else if (scoreInt >= 0 || scoreInt <= 5) {
-		location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + sorter + "&prodScore=" + score + "&page=1&perPageNum=" + perPageNum;
+		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + sorter + "&prodScore=" + score + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	}
 	
 }
@@ -237,11 +223,11 @@ function priceViewMove(priceRange, min, max) {
 	
 	// 페이지 이동
 	if (priceRange == "all") {
-		location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=all&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
+		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=all&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "less" || priceRange == "great") {
-		location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
+		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "avg") {
-		location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
+		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "avgInput") {
 		max = $("#maxPrice").val();
 		min = $("#minPrice").val();
@@ -253,7 +239,7 @@ function priceViewMove(priceRange, min, max) {
 			alert("입력하신 가격 범위는 최대 가격이 최소 가격보다 적습니다.");
 			return;
 		} else {
-			location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
+			location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 		}
 		
 	} else {
@@ -293,7 +279,7 @@ function prodNumViewMove(prodsNumber) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + prodsNumber;
+	location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + prodsNumber + "&keyword=" + keyword;
 }
 
 function productViewMove(prodsRank) {
@@ -327,7 +313,7 @@ function productViewMove(prodsRank) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodsRank + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
+	location.href="/mall/Search?prodRankOrder=" + prodsRank + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 }
 
 function categoryMove(main, middle) {
@@ -367,6 +353,23 @@ function categoryMove(main, middle) {
     text-align: center !important;
     -webkit-transition: all, 0.3s !important;
     margin-right: 6px !important;
+}
+
+.searchForm {
+    display: inline-block;
+    top: 48px;
+    right: 0;
+    border: 0;
+    border-bottom: 2px solid #f32952;
+    background: #ffffff;
+    z-index: 110;
+}
+
+.searhcInput {
+	background: none;
+	border: none 0;
+	vertical-align: top;
+	font-size: 15px;
 }
 
 </style>
@@ -462,13 +465,8 @@ function categoryMove(main, middle) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                <c:choose>
-                   	<c:when test="${param.mainCategory_id != null && param.middleCategory_id != null }">
-	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
-	                    <a><span>${prodList[0].mainCategory_content }</span></a>
-	                    <span>${prodList[0].middleCategory_content }</span>
-	                </c:when>
-	            </c:choose>
+	                <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
+	                <span>상품 검색</span>
                 </div>
             </div>
         </div>
@@ -476,7 +474,7 @@ function categoryMove(main, middle) {
 </div>
 <!-- Breadcrumb End -->
 
-<%@include file="prodListAside.jsp" %>
+<%@include file="prodSearchAside.jsp" %>
 
 <!-- Instagram Begin -->
 <div class="instagram">
@@ -541,8 +539,8 @@ function categoryMove(main, middle) {
 <div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch">+</div>
-        <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+        <form class="search-model-form" method="get">
+            <input type="text" id="search-input" name="keyword" placeholder="검색어를 입력해주세요">
         </form>
     </div>
 </div>
