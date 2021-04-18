@@ -6,24 +6,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
+    <!-- 화면 너비 자동반응 -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../resources/assets/images/favicon.png">
-    <title>Matrix Template - The Ultimate Multipurpose admin template</title>
+    <!-- 아이콘 및 타이틀 -->
+    <link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
+    <title>Cambak's - Admin Pages</title>
     <!-- Custom CSS -->
-    <link href="../resources/assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link href="../resources/adminAssets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="../resources/dist/css/style.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
+    <link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-
 </head>
 <body>
 <div class="preloader">
