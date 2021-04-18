@@ -31,6 +31,15 @@ public class UserChattingHandler {
 
 	// 유저 본인에게 뿌리기 위한
 	// session으로 검색
+	/**
+	  * @Method Name : getUser
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 세션으로 검색
+	  * @param session
+	  * @return
+	  */
 	private static User getUser(Session session) {
 		for (User user : sessionList) {
 			if (user.session == session) {
@@ -41,8 +50,15 @@ public class UserChattingHandler {
 		return null;
 	}
 
-	// 운영자한테 보내기 위한
-	// key로 검색
+	/**
+	  * @Method Name : getUser
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : key로 검색
+	  * @param key
+	  * @return
+	  */
 	private static User getUser(String key) {
 		for (User user : sessionList) {
 			if (user.key.equals(key)) {
@@ -53,7 +69,14 @@ public class UserChattingHandler {
 		return null;
 	}
 
-	// 웹 소켓 연결시 호출
+	/**
+	  * @Method Name : handleOpen
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 웹소켓 연결 시 실행, User클래스를 이용해 key와 session을 세팅해주고 sessionList에 넣어준다
+	  * @param session
+	  */
 	@OnOpen
 	public void handleOpen(Session session) {
 		System.out.println("웹 소켓 연결");
@@ -62,11 +85,19 @@ public class UserChattingHandler {
 		user.key = UUID.randomUUID().toString();
 		user.session = session;
 		sessionList.add(user);
-		
+
 		AdminChattingHandler.sendMsg(user.key, "conn");
 	}
 
-	// 웹소켓 메시지 수신시 호출, admin한테 보냄
+	/**
+	  * @Method Name : handleMsg
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 유저페이지에서 메시지를 보낼 시, admin 웹소켓서버로 메시지 전송
+	  * @param msg
+	  * @param session
+	  */
 	@OnMessage
 	public void handleMsg(String msg, Session session) {
 		User findUser = getUser(session);
@@ -74,7 +105,7 @@ public class UserChattingHandler {
 		if (findUser != null) {
 			// 운영자한테 메시지 전송
 			AdminChattingHandler.sendMsg(findUser.key, msg);
-			
+
 			try {
 				// 유저 자기자신한테 메시지 전송
 				findUser.session.getBasicRemote().sendText(msg);
@@ -85,7 +116,15 @@ public class UserChattingHandler {
 		}
 	}
 
-	// 본인 유저에게 보내기 위한 함수
+	/**
+	  * @Method Name : sendMsg
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : AdminChattingHandler.java에서 사용하기 위한 메서드, key로 검색해 해당 key를 가진 유전 세션으로 메시지 전송
+	  * @param msg
+	  * @param key
+	  */
 	public static void sendMsg(String msg, String key) {
 		User findUser = getUser(key);
 
@@ -100,13 +139,20 @@ public class UserChattingHandler {
 		}
 	}
 
-	// 웹 소켓이 닫힐 때 세션 제거
+	/**
+	  * @Method Name : handleClose
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 유저가 채팅 종료시 실행되는 메서드, sessionList에서 해당 유저세션을 제거해준다
+	  * @param session
+	  */
 	@OnClose
 	public void handleClose(Session session) {
 		System.out.println("웹소켓 닫힘");
 
 		User user = getUser(session);
-		
+
 		if (user != null) {
 			// 웹소켓이 닫히면 리스트에서 제거
 			sessionList.remove(user);

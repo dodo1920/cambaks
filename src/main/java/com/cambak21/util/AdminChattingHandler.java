@@ -12,8 +12,17 @@ public class AdminChattingHandler {
 
 	private static Session admin = null;
 
+	/**
+	  * @Method Name : handleOpen
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : admin이 채팅 페이지에 접속했을 시 실행
+	  * @param adminSession
+	  */
 	@OnOpen
 	public void handleOpen(Session adminSession) {
+		System.out.println(adminSession.toString());
 		// 운영자 계정이 1개임을 가정
 		if (admin != null) {
 			try {
@@ -26,7 +35,15 @@ public class AdminChattingHandler {
 		admin = adminSession;
 	}
 
-	// 어드민 페이지에 메시지 보내기
+	/**
+	  * @Method Name : sendMsg
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : UserChattingHandler.java에서 사용하기 위한 메서드
+	  * @param key
+	  * @param msg
+	  */
 	public static void sendMsg(String key, String msg) {
 		if (admin != null) {
 			try {
@@ -36,11 +53,21 @@ public class AdminChattingHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		} else {
+			UserChattingHandler.sendMsg("잠시만 기다려 주세요...", key);
 		}
 
 	}
 
-	// 유저 페이지에 메시지 보내기
+	/**
+	  * @Method Name : handleMsg
+	  * @작성일 : 2021. 4. 18.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : admin이 메시지를 보낼 시 실행되는 함수, UserChattingHandler에 있는 sendMsg를 호출해서 유저 세션으로 메시지를 보낸다
+	  * @param session
+	  * @param msg
+	  */
 	@OnMessage
 	public void handleMsg(Session session, String msg) {
 		// 운영자가 메시지를 보낼 때, 유저의 key값과 msg를 보낸다

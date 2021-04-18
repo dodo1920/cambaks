@@ -67,6 +67,8 @@
 	//메시지 받는 메서드
 	function socketMessage(event) {
 		
+		console.log(event);
+		
 		$("#msgOutput").append("<div>메시지 : "+event.data+"</div>")
 	}
 

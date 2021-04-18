@@ -79,6 +79,7 @@
 	function socketMessage(event) {
 		let fromUserData = event.data.split(":");
 
+		console.log(event);
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
 
@@ -103,7 +104,7 @@
 					let msgOutput = "." + "msgOutput-" + findKey; 
 					
 					//여기 누적으로 수정
-					$(msgOutput).text(msg);
+					$(msgOutput).append("<div>"+msg+"</div>");
 				}
 			})
 		}
