@@ -52,11 +52,6 @@ public class UserChattingHandler {
 
 		return null;
 	}
-	
-	
-	
-	
-	
 
 	// 웹 소켓 연결시 호출
 	@OnOpen
@@ -67,39 +62,21 @@ public class UserChattingHandler {
 		user.key = UUID.randomUUID().toString();
 		user.session = session;
 		sessionList.add(user);
-
-		for (User users : sessionList) {
-			System.out.println("접속한 유저 key : " + users.key.toString());
-			System.out.println("접속한 유자 UUID : " + users.session.toString());
-		}
+		
+		AdminChattingHandler.sendMsg(user.key, "conn");
 	}
 
-	
-	
-	
-	
-	
-	
 	// 웹소켓 메시지 수신시 호출, admin한테 보냄
 	@OnMessage
 	public void handleMsg(String msg, Session session) {
-		System.out.println("유저가 보낸 메시지 : " + msg);
 		User findUser = getUser(session);
-		if(findUser != null) {
-			AdminChattingHandler.sendMsg(findUser.key, msg);
-		}
-	}
-	
-	
-	
 
-	// 본인 유저에게 보내기 위한 함수
-	public static void sendMsg(String msg, String key) {
-		User findUser = getUser(key);
-		
-		
 		if (findUser != null) {
+			// 운영자한테 메시지 전송
+			AdminChattingHandler.sendMsg(findUser.key, msg);
+			
 			try {
+				// 유저 자기자신한테 메시지 전송
 				findUser.session.getBasicRemote().sendText(msg);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -107,32 +84,34 @@ public class UserChattingHandler {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	// 본인 유저에게 보내기 위한 함수
+	public static void sendMsg(String msg, String key) {
+		User findUser = getUser(key);
+
+		if (findUser != null) {
+			try {
+				// 운영자가 보낸 메시지
+				findUser.session.getBasicRemote().sendText(msg);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	// 웹 소켓이 닫힐 때 세션 제거
 	@OnClose
 	public void handleClose(Session session) {
 		System.out.println("웹소켓 닫힘");
 
-		// 웹소켓이 닫히면 리스트에서 제거
-		sessionList.remove(session);
+		User user = getUser(session);
+		
+		if (user != null) {
+			// 웹소켓이 닫히면 리스트에서 제거
+			sessionList.remove(user);
+		}
+
 	}
 
 	@OnError

@@ -18,7 +18,6 @@
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-	let member_id = "${loginMember.member_id}";
 	
 	$(document).ready(function() {
 		// 웹 소켓 초기화
@@ -28,7 +27,6 @@
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
 		webSocket = new WebSocket("ws://localhost:8081/userChatting");
-		console.log(webSocket);
 
 		webSocket.onopen = function(event) {
 			socketOpen(event);
@@ -57,19 +55,19 @@
 		webSocketInit();
 	}
 
-	//메세지를 보내는 메서드
+	//메시지를 보내는 메서드
 	function socketMsgSend() {
 		// 메시지 포맷
 		let msg = $("#msg").val();
 		
-		// 세션리스트에 메시지를 송신한다.
+		// 운영자한테 메시지 전송
 		webSocket.send(msg)
 	}
 
-	//메세지 받는 메서드
+	//메시지 받는 메서드
 	function socketMessage(event) {
-		console.log(event);
-		$("#msgOutput").append("<div>"+event.data+"님이 접속 하셨습니다</div>");
+		
+		$("#msgOutput").append("<div>메시지 : "+event.data+"</div>")
 	}
 
 	//웹소켓 에러

@@ -9,12 +9,13 @@ import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/admingChatting")
 public class AdminChattingHandler {
-	
+
 	private static Session admin = null;
-	
+
 	@OnOpen
 	public void handleOpen(Session adminSession) {
-		if(admin != null) {
+		// 운영자 계정이 1개임을 가정
+		if (admin != null) {
 			try {
 				admin.close();
 			} catch (IOException e) {
@@ -22,49 +23,47 @@ public class AdminChattingHandler {
 				e.printStackTrace();
 			}
 		}
-		
 		admin = adminSession;
-		
-		
 	}
 
-	
-	
 	// 어드민 페이지에 메시지 보내기
 	public static void sendMsg(String key, String msg) {
-		System.out.println("어드민, 유저가 보낸 메시지 확인 : " + msg);
-		System.out.println("어드민, 유저가 보낸 key 확인 : " + key);
-		if(admin != null) {
+		if (admin != null) {
 			try {
+				// 유저가 보내온 메시지
 				admin.getBasicRemote().sendText(msg + ":" + key);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
-	
-	
+
 	// 유저 페이지에 메시지 보내기
 	@OnMessage
-	public static void handleMsg(Session session, String msg) {
-		
+	public void handleMsg(Session session, String msg) {
+		// 운영자가 메시지를 보낼 때, 유저의 key값과 msg를 보낸다
 		String[] split = msg.split(":", 2);
-		// 뒤 정보는 메시지
+		// 메시지
 		String message = split[0];
-		// 앞은 key 데이터
+		// key
 		String key = split[1];
-		// 일반 유저의 key로 탐색후 메시지 전송
-		UserChattingHandler.sendMsg(key, message);
 		
-		System.out.println("운영자가 보낸 메시지 : " + message);
-		System.out.println("운영자가 보낸 key : " + key);
+		System.out.println("어드민, 메시지 : " + message);
+		System.out.println("어드민, key : " + key);
+
+		// key와 msg를 보내면 UserChattingHandler에서 key값에 맞는 유저한테 메시지를 전송
+		// 일대일 채팅
+		UserChattingHandler.sendMsg(message, key);
+
+		try {
+			// 운영자 자기자신한테도 msg 내용 보내기
+			admin.getBasicRemote().sendText(msg + ":" + key);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	
-	
-	
-	
 
 }
