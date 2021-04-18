@@ -1,22 +1,26 @@
 package com.cambak21.util;
 
 import java.io.IOException;
+
 import java.util.ArrayList;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import org.springframework.stereotype.Controller;
+
+import com.cambak21.service.cambakMall.ChattingService;
+
+@Controller
 @ServerEndpoint("/userChatting")
 public class UserChattingHandler {
 
@@ -101,15 +105,14 @@ public class UserChattingHandler {
 	@OnMessage
 	public void handleMsg(String msg, Session session) {
 		User findUser = getUser(session);
-
+		
 		if (findUser != null) {
 			// 운영자한테 메시지 전송
 			AdminChattingHandler.sendMsg(findUser.key, msg);
-
 			try {
 				// 유저 자기자신한테 메시지 전송
 				findUser.session.getBasicRemote().sendText(msg);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

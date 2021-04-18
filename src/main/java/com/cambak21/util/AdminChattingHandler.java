@@ -28,7 +28,6 @@ public class AdminChattingHandler {
 			try {
 				admin.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -54,7 +53,7 @@ public class AdminChattingHandler {
 				e.printStackTrace();
 			}
 		} else {
-			UserChattingHandler.sendMsg("잠시만 기다려 주세요...", key);
+			UserChattingHandler.sendMsg("연결 중 입니다. 잠시만 기다려 주세요...", key);
 		}
 
 	}
