@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-
+	
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
@@ -60,12 +60,12 @@
 		// 메시지 포맷
 		let msg = "";
 		let key = userKey;
-		
+
 		$(".userKey").each(function(index, item) {
 			// input hidden에 숨겨진 value(key)값 가져오기
 			let findKey = $(item).attr("value");
-			
-			if(userKey == findKey) {
+
+			if (userKey == findKey) {
 				let classKey = ".text-" + findKey;
 				msg = $(classKey).val();
 			}
@@ -85,30 +85,30 @@
 
 		// 유저 key값
 		let key = fromUserData[1];
-		
+
 		// 유저가 채팅방에 접속했다면 ...
 		if (msg == "conn") {
 			let output = '<div class="template">';
-			output += '<input type="text" class="text-'+key+'"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend(\''+key+'\')">';
+			output += '<input type="text" class="text-'+key+'"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend(\''
+					+ key + '\')">';
 			output += '<div class="msgOutput-'+key+'"></div>';
 			output += '<input type="hidden" class="userKey" value="'+key+'">';
 			output += '</div>';
-			
+
 			$(".msg-wrap").append(output);
 		} else {
 			// 메시지를 보냈다면...
 			$(".userKey").each(function(index, item) {
 				let findKey = $(item).attr("value");
-				
-				if(key == findKey) {
-					let msgOutput = "." + "msgOutput-" + findKey; 
-					
+
+				if (key == findKey) {
+					let msgOutput = "." + "msgOutput-" + findKey;
+
 					//여기 누적으로 수정
-					$(msgOutput).append("<div>"+msg+"</div>");
+					$(msgOutput).append("<div>" + msg + "</div>");
 				}
 			})
 		}
-		
 	}
 
 	//웹소켓 에러
@@ -123,7 +123,7 @@
 </script>
 
 <style type="text/css">
-.template{
+.template {
 	float: left;
 	border: 1px solid black;
 }
@@ -131,8 +131,7 @@
 <body>
 
 	<div class="msg-wrap">
-
 	</div>
-	
+
 </body>
 </html>

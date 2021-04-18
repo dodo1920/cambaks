@@ -8,4 +8,6 @@ public interface ChattingService {
 	void fromUser(String member_id, String chatting_content) throws Exception;
 	
 	List<ChattingListVO> chattingList() throws Exception;
+	
+	List<ChattingListVO> getChatting(String member_id) throws Exception;
 }

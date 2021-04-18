@@ -24,5 +24,10 @@ public class ChattingServiceImpl implements ChattingService {
 	public List<ChattingListVO> chattingList() throws Exception {
 		return dao.chattingList();
 	}
+
+	@Override
+	public List<ChattingListVO> getChatting(String member_id) throws Exception {
+		return dao.getChatting(member_id);
+	}
 	
 }

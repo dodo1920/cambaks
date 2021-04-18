@@ -10,6 +10,13 @@
 	</insert>
 	
 	<select id="getChattingList" resultType="com.cambak21.domain.ChattingListVO">
-		select * from Chattings group by member_id;
+		select * from Chattings 
+		where (member_id,chatting_date) in (select member_id, max(chatting_date) from Chattings group by member_id) 
+		and not member_id='admin' 
+		order by chatting_date desc;
+	</select>
+	
+	<select id="getChatting" resultType="com.cambak21.domain.ChattingListVO">
+		select * from Chattings where member_id=#{member_id} or member_id='admin' order by chatting_date asc;
 	</select>
 </mapper>

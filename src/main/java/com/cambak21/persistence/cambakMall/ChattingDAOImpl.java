@@ -31,4 +31,9 @@ public class ChattingDAOImpl implements ChattingDAO {
 		return ses.selectList(namespace + ".getChattingList");
 	}
 
+	@Override
+	public List<ChattingListVO> getChatting(String member_id) throws Exception {
+		return ses.selectList(namespace + ".getChatting", member_id);
+	}
+
 }

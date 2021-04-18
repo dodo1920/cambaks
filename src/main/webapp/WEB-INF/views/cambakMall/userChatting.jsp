@@ -100,9 +100,7 @@
 	<input type="button" id="btnSend" value="전송하기"
 		onclick="socketMsgSend()">
 
-	<div id="welcome"></div>
 	<div id="msgOutput"></div>
-
 
 </body>
 </html>

@@ -15,8 +15,9 @@
 
 	<c:forEach var="item" items="${ChattingList }">
 		<div>${item.member_id }</div>
-		<div>${item.chatting_content }</div>
+		<div><a href="../adminChatting?id=${item.member_id }">${item.chatting_content }</a></div>
 		<hr>
 	</c:forEach>
+	
 </body>
 </html>

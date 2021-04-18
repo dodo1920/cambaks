@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cambak21.service.cambakMall.ChattingService;
 
@@ -18,13 +19,16 @@ public class ChattingController {
 	@Inject
 	private ChattingService service;
 	
-	@RequestMapping("/chattingTest")
-	public String test () {
+	@RequestMapping("/userChatting")
+	public String userChatting () {
 		return "cambakMall/userChatting";
 	}
 	
-	@RequestMapping("/chattingTest2")
-	public String test2 () {
+	@RequestMapping("/adminChatting")
+	public String adminChatting (@RequestParam("id") String member_id, Model model) throws Exception {
+		
+		model.addAttribute("chatting", service.getChatting(member_id));
+		
 		return "cambakMall/adminChatting";
 	}
 	
