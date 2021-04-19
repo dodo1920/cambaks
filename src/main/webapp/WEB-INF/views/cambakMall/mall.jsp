@@ -922,6 +922,7 @@ let loginUser = '${loginMember.member_id}';
 
 
 <%@include file="mallFooter.jsp" %>
+<%@include file="mallMainRightSide.jsp" %>
 
 
 <!-- Js Plugins -->
