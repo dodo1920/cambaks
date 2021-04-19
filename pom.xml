@@ -246,7 +246,6 @@
 <!-- 			<artifactId>spring-websocket</artifactId> -->
 <!-- 			<version>${org.springframework-version}</version> -->
 <!-- 		</dependency> -->
-
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
 		<!-- 잭슨 -->
 		<dependency>

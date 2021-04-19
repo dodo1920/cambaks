@@ -18,10 +18,12 @@
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-	
+	let key = "${param.id}";
+
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
+		
 	})
 
 	function webSocketInit() {
@@ -56,16 +58,16 @@
 	}
 
 	//메시지를 보내는 메서드
-	function socketMsgSend(userKey) {
+	function socketMsgSend() {
 		// 메시지 포맷
 		let msg = "";
-		let key = userKey;
+		
 
 		$(".userKey").each(function(index, item) {
 			// input hidden에 숨겨진 value(key)값 가져오기
 			let findKey = $(item).attr("value");
 
-			if (userKey == findKey) {
+			if (key == findKey) {
 				let classKey = ".text-" + findKey;
 				msg = $(classKey).val();
 			}
@@ -79,36 +81,15 @@
 	function socketMessage(event) {
 		let fromUserData = event.data.split(":");
 
-		console.log(event);
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
 
 		// 유저 key값
 		let key = fromUserData[1];
+	
+		let toUser = ".msgOutput-" + key + ":last";
+		$(toUser).append("<div class='msgOutput-"+key+"'>"+msg+"</div>");
 
-		// 유저가 채팅방에 접속했다면 ...
-		if (msg == "conn") {
-			let output = '<div class="template">';
-			output += '<input type="text" class="text-'+key+'"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend(\''
-					+ key + '\')">';
-			output += '<div class="msgOutput-'+key+'"></div>';
-			output += '<input type="hidden" class="userKey" value="'+key+'">';
-			output += '</div>';
-
-			$(".msg-wrap").append(output);
-		} else {
-			// 메시지를 보냈다면...
-			$(".userKey").each(function(index, item) {
-				let findKey = $(item).attr("value");
-
-				if (key == findKey) {
-					let msgOutput = "." + "msgOutput-" + findKey;
-
-					//여기 누적으로 수정
-					$(msgOutput).append("<div>" + msg + "</div>");
-				}
-			})
-		}
 	}
 
 	//웹소켓 에러
@@ -131,6 +112,14 @@
 <body>
 
 	<div class="msg-wrap">
+		<div class="template">
+			<input type="text" class="text-${param.id }"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend()">
+
+			<c:forEach var="item" items="${chatting }">
+				<div class="msgOutput-${param.id }">${item.chatting_content }</div>
+			</c:forEach>
+			<input type="hidden" class="userKey" value="${param.id }">
+		</div>
 	</div>
 
 </body>

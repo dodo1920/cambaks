@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.ChattingService;
 
 
@@ -49,14 +51,13 @@ public class ChattingController {
 	  * @return
 	  */
 	@RequestMapping("/fromUser/{msg}")
-	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg) {
+	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg, @SessionAttribute("loginMember") MemberVO loginMember) {
 		ResponseEntity<String> entity = null;
 		
 		System.out.println("컨트롤러단 msg : " + msg);
 		
 		try {
-			// member_id 수정해야함
-			service.fromUser("test123", msg);
+			service.fromUser(loginMember.getMember_id(), msg);
 			new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
 			new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);

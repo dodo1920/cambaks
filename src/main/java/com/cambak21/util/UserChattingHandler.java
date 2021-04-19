@@ -14,6 +14,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Controller;
 import com.cambak21.service.cambakMall.ChattingService;
 
 @Controller
-@ServerEndpoint("/userChatting")
+@ServerEndpoint("/userChatting/{member_id}")
 public class UserChattingHandler {
 
 	// 유저들 리스트
@@ -82,15 +83,14 @@ public class UserChattingHandler {
 	  * @param session
 	  */
 	@OnOpen
-	public void handleOpen(Session session) {
+	public void handleOpen(Session session, @PathParam("member_id") String member_id) {
 		System.out.println("웹 소켓 연결");
-
 		User user = new User();
-		user.key = UUID.randomUUID().toString();
+		user.key = member_id;
 		user.session = session;
 		sessionList.add(user);
 
-		AdminChattingHandler.sendMsg(user.key, "conn");
+//		handleMsg("conn", user.session);
 	}
 
 	/**
