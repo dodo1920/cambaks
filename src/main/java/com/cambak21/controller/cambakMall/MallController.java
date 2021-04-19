@@ -135,6 +135,11 @@ public class MallController {
 	public String destinationsList() throws Exception {
 		return "/cambakMall/destinationsList";
 	}
+	
+	@RequestMapping(value = "/destinationsList/register", method = RequestMethod.GET)
+	public String destinationsresister() throws Exception {
+		return "/cambakMall/RegisterDestination";
+	}
 
 	@RequestMapping(value = "/destinationsList/ajax/{member_id}", method = RequestMethod.GET)
 	public ResponseEntity<List<DestinationVO>> destinationsListAjax(@PathVariable("member_id") String member_id)

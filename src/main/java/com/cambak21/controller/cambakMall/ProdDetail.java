@@ -87,10 +87,50 @@ public class ProdDetail {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model, HttpServletRequest request) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("상품 상세 페이지");
 		
-		System.out.println(request.getRequestedSessionId());
+		/* *******************종진 캠박몰 메인 최신 본 상품을 위한 쿠기 값 저장 추가 시작부분 *****************/ 
+		
+		String viewProd = String.valueOf(prodId);
+		boolean checkAdd = true;
+		Cookie getloginCook = WebUtils.getCookie(request, "viewProduct");
+//		getloginCook.getValue().equals(compaere
+		if(getloginCook != null) {
+			String saveCookie = getloginCook.getValue();
+			String[] array = getloginCook.getValue().split("-");
+			
+			if(array.length >= 3) {
+				saveCookie = array[1] + "-" + array[2];
+			}
+			
+			
+			for(int i=0; i<array.length; i++) {
+				
+				if(array[i].equals(viewProd)) {
+					checkAdd = false;
+				}
+			}
+			
+			if(checkAdd) {
+				saveCookie += "-" + viewProd;
+				Cookie readCook = new Cookie("viewProduct", saveCookie); 
+				readCook.setPath("/");
+				readCook.setMaxAge(60 * 60 * 24); 
+		        response.addCookie(readCook);
+			}
+			
+		
+		}else {
+			Cookie readCook = new Cookie("viewProduct", viewProd); 
+			readCook.setPath("/");
+			readCook.setMaxAge(60 * 60 * 24); 
+	        response.addCookie(readCook);
+		}
+		
+	
+		
+		/* ****************종진 캠박몰 메인 최신 본 상품을 위한 쿠기 값 저장 추가 끝 부분************** */ 
 		
 		ProductsVO prodDetail = prodService.getProdDetail(prodId);
 		System.out.println(prodDetail);

@@ -7,6 +7,7 @@ public class mallMainTopCountDTO {
 	private int product_id;
 	private String product_name;
 	private int product_sellPrice;
+	private String product_img1;
 	
 	
 	public int getCount() {
@@ -39,10 +40,17 @@ public class mallMainTopCountDTO {
 	public void setProduct_sellPrice(int product_sellPrice) {
 		this.product_sellPrice = product_sellPrice;
 	}
+	public String getProduct_img1() {
+		return product_img1;
+	}
+	public void setProduct_img1(String product_img1) {
+		this.product_img1 = product_img1;
+	}
 	@Override
 	public String toString() {
 		return "mallMainTopCountDTO [count=" + count + ", star=" + star + ", product_id=" + product_id
-				+ ", product_name=" + product_name + ", product_sellPrice=" + product_sellPrice + "]";
+				+ ", product_name=" + product_name + ", product_sellPrice=" + product_sellPrice + ", product_img1="
+				+ product_img1 + "]";
 	}
 	
 	
