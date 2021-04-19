@@ -52,5 +52,11 @@ public class CheckListDAOImpl implements CheckListDAO {
 		return ses.selectOne(namespace + ".getChkListYet", member_id);
 		
 	}
+	
+	@Override
+	public int getChkListAll(String member_id) throws Exception {
+		return ses.selectOne(namespace + ".getChkListAll", member_id);
+		
+	}
 
 }

@@ -27,10 +27,12 @@ import org.springframework.web.util.WebUtils;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
 import com.cambak21.service.cambakMain.CheckListService;
 import com.cambak21.service.cambakMall.MainService;
+import com.cambak21.service.cambakMall.prodDetailService;
 import com.cambak21.util.PagingParam;
 
 
@@ -44,6 +46,10 @@ public class MallMainController {
 	@Inject
 	private CheckListService ckservice;
 
+	@Inject
+	private prodDetailService prodService;	
+	
+	
 	private static final Logger logger = LoggerFactory.getLogger(MallController.class);
 	  
 	   /**
@@ -85,6 +91,7 @@ public class MallMainController {
 	        	
 	        	for(int i = 0; i < topSelling.size(); i++) {
         				topSelling.get(i).setStar(service.getStar(topSelling.get(i).getProduct_id()));
+        				topSelling.get(i).setProduct_img1(service.getProduct_img(topSelling.get(i).getProduct_id()));
 	        	}
 	        	
 	           	para.put("topSelling", topSelling);
@@ -140,6 +147,42 @@ public class MallMainController {
 					}
 		   			return entity;	
 		   }
+	   @RequestMapping(value = "getChkListAll", method = RequestMethod.GET)
+	   public ResponseEntity<String> getChkListAll(@RequestParam("member_id") String member_id, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) {
+		   System.out.println(member_id);
+		   ResponseEntity<String> entity = null;
+		   
+		   try {
+			   entity = new ResponseEntity<String>(Integer.toString(ckservice.getChkListAll(member_id)), HttpStatus.OK);
+		   } catch (Exception e) {
+			   // TODO Auto-generated catch block
+			   e.printStackTrace();
+		   }
+		   return entity;	
+	   }
+	   
+//	   @RequestMapping(value="/insertBucekt", method=RequestMethod.GET)
+//		public ResponseEntity<String> insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
+//			logger.info("장바구니에 상품 넣기");
+//			
+//			ResponseEntity<String> entity = null;
+//			ProductsVO vocheck = service.getBasicInfo(vo.getProduct_id());
+//			vo.setBucket_buyQty(1);
+//			
+//			vo.setBucket_sellPrice(vocheck.getProduct_sellPrice());
+//			vo.setBucket_totBuyPrice(0);
+//			System.out.println(vo.toString());
+//			
+//			if(prodService.insertBucket(vo)) {
+//				entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+//			} else {
+//				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+//			}
+			
+//			return entity;
+//		}
+//	   
+	   
 	   
 	      
 

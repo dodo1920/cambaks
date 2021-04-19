@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.dto.mallMainTotalDTO;
 import com.cambak21.persistence.cambakMall.MainDAO;
@@ -68,6 +69,20 @@ public class MainServiceImpl implements MainService {
 	public ProductsVO getBasicInfo(int id) throws Exception {
 	
 		return dao.getBasicInfo(id);
+	}
+
+
+	@Override
+	public String getProduct_img(int id) throws Exception {
+		
+		return dao.getProduct_img(id);
+	}
+
+
+	@Override
+	public InsertintoBucketDTO getProductAll(int product_id) throws Exception {
+		
+		return dao.getProductAll(product_id);
 	}
 
 }

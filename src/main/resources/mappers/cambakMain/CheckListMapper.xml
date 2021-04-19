@@ -37,5 +37,8 @@
     	<select id="getChkListYet" resultType="int">
     		select count(*) from CheckLists where member_id = #{member_id} and checkList_checked = 'N'
     	</select>
+    	<select id="getChkListAll" resultType="int">
+    		select count(*) from CheckLists where member_id = #{member_id}
+    	</select>
     	
     </mapper>

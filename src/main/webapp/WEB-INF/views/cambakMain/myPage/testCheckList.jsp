@@ -25,16 +25,11 @@ let noncheckedCnt = 0;
 
 $(function() {
 	
-// 	if(${loginMember.member_id == null}){
-// 		alert("로그인 후 이용 가능합니다.");
-// 		location.href="/user/login/yet";
+	if(${loginMember.member_id != null}){
+		$(".checkListInputBox").focus();
+		getAjaxCheckListAll();
+	}
 	
-// 	}
-	
-	$(".checkListInputBox").focus();
-	getAjaxCheckListAll();
-	
-
 });
 
 
@@ -46,8 +41,6 @@ $(function() {
 
 /* 여기서 부터 종진 */ 
 
-
-
 .checklist{
  margin-top: -30px;
   
@@ -57,7 +50,7 @@ $(function() {
     border-style: ridge;
     text-decoration: none;
     list-style: none;
-    padding: 10px;
+    padding: 8px;
     margin-top: 1px;
 }
 

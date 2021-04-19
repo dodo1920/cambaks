@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <head>
-<<<<<<< HEAD
- <meta charset="UTF-8">
+
+<meta charset="UTF-8">
  
  <script>
  
  
-	
+// *********************** 종진 수정 부분 **************************//	
  $(window).on("scroll", function(){
-	if($(window).scrollTop() > 800){
+	if($(window).scrollTop() > 500){
 		$(".top").css("display","block");
 		$("#main-sidebar").css("display","block");
 // 		$(".radios").css("display","block");
@@ -35,7 +35,7 @@
  });
  
  function getRecentlyProduct(){
-		
+		let ChangeWon = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 		let recentlyOutput = "";	
 	 $.getJSON("/mall/main/getRecentlyProduct", function(data){
 		
@@ -44,8 +44,14 @@
 	        isdata = data.length;
 	        console.log(isdata + "is data는");
 	   		$(data).each(function(index, item){
-				recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + this.product_sellPrice + '</span></li></a>';
-		});
+	   			let prevPrice = String(this.product_sellPrice);
+	   		
+	   			let changeSellPrice = prevPrice.replace(ChangeWon, ",");
+	   		
+	   			
+				recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + changeSellPrice + '</span></li></a>';
+		
+	   		});
 			recentlyOutput += '</ul>';
 			$("#RecentlySection").html(recentlyOutput);
 			$("#recentlyCntOutput").text(isdata);
@@ -92,13 +98,15 @@
 // 				} 
 // 		 }
  
-
  
+ 
+ 
+// *********************** 종진 수정 부분 **************************//	
  </script>
  
  
  <style>
- 
+ /* *********************** 종진 수정 부분 ************************** */	
  .top{
     left: 90%;
     width: 40px;
@@ -139,7 +147,7 @@
     display: block;
     font-weight: bold;
     list-style: none;
-    min-height: 335px;
+    min-height: 450px;
  }
  
  .no-item{
@@ -178,73 +186,30 @@
     display:none;
     
  }
- 
 
+ 
+/* *********************** 종진 수정 부분 ************************** */
  
  </style>
  
- 
- 
-=======
-<script>
-$(window).on("scroll", function(){
-	if($(window).scrollTop() > 1000){
-		$(".top").css("display","block")
-	}else{
-		$(".top").css("display","none")
-	} 
-});
-</script>
-<style>
-.top{
-   left: 90%;
-   width: 40px;
-   position: fixed;
-   bottom: 80px;
-   display: none;
-}
-
-#main-sidebar{
-	left: 90%;
-   width: 110px;
-   position: fixed;
-   top: 150px;
-   display: block;
-
-}
-
-.recently-viewed-products, side-cart{
-    background-color: darkolivegreen;
-}
-
- #main-sidebar strong{
-	color:white;
-	
-}
-.recently-viewed-page{
-
-}
-
-</style>
->>>>>>> 3c4ad411fb08fba013ee77f2122666164f2ee964
 </head>
 
 <!-- Footer Section Begin -->
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-7">
-                <div class="footer__about">
-                    <div class="footer__logo">
-                        <a href="#" style="font-size: 38px;color: black;font-weight: bold;">캠박몰</a>
-                    </div>
-                    <p>김도연, 장원영, 김대기, 김정민, 이영광, 서효원, 백승권, 김태훈, 박종진</p>
+<!--             <div class="col-lg-4 col-md-6 col-sm-7"> -->
+<!--                 <div class="footer__about"> -->
+<!--                     <div class="footer__logo"> -->
+<!--                         <a href="#" style="font-size: 38px;color: black;font-weight: bold;">캠박몰</a> -->
+<!--                     </div> -->
+<!--                     <p>김도연, 장원영, 김대기, 김정민, 이영광, 서효원, 백승권, 김태훈, 박종진</p> -->
               
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-3 col-sm-5">
+<!--                 </div> -->
+<!--             </div> -->
+            <div style="margin:0px -17px 0px 0px;" class="col-lg-2 col-md-3 col-sm-1">
                 <div class="footer__widget">
-                    <h6>빠른 메뉴</h6>
+                    <h6>김도연</h6>
                     <ul>
                         <li><a href="#">상품 전체 보기</a></li>
                         <li><a href="#">1:1문의</a></li>
@@ -253,9 +218,64 @@ $(window).on("scroll", function(){
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-3 col-sm-4">
+            <div style="margin:0px -17px;" class="col-lg-2 col-md-3 col-sm-2">
                 <div class="footer__widget">
-                    <h6>마이 페이지</h6>
+                    <h6>백승권</h6>
+                    <ul>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin:0px -17px;" class="col-lg-2 col-md-3 col-sm-3">
+                <div class="footer__widget">
+                    <h6>서효원</h6>
+                    <ul>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin:0px -17px;" class="col-lg-2 col-md-3 col-sm-4">
+                <div class="footer__widget">
+                    <h6>김대기</h6>
+                    <ul>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin:0px -17px;" class="col-lg-2 col-md-3 col-sm-5">
+                <div class="footer__widget">
+                    <h6>장원영</h6>
+                    <ul>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin:0px -17px;" class="col-lg-2 col-md-3 col-sm-6">
+                <div class="footer__widget">
+                    <h6>김정민</h6>
+                    <ul>
+                        <li><a href="#">게시판 관리</a></li>
+                        <li><a href="#">주문 현황</a></li>
+                        <li><a href="#">결제 내역</a></li>
+                        <li><a href="#">배송지 관리</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin:0px 0px 0px -17px;" class="col-lg-2 col-md-3 col-sm-7">
+                <div class="footer__widget">
+                    <h6>박종진</h6>
                     <ul>
                         <li><a href="#">게시판 관리</a></li>
                         <li><a href="#">주문 현황</a></li>
@@ -308,14 +328,9 @@ $(window).on("scroll", function(){
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
 		<img src="/resources/img/pageUp.png" />
 		</a>
-<<<<<<< HEAD
-		
 
-		
-		<div class="row">
-=======
         <div class="row">
->>>>>>> 3c4ad411fb08fba013ee77f2122666164f2ee964
+
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <div class="footer__copyright__text">

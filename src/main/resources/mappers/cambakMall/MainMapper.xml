@@ -6,7 +6,7 @@
 <mapper namespace="com.cambak21.mappers.mallMainMapper">
   
   <select id="getNewProduct4" resultType="com.cambak21.dto.mallMainTopCountDTO">
-  		select product_id, product_name, product_sellPrice from Products where mainCategory_id = #{no} limit 0, 4
+  		select product_id, product_name, product_sellPrice, product_img1 from Products where mainCategory_id = #{no} limit 0, 4
   </select>
   
   <select id="getTotalCount" resultType="com.cambak21.dto.mallMainTotalDTO">
@@ -14,11 +14,11 @@
   </select>
   
   <select id="getTopReview" resultType="com.cambak21.dto.mallMainTopCountDTO">
-  		select avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice from ProdReviews pr, Products p where pr.product_id = p.product_id group by pr.product_id order by star desc limit 0, 3
+  		select avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice, p.product_img1 from ProdReviews pr, Products p where pr.product_id = p.product_id group by pr.product_id order by star desc limit 0, 3
   </select>
   
   <select id="countReviews" resultType="com.cambak21.dto.mallMainTopCountDTO">
-  		select count(pr.prodReview_no) as count,  avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice from ProdReviews pr, Products p where pr.product_id = p.product_id group by pr.product_id order by count desc limit 0, 3
+  		select count(pr.prodReview_no) as count, avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice, p.product_img1 from ProdReviews pr, Products p where pr.product_id = p.product_id group by pr.product_id order by count desc limit 0, 3
   </select>
   
   <select id="getTopSelling" resultType="com.cambak21.dto.mallMainTopCountDTO">
@@ -29,6 +29,10 @@
   		select floor(avg(prodReview_grade)) as star from ProdReviews where product_id = #{no} 
   </select>
   
+  <select id="getProduct_img" resultType="String">
+  		select product_img1 from Products where product_id = #{no}
+  </select>
+  
   <select id="checkReview" resultType="int">
 		select count(*) from ProdReviews where product_id = #{no}
   </select>
@@ -36,6 +40,10 @@
   <select id="getBasicInfo" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where product_id = #{id}
   </select>
+  
+<!--   <select id="getBasicInfo" resultType="com.cambak21.dto.InsertintoBucketDTO"> -->
+<!--   		select * from Products where product_id = #{id} -->
+<!--   </select> -->
   
   
 </mapper>
