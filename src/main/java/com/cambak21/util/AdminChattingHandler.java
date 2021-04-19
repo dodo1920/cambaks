@@ -22,7 +22,6 @@ public class AdminChattingHandler {
 	  */
 	@OnOpen
 	public void handleOpen(Session adminSession) {
-		System.out.println(adminSession.toString());
 		// 운영자 계정이 1개임을 가정
 		if (admin != null) {
 			try {
@@ -52,8 +51,6 @@ public class AdminChattingHandler {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
-			UserChattingHandler.sendMsg("연결 중 입니다. 잠시만 기다려 주세요...", key);
 		}
 
 	}

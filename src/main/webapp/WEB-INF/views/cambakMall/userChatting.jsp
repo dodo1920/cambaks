@@ -19,6 +19,8 @@
 	//웹소켓 전역 변수 생성
 	let webSocket;
 	
+	let member_id = "${loginMember.member_id}";
+	
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
@@ -26,7 +28,7 @@
 
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/userChatting");
+		webSocket = new WebSocket("ws://localhost:8081/userChatting/" + member_id);
 
 		webSocket.onopen = function(event) {
 			socketOpen(event);
