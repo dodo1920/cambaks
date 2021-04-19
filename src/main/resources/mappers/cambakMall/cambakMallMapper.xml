@@ -163,7 +163,10 @@
   	<select id="prodCategoryList" resultType="com.cambak21.domain.ProductDetailListVO">
   	select prod.product_id, maincg.mainCategory_content, middlecg.middleCategory_content, prod.product_name, prod.product_sellPrice, prod.product_img1, prod.product_prodAvgScore
 	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	
+	<if test="mainCategory_id != 0 and middleCategory_id != 0">
 	and maincg.mainCategory_id = #{mainCategory_id} and middlecg.middleCategory_id = #{middleCategory_id}
+	</if>
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
@@ -178,8 +181,6 @@
 	<if test="ratingSorter == 'true'">
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
-	
-	group by product_id
 	
 	<if test="prodRankOrder == 'cmRank'">
 		order by prod.product_prodAvgScore desc, prod.product_saleQty desc
@@ -201,7 +202,10 @@
   	<select id="prodCategoryNum" resultType="int">
   	select count(*)
 	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	
+	<if test="mainCategory_id != 0 and middleCategory_id != 0">
 	and maincg.mainCategory_id = #{mainCategory_id} and middlecg.middleCategory_id = #{middleCategory_id}
+	</if>
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
@@ -237,7 +241,7 @@
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
-	and prod.product_name like concat('%',#{keyword},'%') group by product_id
+	and prod.product_name like concat('%',#{keyword},'%') group by prod.product_id
 	
 	<if test="prodRankOrder == 'cmRank'">
 		order by prod.product_prodAvgScore desc, prod.product_saleQty desc
@@ -261,17 +265,17 @@
 	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
 	
 	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 10000
+		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
-	<if test="priceRangeOrder == 'avg'">
+	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
 		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
 	</if>
 	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 100000
+		and prod.product_sellPrice <![CDATA[>=]]> 1000000
 	</if>
 	
 	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore <![CDATA[>=]]> #{prodScore}
+		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
 	and prod.product_name like concat('%',#{keyword},'%')
@@ -280,6 +284,11 @@
   	<!--   	캠박몰 상품 리스트 페이지 상품의 리뷰 개수 출력 -->
   	<select id="getProductReviewNum" resultType="com.cambak21.domain.ProductListReviewNumVO">
   		select product_id, count(*) as prouctReview_count from ProdReviews where product_id = #{product_id}
+  	</select>
+  	
+  	<!--   	캠박몰 인기 상품 6개 출력 -->
+  	<select id="popularProdList" resultType="com.cambak21.domain.ProductDetailListVO">
+  		select product_id, product_img1 from Products order by product_prodAvgScore desc, product_saleQty desc limit 0, 6
   	</select>
   	
   	<!-- 박종진 맵퍼 -->

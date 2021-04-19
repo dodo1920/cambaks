@@ -113,4 +113,10 @@ public class ProdListDAOImpl implements ProdListDAO {
 		return session.selectOne(nameSpace + "prodSearchNum", param);
 	}
 
+	@Override
+	public List<ProductDetailListVO> popularProdList() throws Exception {
+		// 캠박몰 인기 상품 6개 출력
+		return session.selectList(nameSpace + "popularProdList");
+	}
+
 }

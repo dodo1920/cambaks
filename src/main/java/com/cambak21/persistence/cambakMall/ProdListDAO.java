@@ -24,5 +24,7 @@ public interface ProdListDAO {
 	// 상품 검색 결과 리스트 총 개수 출력
 	public int prodSearchNum(ProductDetailOrderVO detail, String keyword) throws Exception;
 	
+	// 캠박몰 인기 상품 6개 출력
+	public List<ProductDetailListVO> popularProdList() throws Exception;
 	
 }

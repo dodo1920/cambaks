@@ -44,6 +44,9 @@ public class ProdListServiceImpl implements ProdListService {
 		pp.setTotalCount(dao.prodCategoryNum(detail));
 		param.put("paging", pp);
 		
+		// 인기 상품 6개 출력
+		param.put("popularList", dao.popularProdList());
+		
 		return param;
 	}
 
@@ -68,6 +71,9 @@ public class ProdListServiceImpl implements ProdListService {
 		pp.setCri(cri);
 		pp.setTotalCount(dao.prodSearchNum(detail, keyword));
 		param.put("paging", pp);
+		
+		// 인기 상품 6개 출력
+		param.put("popularList", dao.popularProdList());
 		
 		return param;
 	}

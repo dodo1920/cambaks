@@ -17,6 +17,11 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading active">
+                                        <a onclick="categoryMove(0, 0);" data-toggle="collapse" data-target="#collapse" class="allProdBtn">전체 상품</a>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
                                         <a data-toggle="collapse" data-target="#collapse1">텐트/타프</a>
                                     </div>
                                     <div id="collapse1" class="collapse" data-parent="#accordionExample">
@@ -111,8 +116,8 @@
                                     <div id="collapse8" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <ul>
-                                                <li><a onclick="categoryMove(8, 1);" style="cursor: pointer;">설거지용품</a></li>
-                                                <li><a onclick="categoryMove(8, 2);" style="cursor: pointer;">식기/일반</a></li>
+                                                <li><a onclick="categoryMove(8, 1);" style="cursor: pointer;">식기/일반</a></li>
+                                                <li><a onclick="categoryMove(8, 2);" style="cursor: pointer;">설거지용품</a></li>
                                                 <li><a onclick="categoryMove(8, 3);" style="cursor: pointer;">버너</a></li>
                                             </ul>
                                         </div>
@@ -241,62 +246,62 @@
                                     <a id="productAll" style="cursor: pointer;" onclick="prodScoreViewMove('false', 0);"><span style="color: #0073e9; font-weight: bold;">별점 전체</span></a>
                             </label>
                             <label for="pdScoreFive">
-                                    <span style="margin-right: 10px;">
+                                    <span style="margin-right: 5px;">
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     </span>
-                                    5점
+                                    5점 이상
                                 <input type="checkbox" id="pdScoreFive" onclick="prodScoreViewMove('true', 5);">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreFour">
-                                    <span style="margin-right: 10px;">
+                                    <span style="margin-right: 5px;">
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     </span>
-                                    4점
+                                    4점 이상
                                 <input type="checkbox" id="pdScoreFour" onclick="prodScoreViewMove('true', 4);">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreThree">
-                                    <span style="margin-right: 10px;">
+                                    <span style="margin-right: 5px;">
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     </span>
-                                    3점
+                                    3점 이상
                                 <input type="checkbox" id="pdScoreThree" onclick="prodScoreViewMove('true', 3);">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreTwo">
-                                    <span style="margin-right: 10px;">
+                                    <span style="margin-right: 5px;">
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     </span>
-                                    2점
+                                    2점 이상
                                 <input type="checkbox" id="pdScoreTwo" onclick="prodScoreViewMove('true', 2);">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreOne">
-                                    <span style="margin-right: 10px;">
+                                    <span style="margin-right: 5px;">
                                     <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     <i class="fa fa-star" style="margin-right: -4px;"></i>
                                     </span>
-                                    1점
+                                    1점 이상
                                 <input type="checkbox" id="pdScoreOne" onclick="prodScoreViewMove('true', 1);">
                                 <span class="checkmark"></span>
                             </label>
@@ -310,14 +315,9 @@
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }">
-                                <ul class="product__hover">
-                                    <li><a href="${item.product_img1 }" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
-                            </div>
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'"></div>
                             <div class="product__item__text">
-                                <h6><a href="#">${item.product_name }</a></h6>
+                                <h6 class="prodName"><a href="/mall/prodDetail/main?prodId=${item.product_id }">${item.product_name }</a></h6>
                                 <c:if test="${item.product_prodAvgScore != 0 }">
 	                                <c:if test="${item.product_prodAvgScore == 1 }">
 		                                <div class="rating">

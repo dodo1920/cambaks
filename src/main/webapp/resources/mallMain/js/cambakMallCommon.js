@@ -7,6 +7,7 @@ function searchSiteControll() {
 	$("body").click(function(e){
 		if(!$(e.target).hasClass("searchIconBtn") && !$(e.target).hasClass("searhcInput")){
 			$("#searchForm").css("display", "none");
+			$("#keyword").val("");
 			$("#searchIcon").attr("onclick", "viewSearchForm();");
 		}
 	})

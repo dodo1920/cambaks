@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <script>
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
@@ -64,9 +65,9 @@ function categoryOpen() {
 	let middleCategory_id = '${param.middleCategory_id}';
 	
 	if (mainCategory_id == "" && middleCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
+		$("#collapse").attr("class", "collapse show");
 	} else if (mainCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
+		$("#collapse").attr("class", "collapse show");
 	} else {
 		$("#collapse" + mainCategory_id).attr("class", "collapse show");
 	}
@@ -141,10 +142,10 @@ function pageNumMove(movePage) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -175,10 +176,10 @@ function prodScoreViewMove(sorter, score) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -213,10 +214,10 @@ function priceViewMove(priceRange, min, max) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -271,10 +272,10 @@ function prodNumViewMove(prodsNumber) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -305,10 +306,10 @@ function productViewMove(prodsRank) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -336,7 +337,11 @@ function productViewMove(prodsRank) {
 
 function categoryMove(main, middle) {
 	// 상품 카테고리 클릭하여 페이지 이동 시 파라메터 확인
-	location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	if (main == 0 && middle == 0) {
+		location.href="/mall/categories";
+	} else {
+		location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	}
 }
 
 </script>
@@ -383,25 +388,12 @@ function categoryMove(main, middle) {
     z-index: 110;
 }
 
-.searhcInput {
-	background: none;
-	border: none 0;
-	vertical-align: top;
-	font-size: 15px;
+.prodName a:hover {
+	text-decoration: underline;
 }
 
-.searchIconBtn {
-	height: 18px;
-}
-
-.modal-header, .modalTitle, .close {
-  background-color: #b3bcc5;
-  color:white !important;
-  text-align: center;
-  font-size: 25px;
-}
-.modal-footer {
-  background-color: #f9f9f9;
+.allProdBtn:after {
+	display : none;
 }
 
 </style>
@@ -409,7 +401,7 @@ function categoryMove(main, middle) {
 
 </head>
 <body>
-<%@include file="head.jsp" %>
+<%@include file="mallHeader.jsp" %>
 
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
@@ -418,6 +410,10 @@ function categoryMove(main, middle) {
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
                 <c:choose>
+                   	<c:when test="${param.mainCategory_id == null && param.middleCategory_id == null }">
+	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
+	                    <span>전체 상품</span>
+	                </c:when>
                    	<c:when test="${param.mainCategory_id != null && param.middleCategory_id != null }">
 	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
 	                    <a><span>${prodList[0].mainCategory_content }</span></a>
@@ -431,60 +427,21 @@ function categoryMove(main, middle) {
 </div>
 <!-- Breadcrumb End -->
 
-<%@include file="prodListAside.jsp" %>
+<%@include file="prodListContent.jsp" %>
 
 <!-- Instagram Begin -->
 <div class="instagram">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-1.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-2.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-3.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-4.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-5.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-6.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
+        	<c:forEach var="item" items="${popularList }">
+	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+	                    <div class="instagram__text">
+	                        <a>More View</a>
+	                    </div>
+	                </div>
+	            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
