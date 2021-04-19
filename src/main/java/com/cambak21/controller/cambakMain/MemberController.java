@@ -86,7 +86,7 @@ public class MemberController {
    
    
 
-   @RequestMapping(value="/logout", method=RequestMethod.POST)
+   @RequestMapping(value="/logout", method=RequestMethod.GET)
    public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
       MemberVO vo = (MemberVO)session.getAttribute("loginMember");
       System.out.println("로그아웃 하러 왔나");
