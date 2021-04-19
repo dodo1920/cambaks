@@ -37,6 +37,9 @@
 	let page = '${param.page}'; // 현재 페이지 값 저장
 	let cate = '${param.cate}'; // 카테고리 값 저장
 	let restProdQty = 0; // 해당 페이지의 상품 재고 수량 초기화
+	let ssid = '${ssid}';
+	
+	console.log(ssid);
 	
 	let orderList;
 	
@@ -621,9 +624,9 @@
 		let pointB = Number(sellPrice) * 0.1;
 		let pointC = Number(sellPrice) * 0;
 		
-		$("#A").html("A : " + pointA + " 원");
-		$("#B").html("B : " + pointB + " 원");
-		$("#C").html("C : " + pointC + " 원");
+		$("#A").html("<label> A : " + pointA + " 원 </label>");
+		$("#B").html("<label> B : " + pointB + " 원 </label>");
+		$("#C").html("<label> C : " + pointC + " 원 </label>");
 	}
 	
 	// 상품 문의글의 총 글 개수를 세는 함수
@@ -1047,50 +1050,89 @@
 		let prodQty = $("#prodQty").val();
 		console.log(prodQty);
 		
-		if(loginUser.length == 0) {
-			alert("로그인해주세요!");
-		} else if(prodQty == 0) { // 장바구니 넣는 수량이 0인 경우,
+		if(prodQty == 0) { // 장바구니 넣는 수량이 0인 경우,
 			alert("수량을 0 이상으로 선택해주세요!");
 		} else if(prodQty > restProdQty) { // 장바구니 넣는 수량이 재고보다 많을 경우
 			alert("재고 수량보다 많습니다. 주문 가능 수량 : " + restProdQty + " 개");
 		} else if(prodQty > 100) { // 장바구니 넣는 수량이 최대 수량(100개)보다 많을 경우
 			alert("최대 주문 수량은 100개입니다.");
+		} else if(loginUser.length == 0){
+			checkNonUserBucket(ssid, flag);
 		} else {
-			$.ajax({
-				url: '/mall/prodDetail/checkBucket',
-				headers: {	// 요청 하는 데이터의 헤더에 전송
-					"Content-Type" : "application/json"
-						},
-				data : JSON.stringify({	// 요청하는 데이터
-					pruduct_id: prodId,
-					member_id : loginUser
-					}),
-// 				dataType : 'json', // 응답 받을 형식
-				type : 'post',
-				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-				success : function(result) {
-					console.log(result);
-					if(result.length == 0) {
-						console.log(flag);
-						insertBucket(flag);
-					} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
-						$("#myModal").modal();
-						changeModalButtons("over");
-					} else { // 이미 장바구니에 있는 상품일 경우
-						$("#myModal").modal();
-						addAlreadyItem(flag, result);
-					}
-				},
-				fail : function(result) {
-					alert(result);
-				}
-			});		
+			checkBucket(loginUser, flag);
 		}
 	}
 	
+	function checkBucket(member_id, flag) {
+		
+		$.ajax({
+			url: '/mall/prodDetail/checkBucket',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				pruduct_id: prodId,
+				member_id : member_id
+				}),
+//				dataType : 'json', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				if(result.length == 0) {
+					console.log(flag);
+					insertBucket(flag);
+				} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
+					$("#myModal").modal();
+					changeModalButtons("over");
+				} else { // 이미 장바구니에 있는 상품일 경우
+					$("#myModal").modal();
+					addAlreadyItem(flag, result);
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});			
+	}
+	
+	function checkNonUserBucket(member_id, flag) {
+		
+		$.ajax({
+			url: '/mall/prodDetail/checkNonUserBucket',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				product_id: prodId,
+				nonUserBucket_ssid : member_id
+				}),
+//				dataType : 'json', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+// 				if(result.length == 0) {
+// 					console.log(flag);
+// 					insertNonUserBucket(flag);
+// 				} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
+// 					$("#myModal").modal();
+// 					goBucket("over");
+// 				} else { // 이미 장바구니에 있는 상품일 경우
+// 					$("#myModal").modal();
+// 					addAlreadyItem(flag, result);
+// 				}
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});		
+	}
+	
 	// 장바구니로 갈지, 현재 페이지에 머무를지 묻는 Modal 띄우는 함수
-	function changeModalButtons(flag) {
+	function goBucket(flag) {
 		let output ='';
 		
 		if(flag == "over") {
@@ -1108,7 +1150,7 @@
 	
 	// 이미 장바구니에 들어있는 상품이 아닐 경우, 장바구니에 상품을 추가하는 함수
 	function insertBucket(flag) {
-		let sellPrice = Number($("#sellPrice").text());
+		let sellPrice = Number('${prodDetail.product_sellPrice}');
 		let prodQty = Number($("#prodQty").val());
 		let totBuyPrice = sellPrice * prodQty;
 		
@@ -1122,7 +1164,43 @@
 				member_id : loginUser,
 				bucket_sellPrice : sellPrice,
 				bucket_buyQty : prodQty,
-				totBuyPrice : totBuyPrice
+				bucket_totBuyPrice : totBuyPrice
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				if(flag == 1) { // '주문하기' 버튼을 클릭 했을 경우, 장바구니 페이지로 이동
+					location.href="../cart";	
+				} else if(flag == 2) { // '장바구니' 버튼을 클릭 했을 경우, 알람 띄우기
+					alert("장바구니에 담기 완료!");
+				}				
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function insertNonUserBucket(flag) {
+		let sellPrice = Number('${prodDetail.product_sellPrice}');
+		let prodQty = Number($("#prodQty").val());
+		let totBuyPrice = sellPrice * prodQty;
+		console.log(sellPrice);
+		
+		$.ajax({
+			url: '/mall/prodDetail/insertNonUserBucket',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				product_id: prodId,
+				nonUserBucket_ssid : ssid,
+				nonUserBucket_sellPrice : sellPrice,
+				nonUserBucket_buyQty : prodQty,
+				nonUserBucket_totBuyPrice : totBuyPrice
 				}),
 			dataType : 'text', // 응답 받을 형식
 			type : 'post',
@@ -1165,7 +1243,7 @@
 		output += '<div class="modal-footer" >';
 		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='../cart'">장바구니로 가기</button>';
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
 		$("#bucketQty").html(obj.bucket_buyQty);
@@ -1269,6 +1347,10 @@
 		padding-top : 0px;
 	}
 	
+	p {
+		text-align : center;
+	}
+	
 	.hiddenSecretDiv {
 		display : none;
 	}
@@ -1345,7 +1427,7 @@
                         </div>
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="../../resources/mallMain/img/product/details/product-1.jpg" alt="">
+                                <img data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="">
                                 <img data-hash="product-2" class="product__big__img" src="../../resources/mallMain/img/product/details/product-3.jpg" alt="">
                                 <img data-hash="product-3" class="product__big__img" src="../../resources/mallMain/img/product/details/product-2.jpg" alt="">
                                 <img data-hash="product-4" class="product__big__img" src="../../resources/mallMain/img/product/details/product-4.jpg" alt="">
@@ -1355,7 +1437,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>${prodDetail.product_title }<span>Brand: SKMEIMore Men Watches from SKMEI</span></h3>
+                        <h3>${prodDetail.product_title }<span>${prodDetail.product_factory }</span></h3>
                         <div class="rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
@@ -1364,8 +1446,8 @@
                             <i class="fa fa-star"></i>
                             <span>( 138 reviews )</span>
                         </div>
-                        <div class="product__details__price" > <strong id="sellPrice">${prodDetail.product_sellPrice}</strong> <span>$ 83.0</span></div>
-                        <p>${prodDetail.product_detail }</p>
+                        <div class="product__details__price" > <strong id="sellPrice"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /></strong></div>
+<%--                         <p>${prodDetail.product_detail }</p> --%>
                         <div class="product__details__button">
                             <div class="quantity" >
                                 <span>Quantity:</span>
@@ -1411,7 +1493,7 @@
                                 </li>
                                 <li>
                                     <span>배송비:</span>
-                                    <p>${prodDetail.product_shipPrice}</p>
+                                    <label>${prodDetail.product_shipPrice}</label>
                                 </li>
                             </ul>
                         </div>
@@ -1421,31 +1503,22 @@
                     <div class="product__details__tab">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">상품 상세</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" onclick="showProdList(0,1,0,'latest');" id="prodReviewsCnt">상품평</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-3" role="tab">상품 문의(<span id="totprodQACnt"></span>)</a>
+                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">상품 문의(<span id="totprodQACnt"></span>)</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">배송/교환/반품 안내</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane " id="tabs-1" role="tabpanel">
+                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>상품 상세</h6>
-                                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed
-                                    quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt loret.
-                                    Neque porro lorem quisquam est, qui dolorem ipsum quia dolor si. Nemo enim ipsam
-                                    voluptatem quia voluptas sit aspernatur aut odit aut loret fugit, sed quia ipsu
-                                    consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-                                consequat massa quis enim.</p>
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium
-                                quis, sem.</p>
+                                <p><img src="${prodDetail.product_detail }" /></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>상품평</h6>
@@ -1473,7 +1546,7 @@
                                 </div>
                                 <!-- ******************************************************************************************** -->
                             </div>
-                            <div class="tab-pane active" id="tabs-3" role="tabpanel">
+                            <div class="tab-pane" id="tabs-3" role="tabpanel">
                                 <h6>상품 문의</h6>
                                 <!-- *********아래부터 상품문의 내용 넣는 곳 *************************************************************-->
 						     	
@@ -1525,7 +1598,7 @@
 								      
 								    </div>
 								  </div>
-
+							</div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">

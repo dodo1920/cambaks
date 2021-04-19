@@ -38,8 +38,7 @@
  
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">
-  		select product_id, product_name, product_sellPrice, product_detail, product_img1, product_img2, product_img3, product_img4, product_shipPrice, product_title 
-  		from Products where product_id = #{product_id}
+  		select * from Products where product_id = #{product_id}
   	</select>
   	
   	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
@@ -61,6 +60,18 @@
   		select count(*) from Buckets where member_id = #{member_id}
   	</select>
   	
+  	<select id="checkNonUserBucket" resultType="com.cambak21.domain.NonUserBucketVO">
+  		select * from NonUserBuckets where nonUserBucket_ssid = #{nonUserBucket_ssid} and product_id = #{product_id}
+  	</select>
+  	
+  	<select id="checkNonUserBucketQty" resultType="int">
+  		select count(*) from NonUserBuckets where nonUserBucket_ssid = #{member_id}
+  	</select>
+  	
+  	<insert id="insertNonUserBucket">
+  		insert into NonUserBuckets(nonUserBucket_ssid, product_id, nonUserBucket_buyQty, nonUserBucket_sellPrice, nonUserBucket_totBuyPrice)
+		value(#{nonUserBucket_ssid}, #{product_id}, #{nonUserBucket_buyQty}, #{nonUserBucket_sellPrice}, #{nonUserBucket_totBuyPrice})
+  	</insert>
   	
   	<!-- 김정민 맵퍼 -->
   	
