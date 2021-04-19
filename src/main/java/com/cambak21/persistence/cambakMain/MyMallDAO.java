@@ -2,6 +2,7 @@ package com.cambak21.persistence.cambakMain;
 
 import java.util.List;
 
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
@@ -18,6 +19,10 @@ public interface MyMallDAO {
 	public int getTotalRefund(String member_id) throws Exception;
 	
 	List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception;
+	
+	public int getTotalOrder(String member_id) throws Exception;
+	
+	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -64,6 +69,10 @@ public interface MyMallDAO {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 
 	public MemberOrderVO MemberDetailOrder(int serialNo, String userName);
+
+	
+
+
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 }

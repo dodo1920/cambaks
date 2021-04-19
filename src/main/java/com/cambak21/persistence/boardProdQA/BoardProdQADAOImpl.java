@@ -125,4 +125,14 @@ public class BoardProdQADAOImpl implements BoardProdQADAO {
 		return ses.selectOne(namespace + ".getRef", prodQA_no);
 	}
 
+	@Override
+	public int getReplyCnt(int prodQA_no) throws Exception {
+		return ses.selectOne(namespace + ".getReplyCnt", prodQA_no);
+	}
+
+	@Override
+	public int getRestProdQty(int product_id) throws Exception {
+		return ses.selectOne(namespace + ".getRestProdQty", product_id);
+	}
+
 }

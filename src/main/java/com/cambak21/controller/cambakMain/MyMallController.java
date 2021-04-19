@@ -58,6 +58,21 @@ public class MyMallController {
 		return "cambakMain/myPage/myRefund";
 	}
 	
+	@RequestMapping("/myOrder")
+	public String myOrder(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception{
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotalOrder(member.getMember_id()));
+		
+		model.addAttribute("pp", pp);
+		System.out.println(service.getTotalOrderList(member.getMember_id(), cri).toString());
+		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
+		
+		
+		
+		return "cambakMain/myPage/myOrder";
+	}
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

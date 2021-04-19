@@ -275,6 +275,22 @@ public class ProdDetail {
 	
 //	==========================================정민 오빠 class 끝!! ======================================================================
 	
+	@RequestMapping(value="/restProd", method=RequestMethod.GET)
+	public ResponseEntity<Integer> prodQAList(@RequestParam("prodId") int prodId) {
+		logger.info("재고 수량 확인");
+		
+		ResponseEntity<Integer> entity = null;
+	      
+	    try {
+	       entity = new ResponseEntity<Integer>(QAService.getRestProdQty(prodId), HttpStatus.OK);
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+	    }
+	    
+	    return entity;
+	}
+		
 	/**
 	 * @Method Name : totProdQACnt
 	 * @작성일 : 2021. 4. 6.
@@ -373,6 +389,24 @@ public class ProdDetail {
 		}
 		
 		return entity;
+	}
+	
+	@RequestMapping(value="/addReplyCnt", method=RequestMethod.POST)
+	public ResponseEntity<Integer> addReplyCnt(@RequestBody ProdQAVO vo) {
+		logger.info("replyCnt 호출");
+		
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			int totRplyCnt = QAService.getReplyCnt(vo.getProdQA_no());
+			entity = new ResponseEntity<Integer>(totRplyCnt, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+		return entity;
+		
 	}
 
 	/**

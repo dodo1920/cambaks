@@ -222,7 +222,7 @@
     	
 
     	
-        for (let i = 0; i < campings.length; i++) {
+        for (let i = 1; i < campings.length; i++) {
         	let content1 = '<div class="wrap">';
         	content1 += '<div class="info">';
         	content1 += '<div class="title">';
@@ -246,7 +246,7 @@
             // 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
-                position: positions[i + 1].latlng // 마커의 위치
+                position: positions[i].latlng // 마커의 위치
             });
 
             // 마커에 표시할 인포윈도우를 생성합니다 
@@ -259,6 +259,7 @@
             // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
             kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            kakao.maps.event.addListener(marker, 'click', makeClickListener(infowindow, campings[i].camping_contentId));
         }
         
         console.log(positions);
@@ -276,6 +277,12 @@
                 infowindow.close();
             }; 
         }
+        
+        function makeClickListener(infowindow, contentId) {
+        	return function() {
+        		location.href = '../index/detail?contentId=' + contentId;
+        	}
+        }
     }
     
     function sendKeyword() {
@@ -284,7 +291,14 @@
     	location.href="/index/result?keyword=" + keyword;
     }
     
-    function showBoard(flag) {
+    function showBoard(flag, pageNum) {
+    	console.log(flag);
+    	if(pageNum == null) {
+    		page = 1;
+    	} else {
+    		page = pageNum;
+    	}    	
+    	
     	$.ajax({
 			  method: "post",
 			  url: "/index/resultBoard/" + flag + "/" + keyword + "/" + page,
@@ -295,31 +309,60 @@
 			  dataType: "json", // 응답 받는 데이터 타입
 			  success : function(data) {
 				  console.log(data);
-				  showList(data.boards);
+				  showList(data.boards, flag);
 				  addPaging(data.pagings, flag);
 			  }			  
 			}); 
     }
     
-    function showList(data) {
+    function showList(data, index) {
     	let output = '';
     	
     	if(data.length == 0) {
     		output += '<p>데이터 없음</p>';
     	} else {
     		output += '<ul class="list-group">';
-        	
-        	$(data).each(function(index, item) {
-        		output += '<li class="list-group-item">';
-        		output += '<a href="#">' + item.board_title + '</a>';
-        		output += '<div><span>작성자: ' + item.member_id + '</span>';
-        		output += '<span> 작성일: ' + item.board_updateDate + '</span>'
-        		output += '<span> 조회수: ' + item.board_viewCnt + '</span>'
-        		output += '<span> 좋아요: ' + item.board_likeCnt + '</span>'
-        		output += '</div>';
-        		output += '<div>' + item.board_content + '</div>';
-        		output += '</li>';
-        	});
+    		
+    		if(index == 4) {
+    			$(data).each(function(index, item) {
+            		output += '<li class="list-group-item">';
+            		output += '<a href="#">' + item.resellBoard_title + '</a>';
+            		output += '<div><span>작성자: ' + item.member_id + '</span>';
+            		output += '<span> 작성일: ' + item.resellBoard_postDate + '</span>'
+            		output += '<span> 조회수: ' + item.resellBoard_viewCnt + '</span>'
+            		output += '<span> 좋아요: ' + item.resellBoard_likeCnt + '</span>'
+            		output += '</div>';
+            		output += '<div>' + item.resellBoard_content + '</div>';
+            		output += '</li>';
+            	});
+    		} else {
+    			let url = '';
+    			$(data).each(function(index, item) {
+        			if(index == 1) {
+        				url = '/board/campingreview/detail?no=' + item.board_no + '&page=1'; 
+        			} else if(index == 2) {
+        				url = '/board/humor/read?no=' + item.board_no + '&page=1';
+        			} else if(index == 3) {
+        				url = '/board/qa/detail?no=' + item.board_no + '&page=1';
+        			} else if(index == 5) {
+        				url = '/board/campingTip/view?id=Tip&no=' + item.board_no + '&page=1';
+        			} else if(index == 6) {
+        				url = '/board/notice/read?no=' + item.board_no + '&page=1';
+        			} else if(index == 7) {
+        				url = '/board/cs/detail?no=' + item.board_no + '&page=1';
+        			}
+        			
+            		output += '<li class="list-group-item">';
+            		output += '<a href="' + url + '">' + item.board_title + '</a>';
+            		output += '<div><span>작성자: ' + item.member_id + '</span>';
+            		output += '<span> 작성일: ' + item.board_updateDate + '</span>'
+            		output += '<span> 조회수: ' + item.board_viewCnt + '</span>'
+            		output += '<span> 좋아요: ' + item.board_likeCnt + '</span>'
+            		output += '</div>';
+            		output += '<div>' + item.board_content + '</div>';
+            		output += '</li>';
+            	});
+    		}        	
         	
         	output += '</ul><div id="paging"></div>';    	
     	}
@@ -339,17 +382,16 @@
     		
     		if(page > 1) {
     			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> << </a></li>';
-    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> < </a></li>';
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ',' + prev + ')"> < </a></li>';
     		}
     		
     		for(let i = 1; i < data.endPage + 1; i++) {
-    			page = i;
-    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')">' + i + '</a></li>';
+    			output += '<li><a id="pageNum" href="javascript:void(0);" onclick="showBoard(' + flag + ',' + i + ')">' + i + '</a></li>';
     		}
     		
     		if(page < data.endPage) {
-    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> > </a></li>';
-    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ')"> >> </a></li>';
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ',' + next + ')"> > </a></li>';
+    			output += '<li><a href="javascript:void(0);" onclick="showBoard(' + flag + ',' + data.endPage + ')"> >> </a></li>';
     		}
     		
     		output += '</ul>';

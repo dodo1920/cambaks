@@ -95,7 +95,6 @@
 			} else {
 				
 				alert("입력해 주신 메일로 인증번호를 전송했습니다");
-				
 				showCheckbox(where);
 				
 				$.ajax({
@@ -113,11 +112,24 @@
 					processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 					contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 					success : function(result) {
-						console.log(result);
-						$("#" + where + "_hiddenUUID").html(result);	
+						if(result == "fail") {
+							alert("저장되지 않은 이름 또는 이메일입니다. 다시 확인해 주세요");
+							$("#" + where + "_hiddenCheckbox").hide();
+						} else if(result == "sendFail") {
+							alert("이메일이 전송되지 않았습니다");
+							$("#" + where + "_hiddenCheckbox").hide();
+						} else {
+							
+							setTimer(where);
+							
+							console.log(result);
+							$("#" + where + "_hiddenUUID").html(result);
+							$("#" + where + "_checkEmail").val("재인증");
+						}
 					},
 					fail : function(result) {
 						console.log(result);
+						alert("이메일이 전송되지 않았습니다.");
 					}
 				});		
 			}
@@ -144,11 +156,42 @@
 				if(uuid == userUUID) {
 					alert("인증이 완료되었습니다");
 					$("#" + where + "_status").val("success");
+					$("#" + where + "_hiddenCheckbox").hide();
+					
 				} else {
-					alert("인증번호가 다릅니다. 이메일 인증을 다시 시도해 주세요")
+					alert("인증번호가 다릅니다. 이메일 인증을 다시 시도해 주세요");
+					$("#" + where + "_hiddenCheckbox").hide();
 				}
 			}
 					
+		}
+		
+		function setTimer(where) {
+			let limit = 300;
+			let min = 0;
+			let sec = 0;
+			
+			let timer = setInterval(function() {
+				min = parseInt(limit/ 60, 10);
+				sec = parseInt(limit % 60, 10);
+				
+				min = min < 10 ? "0" + min : min;
+				sec = sec < 10 ? "0" + sec : sec;
+				
+				$("#" + where + "_timer").html(min + "분 " + sec + "초");
+				limit --;
+				
+				if(limit < 0) {
+					setTimeout(function() {
+						alert("인증 시간이 초과되었습니다. 재인증해주세요");
+						$("#" + where + "_hiddenCheckbox").hide();
+						$("#" + where + "_timer").hide();
+					}, 0);
+					clearInterval(timer);
+				}
+				
+			}, 1000);
+			
 		}
 		
 		function checkStatus(where) {
@@ -162,6 +205,8 @@
 			
 			if(status == "success") {
 				return true;
+			} else {
+				alert("인증을 완료해주세요!");
 			}
 			
 			return false;
@@ -198,12 +243,13 @@
 						      <div id="id_hiddenCheckbox" style="display:none">
 						      	<input type="text" id="id_userUUID" class="form-control userUUID" />
 						      	<input type="button" id="id_checkUUID" value="확인" onclick="checkUuid('id');" />
+						      	<span id="id_timer"></span>
 						      	<input type="hidden" id="id_hiddenUUID" />
 						      	<input type="hidden" id="id_status" />
 						      </div>
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('id');">찾기</button>
-						    <button type="button" class="btn btn-default">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../login/yet'">취소</button>
 						  </form>
 						</div>
 					</section>
@@ -225,12 +271,13 @@
 						      <div id="pwd_hiddenCheckbox" style="display:none">
 						      	<input type="text" id="pwd_userUUID" class="form-control userUUID" />
 						      	<input type="button" id="pwd_checkUUID" value="확인" onclick="checkUuid('pwd');" />
+						      	<span id="pwd_timer"></span>
 						      	<input type="hidden" id="pwd_hiddenUUID" />
 						      	<input type="hidden" id="pwd_status" />
 						      </div>						    	
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('pwd');" >찾기</button>
-						    <button type="button" class="btn btn-default">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../user/login/yet'">취소</button>
 						  </form>
 						</div>
 					</section>

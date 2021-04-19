@@ -29,4 +29,6 @@ public interface BoardHumorService {
 	public Map<String, Object> insertLikeBoard(InsertLikeBoard dto) throws Exception;
 
 	public Integer preCheckLike(String member_id, int board_no);
+
+	public void updateViewCnt(int no) throws Exception;
 }

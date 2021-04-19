@@ -137,68 +137,83 @@ function MyReplyCategory(page, board_category) {
 			let paging = data.paging;
 			
 			$("#myPageBoardList").empty();
+			console.log(data.myReplyList.length);
 			
-			for (let i = 0; i < myReplyList.length; i++) {
+			if (data.myReplyList.length == 0) {
 				
-				let board_writeDate = myReplyList[i].board_writeDate;
-				let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
-				let categorys = myReplyList[i].board_category;
+				let output = '<tr class="myPageBoard"><td colspan="10" style="padding-top: 185px; padding-bottom: 185px; text-align: center;">';
+				output += '<p class="noReplyBar">작성한 댓글이 없습니다.</p></td></tr>';
 				
-				let output = '<tr class="myPageBoard">' + 
-				'<td>' + myReplyList[i].board_no + '</td>' + 
-				'<td>' + myReplyList[i].board_category + '</td>';
+				$("#replyPagingBtn").empty();
+				$("#myPageBoardList").append(output);
 				
-				if (categorys == "Tip") { // 캠핑팁
-					output += '<td class="contentSize"><a class="replyPageContent" href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-				} else if (categorys == "notice") { // 공지사항
-					output += '<td class="contentSize"><a class="replyPageContent" href="/board/notice/read?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
-				} else if (categorys == "camping") { // 캠핑후기
-					output += '<td class="contentSize"><a class="replyPageContent" href="/board/campingreview/detail?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
-				} else if (categorys == "humor") { // 유머
-					output += '<td class="contentSize"><a class="replyPageContent" href="/cambakMain/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-				} else if (categorys == "QA") { // Q&A
-					output += '<td class="contentSize"><a class="replyPageContent" href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
-				} else if (categorys == "Resell") { // 중고
+			} else {
+				
+				for (let i = 0; i < myReplyList.length; i++) {
 					
-				} else if (categorys == "CS") { // 고객센터
-					output += '<td class="contentSize"><a class="replyPageContent" href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					let board_writeDate = myReplyList[i].board_writeDate;
+					let replyBoard_writeDate = myReplyList[i].replyBoard_writeDate;
+					let categorys = myReplyList[i].board_category;
+					
+					let output = '<tr class="myPageBoard">' + 
+					'<td>' + myReplyList[i].board_no + '</td>' + 
+					'<td>' + myReplyList[i].board_category + '</td>';
+					
+					if (categorys == "Tip") { // 캠핑팁
+						output += '<td class="contentSize"><a class="replyPageContent" href="/board/campingTip/view.bo?id=Tip&no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "notice") { // 공지사항
+						output += '<td class="contentSize"><a class="replyPageContent" href="/board/notice/read?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "camping") { // 캠핑후기
+						output += '<td class="contentSize"><a class="replyPageContent" href="/board/campingreview/detail?no=' + myReplyList[i].board_no + '&page=1">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "humor") { // 유머
+						output += '<td class="contentSize"><a class="replyPageContent" href="/cambakMain/board/humor/read?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "QA") { // Q&A
+						output += '<td class="contentSize"><a class="replyPageContent" href="/board/qa/detail.bo?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					} else if (categorys == "Resell") { // 중고
+						
+					} else if (categorys == "CS") { // 고객센터
+						output += '<td class="contentSize"><a class="replyPageContent" href="/board/cs/detail?no=' + myReplyList[i].board_no + '">' + myReplyList[i].board_title + '</a></td>';
+					}
+					
+					output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
+					'<tr class="myPageBoard">' +
+					'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
+					'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
+					'<td class="boardLine">' + getDateParam(replyBoard_writeDate) + '</td></tr>';
+					
+					$("#myPageBoardList").append(output);
 				}
 				
-				output += '<td>' + getDateParam(board_writeDate) + '</td></tr>' + // 게시글 가져오기
-				'<tr class="myPageBoard">' +
-				'<td colspan="2" class="boardLine"><img src="/resources/cambak21/img/arrow.png" class="replyImgSize">작성한 댓글 :</td>' +
-				'<td class="boardLine">' + myReplyList[i].replyBoard_content + '</td>' +
-				'<td class="boardLine">' + getDateParam(replyBoard_writeDate) + '</td></tr>';
+				// 페이징 부분 append
 				
-				$("#myPageBoardList").append(output);
+				$("#replyPagingBtn").empty();
+				let pagingBtn = '<ul class="pagination">';
+				
+				if(paging.prev) {
+					let prevPage = (Number(page) - 1);
+					pagingBtn += '<li><a class="clickBtnHover" onclick="MyReplyCategory(' + prevPage + ",\'" + board_category +'\');">이전</a></li>';
+				}
+				
+				for (let j = paging.startPage; j <= paging.endPage; j++) {
+					pagingBtn += '<li id="paging' + j + '"><a class="clickBtnHover" onclick="MyReplyCategory(' + j + ",\'" + board_category +'\');">' + j + '</a></li>';
+				}
+				
+				if (paging.next) {
+					let nextPage = (Number(page) + 1);
+					pagingBtn += '<li><a class="clickBtnHover" onclick="MyReplyCategory(' + nextPage + ",\'" + board_category +'\');">다음</a></li>';
+				}
+				
+				pagingBtn += '</ul>';
+				$("#replyPagingBtn").append(pagingBtn);
+				getTotalCount(); // 내 총 개수 목록 새로고침
+				textLimitBoard(); // 글 제목 글자수 20개 이상은 짤라주기
+				textLimitReply(); // 댓글 내용 글자수 20개 이상은 짤라주기
+				contentTopCategory(board_category);
+				$("#paging" + page).attr("class", "active");
+				
 			}
 			
-			// 페이징 부분 append
-			
-			$("#replyPagingBtn").empty();
-			let pagingBtn = '<ul class="pagination">';
-			
-			if(paging.prev) {
-				let prevPage = (Number(page) - 1);
-				pagingBtn += '<li><a class="clickBtnHover" onclick="MyReplyCategory(' + prevPage + ",\'" + board_category +'\');">이전</a></li>';
-			}
-			
-			for (let j = paging.startPage; j <= paging.endPage; j++) {
-				pagingBtn += '<li id="paging' + j + '"><a class="clickBtnHover" onclick="MyReplyCategory(' + j + ",\'" + board_category +'\');">' + j + '</a></li>';
-			}
-			
-			if (paging.next) {
-				let nextPage = (Number(page) + 1);
-				pagingBtn += '<li><a class="clickBtnHover" onclick="MyReplyCategory(' + nextPage + ",\'" + board_category +'\');">다음</a></li>';
-			}
-			
-			pagingBtn += '</ul>';
-			$("#replyPagingBtn").append(pagingBtn);
-			getTotalCount(); // 내 총 개수 목록 새로고침
-			textLimitBoard(); // 글 제목 글자수 20개 이상은 짤라주기
-			textLimitReply(); // 댓글 내용 글자수 20개 이상은 짤라주기
-			contentTopCategory(board_category);
-			$("#paging" + page).attr("class", "active");
+
 			
 		}, error : function(data) {
 			
@@ -258,6 +273,12 @@ function getDateParam(millisecond) {
 .contentSize {
 	width: 330px;
 }
+
+.noReplyBar {
+	font-weight: bold;
+    font-size: 16px;
+}
+
 
 </style>
 </head>

@@ -40,13 +40,25 @@
       
       let boardUri = searchUriAddress();
       asideBarDraw(boardUri);
-		$('#summernote').summernote({
-			height : 400
-		});
-		checkTitle(); // submit 버튼을 누를 시 제목을 작성했는지와 길이 확인
-		onKeyboardTitle(); // 제목을 작성하는 도중 제목의 길이를 확인하여 90byte를 넘을 시 제한
-
+      
+	  $('#summernote').summernote({
+		  height : 550,
+		  minHeight : null,
+		  maxHeight : null,
+		  focus : true,
+		  callbacks : {
+		 	  onImageUpload : function(files, editor, welEditable) {
+				  for (var i = files.length - 1; i >= 0; i--) {
+					  sendFile(files[i], this);
+				  }
+			  }
+		  }
+	  });
 		
+	  checkTitle(); // submit 버튼을 누를 시 제목을 작성했는지와 길이 확인
+	  onKeyboardTitle(); // 제목을 작성하는 도중 제목의 길이를 확인하여 90byte를 넘을 시 제한
+	  $("body,html").animate({scrollTop: 325}, 1);
+	  
    });
    
    function onKeyboardTitle() {
@@ -86,7 +98,30 @@
 		 }
 	   return strByteLength(content);
    }
-   	   
+   
+	function sendFile(file, el) {
+		let path = "/resources/uploads/CampingTip";
+		
+	    var form_data = new FormData();
+	    
+	    form_data.append('file', file);
+	    
+	    $.ajax({
+	      data: form_data,
+	      type: "POST",
+	      url: '/board/campingTip/imgSave',
+	      cache: false,
+	      contentType: false,
+	      enctype: 'multipart/form-data',
+	      processData: false,
+	      success: function(url) {
+	    	  $(el).summernote('editor.insertImage', path + url);
+	      }, // 통신 성공시
+		  error : function(data) {
+		    alert("이미지 파일만 첨부가능합니다.");
+		  },
+	   });
+	}
    
 </script>
 

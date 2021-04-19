@@ -1,10 +1,7 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
-
 <head>
+<<<<<<< HEAD
  <meta charset="UTF-8">
  
  <script>
@@ -188,6 +185,48 @@
  
  
  
+=======
+<script>
+$(window).on("scroll", function(){
+	if($(window).scrollTop() > 1000){
+		$(".top").css("display","block")
+	}else{
+		$(".top").css("display","none")
+	} 
+});
+</script>
+<style>
+.top{
+   left: 90%;
+   width: 40px;
+   position: fixed;
+   bottom: 80px;
+   display: none;
+}
+
+#main-sidebar{
+	left: 90%;
+   width: 110px;
+   position: fixed;
+   top: 150px;
+   display: block;
+
+}
+
+.recently-viewed-products, side-cart{
+    background-color: darkolivegreen;
+}
+
+ #main-sidebar strong{
+	color:white;
+	
+}
+.recently-viewed-page{
+
+}
+
+</style>
+>>>>>>> 3c4ad411fb08fba013ee77f2122666164f2ee964
 </head>
 
 <!-- Footer Section Begin -->
@@ -269,10 +308,14 @@
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
 		<img src="/resources/img/pageUp.png" />
 		</a>
+<<<<<<< HEAD
 		
 
 		
 		<div class="row">
+=======
+        <div class="row">
+>>>>>>> 3c4ad411fb08fba013ee77f2122666164f2ee964
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 <div class="footer__copyright__text">

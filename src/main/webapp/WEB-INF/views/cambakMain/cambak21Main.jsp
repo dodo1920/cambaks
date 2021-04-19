@@ -117,16 +117,7 @@
     		});
     	});
     };  
-    
-    // 각 테마 버튼 선택하면, 해당 결과 페이지로 이동 함수
-    function thema(themaVal) {
-        console.log(themaVal.innerHTML);
-        let output = "http://zinsimi.cafe24.com/1_project/glory_searchresult.html?keyword=" + themaVal.innerHTML;
-        // output += theamVal;
-        console.log(output);
-        // location.href = output; // 페이지 완성 후 주석 해제
-    }
-    
+        
     function clickKeyword(obj) {
     	// 자동 검색 결과 중 하나 누를 시 검색
     	let clickKeyword = $(obj).text();
@@ -137,12 +128,10 @@
     }
     
     function resultColorIn(obj) {
-    	
     	$(obj).attr("class", "searchListBarMouseIn");
     }
     
     function resultColorOut(obj) {
-    	
     	$(obj).attr("class", "searchListBar");
     }
     
@@ -340,7 +329,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" size="50" style="font-size: 18px;" id="searchBar" placeholder="검색어를 입력해주세요." name="keyword" onchange="checkSearchBar();" onkeyup="getSearchList();" autocomplete="off">
                     <div class="input-group-btn">
-                        <button type="button" class="btn btn-danger">Search</button>
+                        <button type="submit" class="btn btn-danger">Search</button>
                     </div>
                 </div>
                 <div>
@@ -360,7 +349,7 @@
         Enjoy your trip with fresh air and wonderful landscape!
         </p><br />
         <c:forEach var="Campings" items="${CampingSites }">
-	        <figure class="effect-milo">
+	        <figure class="effect-milo" style="height: 240px;">
 	        <img src="${Campings.camping_firstImageUrl }" alt="img11" id="${Campings.camping_contentId }" style="width: 312px;"/>
 		        <figcaption>
 			        <h2>
@@ -485,7 +474,7 @@
             </div>
             <div id="menu4" class="tab-pane fade">
 				<div class="moreView">
-					<a href="/cambakMain/board/humor/listAll?page=1" class="moreViewBtn">유머 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
+					<a href="/board/humor/listAll?page=1" class="moreViewBtn">유머 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
 				</div>
 				<table class="table">
 				  <thead>
@@ -500,7 +489,7 @@
 				  	<c:forEach var="Humor" items="${Boards.Humor }">
 				    <tr class="BoardListBody">
 				      <td><fmt:formatDate value="${Humor.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
-				      <td class="boardPageLink"><a href="/cambakMain/board/humor/read?no=${Humor.board_no }" class="boardLinkSize">${Humor.board_title }</a></td>
+				      <td class="boardPageLink"><a href="/board/humor/read?no=${Humor.board_no }" class="boardLinkSize">${Humor.board_title }</a></td>
 				      <td>${Humor.board_likeCnt }</td>
 				      <td>${Humor.board_viewCnt }</td>
 				    </tr>
@@ -556,7 +545,7 @@
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/notice/listCri?page=1">공지사항</a></p>
-					<p><a href="/board/cs/list?page=1">1:1문의</a></p>
+					<p><a href="/board/cs/list?page=1">고객문의</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p>김대기</p>

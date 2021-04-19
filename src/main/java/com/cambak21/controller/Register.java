@@ -50,11 +50,6 @@ public class Register {
    @Autowired
    private JavaMailSenderImpl mailSender;
       
-   @RequestMapping(value="addrSearch", method = RequestMethod.GET)
-   public String addrSearch() {
-      return "cambakMain/user/addrSearch";
-   }
-   
    @RequestMapping(value="register", method = RequestMethod.GET)
    public String register() {
       return "cambakMain/user/registetConfirmation";
@@ -65,15 +60,19 @@ public class Register {
       return "cambakMain/user/joinAgreement";
    }
    
-   @RequestMapping(value="join", method = RequestMethod.GET)
+   @RequestMapping(value="join", method = RequestMethod.POST)
    public String join() {
       return "cambakMain/user/join";
+   }
+   
+   @RequestMapping(value="addrSearch", method = RequestMethod.GET)
+   public String addrSearch() {
+      return "cambakMain/user/addrSearch";
    }
    
    @RequestMapping(value="joinComplete", method = RequestMethod.POST)
    public String joinMember(MemberVO vo, Model model, HttpServletRequest request) throws Exception {
 	   String result;
-	   System.out.println(vo.toString());
 	   
 	   HttpSession ses = request.getSession();
 	   ses.removeAttribute("registerUUID");
@@ -129,47 +128,50 @@ public class Register {
         return entity;
    }
    
-   @RequestMapping(value="register/sendRegisterEmail", method = RequestMethod.POST)
-   public ResponseEntity<String> sendRegisterEmail(@RequestParam("userEmail") String userEmail, HttpServletRequest request) throws Exception {
-	   // 유저 recapcha 체크하기
-	   
+   @RequestMapping(value="register/checkOverlapEmail", method = RequestMethod.POST)
+   public ResponseEntity<String> checkOverlapEmail(@RequestParam("userEmail") String userEmail) throws Exception {
+	   // 유저가 작성한 이메일이 중복되는 이메일인지 체크
 	   ResponseEntity<String> entity = null;
+	   
+	   if (service.checkRegisterEmail(userEmail)) {
+		   entity = new ResponseEntity<String>("possibility", HttpStatus.OK);
+	   } else {
+		   entity = new ResponseEntity<String>("impossibility", HttpStatus.OK);
+	   }
+	   
+	   return entity;
+   }
+   
+   @RequestMapping(value="register/sendRegisterEmail", method = RequestMethod.POST)
+   public void sendRegisterEmail(@RequestParam("userEmail") String userEmail, HttpServletRequest request) throws Exception {
+	   // 유저가 작성한 이메일 주소로 메일 발송
+	   
 	   String uuid = UUID.randomUUID().toString();
 	   System.out.println(uuid);
 	   
-
-		if (service.checkRegisterEmail(userEmail)) { // 작성한 이메일 사용 가능
-			   entity = new ResponseEntity<String>("possibility", HttpStatus.OK);
-			   
-				final MimeMessagePreparator preparator = new MimeMessagePreparator() {
-					
-					@Override
-					public void prepare(MimeMessage mimeMessage) throws Exception {
-						String subject = "Cambak's 회원가입을 환영합니다"; // 메일 제목
-						String message = "<p>안녕하세요 회원님! 캠박이일 입니다.</p>"; // 메일 본문
-						message += "<p><a href='http://localhost:8081/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
-						+ " 오른쪽 버튼을 클릭하여 회원가입을 진행해주세요."
-						+ "</p><p>감사합니다:)</p>";
-						
-						final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-						helper.setFrom("goot6 <goot6610@gmail.com>");
-						helper.setTo(userEmail);
-						helper.setSubject(subject);
-						helper.setText(message, true);
-					}
-				};
+		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+			
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				String subject = "Cambak's 회원가입을 환영합니다"; // 메일 제목
+				String message = "<p>안녕하세요 회원님! 캠박이일 입니다.</p>"; // 메일 본문
+				message += "<p><a href='http://localhost:8081/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
+				+ " 오른쪽 버튼을 클릭하여 회원가입을 진행해주세요."
+				+ "</p><p>감사합니다:)</p>";
 				
-				mailSender.send(preparator); // 메일 발송
-				HttpSession ses = request.getSession();
-				ses.setAttribute("registerUUID", uuid);
-				ses.setAttribute("registerEmail", userEmail);
-				ses.setMaxInactiveInterval(60 * 5);
-				
-		   } else { // 중복되는 이메일이 있음
-			   entity = new ResponseEntity<String>("impossibility", HttpStatus.OK);
-		   }
+				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				helper.setFrom("goot6 <goot6610@gmail.com>");
+				helper.setTo(userEmail);
+				helper.setSubject(subject);
+				helper.setText(message, true);
+			}
+		};
 		
-        return entity;
+		mailSender.send(preparator); // 메일 발송
+		HttpSession ses = request.getSession();
+		ses.setAttribute("registerUUID", uuid);
+		ses.setAttribute("registerEmail", userEmail);
+		ses.setMaxInactiveInterval(60 * 5);
    }
    
    @RequestMapping(value="/deleteProfile", method=RequestMethod.POST)

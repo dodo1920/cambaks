@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cambak21.mappers.ChattingMapper">
+	<insert id="fromUser">
+		insert into Chattings (member_id, chatting_content)
+		values (#{member_id}, #{chatting_content});
+	</insert>
+	
+	<select id="getChattingList" resultType="com.cambak21.domain.ChattingListVO">
+		select * from Chattings 
+		where (member_id,chatting_date) in (select member_id, max(chatting_date) from Chattings group by member_id) 
+		and not member_id='admin' 
+		order by chatting_date desc;
+	</select>
+	
+	<select id="getChatting" resultType="com.cambak21.domain.ChattingListVO">
+		select * from Chattings where member_id=#{member_id} or member_id='admin' order by chatting_date asc;
+	</select>
+</mapper>

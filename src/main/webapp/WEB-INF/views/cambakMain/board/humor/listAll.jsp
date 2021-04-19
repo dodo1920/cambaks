@@ -121,13 +121,14 @@ p.category-title {
 					</section>
 					<div>
 						<div>
-							<table class="table table-hover">
+							<table class="table table-hover" style="width:120%;max-width:120%">
 								<thead>
 									<tr>
 
 										<th class="board-title">제목</th>
 										<th>작성자</th>
 										<th>작성일</th>
+										<th>추천수</th>
 										<th>조회수</th>
 									</tr>
 								</thead>
@@ -142,6 +143,7 @@ p.category-title {
 													<td><span><fmt:formatDate
 																pattern="yyyy-MM-dd HH:mm:ss"
 																value="${board.board_writeDate }" /></span></td>
+													<td>${board.board_likeCnt }</td>
 													<td>${board.board_viewCnt }</td>
 												</tr>
 											</c:when>
