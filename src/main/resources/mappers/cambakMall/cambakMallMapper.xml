@@ -151,21 +151,21 @@
 <!--   	캠박몰 카테고리 리스트 페이지 출력 -->
   	<select id="prodCategoryList" resultType="com.cambak21.domain.ProductDetailListVO">
   	select prod.product_id, maincg.mainCategory_content, middlecg.middleCategory_content, prod.product_name, prod.product_sellPrice, prod.product_img1, prod.product_prodAvgScore
-	from MainCategories maincg, MiddleCategories middlecg, ProductsTest prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
 	and maincg.mainCategory_id = #{mainCategory_id} and middlecg.middleCategory_id = #{middleCategory_id}
 	
 	<if test="priceRangeOrder == 'less'">
-		and 10000 >= prod.product_sellPrice
+		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
-	<if test="priceRangeOrder == 'avg'">
-		and prod.product_sellPrice >= #{minPrice} and #{maxPrice} >= prod.product_sellPrice
+	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
+		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
 	</if>
 	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice >= 100000
+		and prod.product_sellPrice <![CDATA[>=]]> 1000000
 	</if>
 	
 	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore >= #{prodScore}
+		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
 	group by product_id
@@ -189,41 +189,41 @@
   	<!--   	캠박몰 카테고리 리스트 페이지 결과 개수 출력 -->
   	<select id="prodCategoryNum" resultType="int">
   	select count(*)
-	from MainCategories maincg, MiddleCategories middlecg, ProductsTest prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
 	and maincg.mainCategory_id = #{mainCategory_id} and middlecg.middleCategory_id = #{middleCategory_id}
 	
 	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 10000
+		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
-	<if test="priceRangeOrder == 'avg'">
+	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
 		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
 	</if>
 	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 100000
+		and prod.product_sellPrice <![CDATA[>=]]> 1000000
 	</if>
 	
 	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore <![CDATA[>=]]> #{prodScore}
+		and prod.product_prodAvgScore = #{prodScore}
 	</if>
   	</select>
   	
 	<!--   	캠박몰 상품 검색 결과 리스트 페이지 출력 -->
   	<select id="prodSearchList" resultType="com.cambak21.domain.ProductDetailListVO">
   	select prod.product_id, maincg.mainCategory_content, middlecg.middleCategory_content, prod.product_name, prod.product_sellPrice, prod.product_img1, prod.product_prodAvgScore
-	from MainCategories maincg, MiddleCategories middlecg, ProductsTest prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
 	
 	<if test="priceRangeOrder == 'less'">
-		and 10000 >= prod.product_sellPrice
+		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
-	<if test="priceRangeOrder == 'avg'">
-		and prod.product_sellPrice >= #{minPrice} and #{maxPrice} >= prod.product_sellPrice
+	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
+		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
 	</if>
 	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice >= 100000
+		and prod.product_sellPrice <![CDATA[>=]]> 1000000
 	</if>
 	
 	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore >= #{prodScore}
+		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
 	and prod.product_name like concat('%',#{keyword},'%') group by product_id
@@ -247,7 +247,7 @@
   	<!--   	캠박몰 카테고리 리스트 페이지 결과 개수 출력 -->
   	<select id="prodSearchNum" resultType="int">
   	select count(*)
-	from MainCategories maincg, MiddleCategories middlecg, ProductsTest prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
+	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id 
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 10000

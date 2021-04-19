@@ -198,27 +198,27 @@
                                     <a id="priceOrderAll" style="cursor: pointer;" onclick="priceViewMove('all', 0, 0)"><span style="color: #0073e9; font-weight: bold;">가격 전체</span></a>
                             </label>
                             <label for="priceOrder1">
-                                    1만원 이하
+                                    5만원 이하
                                 <input type="checkbox" id="priceOrder1" onclick="priceViewMove('less', 0, 0)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder2">
-                                   1만원 ~ 3만원
-                                <input type="checkbox" id="priceOrder2" onclick="priceViewMove('avg', 10000, 30000)">
+                                   5만원 ~ 20만원
+                                <input type="checkbox" id="priceOrder2" onclick="priceViewMove('avg', 50000, 200000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder3">
-                                    3만원 ~ 6만원
-                                <input type="checkbox" id="priceOrder3" onclick="priceViewMove('avg', 30000, 60000)">
+                                    20만원 ~ 60만원
+                                <input type="checkbox" id="priceOrder3" onclick="priceViewMove('avg', 200000, 600000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder4">
-                                    6만원 ~ 10만원
-                                <input type="checkbox" id="priceOrder4" onclick="priceViewMove('avg', 60000, 100000)">
+                                    60만원 ~ 100만원
+                                <input type="checkbox" id="priceOrder4" onclick="priceViewMove('avg', 600000, 1000000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder5">
-                                    10만원 이상
+                                    100만원 이상
                                 <input type="checkbox" id="priceOrder5" onclick="priceViewMove('great', 0, 0)">
                                 <span class="checkmark"></span>
                             </label>
@@ -239,6 +239,18 @@
                         <div class="size__list">
                             <label for="pdScoreAll" style="padding-left: 0px;">
                                     <a id="productAll" style="cursor: pointer;" onclick="prodScoreViewMove('false', 0);"><span style="color: #0073e9; font-weight: bold;">별점 전체</span></a>
+                            </label>
+                            <label for="pdScoreFive">
+                                    <span style="margin-right: 5px;">
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    </span>
+                                    5점 이상
+                                <input type="checkbox" id="pdScoreFive" onclick="prodScoreViewMove('true', 5);">
+                                <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreFour">
                                     <span style="margin-right: 5px;">
@@ -298,9 +310,9 @@
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/shop/${item.product_img1 }">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }">
                                 <ul class="product__hover">
-                                    <li><a href="../../resources/mallMain/img/shop/${item.product_img1 }" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                    <li><a href="${item.product_img1 }" class="image-popup"><span class="arrow_expand"></span></a></li>
                                     <li><a href="#"><span class="icon_bag_alt"></span></a></li>
                                 </ul>
                             </div>
