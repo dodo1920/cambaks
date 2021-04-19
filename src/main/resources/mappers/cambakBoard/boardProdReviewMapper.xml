@@ -40,6 +40,11 @@
 		update goot6.ProdReviews set prodReview_title=#{prodReview_title}, prodReview_content=#{prodReview_content}, prodReview_grade=#{prodReview_grade} where prodReview_no=#{prodReview_no}
 	</update>
 	
+	<!--  게시글 작성, 수정 시 상품 평점 업데이트 -->
+	<update id="updateProductAvgStarScore">
+		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
+	</update>
+	
 	<!-- 게시글 삭제 -->
 	<update id="deleteProdReview">
 		update goot6.ProdReviews set prodReview_isDelete = 'Y' where prodReview_no = #{prodReview_no}
