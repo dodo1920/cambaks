@@ -27,8 +27,12 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 	@Override
 	public int insert(ProdReviewVO vo) throws Exception {
+		int result = dao.insert(vo);
 		
-		return dao.insert(vo);
+		if (result == 1) {
+			dao.updateProductAvgStarScore(vo.getProduct_id());
+		}
+		return result;
 	}
 
 	
@@ -59,10 +63,15 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 
 	// 게시판 수정
-	@Override
-	public int updateProdBoard(ProdReviewVO vo) throws Exception {
-		return dao.updateProdBoard(vo);
-	}
+		@Override
+		public int updateProdBoard(ProdReviewVO vo) throws Exception {
+			int result = dao.updateProdBoard(vo);
+			if (result == 1) {
+				dao.updateProductAvgStarScore(vo.getProduct_id());
+			}
+			
+			return result;
+		}
 
 
 	// 게시글 삭제

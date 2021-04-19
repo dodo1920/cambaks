@@ -28,6 +28,9 @@ public interface BoardProdReviewDAO {
 	// 게시글 수정
 	public int updateProdBoard(ProdReviewVO vo) throws Exception;
 
+	// 게시글 작성, 수정 시 상품 평점 업데이트
+	public int updateProductAvgStarScore(int product_id) throws Exception;
+		
 	// 게시글 삭제
 	public int deleteProdBoard(int prodReview_no) throws Exception;
 
