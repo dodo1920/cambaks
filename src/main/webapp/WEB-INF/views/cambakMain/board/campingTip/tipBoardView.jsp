@@ -1008,7 +1008,7 @@
 
 </head>
 
-<body>
+<body ondragstart="return false">
 	<%@include file="../../cambak21Header.jsp"%>
 
 	<!-- Main -->

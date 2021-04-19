@@ -1,6 +1,8 @@
 package com.cambak21.controller.cambakMall;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -22,11 +24,17 @@ import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
 import com.cambak21.domain.ProdInfoVO;
+import com.cambak21.domain.ProductDetailListVO;
+import com.cambak21.domain.ProductDetailOrderVO;
+import com.cambak21.domain.ProductDetailParamVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.service.cambakMall.MyBucketListService;
+import com.cambak21.service.cambakMall.ProdListService;
 import com.cambak21.service.cambakMall.prodOrderService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.PagingStringCriteria;
+import com.cambak21.util.ProdListPagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 @Controller
@@ -38,6 +46,10 @@ public class MallController {
 
 	@Inject
 	private MyBucketListService bucketService;
+	
+	@Inject
+	private ProdListService pListService;
+	
 	// **************************************** 김도연 컨트롤러
 	// **********************************************
 
@@ -215,6 +227,139 @@ public class MallController {
 	// **********************************************
 
 	// **************************************** 서효원 컨트롤러
+	@RequestMapping(value = "/categories", method = RequestMethod.GET)
+	public String prodList(ProductDetailParamVO vo, PagingStringCriteria scri, Model model) throws Exception {
+		System.out.println("처음에 들어온 값 : " + vo.toString());
+		
+		ProductDetailOrderVO detail = new ProductDetailOrderVO();
+		ProdListPagingCriteria cri = new ProdListPagingCriteria();
+		
+		// 카테고리 정보가 비어 있을 경우 1, 1 카테고리로 설정
+		if (vo.getMainCategory_id() == "" || vo.getMiddleCategory_id() == "" || vo.getMainCategory_id() == null || vo.getMiddleCategory_id() == null) {
+			detail.setMainCategory_id(1);
+			detail.setMiddleCategory_id(1);
+		} else {
+			detail.setMainCategory_id(Integer.parseInt(vo.getMainCategory_id()));
+			detail.setMiddleCategory_id(Integer.parseInt(vo.getMiddleCategory_id()));
+		}
+		
+		// 상품 정렬 설정
+		if (vo.getProdRankOrder() == "" || vo.getProdRankOrder() == null) {
+			detail.setProdRankOrder("cmRank");
+		} else {
+			detail.setProdRankOrder(vo.getProdRankOrder());
+		}
+		
+		// 가격별 정렬 범위 설정
+		if (vo.getPriceRangeOrder() == "" || vo.getPriceRangeOrder() == null) {
+			detail.setPriceRangeOrder("all");
+		} else {
+			detail.setPriceRangeOrder(vo.getPriceRangeOrder());
+		}
+		
+		// 가격별 정렬 가격 범위 설정
+		if (vo.getPriceRangeOrder() == "avg") {
+			detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
+			detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+		}
+		
+		// 상품평순 정렬 여부 설정
+		if (vo.getRatingSorter() == "" || vo.getRatingSorter() == null) {
+			detail.setRatingSorter("false");
+		} else {
+			detail.setRatingSorter(vo.getRatingSorter());
+		}
+		
+		// 상품평순 정렬 범위 설정
+		if (vo.getRatingSorter() == "true") {
+			detail.setProdScore(Integer.parseInt(vo.getProdScore()));
+		}
+		
+		// 페이지 번호 설정
+		if (scri.getPage() == "" || scri.getPage() == null) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(scri.getPage()));
+		}
+		
+		// 페이지 당 게시물 수 설정
+		if (scri.getPerPageNum() == "" || scri.getPerPageNum() == null) {
+			cri.setPerPageNum(12);
+		} else {
+			cri.setPerPageNum(Integer.parseInt(scri.getPerPageNum()));
+		}
+		
+		model.addAllAttributes(pListService.prodCategoryList(detail, cri));
+		
+		return "cambakMall/prodList_hyowon";
+	}
+	
+	@RequestMapping(value = "/Search", method = RequestMethod.GET)
+	public String prodSearch(ProductDetailParamVO vo, PagingStringCriteria scri, @RequestParam("keyword") String keyword, Model model) throws Exception {
+		System.out.println("처음에 들어온 값 : " + vo.toString());
+		
+		ProductDetailOrderVO detail = new ProductDetailOrderVO();
+		ProdListPagingCriteria cri = new ProdListPagingCriteria();
+		
+		// 카테고리 정보가 비어 있을 경우 1, 1 카테고리로 설정
+		if (vo.getMainCategory_id() == "" || vo.getMiddleCategory_id() == "" || vo.getMainCategory_id() == null || vo.getMiddleCategory_id() == null) {
+			detail.setMainCategory_id(1);
+			detail.setMiddleCategory_id(1);
+		} else {
+			detail.setMainCategory_id(Integer.parseInt(vo.getMainCategory_id()));
+			detail.setMiddleCategory_id(Integer.parseInt(vo.getMiddleCategory_id()));
+		}
+		
+		// 상품 정렬 설정
+		if (vo.getProdRankOrder() == "" || vo.getProdRankOrder() == null) {
+			detail.setProdRankOrder("cmRank");
+		} else {
+			detail.setProdRankOrder(vo.getProdRankOrder());
+		}
+		
+		// 가격별 정렬 범위 설정
+		if (vo.getPriceRangeOrder() == "" || vo.getPriceRangeOrder() == null) {
+			detail.setPriceRangeOrder("all");
+		} else {
+			detail.setPriceRangeOrder(vo.getPriceRangeOrder());
+		}
+		
+		// 가격별 정렬 가격 범위 설정
+		if (vo.getPriceRangeOrder() == "avg") {
+			detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
+			detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+		}
+		
+		// 상품평순 정렬 여부 설정
+		if (vo.getRatingSorter() == "" || vo.getRatingSorter() == null) {
+			detail.setRatingSorter("false");
+		} else {
+			detail.setRatingSorter(vo.getRatingSorter());
+		}
+		
+		// 상품평순 정렬 범위 설정
+		if (vo.getRatingSorter() == "true") {
+			detail.setProdScore(Integer.parseInt(vo.getProdScore()));
+		}
+		
+		// 페이지 번호 설정
+		if (scri.getPage() == "" || scri.getPage() == null) {
+			cri.setPage(1);
+		} else {
+			cri.setPage(Integer.parseInt(scri.getPage()));
+		}
+		
+		// 페이지 당 게시물 수 설정
+		if (scri.getPerPageNum() == "" || scri.getPerPageNum() == null) {
+			cri.setPerPageNum(12);
+		} else {
+			cri.setPerPageNum(Integer.parseInt(scri.getPerPageNum()));
+		}
+		
+		model.addAllAttributes(pListService.prodSearchList(detail, keyword, cri));
+		
+		return "cambakMall/prodSearch";
+	}
 	// **********************************************
 
 	// **************************************** 백승권 컨트롤러

@@ -1,89 +1,46 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="true" %>
-
 <head>
- <meta charset="UTF-8">
- 
- <script>
- 
- $(window).on("scroll", function(){
+<script>
+$(window).on("scroll", function(){
 	if($(window).scrollTop() > 1000){
-		
 		$(".top").css("display","block")
 	}else{
 		$(".top").css("display","none")
-
 	} 
-	 
-	 
- });
- 
- 
- 
- 
- 
- $(function(){
+});
+</script>
+<style>
+.top{
+   left: 90%;
+   width: 40px;
+   position: fixed;
+   bottom: 80px;
+   display: none;
+}
+
+#main-sidebar{
+	left: 90%;
+   width: 110px;
+   position: fixed;
+   top: 150px;
+   display: block;
+
+}
+
+.recently-viewed-products, side-cart{
+    background-color: darkolivegreen;
+}
+
+ #main-sidebar strong{
+	color:white;
 	
-// 	  $(html).scroll(function(){
-// 		  var scrollTop = $(this).scrollTop();
-// 	      var innerHeight = $(this).innerHeight();
-// 	      var scrollHeight = $(this).prop('scrollHeight');
-	      
-// 	      if (scrollTop + innerHeight >= scrollHeight - 100) {
-// 	    		alert("!");
-	    		
-// 	    		console.log(scrollTop);
-// 	    		console.log(innerHeight);
-// 	    		console.log(scrollHeight);
-// 	      } 
-// 	});
-	  
-	 
- });
- 
- 
- 
- </script>
- 
- 
- <style>
- 
- .top{
-    left: 90%;
-    width: 40px;
-    position: fixed;
-    bottom: 80px;
-    display: none;
- }
- 
- #main-sidebar{
- 	left: 90%;
-    width: 110px;
-    position: fixed;
-    top: 150px;
-    display: block;
- 
- }
- 
- .recently-viewed-products, side-cart{
-     background-color: darkolivegreen;
- }
- 
-  #main-sidebar strong{
-		color:white;
-		
- }
- .recently-viewed-page{
- 
- }
- 
- </style>
- 
- 
- 
+}
+.recently-viewed-page{
+
+}
+
+</style>
 </head>
 
 <!-- Footer Section Begin -->
@@ -141,12 +98,6 @@
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
 		<img src="/resources/img/pageUp.png" />
 		</a>
-		
-
-        
-        
-		
-		
         <div class="row">
             <div class="col-lg-12">
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

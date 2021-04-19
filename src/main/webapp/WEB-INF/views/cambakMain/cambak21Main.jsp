@@ -348,7 +348,7 @@
         Enjoy your trip with fresh air and wonderful landscape!
         </p><br />
         <c:forEach var="Campings" items="${CampingSites }">
-	        <figure class="effect-milo">
+	        <figure class="effect-milo" style="height: 240px;">
 	        <img src="${Campings.camping_firstImageUrl }" alt="img11" id="${Campings.camping_contentId }" style="width: 312px;"/>
 		        <figcaption>
 			        <h2>
