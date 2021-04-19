@@ -36,24 +36,24 @@ function getcheck(){
 
 	let member_id = "${loginMember.member_id}";
 
-function getChkListYet(){
+// function getChkListYet(){
 	 	
-	 	console.log(member_id);
-		$.ajax({
-			method: "get",
-			url: "/mall/main/getChkListYet",
-			dataType: "text", // 응답 받는 데이터 타입
-			data : {"member_id" : member_id
-			},
-			success : function(result){
+// 	 	console.log(member_id);
+// 		$.ajax({
+// 			method: "get",
+// 			url: "/mall/main/getChkListYet",
+// 			dataType: "text", // 응답 받는 데이터 타입
+// 			data : {"member_id" : member_id
+// 			},
+// 			success : function(result){
 					
-					$("#CheckListCnt").html("체크리스트 (" + result + ")개");
-					let size = 134 + (result * 35);
-					$("#chklistIframe").css("max-height",size + "px");
-			}
-		});
+// 					$("#CheckListCnt").html("체크리스트 (" + result + ")개");
+// 					let size = 134 + (result * 35);
+// 					$("#chklistIframe").css("max-height",size + "px");
+// 			}
+// 		});
 	
-}
+// }
 
 
 
@@ -71,7 +71,7 @@ function getChkListYet(){
 				}else{
 					 $("#chklistIframe").css("display","none");
 				
-					getChkListYet();
+// 					getChkListYet();
 					 $(".radios").css("background-color","#fff");
 					 $(".radios").css("color","#333");
 				} 
@@ -83,7 +83,7 @@ $(function(){
 		
 	 if(member_id != null){
 		 console.log("접속한 유저가 있다");
-		 getChkListYet();	 
+// 		 getChkListYet();	 
 	 }	
 	 
 });
@@ -127,7 +127,7 @@ $(function(){
 			
 			
 			<div class="radios" id="checkListCntContainer" style="cursor:pointer;" onclick="viewCheckList();">
-	  		<div id="chklistIframe"  style=" position: fixed; display:none; left:29%; top:35%; width:600px; height: -webkit-fill-available; overflow:hidden; max-height: 140px;">
+	  		<div id="chklistIframe"  style=" position: fixed; display:none; right:1%; top:35%; width:600px; height: -webkit-fill-available; overflow:hidden; max-height: 513px;">
 	  		
 <!--   			<iframe onload="getChkListYet();" id="iframeForScroll" style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe> -->
   				

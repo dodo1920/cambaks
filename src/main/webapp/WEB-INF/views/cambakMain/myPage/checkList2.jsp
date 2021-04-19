@@ -34,6 +34,7 @@
 			location.href="/user/login/yet";
 		
 		}
+		
 		$(".checkListInputBox").focus();
 		getAjaxCheckListAll();
 		
