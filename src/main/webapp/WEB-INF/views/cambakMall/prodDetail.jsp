@@ -1165,7 +1165,7 @@
 		output += '<div class="modal-footer" >';
 		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='../cart'">장바구니로 가기</button>';
+		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
 		$("#bucketQty").html(obj.bucket_buyQty);
@@ -1510,7 +1510,7 @@
 						    	</div>
 						    	
 						    	<!-- Modal -->
-								  <div class="modal fade" id="myModal" role="dialog">
+								  <div class="modal" id="myModal" role="dialog">
 								    <div class="modal-dialog">
 								    
 								      <!-- Modal content-->
