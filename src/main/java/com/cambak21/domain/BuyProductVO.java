@@ -8,7 +8,7 @@ public class BuyProductVO {
 	private int buyProduct_qty;
 	private int product_sellPrice;
 	private int buyProduct_deliveriPay;
-	private int totPrice;
+	private int buyProduct_totPrice;
 	private String buyProduct_isFinished;
 	private int product_id;
 	
@@ -54,12 +54,7 @@ public class BuyProductVO {
 	public void setBuyProduct_deliveriPay(int buyProduct_deliveriPay) {
 		this.buyProduct_deliveriPay = buyProduct_deliveriPay;
 	}
-	public int getTotPrice() {
-		return totPrice;
-	}
-	public void setTotPrice(int totPrice) {
-		this.totPrice = totPrice;
-	}
+
 	public String getBuyProduct_isFinished() {
 		return buyProduct_isFinished;
 	}
@@ -72,14 +67,22 @@ public class BuyProductVO {
 	public void setProduct_id(int product_id) {
 		this.product_id = product_id;
 	}
-	
+	public int getBuyProduct_totPrice() {
+		return buyProduct_totPrice;
+	}
+	public void setBuyProduct_totPrice(int buyProduct_totPrice) {
+		this.buyProduct_totPrice = buyProduct_totPrice;
+	}
 	@Override
 	public String toString() {
 		return "BuyProductVO [buyProduct_no=" + buyProduct_no + ", member_id=" + member_id + ", bucket_no=" + bucket_no
 				+ ", product_name=" + product_name + ", buyProduct_qty=" + buyProduct_qty + ", product_sellPrice="
-				+ product_sellPrice + ", buyProduct_deliveriPay=" + buyProduct_deliveriPay + ", totPrice=" + totPrice
-				+ ", buyProduct_isFinished=" + buyProduct_isFinished + ", product_id=" + product_id + "]";
-	}	
+				+ product_sellPrice + ", buyProduct_deliveriPay=" + buyProduct_deliveriPay + ", buyProduct_totPrice="
+				+ buyProduct_totPrice + ", buyProduct_isFinished=" + buyProduct_isFinished + ", product_id="
+				+ product_id + "]";
+	}
+	
+	
 }
 	
 	
