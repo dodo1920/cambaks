@@ -263,20 +263,27 @@ public class MallController {
 		}
 		
 		// 가격별 정렬 가격 범위 설정
-		if (vo.getPriceRangeOrder() == "avg") {
-			detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
-			detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+		if (vo.getPriceRangeOrder().equals("avg") || vo.getPriceRangeOrder().equals("avgInput")) {
+			
+			if (vo.getMaxPrice() == "" || vo.getMinPrice() == "") {
+				vo.setPriceRangeOrder("all");
+				detail.setPriceRangeOrder("all");
+			} else {
+				detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
+				detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+			}
 		}
 		
 		// 상품평순 정렬 여부 설정
 		if (vo.getRatingSorter() == "" || vo.getRatingSorter() == null) {
+			vo.setRatingSorter("false");
 			detail.setRatingSorter("false");
 		} else {
 			detail.setRatingSorter(vo.getRatingSorter());
 		}
 		
 		// 상품평순 정렬 범위 설정
-		if (vo.getRatingSorter() == "true") {
+		if (vo.getRatingSorter().equals("true")) {
 			detail.setProdScore(Integer.parseInt(vo.getProdScore()));
 		}
 		
@@ -324,26 +331,33 @@ public class MallController {
 		
 		// 가격별 정렬 범위 설정
 		if (vo.getPriceRangeOrder() == "" || vo.getPriceRangeOrder() == null) {
+			vo.setPriceRangeOrder("all");
 			detail.setPriceRangeOrder("all");
 		} else {
 			detail.setPriceRangeOrder(vo.getPriceRangeOrder());
 		}
 		
 		// 가격별 정렬 가격 범위 설정
-		if (vo.getPriceRangeOrder() == "avg") {
-			detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
-			detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+		if (vo.getPriceRangeOrder().equals("avg") || vo.getPriceRangeOrder().equals("avgInput")) {
+			
+			if (vo.getMaxPrice() == "" || vo.getMinPrice() == "") {
+				detail.setPriceRangeOrder("all");
+			} else {
+				detail.setMaxPrice(Integer.parseInt(vo.getMaxPrice()));
+				detail.setMinPrice(Integer.parseInt(vo.getMinPrice()));
+			}
 		}
 		
 		// 상품평순 정렬 여부 설정
 		if (vo.getRatingSorter() == "" || vo.getRatingSorter() == null) {
+			vo.setRatingSorter("false");
 			detail.setRatingSorter("false");
 		} else {
 			detail.setRatingSorter(vo.getRatingSorter());
 		}
 		
 		// 상품평순 정렬 범위 설정
-		if (vo.getRatingSorter() == "true") {
+		if (vo.getRatingSorter().equals("true")) {
 			detail.setProdScore(Integer.parseInt(vo.getProdScore()));
 		}
 		

@@ -46,6 +46,8 @@ let keyword = '${param.keyword}';
 $(document).ready(function() {
 	filterCheck(); // 페이지 로딩 시 파라메터 확인하여 체크박스 체크
 	pageBtnChange(); // 현재 페이지번호의 버튼 색상 변경
+	searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
+	
 });
 
 function pageBtnChange() {
@@ -93,11 +95,11 @@ function filterCheck() {
 		$("#priceOrder1").prop("checked", "true");
 	} else if (priceRangeOrder == "great") {
 		$("#priceOrder5").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "30000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "200000") {
 		$("#priceOrder2").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "60000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "600000") {
 		$("#priceOrder3").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "100000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "1000000") {
 		$("#priceOrder4").prop("checked", "true");
 	} else if (priceRangeOrder == "avgInput" && maxPrice != "" && minPrice != "") {
 		$("#maxPrice").val(parseInt(maxPrice));
@@ -107,6 +109,8 @@ function filterCheck() {
 	// 별점 체크
 	if (ratingSorter == "" || ratingSorter == "false") {
 		// 체크하지 않아도 됨
+	} else if (ratingSorter == "true" && prodScore == "5") {
+		$("#pdScoreFive").prop("checked", "true");
 	} else if (ratingSorter == "true" && prodScore == "4") {
 		$("#pdScoreFour").prop("checked", "true");
 	} else if (ratingSorter == "true" && prodScore == "3") {
@@ -356,7 +360,7 @@ function categoryMove(main, middle) {
 }
 
 .searchForm {
-    display: inline-block;
+    display: none;
     top: 48px;
     right: 0;
     border: 0;
@@ -372,92 +376,26 @@ function categoryMove(main, middle) {
 	font-size: 15px;
 }
 
+.searchIconBtn {
+	height: 18px;
+}
+
+.modal-header, .modalTitle, .close {
+  background-color: #b3bcc5;
+  color:white !important;
+  text-align: center;
+  font-size: 25px;
+}
+.modal-footer {
+  background-color: #f9f9f9;
+}
+
 </style>
 
 
 </head>
 <body>
-<!-- Header Section Begin -->
-<header class="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-3 col-lg-2">
-                <div class="header__logo">
-                    <a href="#" style="font-size: 38px; color: black; font-weight: bold;">캠박몰</a></div>
-            </div>
-            <div class="col-xl-6 col-lg-7">
-                <nav class="header__menu">
-                    <ul>
-                        <li><a href="#">텐트/타프</a>
-                          <ul class="dropdown">
-                                <li><a href="#">텐트</a></li>
-                                <li><a href="#">타프</a></li>
-                            </ul></li>
-                        <li><a href="#">침낭/매트</a>
-                           <ul class="dropdown">
-                                <li><a href="#">침낭</a>
-                                <li><a href="#">매트</a></li>
-                            </ul></li>
-                        <li><a href="#">테이블/체어/배트</a>
-                         <ul class="dropdown">
-                                <li><a href="#">경랑 테이블</a></li>
-                                <li><a href="#">체어</a></li>
-                            </ul></li>
-                        <li><a href="#">랜턴</a></li>
-                        <li><a href="#">액세서리</a>
-                           <ul class="dropdown">
-                                <li><a href="#">담요</a></li>
-                                <li><a href="#">쿨러/아이스박스</a></li>
-                            </ul></li>
-                        <li><a href="#">화로/히터</a>
-                           <ul class="dropdown">
-                                <li><a href="#">착화재</a></li>
-                                <li><a href="#">화로대</a></li>
-                            </ul></li>
-                        <li><a href="#">수납/케이스</a></li>
-                        <li><a href="#">키친/취사용품</a>
-                       <ul class="dropdown">
-                            <li><a href="#">설거지용품</a></li>
-                            <li><a href="#">식기/일반</a></li>
-                            <li><a href="#">버너</a></li>
-                        </ul></li>
-                        <li><a href="#">기타</a></li>
-         		    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3">
-                <div class="header__right">
-                	<c:if test="${loginMember == null}">
-	                    <div class="header__right__auth">
-	                        <a href="/user/login/yet">Login</a>
-	                        <a href="/user/register">Register</a>
-	                    </div>
-	                    <ul class="header__right__widget">
-	                        <li style="margin-right: 10px;"><span class="icon_search search-switch"></span></li>
-	                        <li style="margin-right: 20px;"><a href="#"><span class="icon_bag_alt"></span></a></li>
-	                    </ul>
-                    </c:if>
-                	<c:if test="${loginMember != null}">
-	                    <div class="header__right__auth">
-	                        <a href="/user/login/yet">Login</a>
-	                        <a href="/user/register">Register</a>
-	                    </div>
-	                    <ul class="header__right__widget">
-	                        <li style="margin-right: 10px;"><span class="icon_search search-switch"></span></li>
-	                        <li style="margin-right: 20px;"><a href="#"><span class="icon_bag_alt"></span>
-	                            <span class="tip">2</span>
-	                        </a></li>
-	                    </ul>
-                    </c:if>
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open">
-            <i class="fa fa-bars"></i>
-        </div>
-    </div>
-</header>
-<!-- Header Section End --> 
+<%@include file="head.jsp" %>
 
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
@@ -466,7 +404,7 @@ function categoryMove(main, middle) {
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
 	                <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
-	                <span>상품 검색</span>
+	                <span>상품 검색 결과</span>
                 </div>
             </div>
         </div>
@@ -535,18 +473,6 @@ function categoryMove(main, middle) {
 
 <%@include file="mallFooter.jsp" %>
 
-<!-- Search Begin -->
-<div class="search-model">
-    <div class="h-100 d-flex align-items-center justify-content-center">
-        <div class="search-close-switch">+</div>
-        <form class="search-model-form" method="get">
-            <input type="text" id="search-input" name="keyword" placeholder="검색어를 입력해주세요">
-        </form>
-    </div>
-</div>
-<!-- Search End -->
-
-
 <!-- Js Plugins -->
 <script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
 <script src="../../resources/mallMain/js/bootstrap.min.js"></script>
@@ -558,7 +484,7 @@ function categoryMove(main, middle) {
 <script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
-
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 </body>
 </html>
