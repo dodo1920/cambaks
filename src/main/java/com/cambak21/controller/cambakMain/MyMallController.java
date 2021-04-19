@@ -30,6 +30,7 @@ import com.cambak21.domain.RefundVO;
 import com.cambak21.service.cambakMain.MyMallService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Controller
 @RequestMapping("/myMall/*")
@@ -60,17 +61,36 @@ public class MyMallController {
 	
 	@RequestMapping("/myOrder")
 	public String myOrder(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception{
+		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(service.getTotalOrder(member.getMember_id()));
-		
-		model.addAttribute("pp", pp);
-		System.out.println(service.getTotalOrderList(member.getMember_id(), cri).toString());
-		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
-		
-		
+		System.out.println(cri.toString());
+		model.addAttribute("pagingParam", pp);
 		
 		return "cambakMain/myPage/myOrder";
+	}
+	
+	@RequestMapping(value="searchOrder", method=RequestMethod.POST)
+	public String searchOrder(@SessionAttribute("loginMember") MemberVO member, SearchCriteria scri, PagingCriteria cri, Model model) throws Exception{
+		model.addAttribute("order", service.searchOrder(scri,cri, member.getMember_id()));
+		System.out.println(service.searchOrder(scri,cri, member.getMember_id()).toString());
+		PagingParam pp = new PagingParam();
+		SearchCriteria sc = new SearchCriteria();
+		
+		pp.setCri(cri);
+		pp.setTotalCount(service.searchOrderCnt(scri, member.getMember_id()));
+		
+		model.addAttribute("pagingParam", pp);
+		model.addAttribute("search", sc);
+		
+		return "cambakMain/myPage/myOrder";
+	}
+	
+	@RequestMapping(value="myOrder/{buyProduct_no}", method = RequestMethod.GET)
+	public String orderDetail(@SessionAttribute("loginMember") MemberVO member, @PathVariable("buyProduct_no") int buyProduct_no, Model model) throws Exception{
+		
+		return "cambakMain/myPage/orderDetail";
 	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

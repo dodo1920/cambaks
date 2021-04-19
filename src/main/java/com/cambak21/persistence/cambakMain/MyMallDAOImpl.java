@@ -18,6 +18,7 @@ import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Repository
 public class MyMallDAOImpl implements MyMallDAO {
@@ -61,6 +62,25 @@ public class MyMallDAOImpl implements MyMallDAO {
 		params.put("pageStart", cri.getPageStart());
 		params.put("perPageNum", cri.getPerPageNum());
 		return ses.selectList(ns + ".getTotalOrderList", params);
+	}
+	
+	@Override
+	public List<BuyProductVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("searchWord", scri.getSearchWord());
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".searchOrder", params);
+	}
+	@Override
+	public int searchOrderCnt(SearchCriteria scri, String member_id) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchWord", scri.getSearchWord());
+		params.put("member_id", member_id);
+		return ses.selectOne(ns + ".searchOrderCnt" , params);
 	}
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -181,6 +201,13 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(nsOrder+".MemberDetailOrder",param);
 	}
 
+
+
+	
+
+
+
+	
 
 
 	

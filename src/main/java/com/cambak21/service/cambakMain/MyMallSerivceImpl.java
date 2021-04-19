@@ -16,6 +16,7 @@ import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Service
 public class MyMallSerivceImpl implements MyMallService {
@@ -44,6 +45,19 @@ public class MyMallSerivceImpl implements MyMallService {
 	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getTotalOrderList(member_id, cri);
+	}
+	
+	// 내 주문내역 검색
+	@Override
+	public List<BuyProductVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception {
+		
+		return dao.searchOrder(scri, cri, member_id);
+	}
+	
+	@Override
+	public int searchOrderCnt(SearchCriteria scri, String member_id) throws Exception {
+		
+		return dao.searchOrderCnt(scri, member_id);
 	}
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -74,6 +88,8 @@ public class MyMallSerivceImpl implements MyMallService {
 	public int getTotMyFuturePoint(String member_id) throws Exception {
 		return dao.getTotMyFuturePoint(member_id);
 	}
+	
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -140,6 +156,10 @@ public class MyMallSerivceImpl implements MyMallService {
 		// TODO Auto-generated method stub
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
+
+	
+
+	
 
 	
 

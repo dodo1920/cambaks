@@ -11,6 +11,7 @@ import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface MyMallService {
 
@@ -23,6 +24,9 @@ public interface MyMallService {
 	public int getTotalOrder(String member_id) throws Exception;	
 	
 	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception;	
+	
+	public List<BuyProductVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception;
+	public int searchOrderCnt(SearchCriteria scri, String member_id)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -64,6 +68,10 @@ public interface MyMallService {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);	
 	public MemberOrderVO MemberDetailOrder(int serialNo,String userName)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+	
 
 
 

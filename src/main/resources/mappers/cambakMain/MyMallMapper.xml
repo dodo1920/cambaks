@@ -29,8 +29,14 @@
 	<select id="getTotalOrder" resultType="int">
 		SELECT count(*) FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y';
 	</select>
-	<select id="getTotalOrderList" resultType="com.cambak21.domain.BuyProductVO">
+	<select id="getTotalOrderList" resultType="com.cambak21.domain.BuyProductVO"> 
 		SELECT * FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' order by buyProduct_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="searchOrder" resultType="com.cambak21.domain.BuyProductVO">
+		SELECT * FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' and product_name like concat('%', #{searchWord}, '%')  order by buyProduct_no desc limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="searchOrderCnt" resultType="int">
+		SELECT count(*) FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' and product_name like concat('%', #{searchWord}, '%')
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
