@@ -396,11 +396,20 @@ function categoryMove(main, middle) {
 	display : none;
 }
 
+.listNoItem {
+	text-align: center;
+	padding: 96px 0 95px;
+	line-height: 22px;
+	width: 837px;
+	font-size: 20px;
+	font-weight: 500;
+}
+
 </style>
 
 
 </head>
-<body>
+<body ondragstart="return false">
 <%@include file="mallHeader.jsp" %>
 
 <!-- Breadcrumb Begin -->

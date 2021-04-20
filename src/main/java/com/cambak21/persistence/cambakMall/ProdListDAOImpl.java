@@ -25,7 +25,7 @@ public class ProdListDAOImpl implements ProdListDAO {
 	public List<ProductDetailListVO> prodCategoryList(ProductDetailOrderVO detail, ProdListPagingCriteria cri) throws Exception {
 		// 상품 리스트 페이지 출력
 		Map<String, Object> param = new HashMap<String, Object>();
-		System.out.println(detail.toString());
+		
 		// 필터별 변수
 		param.put("mainCategory_id", detail.getMainCategory_id());
 		param.put("middleCategory_id", detail.getMiddleCategory_id());
@@ -71,7 +71,7 @@ public class ProdListDAOImpl implements ProdListDAO {
 	public List<ProductDetailListVO> prodSearchList(ProductDetailOrderVO detail, String keyword, ProdListPagingCriteria cri) throws Exception {
 		// 상품 검색 결과 리스트 페이지 출력
 		Map<String, Object> param = new HashMap<String, Object>();
-		System.out.println(detail.toString());
+		
 		// 필터별 변수
 		param.put("mainCategory_id", detail.getMainCategory_id());
 		param.put("middleCategory_id", detail.getMiddleCategory_id());

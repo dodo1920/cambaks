@@ -234,7 +234,6 @@ public class MallController {
 	// **************************************** 서효원 컨트롤러
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String prodList(ProductDetailParamVO vo, PagingStringCriteria scri, Model model) throws Exception {
-		System.out.println("처음에 들어온 값 : " + vo.toString());
 		
 		ProductDetailOrderVO detail = new ProductDetailOrderVO();
 		ProdListPagingCriteria cri = new ProdListPagingCriteria();
@@ -309,7 +308,6 @@ public class MallController {
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String prodSearch(ProductDetailParamVO vo, PagingStringCriteria scri, @RequestParam("keyword") String keyword, Model model) throws Exception {
-		System.out.println("처음에 들어온 값 : " + vo.toString());
 		
 		ProductDetailOrderVO detail = new ProductDetailOrderVO();
 		ProdListPagingCriteria cri = new ProdListPagingCriteria();

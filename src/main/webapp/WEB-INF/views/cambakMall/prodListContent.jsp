@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="true" %>
 <!-- Shop Section Begin -->
 <section class="shop spad">
@@ -307,15 +308,41 @@
                             </label>
                         </div>
                     </div>
-                    
                 </div>
             </div>
+            <jsp:useBean id="referDate" class="java.util.Date" />
+			<jsp:setProperty name="referDate" property="time" value="${referDate.time - 60*60*24*1000*7}"/>
+            <c:choose>
+            <c:when test="${fn:length(prodList) != 0}">
             <div class="col-lg-9 col-md-9">
                 <div class="row">
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'"></div>
+                        <c:choose>
+                        <c:when test="${item.product_totQty == 0 }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${item.product_totQty != 0 && item.product_popularProduct == 'Y' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            	<div class="label">HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${item.product_date > referDate }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
                             <div class="product__item__text">
                                 <h6 class="prodName"><a href="/mall/prodDetail/main?prodId=${item.product_id }">${item.product_name }</a></h6>
                                 <c:if test="${item.product_prodAvgScore != 0 }">
@@ -395,6 +422,15 @@
                     </div>
                 </div>
             </div>
+            </c:when>
+            <c:otherwise>
+            	<div class="listNoItem">
+            	<img src="../../resources/mallMain/img/default/noProductInfoIcon.png" style="height: 160px; margin-bottom: 20px;"/>
+            	<p style="margin-bottom: 0px; font-size: 16px; color: #444; font-weight: bold;">상품 준비 중입니다.</p>
+            	<p style="color: #444;">빠른 시일 내에 좋은 상품으로 찾아 뵙겠습니다.</p>
+            	</div>
+            </c:otherwise>
+        </c:choose>
         </div>
     </div>
 </section>

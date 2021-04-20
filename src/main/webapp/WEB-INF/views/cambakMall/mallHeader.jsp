@@ -53,7 +53,7 @@
                 	<c:if test="${loginMember == null}">
 	                    <form action="/mall/search" class="searchForm" id="searchForm" onkeyup="formSearchBtn();" onsubmit="return false;">
 	                    	<span id="searchArea">
-	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" />
+	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" autocomplete="off"/>
 	                    		<input type="hidden" name="page" value="1" />
 	                    	</span>
 	                    </form>
@@ -69,7 +69,7 @@
                 	<c:if test="${loginMember != null}">
 	                    <form action="/mall/search" class="searchForm" id="searchForm" onkeyup="formSearchBtn();" onsubmit="return false;">
 	                    	<span id="searchArea">
-	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" />
+	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" autocomplete="off"/>
 	                    		<input type="hidden" name="page" value="1" />
 	                    	</span>
 	                    </form>
