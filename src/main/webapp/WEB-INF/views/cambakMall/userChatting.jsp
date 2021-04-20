@@ -76,6 +76,7 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
+		
 	}
 
 	//메시지 받는 메서드
@@ -83,7 +84,9 @@
 		
 		console.log(event);
 		
-		$("#msgOutput").append("<div>메시지 : "+event.data+"</div>")
+		$(".msgOutput:last").append('<div id="msgOutput">'+event.data+'</div>')
+		
+		
 	}
 
 	//웹소켓 에러
@@ -101,8 +104,10 @@
 	<input type="text" id="msg">
 	<input type="button" id="btnSend" value="전송하기"
 		onclick="socketMsgSend()">
-
-	<div id="msgOutput"></div>
+	<div class="msgOutput"></div>
+	<c:forEach var="item" items="${chatting }">
+		<div class="msgOutput">${item.chatting_content }</div>
+	</c:forEach>
 
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.cambak21.util;
 
 import java.io.IOException;
 
+import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -88,5 +89,14 @@ public class AdminChattingHandler {
 			e.printStackTrace();
 		}
 	}
+	
+	@OnClose
+	public void handleClose(Session session) {
+		System.out.println("웹소켓 닫힘");
+		admin = null;
+	}
 
+	public static Session getSession() {
+		return admin;
+	}
 }

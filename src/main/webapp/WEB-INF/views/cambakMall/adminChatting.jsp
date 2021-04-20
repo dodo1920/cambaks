@@ -72,6 +72,19 @@
 				msg = $(classKey).val();
 			}
 		})
+		
+		// 운영자가 보내는 메시지 DB에 저장
+		$.ajax({
+			type : "post",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/fromAdmin/" + msg + "/" + key, // 서블릿 주소
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 
 		// 해당 유저에게 메시지를 보낸다.
 		webSocket.send(msg + ":" + key);

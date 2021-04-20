@@ -107,15 +107,28 @@ public class UserChattingHandler {
 		User findUser = getUser(session);
 		
 		if (findUser != null) {
-			// 운영자한테 메시지 전송
-			AdminChattingHandler.sendMsg(findUser.key, msg);
-			try {
-				// 유저 자기자신한테 메시지 전송
-				findUser.session.getBasicRemote().sendText(msg);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(AdminChattingHandler.getSession() != null) {
+				System.out.println("널이 아님!");
+				try {
+					// 운영자한테 메시지 전송
+					AdminChattingHandler.sendMsg(findUser.key, msg);
+					// 유저 자기자신한테 메시지 전송
+					findUser.session.getBasicRemote().sendText(msg);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("널임!");
+				try {
+					// 유저 자기자신한테 메시지 전송
+					findUser.session.getBasicRemote().sendText(msg);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+		
 		}
 	}
 
