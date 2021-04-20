@@ -6,11 +6,14 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
@@ -42,14 +45,14 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.getTotalOrder(member_id);
 	}
 	@Override
-	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
+	public List<BuyProductPaymentVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
 		// TODO Auto-generated method stub
 		return dao.getTotalOrderList(member_id, cri);
 	}
 	
 	// 내 주문내역 검색
 	@Override
-	public List<BuyProductVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception {
+	public List<BuyProductPaymentVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception {
 		
 		return dao.searchOrder(scri, cri, member_id);
 	}
@@ -59,6 +62,38 @@ public class MyMallSerivceImpl implements MyMallService {
 		
 		return dao.searchOrderCnt(scri, member_id);
 	}
+	
+	@Override
+	public BuyProductVO getOrder(String member_id, int buyProduct_no) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getOrder(member_id, buyProduct_no);
+	}
+	
+	@Override
+	public int getDest(String member_id, int buyProduct_no) throws Exception {
+		
+		return dao.getDest(member_id, buyProduct_no);
+	}
+	
+	@Override
+	public DestinationVO getDestOne(int destNo) throws Exception {
+		
+		return dao.getDestOne(destNo);
+	}
+	
+	@Override
+	public int getPayno(String member_id, int buyProduct_no) throws Exception {
+		
+		return dao.getPayno(member_id, buyProduct_no);
+	}
+	
+	@Override
+	public PayInfoVO getPayInfo(int payInfo_no) throws Exception {
+		
+		return dao.getPayInfo(payInfo_no);
+	}
+
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -156,6 +191,14 @@ public class MyMallSerivceImpl implements MyMallService {
 		// TODO Auto-generated method stub
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
+
+	
+
+	
+
+	
+
+	
 
 	
 

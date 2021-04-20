@@ -62,6 +62,7 @@ public class MyMallController {
 	@RequestMapping("/myOrder")
 	public String myOrder(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception{
 		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
+		
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(service.getTotalOrder(member.getMember_id()));
@@ -74,6 +75,7 @@ public class MyMallController {
 	@RequestMapping(value="searchOrder", method=RequestMethod.POST)
 	public String searchOrder(@SessionAttribute("loginMember") MemberVO member, SearchCriteria scri, PagingCriteria cri, Model model) throws Exception{
 		model.addAttribute("order", service.searchOrder(scri,cri, member.getMember_id()));
+		
 		System.out.println(service.searchOrder(scri,cri, member.getMember_id()).toString());
 		PagingParam pp = new PagingParam();
 		SearchCriteria sc = new SearchCriteria();
@@ -87,10 +89,28 @@ public class MyMallController {
 		return "cambakMain/myPage/myOrder";
 	}
 	
-	@RequestMapping(value="myOrder/{buyProduct_no}", method = RequestMethod.GET)
+	@RequestMapping(value="/detail/{buyProduct_no}", method = RequestMethod.GET)
 	public String orderDetail(@SessionAttribute("loginMember") MemberVO member, @PathVariable("buyProduct_no") int buyProduct_no, Model model) throws Exception{
 		
+		//주문 정보 가져오기 서비스단호출
+		model.addAttribute("order", service.getOrder(member.getMember_id(),buyProduct_no));
+		System.out.println(service.getOrder(member.getMember_id(),buyProduct_no).toString());
+		//주소 정보 가져오기 서비스단 호출
+		int destNo = service.getDest(member.getMember_id(),buyProduct_no);
+		model.addAttribute("dest", service.getDestOne(destNo));
+		System.out.println(service.getDestOne(destNo).toString());
+		
+		//결제 정보 가져오기
+		int payNo = service.getPayno(member.getMember_id(),buyProduct_no);
+		model.addAttribute("payInfo", service.getPayInfo(payNo));
+		System.out.println(service.getPayInfo(payNo).toString());
+		
 		return "cambakMain/myPage/orderDetail";
+	}
+	
+	@RequestMapping(value = "/refund/{payment_serialNo}", method = RequestMethod.GET)
+	public String addRefund() {
+		return "cambakMain/myPage/addRefund";
 	}
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
