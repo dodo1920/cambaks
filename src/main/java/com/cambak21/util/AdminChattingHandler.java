@@ -43,11 +43,11 @@ public class AdminChattingHandler {
 	  * @param key
 	  * @param msg
 	  */
-	public static void sendMsg(String key, String msg) {
+	public static void sendMsg(String member_id, String msg) {
 		if (admin != null) {
 			try {
 				// 유저가 보내온 메시지
-				admin.getBasicRemote().sendText(msg + ":" + key);
+				admin.getBasicRemote().sendText(msg + ":" + member_id);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -68,24 +68,19 @@ public class AdminChattingHandler {
 	@OnMessage
 	public void handleMsg(Session session, String msg) {
 		// 운영자가 메시지를 보낼 때, 유저의 key값과 msg를 보낸다
-		String[] split = msg.split(":", 2);
+		String[] split = msg.split(":");
 		// 메시지
 		String message = split[0];
 		// key
-		String key = split[1];
-		
-		System.out.println("어드민, 메시지 : " + message);
-		System.out.println("어드민, key : " + key);
-
-		// key와 msg를 보내면 UserChattingHandler에서 key값에 맞는 유저한테 메시지를 전송
-		// 일대일 채팅
-		UserChattingHandler.sendMsg(message, key);
+		String member_id = split[1];
 
 		try {
+			// key와 msg를 보내면 UserChattingHandler에서 member_id값에 맞는 유저한테 메시지를 전송
+			// 일대일 채팅
+			UserChattingHandler.sendMsg(message, member_id);
 			// 운영자 자기자신한테도 msg 내용 보내기
-			admin.getBasicRemote().sendText(msg + ":" + key);
+			admin.getBasicRemote().sendText(msg + ":" + member_id);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -93,9 +88,19 @@ public class AdminChattingHandler {
 	@OnClose
 	public void handleClose(Session session) {
 		System.out.println("웹소켓 닫힘");
+		// 운영자가 접속을 끊는다면 null로 바꿈;
 		admin = null;
 	}
 
+	
+	/**
+	  * @Method Name : getSession
+	  * @작성일 : 2021. 4. 20.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 운영자 세션 getter, 유저쪽에서 사용하기 위한 getter
+	  * @return
+	  */
 	public static Session getSession() {
 		return admin;
 	}

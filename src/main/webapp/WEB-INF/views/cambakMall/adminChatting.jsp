@@ -18,7 +18,7 @@
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-	let key = "${param.id}";
+	let member_id = "${param.id}";
 
 	$(document).ready(function() {
 		// 웹 소켓 초기화
@@ -60,24 +60,13 @@
 	//메시지를 보내는 메서드
 	function socketMsgSend() {
 		// 메시지 포맷
-		let msg = "";
-		
-
-		$(".userKey").each(function(index, item) {
-			// input hidden에 숨겨진 value(key)값 가져오기
-			let findKey = $(item).attr("value");
-
-			if (key == findKey) {
-				let classKey = ".text-" + findKey;
-				msg = $(classKey).val();
-			}
-		})
+		let msg = $(".chatting-content").val();
 		
 		// 운영자가 보내는 메시지 DB에 저장
 		$.ajax({
 			type : "post",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/fromAdmin/" + msg + "/" + key, // 서블릿 주소
+			url : "/fromAdmin/" + msg + "/" + member_id, // 서블릿 주소
 			success : function(data) {
 			}, // 통신 성공시
 			error : function(data) {
@@ -87,7 +76,7 @@
 		});
 
 		// 해당 유저에게 메시지를 보낸다.
-		webSocket.send(msg + ":" + key);
+		webSocket.send(msg + ":" + member_id);
 	}
 
 	//메시지 받는 메서드
@@ -97,11 +86,7 @@
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
 
-		// 유저 key값
-		let key = fromUserData[1];
-	
-		let toUser = ".msgOutput-" + key + ":last";
-		$(toUser).append("<div class='msgOutput-"+key+"'>"+msg+"</div>");
+		$(".msgOutput:last").append("<div class='msgOutput'>"+msg+"</div>");
 
 	}
 
@@ -126,12 +111,11 @@
 
 	<div class="msg-wrap">
 		<div class="template">
-			<input type="text" class="text-${param.id }"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend()">
-
+			<input type="text" class="chatting-content"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend()">
+			
 			<c:forEach var="item" items="${chatting }">
-				<div class="msgOutput-${param.id }">${item.chatting_content }</div>
+				<div class="msgOutput">${item.chatting_content }</div>
 			</c:forEach>
-			<input type="hidden" class="userKey" value="${param.id }">
 		</div>
 	</div>
 
