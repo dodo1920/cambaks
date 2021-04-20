@@ -123,6 +123,7 @@
 		let msg = data[0]; // 메시지 내용
 		let who = data[1]; // user Or admin
 		
+		console.log(msg);
 		let output = "";
 		if(who == "user") { //css를 다르게 하기위한 ...
 			output += '<div class="msgOutput user-msg-wrap">';
@@ -207,7 +208,6 @@ span.msg-date {
 }
 /* input창 */
 input.textInput {
-    border-radius: 5px;
     border: 1px solid gray;
 }
 </style>
@@ -215,6 +215,7 @@ input.textInput {
 
 <body>
 	<%@include file="mallHeader.jsp"%>
+	
 	<div class="chatting-wrap">
 		<div class="chatting-container">
 			<div class="chatting-content">
@@ -229,8 +230,8 @@ input.textInput {
 			</c:forEach>
 			</div>
 			<div class="msgText-wrap">
-   				<input class="textInput" type="text" style="width:85%" placeholder="메시지를 입력해 주세요">
-   				<button type="button" id="btnSend" class="btn btn-primary" onclick="socketMsgSend()">전송하기</button>
+   				<input class="textInput" id="msg" type="text" style="width:85%" placeholder="메시지를 입력해 주세요">
+   				<button type="button" id="btnSend" class="btn btn-primary" onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
 			</div>
 		</div>
 	</div>
