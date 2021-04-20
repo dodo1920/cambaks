@@ -233,7 +233,7 @@
                                 <span>~</span>
                                 <span><input type="text" maxlength="10" class="writePriceInput" id="maxPrice"></span>
                                 <span style="font-size: 13px;">원</span>
-                                <span><button type="button" class="btn btn-info btn-xs" style="font-size: 14px;" onclick="priceViewMove('avgInput', 0, 0)">검색</button></span>
+                                <span><button type="button" class="btn btn-info btn-xs" id="priceRangeBtn" onclick="priceViewMove('avgInput', 0, 0)">검색</button></span>
                             </div>
                         </div>
                     </div>

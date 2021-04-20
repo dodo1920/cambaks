@@ -169,5 +169,7 @@ public interface MemberDAO {
 	 */
 	public int memberDel(LoginDTO dto) throws Exception;
 	
-	
+//	서효원 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public int loginRequestCheck(LoginDTO dto) throws Exception;
+//	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 }

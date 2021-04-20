@@ -381,6 +381,13 @@ function categoryMove(main, middle) {
 	font-weight: 500;
 }
 
+#priceRangeBtn {
+	font-size: 14px;
+    background-color: #f2f2f2;
+    color: #333;
+    border-color: #f2f2f2;
+}
+
 </style>
 
 

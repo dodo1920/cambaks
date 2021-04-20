@@ -106,7 +106,7 @@
               <input type="text" class="form-control" id="member_id" placeholder="아이디" style="font-size: 14px;">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="member_password" placeholder="비밀번호" style="font-size: 14px;">
+              <input type="password" class="form-control" id="member_password" placeholder="비밀번호" style="font-size: 14px;">
             </div>
             <div class="checkbox" style="margin-bottom: 5px; font-size: 13px;">
               <label><input type="checkbox" value=""><span style="margin-left: 10px;">자동로그인</span></label>

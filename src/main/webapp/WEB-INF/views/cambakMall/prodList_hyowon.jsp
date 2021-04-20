@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -405,6 +406,13 @@ function categoryMove(main, middle) {
 	font-weight: 500;
 }
 
+#priceRangeBtn {
+	font-size: 14px;
+    background-color: #f2f2f2;
+    color: #333;
+    border-color: #f2f2f2;
+}
+
 </style>
 
 
@@ -418,13 +426,15 @@ function categoryMove(main, middle) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
+                	<a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
                 <c:choose>
+	                <c:when test="${fn:length(prodList) == 0}">
+	                    <span>상품 준비 중</span>
+	                </c:when>
                    	<c:when test="${param.mainCategory_id == null && param.middleCategory_id == null }">
-	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
 	                    <span>전체 상품</span>
 	                </c:when>
                    	<c:when test="${param.mainCategory_id != null && param.middleCategory_id != null }">
-	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
 	                    <a><span>${prodList[0].mainCategory_content }</span></a>
 	                    <span>${prodList[0].middleCategory_content }</span>
 	                </c:when>
