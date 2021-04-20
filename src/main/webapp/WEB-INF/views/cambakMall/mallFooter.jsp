@@ -6,8 +6,8 @@
  
  <script>
  
- 
 // *********************** 종진 수정 부분 **************************//	
+if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권 : 채팅창에서 띄우기 위해 코드 추가했습니다 !
  $(window).on("scroll", function(){
 	if($(window).scrollTop() > 500){
 		$(".top").css("display","block");
@@ -20,8 +20,7 @@
 	} 
 	  
  });
- 
- 
+}
  
  $(function(){
 	
@@ -60,6 +59,20 @@
 	
  
  }
+ 
+ 
+ // ///////////////////////////////////////// 승권 채팅 ///////////////////////
+ function goChatting() {
+	if("${loginMember}" == "") {
+		$("#modalText").text("로그인 후에 이용해 주세요");
+		$("#myModal").modal();
+	} else {
+		location.href="../../userChatting";
+	}
+}
+ 
+ // //////////////////////////////////////////////////////////////////////////
+ 
 		
 	
 //  function getChkListYet(){
@@ -108,7 +121,7 @@
  <style>
  /* *********************** 종진 수정 부분 ************************** */	
  .top{
-    left: 90%;
+    left: 88.5%;
     width: 40px;
     position: fixed;
     bottom: 80px;
@@ -328,6 +341,11 @@
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
 		<img src="/resources/img/pageUp.png" />
 		</a>
+		<!-- --------------------------승권 채팅 버튼------------------------ -->
+		<a class="top" title="채팅 하러 가기" style="margin-left: 50px" onclick="goChatting()" id="btnGoChatting">
+		<img src="/resources/img/chatting.png" />
+		</a>
+		<!-- ----------------------------------------------------------- -->
 
         <div class="row">
 
@@ -341,5 +359,23 @@
         </div>
         
     </div>
+    
+    <!-- modal 승권 -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="modalText"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='/user/login/yet'">로그인 하러 가기</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 </footer>
 <!-- Footer Section End -->

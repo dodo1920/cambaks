@@ -4,7 +4,7 @@ import java.io.IOException;
 
 
 import java.util.ArrayList;
-
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -111,15 +111,14 @@ public class UserChattingHandler {
 					// 운영자한테 메시지 전송
 					AdminChattingHandler.sendMsg(findUser.member_id, msg);
 					// 유저 자기자신한테 메시지 전송
-					findUser.session.getBasicRemote().sendText(msg);
+					findUser.session.getBasicRemote().sendText(msg + "-user");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else {
-				// 운영자 소켓서버가 없다면 ...
+			} else { // 운영자 소켓서버가 없다면 ...
 				try {
 					// 유저 자기자신한테 메시지 전송
-					findUser.session.getBasicRemote().sendText(msg);
+					findUser.session.getBasicRemote().sendText(msg + "-user");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -143,7 +142,7 @@ public class UserChattingHandler {
 		if (findUser != null) {
 			try {
 				// 운영자가 보낸 메시지
-				findUser.session.getBasicRemote().sendText(msg);
+				findUser.session.getBasicRemote().sendText(msg + "-admin");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

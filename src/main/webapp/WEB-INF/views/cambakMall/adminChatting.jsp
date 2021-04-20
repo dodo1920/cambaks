@@ -9,9 +9,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<!-- 웹소켓 CDN -->
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <!-- 제이쿼리 -->
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
