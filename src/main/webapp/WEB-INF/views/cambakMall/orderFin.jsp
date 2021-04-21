@@ -110,7 +110,7 @@
     	</tr>
     	<tr>
     			<td>금액</td>
-    			<td>얼마얼마 얼마</td>
+    			<td id="totBuyPrice">얼마얼마 얼마</td>
     		</tr>
     		
     	</tbody>

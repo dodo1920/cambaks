@@ -23,6 +23,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,8 +71,6 @@ public class MemberController {
                }
       model.addAttribute("loginMember", vo);
       
-      System.out.println();
-      
       if(dto.isMember_cookie()) { // 자동 로그인을 눌렀을 경우
          System.out.println("***** 자동 로그인 체크 ***** ");
          int amount = 60 * 60 * 24 * 7; // 일주일의 milliSecond
@@ -83,6 +82,7 @@ public class MemberController {
       }
       return "/cambakMain/user/login";
    }
+   
    
    
 
