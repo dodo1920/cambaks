@@ -316,8 +316,6 @@
                     
                 </div>
             </div>
-            <jsp:useBean id="referDate" class="java.util.Date" />
-			<jsp:setProperty name="referDate" property="time" value="${referDate.time - 60*60*24*1000*7}"/>
             <c:choose>
             <c:when test="${fn:length(prodList) != 0}">
             <div class="col-lg-9 col-md-9">
@@ -325,19 +323,19 @@
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
                         <c:choose>
-                        <c:when test="${item.product_totQty == 0 }">
+                        <c:when test="${item.product_info == 'soldOut' }">
                         	<div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             	<div class="label stockout stockblue">일시품절</div>
                             </div>
                         </c:when>
-                        <c:when test="${item.product_totQty != 0 && item.product_popularProduct == 'Y' }">
+                        <c:when test="${item.product_info == 'popular' }">
                         	<div class="product__item sale">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             	<div class="label">HOT</div>
                             </div>
                         </c:when>
-                        <c:when test="${item.product_date > referDate }">
+                        <c:when test="${item.product_info == 'new' }">
                         	<div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             <div class="label new">New</div>

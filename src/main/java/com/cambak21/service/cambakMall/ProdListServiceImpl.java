@@ -1,5 +1,7 @@
 package com.cambak21.service.cambakMall;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -26,12 +28,26 @@ public class ProdListServiceImpl implements ProdListService {
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		List<ProductDetailListVO> vo = dao.prodCategoryList(detail, cri);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, - 31);
+		Date weekAgo = cal.getTime();
+		
+		for (int i = 0; i < vo.size(); i++) {
+			vo.get(i).setProduct_reviewNum(dao.getProductReviewNum(vo.get(i).getProduct_id())); // 해당 상품의 리뷰 개수 넣기
+			
+			if (vo.get(i).getProduct_totQty() == 0) {
+				vo.get(i).setProduct_info("soldOut");
+			} else if (vo.get(i).getProduct_popularProduct().equals("Y")) {
+				vo.get(i).setProduct_info("popular");
+			} else if (weekAgo.getTime() <= vo.get(i).getProduct_date().getTime()) {
+				vo.get(i).setProduct_info("new");
+			}
+			
+		}
+		
 		param.put("prodList", vo);
 		
-		// 해당 상품의 리뷰 개수 넣기
-		for (int i = 0; i < vo.size(); i++) {
-			vo.get(i).setProduct_reviewNum(dao.getProductReviewNum(vo.get(i).getProduct_id()));
-		}
 		
 		ProdListPagingParam pp = new ProdListPagingParam();
 		pp.setCri(cri);
@@ -50,18 +66,31 @@ public class ProdListServiceImpl implements ProdListService {
 		Map<String, Object> param = new HashMap<String, Object>();
 		
 		List<ProductDetailListVO> vo = dao.prodSearchList(detail, keyword, cri);
-		param.put("prodList", vo);
 		
-		// 해당 상품의 리뷰 개수 넣기
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, - 31);
+		Date weekAgo = cal.getTime();
+		
 		for (int i = 0; i < vo.size(); i++) {
-			vo.get(i).setProduct_reviewNum(dao.getProductReviewNum(vo.get(i).getProduct_id()));
+			vo.get(i).setProduct_reviewNum(dao.getProductReviewNum(vo.get(i).getProduct_id())); // 해당 상품의 리뷰 개수 넣기
+			
+			if (vo.get(i).getProduct_totQty() == 0) {
+				vo.get(i).setProduct_info("soldOut");
+			} else if (vo.get(i).getProduct_popularProduct().equals("Y")) {
+				vo.get(i).setProduct_info("popular");
+			} else if (weekAgo.getTime() <= vo.get(i).getProduct_date().getTime()) {
+				vo.get(i).setProduct_info("new");
+			}
+			
 		}
+		
+		param.put("prodList", vo);
 		
 		ProdListPagingParam pp = new ProdListPagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(dao.prodSearchNum(detail, keyword));
 		param.put("paging", pp);
-		System.out.println(pp.toString());
+		
 		// 인기 상품 6개 출력
 		param.put("popularList", dao.popularProdList());
 		

@@ -110,7 +110,7 @@ public class ProdListDAOImpl implements ProdListDAO {
 	public int prodSearchNum(ProductDetailOrderVO detail, String keyword) throws Exception {
 		// 상품 검색 결과 리스트 총 개수 출력
 		Map<String, Object> param = new HashMap<String, Object>();
-		System.out.println(detail.toString());
+		
 		// 필터별 변수
 		param.put("mainCategory_id", detail.getMainCategory_id());
 		param.put("middleCategory_id", detail.getMiddleCategory_id());

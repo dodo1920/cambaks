@@ -323,7 +323,7 @@ public class MallController {
 		
 		// 상품 정렬 설정
 		if (vo.getProdRankOrder() == "" || vo.getProdRankOrder() == null) {
-			detail.setProdRankOrder("cmRank");
+			detail.setProdRankOrder("datePd");
 		} else {
 			detail.setProdRankOrder(vo.getProdRankOrder());
 		}
