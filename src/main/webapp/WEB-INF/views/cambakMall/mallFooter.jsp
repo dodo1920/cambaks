@@ -3,6 +3,8 @@
 <head>
 
 <meta charset="UTF-8">
+<<<<<<< HEAD
+=======
  
  <script>
  
@@ -151,60 +153,10 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
   #main-sidebar em{
 		color:YELLOW;
  }
-
-
- .recently-viewed-page{
- 	
- 	border: solid 1px darkgray;
-    font-size: 12px;
-    display: block;
-    font-weight: bold;
-    list-style: none;
-    min-height: 450px;
- }
- 
- .no-item{
- text-align: center;
- padding: 150px 0px 0px;
- 
- }
- 
- .recently-item{
- padding: 3px;
- text-align: center;
- margin-top: 15px;
- }
- 
- .radios{
-    left: 77%;
-    bottom: 75px;
-    width: 165px;
-	display: inline-block;
-    position: fixed;
-    right: 13px;
-    height: 50px;
-    padding: 0 20px 0 20px;
-    border-radius: 25px;
-    border: 1px solid #555;
-    background-color: #fff;
-    -webkit-box-shadow: 0 5px 14px 0 rgb(0 0 0 / 10%);
-    box-shadow: 0 5px 14px 0 rgb(0 0 0 / 10%);
-    font-size: 14px;
-    line-height: 48px;
-    letter-spacing: -.3px;
-    color: #333;
-    -webkit-transition: right .4s;
-    transition: right .4s;
-    z-index: 10;
-    display:none;
-    
- }
+>>>>>>> d2fdedc9dd5933578bfa94f1c06f05e0fd470f18
 
  
-/* *********************** 종진 수정 부분 ************************** */
- 
- </style>
- 
+
 </head>
 
 <!-- Footer Section Begin -->
@@ -300,44 +252,10 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
 		</div>
 		
 		
-		
-		<section id="main-sidebar">
-	            <div class="recently-viewed-products" >
-		            <strong>최근본상품</strong>
-		            <em class="total-element" id="recentlyCntOutput"> 0 </em>
-		        </div>
-		        <div class="recently-viewed-list">
-		            <ul class="recently-viewed-page" id="RecentlySection" style="display: block;">
-<%-- 		            <c:if test="${para.viewRecently0 == null }"> --%>
-						 <li class="no-item">최근본 상품이<br>없습니다.</li>
-<%-- 				    </c:if> --%>
-				    
-<%-- 				    <c:if test="${para.viewRecently0 != null }"> --%>
-<%-- 						 <a href="/mall/prodDetail/main?prodId=${para.viewRecently0.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently0.product_img1 }"/><span>${para.viewRecently0.product_name }<br/><fmt:formatNumber value="${para.viewRecently0.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
-<%-- 				    </c:if> --%>
-<%-- 				    <c:if test="${para.viewRecently1 != null }"> --%>
-<%-- 						 <a href="/mall/prodDetail/main?prodId=${para.viewRecently1.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently1.product_img1 }"/><span>${para.viewRecently1.product_name }<br/><fmt:formatNumber value="${para.viewRecently1.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
-<%-- 				    </c:if> --%>
-<%-- 				    <c:if test="${para.viewRecently2 != null }"> --%>
-<%-- 						 <a href="/mall/prodDetail/main?prodId=${para.viewRecently2.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently2.product_img1 }"/><span>${para.viewRecently2.product_name }<br/><fmt:formatNumber value="${para.viewRecently2.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
-<%-- 				    </c:if> --%>
-				           
-<!-- 		         </ul> -->
-		           
-	        </div>
-   		 </section>
 	  
-<!-- 	  	<div class="radios" id="checkListCntContainer" style="cursor:pointer;" onclick="viewCheckList();"> -->
-<!-- 	  		<div id="chklistIframe"  style=" position: fixed; display:none; left:29%; top:20%; width:600px; height: -webkit-fill-available; overflow:hidden; max-height: 747px;"> -->
-	  		
-<!--   			<iframe style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe> -->
-  			
-<!--   			</div> -->
-<!-- 	  		<span id="CheckListCnt" style="margin-left: 15px; ">체크리스트(회원 전용)</span> -->
-<!-- 	  	</div> -->
-	  
-	  
-	  
+<<<<<<< HEAD
+  
+=======
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
 		<img src="/resources/img/pageUp.png" />
 		</a>
@@ -346,6 +264,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
 		<img src="/resources/img/chatting.png" />
 		</a>
 		<!-- ----------------------------------------------------------- -->
+>>>>>>> d2fdedc9dd5933578bfa94f1c06f05e0fd470f18
 
         <div class="row">
 
