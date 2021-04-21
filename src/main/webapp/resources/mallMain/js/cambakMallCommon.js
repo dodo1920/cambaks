@@ -45,33 +45,4 @@ function searchBtn() {
 		$("#searchForm").submit();
 	}
 
-// 캠박몰 로그인 - 서효원 작성
-function loginRequestCheck() {
-	let member_id = $("#member_id").val();
-	let member_password = $("#member_password").val();
-	
-	$.ajax({
-		  method: "POST",
-		  url: "/user/cambakLoginCheck",
-		  dataType: "text",
-		  data : {member_id : member_id, member_password : member_password},
-		  success : function(data) {
-			  if (data == "memberCheck") {
-					$.ajax({
-						  method: "POST",
-						  url: "/user/login",
-						  dataType: "text",
-						  data : {member_id : member_id, member_password : member_password}
-						});
-					location.reload();
-			  } else {
-				  alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다");
-			  }
-		  }, error : function(data) {
-			  alert(data);
-        }
-		  
-		});
-}
-
 }
