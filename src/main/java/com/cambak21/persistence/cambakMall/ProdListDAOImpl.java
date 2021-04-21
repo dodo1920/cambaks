@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.domain.ProductDetailOrderVO;
-import com.cambak21.domain.ProductListReviewNumVO;
 import com.cambak21.util.ProdListPagingCriteria;
 
 @Repository
@@ -40,7 +39,12 @@ public class ProdListDAOImpl implements ProdListDAO {
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
 		
-		return session.selectList(nameSpace + "prodCategoryList", param);
+		if (detail.getProdRankOrder().equals("rvRank")) {
+			return session.selectList(nameSpace + "prodCategoryReviewOrder", param);
+		} else {
+			return session.selectList(nameSpace + "prodCategoryList", param);
+		}
+		
 	}
 
 	@Override
@@ -58,11 +62,16 @@ public class ProdListDAOImpl implements ProdListDAO {
 		param.put("prodScore", detail.getProdScore());
 		param.put("prodRankOrder", detail.getProdRankOrder());
 		
-		return session.selectOne(nameSpace + "prodCategoryNum", param);
+		if (detail.getProdRankOrder().equals("rvRank")) {
+			return session.selectOne(nameSpace + "prodCategoryReviewOrderNum", param);
+		} else {
+			return session.selectOne(nameSpace + "prodCategoryNum", param);
+		}
+		
 	}
 
 	@Override
-	public ProductListReviewNumVO getProductReviewNum(int product_id) throws Exception {
+	public int getProductReviewNum(int product_id) throws Exception {
 		// 상품 리뷰 개수 가져오기
 		return session.selectOne(nameSpace + "getProductReviewNum", product_id);
 	}
@@ -89,14 +98,19 @@ public class ProdListDAOImpl implements ProdListDAO {
 		param.put("pageStart", cri.getPageStart());
 		param.put("perPageNum", cri.getPerPageNum());
 		
-		return session.selectList(nameSpace + "prodSearchList", param);
+		if (detail.getProdRankOrder().equals("rvRank")) {
+			return session.selectList(nameSpace + "prodCategorySearchReviewOrder", param);
+		} else {
+			return session.selectList(nameSpace + "prodSearchList", param);
+		}
+		
 	}
 
 	@Override
 	public int prodSearchNum(ProductDetailOrderVO detail, String keyword) throws Exception {
 		// 상품 검색 결과 리스트 총 개수 출력
 		Map<String, Object> param = new HashMap<String, Object>();
-		
+		System.out.println(detail.toString());
 		// 필터별 변수
 		param.put("mainCategory_id", detail.getMainCategory_id());
 		param.put("middleCategory_id", detail.getMiddleCategory_id());
@@ -110,7 +124,12 @@ public class ProdListDAOImpl implements ProdListDAO {
 		// 키워드 변수
 		param.put("keyword", keyword);
 		
-		return session.selectOne(nameSpace + "prodSearchNum", param);
+		if (detail.getProdRankOrder().equals("rvRank")) {
+			return session.selectOne(nameSpace + "prodCategorySearchReviewOrderNum", param);
+		} else {
+			return session.selectOne(nameSpace + "prodSearchNum", param);
+		}
+		
 	}
 
 	@Override

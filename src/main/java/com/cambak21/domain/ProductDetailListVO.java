@@ -12,6 +12,7 @@ public class ProductDetailListVO {
 	private Date product_date;
 	private String product_img1;
 	private int product_prodAvgScore;
+	private int product_reviewNum;
 	private String product_popularProduct;
 	
 	public int getProduct_id() {
@@ -68,6 +69,12 @@ public class ProductDetailListVO {
 	public void setProduct_prodAvgScore(int product_prodAvgScore) {
 		this.product_prodAvgScore = product_prodAvgScore;
 	}
+	public int getProduct_reviewNum() {
+		return product_reviewNum;
+	}
+	public void setProduct_reviewNum(int product_reviewNum) {
+		this.product_reviewNum = product_reviewNum;
+	}
 	public String getProduct_popularProduct() {
 		return product_popularProduct;
 	}
@@ -81,7 +88,8 @@ public class ProductDetailListVO {
 				+ ", middleCategory_content=" + middleCategory_content + ", product_name=" + product_name
 				+ ", product_sellPrice=" + product_sellPrice + ", product_totQty=" + product_totQty + ", product_date="
 				+ product_date + ", product_img1=" + product_img1 + ", product_prodAvgScore=" + product_prodAvgScore
-				+ ", product_popularProduct=" + product_popularProduct + "]";
+				+ ", product_reviewNum=" + product_reviewNum + ", product_popularProduct=" + product_popularProduct
+				+ "]";
 	}
 	
 }
