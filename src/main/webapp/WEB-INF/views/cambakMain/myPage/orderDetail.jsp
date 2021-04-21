@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -133,27 +134,11 @@
 				
     <!-- 요 안에 작성하시오 Main -->
 	<div>
-		<div>
-			<div>
-				
-				<div><form action="/myMall/searchOrder" method="post"><input type="text" name="searchWord" style="width:80%;" placeholder="주문한상품을 검색할 수 있어요"><input type="submit" class="btn btn-info" value="검색"></form></div>
-			<!-- 	<div class="emptySpace"></div> -->
-									<div class="btn-group">
-								<!-- 	<div style="font-size:20px;font-weight: bold;">검색기간</div> -->
-									<!-- <div class="emptySpace"></div>
-										<button type="button" class="btn btn-default">1개월</button>
-										<button type="button" class="btn btn-default">3개월</button>
-										<button type="button" class="btn btn-default">6개월</button>
-										<button type="button" class="btn btn-default">1년</button>
-										<button type="button" class="btn btn-default">3년</button> -->
-									</div>
-									<div class="emptySpace"></div>
-									<div id="output">
-									
-									<c:forEach var="order" items="${order }">
-										<div align="center"
+	<h2>주문상품</h2>
+	<div align="center"
 											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left;">
-
+											
+										
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
@@ -180,87 +165,74 @@
 																</div>
 															</div>
 														</td>
-														<td>
-															<div class="btn-group-vertical"
-																style="float: right; margin-left: 60px; margin-bottom: 35px">
-																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.buyProduct_no }'">주문상세
-																	보기</button>
-																<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
-																	반품 신청</button>
-
-
-															</div>
-														</td>
+														
 													</tr>
 
 												</tbody>
 											</table>
-											
-												<!-- Modal -->
-												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
-													<div class="modal-dialog">
-
-														<!-- Modal content-->
-														<div class="modal-content">
-															<div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-																<h4 class="modal-title">Modal Header</h4>
-															</div>
-															<div class="modal-body">
-																<p>Some text in the modal.</p>
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-default"
-																	data-dismiss="modal">Close</button>
-															</div>
-														</div>
-
-													</div>
-												</div>
 											</div>
-										</c:forEach>
-									</div>
-								</div>	
-								<div class="pageBtn">
-							<ul class="pagination">
-							<c:choose>
-							<c:when
-								test="${param.searchType == null && param.searchWord == null }">
-							<c:if test="${pagingParam.prev }">
-									<li class="page-item"><a class="page-link"
-										href="myOrder?page=${param.page -1}">prev</a></li>
-								</c:if>
-								<c:forEach begin="${pagingParam.startPage }"
-									end="${pagingParam.endPage }" var="pageNo">
-									<li class="page-item"><a class="page-link"
-										href="myOrder?page=${pageNo}">${pageNo }</a></li>
-								</c:forEach>
-							<c:if test="${pagingParam.next }">
-									<li class="page-item"><a class="page-link"
-										href="myOrder?page=${param.page +1}">next</a></li>
-								</c:if>
-								</c:when>
-								<c:otherwise>
-								<c:if test="${pagingParam.prev }">
-									<li class="page-item"><a class="page-link"
-										href="search?page=${param.page -1}&searchWord=${param.searchWord}">prev</a></li>
-								</c:if>
-								<c:forEach begin="${pagingParam.startPage }"
-									end="${pagingParam.endPage }" var="pageNo">
-									<li class="page-item"><a class="page-link"
-										href="search?page=${pageNo}&searchWord=${param.searchWord}">${pageNo }</a>
-									</li>
-								</c:forEach>
+		<div>
+				<h1 style="margin-top: 80px">배송지 정보</h1>
+    <div class="tbl_wrap" >
+    
+    	<table class="table">
+    	<colgroup>
+    		<col style="width:160px;">
+    		<col>
+    	</colgroup>
+    	<tbody id="table_in">
+    		
+    		<tr>
+    			<th>이름</th>
+    			<td id="user_name">${dest.destination_toUser }</td>
+    			
+    		</tr>
+    		<tr>
+    			<th>연락처</th>
+    			<td id="user_number">${dest.destination_mobile }</td>
+    		</tr>
+    		<tr>
+    			<th>주소</th>
+    			<td id = "user_dest">${dest.destination_address } ${dest.destination_addressDetail }</td>
+    			
+    		</tr>
+    	</tbody>
+    	</table>
+    	<input type="hidden" name="destination_no" value="" id="destination_no">
+    </div>
+									
+		</div>
+		
+		<div>
+				<h1 style="margin-top: 80px">결제</h1>
+    <div class="tbl_wrap" >
+    
+    	<table class="table">
+    	<colgroup>
+    		<col style="width:160px;">
+    		<col>
+    	</colgroup>
+    	<tbody id="table_in">
+    		
+    		<tr>
+    			<th>결제수단</th>
+    			<td id="user_name">${payInfo.payInfo_way }</td>
+    			
+    		</tr>
+    		
+    		<tr>
+    			<th>결제시간</th>
+    			<td id = "user_dest"><fmt:formatDate value="${payInfo.payInfo_date}" type="both" pattern="yyyy-MM-dd [E] a hh:mm:ss"/></td>
+    			
 
-								<c:if test="${pagingParam.next }">
-									<li class="page-item"><a class="page-link"
-										href="search?page=${param.page +1}&searchWord=${param.searchWord}">next</a>
-									</li>
-								</c:if>
-							</c:otherwise>
-								</c:choose>
-							</ul>
-						</div>	
+
+    			
+    		</tr>
+    	</tbody>
+    	</table>
+    	<input type="hidden" name="destination_no" value="" id="destination_no">
+    </div>
+									
 		</div>
 	</div>
 
