@@ -402,6 +402,11 @@
 		                                </div>
 	                                </c:if>
                                 </c:if>
+                                <c:if test="${item.product_prodAvgScore == 0 }">
+		                                <div class="rating" style="margin-bottom: 0px;">
+		                                	<span class="noneReview">리뷰 없음</span>
+		                                </div>
+                                </c:if>
                                 <div class="product__price"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
                             </div>
                         </div>

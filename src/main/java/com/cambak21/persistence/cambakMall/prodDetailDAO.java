@@ -23,4 +23,6 @@ public interface prodDetailDAO {
 
 	public int insertNonUserBucket(InsertintoNonUserBucketDTO insertNonUserBucket) throws Exception;
 
+	public int updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception;
+
 }

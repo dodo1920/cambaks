@@ -93,7 +93,7 @@
 <div class="container">
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -126,8 +126,9 @@
 <script>
 $(document).ready(function(){
   $("#userLogin").click(function(){
-    $("#myModal").modal();
+    $("#loginModal").modal();
   });
+  searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
 });
 
 //캠박몰 로그인

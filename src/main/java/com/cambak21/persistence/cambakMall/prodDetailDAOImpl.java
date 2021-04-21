@@ -69,4 +69,9 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 		return ses.insert(namespace + ".insertNonUserBucket", insertNonUserBucket);
 	}
 
+	@Override
+	public int updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception {
+		return ses.update(namespace + ".updateNonUserBucketQty", updateNonUserBucket);
+	}
+
 }

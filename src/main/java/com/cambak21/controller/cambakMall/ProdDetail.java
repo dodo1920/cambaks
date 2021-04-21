@@ -947,9 +947,8 @@ public class ProdDetail {
 		try {
 			if(prodService.checkNonUserBucketQty(vo.getNonUserBucket_ssid()) < 10 || prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()) != null) {
 				logger.info("빈 공간이 있다면, 장바구니에 있는 상품인지 확인");
-				NonUserBucketVO tempvo = prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id());
-				System.out.println(tempvo);
-				entity = new ResponseEntity<NonUserBucketVO>(tempvo, HttpStatus.OK);
+				System.out.println(prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()));
+				entity = new ResponseEntity<NonUserBucketVO>(prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()), HttpStatus.OK);
 			} else {
 				tmpVO.setNonUserBucket_buyQty(11);
 				entity = new ResponseEntity<NonUserBucketVO>(tmpVO, HttpStatus.OK);
@@ -992,7 +991,7 @@ public class ProdDetail {
 	
 	@RequestMapping(value="/insertNonUserBucket", method=RequestMethod.POST)
 	public ResponseEntity<String> insertBucekt(@RequestBody InsertintoNonUserBucketDTO vo) throws Exception {
-		logger.info("장바구니에 상품 넣기");
+		logger.info("비회원 장바구니에 상품 넣기");
 		
 		ResponseEntity<String> entity = null;
 		
@@ -1034,5 +1033,21 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	@RequestMapping(value="/updateNonUserBucekt", method=RequestMethod.POST)
+	public ResponseEntity<String> updateNonUserBucekt(@RequestBody InsertintoNonUserBucketDTO vo) throws Exception {
+		logger.info("비회원 장바구니에 정보 업데이트하기");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(vo.toString());
+		
+		if(prodService.updateNonUserBucketQty(vo)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	
 }

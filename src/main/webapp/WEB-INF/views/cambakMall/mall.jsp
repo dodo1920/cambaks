@@ -80,7 +80,7 @@ let loginUser = '${loginMember.member_id}';
 	 if(searchVal == null){
 		 alert("검색 값을 입력해주세요.");
 	 }else{
-		 location.href="/mall/Search?keyword=" + searchVal + "?page=1";
+		 location.href="/mall/search?keyword=" + searchVal + "&page=1";
 	 }
 	 
  }
@@ -93,7 +93,7 @@ let loginUser = '${loginMember.member_id}';
 			 if(searchgoValue == ""){
 				 alert("검색 값을 입력해주세요.");
 			 }else{
-				 location.href="/mall/Search?keyword=" + searchgoValue + "?page=1";
+				 location.href="/mall/search?keyword=" + searchgoValue + "&page=1";
 			 }
 	
 	 	}
@@ -922,6 +922,7 @@ let loginUser = '${loginMember.member_id}';
 
 
 <%@include file="mallFooter.jsp" %>
+<%@include file="mallMainRightSide.jsp" %>
 
 
 <!-- Js Plugins -->
