@@ -11,11 +11,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  $(window).on("scroll", function(){
    if($(window).scrollTop() > 500){
       $(".top").css("display","block");
-      $("#main-sidebar").css("display","block");
+//       $("#main-sidebar").css("display","block");
 //       $(".radios").css("display","block");
    }else{
       $(".top").css("display","none");
-      $("#main-sidebar").css("display","none");
+//       $("#main-sidebar").css("display","none");
 //       $(".radios").css("display","none");
    } 
      
@@ -48,7 +48,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                let changeSellPrice = prevPrice.replace(ChangeWon, ",");
             
                
-            recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + changeSellPrice + '</span></li></a>';
+            recentlyOutput += '<li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px; cursor: pointer;" onclick="location.href=\'/mall/prodDetail/main?prodId=' + this.product_id + '\'" src="' + this.product_img1 + '"/><span class="recentlyItemJJ" ><a href="/mall/prodDetail/main?prodId=' + this.product_id + '">' + this.product_name + '</a><br/>' + changeSellPrice + '</span></li>';
       
             });
          recentlyOutput += '</ul>';
@@ -134,7 +134,8 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     width: 110px;
     position: fixed;
     top: 150px;
-    display: none;
+    z-index: 999999;
+/*     display: none; */
  
  }
  
@@ -200,6 +201,14 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     
  }
 
+ 
+ 
+  .recentlyItemJJ a:hover{ 
+ 	text-decoration: underline; 
+ } 
+ 
+ 
+ 
  
 /* *********************** 종진 수정 부분 ************************** */
  
