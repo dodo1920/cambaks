@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -59,7 +60,7 @@ public class ChattingController {
 	  * @param msg
 	  * @return
 	  */
-	@RequestMapping("/fromUser/{msg}")
+	@PostMapping("/fromUser/{msg}")
 	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg, @SessionAttribute("loginMember") MemberVO loginMember) {
 		ResponseEntity<String> entity = null;
 		
@@ -74,7 +75,7 @@ public class ChattingController {
 		return entity;
 	}
 	
-	@RequestMapping("/fromAdmin/{msg}/{member_id}")
+	@PostMapping("/fromAdmin/{msg}/{member_id}")
 	public ResponseEntity<String> fromUser (@PathVariable("msg") String chatting_content, @PathVariable("member_id") String member_id) {
 		ResponseEntity<String> entity = null;
 		
@@ -86,6 +87,20 @@ public class ChattingController {
 			e.printStackTrace();
 		}
 		
+		return entity;
+	}
+	
+	@PostMapping("/isRead/{who}/{member_id}")
+	public ResponseEntity<String> updateIsRead (@PathVariable("member_id") String member_id, @PathVariable("who") String who) {
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.updateIsRead(member_id, who);
+			new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
 		return entity;
 	}
 

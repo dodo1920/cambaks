@@ -61,4 +61,9 @@ public class ChattingServiceImpl implements ChattingService {
 		return dao.popularProdList();
 	}
 
+	@Override
+	public void updateIsRead(String member_id, String who) throws Exception {
+		dao.updateIsRead(member_id, who);
+	}
+
 }

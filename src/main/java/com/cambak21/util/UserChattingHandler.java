@@ -103,15 +103,25 @@ public class UserChattingHandler {
 		
 		// 유저가 null 아니라면...
 		if (findUser != null) {
-			// 운영자 소켓서버가 있다면 ...
+			// 운영자 세션이 있다면 ...
 			if(AdminChattingHandler.getSession() != null) {
 				try {
 					// 운영자한테 메시지 전송
 					AdminChattingHandler.sendMsg(findUser.member_id, msg);
+					// 운영자 세션이 있기 때문에 1을 보냄, 읽음 안읽음 구현하기 위한 ...
+					findUser.session.getBasicRemote().sendText("existSession");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} 
+			} else { // 운영자 세션이 null이라면 ...
+				try {
+					// 세션이 null이기 0을 보냄, 읽음 안읽음 구현하기 위한 ...
+					findUser.session.getBasicRemote().sendText("noExistSession");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

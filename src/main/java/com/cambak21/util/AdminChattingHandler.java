@@ -6,9 +6,10 @@ import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/admingChatting")
+@ServerEndpoint("/admingChatting/{member_id}")
 public class AdminChattingHandler {
 
 	private static Session admin = null;
@@ -22,7 +23,7 @@ public class AdminChattingHandler {
 	  * @param adminSession
 	  */
 	@OnOpen
-	public void handleOpen(Session adminSession) {
+	public void handleOpen(Session adminSession, @PathParam("member_id") String member_id) {
 		// 운영자 계정이 1개임을 가정
 		if (admin != null) {
 			try {
@@ -32,6 +33,8 @@ public class AdminChattingHandler {
 			}
 		}
 		admin = adminSession;
+		// 유저에게 메시지를 읽은것을 알려주기 위해...
+		UserChattingHandler.sendMsg("existSession", member_id);
 	}
 
 	/**
@@ -85,7 +88,7 @@ public class AdminChattingHandler {
 	
 	@OnClose
 	public void handleClose(Session session) {
-		// 운영자가 접속을 끊는다면 null로 바꿈;
+		// 운영자가 접속을 끊는다면 null로 바꿈
 		admin = null;
 	}
 

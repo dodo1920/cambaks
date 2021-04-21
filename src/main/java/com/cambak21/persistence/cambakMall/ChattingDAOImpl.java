@@ -80,4 +80,12 @@ public class ChattingDAOImpl implements ChattingDAO {
 		return ses.selectList(MallMapper + ".popularProdList");
 	}
 
+	@Override
+	public void updateIsRead(String member_id, String who) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("member_id", member_id);
+		map.put("who", who); // 동적 쿼리문을 위한 ...
+		ses.update(namespace + ".updateIsRead", map);
+	}
+
 }

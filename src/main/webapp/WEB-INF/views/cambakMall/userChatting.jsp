@@ -54,16 +54,12 @@
 
 	let member_id = "${loginMember.member_id}";
 
-	$(document)
-			.ready(
-					function() {
-						// 웹 소켓 초기화
-						webSocketInit();
-
-						$("#main-sidebar")
-								.attr("style",
-										"display:block; position: absolute; left:80%; top:240px");
-					})
+	$(document).ready(function() {
+		// 웹 소켓 초기화
+		webSocketInit();
+		// 오른쪽 최근 본 상품
+		$("#main-sidebar").attr("style","display:block; position: absolute; left:80%; top:240px");
+	})
 
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
@@ -87,12 +83,23 @@
 	//웹소켓 연결
 	function socketOpen(event) {
 		console.log("연결 완료");
+		
+		// 채팅방 나갓을 때 isRead 컬럼 업데이트
+		$.ajax({
+			type : "post",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/isRead/notAdmin/" + member_id, // 서블릿 주소
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 	}
 
 	//웹소켓 닫힘
 	function socketClose(event) {
-		console.log("웹소켓이 닫혔습니다.");
-
 		// 웹소켓이 닫히면 연결을 재시도함
 		webSocketInit();
 	}
@@ -114,14 +121,13 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-
+		
 		// 운영자한테 메시지 전송
 		webSocket.send(msg)
 
-		// 출력
+		// 본인 메시지 출력
 		let output = '<div class="msgOutput user-msg-wrap">';
-		output += '<span class="msg-date">' + new Date().getHours() + ":"
-				+ new Date().getMinutes() + '</span>';
+		output += '<span class="isRead">안읽음</span><span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span>';
 		output += '<span class="user-msg">' + msg + '</span></div>';
 
 		$(".chatting-content").append(output);
@@ -134,13 +140,16 @@
 	//메시지 받는 메서드
 	function socketMessage(event) {
 
-		let output = '<div class="msgOutput admin-msg-wrap">';
-		output += '<span class="admin-msg">' + event.data + '</span>';
-		output += '<span class="msg-date">' + new Date().getHours() + ":"
-				+ new Date().getMinutes() + '</span></div>';
-
-		$(".chatting-content").append(output);
-
+		if(event.data == "existSession"){ // 운영자 세션이 존재한다면...
+			$(".isRead").text("읽음");
+		} else if (event.data != "noExistSession" && event.data != "existSession") { // 운영자 한테서 메시지가 왔다면 ...
+			// 운영자 메시지 출력
+			let output = '<div class="msgOutput admin-msg-wrap">';
+			output += '<span class="admin-msg">' + event.data + '</span>';
+			output += '<span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span></div>';
+			$(".chatting-content").append(output);
+		}
+		
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
@@ -216,6 +225,13 @@ input.textInput {
 	border: 1px solid gray;
 }
 
+/* 읽음 안읽음 */
+span.isRead {
+    font-size: 15px;
+    padding: 8px 0;
+}
+
+
 .myProfile-wrap {
     margin-bottom: 50px;
 }
@@ -232,6 +248,8 @@ input.textInput {
     color:black;
     font-size: 14px;
 }
+
+
 </style>
 </head>
 
@@ -445,14 +463,29 @@ input.textInput {
 					<div class="chatting-container">
 						<div class="chatting-content">
 							<div class="msgOutput"></div>
+							
+							<!-- 메시지 출력 -->
 							<c:forEach var="item" items="${chatting }">
+								<!-- 유저가 보낸 메시지 -->
 								<c:if test="${item.member_id != 'admin' }">
 									<div class="msgOutput user-msg-wrap">
-										<span class="msg-date"><fmt:formatDate
-												value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span><span
-											class="user-msg">${item.chatting_content }</span>
+										<!-- 읽음 안읽음 -->
+										<c:choose>
+											<c:when test="${item.chatting_isRead == 'Y' }">
+												<span class="isRead">읽음</span>
+											</c:when>
+											<c:otherwise>
+												<span class="isRead">안읽음</span>
+											</c:otherwise>
+										</c:choose>
+										<span class="msg-date">
+											<fmt:formatDate value="${item.chatting_date }" pattern="HH:mm" type="DATE" />
+										</span>
+										<span class="user-msg">${item.chatting_content }</span>
 									</div>
 								</c:if>
+								
+								<!-- 운영자가 보낸 메시지 -->
 								<c:if test="${item.member_id == 'admin' }">
 									<div class="msgOutput admin-msg-wrap">
 										<span class="admin-msg">${item.chatting_content }</span><span
@@ -461,6 +494,7 @@ input.textInput {
 									</div>
 								</c:if>
 							</c:forEach>
+							
 						</div>
 						<div class="msgText-wrap">
 							<input class="textInput" id="msg" type="text" style="width: 85%"

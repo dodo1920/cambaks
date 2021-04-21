@@ -25,7 +25,7 @@
 
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/admingChatting");
+		webSocket = new WebSocket("ws://localhost:8081/admingChatting/" + member_id);
 
 		webSocket.onopen = function(event) {
 			socketOpen(event);
@@ -44,12 +44,23 @@
 	//웹소켓 연결
 	function socketOpen(event) {
 		console.log("연결 완료");
+		
+		$.ajax({
+			type : "post",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/isRead/admin/" + member_id, // 서블릿 주소
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+
 	}
 
 	//웹소켓 닫힘
 	function socketClose(event) {
-		console.log("웹소켓이 닫혔습니다.");
-
 		// 웹소켓이 닫히면 연결을 재시도함
 		webSocketInit();
 	}
