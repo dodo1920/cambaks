@@ -3,125 +3,123 @@
 <head>
 
 <meta charset="UTF-8">
-<<<<<<< HEAD
-=======
  
  <script>
  
-// *********************** 종진 수정 부분 **************************//	
+// *********************** 종진 수정 부분 **************************//   
 if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권 : 채팅창에서 띄우기 위해 코드 추가했습니다 !
  $(window).on("scroll", function(){
-	if($(window).scrollTop() > 500){
-		$(".top").css("display","block");
-		$("#main-sidebar").css("display","block");
-// 		$(".radios").css("display","block");
-	}else{
-		$(".top").css("display","none");
-		$("#main-sidebar").css("display","none");
-// 		$(".radios").css("display","none");
-	} 
-	  
+   if($(window).scrollTop() > 500){
+      $(".top").css("display","block");
+      $("#main-sidebar").css("display","block");
+//       $(".radios").css("display","block");
+   }else{
+      $(".top").css("display","none");
+      $("#main-sidebar").css("display","none");
+//       $(".radios").css("display","none");
+   } 
+     
  });
 }
  
  $(function(){
-	
-	 getRecentlyProduct();
-	 
-// 	 if(${loginMember.member_id != null}){
-// 		 console.log("접속한 유저가 있다");
-// 		 getChkListYet();	 
-// 	 }	
-	 
+   
+    getRecentlyProduct();
+    
+//     if(${loginMember.member_id != null}){
+//        console.log("접속한 유저가 있다");
+//        getChkListYet();    
+//     }   
+    
  });
  
  function getRecentlyProduct(){
-		let ChangeWon = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
-		let recentlyOutput = "";	
-	 $.getJSON("/mall/main/getRecentlyProduct", function(data){
-		
-	
-			$("#RecentlySection").html("");
-	        isdata = data.length;
-	        console.log(isdata + "is data는");
-	   		$(data).each(function(index, item){
-	   			let prevPrice = String(this.product_sellPrice);
-	   		
-	   			let changeSellPrice = prevPrice.replace(ChangeWon, ",");
-	   		
-	   			
-				recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + changeSellPrice + '</span></li></a>';
-		
-	   		});
-			recentlyOutput += '</ul>';
-			$("#RecentlySection").html(recentlyOutput);
-			$("#recentlyCntOutput").text(isdata);
-	 });
-	 
-	
+      let ChangeWon = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
+      let recentlyOutput = "";   
+    $.getJSON("/mall/main/getRecentlyProduct", function(data){
+      
+   
+         $("#RecentlySection").html("");
+           isdata = data.length;
+           console.log(isdata + "is data는");
+            $(data).each(function(index, item){
+               let prevPrice = String(this.product_sellPrice);
+            
+               let changeSellPrice = prevPrice.replace(ChangeWon, ",");
+            
+               
+            recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + changeSellPrice + '</span></li></a>';
+      
+            });
+         recentlyOutput += '</ul>';
+         $("#RecentlySection").html(recentlyOutput);
+         $("#recentlyCntOutput").text(isdata);
+    });
+    
+   
  
  }
  
  
  // ///////////////////////////////////////// 승권 채팅 ///////////////////////
  function goChatting() {
-	if("${loginMember}" == "") {
-		$("#modalText").text("로그인 후에 이용해 주세요");
-		$("#myModal").modal();
-	} else {
-		location.href="../../userChatting";
-	}
+   if("${loginMember}" == "") {
+      $("#modalText").text("로그인 후에 이용해 주세요");
+      $("#myModal").modal();
+   } else {
+      location.href="../../userChatting";
+   }
 }
  
  // //////////////////////////////////////////////////////////////////////////
  
-		
-	
+      
+   
 //  function getChkListYet(){
-// 	 	let member_id = "${loginMember.member_id}";
-// 	 	console.log(member_id);
-// 		$.ajax({
-// 			method: "get",
-// 			url: "/mall/main/getChkListYet",
-// 			dataType: "text", // 응답 받는 데이터 타입
-// 			data : {"member_id" : member_id
-// 			},
-// 			success : function(result){
-					
-// 					$("#CheckListCnt").html("체크리스트 (" + result + ")개");
-				
-// 			}
-// 		});
-	
+//        let member_id = "${loginMember.member_id}";
+//        console.log(member_id);
+//       $.ajax({
+//          method: "get",
+//          url: "/mall/main/getChkListYet",
+//          dataType: "text", // 응답 받는 데이터 타입
+//          data : {"member_id" : member_id
+//          },
+//          success : function(result){
+               
+//                $("#CheckListCnt").html("체크리스트 (" + result + ")개");
+            
+//          }
+//       });
+   
 //  }
  
  
-// 	 function viewCheckList(){
-		 
-// 		 console.log($("#chklistIframe").css("display"));
-// 				if($("#chklistIframe").css("display") == "none"){
-// 					 console.log("체크리스트 열리기");
-// 					 $("#chklistIframe").css("display","block");
-// 					 $("#CheckListCnt").html("체크리스트 닫기");
-// 					 $(".radios").css("background-color","greenyellow");
-			
-// 				}else{
-// 					 $("#chklistIframe").css("display","none");
-// 					console.log("체크리스트 닫히기");
-// 					getChkListYet();
-// 					 $(".radios").css("background-color","#fff");
-// 				} 
-// 		 }
+//     function viewCheckList(){
+       
+//        console.log($("#chklistIframe").css("display"));
+//             if($("#chklistIframe").css("display") == "none"){
+//                 console.log("체크리스트 열리기");
+//                 $("#chklistIframe").css("display","block");
+//                 $("#CheckListCnt").html("체크리스트 닫기");
+//                 $(".radios").css("background-color","greenyellow");
+         
+//             }else{
+//                 $("#chklistIframe").css("display","none");
+//                console.log("체크리스트 닫히기");
+//                getChkListYet();
+//                 $(".radios").css("background-color","#fff");
+//             } 
+//        }
  
  
  
  
-// *********************** 종진 수정 부분 **************************//	
+// *********************** 종진 수정 부분 **************************//   
  </script>
  
  
  <style>
- /* *********************** 종진 수정 부분 ************************** */	
+ /* *********************** 종진 수정 부분 ************************** */   
  .top{
     left: 88.5%;
     width: 40px;
@@ -132,7 +130,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  }
  
  #main-sidebar{
- 	left: 88%;
+    left: 88%;
     width: 110px;
     position: fixed;
     top: 150px;
@@ -147,16 +145,66 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  }
  
   #main-sidebar strong{
-		color:white;
+      color:white;
  }
 
   #main-sidebar em{
-		color:YELLOW;
+      color:YELLOW;
  }
->>>>>>> d2fdedc9dd5933578bfa94f1c06f05e0fd470f18
+
+
+ .recently-viewed-page{
+    
+    border: solid 1px darkgray;
+    font-size: 12px;
+    display: block;
+    font-weight: bold;
+    list-style: none;
+    min-height: 450px;
+ }
+ 
+ .no-item{
+ text-align: center;
+ padding: 150px 0px 0px;
+ 
+ }
+ 
+ .recently-item{
+ padding: 3px;
+ text-align: center;
+ margin-top: 15px;
+ }
+ 
+ .radios{
+    left: 77%;
+    bottom: 75px;
+    width: 165px;
+   display: inline-block;
+    position: fixed;
+    right: 13px;
+    height: 50px;
+    padding: 0 20px 0 20px;
+    border-radius: 25px;
+    border: 1px solid #555;
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 14px 0 rgb(0 0 0 / 10%);
+    box-shadow: 0 5px 14px 0 rgb(0 0 0 / 10%);
+    font-size: 14px;
+    line-height: 48px;
+    letter-spacing: -.3px;
+    color: #333;
+    -webkit-transition: right .4s;
+    transition: right .4s;
+    z-index: 10;
+    display:none;
+    
+ }
 
  
-
+/* *********************** 종진 수정 부분 ************************** */
+ 
+ </style>
+ 
 </head>
 
 <!-- Footer Section Begin -->
@@ -249,22 +297,55 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                     </ul>
                 </div>
             </div>
-		</div>
-		
-		
-	  
-<<<<<<< HEAD
-  
-=======
+      </div>
+      
+      
+      
+      <section id="main-sidebar">
+               <div class="recently-viewed-products" >
+                  <strong>최근본상품</strong>
+                  <em class="total-element" id="recentlyCntOutput"> 0 </em>
+              </div>
+              <div class="recently-viewed-list">
+                  <ul class="recently-viewed-page" id="RecentlySection" style="display: block;">
+<%--                   <c:if test="${para.viewRecently0 == null }"> --%>
+                   <li class="no-item">최근본 상품이<br>없습니다.</li>
+<%--                 </c:if> --%>
+                
+<%--                 <c:if test="${para.viewRecently0 != null }"> --%>
+<%--                    <a href="/mall/prodDetail/main?prodId=${para.viewRecently0.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently0.product_img1 }"/><span>${para.viewRecently0.product_name }<br/><fmt:formatNumber value="${para.viewRecently0.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
+<%--                 </c:if> --%>
+<%--                 <c:if test="${para.viewRecently1 != null }"> --%>
+<%--                    <a href="/mall/prodDetail/main?prodId=${para.viewRecently1.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently1.product_img1 }"/><span>${para.viewRecently1.product_name }<br/><fmt:formatNumber value="${para.viewRecently1.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
+<%--                 </c:if> --%>
+<%--                 <c:if test="${para.viewRecently2 != null }"> --%>
+<%--                    <a href="/mall/prodDetail/main?prodId=${para.viewRecently2.product_id }"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="/resources/img/${para.viewRecently2.product_img1 }"/><span>${para.viewRecently2.product_name }<br/><fmt:formatNumber value="${para.viewRecently2.product_sellPrice }" pattern="#,###원" /></span></li></a> --%>
+<%--                 </c:if> --%>
+                       
+<!--                </ul> -->
+                 
+           </div>
+          </section>
+     
+<!--         <div class="radios" id="checkListCntContainer" style="cursor:pointer;" onclick="viewCheckList();"> -->
+<!--            <div id="chklistIframe"  style=" position: fixed; display:none; left:29%; top:20%; width:600px; height: -webkit-fill-available; overflow:hidden; max-height: 747px;"> -->
+           
+<!--            <iframe style="border: none; width: 100%;height:-webkit-fill-available; "src="../../../myPage/checkList"></iframe> -->
+           
+<!--            </div> -->
+<!--            <span id="CheckListCnt" style="margin-left: 15px; ">체크리스트(회원 전용)</span> -->
+<!--         </div> -->
+     
+     
+     
         <a onclick="window.scrollTo(0,0);" id="sideTop" class="top" title="맨 위로 가기" >
-		<img src="/resources/img/pageUp.png" />
-		</a>
-		<!-- --------------------------승권 채팅 버튼------------------------ -->
-		<a class="top" title="채팅 하러 가기" style="margin-left: 50px" onclick="goChatting()" id="btnGoChatting">
-		<img src="/resources/img/chatting.png" />
-		</a>
-		<!-- ----------------------------------------------------------- -->
->>>>>>> d2fdedc9dd5933578bfa94f1c06f05e0fd470f18
+      <img src="/resources/img/pageUp.png" />
+      </a>
+      <!-- --------------------------승권 채팅 버튼------------------------ -->
+      <a class="top" title="채팅 하러 가기" style="margin-left: 50px" onclick="goChatting()" id="btnGoChatting">
+      <img src="/resources/img/chatting.png" />
+      </a>
+      <!-- ----------------------------------------------------------- -->
 
         <div class="row">
 
@@ -280,21 +361,21 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     </div>
     
     <!-- modal 승권 -->
-	<div id="myModal" class="modal fade" role="dialog">
-		<div class="modal-dialog modal-sm">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<div class="modal-body" id="modalText"></div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='/user/login/yet'">로그인 하러 가기</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
+   <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalText"></div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='/user/login/yet'">로그인 하러 가기</button>
+               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+         </div>
 
-		</div>
-	</div>
+      </div>
+   </div>
 </footer>
 <!-- Footer Section End -->
