@@ -238,14 +238,14 @@
 			<version>1.1</version>
 		</dependency>
 
+		<!-- 승권 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
 		<!-- 스프링 웹소켓 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-websocket</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.springframework</groupId> -->
+<!-- 			<artifactId>spring-websocket</artifactId> -->
+<!-- 			<version>${org.springframework-version}</version> -->
+<!-- 		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl -->
 		<!-- 잭슨 -->
 		<dependency>
@@ -253,6 +253,15 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.4.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+<!-- 			<scope>provided</scope> -->
+		</dependency>
+
+		<!-- -->
 
 	</dependencies>
 	<build>

@@ -72,6 +72,18 @@ public class CheckListServiceImpl implements CheckListService {
 		}
 		return result;
 	}
+
+
+	@Override
+	public int getChkListYet(String member_id) throws Exception {
+			return dao.getChkListYet(member_id);
+	}
+
+
+	@Override
+	public int getChkListAll(String member_id) throws Exception {
+		return dao.getChkListAll(member_id);
+	}
 	
 
 }

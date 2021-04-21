@@ -167,4 +167,14 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 		return dao.getRef(prodQA_no);
 	}
 
+	@Override
+	public int getReplyCnt(int prodQA_no) throws Exception {
+		return dao.getReplyCnt(prodQA_no);
+	}
+
+	@Override
+	public int getRestProdQty(int product_id) throws Exception {
+		return dao.getRestProdQty(product_id);
+	}
+
 }

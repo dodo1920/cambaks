@@ -11,6 +11,6 @@
    
    // 전달받은 boardUri 변수로 사이드바 색깔 변경해주는 기능
    function asideBarDraw(boardUri) {
-       $("#" + boardUri + "Aside").attr("class", "active");
+       $("#" + boardUri + "Aside").attr("class", "nowSideBar");
    }
 

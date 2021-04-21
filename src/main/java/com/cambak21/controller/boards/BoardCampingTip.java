@@ -1,5 +1,6 @@
 package com.cambak21.controller.boards;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -27,6 +29,7 @@ import com.cambak21.dto.CamBoardTipReplyDTO;
 import com.cambak21.dto.CamBoardTipRereplyDTO;
 import com.cambak21.dto.CamBoardTipWriteDTO;
 import com.cambak21.service.boardCampingTip.CampingTipBoardService;
+import com.cambak21.util.BoardCsFileUpload;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 
@@ -74,11 +77,11 @@ public class BoardCampingTip {
 		// 캠핑팁 상세글 조회
 		
 		String no = String.valueOf(board_no);
-		Cookie cookie = WebUtils.getCookie(request, "readBoard" + no);
+		Cookie cookie = WebUtils.getCookie(request, "todayReadTipBoard" + no);
 		
 		if (cookie == null) { // 금일 상세 게시글 확인 전 조회수 1증가
 			
-			Cookie readCookie = new Cookie("readBoard" + no, no);
+			Cookie readCookie = new Cookie("todayReadTipBoard" + no, no);
 			readCookie.setPath("/");
 			readCookie.setMaxAge(60 * 60 * 24); // 하루 동안
 			response.addCookie(readCookie);
@@ -112,6 +115,30 @@ public class BoardCampingTip {
 		}
 		
 		return "redirect:view?id=Tip&no=" + no + "&page=1";
+	}
+	
+	@RequestMapping(value = "/campingTip/imgSave", method = RequestMethod.POST, produces = "text/html; charset=utf8")
+	@ResponseBody
+	public ResponseEntity<String> BoardCsFileUpload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+		try {
+			// 파일 업로드 될 서버 경로
+			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/CampingTip");
+			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
+			String uploadFile = BoardCsFileUpload.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
+			if (!uploadFile.equals("-1")) {
+				// -1이 아니라면 이미지 파일
+				System.out.println(uploadPath);
+				return new ResponseEntity<String>(uploadFile, HttpStatus.OK);
+			} else {
+				// 이미지 파일 아닌것
+				// view에서 modal 띄움
+				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value="/campingTip/modify", method=RequestMethod.GET)

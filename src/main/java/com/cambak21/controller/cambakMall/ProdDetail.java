@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,11 +41,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.BucketVO;
+import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.ProdQAsLikeVO;
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
+import com.cambak21.dto.InsertintoNonUserBucketDTO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
@@ -84,19 +87,62 @@ public class ProdDetail {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/main", method=RequestMethod.GET)
-	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model) throws Exception {
+	public String prodDetailPage(@RequestParam("prodId") int prodId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.info("상품 상세 페이지");
+		
+		/* *******************종진 캠박몰 메인 최신 본 상품을 위한 쿠기 값 저장 추가 시작부분 *****************/ 
+		
+		String viewProd = String.valueOf(prodId);
+		boolean checkAdd = true;
+		Cookie getloginCook = WebUtils.getCookie(request, "viewProduct");
+//		getloginCook.getValue().equals(compaere
+		if(getloginCook != null) {
+			String saveCookie = getloginCook.getValue();
+			String[] array = getloginCook.getValue().split("-");
+			
+			if(array.length >= 3) {
+				saveCookie = array[1] + "-" + array[2];
+			}
+			
+			
+			for(int i=0; i<array.length; i++) {
+				
+				if(array[i].equals(viewProd)) {
+					checkAdd = false;
+				}
+			}
+			
+			if(checkAdd) {
+				saveCookie += "-" + viewProd;
+				Cookie readCook = new Cookie("viewProduct", saveCookie); 
+				readCook.setPath("/");
+				readCook.setMaxAge(60 * 60 * 24); 
+		        response.addCookie(readCook);
+			}
+			
+		
+		}else {
+			Cookie readCook = new Cookie("viewProduct", viewProd); 
+			readCook.setPath("/");
+			readCook.setMaxAge(60 * 60 * 24); 
+	        response.addCookie(readCook);
+		}
+		
+	
+		
+		/* ****************종진 캠박몰 메인 최신 본 상품을 위한 쿠기 값 저장 추가 끝 부분************** */ 
 		
 		ProductsVO prodDetail = prodService.getProdDetail(prodId);
 		System.out.println(prodDetail);
 		
 		model.addAttribute("prodDetail", prodDetail);
+		model.addAttribute("ssid", request.getRequestedSessionId());
 		
 		return "cambakMall/prodDetail";
 	}
 	
 //	==========================================정민오빠 class 부분 ========================================================================
-	// ajax이용 get방식 리스트 출력
+
 	   @RequestMapping(value = "/prodReviews/{prodId}", method=RequestMethod.GET)
 	   public @ResponseBody Map<String, Object> prodReviewsList(@PathVariable("prodId") String prodId, @RequestParam(value = "page", defaultValue = "1", required = false) int page, @RequestParam("orderList") String orderList) {
 //	      System.out.println(prodId);
@@ -231,6 +277,31 @@ public class ProdDetail {
 //	==========================================정민 오빠 class 끝!! ======================================================================
 	
 	/**
+	 * @Method Name : prodQAList
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 재고 수량 가져오는 메서드
+	 * @param prodId
+	 * @return
+	 */
+	@RequestMapping(value="/restProd", method=RequestMethod.GET)
+	public ResponseEntity<Integer> prodQAList(@RequestParam("prodId") int prodId) {
+		logger.info("재고 수량 확인");
+		
+		ResponseEntity<Integer> entity = null;
+	      
+	    try {
+	       entity = new ResponseEntity<Integer>(QAService.getRestProdQty(prodId), HttpStatus.OK);
+	    } catch (Exception e) {
+	       e.printStackTrace();
+	       entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>
+	    }
+	    
+	    return entity;
+	}
+		
+	/**
 	 * @Method Name : totProdQACnt
 	 * @작성일 : 2021. 4. 6.
 	 * @작성자 : 김도연
@@ -294,6 +365,15 @@ public class ProdDetail {
 	    return entity;
 	}
 	
+	/**
+	 * @Method Name : prodQAReplyList
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시글의 답글 가져오는 메서드
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping(value="/prodQAReplyList", method=RequestMethod.POST)
 	public ResponseEntity<List<ProdQAVO>> prodQAReplyList(@RequestBody ProdQAVO vo) {
 		logger.info("QA 답글 리스트 호출");
@@ -310,6 +390,17 @@ public class ProdDetail {
 	    return entity;
 	}
 	
+	/**
+	 * @Method Name : prodQAPageing
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시판의 페이징 처리하는 메서드
+	 * @param prodId
+	 * @param cate
+	 * @param cri
+	 * @return
+	 */
 	@RequestMapping(value="/prodQAPP", method=RequestMethod.GET)
 	public ResponseEntity<PagingParam> prodQAPageing(@RequestParam("prodId") int prodId, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 페이징 호출");
@@ -328,6 +419,33 @@ public class ProdDetail {
 		}
 		
 		return entity;
+	}
+	
+	/**
+	 * @Method Name : addReplyCnt
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시글의 답글 수 가져오는 메서드
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value="/addReplyCnt", method=RequestMethod.POST)
+	public ResponseEntity<Integer> addReplyCnt(@RequestBody ProdQAVO vo) {
+		logger.info("replyCnt 호출");
+		
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			int totRplyCnt = QAService.getReplyCnt(vo.getProdQA_no());
+			entity = new ResponseEntity<Integer>(totRplyCnt, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<Integer>(-1, HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+		return entity;
+		
 	}
 
 	/**
@@ -367,6 +485,16 @@ public class ProdDetail {
 		return entity;
 	}
 
+	/**
+	 * @Method Name : getLike
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시판에서 이미 좋아요 누른 게시글 가져오는 메서드
+	 * @param userId
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/getLike", method=RequestMethod.GET)
 	public ResponseEntity<List<ProdQAsLikeVO>> getLike(@RequestParam("userId") String userId) throws Exception {
 		logger.info("pordQA 좋아요 불러오기");
@@ -413,6 +541,16 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	/**
+	 * @Method Name : deleteLike
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 게시글의 좋아요 취소하는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/deleteLike", method=RequestMethod.POST)
 	public ResponseEntity<String> deleteLike(@RequestBody ProdQAsLikeVO vo) throws Exception {
 		logger.info("QA 좋아요 -1 ");
@@ -508,6 +646,19 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	/**
+	 * @Method Name : prodQAReplyForm
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의글에 답글 달면 DB에 인서트 시켜주는 메서드
+	 * @param prodId
+	 * @param page
+	 * @param no
+	 * @param insertQA
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/prodQAReplyForm", method=RequestMethod.POST)
 	public ResponseEntity<String> prodQAReplyForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @RequestParam("no") int no, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 답글 글쓰기 저장");
@@ -546,6 +697,16 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	/**
+	 * @Method Name : uploadFile
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 글 작성할 떄, 사진 업로드 하면 서버에 일자별 파일 생성하는 메서드
+	 * @param files
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="/uploadFile", method=RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List<String>> uploadFile(MultipartFile[] files, HttpServletRequest request) {
 		logger.info("파일 업로드");
@@ -579,6 +740,17 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	/**
+	 * @Method Name : displayFile
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 서버에 저장된 사진 파일을 불러와 화면에 보여주는 메서드
+	 * @param request
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
 	@ResponseBody // byte[]의 데이터(파일 데이터)가 web에 그대로 전송 되도록
 	@RequestMapping("/displayFile")
 	   public ResponseEntity<byte[]> displayFile(HttpServletRequest request, String fileName) throws IOException {
@@ -623,7 +795,17 @@ public class ProdDetail {
 	      return entity;
 	   }
 	   
-	   @RequestMapping(value="/deleteFile", method=RequestMethod.POST)
+	   /**
+	 * @Method Name : deleteFile
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 업로드 취소하거나 삭제하면, 서버에 저장된 파일도 삭제하는 메서드
+	 * @param request
+	 * @param fileName
+	 * @return
+	 */
+	@RequestMapping(value="/deleteFile", method=RequestMethod.POST)
 		public ResponseEntity<String> deleteFile(HttpServletRequest request, String fileName) {
 			logger.info("삭제할 파일 : " + fileName);
 			
@@ -654,6 +836,18 @@ public class ProdDetail {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
 	
+	/**
+	 * @Method Name : showModiProdQA
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 글 수정 페이지 소환 메서드
+	 * @param no
+	 * @param prodId
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.GET)
 	public String showModiProdQA(@RequestParam("no") int no, @RequestParam("prodId") int prodId, Model model) throws Exception {
 		logger.info("QA 글 수정 페이지 소환");
@@ -664,6 +858,20 @@ public class ProdDetail {
 		return "cambakMall/prodQAModiForm";
 	}
 	
+	/**
+	 * @Method Name : modiProdQA
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 상품 문의 글 수정하면, 해당 데이터 DB에 업데이트 시켜주는 메서드
+	 * @param prodId
+	 * @param no
+	 * @param page
+	 * @param updateQA
+	 * @param rttr
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/prodQAModiForm", method=RequestMethod.POST)
 	public String modiProdQA(@RequestParam("prodId") int prodId, @RequestParam("no") int no, @RequestParam("page") int page, ProdQAUpdateDTO updateQA, RedirectAttributes rttr) throws Exception {
 		logger.info("QA 글 수정");
@@ -689,6 +897,16 @@ public class ProdDetail {
 		return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 	}
 	
+	/**
+	 * @Method Name : checkBucket
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 주문하기 전 장바구니에 담겨있는 상품 목록이 10개 초과했는지 알아보는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/checkBucket", method=RequestMethod.POST)
 	public ResponseEntity<BucketVO> checkBucket(@RequestBody BucketVO vo) throws Exception {
 		logger.info("주문하기 전 장바구니에 빈 공간 있는지 확인");
@@ -716,6 +934,45 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	@RequestMapping(value="/checkNonUserBucket", method=RequestMethod.POST)
+	public ResponseEntity<NonUserBucketVO> checkNonUserBucket(@RequestBody NonUserBucketVO vo) throws Exception {
+		logger.info("주문하기 전 장바구니에 빈 공간 있는지 확인");
+		
+		ResponseEntity<NonUserBucketVO> entity = null;
+		
+		NonUserBucketVO tmpVO = vo;
+		
+		System.out.println(vo.toString());
+		
+		try {
+			if(prodService.checkNonUserBucketQty(vo.getNonUserBucket_ssid()) < 10 || prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()) != null) {
+				logger.info("빈 공간이 있다면, 장바구니에 있는 상품인지 확인");
+				NonUserBucketVO tempvo = prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id());
+				System.out.println(tempvo);
+				entity = new ResponseEntity<NonUserBucketVO>(tempvo, HttpStatus.OK);
+			} else {
+				tmpVO.setNonUserBucket_buyQty(11);
+				entity = new ResponseEntity<NonUserBucketVO>(tmpVO, HttpStatus.OK);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	/**
+	 * @Method Name : insertBucekt
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니에 새 상품 넣는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/insertBucekt", method=RequestMethod.POST)
 	public ResponseEntity<String> insertBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
 		logger.info("장바구니에 상품 넣기");
@@ -733,6 +990,33 @@ public class ProdDetail {
 		return entity;
 	}
 	
+	@RequestMapping(value="/insertNonUserBucket", method=RequestMethod.POST)
+	public ResponseEntity<String> insertBucekt(@RequestBody InsertintoNonUserBucketDTO vo) throws Exception {
+		logger.info("장바구니에 상품 넣기");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(vo.toString());
+		
+		if(prodService.insertNonUserBucket(vo)) {
+			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	/**
+	 * @Method Name : updateBucekt
+	 * @작성일 : 2021. 4. 19.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니에 이미 들어가 있는 상품을 또 장바구니에 넣고 싶다면, 해당 상품 업데이트 해주는 메서드
+	 * @param vo
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/updateBucekt", method=RequestMethod.POST)
 	public ResponseEntity<String> updateBucekt(@RequestBody InsertintoBucketDTO vo) throws Exception {
 		logger.info("장바구니에 정보 업데이트하기");

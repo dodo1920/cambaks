@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.ProdReviewVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.dto.mallMainTotalDTO;
 
@@ -21,7 +22,7 @@ public class MainDAOImpl implements MainDAO {
 	private static String namespace = "com.cambak21.mappers.mallMainMapper";
 	
 	@Override
-	public List<ProductsVO> getNewProduct4(int no) throws Exception {
+	public List<mallMainTopCountDTO> getNewProduct4(int no) throws Exception {
 		
 		return ses.selectList(namespace + ".getNewProduct4", no);
 	}
@@ -50,6 +51,28 @@ public class MainDAOImpl implements MainDAO {
 	public int getStar(int id) throws Exception {
 		// TODO Auto-generated method stub
 		return ses.selectOne(namespace + ".getStar", id);
+	}
+
+	@Override
+	public int checkReview(int id) throws Exception {
+		
+		return ses.selectOne(namespace + ".checkReview", id);
+	}
+
+	@Override
+	public ProductsVO getBasicInfo(int id) throws Exception {
+		return ses.selectOne(namespace + ".getBasicInfo", id);
+	}
+
+	@Override
+	public String getProduct_img(int id) throws Exception {
+		return ses.selectOne(namespace + ".getProduct_img", id);
+	}
+
+	@Override
+	public InsertintoBucketDTO getProductAll(int product_id) throws Exception {
+	
+		return ses.selectOne(namespace + ".getProductAll", product_id);
 	}
 
 }

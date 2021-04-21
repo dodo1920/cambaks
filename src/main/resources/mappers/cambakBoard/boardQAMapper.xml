@@ -109,4 +109,12 @@
   		select prodQA_ref from ProdQAs where prodQA_no = #{prodQA_no}
   	</select>
   	
+  	<select id="getReplyCnt" resultType="int">
+  		select count(*) from ProdQAs where prodQA_ref = #{prodQA_no} and prodQA_refOrder > 1
+  	</select>
+  	
+  	<select id="getRestProdQty" resultType="int">
+  		select product_totQty from Products where product_id = #{product_id}
+  	</select>
+  	
   </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -84,7 +86,7 @@ public class MemberController {
    
    
 
-   @RequestMapping(value="/logout", method=RequestMethod.POST)
+   @RequestMapping(value="/logout", method=RequestMethod.GET)
    public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session, RedirectAttributes rttr) throws Exception {
       MemberVO vo = (MemberVO)session.getAttribute("loginMember");
       System.out.println("로그아웃 하러 왔나");
@@ -150,7 +152,7 @@ public class MemberController {
 			final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 				
 				@Override
-				public void prepare(MimeMessage mimeMessage) throws Exception {
+				public void prepare(MimeMessage mimeMessage) throws MessagingException {
 					String subject = "<Cambak21>에서 보낸 이메일 인증번호 입니다"; // 메일 제목
 					String message = "회원님, <br />"; // 메일 본문
 					message += "<h2>아이디/비밀번호 찾기를 위한 인증번호입니다.</h2>";
@@ -167,14 +169,19 @@ public class MemberController {
 				}
 			};
 			
-			mailSender.send(preparator);
 			
-			entity = new ResponseEntity<String>(uuid, HttpStatus.OK);
+			try {
+				mailSender.send(preparator);
+				entity = new ResponseEntity<String>(uuid, HttpStatus.OK);
+			} catch (MailException e) {
+				entity = new ResponseEntity<String>("sendFail", HttpStatus.OK);
+				e.printStackTrace();
+			}
 			
 			return entity;
 		}
 		
-		return new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>("fail", HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/find_id", method = RequestMethod.POST)
@@ -250,12 +257,30 @@ public class MemberController {
 	
 		
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김태훈 회원정보 수정 파트
+
+//	서효원 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	   @RequestMapping(value="/cambakLoginCheck", method=RequestMethod.POST)
+	   private ResponseEntity<String> cambakLoginCheck(LoginDTO dto, HttpSession session, RedirectAttributes rttr) {
+		  ResponseEntity<String> entity = null;
+	      System.out.println(dto.toString());
+		  try {
+			  
+			if (service.loginRequestCheck(dto)) {
+				entity = new ResponseEntity<String>("memberCheck", HttpStatus.OK);
+			  } else {
+				entity = new ResponseEntity<String>("noMember", HttpStatus.OK);
+			  }
+			
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		  
+	      return entity;
+	   }
 	
 
 	
-
-	
-
+//		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 	
 	
 	

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cambak21.mappers.ChattingMapper">
+	<!-- 유저가 카톡 보낼 시 -->
+	<insert id="fromUser">
+		insert into Chattings (member_id, chatting_content)
+		values (#{member_id}, #{chatting_content});
+	</insert>
+	
+	<!-- 운영자가 카톡 보낼 시 -->
+	<insert id="fromAdmin">
+		insert into Chattings (member_id, chatting_content, chatting_toUser)
+		values ('admin', #{chatting_content}, #{member_id});
+	</insert>
+	
+	<select id="getChattingList" resultType="com.cambak21.domain.ChattingListVO">
+		select * from Chattings 
+		where (member_id,chatting_date) in (select member_id, max(chatting_date) from Chattings group by member_id) 
+		and not member_id='admin' 
+		order by chatting_date desc;
+	</select>
+	
+	<!-- 채팅 가져오기, 일대일 채팅방 -->
+	<select id="getChatting" resultType="com.cambak21.domain.ChattingListVO">
+		select * from Chattings where member_id=#{member_id} or member_id='admin' order by chatting_date asc;
+	</select>
+	
+
+</mapper>

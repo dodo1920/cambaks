@@ -30,43 +30,35 @@
 <!-- 게시판 공통 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
-<!-- 다음 지도 api js -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/resources/cambak21/js/registerDaumPost.js"></script>
-
-
 <script src="https://www.google.com/recaptcha/api.js"></script>
 
 <script>
    let emailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i; // 이메일 정규식
    let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
+   let checkResultEmail = false;
    
    $(document).ready(function() {
 
 	   
    });
    
-   function userEmailChk() {
+   function checkAndSendEmail() {
 	   let userEmail = $("#userEmail").val();
 	   
 	   if (userEmail.length == 0) {
 		   alert("이메일을 작성해주세요.");
-		   $("#userEmail").focus();
 		   return;
-	   }
-	   
-	   if (googleCapchaChk()) {
-		   
-		   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) {
-			   if (!sendEamil()) {
-				   alert("이미 사용 중인 이메일입니다. 아이디 찾기를 이용해주세요.");
-				   return;
-			   } else {
-				   alert("작성해주신 주소로 메일이 전송되었습니다.");
+	   } else {
+		   if (checkResultEmail) { // 중복이메일 확인
+			   if (googleCapchaChk()) { // 구글 캡챠 통과 확인
+				   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) { // 작성한 이메일 유효성 검사
+					   sendEamil();
+					   alert("작성해주신 주소로 메일이 전송되었습니다.");
+					   location.reload();
+				   }
 			   }
-			   location.reload();
 		   } else {
-			   alert("이메일 형식에 맞게 작성해주세요.");
+			   alert("이메일을 확인해주세요.");
 		   }
 		   
 	   }
@@ -81,7 +73,6 @@
             url: '/user/register/sendRegisterEmail',
             type: 'post',
             dataType: "text",
-            async: false,
             data: { userEmail : userEmail },
             success: function(data) {
             	if (data == "impossibility") {
@@ -89,9 +80,7 @@
             	}
             }
         });
-		
 		return result;
-		
    }
 
    function googleCapchaChk() {
@@ -120,8 +109,31 @@
 		return result;		
    }
    
-   
-   
+   function checkUserEmail() {
+	   let userEmail = $("#userEmail").val();
+	   
+	   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) {
+		   
+			$.ajax({
+	            url: '/user/register/checkOverlapEmail',
+	            type: 'post',
+	            dataType: "text",
+	            data: { userEmail : userEmail },
+	            success: function(data) {
+	            	if (data == "possibility") {
+	            		checkResultEmail = true;
+	            	} else if (data == "impossibility") {
+	            		checkResultEmail = false;
+	            		alert("이미 사용 중인 이메일입니다. 아이디 찾기를 이용해주세요.")
+	            	}
+	            }
+	        });
+			
+	   } else {
+		   alert("이메일 형식에 맞게 작성해주세요.");
+	   }
+
+   }
    
 </script>
 
@@ -270,10 +282,10 @@
 								    <form role="form">
 								      <div class="form-group">
 								        <label for="userEmail"><span class="glyphicon glyphicon-user"></span> </label>
-								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요." autocomplete="off">
+								        <input type="text" class="form-control" id="userEmail" placeholder="이메일을 작성해주세요." onblur="checkUserEmail();" autocomplete="off">
 								      </div>
 									  <div class="g-recaptcha" data-sitekey="6LcPSqIaAAAAAH_msgzY3LP3lNJ207FQ4ujognJW"></div>
-								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="userEmailChk();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
+								      <button type="button" id="join_button" style="margin-top: 15px;" class="btn btn-block" onclick="checkAndSendEmail();"><span class="glyphicon glyphicon-off"></span> 이메일 인증 요청</button>
 								    </form>
 								  </div>
 								  <div class="modal-footer">

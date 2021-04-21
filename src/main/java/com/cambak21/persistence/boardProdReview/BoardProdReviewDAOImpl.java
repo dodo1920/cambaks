@@ -81,7 +81,12 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 		return ses.update(namespace + ".updateProdReview", vo);
 	}
 
-
+	// 게시글 작성, 수정 시 상품 평점 업데이트
+	@Override
+	public int updateProductAvgStarScore(int product_id) throws Exception {
+		return ses.update(namespace + ".updateProductAvgStarScore", product_id);
+	}
+	
 	// 게시글 삭제
 	@Override
 	public int deleteProdBoard(int prodReview_no)  throws Exception{
