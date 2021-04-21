@@ -129,8 +129,8 @@
 	function socketMessage(event) {
 		
 		let output = '<div class="msgOutput admin-msg-wrap">';
-		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
-		output += '<span class="admin-msg">'+msg+'</span></div>';
+		output += '<span class="admin-msg">'+event.data+'</span>';
+		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span></div>';
 		
 		$(".chatting-content").append(output);
 		

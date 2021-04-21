@@ -85,7 +85,6 @@ public class AdminChattingHandler {
 	
 	@OnClose
 	public void handleClose(Session session) {
-		System.out.println("웹소켓 닫힘");
 		// 운영자가 접속을 끊는다면 null로 바꿈;
 		admin = null;
 	}

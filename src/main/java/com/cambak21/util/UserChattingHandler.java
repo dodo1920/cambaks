@@ -81,7 +81,6 @@ public class UserChattingHandler {
 	  */
 	@OnOpen
 	public void handleOpen(Session session, @PathParam("member_id") String member_id) {
-		System.out.println("웹 소켓 연결");
 		User user = new User();
 		user.member_id = member_id;
 		user.session = session;
@@ -149,7 +148,6 @@ public class UserChattingHandler {
 	  */
 	@OnClose
 	public void handleClose(Session session) {
-		System.out.println("웹소켓 닫힘");
 
 		User user = getUser(session);
 
