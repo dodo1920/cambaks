@@ -41,31 +41,34 @@
 	href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css"
 	type="text/css">
-<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
+<link rel="stylesheet"
+	href="../../resources/mallMain/css/cambakMallCommon.css"
+	type="text/css">
 
 <script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 <script src="../../../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
 <script type="text/javascript">
-	
-
 	//웹소켓 전역 변수 생성
 	let webSocket;
-	
+
 	let member_id = "${loginMember.member_id}";
 
-	$(document).ready(function() {
-		// 웹 소켓 초기화
-		webSocketInit();
-		
-		$("#main-sidebar").attr("style", "display:block; position: absolute; left:80%; top:200px");
-// 		$(".top").attr("style", "display:block; position: absolute");
-// 		$("#btnGoChatting").attr("style", "margin-left: 50px; display:block; position: absolute");
-	})
+	$(document)
+			.ready(
+					function() {
+						// 웹 소켓 초기화
+						webSocketInit();
+
+						$("#main-sidebar")
+								.attr("style",
+										"display:block; position: absolute; left:80%; top:240px");
+					})
 
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/userChatting/" + member_id);
+		webSocket = new WebSocket("ws://localhost:8081/userChatting/"
+				+ member_id);
 
 		webSocket.onopen = function(event) {
 			socketOpen(event);
@@ -80,7 +83,7 @@
 			socketError(event);
 		};
 	}
-	
+
 	//웹소켓 연결
 	function socketOpen(event) {
 		console.log("연결 완료");
@@ -89,7 +92,7 @@
 	//웹소켓 닫힘
 	function socketClose(event) {
 		console.log("웹소켓이 닫혔습니다.");
-		
+
 		// 웹소켓이 닫히면 연결을 재시도함
 		webSocketInit();
 	}
@@ -98,7 +101,7 @@
 	function socketMsgSend() {
 		// 메시지 포맷
 		let msg = $("#msg").val();
-		
+
 		// 메시지 DB저장		
 		$.ajax({
 			type : "post",
@@ -111,17 +114,18 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-		
+
 		// 운영자한테 메시지 전송
 		webSocket.send(msg)
-		
+
 		// 출력
 		let output = '<div class="msgOutput user-msg-wrap">';
-		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
-		output += '<span class="user-msg">'+msg+'</span></div>';
-		
+		output += '<span class="msg-date">' + new Date().getHours() + ":"
+				+ new Date().getMinutes() + '</span>';
+		output += '<span class="user-msg">' + msg + '</span></div>';
+
 		$(".chatting-content").append(output);
-		
+
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
@@ -129,13 +133,14 @@
 
 	//메시지 받는 메서드
 	function socketMessage(event) {
-		
+
 		let output = '<div class="msgOutput admin-msg-wrap">';
-		output += '<span class="admin-msg">'+event.data+'</span>';
-		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span></div>';
-		
+		output += '<span class="admin-msg">' + event.data + '</span>';
+		output += '<span class="msg-date">' + new Date().getHours() + ":"
+				+ new Date().getMinutes() + '</span></div>';
+
 		$(".chatting-content").append(output);
-		
+
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
@@ -153,111 +158,331 @@
 </script>
 <style type="text/css">
 .chatting-wrap {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .chatting-container {
-    width: 600px;
-    margin: 50px 0;
+	width: 600px;
+	margin-left: 50px;
 }
 
 .chatting-content {
-    overflow: auto;
-    max-height: 770px;
-    background-color: #9bbbd4;
+	overflow: auto;
+	max-height: 770px;
+	background-color: #9bbbd4;
 }
 /* 메시지 하나하나 감싸는 부분 */
 .msgOutput {
-    margin: 10px 0;
+	margin: 10px 0;
 }
 /* 어드민 메시지 */
 span.admin-msg {
-    background-color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin-left: 10px;
+	background-color: white;
+	border-radius: 5px;
+	padding: 5px;
+	margin-left: 10px;
 }
 /* 유저 메시지 */
 span.user-msg {
-    background-color: #fef01b;
-    border-radius: 5px;
-    padding: 5px;
-    margin-right: 10px;
+	background-color: #fef01b;
+	border-radius: 5px;
+	padding: 5px;
+	margin-right: 10px;
 }
 /* 메시지 하나하나 감싸는 부분에서 유저만 */
 .user-msg-wrap {
-    display: flex;
-    justify-content: flex-end;
+	display: flex;
+	justify-content: flex-end;
 }
 /* 메시지 하나하나 감싸는 부분에서 어드민만 */
 .admin-msg-wrap {
-    display: flex;
-    justify-content: flex-start;
+	display: flex;
+	justify-content: flex-start;
 }
 /* 메시지 시간 */
 span.msg-date {
-    padding: 8px;
-    font-size: 13px;
-    color: dimgrey;
+	padding: 8px;
+	font-size: 13px;
+	color: dimgrey;
 }
 /* 메시지 입력창, 버튼 */
 .msgText-wrap {
-    display: flex;
+	display: flex;
 }
 /* input창 */
 input.textInput {
-    border: 1px solid gray;
+	border: 1px solid gray;
 }
 </style>
 </head>
 
 <body>
 	<%@include file="mallHeader.jsp"%>
-	
-	<div class="chatting-wrap">
-		<div class="chatting-container">
-			<div class="chatting-content">
-			<div class="msgOutput"></div>
-			<c:forEach var="item" items="${chatting }">
-				<c:if test="${item.member_id != 'admin' }">
-					<div class="msgOutput user-msg-wrap"><span class="msg-date"><fmt:formatDate value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span><span class="user-msg">${item.chatting_content }</span></div>
-				</c:if>
-				<c:if test="${item.member_id == 'admin' }">
-					<div class="msgOutput admin-msg-wrap"><span class="admin-msg">${item.chatting_content }</span><span class="msg-date"><fmt:formatDate value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span></div>
-				</c:if>
-			</c:forEach>
-			</div>
-			<div class="msgText-wrap">
-   				<input class="textInput" id="msg" type="text" style="width:85%" placeholder="메시지를 입력해 주세요">
-   				<button type="button" id="btnSend" class="btn btn-primary" onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb__links">
+						<a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
+						<span>1:1 채팅</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
-		//스크롤 자동으로 맨밑
-		let textBox = $(".chatting-content");
-		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
-	</script>
-	
-<!-- Instagram Begin -->
-<div class="instagram">
-    <div class="container-fluid">
-        <div class="row">
-        	<c:forEach var="item" items="${popularList }">
-	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
-	                    <div class="instagram__text">
-	                        <a>More View</a>
-	                    </div>
-	                </div>
-	            </div>
-            </c:forEach>
-        </div>
-    </div>
-</div>
-<!-- Instagram End -->
-	
+	<section class="shop spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3">
+					<div class="myProfile-wrap">
+					나의 장바구니 목록<br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					활활화로 <br>
+					고객센터 바로가기 <br>
+					</div>
+					<div class="shop__sidebar">
+						<div class="sidebar__categories">
+							<div class="section-title">
+								<h4>카테고리</h4>
+							</div>
+							<div class="categories__accordion">
+								<div class="accordion" id="accordionExample">
+									<div class="card">
+										<div class="card-heading active">
+											<a href="/mall/categories">전체 상품</a>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse1">텐트/타프</a>
+										</div>
+										<div id="collapse1" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=1&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">텐트</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=1&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">타프</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse2">침낭/매트</a>
+										</div>
+										<div id="collapse2" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=2&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">침낭</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=2&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">매트</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse3">테이블/체어/배트</a>
+										</div>
+										<div id="collapse3" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=3&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">경량 테이블</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=3&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">체어</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse4">랜턴</a>
+										</div>
+										<div id="collapse4" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=4&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">랜턴</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse5">액세서리</a>
+										</div>
+										<div id="collapse5" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=5&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">담요</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=5&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">쿨러/아이스박스</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse6">화로/히터</a>
+										</div>
+										<div id="collapse6" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=6&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">화로대</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=6&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">착화제</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse7">수납/케이스</a>
+										</div>
+										<div id="collapse7" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=7&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">수납/케이스</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse8">키친/취사용품</a>
+										</div>
+										<div id="collapse8" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=8&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">식기/일반</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=8&middleCategory_id=2&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">설거지용품</a></li>
+													<li><a
+														href="/mall/categories?mainCategory_id=8&middleCategory_id=3&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">버너</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+									<div class="card">
+										<div class="card-heading">
+											<a data-toggle="collapse" data-target="#collapse9">기타</a>
+										</div>
+										<div id="collapse9" class="collapse"
+											data-parent="#accordionExample">
+											<div class="card-body">
+												<ul>
+													<li><a
+														href="/mall/categories?mainCategory_id=9&middleCategory_id=1&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12"
+														style="cursor: pointer;">기타</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="chatting-wrap">
+					<div class="chatting-container">
+						<div class="chatting-content">
+							<div class="msgOutput"></div>
+							<c:forEach var="item" items="${chatting }">
+								<c:if test="${item.member_id != 'admin' }">
+									<div class="msgOutput user-msg-wrap">
+										<span class="msg-date"><fmt:formatDate
+												value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span><span
+											class="user-msg">${item.chatting_content }</span>
+									</div>
+								</c:if>
+								<c:if test="${item.member_id == 'admin' }">
+									<div class="msgOutput admin-msg-wrap">
+										<span class="admin-msg">${item.chatting_content }</span><span
+											class="msg-date"><fmt:formatDate
+												value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
+									</div>
+								</c:if>
+							</c:forEach>
+						</div>
+						<div class="msgText-wrap">
+							<input class="textInput" id="msg" type="text" style="width: 85%"
+								placeholder="메시지를 입력해 주세요">
+							<button type="button" id="btnSend" class="btn btn-primary"
+								onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
+						</div>
+					</div>
+				</div>
+				<script type="text/javascript">
+					//스크롤 자동으로 맨밑
+					let textBox = $(".chatting-content");
+					$(".chatting-content").scrollTop(textBox[0].scrollHeight);
+				</script>
+			</div>
+
+		</div>
+	</section>
+
+	<!-- Instagram Begin -->
+	<div class="instagram">
+		<div class="container-fluid">
+			<div class="row">
+				<c:forEach var="item" items="${popularList }">
+					<div class="col-lg-2 col-md-4 col-sm-4 p-0"
+						style="cursor: pointer;"
+						onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+						<div class="instagram__item set-bg"
+							data-setbg="${item.product_img1 }">
+							<div class="instagram__text">
+								<a>More View</a>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+	<!-- Instagram End -->
+
 	<%@include file="mallFooter.jsp"%>
 
 	<!-- modal -->
@@ -271,7 +496,8 @@ input.textInput {
 				</div>
 				<div class="modal-body" id="modalText"></div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" id="piece">삭제</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal"
+						id="piece">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 				</div>
 			</div>
@@ -279,16 +505,16 @@ input.textInput {
 		</div>
 	</div>
 	<!-- Js Plugins -->
-<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
-<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
-<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
-<script src="../../resources/mallMain/js/mixitup.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
-<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
-<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
-<script src="../../resources/mallMain/js/main.js"></script>
+	<script src="../../resources/mallMain/js/jquery-3.3.1.min.js"></script>
+	<script src="../../resources/mallMain/js/bootstrap.min.js"></script>
+	<script src="../../resources/mallMain/js/jquery.magnific-popup.min.js"></script>
+	<script src="../../resources/mallMain/js/jquery-ui.min.js"></script>
+	<script src="../../resources/mallMain/js/mixitup.min.js"></script>
+	<script src="../../resources/mallMain/js/jquery.countdown.min.js"></script>
+	<script src="../../resources/mallMain/js/jquery.slicknav.js"></script>
+	<script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
+	<script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
+	<script src="../../resources/mallMain/js/main.js"></script>
 </body>
 
 </html>
