@@ -1,13 +1,18 @@
 package com.cambak21.domain;
 
+import java.util.Date;
+
 public class ProductDetailListVO {
 	private int product_id;
 	private String mainCategory_content;
 	private String middleCategory_content;
 	private String product_name;
 	private int product_sellPrice;
+	private int product_totQty;
+	private Date product_date;
 	private String product_img1;
 	private int product_prodAvgScore;
+	private String product_popularProduct;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -39,6 +44,18 @@ public class ProductDetailListVO {
 	public void setProduct_sellPrice(int product_sellPrice) {
 		this.product_sellPrice = product_sellPrice;
 	}
+	public int getProduct_totQty() {
+		return product_totQty;
+	}
+	public void setProduct_totQty(int product_totQty) {
+		this.product_totQty = product_totQty;
+	}
+	public Date getProduct_date() {
+		return product_date;
+	}
+	public void setProduct_date(Date product_date) {
+		this.product_date = product_date;
+	}
 	public String getProduct_img1() {
 		return product_img1;
 	}
@@ -51,13 +68,20 @@ public class ProductDetailListVO {
 	public void setProduct_prodAvgScore(int product_prodAvgScore) {
 		this.product_prodAvgScore = product_prodAvgScore;
 	}
+	public String getProduct_popularProduct() {
+		return product_popularProduct;
+	}
+	public void setProduct_popularProduct(String product_popularProduct) {
+		this.product_popularProduct = product_popularProduct;
+	}
 	
 	@Override
 	public String toString() {
 		return "ProductDetailListVO [product_id=" + product_id + ", mainCategory_content=" + mainCategory_content
 				+ ", middleCategory_content=" + middleCategory_content + ", product_name=" + product_name
-				+ ", product_sellPrice=" + product_sellPrice + ", product_img1=" + product_img1
-				+ ", product_prodAvgScore=" + product_prodAvgScore + "]";
+				+ ", product_sellPrice=" + product_sellPrice + ", product_totQty=" + product_totQty + ", product_date="
+				+ product_date + ", product_img1=" + product_img1 + ", product_prodAvgScore=" + product_prodAvgScore
+				+ ", product_popularProduct=" + product_popularProduct + "]";
 	}
 	
 }

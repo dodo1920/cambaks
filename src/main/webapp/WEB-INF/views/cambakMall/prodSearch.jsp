@@ -25,7 +25,9 @@
 <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+
 <script>
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
 let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
@@ -127,10 +129,10 @@ function pageNumMove(movePage) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -153,7 +155,7 @@ function pageNumMove(movePage) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=" + movePage + "&perPageNum=" + perPageNum + "&keyword=" + keyword;
+	location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=" + movePage + "&perPageNum=" + perPageNum + "&keyword=" + keyword;
 }
 
 function prodScoreViewMove(sorter, score) {
@@ -161,10 +163,10 @@ function prodScoreViewMove(sorter, score) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -189,7 +191,7 @@ function prodScoreViewMove(sorter, score) {
 		alert("잘못된 접근입니다.");
 		history.back();
 	} else if (scoreInt >= 0 || scoreInt <= 5) {
-		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + sorter + "&prodScore=" + score + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+		location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + sorter + "&prodScore=" + score + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	}
 	
 }
@@ -199,10 +201,10 @@ function priceViewMove(priceRange, min, max) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -227,11 +229,11 @@ function priceViewMove(priceRange, min, max) {
 	
 	// 페이지 이동
 	if (priceRange == "all") {
-		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=all&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+		location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=all&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "less" || priceRange == "great") {
-		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+		location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "avg") {
-		location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+		location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRange + "&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 	} else if (priceRange == "avgInput") {
 		max = $("#maxPrice").val();
 		min = $("#minPrice").val();
@@ -243,7 +245,7 @@ function priceViewMove(priceRange, min, max) {
 			alert("입력하신 가격 범위는 최대 가격이 최소 가격보다 적습니다.");
 			return;
 		} else {
-			location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+			location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 		}
 		
 	} else {
@@ -257,10 +259,10 @@ function prodNumViewMove(prodsNumber) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -283,7 +285,7 @@ function prodNumViewMove(prodsNumber) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/Search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + prodsNumber + "&keyword=" + keyword;
+	location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + prodsNumber + "&keyword=" + keyword;
 }
 
 function productViewMove(prodsRank) {
@@ -291,10 +293,10 @@ function productViewMove(prodsRank) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -317,12 +319,15 @@ function productViewMove(prodsRank) {
 		ratingSorter = "false";
 	}
 	// 페이지 이동
-	location.href="/mall/Search?prodRankOrder=" + prodsRank + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
+	location.href="/mall/search?prodRankOrder=" + prodsRank + "&priceRangeOrder=" + priceRangeOrder + "&maxPrice=" + maxPrice + "&minPrice=" + minPrice + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 }
 
 function categoryMove(main, middle) {
-	// 상품 카테고리 클릭하여 페이지 이동 시 파라메터 확인
-	location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	if (main == 0 && middle == 0) {
+		location.href="/mall/categories";
+	} else {
+		location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	}
 }
 
 </script>
@@ -359,43 +364,36 @@ function categoryMove(main, middle) {
     margin-right: 6px !important;
 }
 
-.searchForm {
-    display: none;
-    top: 48px;
-    right: 0;
-    border: 0;
-    border-bottom: 2px solid #f32952;
-    background: #ffffff;
-    z-index: 110;
+.prodName a:hover {
+	text-decoration: underline;
 }
 
-.searhcInput {
-	background: none;
-	border: none 0;
-	vertical-align: top;
-	font-size: 15px;
+.allProdBtn:after {
+	display : none;
 }
 
-.searchIconBtn {
-	height: 18px;
+.searchNoItem {
+	text-align: center;
+	padding: 96px 0 95px;
+	line-height: 22px;
+	width: 837px;
+	font-size: 20px;
+	font-weight: 500;
 }
 
-.modal-header, .modalTitle, .close {
-  background-color: #b3bcc5;
-  color:white !important;
-  text-align: center;
-  font-size: 25px;
-}
-.modal-footer {
-  background-color: #f9f9f9;
+#priceRangeBtn {
+	font-size: 14px;
+    background-color: #f2f2f2;
+    color: #333;
+    border-color: #f2f2f2;
 }
 
 </style>
 
 
 </head>
-<body>
-<%@include file="head.jsp" %>
+<body ondragstart="return false">
+<%@include file="mallHeader.jsp" %>
 
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
@@ -412,60 +410,21 @@ function categoryMove(main, middle) {
 </div>
 <!-- Breadcrumb End -->
 
-<%@include file="prodSearchAside.jsp" %>
+<%@include file="prodSearchContent.jsp" %>
 
 <!-- Instagram Begin -->
 <div class="instagram">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-1.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-2.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-3.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-4.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-5.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-6.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
+        	<c:forEach var="item" items="${popularList }">
+	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+	                    <div class="instagram__text">
+	                        <a>More View</a>
+	                    </div>
+	                </div>
+	            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
