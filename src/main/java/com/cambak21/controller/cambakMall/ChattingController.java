@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.ChattingService;
+import com.cambak21.service.cambakMall.ProdListService;
 
 
 @Controller
@@ -25,7 +26,7 @@ public class ChattingController {
 	public String userChatting (@SessionAttribute("loginMember") MemberVO loginMember, Model model) throws Exception {
 		
 		model.addAttribute("chatting", service.getChatting(loginMember.getMember_id()));
-		
+		model.addAttribute("popularList", service.popularProdList()); // 하단에 인스타그램 형식 사진 출력
 		
 		return "cambakMall/userChatting";
 	}

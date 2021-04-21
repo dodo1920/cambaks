@@ -41,7 +41,9 @@
 	href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css"
 	type="text/css">
+<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 <script src="../../../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
 <script type="text/javascript">
@@ -56,9 +58,9 @@
 		// 웹 소켓 초기화
 		webSocketInit();
 		
-		$("#main-sidebar").attr("style", "display:block");
-		$(".top").attr("style", "display:block");
-		$("#btnGoChatting").attr("style", "margin-left: 50px; display:block");
+		$("#main-sidebar").attr("style", "display:block; position: absolute; left:80%; top:200px");
+// 		$(".top").attr("style", "display:block; position: absolute");
+// 		$("#btnGoChatting").attr("style", "margin-left: 50px; display:block; position: absolute");
 	})
 
 	function webSocketInit() {
@@ -237,6 +239,24 @@ input.textInput {
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	</script>
+	
+<!-- Instagram Begin -->
+<div class="instagram">
+    <div class="container-fluid">
+        <div class="row">
+        	<c:forEach var="item" items="${popularList }">
+	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+	                    <div class="instagram__text">
+	                        <a>More View</a>
+	                    </div>
+	                </div>
+	            </div>
+            </c:forEach>
+        </div>
+    </div>
+</div>
+<!-- Instagram End -->
 	
 	<%@include file="mallFooter.jsp"%>
 

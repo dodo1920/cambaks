@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ChattingListVO;
+import com.cambak21.domain.ProductDetailListVO;
 
 @Repository
 public class ChattingDAOImpl implements ChattingDAO {
@@ -17,6 +18,7 @@ public class ChattingDAOImpl implements ChattingDAO {
 	@Inject
 	private SqlSession ses;
 	private static String namespace = "com.cambak21.mappers.ChattingMapper";
+	private static String MallMapper = "com.cambak21.mappers.cambakMallMapper";
 	
 	/**
 	  * @Method Name : fromAdmin
@@ -62,6 +64,20 @@ public class ChattingDAOImpl implements ChattingDAO {
 		map.put("member_id", member_id);
 		map.put("chatting_content", chatting_content);
 		ses.insert(namespace + ".fromAdmin", map);
+	}
+
+	/**
+	  * @Method Name : popularProdList
+	  * @작성일 : 2021. 4. 21.
+	  * @작성자 : goott6
+	  * @변경이력 : 
+	  * @Method 설명 :
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public List<ProductDetailListVO> popularProdList() throws Exception {
+		return ses.selectList(MallMapper + ".popularProdList");
 	}
 
 }

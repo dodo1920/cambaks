@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ChattingListVO;
+import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.persistence.cambakMall.ChattingDAO;
 
 @Service
@@ -43,6 +44,21 @@ public class ChattingServiceImpl implements ChattingService {
 	@Override
 	public void fromAdmin(String member_id, String chatting_content) throws Exception {
 		dao.fromAdmin(member_id, chatting_content);
+	}
+
+	/**
+	  * @Method Name : popularProdList
+	  * @작성일 : 2021. 4. 21.
+	  * @작성자 : 
+	  * @변경이력 : 
+	  * @Method 설명 : 하단에 인기상품 가져오기
+	  * @return
+	  * @throws Exception
+	  */
+	@Override
+	public List<ProductDetailListVO> popularProdList() throws Exception {
+		
+		return dao.popularProdList();
 	}
 	
 }
