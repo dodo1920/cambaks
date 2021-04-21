@@ -57,6 +57,11 @@ public class MemberDAOImpl implements MemberDAO {
 		// 유저가 작성한 회원 정보 저장
 		return ses.insert(namespace + ".MemberInsert", vo);
 	}
+	
+	@Override
+	public int loginRequestCheck(LoginDTO dto) throws Exception {
+		return ses.selectOne(namespace + ".loginRequestCheck", dto);
+	}
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	@Override

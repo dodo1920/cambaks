@@ -947,7 +947,9 @@ public class ProdDetail {
 		try {
 			if(prodService.checkNonUserBucketQty(vo.getNonUserBucket_ssid()) < 10 || prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()) != null) {
 				logger.info("빈 공간이 있다면, 장바구니에 있는 상품인지 확인");
-				entity = new ResponseEntity<NonUserBucketVO>(prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id()), HttpStatus.OK);
+				NonUserBucketVO tempvo = prodService.checkNonUserBucket(vo.getNonUserBucket_ssid(), vo.getProduct_id());
+				System.out.println(tempvo);
+				entity = new ResponseEntity<NonUserBucketVO>(tempvo, HttpStatus.OK);
 			} else {
 				tmpVO.setNonUserBucket_buyQty(11);
 				entity = new ResponseEntity<NonUserBucketVO>(tmpVO, HttpStatus.OK);

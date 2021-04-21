@@ -29,8 +29,50 @@
 	<select id="getTotalOrder" resultType="int">
 		SELECT count(*) FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y';
 	</select>
-	<select id="getTotalOrderList" resultType="com.cambak21.domain.BuyProductVO">
-		SELECT * FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' order by buyProduct_no desc limit #{pageStart}, #{perPageNum}
+	<select id="getTotalOrderList"
+	resultType="com.cambak21.domain.BuyProductPaymentVO">
+	SELECT bp.buyProduct_no, bp.member_id, bucket_no, product_name,
+	buyProduct_qty, product_sellPrice,
+	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, product_id, payment_no,
+	payment_serialNo, payInfo_no, destination_no, payment_date,
+	payment_deliveryMsg, payment_isComit,
+	payment_isChecked
+	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
+	bp.buyProduct_no where bp.member_id=#{member_id} and
+	buyProduct_isFinished='Y' order by bp.buyProduct_no desc limit
+	#{pageStart}, #{perPageNum}
+</select>
+	<select id="searchOrder"
+	resultType="com.cambak21.domain.BuyProductPaymentVO">
+	SELECT bp.buyProduct_no, bp.member_id, bucket_no, product_name,
+	buyProduct_qty, product_sellPrice,
+	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, product_id, payment_no,
+	payment_serialNo, payInfo_no, destination_no, payment_date,
+	payment_deliveryMsg, payment_isComit,
+	payment_isChecked
+	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
+	bp.buyProduct_no where bp.member_id=#{member_id} and
+	buyProduct_isFinished='Y' and bp.product_name like concat('%',
+	#{searchWord}, '%') order by bp.buyProduct_no desc limit #{pageStart},
+	#{perPageNum}
+</select>
+	<select id="searchOrderCnt" resultType="int">
+		SELECT count(*) FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' and product_name like concat('%', #{searchWord}, '%') order by buyProduct_no
+	</select>
+	<select id="getOrder" resultType="com.cambak21.domain.BuyProductVO">
+		SELECT * FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_no=#{buyProduct_no} and buyProduct_isFinished='Y' order by buyProduct_no desc
+	</select>
+	<select id="getDest" resultType="int">
+		SELECT destination_no FROM goot6.Payments where member_id=#{member_id} and buyProduct_no=#{buyProduct_no}
+	</select>
+	<select id="getDestOne" resultType="com.cambak21.domain.DestinationVO">
+		SELECT * FROM goot6.Destinations where destination_no = #{destination_no}
+	</select>
+	<select id="getPayno" resultType="int">
+		SELECT payInfo_no FROM goot6.Payments where member_id=#{member_id} and buyProduct_no=#{buyProduct_no}
+	</select>
+	<select id="getPayInfo" resultType="com.cambak21.domain.PayInfoVO">
+		SELECT * FROM goot6.PayInfos where payInfo_no = #{payInfo_no}
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 

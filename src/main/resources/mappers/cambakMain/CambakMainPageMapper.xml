@@ -40,7 +40,14 @@
 	
 <!-- 	메인페이지 자동검색 -->
 	<select id="autoSearch" resultType="String">
-		select camping_facltNm from Campings where camping_facltNm like concat('%', #{searchWord} ,'%') limit 10
+		select camping_facltNm from Campings where camping_facltNm like concat('%', #{searchWord} ,'%') or camping_lineIntro like concat('%', #{searchWord} ,'%') 
+		or camping_facltDivNm like concat('%', #{searchWord} ,'%') or camping_mangeDivNm like concat('%', #{searchWord} ,'%') 
+		or camping_featureNm like concat('%', #{searchWord} ,'%') or camping_induty like concat('%', #{searchWord} ,'%') or camping_lctCl like concat('%', #{searchWord} ,'%') 
+		or camping_addr1 like concat('%', #{searchWord} ,'%') or camping_resveCl like concat('%', #{searchWord} ,'%') or camping_glampInnerFclty like concat('%', #{searchWord} ,'%') 
+		or camping_operPdCl like concat('%', #{searchWord} ,'%') or camping_operDeCl like concat('%', #{searchWord} ,'%') or camping_sbrsCl like concat('%', #{searchWord} ,'%') 
+		or camping_sbrsEtc like concat('%', #{searchWord} ,'%') or camping_posblFcltyCl like concat('%', #{searchWord} ,'%') or camping_posblFcltyEtc like concat('%', #{searchWord} ,'%')
+		or camping_themaEnvrnCl like concat('%', #{searchWord} ,'%') or camping_eqpmnLendCl like concat('%', #{searchWord} ,'%') or camping_animalCmgCl like concat('%', #{searchWord} ,'%')
+		limit 10
 	</select>
 	
 <!-- ===========================효원 매퍼 끝============================================================================= -->

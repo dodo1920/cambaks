@@ -24,6 +24,7 @@ public class ProductsVO {
 	private Date product_date;
 	private String product_title;
 	private int product_prodAvgScore;
+	private String product_popularProduct;
 	
 	public int getProduct_id() {
 		return product_id;
@@ -145,6 +146,12 @@ public class ProductsVO {
 	public void setProduct_prodAvgScore(int product_prodAvgScore) {
 		this.product_prodAvgScore = product_prodAvgScore;
 	}
+	public String getProduct_popularProduct() {
+		return product_popularProduct;
+	}
+	public void setProduct_popularProduct(String product_popularProduct) {
+		this.product_popularProduct = product_popularProduct;
+	}
 	
 	@Override
 	public String toString() {
@@ -156,7 +163,7 @@ public class ProductsVO {
 				+ product_img1 + ", product_img2=" + product_img2 + ", product_img3=" + product_img3 + ", product_img4="
 				+ product_img4 + ", product_show=" + product_show + ", product_shipPrice=" + product_shipPrice
 				+ ", product_date=" + product_date + ", product_title=" + product_title + ", product_prodAvgScore="
-				+ product_prodAvgScore + "]";
+				+ product_prodAvgScore + ", product_popularProduct=" + product_popularProduct + "]";
 	}
-
+	
 }

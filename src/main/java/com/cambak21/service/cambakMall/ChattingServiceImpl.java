@@ -29,5 +29,20 @@ public class ChattingServiceImpl implements ChattingService {
 	public List<ChattingListVO> getChatting(String member_id) throws Exception {
 		return dao.getChatting(member_id);
 	}
+
+	/**
+	  * @Method Name : fromAdmin
+	  * @작성일 : 2021. 4. 20.
+	  * @작성자 : 승권
+	  * @변경이력 : 
+	  * @Method 설명 : 운영자가 메시지 보낼 시
+	  * @param member_id : 답장 받는 유저
+	  * @param chatting_content : 내용
+	  * @throws Exception
+	  */
+	@Override
+	public void fromAdmin(String member_id, String chatting_content) throws Exception {
+		dao.fromAdmin(member_id, chatting_content);
+	}
 	
 }

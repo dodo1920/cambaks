@@ -2,27 +2,46 @@ package com.cambak21.persistence.cambakMain;
 
 import java.util.List;
 
+import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface MyMallDAO {
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+	// 환불내역 총 갯수 가져오기
 	public int getTotalRefund(String member_id) throws Exception;
-	
+	//환불내역 내용 가져오기
 	List<RefundVO> getRefundList(String member_id, PagingCriteria cri) throws Exception;
-	
+	// 총 내 주문 가져오기
 	public int getTotalOrder(String member_id) throws Exception;
+	// 모든 주문내역 가져오기
+	public List<BuyProductPaymentVO> getTotalOrderList(String member_id, PagingCriteria cri)throws Exception;
 	
-	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri)throws Exception;
+	public List<BuyProductPaymentVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id)throws Exception;
+	
+	public int searchOrderCnt(SearchCriteria scri, String member_id);
+	
+	public BuyProductVO getOrder(String member_id, int buyProduct_no)throws Exception;
+	
+	public int getDest(String member_id, int buyProduct_no)throws Exception;
+	
+	public DestinationVO getDestOne(int destNo)throws Exception;
+	
+	public int getPayno(String member_id, int buyProduct_no)throws Exception;
+	
+	public PayInfoVO getPayInfo(int payInfo_no)throws Exception;
+
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -69,6 +88,10 @@ public interface MyMallDAO {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 
 	public MemberOrderVO MemberDetailOrder(int serialNo, String userName);
+	
+	
+
+
 
 	
 

@@ -2,13 +2,12 @@ package com.cambak21.util;
 
 import java.io.IOException;
 
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
-import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -18,8 +17,6 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Controller;
-
-import com.cambak21.service.cambakMall.ChattingService;
 
 @Controller
 @ServerEndpoint("/userChatting/{member_id}")
@@ -31,7 +28,7 @@ public class UserChattingHandler {
 	// 유저 객체
 	private class User {
 		Session session;
-		String key;
+		String member_id; // 유저의 아이디, 유니크
 	}
 
 	// 유저 본인에게 뿌리기 위한
@@ -64,9 +61,9 @@ public class UserChattingHandler {
 	  * @param key
 	  * @return
 	  */
-	private static User getUser(String key) {
+	private static User getUser(String member_id) {
 		for (User user : sessionList) {
-			if (user.key.equals(key)) {
+			if (user.member_id.equals(member_id)) {
 				return user;
 			}
 		}
@@ -84,13 +81,11 @@ public class UserChattingHandler {
 	  */
 	@OnOpen
 	public void handleOpen(Session session, @PathParam("member_id") String member_id) {
-		System.out.println("웹 소켓 연결");
 		User user = new User();
-		user.key = member_id;
+		user.member_id = member_id;
 		user.session = session;
 		sessionList.add(user);
 
-//		handleMsg("conn", user.session);
 	}
 
 	/**
@@ -106,16 +101,17 @@ public class UserChattingHandler {
 	public void handleMsg(String msg, Session session) {
 		User findUser = getUser(session);
 		
+		// 유저가 null 아니라면...
 		if (findUser != null) {
-			// 운영자한테 메시지 전송
-			AdminChattingHandler.sendMsg(findUser.key, msg);
-			try {
-				// 유저 자기자신한테 메시지 전송
-				findUser.session.getBasicRemote().sendText(msg);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// 운영자 소켓서버가 있다면 ...
+			if(AdminChattingHandler.getSession() != null) {
+				try {
+					// 운영자한테 메시지 전송
+					AdminChattingHandler.sendMsg(findUser.member_id, msg);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} 
 		}
 	}
 
@@ -128,8 +124,8 @@ public class UserChattingHandler {
 	  * @param msg
 	  * @param key
 	  */
-	public static void sendMsg(String msg, String key) {
-		User findUser = getUser(key);
+	public static void sendMsg(String msg, String member_id) {
+		User findUser = getUser(member_id);
 
 		if (findUser != null) {
 			try {
@@ -152,7 +148,6 @@ public class UserChattingHandler {
 	  */
 	@OnClose
 	public void handleClose(Session session) {
-		System.out.println("웹소켓 닫힘");
 
 		User user = getUser(session);
 

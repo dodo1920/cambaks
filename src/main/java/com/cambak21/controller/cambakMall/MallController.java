@@ -234,15 +234,14 @@ public class MallController {
 	// **************************************** 서효원 컨트롤러
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String prodList(ProductDetailParamVO vo, PagingStringCriteria scri, Model model) throws Exception {
-		System.out.println("처음에 들어온 값 : " + vo.toString());
 		
 		ProductDetailOrderVO detail = new ProductDetailOrderVO();
 		ProdListPagingCriteria cri = new ProdListPagingCriteria();
 		
-		// 카테고리 정보가 비어 있을 경우 1, 1 카테고리로 설정
+		// 카테고리 정보가 비어 있을 경우 0, 0 - 전체상품 페이지로 설정
 		if (vo.getMainCategory_id() == "" || vo.getMiddleCategory_id() == "" || vo.getMainCategory_id() == null || vo.getMiddleCategory_id() == null) {
-			detail.setMainCategory_id(1);
-			detail.setMiddleCategory_id(1);
+			detail.setMainCategory_id(0);
+			detail.setMiddleCategory_id(0);
 		} else {
 			detail.setMainCategory_id(Integer.parseInt(vo.getMainCategory_id()));
 			detail.setMiddleCategory_id(Integer.parseInt(vo.getMiddleCategory_id()));
@@ -257,6 +256,7 @@ public class MallController {
 		
 		// 가격별 정렬 범위 설정
 		if (vo.getPriceRangeOrder() == "" || vo.getPriceRangeOrder() == null) {
+			vo.setPriceRangeOrder("all");
 			detail.setPriceRangeOrder("all");
 		} else {
 			detail.setPriceRangeOrder(vo.getPriceRangeOrder());
@@ -306,17 +306,16 @@ public class MallController {
 		return "cambakMall/prodList_hyowon";
 	}
 	
-	@RequestMapping(value = "/Search", method = RequestMethod.GET)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String prodSearch(ProductDetailParamVO vo, PagingStringCriteria scri, @RequestParam("keyword") String keyword, Model model) throws Exception {
-		System.out.println("처음에 들어온 값 : " + vo.toString());
 		
 		ProductDetailOrderVO detail = new ProductDetailOrderVO();
 		ProdListPagingCriteria cri = new ProdListPagingCriteria();
 		
-		// 카테고리 정보가 비어 있을 경우 1, 1 카테고리로 설정
+		// 카테고리 정보가 비어 있을 경우 0, 0 - 전체상품 페이지로 설정
 		if (vo.getMainCategory_id() == "" || vo.getMiddleCategory_id() == "" || vo.getMainCategory_id() == null || vo.getMiddleCategory_id() == null) {
-			detail.setMainCategory_id(1);
-			detail.setMiddleCategory_id(1);
+			detail.setMainCategory_id(0);
+			detail.setMiddleCategory_id(0);
 		} else {
 			detail.setMainCategory_id(Integer.parseInt(vo.getMainCategory_id()));
 			detail.setMiddleCategory_id(Integer.parseInt(vo.getMiddleCategory_id()));
@@ -483,50 +482,50 @@ public class MallController {
 
 	// **************************************** 김태훈 컨트롤러
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String BoardResellList(PagingCriteria cri, Model model) throws Exception {
-		System.out.println("boardResellList 테스트");
-		cri.setPage(1);
-		model.addAttribute("board", service.prodBoardReadAll(cri));
-		PagingParam pp = new PagingParam();
-		pp.setDisplayPageNum(9);
-		pp.setCri(cri);
-
-		pp.setTotalCount(service.prodBoardReadAllCnt()); // 게시물 갯수
-		System.out.println(pp.toString());
-		model.addAttribute("pagingParam", pp);
-
-		return "cambakMall/prodList";
-	}
-
-	@RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
-	public ResponseEntity<List<ProductsVO>> BoardResellListPOST(@PathVariable("page") int page, PagingCriteria cri,
-			Model model) throws Exception {
-		System.out.println("boardResellList 테스트");
-		System.out.println("page : " + page);
-		ResponseEntity<List<ProductsVO>> entity = null;
-		List<ProductsVO> listResell = service.prodBoardReadAll(cri);
-		if (listResell != null) {
-			entity = new ResponseEntity<List<ProductsVO>>(listResell, HttpStatus.OK);
-		}
-
-		return entity;
-	}
-	
-	@RequestMapping(value="/search", method=RequestMethod.GET)
-	public String seach(PagingCriteria cri,@RequestParam("searchType") String searchType,@RequestParam("optionType") String optionType,@RequestParam("searchWord") String searchWord,Model model) throws Exception {
-		System.out.println("search 테스트");
-		SearchCriteria sri = new SearchCriteria();
-		System.out.println("optionType : "+optionType+"\n searchType : "+searchType+"\n searchWord : "+searchWord+"\n page : "+cri.getPage()+"\n pageStart"+cri.getPageStart());
-		sri.setOptionType(optionType);
-		sri.setSearchType(searchType);
-		sri.setSearchWord(searchWord);
-		List<ProductsVO> searchProd = service.prodBoardSearch(cri,sri);
-		System.out.println(searchProd);
-		model.addAttribute("board",searchProd);
-		
-		return "cambakMall/prodList";
-		}
+//	@RequestMapping(value = "/list", method = RequestMethod.GET)
+//	public String BoardResellList(PagingCriteria cri, Model model) throws Exception {
+//		System.out.println("boardResellList 테스트");
+//		cri.setPage(1);
+//		model.addAttribute("board", service.prodBoardReadAll(cri));
+//		PagingParam pp = new PagingParam();
+//		pp.setDisplayPageNum(9);
+//		pp.setCri(cri);
+//
+//		pp.setTotalCount(service.prodBoardReadAllCnt()); // 게시물 갯수
+//		System.out.println(pp.toString());
+//		model.addAttribute("pagingParam", pp);
+//
+//		return "cambakMall/prodList";
+//	}
+//
+//	@RequestMapping(value = "/list/{page}", method = RequestMethod.POST)
+//	public ResponseEntity<List<ProductsVO>> BoardResellListPOST(@PathVariable("page") int page, PagingCriteria cri,
+//			Model model) throws Exception {
+//		System.out.println("boardResellList 테스트");
+//		System.out.println("page : " + page);
+//		ResponseEntity<List<ProductsVO>> entity = null;
+//		List<ProductsVO> listResell = service.prodBoardReadAll(cri);
+//		if (listResell != null) {
+//			entity = new ResponseEntity<List<ProductsVO>>(listResell, HttpStatus.OK);
+//		}
+//
+//		return entity;
+//	}
+//	
+//	@RequestMapping(value="/search", method=RequestMethod.GET)
+//	public String seach(PagingCriteria cri,@RequestParam("searchType") String searchType,@RequestParam("optionType") String optionType,@RequestParam("searchWord") String searchWord,Model model) throws Exception {
+//		System.out.println("search 테스트");
+//		SearchCriteria sri = new SearchCriteria();
+//		System.out.println("optionType : "+optionType+"\n searchType : "+searchType+"\n searchWord : "+searchWord+"\n page : "+cri.getPage()+"\n pageStart"+cri.getPageStart());
+//		sri.setOptionType(optionType);
+//		sri.setSearchType(searchType);
+//		sri.setSearchWord(searchWord);
+//		List<ProductsVO> searchProd = service.prodBoardSearch(cri,sri);
+//		System.out.println(searchProd);
+//		model.addAttribute("board",searchProd);
+//		
+//		return "cambakMall/prodList";
+//		}
 
 	// **********************************************
 }
