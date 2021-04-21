@@ -62,7 +62,7 @@ public class MyMallController {
 	@RequestMapping("/myOrder")
 	public String myOrder(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception{
 		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
-		
+		System.out.println(service.getTotalOrderList(member.getMember_id(), cri).toString());
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(service.getTotalOrder(member.getMember_id()));
