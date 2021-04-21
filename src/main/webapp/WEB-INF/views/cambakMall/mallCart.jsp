@@ -40,7 +40,9 @@
 	href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css"
 	type="text/css">
+<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 <script src="../../../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 <style type="text/css">
 button.btn.btn-default.cntCh {
