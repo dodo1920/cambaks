@@ -25,7 +25,8 @@
 	
 	<!-- 채팅 가져오기, 일대일 채팅방 -->
 	<select id="getChatting" resultType="com.cambak21.domain.ChattingListVO">
-		select * from Chattings where member_id=#{member_id} or member_id='admin' order by chatting_date asc;
+		select * from Chattings 
+		where member_id= #{member_id} or chatting_toUser=#{member_id} order by chatting_date asc;
 	</select>
 	
 

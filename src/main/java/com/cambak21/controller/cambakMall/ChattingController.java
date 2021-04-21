@@ -1,5 +1,7 @@
 package com.cambak21.controller.cambakMall;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cambak21.domain.ChattingListVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.ChattingService;
 import com.cambak21.service.cambakMall.ProdListService;
@@ -27,6 +30,7 @@ public class ChattingController {
 		
 		model.addAttribute("chatting", service.getChatting(loginMember.getMember_id()));
 		model.addAttribute("popularList", service.popularProdList()); // 하단에 인스타그램 형식 사진 출력
+		model.addAttribute("userImg", loginMember.getMember_img());
 		
 		return "cambakMall/userChatting";
 	}

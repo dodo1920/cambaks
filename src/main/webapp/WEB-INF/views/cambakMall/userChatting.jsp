@@ -171,6 +171,7 @@
 	overflow: auto;
 	max-height: 770px;
 	background-color: #9bbbd4;
+	min-height: 770px;
 }
 /* 메시지 하나하나 감싸는 부분 */
 .msgOutput {
@@ -214,6 +215,23 @@ span.msg-date {
 input.textInput {
 	border: 1px solid gray;
 }
+
+.myProfile-wrap {
+    margin-bottom: 50px;
+}
+
+.profile-content-wrap {
+    padding-top: 20px;
+}
+
+.profile-content {
+    margin-bottom: 10px;
+}
+
+.profile-content > a {
+    color:black;
+    font-size: 14px;
+}
 </style>
 </head>
 
@@ -236,19 +254,19 @@ input.textInput {
 			<div class="row">
 				<div class="col-lg-3 col-md-3">
 					<div class="myProfile-wrap">
-					나의 장바구니 목록<br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					활활화로 <br>
-					고객센터 바로가기 <br>
+						<c:choose>
+							<c:when test="${userImg == 'memberProfile/profileDefualt.png' }">
+								<img src="../resources/uploads/memberProfile/profileDefualt.png">
+							</c:when>
+							<c:otherwise>
+								<img src="../resources/uploads/${userImg }">
+							</c:otherwise>
+						</c:choose>
+						<div class="profile-content-wrap">
+							<div class="profile-content"><a href="/user/Modify/${loginMember.member_id}">개인정보 수정</a></div>
+							<div class="profile-content"><a href="/mall/destinationsList">배송지관리</a></div>
+							<div class="profile-content"><a href="/board/cs/list?page=1">고객센터 바로가기</a></div>
+						</div>
 					</div>
 					<div class="shop__sidebar">
 						<div class="sidebar__categories">

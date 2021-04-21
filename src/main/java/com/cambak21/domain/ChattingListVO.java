@@ -46,4 +46,6 @@ public class ChattingListVO {
 				+ chatting_date + ", chatting_toUser=" + chatting_toUser + "]";
 	}
 
+	
+
 }

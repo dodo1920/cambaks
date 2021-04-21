@@ -60,5 +60,5 @@ public class ChattingServiceImpl implements ChattingService {
 		
 		return dao.popularProdList();
 	}
-	
+
 }
