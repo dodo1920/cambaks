@@ -22,7 +22,11 @@ public class ChattingController {
 	private ChattingService service;
 	
 	@RequestMapping("/userChatting")
-	public String userChatting () {
+	public String userChatting (@SessionAttribute("loginMember") MemberVO loginMember, Model model) throws Exception {
+		
+		model.addAttribute("chatting", service.getChatting(loginMember.getMember_id()));
+		
+		
 		return "cambakMall/userChatting";
 	}
 	
@@ -54,13 +58,26 @@ public class ChattingController {
 	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg, @SessionAttribute("loginMember") MemberVO loginMember) {
 		ResponseEntity<String> entity = null;
 		
-		System.out.println("컨트롤러단 msg : " + msg);
-		
 		try {
 			service.fromUser(loginMember.getMember_id(), msg);
 			new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
-			new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/fromAdmin/{msg}/{member_id}")
+	public ResponseEntity<String> fromUser (@PathVariable("msg") String chatting_content, @PathVariable("member_id") String member_id) {
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.fromAdmin(member_id, chatting_content);
+			new ResponseEntity<String>("ok", HttpStatus.OK);
+		} catch (Exception e) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		

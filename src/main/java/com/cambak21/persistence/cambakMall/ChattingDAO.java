@@ -10,4 +10,6 @@ public interface ChattingDAO {
 	List<ChattingListVO> chattingList() throws Exception;
 	
 	List<ChattingListVO> getChatting(String member_id) throws Exception;
+	
+	void fromAdmin(String member_id, String chatting_content) throws Exception;
 }
