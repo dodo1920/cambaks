@@ -1,6 +1,12 @@
 package com.cambak21.persistence.cambakAdmin;
 
+import java.util.List;
+
+import com.cambak21.domain.RevenueVO;
+
 public interface AdminDAO {
+
+	
 
 	
 	// ======================================== 도연 ============================================================================
@@ -26,7 +32,9 @@ public interface AdminDAO {
 	
 //	============================================== 대기 ==============================================================================
 	
-	
+	public RevenueVO getDayRevenue() throws Exception;
+
+	public List<RevenueVO> getPerDayRevenue() throws Exception;
 	
 	
 	

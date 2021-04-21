@@ -1,6 +1,12 @@
 package com.cambak21.service.cambakAdmin;
 
+import java.util.List;
+
+import com.cambak21.domain.RevenueVO;
+
 public interface adminService {
+
+	
 	// ======================================== 도연 ============================================================================
 	
 	
@@ -24,7 +30,9 @@ public interface adminService {
 		
 //		============================================== 대기 ==============================================================================
 		
-		
+	public RevenueVO getDayRevenue() throws Exception;
+
+	public List<RevenueVO> getPerDayRevenue()throws Exception;
 		
 		
 		

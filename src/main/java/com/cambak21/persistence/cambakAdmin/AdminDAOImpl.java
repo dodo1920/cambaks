@@ -1,6 +1,21 @@
 package com.cambak21.persistence.cambakAdmin;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
+
+import com.cambak21.domain.RevenueVO;
+
+@Repository
 public class AdminDAOImpl implements AdminDAO {
+	@Inject
+	private SqlSession ses;
+	
+	private static String ns = "com.cambak21.mappers.cambakAdmin.adminMapper";
+	
 	// ======================================== 도연 ============================================================================
 	
 	
@@ -24,7 +39,17 @@ public class AdminDAOImpl implements AdminDAO {
 		
 //		============================================== 대기 ==============================================================================
 		
-		
+	@Override
+	public RevenueVO getDayRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".getDayRevenue");
+	}
+
+	@Override
+	public List<RevenueVO> getPerDayRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectList(ns + ".getPerDayRevenue");
+	}
 		
 		
 		
