@@ -388,6 +388,12 @@ function categoryMove(main, middle) {
     border-color: #f2f2f2;
 }
 
+.noneReview {
+	font-size: 10px;
+    font-weight: bold;
+    color: lightsteelblue;
+}
+
 </style>
 
 

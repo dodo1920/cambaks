@@ -128,6 +128,7 @@ $(document).ready(function(){
   $("#userLogin").click(function(){
     $("#loginModal").modal();
   });
+  searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
 });
 
 //캠박몰 로그인
