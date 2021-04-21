@@ -74,6 +74,9 @@
 
 		// 해당 유저에게 메시지를 보낸다.
 		webSocket.send(msg + ":" + member_id);
+		
+		// 메시지 출력
+		$(".msgOutput:last").append("<div class='msgOutput'>"+msg+"</div>");
 	}
 
 	//메시지 받는 메서드

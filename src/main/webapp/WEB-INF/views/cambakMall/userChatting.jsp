@@ -113,27 +113,24 @@
 		// 운영자한테 메시지 전송
 		webSocket.send(msg)
 		
+		// 출력
+		let output = '<div class="msgOutput user-msg-wrap">';
+		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
+		output += '<span class="user-msg">'+msg+'</span></div>';
 		
+		$(".chatting-content").append(output);
+		
+		// 채팅하면 스크롤 자동으로 맨밑
+		let textBox = $(".chatting-content");
+		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	}
 
 	//메시지 받는 메서드
 	function socketMessage(event) {
 		
-		let data = event.data.split("-"); // 메시지를 유저가 보냈는지 어드민이 보냈는지 구분하기위한 ...
-		let msg = data[0]; // 메시지 내용
-		let who = data[1]; // user Or admin
-		
-		console.log(msg);
-		let output = "";
-		if(who == "user") { //css를 다르게 하기위한 ...
-			output += '<div class="msgOutput user-msg-wrap">';
-			output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
-			output += '<span class="user-msg">'+msg+'</span></div>';
-		} else {
-			output += '<div class="msgOutput admin-msg-wrap">';
-			output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
-			output += '<span class="admin-msg">'+msg+'</span></div>';
-		}
+		let output = '<div class="msgOutput admin-msg-wrap">';
+		output += '<span class="msg-date">'+new Date().getHours() + ":" + new Date().getMinutes()+'</span>';
+		output += '<span class="admin-msg">'+msg+'</span></div>';
 		
 		$(".chatting-content").append(output);
 		

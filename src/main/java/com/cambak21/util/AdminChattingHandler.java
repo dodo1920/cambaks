@@ -78,9 +78,7 @@ public class AdminChattingHandler {
 			// key와 msg를 보내면 UserChattingHandler에서 member_id값에 맞는 유저한테 메시지를 전송
 			// 일대일 채팅
 			UserChattingHandler.sendMsg(message, member_id);
-			// 운영자 자기자신한테도 msg 내용 보내기
-			admin.getBasicRemote().sendText(msg + ":" + member_id);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
