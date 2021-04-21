@@ -9,10 +9,10 @@ public class NonUserBucketVO {
 	private int nonUserBucket_totBuyPrice;
 	private String nonUserBucket_isChecked;
 	
-	public int getNonUserBUcket_id() {
+	public int getNonUserBucket_no() {
 		return nonUserBucket_no;
 	}
-	public void setNonUserBUcket_id(int nonUserBucket_no) {
+	public void setNonUserBucket_no(int nonUserBucket_no) {
 		this.nonUserBucket_no = nonUserBucket_no;
 	}
 	public String getNonUserBucket_ssid() {

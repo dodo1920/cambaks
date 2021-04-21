@@ -73,6 +73,12 @@
 		value(#{nonUserBucket_ssid}, #{product_id}, #{nonUserBucket_buyQty}, #{nonUserBucket_sellPrice}, #{nonUserBucket_totBuyPrice})
   	</insert>
   	
+  	<update id="updateNonUserBucketQty">
+  		update NonUserBuckets 
+  		set nonUserBucket_buyQty = #{nonUserBucket_buyQty}, nonUserBucket_totBuyPrice = #{nonUserBucket_totBuyPrice}
+  		where nonUserBucket_ssid = #{nonUserBucket_ssid} and nonUserBucket_no = #{nonUserBucket_no}
+  	</update>
+  	
   	<!-- 김정민 맵퍼 -->
   	
   	

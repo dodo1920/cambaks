@@ -22,4 +22,6 @@ public interface prodDetailService {
 	public int checkNonUserBucketQty(String nonUserBucket_ssid) throws Exception;
 
 	public boolean insertNonUserBucket(InsertintoNonUserBucketDTO insertNonUserBucket) throws Exception;
+
+	public boolean updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception;
 }

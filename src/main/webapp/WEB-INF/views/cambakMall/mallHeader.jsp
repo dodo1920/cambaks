@@ -93,7 +93,7 @@
 <div class="container">
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="loginModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -126,7 +126,7 @@
 <script>
 $(document).ready(function(){
   $("#userLogin").click(function(){
-    $("#myModal").modal();
+    $("#loginModal").modal();
   });
 });
 

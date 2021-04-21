@@ -1066,12 +1066,12 @@
 					product_id: prodId,
 					nonUserBucket_ssid : ssid
 					}),
-				dataType : 'json', // 응답 받을 형식
+// 				dataType : 'json', // 응답 받을 형식
 				type : 'post',
 				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
-					console.log(result);
+					console.log(result.nonUserBucket_no);
 	 				if(result.length == 0) {
 	 					console.log(flag);
 	 					insertNonUserBucket(flag);
@@ -1293,11 +1293,11 @@
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
 					console.log(isMoveFlag);
-					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
-						location.href="../cart";	
-					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
-						changeModalButtons(isMoveFlag);
-					}
+// 					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
+// 						location.href="../cart";	
+// 					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
+// 						changeModalButtons(isMoveFlag);
+// 					}
 				},
 				fail : function(result) {
 					alert(result);

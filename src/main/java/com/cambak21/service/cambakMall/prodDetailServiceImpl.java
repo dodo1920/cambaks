@@ -81,4 +81,17 @@ public class prodDetailServiceImpl implements prodDetailService {
 		return result;
 	}
 
+	@Override
+	public boolean updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updateNonUserBucketQty(updateNonUserBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
 }
