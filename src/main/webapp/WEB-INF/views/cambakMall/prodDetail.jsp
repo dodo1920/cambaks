@@ -1057,78 +1057,68 @@
 		} else if(prodQty > 100) { // 장바구니 넣는 수량이 최대 수량(100개)보다 많을 경우
 			alert("최대 주문 수량은 100개입니다.");
 		} else if(loginUser.length == 0){
-			checkNonUserBucket(ssid, flag);
-		} else {
-			checkBucket(loginUser, flag);
-		}
-	}
-	
-	function checkBucket(member_id, flag) {
-		
-		$.ajax({
-			url: '/mall/prodDetail/checkBucket',
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-				"Content-Type" : "application/json"
-					},
-			data : JSON.stringify({	// 요청하는 데이터
-				pruduct_id: prodId,
-				member_id : member_id
-				}),
-//				dataType : 'json', // 응답 받을 형식
-			type : 'post',
-			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-			success : function(result) {
-				console.log(result);
-				if(result.length == 0) {
-					console.log(flag);
-					insertBucket(flag);
-				} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
-					$("#myModal").modal();
-					changeModalButtons("over");
-				} else { // 이미 장바구니에 있는 상품일 경우
-					$("#myModal").modal();
-					addAlreadyItem(flag, result);
+			$.ajax({
+				url: '/mall/prodDetail/checkNonUserBucket',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					product_id: prodId,
+					nonUserBucket_ssid : ssid
+					}),
+				dataType : 'json', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+	 				if(result.length == 0) {
+	 					console.log(flag);
+	 					insertNonUserBucket(flag);
+	 				} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
+	 					$("#myModal").modal();
+	 					goBucket("over");
+	 				} else { // 이미 장바구니에 있는 상품일 경우
+	 					$("#myModal").modal();
+	 					addAlreadyItem(flag, result);
+	 				}
+				},
+				fail : function(result) {
+					alert(result);
 				}
-			},
-			fail : function(result) {
-				alert(result);
-			}
-		});			
-	}
-	
-	function checkNonUserBucket(member_id, flag) {
-		
-		$.ajax({
-			url: '/mall/prodDetail/checkNonUserBucket',
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-				"Content-Type" : "application/json"
-					},
-			data : JSON.stringify({	// 요청하는 데이터
-				product_id: prodId,
-				nonUserBucket_ssid : member_id
-				}),
-//				dataType : 'json', // 응답 받을 형식
-			type : 'post',
-			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-			success : function(result) {
-				console.log(result);
-// 				if(result.length == 0) {
-// 					console.log(flag);
-// 					insertNonUserBucket(flag);
-// 				} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
-// 					$("#myModal").modal();
-// 					goBucket("over");
-// 				} else { // 이미 장바구니에 있는 상품일 경우
-// 					$("#myModal").modal();
-// 					addAlreadyItem(flag, result);
-// 				}
-			},
-			fail : function(result) {
-				alert(result);
-			}
-		});		
+			});		
+		} else {
+			$.ajax({
+				url: '/mall/prodDetail/checkBucket',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					pruduct_id: prodId,
+					member_id : loginUser
+					}),
+//					dataType : 'json', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(result);
+					if(result.length == 0) {
+						console.log(flag);
+						insertBucket(flag);
+					} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
+						$("#myModal").modal();
+						changeModalButtons("over");
+					} else { // 이미 장바구니에 있는 상품일 경우
+						$("#myModal").modal();
+						addAlreadyItem(flag, result);
+					}
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});			
+		}
 	}
 	
 	// 장바구니로 갈지, 현재 페이지에 머무를지 묻는 Modal 띄우는 함수
@@ -1225,6 +1215,7 @@
 		let isMoveFlag = '';
 		let output = '';
 		console.log(flag);
+		console.log(obj.nonUserBucket_buyQty);
 		
 		if(flag == 1) {
 			$("#isMoveFlag").val("move");
@@ -1238,7 +1229,6 @@
 		output += '<input type="hidden" id="isMoveFlag"  />';
 		output += '<input type="hidden" id="bucket_no" />';
 		output += '<input type="hidden" id="bucket_buyQty" />';
-		output += '<input type="hidden" id="bucket_buyQty" />';
 		output += '</div>';
 		output += '<div class="modal-footer" >';
 		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
@@ -1246,9 +1236,18 @@
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
-		$("#bucketQty").html(obj.bucket_buyQty);
-		$("#bucket_no").val(obj.bucket_no);
-		$("#bucket_buyQty").val(obj.bucket_buyQty);
+		$("#alreadyItem").html(output);
+		
+		if(loginUser.length == 0) {
+			$("#bucketQty").html("<p>장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 </p>");
+			$("#bucket_no").val(obj.nonUserBucket_no);
+			$("#bucket_buyQty").val(obj.nonUserBucket_buyQty);
+		} else {
+			$("#bucketQty").html(obj.bucket_buyQty);
+			$("#bucket_no").val(obj.bucket_no);
+			$("#bucket_buyQty").val(obj.bucket_buyQty);
+		}	
+		
 	}
 	
 	
@@ -1274,35 +1273,67 @@
 		console.log(resultProdQty);
 		console.log(totBuyPrice);
 		
-		$.ajax({
-			url: '/mall/prodDetail/updateBucekt',
-			headers: {	// 요청 하는 데이터의 헤더에 전송
-				"Content-Type" : "application/json"
-					},
-			data : JSON.stringify({	// 요청하는 데이터
-				bucket_no : bucket_no,
-				product_id: prodId,
-				member_id : loginUser,
-				bucket_sellPrice : sellPrice,
-				bucket_buyQty : resultProdQty,
-				bucket_totBuyPrice : totBuyPrice
-				}),
-			dataType : 'text', // 응답 받을 형식
-			type : 'post',
-			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
-			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
-			success : function(result) {
-				console.log(isMoveFlag);
-				if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
-					location.href="../cart";	
-				} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
-					changeModalButtons(isMoveFlag);
+		if(loginUser.length == 0) {
+			$.ajax({
+				url: '/mall/prodDetail/updateNonUserBucekt',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					nonUserBucket_no : bucket_no,
+					product_id: prodId,
+					nonUserBucket_ssid : ssid,
+					nonUserBucket_sellPrice : sellPrice,
+					nonUserBucket_buyQty : resultProdQty,
+					nonUserBucket_totBuyPrice : totBuyPrice
+					}),
+				dataType : 'text', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(isMoveFlag);
+					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
+						location.href="../cart";	
+					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
+						changeModalButtons(isMoveFlag);
+					}
+				},
+				fail : function(result) {
+					alert(result);
 				}
-			},
-			fail : function(result) {
-				alert(result);
-			}
-		});	
+			});	
+		} else {
+			$.ajax({
+				url: '/mall/prodDetail/updateBucekt',
+				headers: {	// 요청 하는 데이터의 헤더에 전송
+					"Content-Type" : "application/json"
+						},
+				data : JSON.stringify({	// 요청하는 데이터
+					bucket_no : bucket_no,
+					product_id: prodId,
+					member_id : loginUser,
+					bucket_sellPrice : sellPrice,
+					bucket_buyQty : resultProdQty,
+					bucket_totBuyPrice : totBuyPrice
+					}),
+				dataType : 'text', // 응답 받을 형식
+				type : 'post',
+				processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+				success : function(result) {
+					console.log(isMoveFlag);
+					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
+						location.href="../cart";	
+					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
+						changeModalButtons(isMoveFlag);
+					}
+				},
+				fail : function(result) {
+					alert(result);
+				}
+			});		
+		}
 	}
 </script>
 <style>
@@ -1497,6 +1528,23 @@
                                 </li>
                             </ul>
                         </div>
+                        <!-- Modal -->
+								  <div class="modal" id="myModal" role="dialog">
+								    <div class="modal-dialog">
+								    
+								      <!-- Modal content-->
+								      <div class="modal-content">
+								        <div class="modal-header">
+								          <button type="button" class="close" data-dismiss="modal">&times;</button>
+								          <h4 class="modal-title">주문하기</h4>
+								        </div>
+								        <div class="modal-body" id="alreadyItem">
+								        	
+								       </div>
+								      
+								    </div>
+								  </div>
+							</div>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -1582,23 +1630,6 @@
 									
 						    	</div>
 						    	
-						    	<!-- Modal -->
-								  <div class="modal fade" id="myModal" role="dialog">
-								    <div class="modal-dialog">
-								    
-								      <!-- Modal content-->
-								      <div class="modal-content">
-								        <div class="modal-header">
-								          <button type="button" class="close" data-dismiss="modal">&times;</button>
-								          <h4 class="modal-title">주문하기</h4>
-								        </div>
-								        <div class="modal-body" id="alreadyItem">
-								        	
-								       </div>
-								      
-								    </div>
-								  </div>
-							</div>
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
