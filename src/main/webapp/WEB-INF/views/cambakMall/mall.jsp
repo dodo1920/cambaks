@@ -26,9 +26,9 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
- 
+ 	<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 	<script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-
+	<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 <script>
 
 let loginUser = '${loginMember.member_id}';
@@ -143,7 +143,7 @@ let loginUser = '${loginMember.member_id}';
                     <div class="categories__text">
                         <h1 style="color:white;"> 전체 상품 </h1>
                         <p style="color:white;">#텐트 #타프 #침낭 #매트 #경량 테이블 #체어 #랜턴 #담요 #쿨러/아이스박스 #착화제 #화로대 #수납 #설거지용품 #식기/일반 #버너</p>
-                        <a style="color:white;" href="#">Shop now</a>
+                        <a style="color:white;" href="/mall/categories">Shop now</a>
                     </div>
                 </div>
             </div>
@@ -154,7 +154,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">텐트/타프</h4>
                                 <p style="color:white;"> ${para.total[0].totcount} items</p>
-                                <a style="color:white;" href="#">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=1">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">침낭/매트</h4>
                                 <p style="color:white;" >${para.total[1].totcount} items</p>
-                                <a style="color:white;" href="#">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=2">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -173,7 +173,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">테이블/체어/배트</h4>
                                 <p  style="color:white;">${para.total[2].totcount} items</p>
-                                <a style="color:white;" href="#">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=3">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -182,7 +182,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">화로/히터</h4>
                                 <p style="color:white;">${para.total[0].totcount} items</p>
-                                <a style="color:white;" href="#">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=6">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -229,9 +229,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct1.product_id});" ><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct1.product_id});" ><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct1.product_id }">${NewProduct1.product_name }</a></h6>
@@ -283,9 +283,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct2.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct2.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct2.product_id }">${NewProduct2.product_name }</a></h6>
@@ -333,9 +333,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct3.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct3.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct3.product_id }">${NewProduct3.product_name }</a></h6>
@@ -383,9 +383,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct4.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct4.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct4.product_id }">${NewProduct4.product_name }</a></h6>
@@ -434,9 +434,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct5.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct5.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct5.product_id }">${NewProduct5.product_name }</a></h6>
@@ -485,9 +485,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct6.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct6.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct6.product_id }">${NewProduct6.product_name }</a></h6>
@@ -535,9 +535,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct7.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct7.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct7.product_id }">${NewProduct7.product_name }</a></h6>
@@ -584,9 +584,9 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }">
 	                        <div class="label new">New</div>
-	                        <ul class="product__hover">
-	                            <li><a onclick="goCheckBuckets(${NewProduct8.product_id});"><span class="icon_bag_alt"></span></a></li>
-	                        </ul>
+<!-- 	                        <ul class="product__hover"> -->
+<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct8.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
+<!-- 	                        </ul> -->
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct8.product_id }">${NewProduct8.product_name }</a></h6>
