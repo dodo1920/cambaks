@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -96,12 +97,12 @@
 		});
 		
 		// 만약 이미 장바구니에 존재하는 상품이고 '추가하기'버튼을 클릭했을때, 장바구니의 개수 추가하는 함수 호출
-		$("#updatdBtn1").click(function() {
-			updateBucket("1");
+		$("#updateBtn1").click(function() {
+			alert("!");
 		});
 		
 		// 만약 이미 장바구니에 존재하는 상품이고 '변경하기'버튼을 클릭했을때, 장바구니의 개수 변경하는 함수 호출		
-		$("#updatdBtn2").click(function() {
+		$("#updateBtn2").click(function() {
 			updateBucket("2");
 		});
 	});
@@ -1217,12 +1218,6 @@
 		console.log(flag);
 		console.log(obj.nonUserBucket_buyQty);
 		
-		if(flag == 1) {
-			$("#isMoveFlag").val("move");
-		} else if(flag == 2) {
-			$("#isMoveFlag").val("stay");
-		}
-		
 		output += '<div>';
 		output += '<p>이미 장바구니에 들어있는 상품입니다.</p>';
 		output += '<span id="bucketQty"></span>';
@@ -1231,12 +1226,18 @@
 		output += '<input type="hidden" id="bucket_buyQty" />';
 		output += '</div>';
 		output += '<div class="modal-footer" >';
-		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
-		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
+		output += '<button type="button" class="btn btn-default" id="updateBtn1" onclick="updateBucket(\'1\');">추가하기</button>';
+		output += '<button type="button" class="btn btn-default" id="updateBtn2" onclick="updateBucket(\'2\');">변경하기</button>';
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
 		$("#alreadyItem").html(output);
+		
+		if(flag == 1) {
+			$("#isMoveFlag").val("move");
+		} else if(flag == 2) {
+			$("#isMoveFlag").val("stay");
+		}
 		
 		if(loginUser.length == 0) {
 			$("#bucketQty").html("<p>장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 </p>");
@@ -1255,7 +1256,7 @@
 	function updateBucket(flag) {
 		let isMoveFlag = $("#isMoveFlag").val();
 		let bucket_no = $("#bucket_no").val();
-		let sellPrice = Number($("#sellPrice").text());
+		let sellPrice = Number('${prodDetail.product_sellPrice}');
 		let prodQty = Number($("#prodQty").val());
 		let alreadyProdQty = Number($("#bucket_buyQty").val());
 		let resultProdQty = 0;
@@ -1758,7 +1759,7 @@
 
 
 
-<%@include file="mallFooter.jsp" %>
+<%-- <%@include file="mallFooter.jsp" %> --%>
 
 
 <!-- Js Plugins -->
@@ -1772,6 +1773,7 @@
 <script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 
 </body>
