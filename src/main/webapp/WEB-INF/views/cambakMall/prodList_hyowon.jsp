@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+
 <script>
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
 let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
@@ -497,7 +498,6 @@ function categoryMove(main, middle) {
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
 <script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
-
 
 </body>
 </html>
