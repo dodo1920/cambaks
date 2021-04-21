@@ -48,7 +48,6 @@ $(document).ready(function() {
 	categoryOpen(); // 카테고리 파라메터로 css 설정
 	filterCheck(); // 페이지 로딩 시 파라메터 확인하여 체크박스 체크
 	pageBtnChange(); // 현재 페이지번호의 버튼 색상 변경
-	searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
 	
 });
 
@@ -411,6 +410,12 @@ function categoryMove(main, middle) {
     background-color: #f2f2f2;
     color: #333;
     border-color: #f2f2f2;
+}
+
+.noneReview {
+	font-size: 10px;
+    font-weight: bold;
+    color: lightsteelblue;
 }
 
 </style>
