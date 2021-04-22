@@ -56,8 +56,14 @@ function pageBtnChange() {
 	// 현재 페이지번호의 버튼 색상 변경
 	let thisPage = '${param.page}';
 	
-	$("#pageNum" + thisPage).attr("class", "thisPagination");
-	$("#pageNum" + thisPage).attr("onclick", "");
+	if (thisPage == "") {
+		$("#pageNum1").attr("class", "thisPagination");
+		$("#pageNum1").attr("onclick", "");
+	} else {
+		$("#pageNum" + thisPage).attr("class", "thisPagination");
+		$("#pageNum" + thisPage).attr("onclick", "");
+	}
+	
 }
 
 function categoryOpen() {
@@ -86,6 +92,8 @@ function filterCheck() {
 		$("#highPriceRank").prop("checked", "true");
 	} else if (prodRankOrder == "datePd") {
 		$("#salesRank").prop("checked", "true");
+	} else if (prodRankOrder == "rvRank") {
+		$("#rvRank").prop("checked", "true");
 	} else {
 		$("#cmRank").prop("checked", "true");
 	}

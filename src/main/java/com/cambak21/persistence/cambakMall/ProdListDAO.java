@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.domain.ProductDetailOrderVO;
-import com.cambak21.domain.ProductListReviewNumVO;
 import com.cambak21.util.ProdListPagingCriteria;
 
 public interface ProdListDAO {
@@ -16,7 +15,7 @@ public interface ProdListDAO {
 	public int prodCategoryNum(ProductDetailOrderVO detail) throws Exception;
 	
 	// 상품 리뷰 개수 가져오기
-	public ProductListReviewNumVO getProductReviewNum(int product_id) throws Exception;
+	public int getProductReviewNum(int product_id) throws Exception;
 	
 	// 상품 검색 결과 리스트 페이지 출력
 	public List<ProductDetailListVO> prodSearchList(ProductDetailOrderVO detail, String keyword, ProdListPagingCriteria cri) throws Exception;
