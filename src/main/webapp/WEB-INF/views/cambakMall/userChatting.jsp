@@ -129,8 +129,6 @@
 
 		if(event.data == "existSession"){ // 운영자 세션이 존재한다면...
 			$(".isRead").text("읽음");
-			console.log(event.data);
-			console.log("읽음이다~~~~~~~~~~~~~");
 			
 			// 운영자가 접속중일때 isRead 읽음으로 업데이트
 			$.ajax({
