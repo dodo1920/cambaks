@@ -402,7 +402,7 @@ function getDestinationsList(){
 
 
     <!-- Shop Cart Section Begin -->
-    <section class="shop-cart spad">
+    <section class="shop-cart spad" style="margin-bottom: 200px;">
     	<a onclick="popup(0);" class="_insert setting_btn green_bg">배송지 등록</a>
         <div class="container">
             <div class="row">
