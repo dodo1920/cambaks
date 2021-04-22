@@ -176,7 +176,22 @@ function oderFin() {
 	console.log(totalPrice);
 	console.log(finallyPrice);
 	
-		
+// 	$.ajax({
+// 		  method: "POST",
+// 		  url: "/mall/orderFin" ,
+// 		  headers : { // 요청하는 데이터의 헤더에 전송
+// 			  "Content-Type" : "application/json",
+// 			  "X-HTTP-Method-Override" : "POST)"
+// 		  },
+// 		  dataType: "JSON", // 응답 받는 데이터 타입
+// 		  data : {finallyPrice : finallyPrice},
+// 		  success : function(result){
+// 			 if(result != null){
+// 				 $("#totBuyPrice").html(result.finallyPrice);
+// 			 }
+			
+// 		  }
+// 		});
 	
 }
 

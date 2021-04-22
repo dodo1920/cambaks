@@ -77,7 +77,15 @@ public class MallController {
 		model.addAttribute("totPrice", totPrice);
 		
 	    return "cambakMall/prodOrder";
-	   }	
+	}
+	
+	@RequestMapping(value = "/orderFin")
+	public String orderFin(@RequestParam("finallyPrice") int finallyPrice) throws Exception {
+		System.out.println(finallyPrice);
+		
+		
+		return "cambakMall/orderFin";
+	}
 
 	// **************************************** 김대기 컨트롤러
 	// **********************************************
@@ -128,11 +136,6 @@ public class MallController {
 		return entity;
 	}
 	
-	@RequestMapping(value = "/orderFin")
-	public String orderFin() {
-		
-		return "cambakMall/orderFin";
-	}
 
 	// **************************************** 박종진 컨트롤러
 	// **********************************************

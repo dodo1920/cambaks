@@ -50,13 +50,13 @@
     width: 100%;
    }
    
-	.main {
-		width: auto;
-	}
-	
-	#login100-form validate-form {
-		min-width: 400px;
-	}
+   .main {
+      width: auto;
+   }
+   
+   #login100-form validate-form {
+      min-width: 400px;
+   }
 
    </style>
 
