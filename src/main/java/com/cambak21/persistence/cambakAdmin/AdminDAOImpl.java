@@ -1,6 +1,8 @@
 package com.cambak21.persistence.cambakAdmin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -46,9 +48,19 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public List<RevenueVO> getPerDayRevenue() throws Exception {
+	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception {
 		// TODO Auto-generated method stub
-		return ses.selectList(ns + ".getPerDayRevenue");
+		return ses.selectList(ns + ".getPerDayRevenue", dateVal);
+	}
+
+	@Override
+	public List<RevenueVO> selectDate(String startDate, String endDate) throws Exception {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		
+		return ses.selectList(ns + ".betweenDayRevenue", params);
 	}
 		
 		

@@ -32,7 +32,9 @@ public interface adminService {
 		
 	public RevenueVO getDayRevenue() throws Exception;
 
-	public List<RevenueVO> getPerDayRevenue()throws Exception;
+	public List<RevenueVO> getPerDayRevenue(int dateVal)throws Exception;
+
+	public List<RevenueVO> selectDate(String startDate, String endDate) throws Exception;
 		
 		
 		

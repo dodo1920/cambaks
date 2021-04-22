@@ -46,9 +46,16 @@ public class adminServiceImpl implements adminService {
 
 
 	@Override
-	public List<RevenueVO> getPerDayRevenue() throws Exception {
+	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception {
 		
-		return dao.getPerDayRevenue();
+		return dao.getPerDayRevenue(dateVal);
+	}
+
+
+	@Override
+	public List<RevenueVO> selectDate(String startDate, String endDate) throws Exception {
+		
+		return dao.selectDate(startDate, endDate);
 	}
 		
 		
