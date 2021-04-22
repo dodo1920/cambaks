@@ -109,7 +109,6 @@
   			data : {dateVal : dateVal},
   			success : function(result) {
   				if (result != null) {
-  					console.log(result);
   					window.setTimeout(200);
   					google.charts.setOnLoadCallback(drawChart(result));
   				}
@@ -133,6 +132,7 @@
 	}
     
     function drawChart(result) {
+    	console.log(result)
     	
     	var data = new google.visualization.DataTable();
     	data.addColumn('string', '연도');
@@ -166,7 +166,19 @@
   }
     
     $(function(){
-    	testAjax();
+    	
+    	let obj = JSON.stringify("${selectDate}");
+    	var dateArray = new Array();
+    	let price11 = ("${selectDate[0].buyProduct_totPrice}");
+    	for(var i = 0; i < 2; i++){
+    		dateArray.push("${selectDate[i].buyProduct_totPrice}");
+    	}
+    	console.log(dateArray);
+    	console.log(obj);
+    	console.log("${selectDate}");
+//     	console.log(Object.entries(obj));
+//     	console.log(${selectDate});
+//     	google.charts.setOnLoadCallback(drawChart(${selectDate})
     	defaultDate();
     });
   </script>

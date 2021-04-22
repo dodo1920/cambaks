@@ -1,8 +1,11 @@
 package com.cambak21.controller.cambakAdmin;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.json.JsonObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +17,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.service.cambakAdmin.adminService;
+import com.mysql.cj.xdevapi.JsonArray;
+import com.mysql.cj.xdevapi.JsonValue;
+
+import twitter4j.JSONArray;
+import twitter4j.JSONObject;
 
 
 @Controller
@@ -43,13 +53,13 @@ public class AdminController {
 		return "/admin/revenue";
 	}
 	@RequestMapping(value = "/revenue/perDate", method = RequestMethod.GET)
-	public ResponseEntity<List<RevenueVO>> revenueIndex(Model model) {
+	public ResponseEntity<List<RevenueVO>> revenueIndex(@RequestParam("dateVal") int dateVal) {
 //		model.addAttribute("revenue", service.getPerDayRevenue());
-		
+		System.out.println(dateVal);
 		ResponseEntity<List<RevenueVO>> entity = null;
 		
 		try {
-			entity = new ResponseEntity<List<RevenueVO>>(service.getPerDayRevenue(), HttpStatus.OK);
+			entity = new ResponseEntity<List<RevenueVO>>(service.getPerDayRevenue(dateVal), HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,6 +67,15 @@ public class AdminController {
 		}
 		System.out.println(entity);
 		return entity;
+	}
+	 
+	@RequestMapping(value = "/selectDate", method = RequestMethod.GET)
+	public String selectDate(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, Model model) throws Exception {
+		
+		model.addAttribute("selectDate", service.selectDate(startDate, endDate));
+
+		return "/admin/selectDate";
+		
 	}
 	
 	
