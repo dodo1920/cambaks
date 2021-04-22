@@ -277,24 +277,12 @@ button.btn.btn-default.cntCh {
 		let totPrice = $(".totPrice-value").text();
 		
 		if(totPrice != 0) {
-			$.ajax({
-				type : "get",
-				dataType : "json", // 응답을 어떤 형식으로 받을지	
-				url : "/mall/cart/no/order/" + ssid, // 서블릿 주소
-				success : function(data) {
-					if(data == 1) {
-						location.href="../mall/prodOrder"
-					}
-				}, // 통신 성공시
-				error : function(data) {
-				}, // 통신 실패시
-				complete : function(data) {
-				} // 통신 완료시
-			});
+			$("#modalText").text("로그인 후 주문 가능합니다");
+			$("#myModal").modal();
 		} else {
 			$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-			$("#modalText").text("선택된 상품이 없습니다");
-			$("#myModal").modal();
+			$("#deleteModalText").text("선택된 상품이 없습니다");
+			$("#deleteModal").modal();
 		}
 
 	}
