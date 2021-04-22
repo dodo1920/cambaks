@@ -65,7 +65,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  function goChatting() {
    if("${loginMember}" == "") {
       $("#modalText").text("로그인 후에 이용해 주세요");
-      $("#myModal").modal();
+      $("#bbsk-modal").modal();
    } else {
       location.href="../../userChatting";
    }
@@ -370,7 +370,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     </div>
     
     <!-- modal 승권 -->
-   <div id="myModal" class="modal fade" role="dialog">
+   <div id="bbsk-modal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-sm">
          <!-- Modal content-->
          <div class="modal-content">

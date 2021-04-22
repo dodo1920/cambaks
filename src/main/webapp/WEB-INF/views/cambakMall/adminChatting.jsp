@@ -56,7 +56,6 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-
 	}
 
 	//웹소켓 닫힘
@@ -110,6 +109,7 @@
 	function disconnect() {
 		webSocket.close();
 	}
+	
 </script>
 
 <style type="text/css">
