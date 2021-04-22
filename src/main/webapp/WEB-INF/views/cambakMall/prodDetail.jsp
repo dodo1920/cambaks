@@ -40,6 +40,8 @@
 	let restProdQty = 0; // 해당 페이지의 상품 재고 수량 초기화
 	let ssid = '${ssid}';
 	
+	console.log('${topReviews}');
+	
 	console.log(ssid);
 	
 	let orderList;
@@ -1449,20 +1451,20 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
-                        <div class="product__details__pic__left product__thumb nice-scroll">
-                            <a class="pt active" href="#product-1">
-                                <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-2">
-                                <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-3">
-                                <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-4">
-                                <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
-                            </a>
-                        </div>
+<!--                         <div class="product__details__pic__left product__thumb nice-scroll"> -->
+<!--                             <a class="pt active" href="#product-1"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-2"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-3"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-4"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                         </div> -->
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
                                 <img data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="">
@@ -1642,8 +1644,8 @@
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
                                 <h6>배송/교환/반품 안내</h6>
                                 <!-- *********아래부터 배송/교환/반품 안내 내용 넣는 곳 *************************************************************-->
-                                <div>
-                                
+                                <div style="text-align:center">
+                                	<img src="../../resources/img/refundnExchangeImg.jpg" />
                                 </div>
                                 <!-- ******************************************************************************************** -->
                             </div>
@@ -1654,99 +1656,27 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="related__title">
-                        <h5>RELATED PRODUCTS</h5>
+                        <h5>TOP REIVEWS PRODUCTS</h5>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-1.jpg">
-                            <div class="label new">New</div>
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Buttons tweed blazer</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Flowy striped skirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 49.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-3.jpg">
-                            <div class="label stockout">out of stock</div>
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Cotton T-Shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Slim striped pocket shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach var="review" items="${topReviews}">
+                	<div class="col-lg-3 col-md-4 col-sm-6">
+                		<div class="product__item">
+	                        <div class="product__item__pic set-bg" data-setbg="${review.product_img1 }">
+<!-- 	                            <div class="label new">New</div> -->
+	                        </div>
+	                        <div class="product__item__text">
+	                            <h6><a href="../prodDetail/main?prodId=${review.product_id }">${review.product_name }</a></h6>
+	                            <div class="rating">
+	                            	<c:forEach var="i" begin="1" end="${review.star }" step="1" >
+	                            		<i class="fa fa-star"></i>
+	                            	</c:forEach>
+	                            </div>
+	                            <div class="product__price"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /> 원</div>
+	                        </div>
+	                    </div>
+                	</div>
+                </c:forEach>
             </div>
         </div>
     </section>
