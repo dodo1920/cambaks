@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
@@ -138,6 +143,14 @@ public class MallController {
 	
 	@RequestMapping(value = "/destinationsList/register", method = RequestMethod.GET)
 	public String destinationsresister() throws Exception {
+		
+
+		return "/cambakMall/RegisterDestination";
+	}
+	
+	@RequestMapping(value = "/destinationsList/modify", method = RequestMethod.GET)
+	public String destinationsmodify(Model model, HttpServletRequest request) throws Exception {
+//		model.addAttribute("mody", "mody");
 		return "/cambakMall/RegisterDestination";
 	}
 
@@ -209,21 +222,29 @@ public class MallController {
 	}
 
 	@RequestMapping(value = "/destinationsList/insertDestiny", method = RequestMethod.POST)
-	public ResponseEntity<String> insertDestiny(@RequestBody DestinationVO vo) throws Exception {
-
-		ResponseEntity<String> entity = null;
-		System.out.println(vo.toString());
+	public String insertDestiny(DestinationVO vo, RedirectAttributes rttr) throws Exception {
+		
+		
 		if (service.insertDestiny(vo)) {
-			System.out.println("배송지 추가 성공");
-			entity = new ResponseEntity<String>("result", HttpStatus.OK);
-		} else {
-			entity = new ResponseEntity<String>("result", HttpStatus.BAD_REQUEST);
+			
+			rttr.addFlashAttribute("result", "success");
 		}
 
-		return entity;
+		return "redirect:/mall/destinationsList/register?result=success";
 
 	}
-
+//
+//	@RequestMapping(value = "user/register", method = RequestMethod.POST)
+//	public String resisterNotice(BoardVO vo, RedirectAttributes rttr) throws Exception{
+//		logger.info("종진 / 공지사항 작성 하고 결과 알려주기");
+//	
+//			if(service.insertNotice(vo)) {
+//				rttr.addFlashAttribute("writeresult", "success");
+//			}
+//			
+//		return "redirect:/board/notice/listCri";
+//	}
+//	
 
 	// **************************************** 김정민 컨트롤러
 	// **********************************************
