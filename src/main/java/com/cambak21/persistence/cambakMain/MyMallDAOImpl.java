@@ -9,15 +9,19 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.MyQAVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Repository
 public class MyMallDAOImpl implements MyMallDAO {
@@ -55,13 +59,74 @@ public class MyMallDAOImpl implements MyMallDAO {
 	}
 	
 	@Override
-	public List<BuyProductVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
+	public List<BuyProductPaymentVO> getTotalOrderList(String member_id, PagingCriteria cri) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member_id", member_id);
 		params.put("pageStart", cri.getPageStart());
 		params.put("perPageNum", cri.getPerPageNum());
 		return ses.selectList(ns + ".getTotalOrderList", params);
 	}
+	
+	@Override
+	public List<BuyProductPaymentVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("searchWord", scri.getSearchWord());
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".searchOrder", params);
+	}
+	@Override
+	public int searchOrderCnt(SearchCriteria scri, String member_id) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("searchWord", scri.getSearchWord());
+		params.put("member_id", member_id);
+		return ses.selectOne(ns + ".searchOrderCnt" , params);
+	}
+	
+	@Override
+	public BuyProductVO getOrder(String member_id, int buyProduct_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("buyProduct_no", buyProduct_no);
+		
+		return ses.selectOne(ns + ".getOrder", params);
+	}
+
+	@Override
+	public int getDest(String member_id, int buyProduct_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("buyProduct_no", buyProduct_no);
+		return ses.selectOne(ns +".getDest", params);
+	}
+	@Override
+	public DestinationVO getDestOne(int destination_no) throws Exception {
+		
+		return ses.selectOne(ns + ".getDestOne", destination_no);
+	}
+
+	@Override
+	public int getPayno(String member_id, int buyProduct_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("buyProduct_no", buyProduct_no);
+		return ses.selectOne(ns + ".getPayno", params);
+	}
+	
+	@Override
+	public PayInfoVO getPayInfo(int payInfo_no) throws Exception {
+		
+		return ses.selectOne(ns + ".getPayInfo", payInfo_no);
+	}
+
+
+
+	
+
+
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -181,6 +246,22 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(nsOrder+".MemberDetailOrder",param);
 	}
 
+
+
+	
+	
+
+
+
+	
+
+
+
+	
+
+
+
+	
 
 
 	

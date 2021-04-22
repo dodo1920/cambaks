@@ -9,8 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.cambak21.domain.MemberVO;
 import com.cambak21.service.cambakMall.ChattingService;
+import com.cambak21.service.cambakMall.ProdListService;
 
 
 @Controller
@@ -20,7 +23,11 @@ public class ChattingController {
 	private ChattingService service;
 	
 	@RequestMapping("/userChatting")
-	public String userChatting () {
+	public String userChatting (@SessionAttribute("loginMember") MemberVO loginMember, Model model) throws Exception {
+		
+		model.addAttribute("chatting", service.getChatting(loginMember.getMember_id()));
+		model.addAttribute("popularList", service.popularProdList()); // 하단에 인스타그램 형식 사진 출력
+		
 		return "cambakMall/userChatting";
 	}
 	
@@ -49,17 +56,29 @@ public class ChattingController {
 	  * @return
 	  */
 	@RequestMapping("/fromUser/{msg}")
-	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg) {
+	public ResponseEntity<String> fromUser (@PathVariable("msg") String msg, @SessionAttribute("loginMember") MemberVO loginMember) {
 		ResponseEntity<String> entity = null;
 		
-		System.out.println("컨트롤러단 msg : " + msg);
-		
 		try {
-			// member_id 수정해야함
-			service.fromUser("test123", msg);
+			service.fromUser(loginMember.getMember_id(), msg);
 			new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
-			new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/fromAdmin/{msg}/{member_id}")
+	public ResponseEntity<String> fromUser (@PathVariable("msg") String chatting_content, @PathVariable("member_id") String member_id) {
+		ResponseEntity<String> entity = null;
+		
+		try {
+			service.fromAdmin(member_id, chatting_content);
+			new ResponseEntity<String>("ok", HttpStatus.OK);
+		} catch (Exception e) {
+			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		

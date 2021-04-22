@@ -30,6 +30,25 @@
 .emptySpace{
 	margin:20px;
 }
+
+.modal {
+        text-align: center;
+}
+ 
+@media screen and (min-width: 768px) { 
+        .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+}
+ 
+.modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+}
 </style>
 </head>
 
@@ -117,16 +136,16 @@
 		<div>
 			<div>
 				
-				<div><input type="text" style="width:80%;" placeholder="주문한상품을 검색할 수 있어요"><Button type="button" class="btn btn-info" >검색</Button></div>
+				<div><form action="/myMall/searchOrder" method="post"><input type="text" name="searchWord" style="width:80%;" placeholder="주문한상품을 검색할 수 있어요"><input type="submit" class="btn btn-info" value="검색"></form></div>
 			<!-- 	<div class="emptySpace"></div> -->
 									<div class="btn-group">
 								<!-- 	<div style="font-size:20px;font-weight: bold;">검색기간</div> -->
-									<div class="emptySpace"></div>
+									<!-- <div class="emptySpace"></div>
 										<button type="button" class="btn btn-default">1개월</button>
 										<button type="button" class="btn btn-default">3개월</button>
 										<button type="button" class="btn btn-default">6개월</button>
 										<button type="button" class="btn btn-default">1년</button>
-										<button type="button" class="btn btn-default">3년</button>
+										<button type="button" class="btn btn-default">3년</button> -->
 									</div>
 									<div class="emptySpace"></div>
 									<div id="output">
@@ -164,9 +183,9 @@
 														<td>
 															<div class="btn-group-vertical"
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
-																<button type="button" class="btn btn-info">주문상세
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.buyProduct_no }'">주문상세
 																	보기</button>
-																<button type="button" class="btn btn-info">교환
+																<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
 																	반품 신청</button>
 
 
@@ -176,10 +195,77 @@
 
 												</tbody>
 											</table>
-										</div>
+											
+												<!-- Modal -->
+												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
+													<div class="modal-dialog">
+
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h2 class="modal-title">교환 환불 신청</h2>
+															</div>
+															<div class="modal-body">
+																<p>교환 환불 선택</p>
+																<select>
+																	<option>교환</option>
+																	<option>환불</option>
+																</select>
+																<p>사유를 선택해 주세요</p>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">Close</button>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
 										</c:forEach>
 									</div>
-								</div>		
+								</div>	
+								<div class="pageBtn">
+							<ul class="pagination">
+							<c:choose>
+							<c:when
+								test="${param.searchType == null && param.searchWord == null }">
+							<c:if test="${pagingParam.prev }">
+									<li class="page-item"><a class="page-link"
+										href="myOrder?page=${param.page -1}">prev</a></li>
+								</c:if>
+								<c:forEach begin="${pagingParam.startPage }"
+									end="${pagingParam.endPage }" var="pageNo">
+									<li class="page-item"><a class="page-link"
+										href="myOrder?page=${pageNo}">${pageNo }</a></li>
+								</c:forEach>
+							<c:if test="${pagingParam.next }">
+									<li class="page-item"><a class="page-link"
+										href="myOrder?page=${param.page +1}">next</a></li>
+								</c:if>
+								</c:when>
+								<c:otherwise>
+								<c:if test="${pagingParam.prev }">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${param.page -1}&searchWord=${param.searchWord}">prev</a></li>
+								</c:if>
+								<c:forEach begin="${pagingParam.startPage }"
+									end="${pagingParam.endPage }" var="pageNo">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${pageNo}&searchWord=${param.searchWord}">${pageNo }</a>
+									</li>
+								</c:forEach>
+
+								<c:if test="${pagingParam.next }">
+									<li class="page-item"><a class="page-link"
+										href="search?page=${param.page +1}&searchWord=${param.searchWord}">next</a>
+									</li>
+								</c:if>
+							</c:otherwise>
+								</c:choose>
+							</ul>
+						</div>	
 		</div>
 	</div>
 

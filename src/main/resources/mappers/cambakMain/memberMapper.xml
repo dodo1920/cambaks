@@ -76,6 +76,10 @@
 	<select id="memberSelect" resultType="com.cambak21.domain.MemberVO">
 		SELECT * FROM Members where member_id = #{memberId}
 	</select>
+	
+	<select id="loginRequestCheck" resultType="int">
+		SELECT count(*) FROM Members where member_id = #{member_id} and member_password = md5(sha1(#{member_password}))
+	</select>
 <!-- 	서효원 mapper -->
 	
   </mapper>

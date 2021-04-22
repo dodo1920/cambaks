@@ -72,6 +72,15 @@ public class MemberServiceImpl implements MemberService {
 		
 		return result;
 	}
+	
+	@Override
+	public boolean loginRequestCheck(LoginDTO dto) throws Exception {
+		boolean result = false;
+		if (dao.loginRequestCheck(dto) == 1) {
+			result = true;
+		}
+		return result;
+	}
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	@Override
@@ -136,5 +145,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return result;
 	}
+
 
 }

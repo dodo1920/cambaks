@@ -9,19 +9,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<!-- 웹소켓 CDN -->
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <!-- 제이쿼리 -->
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-	
+	let member_id = "${param.id}";
+
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
+		
 	})
 
 	function webSocketInit() {
@@ -56,59 +55,39 @@
 	}
 
 	//메시지를 보내는 메서드
-	function socketMsgSend(userKey) {
+	function socketMsgSend() {
 		// 메시지 포맷
-		let msg = "";
-		let key = userKey;
-
-		$(".userKey").each(function(index, item) {
-			// input hidden에 숨겨진 value(key)값 가져오기
-			let findKey = $(item).attr("value");
-
-			if (userKey == findKey) {
-				let classKey = ".text-" + findKey;
-				msg = $(classKey).val();
-			}
-		})
+		let msg = $(".chatting-content").val();
+		
+		// 운영자가 보내는 메시지 DB에 저장
+		$.ajax({
+			type : "post",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/fromAdmin/" + msg + "/" + member_id, // 서블릿 주소
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 
 		// 해당 유저에게 메시지를 보낸다.
-		webSocket.send(msg + ":" + key);
+		webSocket.send(msg + ":" + member_id);
+		
+		// 메시지 출력
+		$(".msgOutput:last").append("<div class='msgOutput'>"+msg+"</div>");
 	}
 
 	//메시지 받는 메서드
 	function socketMessage(event) {
 		let fromUserData = event.data.split(":");
 
-		console.log(event);
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
 
-		// 유저 key값
-		let key = fromUserData[1];
+		$(".msgOutput:last").append("<div class='msgOutput'>"+msg+"</div>");
 
-		// 유저가 채팅방에 접속했다면 ...
-		if (msg == "conn") {
-			let output = '<div class="template">';
-			output += '<input type="text" class="text-'+key+'"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend(\''
-					+ key + '\')">';
-			output += '<div class="msgOutput-'+key+'"></div>';
-			output += '<input type="hidden" class="userKey" value="'+key+'">';
-			output += '</div>';
-
-			$(".msg-wrap").append(output);
-		} else {
-			// 메시지를 보냈다면...
-			$(".userKey").each(function(index, item) {
-				let findKey = $(item).attr("value");
-
-				if (key == findKey) {
-					let msgOutput = "." + "msgOutput-" + findKey;
-
-					//여기 누적으로 수정
-					$(msgOutput).append("<div>" + msg + "</div>");
-				}
-			})
-		}
 	}
 
 	//웹소켓 에러
@@ -131,6 +110,13 @@
 <body>
 
 	<div class="msg-wrap">
+		<div class="template">
+			<input type="text" class="chatting-content"> <input type="button" id="btnSend" value="전송하기" onclick="socketMsgSend()">
+			
+			<c:forEach var="item" items="${chatting }">
+				<div class="msgOutput">${item.chatting_content }</div>
+			</c:forEach>
+		</div>
 	</div>
 
 </body>

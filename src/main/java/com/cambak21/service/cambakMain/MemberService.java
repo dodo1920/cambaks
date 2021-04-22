@@ -141,5 +141,7 @@ public interface MemberService {
 	
 	public boolean memberDelete(LoginDTO dto) throws Exception;
 	
-	
+//	서효원 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	public boolean loginRequestCheck(LoginDTO dto) throws Exception;
+//	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 }

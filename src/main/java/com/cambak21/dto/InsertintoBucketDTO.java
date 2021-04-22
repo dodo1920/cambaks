@@ -7,7 +7,6 @@ public class InsertintoBucketDTO {
 	private int bucket_buyQty;
 	private int bucket_sellPrice;
 	private int bucket_totBuyPrice;
-	
 	public String getMember_id() {
 		return member_id;
 	}
@@ -50,6 +49,6 @@ public class InsertintoBucketDTO {
 		return "InsertintoBucketDTO [member_id=" + member_id + ", product_id=" + product_id + ", bucket_no=" + bucket_no
 				+ ", bucket_buyQty=" + bucket_buyQty + ", bucket_sellPrice=" + bucket_sellPrice
 				+ ", bucket_totBuyPrice=" + bucket_totBuyPrice + "]";
-	}	
+	}
 	
 }

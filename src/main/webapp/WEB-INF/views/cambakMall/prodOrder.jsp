@@ -26,10 +26,12 @@
     <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 	<script>
 // 		function usePoint() {
@@ -163,7 +165,19 @@ function default_addr() {
 
 // 장원영 script Start
 function oderFin() {
-	alert("결제하기");
+// 	alert("결제하기");
+	let member_id = "${loginMember.member_id}";
+	let dis = parseInt($("#myPoint").val().replace(',', ''));
+	let totalPrice = '${totPrice }'
+	let finallyPrice = totalPrice - dis + 2500;
+	
+	console.log(member_id);
+	console.log(dis);
+	console.log(totalPrice);
+	console.log(finallyPrice);
+	
+		
+	
 }
 
 function myAllPoint() {
@@ -193,8 +207,8 @@ function usePoint() {
 	}
 	
 	if (dis <= totalPoint) {
-		let discountPrice = totalPrice - dis + 2500;
-		$("#finalPay").text(String(discountPrice).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인된 총 결제해야할 금액
+		let finallyPrice = totalPrice - dis + 2500;
+		$("#finalPay").text(String(finallyPrice).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인된 총 결제해야할 금액
 		$("#disCnt").text(String(dis).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인 금액에 사용 포인트 넣어주기
 	} else {
 		alert("보유 포인트보다 많음")
@@ -557,7 +571,7 @@ function addPoint() {
     	</div>
     </div>
     <div>
-    	<button type="submit" class="btn btn-default" onclick="oderFin">결제하기</button>
+    	<button type="submit" class="btn btn-default" onclick="oderFin()">결제하기</button>
     	<button class="btn btn-default">취소</button>
     </div>
     </form>    

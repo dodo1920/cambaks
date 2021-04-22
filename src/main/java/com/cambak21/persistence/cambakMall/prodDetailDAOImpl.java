@@ -9,8 +9,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BucketVO;
+import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
+import com.cambak21.dto.InsertintoNonUserBucketDTO;
 
 @Repository
 public class prodDetailDAOImpl implements prodDetailDAO {
@@ -46,6 +48,30 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 	@Override
 	public int checkBucketQty(String member_id) throws Exception {
 		return ses.selectOne(namespace + ".checkBucketQty", member_id);
+	}
+
+	@Override
+	public NonUserBucketVO checkNonUserBucket(String nonUserBucket_ssid, int product_id) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("nonUserBucket_ssid", nonUserBucket_ssid);
+		params.put("product_id", product_id);
+		
+		return ses.selectOne(namespace + ".checkNonUserBucket", params);
+	}
+
+	@Override
+	public int checkNonUserBucketQty(String nonUserBucket_ssid) throws Exception {
+		return ses.selectOne(namespace + ".checkNonUserBucketQty", nonUserBucket_ssid);
+	}
+
+	@Override
+	public int insertNonUserBucket(InsertintoNonUserBucketDTO insertNonUserBucket) throws Exception {
+		return ses.insert(namespace + ".insertNonUserBucket", insertNonUserBucket);
+	}
+
+	@Override
+	public int updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception {
+		return ses.update(namespace + ".updateNonUserBucketQty", updateNonUserBucket);
 	}
 
 }

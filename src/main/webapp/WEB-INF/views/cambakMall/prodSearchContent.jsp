@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="true" %>
 <!-- Shop Section Begin -->
 <section class="shop spad">
@@ -17,6 +18,11 @@
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
                                     <div class="card-heading active">
+                                        <a onclick="categoryMove(0, 0);" data-toggle="collapse" data-target="#collapse" class="allProdBtn">전체 상품</a>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-heading">
                                         <a data-toggle="collapse" data-target="#collapse1">텐트/타프</a>
                                     </div>
                                     <div id="collapse1" class="collapse" data-parent="#accordionExample">
@@ -111,8 +117,8 @@
                                     <div id="collapse8" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <ul>
-                                                <li><a onclick="categoryMove(8, 1);" style="cursor: pointer;">설거지용품</a></li>
-                                                <li><a onclick="categoryMove(8, 2);" style="cursor: pointer;">식기/일반</a></li>
+                                                <li><a onclick="categoryMove(8, 1);" style="cursor: pointer;">식기/일반</a></li>
+                                                <li><a onclick="categoryMove(8, 2);" style="cursor: pointer;">설거지용품</a></li>
                                                 <li><a onclick="categoryMove(8, 3);" style="cursor: pointer;">버너</a></li>
                                             </ul>
                                         </div>
@@ -198,27 +204,27 @@
                                     <a id="priceOrderAll" style="cursor: pointer;" onclick="priceViewMove('all', 0, 0)"><span style="color: #0073e9; font-weight: bold;">가격 전체</span></a>
                             </label>
                             <label for="priceOrder1">
-                                    1만원 이하
+                                    5만원 이하
                                 <input type="checkbox" id="priceOrder1" onclick="priceViewMove('less', 0, 0)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder2">
-                                   1만원 ~ 3만원
-                                <input type="checkbox" id="priceOrder2" onclick="priceViewMove('avg', 10000, 30000)">
+                                   5만원 ~ 20만원
+                                <input type="checkbox" id="priceOrder2" onclick="priceViewMove('avg', 50000, 200000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder3">
-                                    3만원 ~ 6만원
-                                <input type="checkbox" id="priceOrder3" onclick="priceViewMove('avg', 30000, 60000)">
+                                    20만원 ~ 60만원
+                                <input type="checkbox" id="priceOrder3" onclick="priceViewMove('avg', 200000, 600000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder4">
-                                    6만원 ~ 10만원
-                                <input type="checkbox" id="priceOrder4" onclick="priceViewMove('avg', 60000, 100000)">
+                                    60만원 ~ 100만원
+                                <input type="checkbox" id="priceOrder4" onclick="priceViewMove('avg', 600000, 1000000)">
                                 <span class="checkmark"></span>
                             </label>
                             <label for="priceOrder5">
-                                    10만원 이상
+                                    100만원 이상
                                 <input type="checkbox" id="priceOrder5" onclick="priceViewMove('great', 0, 0)">
                                 <span class="checkmark"></span>
                             </label>
@@ -227,7 +233,7 @@
                                 <span>~</span>
                                 <span><input type="text" maxlength="10" class="writePriceInput" id="maxPrice"></span>
                                 <span style="font-size: 13px;">원</span>
-                                <span><button type="button" class="btn btn-info btn-xs" style="font-size: 14px;" onclick="priceViewMove('avgInput', 0, 0)">검색</button></span>
+                                <span><button type="button" class="btn btn-info btn-xs" id="priceRangeBtn" onclick="priceViewMove('avgInput', 0, 0)">검색</button></span>
                             </div>
                         </div>
                     </div>
@@ -239,6 +245,18 @@
                         <div class="size__list">
                             <label for="pdScoreAll" style="padding-left: 0px;">
                                     <a id="productAll" style="cursor: pointer;" onclick="prodScoreViewMove('false', 0);"><span style="color: #0073e9; font-weight: bold;">별점 전체</span></a>
+                            </label>
+                            <label for="pdScoreFive">
+                                    <span style="margin-right: 5px;">
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    <i class="fa fa-star" style="color: #e3c01c; margin-right: -4px;"></i>
+                                    </span>
+                                    5점 이상
+                                <input type="checkbox" id="pdScoreFive" onclick="prodScoreViewMove('true', 5);">
+                                <span class="checkmark"></span>
                             </label>
                             <label for="pdScoreFour">
                                     <span style="margin-right: 5px;">
@@ -293,19 +311,41 @@
                     
                 </div>
             </div>
+            <jsp:useBean id="referDate" class="java.util.Date" />
+			<jsp:setProperty name="referDate" property="time" value="${referDate.time - 60*60*24*1000*7}"/>
+            <c:choose>
+            <c:when test="${fn:length(prodList) != 0}">
             <div class="col-lg-9 col-md-9">
                 <div class="row">
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
-                        <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/shop/${item.product_img1 }">
-                                <ul class="product__hover">
-                                    <li><a href="../../resources/mallMain/img/shop/${item.product_img1 }" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                    <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                                </ul>
+                        <c:choose>
+                        <c:when test="${item.product_totQty == 0 }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
                             </div>
+                        </c:when>
+                        <c:when test="${item.product_totQty != 0 && item.product_popularProduct == 'Y' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            	<div class="label">HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${item.product_date > referDate }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
                             <div class="product__item__text">
-                                <h6><a href="#">${item.product_name }</a></h6>
+                                <h6 class="prodName"><a href="/mall/prodDetail/main?prodId=${item.product_id }">${item.product_name }</a></h6>
                                 <c:if test="${item.product_prodAvgScore != 0 }">
 	                                <c:if test="${item.product_prodAvgScore == 1 }">
 		                                <div class="rating">
@@ -363,6 +403,11 @@
 		                                </div>
 	                                </c:if>
                                 </c:if>
+								<c:if test="${item.product_prodAvgScore == 0 }">
+	                                <div class="rating" style="margin-bottom: 0px;">
+	                                	<span class="noneReview">리뷰 없음</span>
+	                                </div>
+	                             </c:if>
                                 <div class="product__price"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
                             </div>
                         </div>
@@ -383,6 +428,15 @@
                     </div>
                 </div>
             </div>
+            </c:when>
+            <c:otherwise>
+            	<div class="searchNoItem">
+            	<em style="color: #e55; font-weight: bold;">"${param.keyword }"</em> 에 대한 캠박몰 내 검색 결과가 없습니다.
+            	<p style="margin: 11px 0 0 0; color: #999999;">다른 검색어를 입력하시거나 철자와 띄어쓰기를 확인해 보세요.</p>
+            	<p style="margin: 0; color: #999999;">두 단어 이상인 경우 띄어쓰기를 확인해주세요.</p>
+            	</div>
+            </c:otherwise>
+        </c:choose>
         </div>
     </div>
 </section>

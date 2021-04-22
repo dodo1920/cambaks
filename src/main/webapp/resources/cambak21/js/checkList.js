@@ -66,11 +66,23 @@
 	 	});
 	}
 	
+	
+	
+	
+	
+	
 	function enterkey() {
 	    if (window.event.keyCode == 13) {
 	    
+	   let checkLength = $(".checkListInputBox").val();
+	   		let totChkCnt = checkedCnt + noncheckedCnt;
+	   		
 	    	if($(".checkListInputBox").val() == ""){
 	    		alert("내용을 입력해주세요.");
+	    	}else if(checkLength.length >= 27){
+	    		alert("글자수는 최대 26자까지 가능합니다.");
+	    	}else if(totChkCnt >= 10){
+	    	 	alert("최대 10개 까지만 등록 가능합니다.");
 	    	}else{
 	    		checkedCnt = 0;
 	    		noncheckedCnt = 0;
@@ -90,6 +102,7 @@
 					}),
 					success : function(result){
 							$(".checkListInputBox").val("");
+							
 							getAjaxCheckListAll();
 					}
 				});
@@ -119,6 +132,9 @@
 	 	});
 	}
 	
+
+		
+		
 	function getAjaxCheckListAll(){
 	
 	$.getJSON("/myPage/checkList/ajax/" + member_id, function(data){
@@ -131,20 +147,23 @@
 			alert("없습니다.");
 			
 			}
-			
+		
+		console.log("체크리스트 열기");
+	
+		
 		$(data).each(function(index, item){
 			let R = Math.floor(Math.random()*255);
 			let G = Math.floor(Math.random()*255);
 			let B = Math.floor(Math.random()*255);
 			
-			
+						
 			
 			if(this.checkList_checked == 'Y'){
-				output += "<li name='checkedCompleted'><div><div style='display: contents;'><img style='width:30px; height:30px; margin-right:20px; margin-bottom: -7px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></div></li>";
+				output += "<li name='checkedCompleted'><div><div style='display: contents;'><img style='width:30px; height:30px; margin-right:20px; margin-bottom: -7px; cursor:pointer;' src='../resources/img/check1.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></div><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: -20px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
 				checkedCnt++;
 				
 			}else{
-				output += "<li name='noncheckedList'><div><div style='display: contents;'><img style='width:30px; margin-bottom: -7px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: 7px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></div></li>";
+				output += "<li name='noncheckedList'><div><div style='display: contents;'><img style='width:30px; margin-bottom: -7px; height:30px; margin-right:20px; cursor:pointer;' src='../resources/img/noncheck.png' id='check_box" + this.checkList_no + "' onclick='changeCheck(" + this.checkList_no + ");' /></div><label for='check_box" + this.checkList_no + "'></label><input id='checkcheck" + this.checkList_no + "' type='hidden' value='" + this.checkList_checked + "'><input id='listno" + this.checkList_no + "' type='hidden' value='" + this.checkList_no + "'><span style='color: rgb(" + R + "," +  G + "," + B + ")'>" + this.checkList_content + "</span></div><img onclick='deleteThis(" + this.checkList_no + ")' style='float:right; margin: -20px 5px 0px 0px; width:20px; height:20px;' src='../resources/img/x.png'/></li>";
 				noncheckedCnt++;
 			}
 			

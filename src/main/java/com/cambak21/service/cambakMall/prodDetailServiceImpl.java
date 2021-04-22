@@ -5,8 +5,10 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BucketVO;
+import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
+import com.cambak21.dto.InsertintoNonUserBucketDTO;
 import com.cambak21.persistence.cambakMall.prodDetailDAO;
 
 @Service
@@ -54,6 +56,42 @@ public class prodDetailServiceImpl implements prodDetailService {
 	@Override
 	public int checkBucketQty(String member_id) throws Exception {
 		return dao.checkBucketQty(member_id);
+	}
+
+	@Override
+	public NonUserBucketVO checkNonUserBucket(String nonUserBucket_ssid, int product_id) throws Exception {
+		return dao.checkNonUserBucket(nonUserBucket_ssid, product_id);
+	}
+
+	@Override
+	public int checkNonUserBucketQty(String nonUserBucket_ssid) throws Exception {
+		return dao.checkNonUserBucketQty(nonUserBucket_ssid);
+	}
+
+	@Override
+	public boolean insertNonUserBucket(InsertintoNonUserBucketDTO insertNonUserBucket) throws Exception {
+		boolean result = false;
+		
+		int i = dao.insertNonUserBucket(insertNonUserBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updateNonUserBucketQty(updateNonUserBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
 	}
 
 }

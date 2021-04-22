@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -25,7 +26,9 @@
 <link rel="stylesheet" href="../../resources/mallMain/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="../../resources/mallMain/css/style.css" type="text/css">
+<link rel="stylesheet" href="../../resources/mallMain/css/cambakMallCommon.css" type="text/css">
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
+
 <script>
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
 let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
@@ -46,6 +49,7 @@ $(document).ready(function() {
 	categoryOpen(); // 카테고리 파라메터로 css 설정
 	filterCheck(); // 페이지 로딩 시 파라메터 확인하여 체크박스 체크
 	pageBtnChange(); // 현재 페이지번호의 버튼 색상 변경
+	
 });
 
 function pageBtnChange() {
@@ -62,9 +66,9 @@ function categoryOpen() {
 	let middleCategory_id = '${param.middleCategory_id}';
 	
 	if (mainCategory_id == "" && middleCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
+		$("#collapse").attr("class", "collapse show");
 	} else if (mainCategory_id == "") {
-		$("#collapse1").attr("class", "collapse show");
+		$("#collapse").attr("class", "collapse show");
 	} else {
 		$("#collapse" + mainCategory_id).attr("class", "collapse show");
 	}
@@ -107,11 +111,11 @@ function filterCheck() {
 		$("#priceOrder1").prop("checked", "true");
 	} else if (priceRangeOrder == "great") {
 		$("#priceOrder5").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "30000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "200000") {
 		$("#priceOrder2").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "60000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "600000") {
 		$("#priceOrder3").prop("checked", "true");
-	} else if (priceRangeOrder == "avg" && maxPrice == "100000") {
+	} else if (priceRangeOrder == "avg" && maxPrice == "1000000") {
 		$("#priceOrder4").prop("checked", "true");
 	} else if (priceRangeOrder == "avgInput" && maxPrice != "" && minPrice != "") {
 		$("#maxPrice").val(parseInt(maxPrice));
@@ -121,6 +125,8 @@ function filterCheck() {
 	// 별점 체크
 	if (ratingSorter == "" || ratingSorter == "false") {
 		// 체크하지 않아도 됨
+	} else if (ratingSorter == "true" && prodScore == "5") {
+		$("#pdScoreFive").prop("checked", "true");
 	} else if (ratingSorter == "true" && prodScore == "4") {
 		$("#pdScoreFour").prop("checked", "true");
 	} else if (ratingSorter == "true" && prodScore == "3") {
@@ -137,10 +143,10 @@ function pageNumMove(movePage) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -171,10 +177,10 @@ function prodScoreViewMove(sorter, score) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -209,10 +215,10 @@ function priceViewMove(priceRange, min, max) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 표시 필터가 없을 시
@@ -267,10 +273,10 @@ function prodNumViewMove(prodsNumber) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -301,10 +307,10 @@ function productViewMove(prodsRank) {
 	
 	// 카테고리 번호가 없을 시
 	if (mainCategory_id == "") {
-		mainCategory_id = "1"
+		mainCategory_id = "0"
 	}
 	if (middleCategory_id == "") {
-		middleCategory_id = "1";
+		middleCategory_id = "0";
 	}
 	
 	// 상품 가격 필터가 없을 시
@@ -332,7 +338,11 @@ function productViewMove(prodsRank) {
 
 function categoryMove(main, middle) {
 	// 상품 카테고리 클릭하여 페이지 이동 시 파라메터 확인
-	location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	if (main == 0 && middle == 0) {
+		location.href="/mall/categories";
+	} else {
+		location.href="/mall/categories?mainCategory_id=" + main + "&middleCategory_id=" + middle + "&prodRankOrder=cmRank&priceRangeOrder=all&ratingSorter=false&prodScore=&page=1&perPageNum=12";
+	}
 }
 
 </script>
@@ -369,92 +379,52 @@ function categoryMove(main, middle) {
     margin-right: 6px !important;
 }
 
+.searchForm {
+    display: none;
+    top: 48px;
+    right: 0;
+    border: 0;
+    border-bottom: 2px solid #f32952;
+    background: #ffffff;
+    z-index: 110;
+}
+
+.prodName a:hover {
+	text-decoration: underline;
+}
+
+.allProdBtn:after {
+	display : none;
+}
+
+.listNoItem {
+	text-align: center;
+	padding: 96px 0 95px;
+	line-height: 22px;
+	width: 837px;
+	font-size: 20px;
+	font-weight: 500;
+}
+
+#priceRangeBtn {
+	font-size: 14px;
+    background-color: #f2f2f2;
+    color: #333;
+    border-color: #f2f2f2;
+}
+
+.noneReview {
+	font-size: 10px;
+    font-weight: bold;
+    color: lightsteelblue;
+}
+
 </style>
 
 
 </head>
-<body>
-<!-- Header Section Begin -->
-<header class="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xl-3 col-lg-2">
-                <div class="header__logo">
-                    <a href="#" style="font-size: 38px; color: black; font-weight: bold;">캠박몰</a></div>
-            </div>
-            <div class="col-xl-6 col-lg-7">
-                <nav class="header__menu">
-                    <ul>
-                        <li><a href="#">텐트/타프</a>
-                          <ul class="dropdown">
-                                <li><a href="#">텐트</a></li>
-                                <li><a href="#">타프</a></li>
-                            </ul></li>
-                        <li><a href="#">침낭/매트</a>
-                           <ul class="dropdown">
-                                <li><a href="#">침낭</a>
-                                <li><a href="#">매트</a></li>
-                            </ul></li>
-                        <li><a href="#">테이블/체어/배트</a>
-                         <ul class="dropdown">
-                                <li><a href="#">경랑 테이블</a></li>
-                                <li><a href="#">체어</a></li>
-                            </ul></li>
-                        <li><a href="#">랜턴</a></li>
-                        <li><a href="#">액세서리</a>
-                           <ul class="dropdown">
-                                <li><a href="#">담요</a></li>
-                                <li><a href="#">쿨러/아이스박스</a></li>
-                            </ul></li>
-                        <li><a href="#">화로/히터</a>
-                           <ul class="dropdown">
-                                <li><a href="#">착화재</a></li>
-                                <li><a href="#">화로대</a></li>
-                            </ul></li>
-                        <li><a href="#">수납/케이스</a></li>
-                        <li><a href="#">키친/취사용품</a>
-                       <ul class="dropdown">
-                            <li><a href="#">설거지용품</a></li>
-                            <li><a href="#">식기/일반</a></li>
-                            <li><a href="#">버너</a></li>
-                        </ul></li>
-                        <li><a href="#">기타</a></li>
-         		    </ul>
-                </nav>
-            </div>
-            <div class="col-lg-3">
-                <div class="header__right">
-                	<c:if test="${loginMember == null}">
-	                    <div class="header__right__auth">
-	                        <a href="/user/login/yet">Login</a>
-	                        <a href="/user/register">Register</a>
-	                    </div>
-	                    <ul class="header__right__widget">
-	                        <li style="margin-right: 10px;"><span class="icon_search search-switch"></span></li>
-	                        <li style="margin-right: 20px;"><a href="#"><span class="icon_bag_alt"></span></a></li>
-	                    </ul>
-                    </c:if>
-                	<c:if test="${loginMember != null}">
-	                    <div class="header__right__auth">
-	                        <a href="/user/login/yet">Login</a>
-	                        <a href="/user/register">Register</a>
-	                    </div>
-	                    <ul class="header__right__widget">
-	                        <li style="margin-right: 10px;"><span class="icon_search search-switch"></span></li>
-	                        <li style="margin-right: 20px;"><a href="#"><span class="icon_bag_alt"></span>
-	                            <span class="tip">2</span>
-	                        </a></li>
-	                    </ul>
-                    </c:if>
-                </div>
-            </div>
-        </div>
-        <div class="canvas__open">
-            <i class="fa fa-bars"></i>
-        </div>
-    </div>
-</header>
-<!-- Header Section End --> 
+<body ondragstart="return false">
+<%@include file="mallHeader.jsp" %>
 
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
@@ -462,9 +432,15 @@ function categoryMove(main, middle) {
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
+                	<a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
                 <c:choose>
+	                <c:when test="${fn:length(prodList) == 0}">
+	                    <span>상품 준비 중</span>
+	                </c:when>
+                   	<c:when test="${param.mainCategory_id == null && param.middleCategory_id == null }">
+	                    <span>전체 상품</span>
+	                </c:when>
                    	<c:when test="${param.mainCategory_id != null && param.middleCategory_id != null }">
-	                    <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
 	                    <a><span>${prodList[0].mainCategory_content }</span></a>
 	                    <span>${prodList[0].middleCategory_content }</span>
 	                </c:when>
@@ -476,60 +452,21 @@ function categoryMove(main, middle) {
 </div>
 <!-- Breadcrumb End -->
 
-<%@include file="prodListAside.jsp" %>
+<%@include file="prodListContent.jsp" %>
 
 <!-- Instagram Begin -->
 <div class="instagram">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-1.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-2.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-3.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-4.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-5.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-4 col-sm-4 p-0">
-                <div class="instagram__item set-bg" data-setbg="../../resources/mallMain/img/instagram/insta-6.jpg">
-                    <div class="instagram__text">
-                        <i class="fa fa-instagram"></i>
-                        <a href="#">@ ashion_shop</a>
-                    </div>
-                </div>
-            </div>
+        	<c:forEach var="item" items="${popularList }">
+	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+	                    <div class="instagram__text">
+	                        <a>More View</a>
+	                    </div>
+	                </div>
+	            </div>
+            </c:forEach>
         </div>
     </div>
 </div>
@@ -560,7 +497,7 @@ function categoryMove(main, middle) {
 <script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
-
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 </body>
 </html>
