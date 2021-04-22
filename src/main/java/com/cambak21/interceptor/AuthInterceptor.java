@@ -27,11 +27,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
          
          if (ses.getAttribute("loginMember") == null) {
             // 로그인 하지 않음
+        	logger.info("로그인 전");
       
             Cookie loginCook = WebUtils.getCookie(request, "ssid");
             
             if(loginCook == null) {
-               response.sendRedirect("/user/login");
+               response.sendRedirect("/user/login/yet");
             }
             
             if(loginCook != null) {
