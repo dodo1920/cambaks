@@ -278,7 +278,7 @@
                         <ul class="dropdown-menu">
                         	<c:choose>
                         		<c:when test="${loginMember != null }">
-		                            <li><a href="/myPage/checkList">마이페이지</a></li>
+		                            <li><a href="/myPage/myPost">마이페이지</a></li>
 		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
 		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
@@ -537,11 +537,12 @@
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
-					<p>1</p>
-					<p>2</p>
-					<p>3</p>
-					<p>4</p>
-					<p>5</p>
+					<p><a href="/mall/main">메인페이지</a></p>
+					<p><a href="/mall/categories">전체상품</a></p>
+					<p><a>이용약관</a></p>
+					<p><a>개인정보 처리방침</a></p>
+					<p><a>제휴마케팅</a></p>
+					<p><a>광고안내</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/notice/listCri?page=1">공지사항</a></p>
