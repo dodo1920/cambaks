@@ -152,6 +152,11 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return result;
 	}
 
+	@Override
+	public DestinationVO GetModifydst(int dstno) throws Exception {
+		return dao.GetModifydst(dstno);
+	}
+
 	
 
 

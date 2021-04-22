@@ -79,7 +79,7 @@
 	                    </ul>
 	                    <div class="header__right__auth">
 	                        <a href="/user/logout">로그아웃</a>
-	                        <a href="/myPage/checkList">마이페이지</a>
+	                        <a href="/myPage/myPost">마이페이지</a>
 	                    </div>
                     </c:if>
                 </div>

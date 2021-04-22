@@ -7,60 +7,85 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-
+let member_id = '${loginMember.member_id}';
 let firstNum = "";
 let secondNum = "";
 let thirdNum = "";
 let finalNum = "";
 const regExpName = /^[가-힣a-zA-Z]+$/;
 const NumPattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+opener.popup = this;
 
 $(function(){
 	
-	chkModify();
+// 	chkModify();
+	getDataParent();
 	chkInsert();
+	console.log(member_id);
 });
 
-function chkModify(){
-	if(${param.go == 'modify'}){
+// function chkModify(){
+// 	if(${param.no != 0}){
+// 	let dstno = (${param.no});
+// 	console.log(dstno);
+		     
+// 		     $.getJSON("/mall/destinationsList/GetModifydst/" + member_id + "/" + dstno, function(data){
+		  	
+// 			        $("#addressName").val(data.destination_nickname);
+// 				        $("#receiver").val(data.destination_toUser);
+// 				        $("#destination_noVal").val(data.destination_no);
+// 				   		let ModyMobileNum = data.destination_mobile;
+				
+// 				        $("#telNoFrist").val(ModyMobileNum.split("-")[0]);	 
+// 				        $("#telNoSecond").val(ModyMobileNum.split("-")[1]);	 
+// 				        $("#telNoThird").val(ModyMobileNum.split("-")[2]);	
+		 	
+// 		 		});
+		     
+// 	}
+// }
 
-		console.log("모디파이 ㄱㄱ");
+function getDataParent(){
+	 let dstno = "${param.no}";
+	 
+	 if(dstno != 0){
+		 $("#addressName").val(opener.document.getElementById("nickname" + dstno).value);
+		 $("#receiver").val(opener.document.getElementById("toUser" + dstno).value);
+		 $("#sample3_postcode").val(opener.document.getElementById("postCode" + dstno).value);
+		 $("#sample3_address").val(opener.document.getElementById("address" + dstno).value);
+		 $("#sample3_detailAddress").val(opener.document.getElementById("addressDetail" + dstno).value);
+	     $("#destination_noVal").val(dstno);
+	     let ModyMobileNum = opener.document.getElementById("mobile" + dstno).value;
+	     $("#telNoFrist").val(ModyMobileNum.split("-")[0]);	 
+	     $("#telNoSecond").val(ModyMobileNum.split("-")[1]);	 
+	     $("#telNoThird").val(ModyMobileNum.split("-")[2]);	
+	     firstNum = $("#telNoFrist").val();	 
+	     secondNum = $("#telNoSecond").val();	 
+	     thirdNum = $("#telNoThird").val();	
+	     finalNum = firstNum + "-" + secondNum + "-" + thirdNum;
+	     $("#completePhone").val(finalNum);
+	     
+	 }
 		
-		
-		
-		
-		
-		
-	}
 }
 
-// function defaultDestiny(dstno){
-	
-//     $.ajax({
-        
-//            method: "post",
-//            url: "/mall/destinationsList/ajax/" + member_id + "/" + dstno,
-//            dataType: "text", // 응답 받는 데이터 타입
-           
-//            success : function(result){
-           	
-//                alert("변경 완료.");
-//                getDestinationsList();
-//            }
-//        });
-// }	
 
 
 
 function registerDestinationcheck(){
 	
 		if(validCheck()){
-			$("#registerDestinationForm").submit();
-		}
+			
+				$("#registerDestinationForm").submit();
+				
+			}
 	
 }
 
 function validCheck(){
+	
+	
+	
 	
 	 if(document.getElementsByName("destination_nickname")[0].value == ""){
 		 alert("배송지 별칭을 입력해주세요.");
@@ -80,10 +105,8 @@ function validCheck(){
 	 }else if(document.getElementsByName("destination_toUser")[0].value.match(regExpName) == null){
 		 alert("수령인을 올바르게 작성해주세요.");
 		 return false;
-	 }else if(document.getElementsByName("destination_addressDetail")[0].value.match(regExpName) == null){
-		 alert("배송지 상세 정보를 올바르게 입력해주세요.");
-		 return false;
 	 }else if(document.getElementsByName("destination_mobile")[0].value.match(NumPattern) == null){
+		
 		 alert("연락처를 올바르게 입력해주세요.");
 		 return false;
 	 }else {
@@ -117,9 +140,15 @@ function chkInsert() {
 	   let result = getParameter("result");
 	
 	   if (result == "success") {
-	 		opener.location.reload();
+		   alert("글 등록이 완료 되었습니다.");
+		   opener.location.reload();
 	 		window.close();
-	   } else if (result == "fail") {
+	   }else if(result == "modisuccess"){
+		   alert("배송지 정보가 수정되었습니다.");
+		   opener.location.reload();
+	 		window.close();
+		   
+	   }else if (result == "fail") {
 		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 	   }
 }
@@ -136,7 +165,6 @@ function chkInsert() {
 			 secondNum = $("#telNoSecond").val();	 
 	 }else if(data == 3){
 			 thirdNum = $("#telNoThird").val();	
-		
 	 }
 	 
 	 if(firstNum.length == 3 && secondNum.length >= 3 && thirdNum.length == 4){
@@ -153,10 +181,6 @@ function chkInsert() {
  }
  
  
-
-
-
-
 
 
 
@@ -446,6 +470,7 @@ li {
                             <label for="addressName" class="lb_text blind"></label>
                             <input type="text" name="destination_nickname" id="addressName" class="ip_text" value="" maxlength="150">
                             <input type="hidden" name="member_id" id="hash" class="ip_text" value="admin">
+                            <input type="hidden" name="destination_no" id="destination_noVal" class="ip_text" value="0">
                         </span>
                     </td>
                 </tr>
@@ -464,13 +489,13 @@ li {
                     <td>
                                 <span class="_input basic_input" style="width: 64px">
 								<label for="zipCode" class="lb_text blind"></label>
-								<input type="text" name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
+								<input type="text" readonly name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
 							</span>
-                        <a onclick="sample3_execDaumPostcode();" class="_search setting_btn green">주소검색</a>
+                        <a onclick="sample3_execDaumPostcode();" style="cursor:pointer;" class="_search setting_btn green">주소검색</a>
                         <p class="address_detail">
                                     <span class="_input basic_input" style="width: 338px">
 									<label for="baseAddress" class="lb_text blind"></label>
-									<input type="text" name="destination_address" id="sample3_address" class="ip_text" value="">
+									<input type="text" name="destination_address" readonly id="sample3_address" class="ip_text" value="">
 									<input type="hidden" id="roadNameAddressYn" value="">
 								</span>
                         </p>
@@ -526,8 +551,9 @@ li {
         </div>
     </div>
     <div id="pop_footer">
-        <button type="button" class="button" onclick="javascript:window.close();return false;">닫기</button>
-        <button type="button" onclick="registerDestinationcheck();" class="_btn_save button green_bg">저장</button>
+  
+        <button type="button" class="button" style="cursor:pointer;" onclick="javascript:window.close(); opener.location.reload(); return false;">닫기</button>
+        <button type="button" onclick="registerDestinationcheck();" style="cursor:pointer;" class="_btn_save button green_bg">저장</button>
     </div>
 </div>
 

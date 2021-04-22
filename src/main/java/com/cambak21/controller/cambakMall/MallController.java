@@ -191,6 +191,29 @@ public class MallController {
 
 	}
 
+	@RequestMapping(value = "/destinationsList/GetModifydst/{member_id}/{dstno}", method = RequestMethod.GET)
+	public ResponseEntity<DestinationVO> GetModifydst(@PathVariable("member_id") String member_id,
+			@PathVariable("dstno") int dstno, HttpServletResponse response, HttpServletRequest request) throws Exception {
+	
+		ResponseEntity<DestinationVO> entity = null;
+		HttpSession ses = request.getSession();
+		MemberVO vo = (MemberVO) ses.getAttribute("loginMember");
+		System.out.println(vo.toString());
+	
+			try {
+				System.out.println("정상 경로로 접근");
+				entity = new ResponseEntity<DestinationVO>(service.GetModifydst(dstno), HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				entity = new ResponseEntity<DestinationVO>(HttpStatus.BAD_REQUEST);
+			}
+	
+
+		return entity;
+		
+	}
+
 	@RequestMapping(value = "/destinationsList/deleteDestiny/{member_id}/{dstno}", method = RequestMethod.GET)
 	public ResponseEntity<String> deleteDestiny(@PathVariable("member_id") String member_id,
 			@PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
@@ -227,13 +250,29 @@ public class MallController {
 	@RequestMapping(value = "/destinationsList/insertDestiny", method = RequestMethod.POST)
 	public String insertDestiny(DestinationVO vo, RedirectAttributes rttr) throws Exception {
 		
-		
-		if (service.insertDestiny(vo)) {
+		if(vo.getDestination_no() == 0){
 			
-			rttr.addFlashAttribute("result", "success");
-		}
+			if (service.insertDestiny(vo)) {
+				
+				return "redirect:/mall/destinationsList/register?result=success";
+			}else {
+				
+				return "redirect:/mall/destinationsList/register?result=fail";
+			}
 
-		return "redirect:/mall/destinationsList/register?result=success";
+			
+			
+		}else {
+			if (service.destiModyAjax(vo)) {
+				
+				return "redirect:/mall/destinationsList/register?result=modisuccess";
+			}else {
+				return "redirect:/mall/destinationsList/register?result=fail";
+			}
+			
+			
+		}
+		
 
 	}
 //

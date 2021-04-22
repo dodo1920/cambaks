@@ -41,43 +41,19 @@
      
      
 	 function popup(data){
+
 		 if(data){
-			  url = "/mall/destinationsList/register?go=modify";
+			  // Ajax로 불러오기 정상 작동 확인 //			 			 
+			  url = "/mall/destinationsList/register?no=" + data;
 			  var openWin = window.open(url, "registerDestinationForm", option);
+			  // Ajax로 불러오기 정상 작동 확인 //
+	  
+			  
 		 }else{
-			  url = "/mall/destinationsList/register";
+			  url = "/mall/destinationsList/register?no=" + data;
 			  var openWin = window.open(url, "registerDestinationForm", option);
 		 }
 			 
-
-// 		 if(document.getElementsByName("destination_nickname")[0].value == ""){
-// 			 alert("배송지 별칭을 입력해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_toUser")[0].value == ""){
-// 			 alert("수령인을 입력해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_zipCode")[0].value == ""){
-// 			 alert("배송받을 주소를 검색해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_address")[0].value == ""){
-// 			 alert("배송받을 주소를 검색해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_addressDetail")[0].value == ""){
-// 			 alert("배송받을 상세 주소를 입력해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_toUser")[0].value.match(regExpName) == null){
-// 			 alert("수령인을 올바르게 작성해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_addressDetail")[0].value.match(regExpName) == null){
-// 			 alert("배송지 상세 정보를 올바르게 입력해주세요.");
-// 			 return false;
-// 		 }else if(document.getElementsByName("destination_mobile")[0].value.match(NumPattern) == null){
-// 			 alert("연락처를 올바르게 입력해주세요.");
-// 			 return false;
-// 		 }else {
-// 			 return true;
-// 		 }
-	
        
          
      }
@@ -273,11 +249,11 @@ function getDestinationsList(){
 		
 		if(this.default_address == this.destination_no){
 			
-			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div style='color: chocolate; border: solid 0.5px chocolate; margin: 5px 0px;'>기본배송지</div><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='popup(2);' value='수정'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><span>선택됨</span></td></tr>"
+			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div style='color: chocolate; border: solid 0.5px chocolate; margin: 5px 0px;'>기본배송지</div><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='postCode" + this.destination_no + "' readonly value='" + this.destination_zipCode + "'/><br /><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='popup(" + this.destination_no + ");' value='수정'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><span>선택됨</span></td></tr>"
 			
 		}else{
 			
-			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='popup(2);' value='수정'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: chocolate; color:chocolate; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
+			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div></td><td><input type='text' class='modiform" + this.destination_no + "' id='postCode" + this.destination_no + "' readonly value='" + this.destination_zipCode + "'/><br /><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; background-color: white; border-color: darkgrey;' onclick='popup(" + this.destination_no + ");' value='수정'/>&nbsp<input type='button' style='border-style: double; background-color: white; border-color: darkgrey;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><input type='button' style='border-style: double; background-color: white; border-color: chocolate; color:chocolate; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
 		}
 		
 		if(data.length < 3){
@@ -403,7 +379,7 @@ function getDestinationsList(){
 
     <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad" style="margin-bottom: 200px;">
-    	<a onclick="popup(0);" class="_insert setting_btn green_bg">배송지 등록</a>
+    	<a onclick="popup(0);" class="_insert setting_btn green_bg" style="color: white;">배송지 등록</a>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

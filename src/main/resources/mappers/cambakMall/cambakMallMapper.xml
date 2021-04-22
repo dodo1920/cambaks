@@ -560,6 +560,11 @@
   		update Destinations set destination_isDelete = "Y" where destination_no = #{destination_no}
   	</update>
   	
+  	<select id="GetModifydst" resultType="com.cambak21.domain.DestinationVO">
+  		select * from Destinations where destination_no = #{dstno}
+  	</select>
+  	
+  	
   	<!-- 이영광 맵퍼 -->
   	
   	
