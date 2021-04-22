@@ -40,6 +40,8 @@
 	let restProdQty = 0; // 해당 페이지의 상품 재고 수량 초기화
 	let ssid = '${ssid}';
 	
+	console.log('${topReviews}');
+	
 	console.log(ssid);
 	
 	let orderList;
@@ -662,12 +664,18 @@
 	    	console.log(data);
 	    	
 	    	let output = "";
+	    	let cOutput = "";
 	    	$("#prodQA_category").val(cate).prop("selected",true); // 호출된 상품문의 글들의 해당 분류 고정
 	    		
 	    	if(data.length == 0) { // 해당 카테고리에서 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
 	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
-	    		$("#pagingParamTb").html('');
+	    		
+	    		if(loginUser.length != 0) {
+	    			cOutput += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
+	    		}
+	    		
+	    		$("#pagingParamTb").html(cOutput);
 	    		
 	    	} else { // 해당 카테고리에서 등록된 상품 문의가 있다면,		
 	    	
@@ -1125,6 +1133,13 @@
 	// 장바구니로 갈지, 현재 페이지에 머무를지 묻는 Modal 띄우는 함수
 	function goBucket(flag) {
 		let output ='';
+		let url = '';
+		
+		if(loginUser.length == 0) {
+			url = "../cart/no";
+		} else {
+			url = "../cart";
+		}
 		
 		if(flag == "over") {
 			output += '<p>장바구니에 추가할 수 있는 상품 수량을 초과하였습니다</p>';
@@ -1132,8 +1147,14 @@
 			output += '<p>변경이 완료되었습니다</p>';	
 		}
 		
-		output += '<div class="modal-footer" >'
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		output += '<div class="modal-footer" >';
+		
+		if(loginUser.length == 0) {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart/no\'">장바구니로 가기</button>';
+		} else {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		}
+		
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button></div>';
 		
 		$("#alreadyItem").html(output);
@@ -1200,7 +1221,7 @@
 			success : function(result) {
 				console.log(result);
 				if(flag == 1) { // '주문하기' 버튼을 클릭 했을 경우, 장바구니 페이지로 이동
-					location.href="../cart";	
+					location.href="../cart/no";	
 				} else if(flag == 2) { // '장바구니' 버튼을 클릭 했을 경우, 알람 띄우기
 					alert("장바구니에 담기 완료!");
 				}				
@@ -1215,25 +1236,31 @@
 	function addAlreadyItem(flag, obj) {
 		let isMoveFlag = '';
 		let output = '';
+		
 		console.log(flag);
 		console.log(obj.nonUserBucket_buyQty);
 		
+		if(loginUser.length == 0) {
+			url = "../cart/no";
+		} else {
+			url = "../cart";
+		}
+		
 		output += '<div>';
 		output += '<p>이미 장바구니에 들어있는 상품입니다.</p>';
-		output += '<span id="bucketQty"></span>';
+		output += '<p><span id="bucketQty"></span></p>';
 		output += '<input type="hidden" id="isMoveFlag"  />';
 		output += '<input type="hidden" id="bucket_no" />';
 		output += '<input type="hidden" id="bucket_buyQty" />';
 		output += '</div>';
 		output += '<div class="modal-footer" >';
-<<<<<<< HEAD
-		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
-		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
-=======
 		output += '<button type="button" class="btn btn-default" id="updateBtn1" onclick="updateBucket(\'1\');">추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updateBtn2" onclick="updateBucket(\'2\');">변경하기</button>';
->>>>>>> subMaster
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		if(loginUser.length == 0) {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart/no\'">장바구니로 가기</button>';
+		} else {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		}
 		output += '</div>';
 		
 		$("#alreadyItem").html(output);
@@ -1245,7 +1272,7 @@
 		}
 		
 		if(loginUser.length == 0) {
-			$("#bucketQty").html("<p>장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 </p>");
+			$("#bucketQty").html("장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 ");
 			$("#bucket_no").val(obj.nonUserBucket_no);
 			$("#bucket_buyQty").val(obj.nonUserBucket_buyQty);
 		} else {
@@ -1299,11 +1326,11 @@
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
 					console.log(isMoveFlag);
-// 					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
-// 						location.href="../cart";	
-// 					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
-// 						changeModalButtons(isMoveFlag);
-// 					}
+					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
+						location.href="../cart/no";	
+					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
+						changeModalButtons(isMoveFlag);
+					}
 				},
 				fail : function(result) {
 					alert(result);
@@ -1448,20 +1475,20 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
-                        <div class="product__details__pic__left product__thumb nice-scroll">
-                            <a class="pt active" href="#product-1">
-                                <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-2">
-                                <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-3">
-                                <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt="">
-                            </a>
-                            <a class="pt" href="#product-4">
-                                <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt="">
-                            </a>
-                        </div>
+<!--                         <div class="product__details__pic__left product__thumb nice-scroll"> -->
+<!--                             <a class="pt active" href="#product-1"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-2"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-3"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                             <a class="pt" href="#product-4"> -->
+<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt=""> -->
+<!--                             </a> -->
+<!--                         </div> -->
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel">
                                 <img data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="">
@@ -1636,33 +1663,13 @@
 									
 						    	</div>
 						    	
-<<<<<<< HEAD
-						    	<!-- Modal -->
-								  <div class="modal" id="myModal" role="dialog">
-								    <div class="modal-dialog">
-								    
-								      <!-- Modal content-->
-								      <div class="modal-content">
-								        <div class="modal-header">
-								          <button type="button" class="close" data-dismiss="modal">&times;</button>
-								          <h4 class="modal-title">주문하기</h4>
-								        </div>
-								        <div class="modal-body" id="alreadyItem">
-								        	
-								       </div>
-								      
-								    </div>
-								  </div>
-
-=======
->>>>>>> subMaster
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
                                 <h6>배송/교환/반품 안내</h6>
                                 <!-- *********아래부터 배송/교환/반품 안내 내용 넣는 곳 *************************************************************-->
-                                <div>
-                                
+                                <div style="text-align:center">
+                                	<img src="../../resources/img/refundnExchangeImg.jpg" />
                                 </div>
                                 <!-- ******************************************************************************************** -->
                             </div>
@@ -1673,99 +1680,27 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="related__title">
-                        <h5>RELATED PRODUCTS</h5>
+                        <h5>TOP REIVEWS PRODUCTS</h5>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-1.jpg">
-                            <div class="label new">New</div>
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Buttons tweed blazer</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-2.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Flowy striped skirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 49.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-3.jpg">
-                            <div class="label stockout">out of stock</div>
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-3.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Cotton T-Shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="../../resources/mallMain/img/product/related/rp-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="../../resources/mallMain/img/product/related/rp-4.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                <li><a href="#"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Slim striped pocket shirt</a></h6>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                            </div>
-                            <div class="product__price">$ 59.0</div>
-                        </div>
-                    </div>
-                </div>
+                <c:forEach var="review" items="${topReviews}">
+                	<div class="col-lg-3 col-md-4 col-sm-6">
+                		<div class="product__item">
+	                        <div class="product__item__pic set-bg" data-setbg="${review.product_img1 }">
+<!-- 	                            <div class="label new">New</div> -->
+	                        </div>
+	                        <div class="product__item__text">
+	                            <h6><a href="../prodDetail/main?prodId=${review.product_id }">${review.product_name }</a></h6>
+	                            <div class="rating">
+	                            	<c:forEach var="i" begin="1" end="${review.star }" step="1" >
+	                            		<i class="fa fa-star"></i>
+	                            	</c:forEach>
+	                            </div>
+	                            <div class="product__price"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /> 원</div>
+	                        </div>
+	                    </div>
+                	</div>
+                </c:forEach>
             </div>
         </div>
     </section>

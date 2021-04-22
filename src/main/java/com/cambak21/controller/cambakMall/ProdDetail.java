@@ -132,11 +132,15 @@ public class ProdDetail {
 		
 		/* ****************종진 캠박몰 메인 최신 본 상품을 위한 쿠기 값 저장 추가 끝 부분************** */ 
 		
+		HttpSession ses = request.getSession();
+		ses.setAttribute("ssid", request.getRequestedSessionId());
+		
 		ProductsVO prodDetail = prodService.getProdDetail(prodId);
+		
 		System.out.println(prodDetail);
 		
 		model.addAttribute("prodDetail", prodDetail);
-		model.addAttribute("ssid", request.getRequestedSessionId());
+		model.addAttribute("topReviews", prodService.getTopReview());
 		
 		return "cambakMall/prodDetail";
 	}
