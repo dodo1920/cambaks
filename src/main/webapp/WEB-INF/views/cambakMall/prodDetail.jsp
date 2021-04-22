@@ -1133,6 +1133,13 @@
 	// 장바구니로 갈지, 현재 페이지에 머무를지 묻는 Modal 띄우는 함수
 	function goBucket(flag) {
 		let output ='';
+		let url = '';
+		
+		if(loginUser.length == 0) {
+			url = "../cart/no";
+		} else {
+			url = "../cart";
+		}
 		
 		if(flag == "over") {
 			output += '<p>장바구니에 추가할 수 있는 상품 수량을 초과하였습니다</p>';
@@ -1140,8 +1147,14 @@
 			output += '<p>변경이 완료되었습니다</p>';	
 		}
 		
-		output += '<div class="modal-footer" >'
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		output += '<div class="modal-footer" >';
+		
+		if(loginUser.length == 0) {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart/no\'">장바구니로 가기</button>';
+		} else {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		}
+		
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal">취소</button></div>';
 		
 		$("#alreadyItem").html(output);
@@ -1208,7 +1221,7 @@
 			success : function(result) {
 				console.log(result);
 				if(flag == 1) { // '주문하기' 버튼을 클릭 했을 경우, 장바구니 페이지로 이동
-					location.href="../cart";	
+					location.href="../cart/no";	
 				} else if(flag == 2) { // '장바구니' 버튼을 클릭 했을 경우, 알람 띄우기
 					alert("장바구니에 담기 완료!");
 				}				
@@ -1223,8 +1236,15 @@
 	function addAlreadyItem(flag, obj) {
 		let isMoveFlag = '';
 		let output = '';
+		
 		console.log(flag);
 		console.log(obj.nonUserBucket_buyQty);
+		
+		if(loginUser.length == 0) {
+			url = "../cart/no";
+		} else {
+			url = "../cart";
+		}
 		
 		output += '<div>';
 		output += '<p>이미 장바구니에 들어있는 상품입니다.</p>';
@@ -1236,7 +1256,11 @@
 		output += '<div class="modal-footer" >';
 		output += '<button type="button" class="btn btn-default" id="updateBtn1" onclick="updateBucket(\'1\');">추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updateBtn2" onclick="updateBucket(\'2\');">변경하기</button>';
-		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		if(loginUser.length == 0) {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart/no\'">장바구니로 가기</button>';
+		} else {
+			output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
+		}
 		output += '</div>';
 		
 		$("#alreadyItem").html(output);
@@ -1303,7 +1327,7 @@
 				success : function(result) {
 					console.log(isMoveFlag);
 					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
-						location.href="../cart";	
+						location.href="../cart/no";	
 					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
 						changeModalButtons(isMoveFlag);
 					}
