@@ -158,6 +158,7 @@
 <script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 </body>
 </html>
