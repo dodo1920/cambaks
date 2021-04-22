@@ -1226,8 +1226,13 @@
 		output += '<input type="hidden" id="bucket_buyQty" />';
 		output += '</div>';
 		output += '<div class="modal-footer" >';
+<<<<<<< HEAD
+		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
+		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
+=======
 		output += '<button type="button" class="btn btn-default" id="updateBtn1" onclick="updateBucket(\'1\');">추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updateBtn2" onclick="updateBucket(\'2\');">변경하기</button>';
+>>>>>>> subMaster
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
@@ -1631,6 +1636,26 @@
 									
 						    	</div>
 						    	
+<<<<<<< HEAD
+						    	<!-- Modal -->
+								  <div class="modal" id="myModal" role="dialog">
+								    <div class="modal-dialog">
+								    
+								      <!-- Modal content-->
+								      <div class="modal-content">
+								        <div class="modal-header">
+								          <button type="button" class="close" data-dismiss="modal">&times;</button>
+								          <h4 class="modal-title">주문하기</h4>
+								        </div>
+								        <div class="modal-body" id="alreadyItem">
+								        	
+								       </div>
+								      
+								    </div>
+								  </div>
+
+=======
+>>>>>>> subMaster
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
