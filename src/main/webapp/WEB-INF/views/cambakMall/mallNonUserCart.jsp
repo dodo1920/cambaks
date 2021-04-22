@@ -87,7 +87,6 @@ button.btn.btn-default.cntCh {
 
 <script type="text/javascript">
 	let ssid = '${ssid}';
-	let member_id = "${loginMember.member_id}"
 	console.log(ssid);
 	
 	$(document).ready(function() {
@@ -98,16 +97,10 @@ button.btn.btn-default.cntCh {
 	function cartList() {
 		let url = "";
 		
-		if(member_id.length == 0) {
-			url = "/mall/cart/no/" + ssid;
-		} else {
-			url = "/mall/cart/" + member_id;
-		}
-		
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : url, // 서블릿 주소
+			url : "/mall/cart/no/" + ssid, // 서블릿 주소
 			success : function(data) {
 				console.log(data);
 				listOutput(data);
@@ -123,60 +116,31 @@ button.btn.btn-default.cntCh {
 	function listOutput(data) {
 		let output = "";
 		let totPrice = 0;
-		
-		if(member_id.length != 0) {
-			$.each(data, function(index, item) {
-				output += "<tr>";
-				if (item.bucket_isChecked == "Y") {
-					totPrice += item.bucket_totBuyPrice;
-					output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')" checked></label></td>';
-				} else {
-					output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
-				}
-				output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
-				output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
-				
-				// 상품 별 찍기
-				output += '<div class="rating">';
-				for(var i = 0; i < item.star; i++) {
-					output += '<i class="fa fa-star" style="margin-right:0px"></i>';
-				}
-				output += '</div></td>';
-				
-				output += '<td class="cart__price">￦ '+item.bucket_sellPrice.toLocaleString()+'</td>';
-				output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.bucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
-				output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
-				output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
-				output += "</tr>";
-				
-			});
-		} else {
-			$.each(data, function(index, item) {
-				output += "<tr>";
-				if (item.nonUserBucket_isChecked == "Y") {
-					totPrice += item.nonUserBucket_totBuyPrice;
-					output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')" checked></label></td>';
-				} else {
-					output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
-				}
-				output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
-				output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
-				
-				// 상품 별 찍기
-				output += '<div class="rating">';
-				for(var i = 0; i < item.star; i++) {
-					output += '<i class="fa fa-star" style="margin-right:0px"></i>';
-				}
-				output += '</div></td>';
-				
-				output += '<td class="cart__price">￦ '+item.nonUserBucket_sellPrice.toLocaleString()+'</td>';
-				output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.nonUserBucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
-				output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
-				output += '<td class="cart__total">￦ '+item.nonUserBucket_totBuyPrice.toLocaleString()+'</td>'
-				output += "</tr>";
-				
-			});
-		}
+
+		$.each(data, function(index, item) {
+			output += "<tr>";
+			if (item.nonUserBucket_isChecked == "Y") {
+				totPrice += item.nonUserBucket_totBuyPrice;
+				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')" checked></label></td>';
+			} else {
+				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
+			}
+			output += '<td class="cart__product__item"><img src="'+ item.product_img1 +'" alt="' + item.product_name +  '" width="90px" height="90px">';
+			output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
+			
+			// 상품 별 찍기
+			output += '<div class="rating">';
+			for(var i = 0; i < item.star; i++) {
+				output += '<i class="fa fa-star" style="margin-right:0px"></i>';
+			}
+			output += '</div></td>';
+			
+			output += '<td class="cart__price">￦ '+item.nonUserBucket_sellPrice.toLocaleString()+'</td>';
+			output += '<td class="cart__quantity"><div class="pro-qty"><span class="dec qtybtn" onclick="changeQty('+item.product_id+', -1)">-</span><input type="text" value="'+item.nonUserBucket_buyQty+'" id="'+item.product_id+'" readonly><span class="inc qtybtn" onclick="changeQty('+item.product_id+', 1)">+</span></div>';
+			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
+			output += '<td class="cart__total">￦ '+item.nonUserBucket_totBuyPrice.toLocaleString()+'</td>'
+			output += "</tr>";	
+		});
 		
 		$(".cart_list").html(output);
 		$(".totPrice-value").text(totPrice.toLocaleString());
@@ -209,16 +173,17 @@ button.btn.btn-default.cntCh {
 	function change(product_id) {
 		let prodId = "#" + product_id;
 		
-		// 회원 아이디
-		let member_id = "${loginMember.member_id}";
 		// 변경할 수량
 		let qty = $(prodId).val();
+		
+// 		console.log(prodId + ", " + qty);
 		
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/" + member_id + "/" + product_id + "/" + qty, // 서블릿 주소
+			url : "/mall/cart/no/" + ssid + "/" + product_id + "/" + qty, // 서블릿 주소
 			success : function(data) {
+// 				console.log(data);
 				if(data == 1) {
 					cartList();
 				}
@@ -236,26 +201,25 @@ button.btn.btn-default.cntCh {
 		if(del == 2) {
 			// 전체 상품 삭제
 			$("#piece").attr("onclick", "deleteItemAll()");
-			$("#modalText").text("상품 전체 삭제 하시겠습니까?");
-			$("#myModal").modal();
+			$("#deleteModalText").text("상품 전체 삭제 하시겠습니까?");
+			$("#deleteModal").modal();
 		} else {
 			// 개별 상품 삭제
 			$("#piece").attr("onclick", "deleteItem("+product_id+")");
-			$("#modalText").text("해당 상품을 삭제 하시겠습니까?");
-			$("#myModal").modal();
+			$("#deleteModalText").text("해당 상품을 삭제 하시겠습니까?");
+			$("#deleteModal").modal();
 		}
 	}
 	
-	// 장바구니에서 개별 아이템 삭제
-	function deleteItem(no) {
-		let product_id = no;
-		let member_id = "${loginMember.member_id}";
+	// 장바구니 아이템 전체 삭제
+	function deleteItemAll() {
 		
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/delete/" + member_id + "/" + product_id, // 서블릿 주소
+			url : "/mall/cart/no/delete/all/" + ssid, // 서블릿 주소
 			success : function(data) {
+				console.log(data);
 				if(data == 1) {
 					cartList();
 				}
@@ -267,15 +231,35 @@ button.btn.btn-default.cntCh {
 		});
 	}
 	
-	// 장바구니 아이템 전체 삭제
-	function deleteItemAll() {
-		let member_id = "${loginMember.member_id}";
+	// 장바구니에서 개별 아이템 삭제
+	function deleteItem(no) {
+		let product_id = no;
 		
 		$.ajax({
 			type : "get",
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/delete/all/" + member_id, // 서블릿 주소
+			url : "/mall/cart/no/delete/" + ssid + "/" + product_id, // 서블릿 주소
 			success : function(data) {
+				console.log(data);
+				if(data == 1) {
+					cartList();
+				}
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
+	}
+	
+	// 체크 on off
+	function checkClick(product_id) {
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/mall/cart/no/check/" + ssid + "/" + product_id, // 서블릿 주소
+			success : function(data) {
+				console.log(data);
 				if(data == 1) {
 					cartList();
 				}
@@ -289,7 +273,6 @@ button.btn.btn-default.cntCh {
 	
 	// 주문하기
 	function goOrder() {
-		let member_id = "${loginMember.member_id}";
 		
 		let totPrice = $(".totPrice-value").text();
 		
@@ -297,7 +280,7 @@ button.btn.btn-default.cntCh {
 			$.ajax({
 				type : "get",
 				dataType : "json", // 응답을 어떤 형식으로 받을지	
-				url : "/mall/cart/order/" + member_id, // 서블릿 주소
+				url : "/mall/cart/no/order/" + ssid, // 서블릿 주소
 				success : function(data) {
 					if(data == 1) {
 						location.href="../mall/prodOrder"
@@ -314,25 +297,6 @@ button.btn.btn-default.cntCh {
 			$("#myModal").modal();
 		}
 
-	}
-	
-	// 체크 on off
-	function checkClick(product_id) {
-		let member_id = "${loginMember.member_id}";
-		$.ajax({
-			type : "get",
-			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/check/" + member_id + "/" + product_id, // 서블릿 주소
-			success : function(data) {
-				if(data == 1) {
-					cartList();
-				}
-			}, // 통신 성공시
-			error : function(data) {
-			}, // 통신 실패시
-			complete : function(data) {
-			} // 통신 완료시
-		});
 	}
 </script>
 </head>
@@ -467,7 +431,7 @@ button.btn.btn-default.cntCh {
 	</div>
 	<!-- Search End -->
 	<!-- modal -->
-	<div id="myModal" class="modal fade" role="dialog">
+	<div id="deleteModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
 			<!-- Modal content-->
 			<div class="modal-content">
@@ -475,7 +439,7 @@ button.btn.btn-default.cntCh {
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title"></h4>
 				</div>
-				<div class="modal-body" id="modalText"></div>
+				<div class="modal-body" id="deleteModalText"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" id="piece">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.MyBucketCheckdVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.MyNonUserBucketVO;
 
 @Repository
 public class MyBucketListDAOImpl implements MyBucketListDAO {
@@ -169,6 +170,43 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
 		ses.insert(ns + ".insertBP", map);
+	}
+
+//	***************************************** 도연 비회원 장바구니 *********************************************************
+	
+	@Override
+	public List<MyNonUserBucketVO> getNonUserBucketList(String ssid) throws Exception {
+		return ses.selectList(ns + ".getNonUserBucketList", ssid);
+	}
+
+	@Override
+	public int changeNonUserQty(String ssid, int product_id, int qty) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ssid", ssid);
+		map.put("product_id", product_id);
+		map.put("qty", qty);
+		return ses.update(ns + ".changeNonUserQty", map);
+	}
+
+	@Override
+	public void nonUserDeleteItemAllB(String ssid) throws Exception {
+		ses.delete(ns + ".nonUserDeleteItemAllB", ssid);	
+	}
+
+	@Override
+	public void nonUserDeleteItem(String ssid, int product_id) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ssid", ssid);
+		map.put("product_id", product_id);
+		ses.delete(ns + ".nonUserDeleteItem", map);		
+	}
+
+	@Override
+	public Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ssid", ssid);
+		map.put("product_id", product_id);
+		return ses.update(ns + ".nonUserCheckOnOff", map);
 	}
 
 }

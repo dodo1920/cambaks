@@ -9,6 +9,7 @@ public class MyNonUserBucketVO {
 	private int nonUserBucket_totBuyPrice;
 	private String nonUserBucket_isChecked;
 	private int star;
+	
 	public int getProduct_id() {
 		return product_id;
 	}
