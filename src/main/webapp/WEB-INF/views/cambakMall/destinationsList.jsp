@@ -34,28 +34,17 @@
 </head>
 <script>
 	
-	let member_id = '${loginMember.member_id}';
+	 let member_id = '${loginMember.member_id}';
 	 window.name = "destinationsList";
      var url="";
      var option="width=530, height=650, top=200, left=200, resizeable = no, scrollbars = no";
      
-   
-     
-     
+     // 배송지 수정 및 등록 페이지 opener로 구현 //
 	 function popup(data){
-		 
 		 
 		  url = "/mall/destinationsList/register?no=" + data;
 		  var openWin = window.open(url, "registerDestinationForm", option);
-		  openWin.location.reload(true);
-		  if(openWin.closed){
-			  console.log("닫혔다?");
-		  }else{
-			  console.log("안닫혔다 ?");
-			  
-		  }
-		 
-         
+	
      }
 	 
 	
@@ -72,6 +61,7 @@
 		
 	});
 	
+	// 해당 배송지 번호로 기본 배송지 변경 후 리스트 재출력 //
 	function defaultDestiny(dstno){
 	
 	     $.ajax({
@@ -88,6 +78,7 @@
 	        });
 	}	
 	
+	// 배송지 번호로 등록된 배송지 삭제 = Y 로 변경 후 리스트 재출력 //
 	function deleteDestiny(dstno){
 		   $.ajax({
 	            method: "get",
@@ -102,7 +93,7 @@
 		
 	}
 	
-	
+// 회원아이디를 기준으로 삭제되지 않은 배송지 목록 구현 //
 function getDestinationsList(){
 	
 	$.getJSON("/mall/destinationsList/ajax/" + member_id, function(data){
@@ -115,15 +106,16 @@ function getDestinationsList(){
 		
 		
 		if(this.default_address == this.destination_no){
-			
+			// 기본 배송지로 선택되어 있는 경우 //
 			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div style='color: chocolate; border: solid 0.5px chocolate; margin: 5px 0px; padding: 4px 10px;'>기본배송지</div><div></td><td><span>(" + this.destination_zipCode + "<input type='hidden' class='modiform" + this.destination_no + "' id='postCode" + this.destination_no + "' readonly value='" + this.destination_zipCode + "'/>)</span><br /><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; color:white; background-color: dimgrey; border-color: dimgrey; padding: 2px 8px;' onclick='popup(" + this.destination_no + ");' value='수정'/>&nbsp<input type='button' style='border-style: double; color:white; background-color: dimgrey; border-color: dimgrey; padding: 2px 8px;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><span style='font-weight: bold; color: palevioletred;'>이미 선택됨</span></td></tr>"
 			
 		}else{
-			
+			// 기본 배송지로 선택되어 있지 않은 경우 //
 			DestinyList += "<tr><td><div><input type='text' class='modiform" + this.destination_no + "' readonly id='nickname" + this.destination_no + "' value='" + this.destination_nickname + "'/><input type='text' class='modiform" + this.destination_no + "'  readonly id='toUser" + this.destination_no + "' value='" + this.destination_toUser + "'/><div></td><td><span>(" + this.destination_zipCode + "<input type='hidden' class='modiform" + this.destination_no + "' id='postCode" + this.destination_no + "' readonly value='" + this.destination_zipCode + "'/>)</span><br /><input type='text' class='modiform" + this.destination_no + "' id='address" + this.destination_no + "' readonly value='" + this.destination_address + "'/><br /><input type='text' class='modiform" + this.destination_no + "' readonly id='addressDetail" + this.destination_no + "' value='" + this.destination_addressDetail + "'/></td><td><input type='text' class='modiform" + this.destination_no + "' id='mobile" + this.destination_no + "' readonly value='" + this.destination_mobile + "'/></td><td><input type='button' id='openModyBtn" + this.destination_no + "' style='border-style: double; color:white; background-color: dimgrey; border-color: dimgrey; padding: 2px 8px;' onclick='popup(" + this.destination_no + ");' value='수정'/>&nbsp<input type='button' style='border-style: double; color:white; background-color: dimgrey; border-color: dimgrey; padding: 2px 8px;' id='deleteBtn" + this.destination_no + "' onclick='deleteDestiny(" + this.destination_no + ");' value='삭제'/></td><td><input type='button' style='border-style: double; color:white; background-color: dimgrey; border-color: dimgrey; border: 1px;'  onclick='defaultDestiny(" + this.destination_no + ");' value='기본배송지로 변경' /></td></tr>"
 		}
 		
 		if(data.length < 3){
+			 // 배송지 목록이 3개 이하인 경우만 추가할 수 있도록 구현 //
 			 $(".green_bg").css("display","");
 		}else{
 			$(".green_bg").css("display","none");

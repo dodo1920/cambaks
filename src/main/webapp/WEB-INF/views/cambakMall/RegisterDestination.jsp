@@ -14,8 +14,12 @@ let thirdNum = "";
 let finalNum = "";
 const regExpName = /^[가-힣a-zA-Z]+$/;
 const NumPattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+
+//부모창으로부터 열린 자식창임을 선언 //
 opener.popup = this;
 
+
+//우측 상단 X버튼 눌렀을 경우 이벤트 설정 //
 $(window).bind("beforeunload", function (e){
 	opener.location.reload();
 	return "창을 닫으실래요?";
@@ -24,34 +28,14 @@ $(window).bind("beforeunload", function (e){
 
 
 $(function(){
-	
-	
-// 	chkModify();
+
 	getDataParent();
 	chkInsert();
 });
 
-// function chkModify(){
-// 	if(${param.no != 0}){
-// 	let dstno = (${param.no});
-// 	console.log(dstno);
-		     
-// 		     $.getJSON("/mall/destinationsList/GetModifydst/" + member_id + "/" + dstno, function(data){
-		  	
-// 			        $("#addressName").val(data.destination_nickname);
-// 				        $("#receiver").val(data.destination_toUser);
-// 				        $("#destination_noVal").val(data.destination_no);
-// 				   		let ModyMobileNum = data.destination_mobile;
-				
-// 				        $("#telNoFrist").val(ModyMobileNum.split("-")[0]);	 
-// 				        $("#telNoSecond").val(ModyMobileNum.split("-")[1]);	 
-// 				        $("#telNoThird").val(ModyMobileNum.split("-")[2]);	
-		 	
-// 		 		});
-		     
-// 	}
-// }
 
+
+//배송지 수정일 경우 부모페이지에서 각 저장된 값들 갖고와서 Form에 넣어주기 //
 function getDataParent(){
 	 let dstno = "${param.no}";
 	 
@@ -82,17 +66,13 @@ function getDataParent(){
 function registerDestinationcheck(){
 	
 		if(validCheck()){
-// 			    let basicAddress = $("#sample3_address").val();
-// 			    basicAddress += " " + $("#sample3_extraAddress").val();
-// 			    $("#sample3_address").val(basicAddress);
-		
+
 				$("#registerDestinationForm").submit();
 			}
 	
 }
 
 function validCheck(){
-	
 	
 	 if(document.getElementsByName("destination_nickname")[0].value == ""){
 		 alert("배송지 별칭을 입력해주세요.");
@@ -144,6 +124,7 @@ function getParameter(param) {
 	return -1; // 모든 배열 요소를 다 검색해도 매개변수가 없을때
 }
 
+//배송지 등록 및 수정 후 자식 팝업 창 닫으며 부모창 재로딩 //
 function chkInsert() {
 	
 	   let result = getParameter("result");
@@ -164,10 +145,9 @@ function chkInsert() {
 
  
  
- 
+//전화번호 앞-중간-뒤 구분하여 얻어온 후 하이픈 구분 //
  function inputPhoneNum(data){
 	 
-	
 	 if(data == 1){
 			 firstNum = $("#telNoFrist").val();	 
 	 }else if(data == 2){
@@ -189,9 +169,6 @@ function chkInsert() {
 	 
  }
  
- 
-
-
 
 // 끝 배송지 인서트 부분 끝//
 
