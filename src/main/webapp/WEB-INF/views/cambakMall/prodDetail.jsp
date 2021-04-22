@@ -662,12 +662,18 @@
 	    	console.log(data);
 	    	
 	    	let output = "";
+	    	let cOutput = "";
 	    	$("#prodQA_category").val(cate).prop("selected",true); // 호출된 상품문의 글들의 해당 분류 고정
 	    		
 	    	if(data.length == 0) { // 해당 카테고리에서 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
 	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
-	    		$("#pagingParamTb").html('');
+	    		
+	    		if(loginUser.length != 0) {
+	    			cOutput += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
+	    		}
+	    		
+	    		$("#pagingParamTb").html(cOutput);
 	    		
 	    	} else { // 해당 카테고리에서 등록된 상품 문의가 있다면,		
 	    	
@@ -1220,19 +1226,14 @@
 		
 		output += '<div>';
 		output += '<p>이미 장바구니에 들어있는 상품입니다.</p>';
-		output += '<span id="bucketQty"></span>';
+		output += '<p><span id="bucketQty"></span></p>';
 		output += '<input type="hidden" id="isMoveFlag"  />';
 		output += '<input type="hidden" id="bucket_no" />';
 		output += '<input type="hidden" id="bucket_buyQty" />';
 		output += '</div>';
 		output += '<div class="modal-footer" >';
-<<<<<<< HEAD
-		output += '<button type="button" class="btn btn-default" id="updatdBtn1" >추가하기</button>';
-		output += '<button type="button" class="btn btn-default" id="updatdBtn2" >변경하기</button>';
-=======
 		output += '<button type="button" class="btn btn-default" id="updateBtn1" onclick="updateBucket(\'1\');">추가하기</button>';
 		output += '<button type="button" class="btn btn-default" id="updateBtn2" onclick="updateBucket(\'2\');">변경하기</button>';
->>>>>>> subMaster
 		output += '<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href=\'../cart\'">장바구니로 가기</button>';
 		output += '</div>';
 		
@@ -1245,7 +1246,7 @@
 		}
 		
 		if(loginUser.length == 0) {
-			$("#bucketQty").html("<p>장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 </p>");
+			$("#bucketQty").html("장바구니 수량 : " + obj.nonUserBucket_buyQty + " 개 ");
 			$("#bucket_no").val(obj.nonUserBucket_no);
 			$("#bucket_buyQty").val(obj.nonUserBucket_buyQty);
 		} else {
@@ -1299,11 +1300,11 @@
 				contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
 				success : function(result) {
 					console.log(isMoveFlag);
-// 					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
-// 						location.href="../cart";	
-// 					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
-// 						changeModalButtons(isMoveFlag);
-// 					}
+					if(isMoveFlag == "move") { // 주문하기 버튼이었을 경우, 장바구니 페이지로 이동
+						location.href="../cart";	
+					} else if(isMoveFlag == "stay") { // '장바구니' 버튼이었을 경우, 페이지 이동할지 묻는 함수 호출
+						changeModalButtons(isMoveFlag);
+					}
 				},
 				fail : function(result) {
 					alert(result);
@@ -1636,26 +1637,6 @@
 									
 						    	</div>
 						    	
-<<<<<<< HEAD
-						    	<!-- Modal -->
-								  <div class="modal" id="myModal" role="dialog">
-								    <div class="modal-dialog">
-								    
-								      <!-- Modal content-->
-								      <div class="modal-content">
-								        <div class="modal-header">
-								          <button type="button" class="close" data-dismiss="modal">&times;</button>
-								          <h4 class="modal-title">주문하기</h4>
-								        </div>
-								        <div class="modal-body" id="alreadyItem">
-								        	
-								       </div>
-								      
-								    </div>
-								  </div>
-
-=======
->>>>>>> subMaster
                                 <!-- ******************************************************************************************** -->
                             </div>
                             <div class="tab-pane" id="tabs-4" role="tabpanel">
