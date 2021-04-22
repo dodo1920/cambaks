@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-
+let member_id = '${loginMember.member_id}';
 let firstNum = "";
 let secondNum = "";
 let thirdNum = "";
@@ -15,48 +15,60 @@ let finalNum = "";
 const regExpName = /^[가-힣a-zA-Z]+$/;
 const NumPattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
 
+//부모창으로부터 열린 자식창임을 선언 //
+opener.popup = this;
+
+
+//우측 상단 X버튼 눌렀을 경우 이벤트 설정 //
+$(window).bind("beforeunload", function (e){
+	opener.location.reload();
+	return "창을 닫으실래요?";
+
+});
+
+
 $(function(){
-	
-	chkModify();
+
+	getDataParent();
 	chkInsert();
 });
 
-function chkModify(){
-	if(${param.go == 'modify'}){
 
-		console.log("모디파이 ㄱㄱ");
+
+//배송지 수정일 경우 부모페이지에서 각 저장된 값들 갖고와서 Form에 넣어주기 //
+function getDataParent(){
+	 let dstno = "${param.no}";
+	 
+	 if(dstno != 0){
+		 $("#addressName").val(opener.document.getElementById("nickname" + dstno).value);
+		 $("#receiver").val(opener.document.getElementById("toUser" + dstno).value);
+		 $("#sample3_postcode").val(opener.document.getElementById("postCode" + dstno).value);
+		 $("#sample3_address").val(opener.document.getElementById("address" + dstno).value);
+		 $("#sample3_detailAddress").val(opener.document.getElementById("addressDetail" + dstno).value);
+	     $("#destination_noVal").val(dstno);
+	     let ModyMobileNum = opener.document.getElementById("mobile" + dstno).value;
+	     $("#telNoFrist").val(ModyMobileNum.split("-")[0]);	 
+	     $("#telNoSecond").val(ModyMobileNum.split("-")[1]);	 
+	     $("#telNoThird").val(ModyMobileNum.split("-")[2]);	
+	     firstNum = $("#telNoFrist").val();	 
+	     secondNum = $("#telNoSecond").val();	 
+	     thirdNum = $("#telNoThird").val();	
+	     finalNum = firstNum + "-" + secondNum + "-" + thirdNum;
+	     $("#completePhone").val(finalNum);
+	     
+	 }
 		
-		
-		
-		
-		
-		
-	}
 }
 
-// function defaultDestiny(dstno){
-	
-//     $.ajax({
-        
-//            method: "post",
-//            url: "/mall/destinationsList/ajax/" + member_id + "/" + dstno,
-//            dataType: "text", // 응답 받는 데이터 타입
-           
-//            success : function(result){
-           	
-//                alert("변경 완료.");
-//                getDestinationsList();
-//            }
-//        });
-// }	
 
 
 
 function registerDestinationcheck(){
 	
 		if(validCheck()){
-			$("#registerDestinationForm").submit();
-		}
+
+				$("#registerDestinationForm").submit();
+			}
 	
 }
 
@@ -65,23 +77,23 @@ function validCheck(){
 	 if(document.getElementsByName("destination_nickname")[0].value == ""){
 		 alert("배송지 별칭을 입력해주세요.");
 		 return false;
+	 }else if(document.getElementsByName("destination_nickname")[0].value.length >= 20){
+		 alert("배송지 별칭 글자수가 너무 많습니다. 20자 이내로 작성해주세요.");
+		 return false;
 	 }else if(document.getElementsByName("destination_toUser")[0].value == ""){
 		 alert("수령인을 입력해주세요.");
 		 return false;
-	 }else if(document.getElementsByName("destination_zipCode")[0].value == ""){
-		 alert("배송받을 주소를 검색해주세요.");
-		 return false;
-	 }else if(document.getElementsByName("destination_address")[0].value == ""){
-		 alert("배송받을 주소를 검색해주세요.");
+	 }else if(document.getElementsByName("destination_toUser")[0].value.length >= 30){
+		 alert("수령인 글자수가 너무 많습니다. 30자 이내로 작성해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_addressDetail")[0].value == ""){
 		 alert("배송받을 상세 주소를 입력해주세요.");
 		 return false;
+	 }else if(document.getElementsByName("destination_addressDetail")[0].value.length >= 45){
+		 alert("상세주소 글자수가 너무 많습니다. 45자 이내로 작성해주세요.");
+		 return false;
 	 }else if(document.getElementsByName("destination_toUser")[0].value.match(regExpName) == null){
 		 alert("수령인을 올바르게 작성해주세요.");
-		 return false;
-	 }else if(document.getElementsByName("destination_addressDetail")[0].value.match(regExpName) == null){
-		 alert("배송지 상세 정보를 올바르게 입력해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_mobile")[0].value.match(NumPattern) == null){
 		 alert("연락처를 올바르게 입력해주세요.");
@@ -112,31 +124,36 @@ function getParameter(param) {
 	return -1; // 모든 배열 요소를 다 검색해도 매개변수가 없을때
 }
 
+//배송지 등록 및 수정 후 자식 팝업 창 닫으며 부모창 재로딩 //
 function chkInsert() {
 	
 	   let result = getParameter("result");
 	
 	   if (result == "success") {
-	 		opener.location.reload();
+		   alert("글 등록이 완료 되었습니다.");
+		   opener.location.reload();
 	 		window.close();
-	   } else if (result == "fail") {
+	   }else if(result == "modisuccess"){
+		   alert("배송지 정보가 수정되었습니다.");
+		   opener.location.reload();
+	 		window.close();
+		   
+	   }else if (result == "fail") {
 		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 	   }
 }
 
  
  
- 
+//전화번호 앞-중간-뒤 구분하여 얻어온 후 하이픈 구분 //
  function inputPhoneNum(data){
 	 
-	
 	 if(data == 1){
 			 firstNum = $("#telNoFrist").val();	 
 	 }else if(data == 2){
 			 secondNum = $("#telNoSecond").val();	 
 	 }else if(data == 3){
 			 thirdNum = $("#telNoThird").val();	
-		
 	 }
 	 
 	 if(firstNum.length == 3 && secondNum.length >= 3 && thirdNum.length == 4){
@@ -152,13 +169,6 @@ function chkInsert() {
 	 
  }
  
- 
-
-
-
-
-
-
 
 // 끝 배송지 인서트 부분 끝//
 
@@ -179,6 +189,9 @@ function chkInsert() {
 
 
 <style type="text/css">
+
+
+
 
 .setting_popup_title{
 
@@ -268,7 +281,7 @@ function chkInsert() {
 
 #pop_container {
     margin: 0 25px;
-    padding-top: 25px;
+    padding-top: 10px;
 }
 
 #pop_wrap {
@@ -328,8 +341,8 @@ li {
     text-align: -webkit-match-parent;
 }
 .setting_btn.green {
-    border-color: #00c73c;
-    color: #00c73c;
+    border-color: dimgrey;
+    color: white;
 }
 .tbl_delivery_info .setting_btn {
     margin-left: -4px;
@@ -338,7 +351,7 @@ li {
 }
 
 .setting_btn.green:hover {
-    background-color: #00c73c;
+    background-color: burlywood;
     color: #fff;
 }
 
@@ -347,7 +360,7 @@ li {
     position: relative;
     padding: 0 13px;
     border: 1px solid #ddd;
-    background-color: #fff;
+    background-color: dimgrey;
     border-radius: 0;
     line-height: 33px;
     color: #222;
@@ -366,13 +379,13 @@ li {
 
 
 .button.green_bg {
-    border: 1px solid #00bc38;
-    background-color: #00c73c;
+    border: 1px solid dimgrey;
+    background-color: dimgrey;
     color: #fff;
 }
 
 .button.green_bg:hover {
-    background-color: #00ba38;
+    background-color: burlywood;
 }
 
 .button {
@@ -435,7 +448,7 @@ li {
             <div class="setting_popup_title">
                 <h2 class="h_title" style="font-size: 12px; line-height: 45px; color: #222;">배송지 정보 상세</h2>
             </div>
-            <form action="/mall/destinationsList/insertDestiny" id="registerDestinationForm"  method="post" >
+            <form action="/mall/destinationsList/insertDestiny" id="registerDestinationForm"  autocomplete="off" method="post" >
             <table class="tbl_delivery_info">
          
                 <tbody>
@@ -446,6 +459,7 @@ li {
                             <label for="addressName" class="lb_text blind"></label>
                             <input type="text" name="destination_nickname" id="addressName" class="ip_text" value="" maxlength="150">
                             <input type="hidden" name="member_id" id="hash" class="ip_text" value="admin">
+                            <input type="hidden" name="destination_no" id="destination_noVal" class="ip_text" value="0">
                         </span>
                     </td>
                 </tr>
@@ -464,13 +478,13 @@ li {
                     <td>
                                 <span class="_input basic_input" style="width: 64px">
 								<label for="zipCode" class="lb_text blind"></label>
-								<input type="text" name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
+								<input type="text" readonly name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
 							</span>
-                        <a onclick="sample3_execDaumPostcode();" class="_search setting_btn green">주소검색</a>
+                        <a onclick="sample3_execDaumPostcode();" style="cursor:pointer;" class="_search setting_btn green">주소검색</a>
                         <p class="address_detail">
                                     <span class="_input basic_input" style="width: 338px">
 									<label for="baseAddress" class="lb_text blind"></label>
-									<input type="text" name="destination_address" id="sample3_address" class="ip_text" value="">
+									<input type="text" name="destination_address" readonly id="sample3_address" class="ip_text" value="">
 									<input type="hidden" id="roadNameAddressYn" value="">
 								</span>
                         </p>
@@ -526,8 +540,9 @@ li {
         </div>
     </div>
     <div id="pop_footer">
-        <button type="button" class="button" onclick="javascript:window.close();return false;">닫기</button>
-        <button type="button" onclick="registerDestinationcheck();" class="_btn_save button green_bg">저장</button>
+  
+        <button type="button" class="button" style="cursor:pointer;" onclick="javascript:window.close(); opener.location.reload(); return false;">닫기</button>
+        <button type="button" onclick="registerDestinationcheck();" style="cursor:pointer;" class="_btn_save button green_bg">저장</button>
     </div>
 </div>
 
@@ -578,6 +593,7 @@ li {
                                     }
                                     // 조합된 참고항목을 해당 필드에 넣는다.
                                     document.getElementById("sample3_extraAddress").value = extraAddr;
+                                 
 
                                 } else {
                                     document.getElementById("sample3_extraAddress").value = '';
@@ -586,6 +602,9 @@ li {
                                 // 우편번호와 주소 정보를 해당 필드에 넣는다.
                                 document.getElementById('sample3_postcode').value = data.zonecode;
                                 document.getElementById("sample3_address").value = addr;
+                                let basicAddress = $("#sample3_address").val();
+                			    basicAddress += " " + $("#sample3_extraAddress").val();
+                			    $("#sample3_address").val(basicAddress);
                                 // 커서를 상세주소 필드로 이동한다.
                                 document.getElementById("sample3_detailAddress").focus();
 

@@ -77,6 +77,17 @@ public class AdminController {
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 종진@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+	
+	
+	@RequestMapping(value = "/board_admin_option", method = RequestMethod.GET)
+	public String board_admin_option() throws Exception{
+		
+		return "/admin/board_admin_option";
+	}
+	
+	
+	
+	
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 효원@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

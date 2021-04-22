@@ -255,10 +255,10 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>서효원</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/user/register">회원가입</a></li>
+                        <li><a href="/board/campingreview/listcri?page=1">캡핑팁 게시판</a></li>
+                        <li><a href="/myPage/myReply">마이페이지 - 내가 작성한 댓글</a></li>
+                        <li><a href="/mall/categories">상품 리스트</a></li>
                     </ul>
                 </div>
             </div>

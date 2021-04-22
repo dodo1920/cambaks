@@ -5,8 +5,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xl-2 col-lg-2">
-                <div class="header__logo">
-                    <a href="/mall/main/" style="font-size: 38px; color: black; font-weight: bold; font-family: 'Pacifico', cursive;">CambakMall</a></div>
+                <div class="header__logo" style="text-align: center; padding: 4px 0px; ">
+                    <a href="/mall/main/" style="font-size: 19px; color: black; font-weight: bold; font-family: 'Pacifico', cursive;">CambakMall</a><hr style="margin:11px 0px;">
+                    <a href="/index/main/" style="font-size: 19px; color: black; font-weight: bold; font-family: 'Pacifico', cursive;">Cambark's </a>
+                </div>
             </div>
             <div class="col-xl-7 col-lg-7">
                 <nav class="header__menu">
@@ -79,7 +81,7 @@
 	                    </ul>
 	                    <div class="header__right__auth">
 	                        <a href="/user/logout">로그아웃</a>
-	                        <a href="/myPage/checkList">마이페이지</a>
+	                        <a href="/myPage/myPost">마이페이지</a>
 	                    </div>
                     </c:if>
                 </div>

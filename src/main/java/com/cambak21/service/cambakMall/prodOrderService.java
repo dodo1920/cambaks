@@ -52,7 +52,7 @@ public interface prodOrderService {
 
   	public boolean insertDestiny(DestinationVO vo) throws Exception;
 
-
+  	public DestinationVO GetModifydst(int dstno) throws Exception;
   	
 //  	<!-- 이영광 DAO -->
 }

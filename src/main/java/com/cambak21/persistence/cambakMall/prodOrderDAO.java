@@ -49,7 +49,7 @@ public interface prodOrderDAO {
 
 	  	public int insertDestiny(DestinationVO vo) throws Exception;
 
-	
+	  	public DestinationVO GetModifydst(int dstno) throws Exception;
 	  	
 	  	
 	  	
