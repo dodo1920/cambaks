@@ -41,8 +41,7 @@
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
 
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- 템플릿 js, css 파일 -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
@@ -50,8 +49,7 @@
 <script src="/resources/cambak21/js/cambakBoard.js"></script>
 
 <!-- include summernote css/js -->
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);

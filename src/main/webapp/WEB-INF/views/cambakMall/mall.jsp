@@ -35,7 +35,6 @@ let loginUser = '${loginMember.member_id}';
 
  $(document).ready(function() {
 	 $("#main-sidebar").css("display","none");
-	
  });
 
  
@@ -252,10 +251,11 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                
 	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id}'"  data-setbg="${NewProduct1.product_img1 }">
+	                 
+	                 
 	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct1.product_id});" ><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
+	                 
+	                 
 	                    </div>
 	                    
 	                    <div class="product__item__text">
@@ -308,9 +308,7 @@ let loginUser = '${loginMember.member_id}';
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id}'"  data-setbg="${NewProduct2.product_img1 }">
 	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct2.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
+
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct2.product_id }">${NewProduct2.product_name }</a></h6>

@@ -28,6 +28,7 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.MyNonUserBucketVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.domain.ProductDetailOrderVO;
@@ -191,6 +192,29 @@ public class MallController {
 
 	}
 
+	@RequestMapping(value = "/destinationsList/GetModifydst/{member_id}/{dstno}", method = RequestMethod.GET)
+	public ResponseEntity<DestinationVO> GetModifydst(@PathVariable("member_id") String member_id,
+			@PathVariable("dstno") int dstno, HttpServletResponse response, HttpServletRequest request) throws Exception {
+	
+		ResponseEntity<DestinationVO> entity = null;
+		HttpSession ses = request.getSession();
+		MemberVO vo = (MemberVO) ses.getAttribute("loginMember");
+		System.out.println(vo.toString());
+	
+			try {
+				System.out.println("정상 경로로 접근");
+				entity = new ResponseEntity<DestinationVO>(service.GetModifydst(dstno), HttpStatus.OK);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				entity = new ResponseEntity<DestinationVO>(HttpStatus.BAD_REQUEST);
+			}
+	
+
+		return entity;
+		
+	}
+
 	@RequestMapping(value = "/destinationsList/deleteDestiny/{member_id}/{dstno}", method = RequestMethod.GET)
 	public ResponseEntity<String> deleteDestiny(@PathVariable("member_id") String member_id,
 			@PathVariable("dstno") int dstno, HttpServletResponse response) throws Exception {
@@ -227,13 +251,29 @@ public class MallController {
 	@RequestMapping(value = "/destinationsList/insertDestiny", method = RequestMethod.POST)
 	public String insertDestiny(DestinationVO vo, RedirectAttributes rttr) throws Exception {
 		
-		
-		if (service.insertDestiny(vo)) {
+		if(vo.getDestination_no() == 0){
 			
-			rttr.addFlashAttribute("result", "success");
-		}
+			if (service.insertDestiny(vo)) {
+				
+				return "redirect:/mall/destinationsList/register?result=success";
+			}else {
+				
+				return "redirect:/mall/destinationsList/register?result=fail";
+			}
 
-		return "redirect:/mall/destinationsList/register?result=success";
+			
+			
+		}else {
+			if (service.destiModyAjax(vo)) {
+				
+				return "redirect:/mall/destinationsList/register?result=modisuccess";
+			}else {
+				return "redirect:/mall/destinationsList/register?result=fail";
+			}
+			
+			
+		}
+		
 
 	}
 //
@@ -496,6 +536,107 @@ public class MallController {
 		try {
 			bucketService.goOrder(member_id);
 			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	// **************************************** 김도연 비회원 장바구니 컨트롤러
+	
+	@RequestMapping("cart/no")
+	public String nonUserCart() throws Exception {
+		logger.info("비회원 장바구니 페이지 호출");
+		return "cambakMall/mallNonUserCart";
+	}
+
+	// 장바구니 목록
+	@RequestMapping("/cart/no/{ssid}")
+	public @ResponseBody ResponseEntity<List<MyNonUserBucketVO>> nonUserCartList(@PathVariable("ssid") String ssid) {
+		logger.info("비회원 장바구니 상품 가져오기");
+		
+		ResponseEntity<List<MyNonUserBucketVO>> entity = null;
+		try {
+			entity = new ResponseEntity<List<MyNonUserBucketVO>>(bucketService.getNonUserBucketList(ssid), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	// 장바구니 수량 변경
+	@RequestMapping("/cart/no/{ssid}/{product_id}/{qty}")
+	public @ResponseBody ResponseEntity<Integer> changeNonUserQty(@PathVariable("ssid") String ssid, 
+			@PathVariable("product_id") int product_id, @PathVariable("qty") int qty) {
+		logger.info("비회원 장바구니 수량 변경");
+		
+		ResponseEntity<Integer> entity = null;
+		
+		System.out.println(ssid + ", " + product_id + ", " + qty);
+		try {
+			entity = new ResponseEntity<Integer>(bucketService.changeNonUserQty(ssid, product_id, qty), HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	// 장바구니 아이템 전체 삭제
+	@RequestMapping("/cart/no/delete/all/{ssid}")
+	public @ResponseBody ResponseEntity<Integer> nonUserDeleteItemAll(@PathVariable("ssid") String ssid) {
+		logger.info("비회원 장바구니 전체 상품 삭제");
+		
+		System.out.println(ssid);
+		
+		ResponseEntity<Integer> entity = null;
+
+		try {
+			bucketService.nonUserDeleteItemAll(ssid);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	
+	
+	// 장바구니 개별 아이템 삭제
+	@RequestMapping("/cart/no/delete/{ssid}/{product_id}")
+	public @ResponseBody ResponseEntity<Integer> nonUserDeleteItem(@PathVariable("ssid") String ssid, @PathVariable("product_id") int product_id) {
+		logger.info("비회원 장바구니 개별 상품 삭제");
+		
+		System.out.println(ssid);
+		
+		ResponseEntity<Integer> entity = null;
+
+		try {
+			bucketService.nonUserDeleteItem(ssid, product_id);
+			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return entity;
+	}
+	
+	// 장바구니 체크 OnOff
+	@RequestMapping("/cart/no/check/{ssid}/{product_id}")
+	public @ResponseBody ResponseEntity<Integer> nonUserCheckOnOff(@PathVariable("ssid") String ssid, @PathVariable("product_id") int product_id) {
+		logger.info("비회원 장바구니 체크 상태 바꿈");
+		ResponseEntity<Integer> entity = null;
+		
+		try {
+			entity = new ResponseEntity<Integer>(bucketService.nonUserCheckOnOff(ssid, product_id), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -68,3 +68,4 @@
 		</div>
 	</footer>
 	<!-- /Footer -->
+	<%@include file="cambak21checkList.jsp"%>

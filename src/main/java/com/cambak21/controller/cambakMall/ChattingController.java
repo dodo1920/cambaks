@@ -93,7 +93,7 @@ public class ChattingController {
 	@PostMapping("/isRead/{who}/{member_id}")
 	public ResponseEntity<String> updateIsRead (@PathVariable("member_id") String member_id, @PathVariable("who") String who) {
 		ResponseEntity<String> entity = null;
-		
+
 		try {
 			service.updateIsRead(member_id, who);
 			new ResponseEntity<>(HttpStatus.OK);

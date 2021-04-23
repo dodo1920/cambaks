@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -17,6 +18,8 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Controller;
+
+import com.cambak21.service.cambakMall.ChattingService;
 
 @Controller
 @ServerEndpoint("/userChatting/{member_id}")
@@ -158,7 +161,7 @@ public class UserChattingHandler {
 	  */
 	@OnClose
 	public void handleClose(Session session) {
-
+		
 		User user = getUser(session);
 
 		if (user != null) {

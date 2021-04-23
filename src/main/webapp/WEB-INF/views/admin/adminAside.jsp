@@ -12,10 +12,12 @@
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../resources/adminAssets/images/favicon.png">
     <title>Matrix Template - The Ultimate Multipurpose admin template</title>
-    <!-- Custom CSS -->
+<!--     Custom CSS -->
     <link href="../resources/adminAssets/libs/flot/css/float-chart.css" rel="stylesheet">
-    <!-- Custom CSS -->
+<!--     Custom CSS -->
     <link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 </head>
@@ -68,9 +70,17 @@
 						href="pages-buttons.html" aria-expanded="false"><i
 							class="mdi mdi-relative-scale"></i><span class="hide-menu">캠박이일</span></a></li>
 									<li class="sidebar-item"><a
-						class="sidebar-link waves-effect waves-dark sidebar-link"
-						href="pages-buttons.html" aria-expanded="false"><i
-							class="mdi mdi-relative-scale"></i><span class="hide-menu">제품관리</span></a></li>
+						class="sidebar-link has-arrow waves-effect waves-dark"
+						href="javascript:void(0)" aria-expanded="false"><i
+							class="mdi mdi-face"></i><span class="hide-menu"> 상품관리 </span></a>
+						<ul aria-expanded="false" class="collapse  first-level">
+							<li class="sidebar-item"><a href="icon-material.html"
+								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
+									class="hide-menu"> 상품목록 </span></a></li>
+							<li class="sidebar-item"><a href="../admin/prodRegister"
+								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+									class="hide-menu"> 상품등록 </span></a></li>
+						</ul></li>
 					<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
@@ -83,10 +93,27 @@
 								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
 									class="hide-menu"> QnA </span></a></li>
 						</ul></li>
+							<li class="sidebar-item"><a
+						class="sidebar-link has-arrow waves-effect waves-dark"
+						href="javascript:void(0)" aria-expanded="false"><i
+							class="mdi mdi-face"></i><span class="hide-menu">일반 게시판 </span></a>
+						<ul aria-expanded="false" class="collapse  first-level">
+							<li class="sidebar-item"><a href="icon-material.html"
+								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
+									class="hide-menu"> 게시판 설정 </span></a></li>
+							<li class="sidebar-item"><a href="icon-fontawesome.html"
+								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+									class="hide-menu"> 게시판 관리 </span></a></li>
+						</ul></li>
+						
 					<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="pages-elements.html" aria-expanded="false"><i
 							class="mdi mdi-pencil"></i><span class="hide-menu">매출</span></a></li>
+							<li class="sidebar-item"><a
+						class="sidebar-link waves-effect waves-dark sidebar-link"
+						href="pages-elements.html" aria-expanded="false"><i
+							class="mdi mdi-pencil"></i><span class="hide-menu">채팅 관리</span></a></li>
 <!-- 					<li class="sidebar-item"><a -->
 <!-- 						class="sidebar-link has-arrow waves-effect waves-dark" -->
 <!-- 						href="javascript:void(0)" aria-expanded="false"><i -->

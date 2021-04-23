@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
 <head>
  <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,8 +14,9 @@
     <title>Matrix Template - The Ultimate Multipurpose admin template</title>
     <!-- Custom CSS -->
     <link href="../resources/adminAssets/libs/flot/css/float-chart.css" rel="stylesheet">
-    <!-- Custom CSS -->
+<!--     Custom CSS -->
     <link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+ 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

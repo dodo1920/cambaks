@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.MyBucketCheckdVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.MyNonUserBucketVO;
 import com.cambak21.persistence.cambakMall.MyBucketListDAO;
 
 @Service
@@ -95,6 +96,34 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	public void goOrder(String member_id) throws Exception {
 		dao.deleteItemAllBP(member_id);
 		dao.insertBP(dao.getCheckedY(member_id));
+	}
+
+//	***************************************** 도연 비회원 장바구니 
+	
+	@Override
+	public List<MyNonUserBucketVO> getNonUserBucketList(String ssid) throws Exception {
+		return dao.getNonUserBucketList(ssid);
+	}
+
+	@Override
+	public Integer changeNonUserQty(String ssid, int product_id, int qty) throws Exception {
+		return dao.changeNonUserQty(ssid, product_id, qty);
+	}
+
+	@Override
+	public void nonUserDeleteItemAll(String ssid) throws Exception {
+		dao.nonUserDeleteItemAllB(ssid);
+	}
+
+	@Override
+	public void nonUserDeleteItem(String ssid, int product_id) throws Exception {
+		dao.nonUserDeleteItem(ssid, product_id);
+		
+	}
+
+	@Override
+	public Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception {
+		return dao.nonUserCheckOnOff(ssid, product_id);
 	}
 
 }

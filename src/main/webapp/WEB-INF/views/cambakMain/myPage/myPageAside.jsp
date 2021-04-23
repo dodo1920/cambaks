@@ -12,7 +12,6 @@
 							<div class="profileCategory">
 									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
 									<form action="/user/Modify/${loginMember.member_id}" method="post"  ><li class="profileMenu2"><input type="submit" value="회원 정보 수정" class="profileMenu" style="color: #80BA8E;background: none;border: none;"> </li></form>
-									<li class="profileMenu3"><a href="/myPage/checkList" class="profileMenu">체크리스트</a></li>
 								</ul>
 							</div>
 						</div>
@@ -53,3 +52,5 @@
 				</div>
 			</div>
 			</div>
+			
+			

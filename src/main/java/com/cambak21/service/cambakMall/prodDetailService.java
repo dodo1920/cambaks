@@ -1,10 +1,13 @@
 package com.cambak21.service.cambakMall;
 
+import java.util.List;
+
 import com.cambak21.domain.BucketVO;
 import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.InsertintoNonUserBucketDTO;
+import com.cambak21.dto.mallMainTopCountDTO;
 
 public interface prodDetailService {
 	public ProductsVO getProdDetail(int product_id) throws Exception;
@@ -24,4 +27,6 @@ public interface prodDetailService {
 	public boolean insertNonUserBucket(InsertintoNonUserBucketDTO insertNonUserBucket) throws Exception;
 
 	public boolean updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception;
+	
+	public List<mallMainTopCountDTO> getTopReview() throws Exception;
 }

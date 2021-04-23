@@ -1,6 +1,7 @@
 package com.cambak21.persistence.cambakMall;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.InsertintoNonUserBucketDTO;
+import com.cambak21.dto.mallMainTopCountDTO;
 
 @Repository
 public class prodDetailDAOImpl implements prodDetailDAO {
@@ -72,6 +74,11 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 	@Override
 	public int updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception {
 		return ses.update(namespace + ".updateNonUserBucketQty", updateNonUserBucket);
+	}
+
+	@Override
+	public List<mallMainTopCountDTO> getTopReview() throws Exception {
+		return ses.selectList(namespace + ".getTopReview");
 	}
 
 }

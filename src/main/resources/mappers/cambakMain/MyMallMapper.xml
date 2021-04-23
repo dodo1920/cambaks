@@ -196,7 +196,39 @@
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
-	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 도연 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<select id="getNonUserBucketList" resultType="com.cambak21.domain.MyNonUserBucketVO">
+		select p.product_id, p.product_name, p.product_img1,
+		nbk.nonUserBucket_sellPrice, nbk.nonUserBucket_buyQty, nbk.nonUserBucket_totBuyPrice,
+		nbk.nonUserBucket_isChecked, (select floor(avg(pr.prodReview_grade)) from ProdReviews pr where product_id = p.product_id) as 'star'
+		from NonUserBuckets nbk
+		inner join Products p
+		on nbk.product_id = p.product_id
+		where nbk.nonUserBucket_ssid = #{ssid}
+		LIMIT 0, 10;
+	</select>
+	
+	<update id="changeNonUserQty">
+		update NonUserBuckets set nonUserBucket_buyQty = #{qty},
+		nonUserBucket_totBuyPrice = #{qty} * nonUserBucket_sellPrice
+		where nonUserBucket_ssid =
+		#{ssid}
+		and product_id = #{product_id};
+	</update>
+	
+	<!-- 장바구니 테이블에 있는 데이터 지우기 -->
+	<delete id="nonUserDeleteItemAllB">
+		delete from NonUserBuckets where nonUserBucket_ssid = #{ssid};
+	</delete>
+	
+	<!-- 장바구니 테이블에 있는 데이터 지우기 -->
+	<delete id="nonUserDeleteItem">
+		delete from NonUserBuckets where nonUserBucket_ssid = #{ssid} and product_id = #{product_id};
+	</delete>
+	
+	<update id="nonUserCheckOnOff">
+		update NonUserBuckets set nonUserBucket_isChecked = if(nonUserBucket_isChecked = 'Y', 'N', 'Y') where nonUserBucket_ssid = #{ssid} and product_id = #{product_id};
+	</update>
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
