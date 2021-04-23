@@ -11,13 +11,14 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/index/main">Logo</a>
-					<a class="navbar-brand" href="/">캠박몰 바로가기</a>
+					<a class="navbar-brand" href="/index/main" id="tampletHeaderTitle" style="color : black;">Cambark's</a>
+					<span class="tampletHeaderBar"></span>
+					<a class="navbar-brand" href="/mall/main/" id="tampletHeaderTitle" style="color : black;">CambakMall</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">MENU<span class="caret"></span></a>
+							data-toggle="dropdown" href="#" style="font-size: 17px;">MENU<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 	                        	<c:choose>
 	                        		<c:when test="${loginMember != null }">
