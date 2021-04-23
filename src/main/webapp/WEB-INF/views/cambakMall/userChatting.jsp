@@ -14,6 +14,8 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>캠박몰 :: 채팅</title>
 
+<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
+
 <!-- Google Font -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Cookie&display=swap"
@@ -81,7 +83,19 @@
 
 	//웹소켓 연결
 	function socketOpen(event) {
-		console.log("연결 완료");
+		
+		// 운영자가 접속중일때 isRead 읽음으로 업데이트
+		$.ajax({
+			type : "post",
+			dataType : "text", // 응답을 어떤 형식으로 받을지	
+			url : "/isRead/notAdmin/" + member_id, // 서블릿 주소
+			success : function(data) {
+			}, // 통신 성공시
+			error : function(data) {
+			}, // 통신 실패시
+			complete : function(data) {
+			} // 통신 완료시
+		});
 	}
 
 	//웹소켓 닫힘
@@ -99,7 +113,7 @@
 		// 메시지 DB저장		
 		$.ajax({
 			type : "post",
-			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			dataType : "text", // 응답을 어떤 형식으로 받을지	
 			url : "/fromUser/" + msg, // 서블릿 주소
 			success : function(data) {
 			}, // 통신 성공시
@@ -133,7 +147,7 @@
 			// 운영자가 접속중일때 isRead 읽음으로 업데이트
 			$.ajax({
 				type : "post",
-				dataType : "json", // 응답을 어떤 형식으로 받을지	
+				dataType : "text", // 응답을 어떤 형식으로 받을지	
 				url : "/isRead/notAdmin/" + member_id, // 서블릿 주소
 				success : function(data) {
 				}, // 통신 성공시
@@ -202,6 +216,7 @@ span.user-msg {
 	border-radius: 5px;
 	padding: 5px;
 	margin-right: 10px;
+	max-width:400px;
 }
 /* 메시지 하나하나 감싸는 부분에서 유저만 */
 .user-msg-wrap {

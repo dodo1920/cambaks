@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Controller;
 
 import com.cambak21.service.cambakMall.ChattingService;
 
-@Controller
 @ServerEndpoint("/userChatting/{member_id}")
 public class UserChattingHandler {
 
@@ -88,7 +88,9 @@ public class UserChattingHandler {
 		user.member_id = member_id;
 		user.session = session;
 		sessionList.add(user);
-
+		
+		// 운영자에게 접속한것을 알리기 위해...
+		AdminChattingHandler.sendMsg(member_id, "existSession");
 	}
 
 	/**
@@ -175,5 +177,16 @@ public class UserChattingHandler {
 	public void handleError(Throwable t) {
 		t.printStackTrace();
 	}
-
+	
+	// 세션 getter
+	public static Session getSession(String member_id) {
+		Session findSession = null;
+		for (User user : sessionList) {
+			if(user.member_id.equals(member_id)) {
+				findSession = user.session;
+			}
+		}
+		return findSession;
+	}
+	
 }
