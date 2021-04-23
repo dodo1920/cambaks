@@ -327,7 +327,7 @@ public class MallController {
 		
 		model.addAllAttributes(pListService.prodCategoryList(detail, cri));
 		
-		return "cambakMall/prodList_hyowon";
+		return "cambakMall/prodList";
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
