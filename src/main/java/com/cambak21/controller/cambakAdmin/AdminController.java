@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.service.cambakAdmin.adminService;
+import com.cambak21.util.PagingCriteria;
 import com.mysql.cj.xdevapi.JsonArray;
 import com.mysql.cj.xdevapi.JsonValue;
 
@@ -110,9 +111,9 @@ public class AdminController {
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 효원@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
-	@RequestMapping(value = "/orderManagement", method = RequestMethod.GET)
-	public String orderManagement() throws Exception{
-		
+	@RequestMapping(value="/orderManagement")
+	public String orderManagement(PagingCriteria cri, Model model) throws Exception{
+		model.addAttribute("order", service.readOrderList(cri));
 		return "/admin/adminOrderManagement";
 	}
 	

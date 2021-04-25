@@ -207,13 +207,55 @@
   
   <!-- ***************************************** 효원 ********************************************************************************* -->
   
+  <select id="readOrderList" resultType="com.cambak21.domain.AdminOrderListVO">
+	select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
+	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo limit #{pageStart}, #{perPageNum}) as list
+  </select>
   
   
+  <select id="readOrderListNum" resultType="int">
+	select count(*) 
+	from (select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
+	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo) as list) as num
+  </select>
   
   
-  
-  
-  
+  <select id="orderProductNum" resultType="int">
+	select count(*)
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo limit 0, 10) as list where payment_no = #{payment_no}
+  </select>
   
   
   
