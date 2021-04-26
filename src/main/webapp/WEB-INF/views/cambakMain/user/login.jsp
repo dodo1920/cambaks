@@ -71,8 +71,8 @@
    
    function chkCookie() {
 	   chkCookie = $("#chkCookie").prop("checked");
-		console.log(agreement);
-		if(agreement == true){
+		console.log(chkCookie);
+		if(chkCookie == true){
 			alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
 			return true;
 		}

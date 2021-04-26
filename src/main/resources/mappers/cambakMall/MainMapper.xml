@@ -40,6 +40,8 @@
   <select id="getBasicInfo" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where product_id = #{id}
   </select>
+
+  
   
 <!--   <select id="getBasicInfo" resultType="com.cambak21.dto.InsertintoBucketDTO"> -->
 <!--   		select * from Products where product_id = #{id} -->
