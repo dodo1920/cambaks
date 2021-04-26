@@ -275,27 +275,27 @@ public class MemberController {
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이영광 회원가입 파트
 	
 //	김태훈 회원정보 수정 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	@RequestMapping(value = "/Modify/{memberId}",method=RequestMethod.POST)
-	public String userModify(@PathVariable("memberId") String memberId,Model model) throws Exception{
-		System.out.println("memberId : "+memberId);
-		model.addAttribute("member",service.memberSelect(memberId));
-		System.out.println(service.memberSelect(memberId));
-		return "cambakMain/myPage/userModify";
-	}
-	
-	@RequestMapping(value = "/userDateUpdate",method = RequestMethod.POST)
-	public String userUpdate(UpdateMemberDTO dto)throws Exception {
-		System.out.println("userDateUpdate...POST통신 성공");
-		System.out.println(dto.toString());
-		if(service.memberUpdate(dto)) {
-			System.out.println("수정완료");
-		}else{
-			System.out.println("수정 실패");
-		}
-		
-		return "redirect:/myPage/checkList";		
-	}
-	
+//	@RequestMapping(value = "/Modify/{memberId}",method=RequestMethod.POST)
+//	public String userModify(@PathVariable("memberId") String memberId,Model model) throws Exception{
+//		System.out.println("memberId : "+memberId);
+//		model.addAttribute("member",service.memberSelect(memberId));
+//		System.out.println(service.memberSelect(memberId));
+//		return "cambakMain/myPage/userModify";
+//	}
+//	
+//	@RequestMapping(value = "/userDateUpdate",method = RequestMethod.POST)
+//	public String userUpdate(UpdateMemberDTO dto)throws Exception {
+//		System.out.println("userDateUpdate...POST통신 성공");
+//		System.out.println(dto.toString());
+//		if(service.memberUpdate(dto)) {
+//			System.out.println("수정완료");
+//		}else{
+//			System.out.println("수정 실패");
+//		}
+//		
+//		return "redirect:/myPage/checkList";		
+//	}
+//	
 		
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김태훈 회원정보 수정 파트
 
@@ -319,7 +319,11 @@ public class MemberController {
 	      return entity;
 	   }
 	
-
+	   @RequestMapping(value="/modify", method=RequestMethod.GET)
+	   private String cambakLoginCheck(Model model) {
+		  
+	      return "cambakMain/myPage/modify";
+	   }
 	
 //		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 	
