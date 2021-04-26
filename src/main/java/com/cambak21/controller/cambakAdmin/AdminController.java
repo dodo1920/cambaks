@@ -70,14 +70,34 @@ public class AdminController {
 		return entity;
 	}
 	 
-	@RequestMapping(value = "/selectDate", method = RequestMethod.GET)
-	public String selectDate(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, Model model) throws Exception {
+	@RequestMapping(value = "revenue/selectDate", method = RequestMethod.GET)
+	public ResponseEntity<List<RevenueVO>> selectDate(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, Model model) {
 		
-		model.addAttribute("selectDate", service.selectDate(startDate, endDate));
-
-		return "/admin/selectDate";
+		
+		
+		ResponseEntity<List<RevenueVO>> entity = null;
+		try {
+			entity = new ResponseEntity<List<RevenueVO>>(service.selectDate(startDate, endDate), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<List<RevenueVO>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 		
 	}
+	@RequestMapping(value = "/revenueWeekly", method = RequestMethod.GET)
+	public String revenueWeekly() throws Exception{
+		
+		return "/admin/revenueWeekly";
+	}
+	@RequestMapping(value = "/revenueMonthly", method = RequestMethod.GET)
+	public String revenueMonthly() throws Exception{
+		
+		return "/admin/revenueMonthly";
+	}
+	
 	
 	
 

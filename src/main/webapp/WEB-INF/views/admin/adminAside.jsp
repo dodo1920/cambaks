@@ -30,18 +30,15 @@
 					<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-receipt"></i><span class="hide-menu">회원 관리
+							class="mdi mdi-face"></i><span class="hide-menu">회원 관리
 						</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="form-basic.html"
-								class="sidebar-link"><i class="mdi mdi-note-outline"></i><span
-									class="hide-menu"> 주문 </span></a></li>
-							<li class="sidebar-item"><a href="form-wizard.html"
-								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
+								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
 									class="hide-menu"> 정보 </span></a></li>
 							<li class="sidebar-item"><a href="form-wizard.html"
-								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
-									class="hide-menu"> 포인트 </span></a></li>
+								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+									class="hide-menu"> 주문 </span></a></li>
 						</ul></li>
 					<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -50,48 +47,48 @@
 									<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-face"></i><span class="hide-menu"> 상품관리 </span></a>
+							class="mdi mdi-view-dashboard"></i><span class="hide-menu"> 상품관리 </span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="icon-material.html"
-								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
+								class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span
 									class="hide-menu"> 상품목록 </span></a></li>
 							<li class="sidebar-item"><a href="../admin/prodRegister"
-								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+								class="sidebar-link"><i class="mdi mdi-multiplication-box"></i><span
 									class="hide-menu"> 상품등록 </span></a></li>
 						</ul></li>
 					<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-face"></i><span class="hide-menu">상품 게시판 </span></a>
+							class="mdi mdi-receipt"></i><span class="hide-menu">상품 게시판 </span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="icon-material.html"
-								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
+								class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span
 									class="hide-menu"> 리뷰 </span></a></li>
 							<li class="sidebar-item"><a href="icon-fontawesome.html"
-								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+								class="sidebar-link"><i class="mdi mdi-message-outline"></i><span
 									class="hide-menu"> QnA </span></a></li>
 						</ul></li>
 							<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-face"></i><span class="hide-menu">일반 게시판 </span></a>
+							class="mdi mdi-pencil"></i><span class="hide-menu">일반 게시판 </span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="icon-material.html"
-								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
+								class="sidebar-link"><i class="mdi mdi-note-outline"></i><span
 									class="hide-menu"> 게시판 설정 </span></a></li>
 							<li class="sidebar-item"><a href="icon-fontawesome.html"
-								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
+								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
 									class="hide-menu"> 게시판 관리 </span></a></li>
 						</ul></li>
 						
 					<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="pages-elements.html" aria-expanded="false"><i
-							class="mdi mdi-pencil"></i><span class="hide-menu">매출</span></a></li>
+							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출</span></a></li>
 							<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="/admin/chattingList" aria-expanded="false"><i
-							class="mdi mdi-pencil"></i><span class="hide-menu">채팅 관리</span></a></li>
+							class="mdi mdi-chart-bubble"></i><span class="hide-menu">채팅 관리</span></a></li>
 <!-- 					<li class="sidebar-item"><a -->
 <!-- 						class="sidebar-link has-arrow waves-effect waves-dark" -->
 <!-- 						href="javascript:void(0)" aria-expanded="false"><i -->
@@ -146,7 +143,6 @@
 <!-- 								class="sidebar-link"><i class="mdi mdi-alert-octagon"></i><span -->
 <!-- 									class="hide-menu"> Error 500 </span></a></li> -->
 <!-- 						</ul></li> -->
->>>>>>> fc73cde69ef5fc5d15ab0486086479b998b32880
 				</ul>
 			</nav>
 			<!-- 사이드바 카테고리 끝 -->
