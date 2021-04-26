@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -116,9 +117,18 @@ public class AdminDAOImpl implements AdminDAO {
 		
 //		============================================== 정민 ==============================================================================
 		
+	// 페이징 처리한 productList 출력
+		@Override
+		public List<ProductsVO> prodList(PagingCriteria cri) throws Exception {
+			return ses.selectList(ns + ".prodList", cri);
+		}
 		
 		
-		
+		// 게시물 총 개수 가져오기
+		@Override
+		public int getTotalProdListCnt() throws Exception {
+			return ses.selectOne(ns + ".getTotalProdListCnt");
+		}
 		
 		
 		
@@ -176,8 +186,9 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
-		
-		
+
+
+
 		
 		
 		

@@ -3,6 +3,7 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -92,10 +93,11 @@ public interface AdminDAO {
 	
 //	============================================== 정민 ==============================================================================
 	
+	// 페이징 처리한 productList 출력
+	public List<ProductsVO> prodList(PagingCriteria cri) throws Exception;
 	
-	
-	
-	
+	// 게시물 총 개수 가져오기
+	public int getTotalProdListCnt() throws Exception;
 	
 	
 	
@@ -145,6 +147,8 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
+
 	
 	
 	

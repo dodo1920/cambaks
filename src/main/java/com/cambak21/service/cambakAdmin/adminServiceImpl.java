@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
@@ -114,9 +115,17 @@ public class adminServiceImpl implements adminService {
 		
 //		============================================== 정민 ==============================================================================
 		
+		// 페이징 처리한 productList 출력
+		@Override
+		public List<ProductsVO> prodList(PagingCriteria cri) throws Exception {
+			return dao.prodList(cri);
+		}
 		
-		
-		
+		// 게시물 총 개수 가져오기
+		@Override
+		public int getTotalProdListCnt() throws Exception {
+			return dao.getTotalProdListCnt();
+		}
 		
 		
 		
@@ -178,6 +187,10 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
+
+
 		
 		
 		

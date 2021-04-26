@@ -1,520 +1,301 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- 화면 너비 자동반응 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <!-- 아이콘 및 타이틀 -->
-    <link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
-    <title>Cambak's - Admin Pages</title>
-    <!-- Custom CSS -->
-    <link href="../resources/adminAssets/libs/flot/css/float-chart.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<!-- 화면 너비 자동반응 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="/resources/cambak21/assets/favicon.ico" />
+<title>Cambak's - Admin Pages</title>
+
+<!-- css -->
+<link href="../resources/adminDist/css/bootstrap.min.css" type="text/css">
+<link href="../resources/adminDist/css/font-awesome.min.css" type="text/css">
+<link href="../resources/adminDist/css/elegant-icons.css" type="text/css">
+<link href="../resources/adminDist/css/jquery-ui.min.css" type="text/css">
+<link href="../resources/adminDist/css/magnific-popup.css" type="text/css">
+<link href="../resources/adminDist/css/owl.carousel.min.css" type="text/css">
+<link href="../resources/adminDist/css/slicknav.min.css" type="text/css">
+<link href="../resources/adminDist/css/style.css" type="text/css">
+<link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/select2/dist/css/select2.min.css">
+<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.css">
+<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/quill/dist/quill.snow.css">
+<link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+
+<!-- js -->
+<script src="../resources/adminAssets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../resources/adminAssets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="../resources/adminAssets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../resources/adminAssets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="../resources/adminAssets/extra-libs/sparkline/sparkline.js"></script>
+<script src="../resources/adminDist/js/waves.js"></script>
+<script src="../resources/adminDist/js/sidebarmenu.js"></script>
+<script src="../resources/adminDist/js/custom.min.js"></script>
+<script src="../resources/adminAssets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+<script src="../resources/adminDist/js/pages/mask/mask.init.js"></script>
+<script src="../resources/adminAssets/libs/select2/dist/js/select2.full.min.js"></script>
+<script src="../resources/adminAssets/libs/select2/dist/js/select2.min.js"></script>
+<script src="../resources/adminAssets/libs/jquery-asColor/dist/jquery-asColor.min.js"></script>
+<script src="../resources/adminAssets/libs/jquery-asGradient/dist/jquery-asGradient.js"></script>
+<script src="../resources/adminAssets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js"></script>
+<script src="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+<script src="../resources/adminAssets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="../resources/adminAssets/libs/quill/dist/quill.min.js"></script>
+
+<script>
+
+$(function() { //전체선택 체크박스 클릭 
+        if ($("#allChecked").is(':checked')) {
+            $("input[type=checkbox]").prop("checked", true);
+        } else {
+            $("input[type=checkbox]").prop("checked", false);
+        }
+	});
+
+</script>
+
+
+<style>
+
+</style>
 </head>
 <body>
 <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
+	<div class="lds-ripple">
+		<div class="lds-pos"></div>
+		<div class="lds-pos"></div>
+	</div>
+</div>
 <div id="main-wrapper">
-	<!-- 헤더 -->
-	<%@ include file="adminTop.jsp" %>
-	<!-- 어사이드 -->
-	<%@ include file="adminAside.jsp" %>
-	
-	<div class="page-wrapper">
+<%@ include file="adminTop.jsp"%>
+<%@ include file="adminAside.jsp"%>
+<div class="page-wrapper">
 	<div class="page-breadcrumb">
-                <div class="row">
-                    <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">Dashboard</h4>
-                    </div>
-                </div>
-            </div>
-	<!-- 본문 작성  -->
+		<div class="row">
+			<div class="col-12 d-flex no-block align-items-center">
+				<h4 class="page-title">상품목록 게시판</h4>
+				<div class="ml-auto text-right">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">홈</a></li>
+							<li class="breadcrumb-item active" aria-current="page">주문목록</li>
+						</ol>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="container-fluid">
 		<div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <form class="form-horizontal">
-                                <div class="card-body">
-                                    <h4 class="card-title">Personal Info</h4>
-                                    <div class="form-group row">
-                                        <label for="fname" class="col-sm-3 text-right control-label col-form-label">First Name</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="fname" placeholder="First Name Here">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="lname" placeholder="Last Name Here">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="lname" class="col-sm-3 text-right control-label col-form-label">Password</label>
-                                        <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="lname" placeholder="Password Here">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="email1" class="col-sm-3 text-right control-label col-form-label">Company</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="email1" placeholder="Company Name Here">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Contact No</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="cono1" placeholder="Contact No Here">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="cono1" class="col-sm-3 text-right control-label col-form-label">Message</label>
-                                        <div class="col-sm-9">
-                                            <textarea class="form-control"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="border-top">
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Form Elements</h5>
-                                <div class="form-group row">
-                                    <label class="col-md-3 m-t-15">Single Select</label>
-                                    <div class="col-md-9">
-                                        <select class="select2 form-control custom-select" style="width: 100%; height:36px;">
-                                            <option>Select</option>
-                                            <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                            </optgroup>
-                                            <optgroup label="Pacific Time Zone">
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                            </optgroup>
-                                            <optgroup label="Mountain Time Zone">
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                                <option value="ID">Idaho</option>
-                                                <option value="MT">Montana</option>
-                                                <option value="NE">Nebraska</option>
-                                                <option value="NM">New Mexico</option>
-                                                <option value="ND">North Dakota</option>
-                                                <option value="UT">Utah</option>
-                                                <option value="WY">Wyoming</option>
-                                            </optgroup>
-                                            <optgroup label="Central Time Zone">
-                                                <option value="AL">Alabama</option>
-                                                <option value="AR">Arkansas</option>
-                                                <option value="IL">Illinois</option>
-                                                <option value="IA">Iowa</option>
-                                                <option value="KS">Kansas</option>
-                                                <option value="KY">Kentucky</option>
-                                                <option value="LA">Louisiana</option>
-                                                <option value="MN">Minnesota</option>
-                                                <option value="MS">Mississippi</option>
-                                                <option value="MO">Missouri</option>
-                                                <option value="OK">Oklahoma</option>
-                                                <option value="SD">South Dakota</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="TN">Tennessee</option>
-                                                <option value="WI">Wisconsin</option>
-                                            </optgroup>
-                                            <optgroup label="Eastern Time Zone">
-                                                <option value="CT">Connecticut</option>
-                                                <option value="DE">Delaware</option>
-                                                <option value="FL">Florida</option>
-                                                <option value="GA">Georgia</option>
-                                                <option value="IN">Indiana</option>
-                                                <option value="ME">Maine</option>
-                                                <option value="MD">Maryland</option>
-                                                <option value="MA">Massachusetts</option>
-                                                <option value="MI">Michigan</option>
-                                                <option value="NH">New Hampshire</option>
-                                                <option value="NJ">New Jersey</option>
-                                                <option value="NY">New York</option>
-                                                <option value="NC">North Carolina</option>
-                                                <option value="OH">Ohio</option>
-                                                <option value="PA">Pennsylvania</option>
-                                                <option value="RI">Rhode Island</option>
-                                                <option value="SC">South Carolina</option>
-                                                <option value="VT">Vermont</option>
-                                                <option value="VA">Virginia</option>
-                                                <option value="WV">West Virginia</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3 m-t-15">Multiple Select</label>
-                                    <div class="col-md-9">
-                                        <select class="select2 form-control m-t-15" multiple="multiple" style="height: 36px;width: 100%;">
-                                            <optgroup label="Alaskan/Hawaiian Time Zone">
-                                                <option value="AK">Alaska</option>
-                                                <option value="HI">Hawaii</option>
-                                            </optgroup>
-                                            <optgroup label="Pacific Time Zone">
-                                                <option value="CA">California</option>
-                                                <option value="NV">Nevada</option>
-                                                <option value="OR">Oregon</option>
-                                                <option value="WA">Washington</option>
-                                            </optgroup>
-                                            <optgroup label="Mountain Time Zone">
-                                                <option value="AZ">Arizona</option>
-                                                <option value="CO">Colorado</option>
-                                                <option value="ID">Idaho</option>
-                                                <option value="MT">Montana</option>
-                                                <option value="NE">Nebraska</option>
-                                                <option value="NM" selected>New Mexico</option>
-                                                <option value="ND">North Dakota</option>
-                                                <option value="UT">Utah</option>
-                                                <option value="WY">Wyoming</option>
-                                            </optgroup>
-                                            <optgroup label="Central Time Zone">
-                                                <option value="AL">Alabama</option>
-                                                <option value="AR">Arkansas</option>
-                                                <option value="IL">Illinois</option>
-                                                <option value="IA">Iowa</option>
-                                                <option value="KS">Kansas</option>
-                                                <option value="KY">Kentucky</option>
-                                                <option value="LA">Louisiana</option>
-                                                <option value="MN">Minnesota</option>
-                                                <option value="MS">Mississippi</option>
-                                                <option value="MO">Missouri</option>
-                                                <option value="OK">Oklahoma</option>
-                                                <option value="SD" selected>South Dakota</option>
-                                                <option value="TX">Texas</option>
-                                                <option value="TN">Tennessee</option>
-                                                <option value="WI">Wisconsin</option>
-                                            </optgroup>
-                                            <optgroup label="Eastern Time Zone">
-                                                <option value="CT">Connecticut</option>
-                                                <option value="DE">Delaware</option>
-                                                <option value="FL">Florida</option>
-                                                <option value="GA">Georgia</option>
-                                                <option value="IN">Indiana</option>
-                                                <option value="ME">Maine</option>
-                                                <option value="MD">Maryland</option>
-                                                <option value="MA">Massachusetts</option>
-                                                <option value="MI">Michigan</option>
-                                                <option value="NH">New Hampshire</option>
-                                                <option value="NJ">New Jersey</option>
-                                                <option value="NY">New York</option>
-                                                <option value="NC">North Carolina</option>
-                                                <option value="OH">Ohio</option>
-                                                <option value="PA">Pennsylvania</option>
-                                                <option value="RI">Rhode Island</option>
-                                                <option value="SC">South Carolina</option>
-                                                <option value="VT">Vermont</option>
-                                                <option value="VA">Virginia</option>
-                                                <option value="WV">West Virginia</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3">Radio Buttons</label>
-                                    <div class="col-md-9">
-                                        <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="customControlValidation1" name="radio-stacked" required>
-                                            <label class="custom-control-label" for="customControlValidation1">First One</label>
-                                        </div>
-                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
-                                            <label class="custom-control-label" for="customControlValidation2">Second One</label>
-                                        </div>
-                                         <div class="custom-control custom-radio">
-                                            <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-                                            <label class="custom-control-label" for="customControlValidation3">Third One</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3">Checkboxes</label>
-                                    <div class="col-md-9">
-                                        <div class="custom-control custom-checkbox mr-sm-2">
-                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing1">
-                                            <label class="custom-control-label" for="customControlAutosizing1">First One</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox mr-sm-2">
-                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
-                                            <label class="custom-control-label" for="customControlAutosizing2">Second One</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox mr-sm-2">
-                                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing3">
-                                            <label class="custom-control-label" for="customControlAutosizing3">Third One</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3">File Upload</label>
-                                    <div class="col-md-9">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-                                            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-                                            <div class="invalid-feedback">Example invalid custom file feedback</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-md-3" for="disabledTextInput">Disabled input</label>
-                                    <div class="col-md-9">
-                                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input" disabled>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="border-top">
-                                <div class="card-body">
-                                    <button type="button" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Forms Control</h4>
-                                <div class="form-group">
-                                    <label for="hue-demo">Hue</label>
-                                    <input type="text" id="hue-demo" class="form-control demo" data-control="hue" value="#ff6161">
-                                </div>
-                                <div class="form-group">
-                                    <label for="position-bottom-left">Bottom left (default)</label>
-                                    <input type="text" id="position-bottom-left" class="form-control demo" data-position="bottom left" value="#0088cc">
-                                </div>
-                                <div class="form-group">
-                                    <label for="position-top-right">Top right</label>
-                                    <input type="text" id="position-top-right" class="form-control demo" data-position="top right" value="#0088cc">
-                                </div>
-                                <label>Datepicker</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <label class="m-t-15">Autoclose Datepicker</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="datepicker-autoclose" placeholder="mm/dd/yyyy">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="border-top">
-                                <div class="card-body">
-                                    <button type="submit" class="btn btn-success">Save</button>
-                                    <button type="submit" class="btn btn-primary">Reset</button>
-                                    <button type="submit" class="btn btn-info">Edit</button>
-                                    <button type="submit" class="btn btn-danger">Cancel</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title m-b-0">Form Elements</h5>
-                                <div class="form-group m-t-20">
-                                    <label>Date Mask <small class="text-muted">dd/mm/yyyy</small></label>
-                                    <input type="text" class="form-control date-inputmask" id="date-mask" placeholder="Enter Date">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone <small class="text-muted">(999) 999-9999</small></label>
-                                    <input type="text" class="form-control phone-inputmask" id="phone-mask" placeholder="Enter Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>International Number <small class="text-muted">+19 999 999 999</small></label>
-                                    <input type="text" class="form-control international-inputmask" id="international-mask" placeholder="International Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone / xEx <small class="text-muted">(999) 999-9999 / x999999</small></label>
-                                    <input type="text" class="form-control xphone-inputmask" id="xphone-mask" placeholder="Enter Phone Number">
-                                </div>
-                                <div class="form-group">
-                                    <label>Purchase Order <small class="text-muted">aaaa 9999-****</small></label>
-                                    <input type="text" class="form-control purchase-inputmask" id="purchase-mask" placeholder="Enter Purchase Order">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Form Elements</h5>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span>Tooltip Input</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <input type="text" data-toggle="tooltip" title="A Tooltip for the input !" class="form-control" id="validationDefault05" placeholder="Hover For tooltip" required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span>Type Ahead Input</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <input type="text" class="form-control" placeholder="Type here for auto complete.." required>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span>Prepended Input</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">#</span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Prepend" aria-label="Username" aria-describedby="basic-addon1">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span>Appended Input</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="5.000" aria-label="Recipient 's username" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <span class="input-group-text" id="basic-addon2">$</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span class="text-success">Input with Sccess</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <input type="text" class="form-control is-valid" id="validationServer01">
-                                        <div class="valid-feedback">
-                                            Woohoo!
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row mb-3 align-items-center">
-                                    <div class="col-lg-4 col-md-12 text-right">
-                                        <span class="text-danger">Input with Error</span>
-                                    </div>
-                                    <div class="col-lg-8 col-md-12">
-                                        <input type="text" class="form-control is-invalid" id="validationServer01">
-                                        <div class="invalid-feedback">
-                                            Please correct the error
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" placeholder="col-md-12">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-11">
-                                        <input type="text" class="form-control" placeholder="col-md-11">
-                                    </div>
-                                    <div class="col-lg-1 p-l-0">
-                                        <input type="text" class="form-control" placeholder="col-md-1">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" placeholder="col-md-10">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <input type="text" class="form-control" placeholder="col-md-2">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-9">
-                                        <input type="text" class="form-control" placeholder="col-md-9">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="text" class="form-control" placeholder="col-md-3">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-8">
-                                        <input type="text" class="form-control" placeholder="col-md-8">
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control" placeholder="col-md-4">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-7">
-                                        <input type="text" class="form-control" placeholder="col-md-7">
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <input type="text" class="form-control" placeholder="col-md-5">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" placeholder="col-md-6">
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" placeholder="col-md-6">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-5">
-                                        <input type="text" class="form-control" placeholder="col-md-5">
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <input type="text" class="form-control" placeholder="col-md-7">
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-lg-2">
-                                        <input type="text" class="form-control" placeholder="col-md-2">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <input type="text" class="form-control" placeholder="col-md-3">
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <input type="text" class="form-control" placeholder="col-md-4">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <input type="text" class="form-control" placeholder="col-md-2">
-                                    </div>
-                                    <div class="col-lg-1 p-l-0">
-                                        <input type="text" class="form-control" placeholder="col-md-1">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-body">
+						<div class="form-group row">
+							<label class="col-md-1 m-t-15">검색어</label>
+							<div class="col-md-1" style="padding-left: 0px;">
+								<select class="select form-control" name="checkOption" style="height:36px;">
+											<option value="searchAll">전체</option>
+											<option value="prodName">상품명</option>
+											<option value="PurchaseName">제조사명</option>
+											<option value="PurchaseId">상품등록제목</option>
+											<option value="PurchaseEmail">상품등록내용</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+							    <input type="text" class="form-control" name="checkOptionSearch" placeholder="검색어를 입력해주세요.">
+							</div>
+							<div class="col-md-7"></div>
+						</div>
+						<div class="form-group row">
+						    <label class="col-md-1  m-t-15">상품분류</label>
+							    <div class="col-md-1.5">
+									<select class="select form-control" name="checkOption" style="height:36px;">
+										<optgroup label="-검색항목선택-">
+											<option value="default">- 카테고리 대분류 -</option>
+											<option value="prodName">기타</option>
+											<option value="PurchaseName">랜턴</option>
+											<option value="PurchaseId">수납/케이스</option>
+											<option value="PurchaseEmail">침낭/매트</option>
+											<option value="PurchaseEmail">키친/취사용품</option>
+											<option value="PurchaseEmail">테이블/체어/베트</option>
+											<option value="PurchaseEmail">텐트/타프</option>
+											<option value="PurchaseEmail">화로/히터</option>
+											
+										</optgroup>
+									</select>
+									
+								</div>
+								<div class="col-md-1.5">
+									<select class="select form-control" name="checkOption" style="height:36px;">
+										<optgroup label="-검색항목선택-">
+											<option value="default">- 카테고리 중분류 -</option>
+											<option value="prodName">경량 테이블</option>
+											<option value="PurchaseName">기타</option>
+											<option value="PurchaseId">담요</option>
+											<option value="PurchaseEmail">랜턴</option>
+											<option value="PurchasePhone">매트</option>
+											<option value="PurchasePhone">버너</option>
+											<option value="PurchasePhone">설거지용품</option>
+											<option value="PurchasePhone">수납</option>
+											<option value="PurchasePhone">식기/일반</option>
+											<option value="PurchasePhone">착화제</option>
+											<option value="PurchasePhone">체어</option>
+											<option value="PurchasePhone">침낭</option>
+											<option value="PurchasePhone">쿨러/아이스박스</option>
+											<option value="PurchasePhone">타프</option>
+											<option value="PurchasePhone">텐트</option>
+											<option value="PurchasePhone">화로대</option>
+										</optgroup>
+									</select>
+									
+								</div>
+								
+						    <div class="col-md-4"></div>
+						</div>
+						<div class="form-group row">
+						    <label class="col-md-1">상품등록일</label>
+						    <div class="col-md-7">
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">오늘</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">7일</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">1개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">3개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">1년</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">전체</button>
+							    <input type="date" id="checkLowDate" onchange="" />
+							    <span>~</span>
+							    <input type="date" id="checkHighDate" onchange="" />
+							    <div id="checkOrderDate">
+								    <input type="hidden" value="" name="checkDate"/>
+								    <input type="hidden" value="" name="checkLowDate"/>
+								    <input type="hidden" value="" name="checkHighDate"/>
+							    </div>
+						    </div>
+						    <div class="col-md-4"></div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-md-1 m-t-15">상품</label>
+							<div class="col-md-1" style="padding-left: 0px;">
+								<select class="select form-control" name="productInfo" style="height:36px;">
+										<option value="">상품명</option>
+										<option value="">제조사</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+							    <input type="text" name="productInfoSearch" class="form-control">
+							</div>
+							<div class="col-md-7"></div>
+						</div>
+						
+						<div class="form-group row">
+							<label class="col-md-1 m-t-15">진열상태</label>
+							<div class="col-md-3" style="padding-left: 0px;">
+								<input type="radio" name="display" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="display">진열&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="displayNone">진열안함
+							</div>
+							<label class="col-md-1 m-t-15">판매상태</label>
+							<div class="col-md-3" style="padding-left: 0px;">
+								<input type="radio" name="sell" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="sell" value="display">판매함&nbsp;&nbsp;&nbsp;<input type="radio" name="sell" value="displayNone">판매안함
+							</div>
+						</div>
+						<div class="border-top">
+							<div class="card-body">
+								<span style="margin-right: 5px;">
+								<button type="submit" class="btn btn-primary">검색</button>
+								</span>
+								<span style="margin-left: 5px;">
+								<button type="button" class="btn btn-light" onclick="location.href='/admin/orderManagement?page=1'">초기화</button>
+								</span>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+									<!-- 글쓰기 버튼 -->
+									<div class="row justify-content-end">
+										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 20px; margin-bottom: 20px;">
+									</div>
+							<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+							
+									
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table table-striped table-bordered dataTable" style="font-size: 13px;">
+										<thead>
+											<tr role="row">
+												<th style="font-weight: bold; width: 100px;"><input type="checkbox" id="allChecked" value="allChecked"/></th>
+												<th style="font-weight: bold; width: 100px;">상품번호</th>
+												<th style="font-weight: bold; width: 150px;">상품명</th>
+												<th style="font-weight: bold; width: 75px;">판매가</th>
+												<th style="font-weight: bold; width: 180px;">진열상태</th>
+												<th style="font-weight: bold; width: 130px;">제조사</th>
+												<th style="font-weight: bold; width: 102px;">상품등록일</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="board" items="${boardList }" varStatus="status">
+											<tr role="row">
+												<td><input type="checkbox" id="check${board.product_id }"/></td>
+												<td>${board.product_id }</td>
+												<td>${board.product_name }</td>
+												<td>${board.product_sellPrice }</td>
+												<td>${board.product_show }</td>
+												<td>${board.product_factory }</td>
+												<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+											</tr>
+											</c:forEach>
+										</tbody>
+                                    </table>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12 col-md-5"></div>
+									<div class="col-sm-12 col-md-7">
+										<div>
+											<ul class="pagination">
+												<c:if test="${pagingParam.prev }">
+												<li class="page-item">
+													<a class="page-link" href="prodList?page=${param.page -1 }" aria-label="Previous">
+														<span aria-hidden="true">«</span>
+														<span class="sr-only">Previous</span>
+													</a>
+												</li>
+												</c:if>
+												<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+												<li class="page-item active">
+													<a href="prodList?page=${pageNo }" class="page-link">${pageNo }</a>
+												</li>
+												</c:forEach>
+												<c:if test="${pagingParam.next }">
+												<li class="page-item">
+													<a class="page-link" href="prodList?page=${param.page +1 }" aria-label="Next">
+														<span aria-hidden="true">»</span>
+														<span class="sr-only">Next</span>
+													</a>
+												</li>
+												</c:if>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-	<!-- 본문 작성 끝  -->
-     <%@ include file="adminFooter.jsp" %>    
-     <%@ include file="adminJs.jsp" %> 
-	</div>
-	
 </div>
- 
+<%@ include file="adminFooter.jsp"%>
+</div>
 </body>
 </html>
