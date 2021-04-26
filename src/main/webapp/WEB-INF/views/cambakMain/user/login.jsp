@@ -38,11 +38,49 @@
    <script src="/resources/cambak21/js/SHWtamplet.js"></script>
    <script>
    function loginOK(){
-      if(document.getElementById('chkCookie').checked){
-         alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
-         return true;
-      }
+	   let member_id = $("#member_id").val();
+	   let member_password = $("#member_password").val();
+	   
+		console.log("qqqqqqqqqq : " + member_id );
+		console.log("qqqqqqqqqq : " + member_password );
+		
+	   $.ajax({
+		   method: "POST",
+		   url: "/user/loginCheck",
+		   dataType: "text",
+		   data : {member_id : member_id, member_password : member_password},
+		   success : function(data) {
+			   console.log(data);
+			   if (data == "memberCheck") {
+				   $.ajax({
+					   method: "POST",
+					   url: "/user/login",
+					   dataType: "text",
+					   data : {member_id : member_id, member_password : member_password}
+				   });
+
+			  } else {
+				  alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다");
+			  }
+		  }, error : function(data) {
+			  alert(data);
+		}
+			  
+		});
    }
+   
+   function chkCookie() {
+	   chkCookie = $("#chkCookie").prop("checked");
+		console.log(agreement);
+		if(agreement == true){
+			alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
+			return true;
+		}
+   }
+   
+   function loginRequestCheck() {
+		
+	}
    </script>
    <style>
       @import url(../../resources/cambak21/css/SHWtamplet.css);
@@ -50,13 +88,13 @@
     width: 100%;
    }
    
-	.main {
-		width: auto;
-	}
-	
-	#login100-form validate-form {
-		min-width: 400px;
-	}
+   .main {
+      width: auto;
+   }
+   
+   #login100-form validate-form {
+      min-width: 400px;
+   }
 
    </style>
 
@@ -90,11 +128,11 @@
                     Account Login
                   </span>
                   <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-                    <input id="first-name" class="input100" type="text" name="member_id" value="" placeholder="아이디">
+                    <input class="input100" type="text" id="member_id" name="member_id" value="" placeholder="아이디">
                     <span class="focus-input100"></span>
                   </div>
                   <div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
-                    <input class="input100" type="password" name="member_password" value=""  placeholder="비밀번호">
+                    <input class="input100" type="password" id="member_password" name="member_password" value=""  placeholder="비밀번호">
                     <span class="focus-input100"></span>
                   </div>
                   

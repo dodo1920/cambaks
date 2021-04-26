@@ -34,10 +34,25 @@
 let loginUser = '${loginMember.member_id}';
 
  $(document).ready(function() {
-
-	
+	 $("#main-sidebar").css("display","none");
  });
 
+ 
+ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권 : 채팅창에서 띄우기 위해 코드 추가했습니다 !
+	 $(window).on("scroll", function(){
+	   if($(window).scrollTop() > 500){
+	      $(".top").css("display","block");
+	       $("#main-sidebar").css("display","block");
+
+	   }else{
+	      $(".top").css("display","none");
+	       $("#main-sidebar").css("display","none");
+
+	   } 
+	     
+	 });
+	}
+ 
  
 //******** 종진 메인페이지 장바구니 기능 *************//
 
@@ -122,6 +137,13 @@ let loginUser = '${loginMember.member_id}';
 	    color: lightsteelblue;
 	}
 
+.trend__item__text a:hover {
+	text-decoration: underline;
+}
+
+.product__item__text a:hover{
+	text-decoration: underline;
+}
 
 </style>
 
@@ -227,12 +249,15 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct1" items="${para.NewProduct1 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix tent">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }">
+	                
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id}'"  data-setbg="${NewProduct1.product_img1 }">
+	                 
+	                 
 	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct1.product_id});" ><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
+	                 
+	                 
 	                    </div>
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct1.product_id }">${NewProduct1.product_name }</a></h6>
 	                        
@@ -281,11 +306,9 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct2" items="${para.NewProduct2 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix sleepmatt">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id}'"  data-setbg="${NewProduct2.product_img1 }">
 	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct2.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
+
 	                    </div>
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct2.product_id }">${NewProduct2.product_name }</a></h6>
@@ -331,7 +354,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct3" items="${para.NewProduct3 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix table">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id}'"  data-setbg="${NewProduct3.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct3.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -381,7 +404,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct4" items="${para.NewProduct4 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix light">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id}'"  data-setbg="${NewProduct4.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct4.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -432,7 +455,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct5" items="${para.NewProduct5 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id}'"  data-setbg="${NewProduct5.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct5.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -483,7 +506,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct6" items="${para.NewProduct6 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix heater">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id}'"  data-setbg="${NewProduct6.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct6.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -533,7 +556,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct7" items="${para.NewProduct7 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix case">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id}'"  data-setbg="${NewProduct7.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct7.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -582,7 +605,7 @@ let loginUser = '${loginMember.member_id}';
         <c:forEach var="NewProduct8" items="${para.NewProduct8 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix kitchen">
 	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }">
+	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id}'"  data-setbg="${NewProduct8.product_img1 }">
 	                        <div class="label new">New</div>
 <!-- 	                        <ul class="product__hover"> -->
 <%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct8.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
@@ -682,13 +705,13 @@ let loginUser = '${loginMember.member_id}';
                     </div>
                      
         <c:forEach var="topSelling" items="${para.topSelling }" varStatus="status">
-			           <a href="/mall/prodDetail/main?prodId=${topSelling.product_id }">
+			           
 			           <div class="trend__item">
-                        <div class="trend__item__pic">
+                        <div class="trend__item__pic" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${topSelling.product_id }'" >
                             <img style="width:90px; height: 90px;" src="${topSelling.product_img1 }" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>${topSelling.product_name }</h6>
+                           <a href="/mall/prodDetail/main?prodId=${topSelling.product_id }"><h6>${topSelling.product_name }</h6></a>
                              <div class="rating">
                              
                              		<c:if test="${topSelling.star == 0 }">
@@ -723,7 +746,7 @@ let loginUser = '${loginMember.member_id}';
                             </div>
                            <div class="product__price"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div></a>
+                    </div>
 			</c:forEach>
 				
                 </div>
@@ -734,12 +757,12 @@ let loginUser = '${loginMember.member_id}';
                         <h4>평점순</h4>
                     </div>
                        <c:forEach var="topReview" items="${para.topReview }" varStatus="status">
-			             <a href="/mall/prodDetail/main?prodId=${topReview.product_id }"><div class="trend__item">
-                        <div class="trend__item__pic">
+			            <div class="trend__item">
+                        <div class="trend__item__pic" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${topReview.product_id }'" >
                             <img style="width:90px; height: 90px;" src="${topReview.product_img1 }" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>${topReview.product_name }</h6>
+                             <a href="/mall/prodDetail/main?prodId=${topReview.product_id }"><h6>${topReview.product_name }</h6></a>
                          <div class="rating">
                          
                          			<c:if test="${topReview.star == 0 }">
@@ -774,7 +797,7 @@ let loginUser = '${loginMember.member_id}';
                             </div>
                             <div class="product__price"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div></a>
+                    </div>
 					</c:forEach>
 						           
                 </div>
@@ -786,12 +809,12 @@ let loginUser = '${loginMember.member_id}';
                     </div>
                     
                       <c:forEach var="countReviews" items="${para.countReviews }" varStatus="status">
-			            <a href="/mall/prodDetail/main?prodId=${countReviews.product_id }"><div class="trend__item">
-                        <div class="trend__item__pic">
+			           <div class="trend__item">
+                        <div class="trend__item__pic" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${countReviews.product_id }'" >
                             <img style="width:90px; height: 90px;" src="${countReviews.product_img1 }" alt="">
                         </div>
                         <div class="trend__item__text">
-                            <h6>${countReviews.product_name }</h6>
+                           <a href="/mall/prodDetail/main?prodId=${countReviews.product_id }"><h6>${countReviews.product_name }</h6></a>
                          <div class="rating">
                          
                      			    <c:if test="${countReviews.star == 0 }">
@@ -826,7 +849,7 @@ let loginUser = '${loginMember.member_id}';
                             </div>
                             <div class="product__price"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
-                    </div></a>
+                    </div>
 					</c:forEach>
 					
 			
@@ -922,7 +945,8 @@ let loginUser = '${loginMember.member_id}';
 
 
 <%@include file="mallFooter.jsp" %>
-<%@include file="mallMainRightSide.jsp" %>
+<%-- <%@include file="mallMainRightSide.jsp" %> --%>
+<%-- <%@include file="mallRightSide.jsp" %> --%>
 
 
 <!-- Js Plugins -->

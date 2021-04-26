@@ -6,9 +6,10 @@ import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint("/admingChatting")
+@ServerEndpoint("/adminChatting/{member_id}")
 public class AdminChattingHandler {
 
 	private static Session admin = null;
@@ -22,7 +23,7 @@ public class AdminChattingHandler {
 	  * @param adminSession
 	  */
 	@OnOpen
-	public void handleOpen(Session adminSession) {
+	public void handleOpen(Session adminSession, @PathParam("member_id") String member_id) {
 		// 운영자 계정이 1개임을 가정
 		if (admin != null) {
 			try {
@@ -32,6 +33,8 @@ public class AdminChattingHandler {
 			}
 		}
 		admin = adminSession;
+		// 유저에게 메시지를 읽은것을 알려주기 위해...
+		UserChattingHandler.sendMsg("existSession", member_id);
 	}
 
 	/**
@@ -74,18 +77,31 @@ public class AdminChattingHandler {
 		// key
 		String member_id = split[1];
 
-		try {
-			// key와 msg를 보내면 UserChattingHandler에서 member_id값에 맞는 유저한테 메시지를 전송
-			// 일대일 채팅
-			UserChattingHandler.sendMsg(message, member_id);
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 유저 세션이 null이 아니면 ...
+		if(UserChattingHandler.getSession(member_id) != null) {
+			try {
+				// 자기자신한테 메시지 보내기
+				admin.getBasicRemote().sendText("existSession");
+				// 유저한테 메시지 보내기
+				UserChattingHandler.sendMsg(message, member_id);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else { // 유저 세션이 null이면...
+			try {
+				// 운영자 서버로 존재하지 않는다고 보냄
+				admin.getBasicRemote().sendText("noExistSession");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	@OnClose
 	public void handleClose(Session session) {
-		// 운영자가 접속을 끊는다면 null로 바꿈;
+		// 운영자가 접속을 끊는다면 null로 바꿈
 		admin = null;
 	}
 

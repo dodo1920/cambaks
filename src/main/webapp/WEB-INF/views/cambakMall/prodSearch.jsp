@@ -72,6 +72,8 @@ function filterCheck() {
 		$("#highPriceRank").prop("checked", "true");
 	} else if (prodRankOrder == "datePd") {
 		$("#salesRank").prop("checked", "true");
+	} else if (prodRankOrder == "rvRank") {
+		$("#rvRank").prop("checked", "true");
 	} else {
 		$("#cmRank").prop("checked", "true");
 	}

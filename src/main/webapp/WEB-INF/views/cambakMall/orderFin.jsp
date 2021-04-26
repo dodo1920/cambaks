@@ -110,7 +110,7 @@
     	</tr>
     	<tr>
     			<td>금액</td>
-    			<td>얼마얼마 얼마</td>
+    			<td id="totBuyPrice">얼마얼마 얼마</td>
     		</tr>
     		
     	</tbody>
@@ -158,6 +158,7 @@
 <script src="../../resources/mallMain/js/owl.carousel.min.js"></script>
 <script src="../../resources/mallMain/js/jquery.nicescroll.min.js"></script>
 <script src="../../resources/mallMain/js/main.js"></script>
+<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
 </body>
 </html>

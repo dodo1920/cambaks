@@ -15,4 +15,7 @@ public interface ChattingDAO {
 	void fromAdmin(String member_id, String chatting_content) throws Exception;
 	
 	List<ProductDetailListVO> popularProdList() throws Exception;
+	
+	void updateIsRead(String member_id, String who) throws Exception;
+	
 }

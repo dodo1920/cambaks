@@ -7,6 +7,8 @@ public class ChattingListVO {
 	private String chatting_content;
 	private Date chatting_date;
 	private String chatting_toUser;
+	private String chatting_isRead;
+	private String member_img;
 
 	public String getMember_id() {
 		return member_id;
@@ -40,10 +42,27 @@ public class ChattingListVO {
 		this.chatting_toUser = chatting_toUser;
 	}
 
+	public String getChatting_isRead() {
+		return chatting_isRead;
+	}
+
+	public void setChatting_isRead(String chatting_isRead) {
+		this.chatting_isRead = chatting_isRead;
+	}
+
+	public String getMember_img() {
+		return member_img;
+	}
+
+	public void setMember_img(String member_img) {
+		this.member_img = member_img;
+	}
+
 	@Override
 	public String toString() {
 		return "ChattingListVO [member_id=" + member_id + ", chatting_content=" + chatting_content + ", chatting_date="
-				+ chatting_date + ", chatting_toUser=" + chatting_toUser + "]";
+				+ chatting_date + ", chatting_toUser=" + chatting_toUser + ", chatting_isRead=" + chatting_isRead
+				+ ", member_img=" + member_img + "]";
 	}
 
 }

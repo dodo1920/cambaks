@@ -129,7 +129,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	public List<DestinationVO> destinationsListAjax(String member_id) throws Exception {
 		return ses.selectList(namespace + ".destinationsListAjax", member_id);
 	}
-//  	<!-- 이영광 DAO -->
+
 
 
 	@Override
@@ -166,7 +166,13 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	}
 
 
+	@Override
+	public DestinationVO GetModifydst(int dstno) throws Exception {
+		return ses.selectOne(namespace + ".GetModifydst", dstno);
+	}
 
+
+//	<!-- 이영광 DAO -->
 
 	
 

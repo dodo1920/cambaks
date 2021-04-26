@@ -11,11 +11,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  $(window).on("scroll", function(){
    if($(window).scrollTop() > 500){
       $(".top").css("display","block");
-      $("#main-sidebar").css("display","block");
+//       $("#main-sidebar").css("display","block");
 //       $(".radios").css("display","block");
    }else{
       $(".top").css("display","none");
-      $("#main-sidebar").css("display","none");
+//       $("#main-sidebar").css("display","none");
 //       $(".radios").css("display","none");
    } 
      
@@ -48,7 +48,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                let changeSellPrice = prevPrice.replace(ChangeWon, ",");
             
                
-            recentlyOutput += '<a href="/mall/prodDetail/main?prodId=' + this.product_id + '"><li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px;" src="' + this.product_img1 + '"/><span>' + this.product_name + '<br/>' + changeSellPrice + '</span></li></a>';
+            recentlyOutput += '<li class="recently-item"><img style=" width: 100px; height: 75px; border: solid 1px darkgray; padding: 1px; cursor: pointer;" onclick="location.href=\'/mall/prodDetail/main?prodId=' + this.product_id + '\'" src="' + this.product_img1 + '"/><span class="recentlyItemJJ" ><a href="/mall/prodDetail/main?prodId=' + this.product_id + '">' + this.product_name + '</a><br/>' + changeSellPrice + '</span></li>';
       
             });
          recentlyOutput += '</ul>';
@@ -65,7 +65,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  function goChatting() {
    if("${loginMember}" == "") {
       $("#modalText").text("로그인 후에 이용해 주세요");
-      $("#myModal").modal();
+      $("#bbsk-modal").modal();
    } else {
       location.href="../../userChatting";
    }
@@ -134,7 +134,8 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     width: 110px;
     position: fixed;
     top: 150px;
-    display: none;
+    z-index: 999999;
+/*     display: none; */
  
  }
  
@@ -201,6 +202,14 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  }
 
  
+ 
+  .recentlyItemJJ a:hover{ 
+ 	text-decoration: underline; 
+ } 
+ 
+ 
+ 
+ 
 /* *********************** 종진 수정 부분 ************************** */
  
  </style>
@@ -246,10 +255,10 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>서효원</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/user/register">회원가입</a></li>
+                        <li><a href="/board/campingreview/listcri?page=1">캡핑팁 게시판</a></li>
+                        <li><a href="/myPage/myReply">마이페이지 - 내가 작성한 댓글</a></li>
+                        <li><a href="/mall/categories">상품 리스트</a></li>
                     </ul>
                 </div>
             </div>
@@ -361,7 +370,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     </div>
     
     <!-- modal 승권 -->
-   <div id="myModal" class="modal fade" role="dialog">
+   <div id="bbsk-modal" class="modal fade" role="dialog">
       <div class="modal-dialog modal-sm">
          <!-- Modal content-->
          <div class="modal-content">

@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -18,7 +20,8 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Controller;
 
-@Controller
+import com.cambak21.service.cambakMall.ChattingService;
+
 @ServerEndpoint("/userChatting/{member_id}")
 public class UserChattingHandler {
 
@@ -85,7 +88,9 @@ public class UserChattingHandler {
 		user.member_id = member_id;
 		user.session = session;
 		sessionList.add(user);
-
+		
+		// 운영자에게 접속한것을 알리기 위해...
+		AdminChattingHandler.sendMsg(member_id, "existSession");
 	}
 
 	/**
@@ -103,15 +108,25 @@ public class UserChattingHandler {
 		
 		// 유저가 null 아니라면...
 		if (findUser != null) {
-			// 운영자 소켓서버가 있다면 ...
+			// 운영자 세션이 있다면 ...
 			if(AdminChattingHandler.getSession() != null) {
 				try {
 					// 운영자한테 메시지 전송
 					AdminChattingHandler.sendMsg(findUser.member_id, msg);
+					// 운영자 세션이 있기 때문에 1을 보냄, 읽음 안읽음 구현하기 위한 ...
+					findUser.session.getBasicRemote().sendText("existSession");
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} 
+			} else { // 운영자 세션이 null이라면 ...
+				try {
+					// 세션이 null이기 0을 보냄, 읽음 안읽음 구현하기 위한 ...
+					findUser.session.getBasicRemote().sendText("noExistSession");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
@@ -148,7 +163,7 @@ public class UserChattingHandler {
 	  */
 	@OnClose
 	public void handleClose(Session session) {
-
+		
 		User user = getUser(session);
 
 		if (user != null) {
@@ -162,5 +177,16 @@ public class UserChattingHandler {
 	public void handleError(Throwable t) {
 		t.printStackTrace();
 	}
-
+	
+	// 세션 getter
+	public static Session getSession(String member_id) {
+		Session findSession = null;
+		for (User user : sessionList) {
+			if(user.member_id.equals(member_id)) {
+				findSession = user.session;
+			}
+		}
+		return findSession;
+	}
+	
 }

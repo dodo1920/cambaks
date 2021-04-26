@@ -1,6 +1,20 @@
 package com.cambak21.service.cambakAdmin;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.persistence.cambakAdmin.AdminDAO;
+
+@Service
 public class adminServiceImpl implements adminService {
+	@Inject
+	private AdminDAO dao;
+
+	
 	// ======================================== 도연 ============================================================================
 	
 	
@@ -24,7 +38,25 @@ public class adminServiceImpl implements adminService {
 		
 //		============================================== 대기 ==============================================================================
 		
+	@Override
+	public RevenueVO getDayRevenue() throws Exception {
 		
+		return dao.getDayRevenue();
+	}
+
+
+	@Override
+	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception {
+		
+		return dao.getPerDayRevenue(dateVal);
+	}
+
+
+	@Override
+	public List<RevenueVO> selectDate(String startDate, String endDate) throws Exception {
+		
+		return dao.selectDate(startDate, endDate);
+	}
 		
 		
 		

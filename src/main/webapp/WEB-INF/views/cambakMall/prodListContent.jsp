@@ -92,8 +92,8 @@
                                     <div id="collapse6" class="collapse" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <ul>
-                                                <li><a onclick="categoryMove(6, 1);" style="cursor: pointer;">착화재</a></li>
-                                                <li><a onclick="categoryMove(6, 2);" style="cursor: pointer;">화로대</a></li>
+                                                <li><a onclick="categoryMove(6, 1);" style="cursor: pointer;">화로대</a></li>
+                                                <li><a onclick="categoryMove(6, 2);" style="cursor: pointer;">착화재</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -162,6 +162,11 @@
                             <label for="salesRank">
                                 신상품순
                                 <input type="checkbox" id="salesRank" onclick="productViewMove('datePd')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label for="rvRank">
+                                리뷰많은순
+                                <input type="checkbox" id="rvRank" onclick="productViewMove('rvRank')">
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -310,8 +315,6 @@
                     </div>
                 </div>
             </div>
-            <jsp:useBean id="referDate" class="java.util.Date" />
-			<jsp:setProperty name="referDate" property="time" value="${referDate.time - 60*60*24*1000*7}"/>
             <c:choose>
             <c:when test="${fn:length(prodList) != 0}">
             <div class="col-lg-9 col-md-9">
@@ -319,19 +322,19 @@
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
                         <c:choose>
-                        <c:when test="${item.product_totQty == 0 }">
+                        <c:when test="${item.product_info == 'soldOut' }">
                         	<div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             	<div class="label stockout stockblue">일시품절</div>
                             </div>
                         </c:when>
-                        <c:when test="${item.product_totQty != 0 && item.product_popularProduct == 'Y' }">
+                        <c:when test="${item.product_info == 'popular' }">
                         	<div class="product__item sale">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             	<div class="label">HOT</div>
                             </div>
                         </c:when>
-                        <c:when test="${item.product_date > referDate }">
+                        <c:when test="${item.product_info == 'new' }">
                         	<div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
                             <div class="label new">New</div>
@@ -345,69 +348,61 @@
                         </c:choose>
                             <div class="product__item__text">
                                 <h6 class="prodName"><a href="/mall/prodDetail/main?prodId=${item.product_id }">${item.product_name }</a></h6>
+                                	<div class="rating">
+                                		<span>
                                 <c:if test="${item.product_prodAvgScore != 0 }">
 	                                <c:if test="${item.product_prodAvgScore == 1 }">
-		                                <div class="rating">
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
-		                                </div>
 	                                </c:if>
 	                                <c:if test="${item.product_prodAvgScore == 2 }">
-		                                <div class="rating">
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
-		                                </div>
 	                                </c:if>
 	                                <c:if test="${item.product_prodAvgScore == 3 }">
-		                                <div class="rating">
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
-		                                </div>
 	                                </c:if>
 	                                <c:if test="${item.product_prodAvgScore == 4 }">
-		                                <div class="rating">
-		                                    <span>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star" style="color: #777777;"></i>
-		                                    </span>
-		                                    <c:forEach var="reviewNum" items="${reviewNum }">
-		                                    	<c:if test="${item.product_id == reviewNum.product_id }">
-		                                    		<span class="starScoreReviewNum">(${reviewNum.prouctReview_count })</span>
-		                                    	</c:if>
-		                                    </c:forEach>
-		                                </div>
 	                                </c:if>
 	                                <c:if test="${item.product_prodAvgScore == 5 }">
-		                                <div class="rating">
-		                                	<span>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
 		                                    <i class="fa fa-star"></i>
-		                                    </span>
-		                                    <span class="starScoreReviewNum">(3)</span>
-		                                </div>
 	                                </c:if>
                                 </c:if>
                                 <c:if test="${item.product_prodAvgScore == 0 }">
-		                                <div class="rating" style="margin-bottom: 0px;">
-		                                	<span class="noneReview">리뷰 없음</span>
-		                                </div>
+		                                    <i class="fa fa-star" style="color: #777777;"></i>
+		                                    <i class="fa fa-star" style="color: #777777;"></i>
+		                                    <i class="fa fa-star" style="color: #777777;"></i>
+		                                    <i class="fa fa-star" style="color: #777777;"></i>
+		                                    <i class="fa fa-star" style="color: #777777;"></i>
                                 </c:if>
+                                	</span>
+		                            <span class="starScoreReviewNum">(${item.product_reviewNum })</span>
+                                </div>
+                                <c:if test="${item.product_info != 'popular' }">
                                 <div class="product__price"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
+                                </c:if>
+                                <c:if test="${item.product_info == 'popular' }">
+                                <div class="product__price" style="color: #b1b0b0;"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
