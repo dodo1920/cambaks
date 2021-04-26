@@ -43,7 +43,7 @@ function addrSearch(currentPage) {
 		return false;
 	}
 	
-	let confmKey = "devU01TX0FVVEgyMDIxMDQxNDEyMzkxMzExMTA0OTg=";
+	let confmKey = "devU01TX0FVVEgyMDIxMDQyNzAwNTExNjExMTA5NTg=";
 	let countPerPage = 10;
 	let resultType = "json";
 	

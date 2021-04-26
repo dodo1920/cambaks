@@ -60,7 +60,7 @@ public class Register {
       return "cambakMain/user/joinAgreement";
    }
    
-   @RequestMapping(value="join", method = RequestMethod.GET)
+   @RequestMapping(value="join", method = RequestMethod.POST)
    public String join() {
       return "cambakMain/user/join";
    }

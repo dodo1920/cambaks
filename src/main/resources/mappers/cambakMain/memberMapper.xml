@@ -80,6 +80,25 @@
 	<select id="loginRequestCheck" resultType="int">
 		SELECT count(*) FROM Members where member_id = #{member_id} and member_password = md5(sha1(#{member_password}))
 	</select>
+	
+	<update id="updateMemberInfo">
+		update Members set
+		<if test="member_password != null">
+		member_password = md5(sha1(#{member_password})),
+		</if>
+		member_gender = #{member_gender},
+		member_postCode = #{member_postCode},
+		member_addr = #{member_addr},
+		<if test="member_addrDetail != null">
+		member_addrDetail = #{member_addrDetail},
+		</if>
+		<if test="member_mobile != null">
+		member_mobile = #{member_mobile},
+		</if>
+		member_img = #{member_img}
+		where member_id = #{member_id}
+	</update>
+	
 <!-- 	서효원 mapper -->
 	
   </mapper>

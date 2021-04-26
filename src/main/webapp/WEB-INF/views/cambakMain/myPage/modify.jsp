@@ -47,11 +47,35 @@ $(document).ready(function() {
 
    $("body,html").animate({scrollTop: 300}, 1);
    
+   if ('${param.result }' == "success") {
+	   alert("회원정보 수정이 완료되었습니다.");
+   } else if ('${param.result }' == "fail") {
+	   alert("회원정보 수정을 실패했습니다. 다시 시도 후 문의바랍니다.");
+   }
+   
 });
+
+function changeBasicProfilePic() {
+	$("#member_img").val("memberProfile/profileDefualt.png");
+	$("#tmpUserProfile").attr("src", "/resources/uploads/memberProfile/profileDefualt.png");
+}
+
+function changePhoneCancel() {
+	$("#modifyPhone").css("display", "none");
+	$("#phoneSecond").val("");
+	$("#phoneThird").val("");
+	$("#userPhoneNumber").css("display", "");
+}
+
+function changePhoneBtn() {
+	$("#userPhoneNumber").css("display", "none");
+	$("#modifyPhone").css("display", "");
+}
 
 function getSelectAddress(sendAddress) {
 	$("#getZipCode").val(sendAddress[1]);
 	$("#getAddress").val(sendAddress[0]);
+	$("#detailAddress").val("");
 	closeAddrBar();
 }
 
@@ -139,129 +163,54 @@ function profileSave() {
 }
 
 
-	function checkAllContent() {
-		let result = true;
-		
-		// 아이디 체크
-		let userId = $("#userId").val();
-		
-		if (userId.length == 0) {
-			alert("아이디를 입력해주세요.");
-			result = false;
-			return;
-		} else if (!idJ.test(userId)) {
-			alert("입력하신 아이디는 사용할 수 없습니다.");
-			result = false;
-			return;
-		}
-		
-		// 아이디 중복 확인
-    let userIdChk = true;
-		$.ajax({
-		   method: "POST",
-		   url: "/user/register/checkId",
-		   dataType: "text",
-		   async: false,
-		   data : {member_id : userId},
-		   success : function(data) {
-				 if(data == "fail") {
-				  alert("입력하신 아이디는 사용할 수 없습니다.");
-				  userIdChk = false;
-			  }
-		   }
-		 }); 
-		
-		if (!userIdChk) return false;
-		
-		
-		// 비밀번호 체크
+function checkAllContent() {
+	let result = true;
+	
+	// 비밀번호 체크
     let userPwd = $("#member_password").val(); // 비밀번호
     let userPwdChk = $("#reCheckPwd").val(); // 비밀번호 확인
-		
-    if (userPwd.length == 0) {
-    	alert("비밀번호를 입력해주세요.");
-   		result = false;
-   		return;
-    } else if (userPwdChk == 0) {
-    	alert("비밀번호 확인을 입력해주세요.");
-   		result = false;
-   		return;
-    }  else if (userPwd != userPwdChk) {
-    	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
-   		result = false;
-   		return;
-    } else if (userPwd.length < 8 || userPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
-    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
-   		result = false;
-   		return;
-    } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
-    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
-   		result = false;
-   		return;
-    } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
-    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
-   		result = false;
-   		return;
-    } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
-    	alert("입력하신 비밀번호는 사용할 수 없습니다.");
-   	    result = false;
-   		return;
+	
+    if (userPwd.length != 0 && userPwdChk != 0) {
+    	if (userPwd != userPwdChk) {
+        	alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요.");
+       		result = false;
+       		return;
+        } else if (userPwd.length < 8 || userPwd.length > 16) { // 비밀번호 길이가 유효하지 않을 경우
+        	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+       		result = false;
+       		return;
+        } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
+        	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+       		result = false;
+       		return;
+        } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
+        	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+       		result = false;
+       		return;
+        } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
+        	alert("입력하신 비밀번호는 사용할 수 없습니다.");
+       	    result = false;
+       		return;
+        }
     }
-
-		
-    
- 	// 이름 체크
- 	let userName = $("#member_name").val();
  	
- 	if (userName.length == 0) {
-		alert("이름을 입력해주세요.");
-   		result = false;
-   		return;
-	} else if (!nameJ.test(userName)) {
-    	alert("이름을 확인바랍니다.(한글만 작성 가능)");
-   		result = false;
-   		return;
-	} else if (userName.length < 1 && userName.length > 18) { // 이름이 2~17과 다를 경우
-		alert("입력하신 이름은 사용할 수 없습니다.");
-   		result = false;
-   		return;
-	}
-    
- 	// 생년월일 체크 및 submit 가능하도록 input 태그에 값 넣기
-    let userBirthYear = $("#userBirthYear").val();
-    let userBirthMonth = $("#userBirthMonth").val();
-    let userBirthDate = $("#userBirthDate").val();
-    
-    if (userBirthYear.length == 0 || userBirthYear < 1920 || userBirthYear > 2021 || userBirthDate.length == 0 || userBirthDate < 1 
-    		|| userBirthDate > 31 || !numberJ.test(userBirthYear) || !numberJ.test(userBirthDate) || userBirthMonth == "empty") {
-		alert("생년월일을 확인해주세요.");
-   		result = false;
-   		return;
-    }
-    
-    if (userBirthDate.length == 1) {
-    	userBirthDate = "0" + userBirthDate;
-    }
-    
-    // submit 실행 시 생년월일이 전달될 수 있도록 value에 넣기
-    let birthday = new Date(userBirthYear, userBirthMonth-1, userBirthDate);
-    $("#member_birth").val(birthday);
-    
-    
  	// 휴대전화 번호 체크 및 submit 가능하도록 input 태그에 값 넣기
     let phoneFirst = $("#phoneFirst").val();
     let phoneSecond = $("#phoneSecond").val();
     let phoneThird = $("#phoneThird").val();
     
-    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
-		alert("휴대전화 번호를 확인해주세요.");
-   		result = false;
-   		return;
+    if (phoneSecond.length != 0 && phoneThird.length != 0) {
+    	
+    	if (phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
+    		alert("휴대전화 번호를 확인해주세요.");
+       		result = false;
+       		return;
+        }
+        
+        // submit 실행 시 휴대폰 번호가 전달될 수 있도록 value에 넣기
+        $("#member_mobile").val(phoneFirst + "-" + phoneSecond + "-" + phoneThird);
+        
     }
-    
-    // submit 실행 시 휴대폰 번호가 전달될 수 있도록 value에 넣기
-    $("#member_mobile").val(phoneFirst + "-" + phoneSecond + "-" + phoneThird);
-    
     
  	// 주소 체크 및 submit 가능하도록 input 태그에 값 넣기
     let address = $("#getAddress").val();
@@ -274,6 +223,9 @@ function profileSave() {
 
     // 유효성 검사 완료 시 submit
 		if (result) {
+			if (userPwd.length == 0) $("#member_password").attr("name", "");
+			if (phoneSecond.length == 0 && phoneThird.length == 0) $("#member_mobile").attr("name", "");
+			
 			$("#saveNewMember").submit();
 		}
 }
@@ -288,28 +240,6 @@ function onlyNumberChk(obj) { // 숫자 입력 창 유효성 검사
 	    $("#" + inputId).val($("#" + inputId).val().replace(koreanJ,""));
 	    $("#" + inputId).val($("#" + inputId).val().replace(specialJ,""));
     }
-	
-}
-
-
-function checkUserName() {
-	let userName = $("#member_name").val();
-	
-	if (!nameJ.test(userName)) {
-	    $("#userNameBar").css("display", "inline-block");
-	    $("#userNameCheck").attr("class", "changeTextBarMsg");
-	    $("#userNameCheck").text("이름은 한글만 작성 가능합니다.");
-	} else if (userName.length < 1 && userName.length > 18) { // 이름이 2~17과 다를 경우
-	    $("#userNameBar").css("display", "inline-block");
-	    $("#userNameCheck").attr("class", "changeTextBarMsg");
-	    $("#userNameCheck").text("이름을 정확히 작성바랍니다.");
-	} else if (nameJ.test(userName)) {
-		$("#userNameBar").css("display", "none");
-	} 
-	
-	if (userName.length == 0) {
-		$("#userNameBar").css("display", "none");
-	}
 	
 }
 
@@ -330,7 +260,7 @@ function reconfirmUserPwd() {
     } else if (userPwdChk.length == 0) {
     	$("#pwdChkBar2").css("display", "none");
     }
-	console.log("비밀번호 확인 실행");
+	
 }
 
 function checkUserPwdSize() {
@@ -385,66 +315,9 @@ function checkUserPwdSize() {
 	   $("#pwdChkContent").attr("class", "serviceable");
    	   $("#pwdChkContent").text("사용 가능한 비밀번호입니다.");
    }
-   console.log("비밀번호 실행");
+   
 }
 
-function userIdCheck() {
-	   let userId = $("#userId").val();
-	   
-	   if (userId.length >= 4 && userId.length <= 20 && blankJ.test(userId) == false) { // 작성한 아이디 길이 체크
-		   
-		   if (idJ.test(userId)) { // 작성한 아이디 정규식 체크
-			   
-			   $.ajax({
-					  method: "POST",
-					  url: "/user/register/checkId",
-					  dataType: "text",
-					  data : {member_id : userId},
-					  success : function(data) {
-						 
-						 if (data == "success") {
-							 $("#idChkBar").css("display", "inline-block");
-							 $("#idChkResult").attr("class", "serviceable");
-							 $("#idChkResult").text("사용 가능한 아이디입니다.");
-						 } else if(data == "fail") {
-							 $("#idChkBar").css("display", "inline-block");
-							 $("#idChkResult").attr("class", "changeTextBarMsg");
-							 $("#idChkResult").text("이미 등록된 아이디입니다. 다른 아이디를 입력해 주세요.");
-							 $("#userId").focus();
-						 }
-						 
-					  }, error : function(data) {
-						  
-			          }
-					  
-					}); 
-			   
-		   } else {
-			   $("#idChkBar").css("display", "inline-block");
-			   $("#idChkResult").attr("class", "changeTextBarMsg");
-			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-			   $("#userId").focus();
-		   } // 아이디 정규식 체크
-		   
-	   } else if (blankJ.test(userId) == true) { // 작성한 아이디에 공백이 포함되었을 경우
-		   $("#idChkBar").css("display", "inline-block");
-		   $("#idChkResult").attr("class", "changeTextBarMsg");
-		   $("#idChkResult").text("아이디는 공백없이 작성바랍니다.");
-		   $("#userId").focus();
-	   } else if (userId.length < 4) { // 작성한 아이디의 길이가 4자 이하일 때
-		   $("#idChkBar").css("display", "inline-block");
-		   $("#idChkResult").attr("class", "changeTextBarMsg");
-		   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-		   $("#userId").focus();
-	   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
-		   $("#idChkBar").css("display", "inline-block");
-		   $("#idChkResult").attr("class", "changeTextBarMsg");
-		   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-		   $("#userId").focus();
-	   } // 아이디 길이 체크
-	   
-   }
-   
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&display=swap');
@@ -481,55 +354,12 @@ function userIdCheck() {
 	padding-bottom: 10px;
 }
 
-.registerTitleBody {
-	display: inline-block;
-	font-size: 18px;
-	float: left;
-	padding-bottom: 5px;
-}
-
-.registerEtc {
-	float: right;
-	padding-bottom: 5px;
-	font-size: 12px;
-	color: #ea2940;
-	font-weight: bold;
-}
-
-.registerTable {
-	width: 900px;
-	border-top: 1px solid;
-}
-
-.textBarInfo {
-	font-size: 12px;
-	font-weight: bold;
-    margin-left: 5px;
-}
-
 .genderSideMan {
 	margin-right: 20px;
 	margin-left: 5px;
 }
 
 .genderSideWoman {
-	margin-left: 5px;
-}
-
-.birthYear {
-	width: 88px;
-	margin-right: 5px;
-}
-
-.birthMonth {
-	height: 31px;
-	width: 82px;
-	margin-right: 5px;
-	margin-left: 5px;
-}
-
-.birthDate {
-	width: 88px;
 	margin-left: 5px;
 }
 
@@ -615,10 +445,32 @@ function userIdCheck() {
 	margin-top: 8px;
     vertical-align: middle;
     background-color: #353535;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     display: inline-block;
     font-weight: bold;
+    border: 0;
+}
+
+.basicProfileBtn {
+	margin-top: 8px;
+    vertical-align: middle;
+    background-color: #efefef;
+    font-size: 12px;
+    color: #3e3d3c;
+    display: inline-block;
+    font-weight: bold;
+    border: 0;
+}
+
+.changePhoneNumBtn {
+	margin-top: 8px;
+    background-color: #efefef;
+    font-size: 12px;
+    color: #3e3d3c;
+    display: inline-block;
+    font-weight: bold;
+    border: 0;
 }
 
 .addressBar {
@@ -664,7 +516,7 @@ function userIdCheck() {
 						<div class="registerTitle">
 							<h2 class="registerTitleHead">회원 정보 수정</h2>
 						</div>
-					<form id="saveNewMember" action="joinComplete" method="post">
+					<form id="saveNewMember" action="modify" method="post">
 						<table class="registerTable">
 							<tr>
 								<th class="tableTitleSize">아이디</th>
@@ -705,8 +557,16 @@ function userIdCheck() {
 								<th class="tableTitleSize">성별</th>
 								<td class="tableContentSize">
 									<div>
-									<input type="radio" name="member_gender" value="남" checked/><span class="genderSideMan">남</span>
-									<input type="radio" name="member_gender" value="여" /><span class="genderSideWoman">여</span>
+									<c:choose>
+										<c:when test="${loginMember.member_gender == '남'}">
+										<input type="radio" name="member_gender" value="남" checked/><span class="genderSideMan">남</span>
+										<input type="radio" name="member_gender" value="여" /><span class="genderSideWoman">여</span>
+										</c:when>
+										<c:when test="${loginMember.member_gender == '여'}">
+										<input type="radio" name="member_gender" value="남" /><span class="genderSideMan">남</span>
+										<input type="radio" name="member_gender" value="여" checked/><span class="genderSideWoman">여</span>
+										</c:when>
+									</c:choose>
 									</div>
 								</td>
 							</tr>
@@ -743,10 +603,11 @@ function userIdCheck() {
 										<span>
 											<input type="text" maxlength="4" id="phoneThird" class="phoneThird" onkeyup="onlyNumberChk(this)" autocomplete="off"/>
 										</span>
+										<button type="button" class="changePhoneNumBtn" onclick="changePhoneCancel();">취소</button>
 									</div>
 									<div id="userPhoneNumber">
 										${loginMember.member_mobile }
-										<button type="button" id="clickFileSelector" class="uploadBtn">변경</button>
+										<button type="button" class="changePhoneNumBtn" onclick="changePhoneBtn();">변경</button>
 									</div>
 								</td>
 							</tr>
@@ -759,7 +620,7 @@ function userIdCheck() {
 									<input type="text" class="resultPost" id="getAddress" value="${loginMember.member_addr }" name="member_addr" size="55" readonly autocomplete="off">
 									<span class="textBarInfo">기본주소</span>
 									<br>
-									<input type="text" id="sample6_detailAddress" name="member_addrDetail" value="${loginMember.member_addrDetail }" size="55" style="font-size: 13px;" autocomplete="off">
+									<input type="text" id="detailAddress" name="member_addrDetail" value="${loginMember.member_addrDetail }" size="55" style="font-size: 13px;" autocomplete="off">
 									<span class="textBarInfo">나머지주소 (선택입력가능)</span>
 									<div id="searchAddrBar" class="addressBar"></div>
 								</td>
@@ -767,14 +628,14 @@ function userIdCheck() {
 							<tr>
 								<th class="tableTitleSize">프로필사진</th>
 								<td class="tableContentSize">
-									<input type="hidden" name="member_img" id="member_img" value="memberProfile/profileDefualt.png"/>
+									<input type="hidden" name="member_img" id="member_img" value="${loginMember.member_img }"/>
 									<input type="file" id="profile" accept="image/jpeg, image/png, image/jpg" onchange="saveUserProFile();" style="display : none;">
 									<div>
-									<img src="/resources/uploads/memberProfile/profileDefualt.png" id="tmpUserProfile" class="tmpProfile" />
+									<img src="/resources/uploads/${loginMember.member_img }" id="tmpUserProfile" class="tmpProfile" />
 									</div>
 									<div>
 									<button type="button" id="clickFileSelector" class="uploadBtn">업로드</button>
-									<button type="button" id="clickFileSelector" class="uploadBtn">기본사진으로변경</button>
+									<button type="button" id="changeBasicProfile" class="basicProfileBtn" onclick="changeBasicProfilePic();">기본사진으로 변경</button>
 									</div>
 									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
