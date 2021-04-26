@@ -31,7 +31,7 @@
 	<!--Custom JavaScript -->
 	<script src="../resources/adminDist/js/custom.min.js"></script>
 	<!--This page JavaScript -->
-	<script src="dist/js/pages/dashboards/dashboard1.js"></script>
+	<script src="../dist/js/pages/dashboards/dashboard1.js"></script>
 	<!-- Charts js Files -->
 	<script src="../resources/adminAssets/libs/flot/excanvas.js"></script>
 	<script src="../resources/adminAssets/libs/flot/jquery.flot.js"></script>
