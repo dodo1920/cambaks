@@ -485,13 +485,13 @@ li {
                 <tr>
                     <th class="cell_title">주소 <em class="mark_necessity"><span class="blind"></span></em></th>
                     <td>
-                                <span class="_input basic_input" style="width: 64px">
+                                <span class="_input basic_input" style="width: 64px; background-color: gainsboro;">
 								<label for="zipCode" class="lb_text blind"></label>
 								<input type="text" readonly name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
 							</span>
                         <a onclick="sample3_execDaumPostcode();" style="cursor:pointer;" class="_search setting_btn green">주소검색</a>
                         <p class="address_detail">
-                                    <span class="_input basic_input" style="width: 338px">
+                                    <span class="_input basic_input" style="width: 338px; background-color: gainsboro;">
 									<label for="baseAddress" class="lb_text blind"></label>
 									<input type="text" name="destination_address" readonly id="sample3_address" class="ip_text" value="">
 									<input type="hidden" id="roadNameAddressYn" value="">

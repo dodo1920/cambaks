@@ -11,7 +11,7 @@ public class DestinationVO {
 	private Date destination_updateDate;
 	private String destination_toUser;
 	private String destination_mobile;
-	private int destination_zipCode;
+	private String destination_zipCode;
 	private String destination_isDelete;
 	private int default_address;
 	public int getDestination_no() {
@@ -62,10 +62,10 @@ public class DestinationVO {
 	public void setDestination_mobile(String destination_mobile) {
 		this.destination_mobile = destination_mobile;
 	}
-	public int getDestination_zipCode() {
+	public String getDestination_zipCode() {
 		return destination_zipCode;
 	}
-	public void setDestination_zipCode(int destination_zipCode) {
+	public void setDestination_zipCode(String destination_zipCode) {
 		this.destination_zipCode = destination_zipCode;
 	}
 	public String getDestination_isDelete() {
@@ -89,9 +89,6 @@ public class DestinationVO {
 				+ destination_mobile + ", destination_zipCode=" + destination_zipCode + ", destination_isDelete="
 				+ destination_isDelete + ", default_address=" + default_address + "]";
 	}
-	
-	
-	
 	
 	
 }
