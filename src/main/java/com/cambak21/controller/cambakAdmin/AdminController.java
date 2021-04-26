@@ -84,7 +84,13 @@ public class AdminController {
 
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+	@RequestMapping(value = "/prodList", method = RequestMethod.GET)
+	public String productList() {
+		logger.info("productList호출");
+		
+		return "/admin/productList";
+	}
+	
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/prodRegister")
