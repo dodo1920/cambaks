@@ -119,9 +119,9 @@
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
 
-		if(msg == "existSession"){ // 운영자 세션이 존재한다면...
+		if (msg == "existSession") { // 운영자 세션이 존재한다면...
 			$(".isRead").text("읽음");
-			
+
 			// 유저가 접속중일때 isRead 읽음으로 업데이트
 			$.ajax({
 				type : "post",
@@ -138,10 +138,11 @@
 			// 유저 메시지 출력
 			let output = '<div class="msgOutput admin-msg-wrap">';
 			output += '<span class="admin-msg">' + msg + '</span>';
-			output += '<span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span></div>';
+			output += '<span class="msg-date">' + new Date().getHours() + ":"
+					+ new Date().getMinutes() + '</span></div>';
 			$(".chatting-content").append(output);
 		}
-		
+
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
@@ -171,14 +172,14 @@
 }
 
 .chatting-container {
-	width: 600px;
-	margin-left: 50px;
+	width: 100%;
+	padding: 20px 50px 100px 50px;
 }
 
 .chatting-content {
 	overflow: auto;
 	max-height: 770px;
-	background-color: #9bbbd4;
+	background-color: white;
 	min-height: 770px;
 }
 /* 메시지 하나하나 감싸는 부분 */
@@ -187,18 +188,19 @@
 }
 /* 어드민 메시지 */
 span.admin-msg {
-	background-color: white;
+	background-color: #f8f9fa;
 	border-radius: 5px;
 	padding: 5px;
 	margin-left: 10px;
 }
 /* 유저 메시지 */
 span.user-msg {
-	background-color: #fef01b;
+	background-color: #27a9e3;
 	border-radius: 5px;
 	padding: 5px;
 	margin-right: 10px;
 	max-width: 400px;
+	color: white;
 }
 /* 메시지 하나하나 감싸는 부분에서 유저만 */
 .user-msg-wrap {
@@ -230,6 +232,11 @@ span.isRead {
 	font-size: 15px;
 	padding: 8px 0;
 }
+
+/* 유저 프로필 사진 출력 */
+.userProfile {
+    padding-left: 10px;
+}
 </style>
 <body>
 	<div class="preloader">
@@ -248,7 +255,7 @@ span.isRead {
 			<div class="page-breadcrumb">
 				<div class="row">
 					<div class="col-12 d-flex no-block align-items-center">
-						<h4 class="page-title">Dashboard</h4>
+						<h4 class="page-title">실시간 채팅 문의</h4>
 						<div class="ml-auto text-right">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb">
@@ -289,23 +296,31 @@ span.isRead {
 
 							<!-- 유저 보낸 메시지 -->
 							<c:if test="${item.member_id != 'admin' }">
-								<div class="msgOutput admin-msg-wrap">
-									<span class="admin-msg">${item.chatting_content }</span><span
-										class="msg-date"><fmt:formatDate
-											value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
-								</div>
+								<c:if test="${item.member_img == 'memberProfile/profileDefualt.png' }">
+									<div class="userProfile"><img alt="" src="../resources/uploads/memberProfile/profileDefualt.png" style="width: 35px"></div>
+								</c:if>
+								<c:if test="${item.member_img != 'memberProfile/profileDefualt.png' }">
+									<div class="userProfile"><img alt="" src="../resources/uploads/${item.member_img }" style="width: 35px"></div>
+								</c:if>
+								
+									<div class="msgOutput admin-msg-wrap">
+										<span class="admin-msg">${item.chatting_content }</span><span
+											class="msg-date"><fmt:formatDate
+												value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
+									</div>
 							</c:if>
 						</c:forEach>
 
 					</div>
 					<div class="msgText-wrap">
-						<input class="textInput" id="msg" type="text" style="width: 85%"
+						<input class="textInput" id="msg" type="text" style="width: 100%"
 							placeholder="메시지를 입력해 주세요">
 						<button type="button" id="btnSend" class="btn btn-primary"
 							onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
 					</div>
 				</div>
 			</div>
+
 			<script type="text/javascript">
 				//스크롤 자동으로 맨밑
 				let textBox = $(".chatting-content");
@@ -313,22 +328,16 @@ span.isRead {
 			</script>
 		</div>
 
-		<!-- 			<div class="container-fluid"> -->
-		<!-- 				<div class="msg-wrap"> -->
-		<!-- 					<div class="template"> -->
-		<!-- 						<input type="text" class="chatting-content"> <input -->
-		<!-- 							type="button" id="btnSend" value="전송하기" onclick="socketMsgSend()"> -->
 
-		<%-- 						<c:forEach var="item" items="${chatting }"> --%>
-		<%-- 							<div class="msgOutput">${item.chatting_content }</div> --%>
-		<%-- 						</c:forEach> --%>
-		<!-- 					</div> -->
-		<!-- 				</div> -->
-		<!-- 			</div> -->
 		<!-- 본문 작성 끝  -->
 		<%@ include file="adminFooter.jsp"%>
 		<%@ include file="adminJs.jsp"%>
+
+
+
+
 	</div>
+
 
 </body>
 </html>
