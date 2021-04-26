@@ -73,10 +73,10 @@ public class AdminController {
 
 	
 	
-	@RequestMapping(value = "/board_admin_option", method = RequestMethod.GET)
+	@RequestMapping(value = "/board_admin", method = RequestMethod.GET)
 	public String board_admin_option() throws Exception{
 		
-		return "/admin/board_admin_option";
+		return "/admin/board_admin";
 	}
 	
 	
