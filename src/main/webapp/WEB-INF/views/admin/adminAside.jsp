@@ -65,11 +65,11 @@
 							<li class="sidebar-item"><a href="form-wizard.html"
 								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
 									class="hide-menu"> 상품문의관리 </span></a></li>
-					<li class="sidebar-item"><a
+						</ul></li>
+				<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="charts.html" aria-expanded="false"><i
 							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출분석</span></a></li>
-						</ul></li>
 				</ul>
 			</nav>
 			<!-- 사이드바 카테고리 끝 -->
