@@ -9,7 +9,9 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -160,7 +162,20 @@ public class AdminDAOImpl implements AdminDAO {
 		
 //		============================================== 효원 ==============================================================================
 		
-		
+	@Override
+	public List<AdminOrderListVO> readOrderList(PagingCriteria cri) throws Exception {
+		return ses.selectList(ns + ".readOrderList", cri);
+	}
+
+	@Override
+	public int readOrderListNum() throws Exception {
+		return ses.selectOne(ns + ".readOrderListNum");
+	}
+
+	@Override
+	public int orderProductNum(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".orderProductNum", payment_no);
+	}
 		
 		
 		

@@ -15,50 +15,65 @@
 	<!-- /Tweet -->
 
 	<!-- Footer -->
-	<footer class="text-center" id="foot">
-		<div id="contact" class="container">
-			<h3 class="text-center">Contact</h3>
-			<p class="text-center">
-				<em>We love our fans!</em>
-			</p>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Feel free to contact us:)</p>
-					<p>
-						<span class="glyphicon glyphicon-map-marker"></span>서울, 대한민국
-					</p>
-					<p>
-						<span class="glyphicon glyphicon-phone"></span>Phone: +00
-						1515151515
-					</p>
-					<p>
-						<span class="glyphicon glyphicon-envelope"></span>Email:
-						mail@mail.com
-					</p>
-					<p>
-						<span class="glyphicon glyphicon-envelope"></span>SNS
-					</p>
+	<footer class="text-center" id="footerSide">
+		<div id="contact" class="container" style="margin-top: 10px; height: 321px; padding: 0% 120px; width: 1170px;">
+			<h3 class="text-center" id="footerTitle">Cambark's Info</h3>
+			<div class="row" class="footerBottom">
+				<div class="col-md-2" id="footerSubheading">
+					<p>계절별 캠핑장</p>
 				</div>
-				<div class="col-md-8">
-					<div class="row">
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="name" name="name"
-								placeholder="Name" type="text" required>
-						</div>
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="email" name="email"
-								placeholder="Email" type="email" required>
-						</div>
-					</div>
-					<textarea class="form-control" id="comments" name="comments"
-						placeholder="Comment" rows="5"></textarea>
-					<br>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<button class="btn pull-right" type="submit">Send</button>
-						</div>
-					</div>
+				<div class="col-md-2" id="footerSubheading">
+					<p>캠박게시판</p>
+				</div>
+				<div class="col-md-2" id="footerSubheading">
+					<p>캠박몰</p>
+				</div>
+				<div class="col-md-2" id="footerSubheading">
+					<p>고객센터</p>
+				</div>
+				<div class="col-md-2" id="footerSubheading">
+					<p>캠박이일 제작 1팀</p>
+				</div>
+				<div class="col-md-2" id="footerSubheading">
+					<p>캠박이일 제작 2팀</p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p><a href="/index/result?keyword=봄">봄</a></p>
+					<p><a href="/index/result?keyword=여름">여름</a></p>
+					<p><a href="/index/result?keyword=가을">가을</a></p>
+					<p><a href="/index/result?keyword=겨울">겨울</a></p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
+					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
+					<p><a href="/board/resell/list?page=1">캠박마켓 게시판</a></p>
+					<p><a href="/board/qa/list.bo?7page=1">Q&amp;A 게시판</a></p>
+					<p><a href="/cambakMain/board/humor/listAll?page=1" style="color: #000;">유머 게시판</a></p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p><a href="/mall/main">메인페이지</a></p>
+					<p><a href="/mall/categories">전체상품</a></p>
+					<p><a>이용약관</a></p>
+					<p><a>개인정보 처리방침</a></p>
+					<p><a>제휴마케팅</a></p>
+					<p><a>광고안내</a></p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p><a href="/board/notice/listCri?page=1">공지사항</a></p>
+					<p><a href="/board/cs/list?page=1">고객문의</a></p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p>김대기</p>
+					<p>장원영</p>
+					<p>이영광</p>
+					<p>김도연</p>
+					<p>김태훈</p>
+				</div>
+				<div class="col-md-2" id="footerContent">
+					<p>박종진</p>
+					<p>김정민</p>
+					<p>서효원</p>
+					<p>백승권</p>
 				</div>
 			</div>
 			<!-- 위로 가기 버튼-->
