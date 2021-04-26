@@ -104,6 +104,30 @@ public class AdminDAOImpl implements AdminDAO {
 		// TODO Auto-generated method stub
 		return ses.selectOne(ns + ".prevMonthRefund");
 	}
+
+	@Override
+	public RevRefundVO thisWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".thisWeekRevenue");
+	}
+
+	@Override
+	public RevRefundVO prevWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevWeekRevenue");
+	}
+
+	@Override
+	public RevRefundVO thisWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".thisWeekRefund");
+	}
+
+	@Override
+	public RevRefundVO prevWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevWeekRefund");
+	}
 		
 		
 		

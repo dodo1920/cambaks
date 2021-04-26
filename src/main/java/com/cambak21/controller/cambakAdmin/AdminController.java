@@ -89,7 +89,13 @@ public class AdminController {
 		
 	}
 	@RequestMapping(value = "/revenueWeekly", method = RequestMethod.GET)
-	public String revenueWeekly() throws Exception{
+	public String revenueWeekly(Model model) throws Exception{
+		
+		model.addAttribute("thisWeekRevenue", service.thisWeekRevenue());
+		
+		model.addAttribute("prevWeekRevenue", service.prevWeekRevenue());
+		model.addAttribute("thisWeekRefund", service.thisWeekRefund());
+		model.addAttribute("prevWeekRefund", service.prevWeekRefund());
 		
 		return "/admin/revenueWeekly";
 	}
@@ -112,7 +118,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/revenueMonthly", method = RequestMethod.GET)
 	public String revenueMonthly(Model model) throws Exception{
+		
+		
 		model.addAttribute("thisMonthRevenue", service.thisMonthRevenue());
+		
 		model.addAttribute("prevMonthRevenue", service.prevMonthRevenue());
 		model.addAttribute("thisMonthRefund", service.thisMonthRefund());
 		model.addAttribute("prevMonthRefund", service.prevMonthRefund());

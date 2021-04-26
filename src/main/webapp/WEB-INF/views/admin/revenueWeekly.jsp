@@ -32,6 +32,53 @@
 <script type="text/javascript">
 	google.charts.load("current", {packages:['corechart']});
 	
+	function calcIncrease() {
+		let thisMonthRevenue = $("#thisMonthRevenue").text();
+		let prevMonthRevenue = $("#prevMonthRevenue").text();
+		let thisMonthRefund = $("#thisMonthRefund").text();
+		let prevMonthRefund = $("#prevMonthRefund").text();
+		let calcThisMonth = thisMonthRevenue - thisMonthRefund;
+		let calcPrevMonth = prevMonthRevenue - prevMonthRefund;
+		$("#calcThisMonth").text(calcThisMonth);
+		$("#calcPrevMonth").text(calcPrevMonth);
+		let revenuePercent = Math.round((thisMonthRevenue - prevMonthRevenue) / prevMonthRevenue * 100);
+		let refundPercent =  Math.round((thisMonthRefund - prevMonthRefund) /prevMonthRefund * 100);
+		let pureRevPercent =  Math.round((calcThisMonth - calcPrevMonth) / calcPrevMonth * 100);
+		console.log(100 / 0);
+		
+		if(isNaN(revenuePercent)){
+			$("#revenuePercent").html("<span>0</span><span>%</span>");
+			
+		}else if(revenuePercent > 0){
+			$("#revenuePercent").html("<span style='color:red'>"+ revenuePercent  +"</span><span style='color:red'>%</span>");
+		}else if(revenuePercent < 0){
+			$("#revenuePercent").html("<span style='color:blue'>-"+ revenuePercent  +"</span><span style='color:blue'>%</span>");
+		}else if(isFinite(revenuePercent)){
+			$("#revenuePercent").html("<span style='color:red'>Infinity</span><span style='color:red'>%</span>");
+		}
+		
+		if(isNaN(refundPercent)){
+			$("#refundPercent").html("<span>0</span><span>%</span>");
+		}else if(revenuePercent > 0){
+			$("#revenuePercent").html("<span style='color:red'>"+ refundPercent  +"</span><span style='color:red'>%</span>");
+		}else if(revenuePercent < 0){
+			$("#revenuePercent").html("<span style='color:blue'>-"+ refundPercent  +"</span><span style='color:blue'>%</span>");
+		}else if(isFinite(refundPercent)){
+			$("#revenuePercent").html("<span style='color:red'>Infinity</span><span style='color:red'>%</span>");
+		}
+		
+		if(isNaN(pureRevPercent)){
+			$("#pureRevPercent").html("<span>0</span><span>%</span>");
+		}else if(pureRevPercent > 0){
+			$("#pureRevPercent").html("<span style='color:red'>"+ pureRevPercent  +"</span><span style='color:red'>%</span>");
+		}else if(pureRevPercent < 0){
+			$("#pureRevPercent").html("<span style='color:blue'>-"+ pureRevPercent  +"</span><span style='color:blue'>%</span>");
+		}else if(isFinite(pureRevPercent)){
+			$("#pureRevPercent").html("<span style='color:red'>Infinity</span><span style='color:red'>%</span>");
+		}
+		
+	}
+	
 	function revenueWeeklys(){
 		revenueWeekly = $("#revenueWeekly").val()
 		
@@ -99,6 +146,10 @@ function drawChart(result) {
       var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
       chart.draw(view, options);
   }
+  
+$(function(){
+	calcIncrease();
+});
 </script>
 
 </head>
@@ -227,7 +278,7 @@ function drawChart(result) {
 <div style="margin-bottom: 120px"></div>
 <div style="margin-top: 20px">
 	<h2>증감 추이</h2>
-	<div>
+	<div style="border: 1px;">
 		<table class="table table-bordered" style="text-align: center;">
 			<thead>
 				<tr>
@@ -240,18 +291,46 @@ function drawChart(result) {
 			<tbody style="background-color: white;">
 				<tr>
 					<td>금월</td>
-					<td>0</td>
-					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
-					<td>0</td>
-					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
-					<td>0</td>
-					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
+					<td id="thisMonthRevenue"><c:choose>
+						<c:when test="${thisWeekRevenue == null }">
+							0
+						</c:when>
+						<c:when test="${thisWeekRevenue }">
+							${thisWeekRevenue.buyProduct_totPrice }
+						</c:when>
+					</c:choose> </td>
+					<td rowspan="2" style="vertical-align: middle;" id="revenuePercent"></td>
+					<td id="thisMonthRefund"><c:choose>
+						<c:when test="${thisWeekRefund == null }">
+							0
+						</c:when>
+						<c:when test="${thisWeekRefund }">
+							${thisWeekRefund.buyProduct_totPrice }
+						</c:when>
+					</c:choose></td>
+					<td rowspan="2" style="vertical-align: middle;" id="refundPercent"></td>
+					<td id="calcThisMonth"></td>
+					<td rowspan="2" style="vertical-align: middle;" id="pureRevPercent"></td>
 		</tr>
 		<tr>
 			<td>전월</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td id="prevMonthRevenue"><c:choose>
+						<c:when test="${prevWeekRevenue == null }">
+							0
+						</c:when>
+						<c:when test="${prevWeekRevenue }">
+							${prevWeekRevenue.buyProduct_totPrice }
+						</c:when>
+					</c:choose></td>
+			<td id="prevMonthRefund"><c:choose>
+						<c:when test="${prevWeekRefund == null }">
+							0
+						</c:when>
+						<c:when test="${prevWeekRefund }">
+							${prevWeekRefund.buyProduct_totPrice }
+						</c:when>
+					</c:choose></td>
+			<td id="calcPrevMonth"></td>
 		</tr>
 			</tbody>
 		</table>

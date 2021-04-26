@@ -51,6 +51,14 @@ public interface adminService {
 
 	public RevRefundVO prevMonthRefund() throws Exception;
 
+	public RevRefundVO thisWeekRevenue() throws Exception;
+
+	public RevRefundVO prevWeekRevenue() throws Exception;
+
+	public RevRefundVO thisWeekRefund() throws Exception;
+
+	public RevRefundVO prevWeekRefund() throws Exception;
+
 
 		
 		

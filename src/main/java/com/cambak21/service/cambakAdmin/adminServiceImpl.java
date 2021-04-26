@@ -105,6 +105,34 @@ public class adminServiceImpl implements adminService {
 		// TODO Auto-generated method stub
 		return dao.prevMonthRefund();
 	}
+
+
+	@Override
+	public RevRefundVO thisWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.thisWeekRevenue();
+	}
+
+
+	@Override
+	public RevRefundVO prevWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.prevWeekRevenue();
+	}
+
+
+	@Override
+	public RevRefundVO thisWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.thisWeekRefund();
+	}
+
+
+	@Override
+	public RevRefundVO prevWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return dao.prevWeekRefund();
+	}
 		
 		
 		
