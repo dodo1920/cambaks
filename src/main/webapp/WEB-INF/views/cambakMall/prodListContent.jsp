@@ -398,10 +398,10 @@
 		                            <span class="starScoreReviewNum">(${item.product_reviewNum })</span>
                                 </div>
                                 <c:if test="${item.product_info != 'popular' }">
-                                <div class="product__price"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
+                                <div class="product__price" style="color: #333;"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span style="color: #333;">원</span></div>
                                 </c:if>
                                 <c:if test="${item.product_info == 'popular' }">
-                                <div class="product__price" style="color: #b1b0b0;"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span>원</span></div>
+                                <div class="product__price" style="color: #333;"><fmt:formatNumber value="${item.product_sellPrice }" pattern="#,###" /><span style="color: #333;">원</span></div>
                                 </c:if>
                             </div>
                         </div>
