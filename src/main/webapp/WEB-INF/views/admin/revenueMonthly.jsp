@@ -29,6 +29,45 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+<script type="text/javascript">
+	google.charts.load("current", {packages:['corechart']});
+	
+	function revenueMonthly(){
+		revenueMonthly = $("#revenueMonthly").val()
+		console.log(revenueMonthly);
+		 $.ajax({
+	  			type : "get",
+	  			dataType : "json", // 받을 데이터
+	  			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+	  			url : "revenue/selectDate",// 서블릿 주소
+	  			data : {revenueMonthly : revenueMonthly},
+	  			success : function(result) {
+	  				if (result != null) {
+	  					console.log(result);s
+	  					window.setTimeout(200);
+	  					google.charts.setOnLoadCallback(drawChart(result));
+	  				}
+	  				
+	  				
+	  				console.log("1");
+	  			}, // 통신 성공시
+	  			error : function(result) {
+	  				
+	  			}, // 통신 실패시
+	  			complete : function(result) {
+	  				console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+	  				console.log(result);
+//	   				if(result != null){
+	  					
+//	   				}
+	  				
+	  				
+	  			} // 통신 완료시
+	  		});
+		
+	}
+</script>
+
 </head>
 <body>
 <div class="preloader">
@@ -83,10 +122,22 @@
       <tr style="height:80px;background-color:#ddd;margin-top: 50px">
         <td style="vertical-align: middle;text-align: center" class="w-25">기간</td>
         <td style="vertical-align: middle;text-align: left">  <div class="btn-group btn-group-lg">
-  
-    <input type="date" style="margin-left:10px;margin-right: 10px" id = "startDate" name="startDate" onchange="changeStartDate();"> ~ 
-    <input type="date" style="margin-left:10px;margin-right: 10px" id="endDate" name="endDate" onchange="changeDate();"/>
-    
+   
+   <select style="width: 100px" name="revenueMonthly" id="revenueMonthly">
+   		<option value="1">1</option>
+   		<option value="2">2</option>
+   		<option value="3">3</option>
+   		<option value="4">4</option>
+   		<option value="5">5</option>
+   		<option value="6">6</option>
+   		<option value="7">7</option>
+   		<option value="8">8</option>
+   		<option value="9">9</option>
+   		<option value="10">10</option>
+   		<option value="11">11</option>
+   		<option value="12">12</option>
+   </select>
+    <span style="margin-left: 20px">개월 전</span>
   </div>
   </td>
         
@@ -94,7 +145,7 @@
     </thead>
    
   </table>
-  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="checkDate();"/>
+  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="revenueMonthly();"/>
 </div>
 
 <div>
