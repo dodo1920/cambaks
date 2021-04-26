@@ -30,24 +30,31 @@
 					<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-face"></i><span class="hide-menu">회원 관리
-						</span></a>
+							class="mdi mdi-face"></i><span class="hide-menu">회원 관리 (도연&효원)</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="form-basic.html"
 								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
-									class="hide-menu"> 정보 </span></a></li>
+									class="hide-menu"> 정보 (도연) </span></a></li>
 							<li class="sidebar-item"><a href="form-wizard.html"
 								class="sidebar-link"><i class="mdi mdi-emoticon-cool"></i><span
-									class="hide-menu"> 주문 </span></a></li>
+									class="hide-menu"> 주문 (효원)</span></a></li>
 						</ul></li>
 					<li class="sidebar-item"><a
-						class="sidebar-link waves-effect waves-dark sidebar-link"
-						href="pages-buttons.html" aria-expanded="false"><i
-							class="mdi mdi-relative-scale"></i><span class="hide-menu">캠박이일</span></a></li>
-									<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-view-dashboard"></i><span class="hide-menu"> 상품관리 </span></a>
+							class="mdi mdi-relative-scale"></i><span class="hide-menu">캠박이일 게시판 (종진)</span></a>
+						<ul aria-expanded="false" class="collapse  first-level">
+							<li class="sidebar-item"><a href="icon-material.html"
+								class="sidebar-link"><i class="mdi mdi-note-outline"></i><span
+									class="hide-menu"> 게시판 설정 </span></a></li>
+							<li class="sidebar-item"><a href="icon-fontawesome.html"
+								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
+									class="hide-menu"> 게시판 관리 </span></a></li>
+						</ul></li>
+					<li class="sidebar-item"><a
+						class="sidebar-link has-arrow waves-effect waves-dark"
+						href="javascript:void(0)" aria-expanded="false"><i
+							class="mdi mdi-view-dashboard"></i><span class="hide-menu"> 상품관리 (정민&승권)</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="icon-material.html"
 								class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span
@@ -59,7 +66,7 @@
 					<li class="sidebar-item"><a
 						class="sidebar-link has-arrow waves-effect waves-dark"
 						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-receipt"></i><span class="hide-menu">상품 게시판 </span></a>
+							class="mdi mdi-receipt"></i><span class="hide-menu">상품 게시판 (원영)</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
 							<li class="sidebar-item"><a href="icon-material.html"
 								class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span
@@ -67,28 +74,15 @@
 							<li class="sidebar-item"><a href="icon-fontawesome.html"
 								class="sidebar-link"><i class="mdi mdi-message-outline"></i><span
 									class="hide-menu"> QnA </span></a></li>
-						</ul></li>
-							<li class="sidebar-item"><a
-						class="sidebar-link has-arrow waves-effect waves-dark"
-						href="javascript:void(0)" aria-expanded="false"><i
-							class="mdi mdi-pencil"></i><span class="hide-menu">일반 게시판 </span></a>
-						<ul aria-expanded="false" class="collapse  first-level">
-							<li class="sidebar-item"><a href="icon-material.html"
-								class="sidebar-link"><i class="mdi mdi-note-outline"></i><span
-									class="hide-menu"> 게시판 설정 </span></a></li>
-							<li class="sidebar-item"><a href="icon-fontawesome.html"
-								class="sidebar-link"><i class="mdi mdi-note-plus"></i><span
-									class="hide-menu"> 게시판 관리 </span></a></li>
-						</ul></li>
-						
+						</ul></li>						
 					<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="pages-elements.html" aria-expanded="false"><i
-							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출</span></a></li>
+							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출 (대기)</span></a></li>
 							<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="/admin/chattingList" aria-expanded="false"><i
-							class="mdi mdi-chart-bubble"></i><span class="hide-menu">채팅 관리</span></a></li>
+							class="mdi mdi-chart-bubble"></i><span class="hide-menu">채팅 관리 (승권)</span></a></li>
 <!-- 					<li class="sidebar-item"><a -->
 <!-- 						class="sidebar-link has-arrow waves-effect waves-dark" -->
 <!-- 						href="javascript:void(0)" aria-expanded="false"><i -->
