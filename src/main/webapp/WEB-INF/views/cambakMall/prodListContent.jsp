@@ -331,7 +331,7 @@
                         <c:when test="${item.product_info == 'popular' }">
                         	<div class="product__item sale">
                             <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-                            	<div class="label">HOT</div>
+                            	<div class="label" style="color: #333">HOT</div>
                             </div>
                         </c:when>
                         <c:when test="${item.product_info == 'new' }">

@@ -29,6 +29,12 @@
   		select floor(avg(prodReview_grade)) as star from ProdReviews where product_id = #{no} 
   </select>
   
+  <select id="getTotalReviewsNum" resultType="int">
+  		select count(*) as total_reviewNum from ProdReviews where product_id = #{no} 
+  </select>
+  
+
+  
   <select id="getProduct_img" resultType="String">
   		select product_img1 from Products where product_id = #{no}
   </select>
