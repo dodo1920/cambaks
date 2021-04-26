@@ -2,7 +2,10 @@ package com.cambak21.persistence.cambakAdmin;
 
 import java.util.List;
 
+import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
 
 public interface AdminDAO {
 
@@ -37,6 +40,18 @@ public interface AdminDAO {
 	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception;
 
 	public List<RevenueVO> selectDate(String startDate, String endDate)throws Exception;
+
+	public List<RevenueMonthVO> selectMothly(int revenueMonthly) throws Exception;
+
+	public List<RevenueWeeklyVO> selectWeekly(int revenueWeekly) throws Exception;
+
+	public RevRefundVO thisMonthRevenue() throws Exception;
+
+	public RevRefundVO prevMonthRevenue()throws Exception;
+
+	public RevRefundVO thisMonthRefund() throws Exception;
+
+	public RevRefundVO prevMonthRefund()throws Exception;
 
 	
 	

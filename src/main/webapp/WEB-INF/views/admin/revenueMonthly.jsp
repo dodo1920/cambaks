@@ -32,24 +32,23 @@
 <script type="text/javascript">
 	google.charts.load("current", {packages:['corechart']});
 	
-	function revenueMonthly(){
+	function revenueMonthlys(){
 		revenueMonthly = $("#revenueMonthly").val()
 		console.log(revenueMonthly);
 		 $.ajax({
 	  			type : "get",
 	  			dataType : "json", // 받을 데이터
 	  			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-	  			url : "revenue/selectDate",// 서블릿 주소
+	  			url : "revenue/selectMonthly",// 서블릿 주소
 	  			data : {revenueMonthly : revenueMonthly},
 	  			success : function(result) {
 	  				if (result != null) {
-	  					console.log(result);s
+	  					console.log(result);
 	  					window.setTimeout(200);
 	  					google.charts.setOnLoadCallback(drawChart(result));
 	  				}
 	  				
 	  				
-	  				console.log("1");
 	  			}, // 통신 성공시
 	  			error : function(result) {
 	  				
@@ -66,6 +65,40 @@
 	  		});
 		
 	}
+	
+function drawChart(result) {
+    	
+    	var data = new google.visualization.DataTable();
+    	data.addColumn('string', '연도');
+    	data.addColumn('number', '금액');
+    	 
+    	
+    	
+		console.log(result);
+         
+    	 for(var i = 0; i < result.length; i++){
+    		 
+    		 var time = result[i].payment_date;
+    		 var date = new Date(time);
+    		 var dateTime = date.getFullYear()+ "/ "+ (date.getMonth()+1);
+    		
+    		 data.addRow([dateTime, result[i].buyProduct_totPrice]);
+    	 }
+    	 
+    	 
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1]);
+
+      var options = {
+        title: "일자별 매출",
+        width: 800,
+        height: 400,
+        bar: {groupWidth: "50%"},
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+  }
 </script>
 
 </head>
@@ -145,11 +178,45 @@
     </thead>
    
   </table>
-  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="revenueMonthly();"/>
+  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="revenueMonthlys();"/>
 </div>
 
 <div>
 	<div id="columnchart_values" style="width: 100%; height: 300px;"></div>
+</div>
+<div style="margin-bottom: 120px"></div>
+<div style="margin-top: 20px">
+	<h2>증감 추이</h2>
+	<div style="border: 1px;">
+		<table class="table table-bordered" style="text-align: center;">
+			<thead>
+				<tr>
+					<th>기간</th>
+					<th colspan="2">결제합계</th>
+					<th colspan="2">환불합계</th>
+					<th colspan="2">순 매출</th>
+				</tr>
+			</thead>
+			<tbody style="background-color: white;">
+				<tr>
+					<td>금월</td>
+					<td>0</td>
+					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
+					<td>0</td>
+					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
+					<td>0</td>
+					<td rowspan="2" style="vertical-align: middle;">0% 증가</td>
+		</tr>
+		<tr>
+			<td>전월</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+			</tbody>
+		</table>
+	</div>
+	
 </div>
 	</div>
 	<!-- 본문 작성 끝  -->
