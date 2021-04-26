@@ -1,5 +1,7 @@
 package com.cambak21.service.cambakMall;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import com.cambak21.domain.NonUserBucketVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.InsertintoNonUserBucketDTO;
+import com.cambak21.dto.mallMainTopCountDTO;
 import com.cambak21.persistence.cambakMall.prodDetailDAO;
 
 @Service
@@ -92,6 +95,11 @@ public class prodDetailServiceImpl implements prodDetailService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<mallMainTopCountDTO> getTopReview() throws Exception {
+		return dao.getTopReview();
 	}
 
 }

@@ -138,9 +138,10 @@
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 #footerContent {
-	padding-top: 10px;
+	padding: 10px 15px;
 	border-top: 1px solid #dedede;
 	font-size: 15px;
 	color: #000;
@@ -256,6 +257,20 @@
 	text-decoration-line: none;
 }
 
+#mainHeaderTitle {
+	font-size: 19px;
+	font-weight: bold;
+	font-family: 'Pacifico', cursive;
+}
+
+.mainHeaderBar {
+	float: left;
+	width: 1px;
+	height: 15px;
+	margin: 18px 9px 0 -5px;
+	background-color: #a99482;
+}
+
 </style>
 </head>
 
@@ -268,8 +283,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/index/main">Logo</a>
-                <a class="navbar-brand" href="/mall/main/">캠박몰 바로가기</a>
+                <a class="navbar-brand" href="/index/main" id="mainHeaderTitle">Cambark's</a>
+                <span class="mainHeaderBar"></span>
+                <a class="navbar-brand" href="/mall/main/" id="mainHeaderTitle">CambakMall</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
@@ -523,7 +539,7 @@
 				<div class="col-md-2" id="footerSubheading">
 					<p>캠박이일 제작 2팀</p>
 				</div>
-				<div class="col-md-2" id="footerContent" style="border-top: 1px solid #dedede;">
+				<div class="col-md-2" id="footerContent">
 					<p><a href="/index/result?keyword=봄">봄</a></p>
 					<p><a href="/index/result?keyword=여름">여름</a></p>
 					<p><a href="/index/result?keyword=가을">가을</a></p>
@@ -537,11 +553,12 @@
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
-					<p>1</p>
-					<p>2</p>
-					<p>3</p>
-					<p>4</p>
-					<p>5</p>
+					<p><a href="/mall/main">메인페이지</a></p>
+					<p><a href="/mall/categories">전체상품</a></p>
+					<p><a>이용약관</a></p>
+					<p><a>개인정보 처리방침</a></p>
+					<p><a>제휴마케팅</a></p>
+					<p><a>광고안내</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/notice/listCri?page=1">공지사항</a></p>

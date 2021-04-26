@@ -79,6 +79,11 @@
   		where nonUserBucket_ssid = #{nonUserBucket_ssid} and nonUserBucket_no = #{nonUserBucket_no}
   	</update>
   	
+  	<select id="getTopReview" resultType="com.cambak21.dto.mallMainTopCountDTO">
+  		select avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice, p.product_img1 from ProdReviews pr, 
+  		Products p where pr.product_id = p.product_id group by pr.product_id order by star desc limit 0, 4
+  	</select>
+  	
   	<!-- 김정민 맵퍼 -->
   	
   	
@@ -289,8 +294,6 @@
   	select prod.product_id, maincg.mainCategory_content, middlecg.middleCategory_content, prod.product_name, prod.product_sellPrice, prod.product_date, prod.product_img1, prod.product_prodAvgScore, prod.product_totQty, prod.product_popularProduct
 	from MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id and prod.product_show = 'Y'
 	
-	and prod.product_name like concat('%',#{keyword},'%')
-	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
@@ -305,39 +308,7 @@
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
-	or prod.product_factory like concat('%',#{keyword},'%') 
-	 
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	 
-	 or prod.product_title like concat('%',#{keyword},'%')
-	 
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	 
-	 group by prod.product_id
+	and (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%')) group by prod.product_id
 	
 	<if test="prodRankOrder == 'cmRank'">
 		order by prod.product_saleQty desc, prod.product_prodAvgScore desc
@@ -360,8 +331,6 @@
   	select count(*) from ( select prod.product_id, maincg.mainCategory_content, middlecg.middleCategory_content, prod.product_name, prod.product_sellPrice, prod.product_img1, prod.product_prodAvgScore from
 	MainCategories maincg, MiddleCategories middlecg, Products prod where maincg.mainCategory_id = middlecg.mainCategory_id and prod.mainCategory_id = maincg.mainCategory_id and prod.middleCategory_id = middlecg.middleCategory_id and prod.product_show = 'Y'
 	
-	and prod.product_name like concat('%',#{keyword},'%') 
-	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
 	</if>
@@ -376,39 +345,7 @@
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
-	or prod.product_factory like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	or prod.product_title like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	group by prod.product_id) as searchResult
+	and (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%')) group by prod.product_id) as searchResult
 	
   	</select>
   	
@@ -418,39 +355,7 @@
   	(select pr.product_id, count(pr.product_id) as p_review from Products p inner join ProdReviews pr on pr.product_id = p.product_id group by pr.product_id) as num
 	on prod.product_id = num.product_id	inner join MainCategories mc on prod.mainCategory_id = mc.mainCategory_id inner join MiddleCategories mic on prod.middleCategory_id = mic.middleCategory_id
 	
-	where prod.product_name like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	or prod.product_factory like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	or prod.product_title like concat('%',#{keyword},'%')
+	where (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%'))
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
@@ -476,39 +381,7 @@
 	select pr.product_id, count(pr.product_id) as p_review from Products p inner join ProdReviews pr on pr.product_id = p.product_id group by pr.product_id) as num
 	on prod.product_id = num.product_id inner join MainCategories mc on prod.mainCategory_id = mc.mainCategory_id inner join MiddleCategories mic on prod.middleCategory_id = mic.middleCategory_id
 	
-	where prod.product_name like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	or prod.product_factory like concat('%',#{keyword},'%')
-	
-	<if test="priceRangeOrder == 'less'">
-		and prod.product_sellPrice <![CDATA[<=]]> 50000
-	</if>
-	<if test="priceRangeOrder == 'avg' || priceRangeOrder == 'avgInput'">
-		and prod.product_sellPrice <![CDATA[>=]]> #{minPrice} and prod.product_sellPrice <![CDATA[<=]]> #{maxPrice}
-	</if>
-	<if test="priceRangeOrder == 'great'">
-		and prod.product_sellPrice <![CDATA[>=]]> 1000000
-	</if>
-	
-	<if test="ratingSorter == 'true'">
-		and prod.product_prodAvgScore = #{prodScore}
-	</if>
-	
-	or prod.product_title like concat('%',#{keyword},'%')
+	where (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%'))
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000

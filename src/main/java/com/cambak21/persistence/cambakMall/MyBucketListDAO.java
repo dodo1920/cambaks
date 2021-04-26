@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.MyBucketCheckdVO;
 import com.cambak21.domain.MyBucketListVO;
+import com.cambak21.domain.MyNonUserBucketVO;
 
 public interface MyBucketListDAO {
 	List<MyBucketListVO> getBucketList(String member_id) throws Exception;
@@ -23,4 +24,15 @@ public interface MyBucketListDAO {
 	List<MyBucketCheckdVO> getCheckedY(String member_id) throws Exception;
 	
 	void insertBP(List<MyBucketCheckdVO> vo) throws Exception;
+	
+//	************************************************** 도연 비회원 장바구니
+	List<MyNonUserBucketVO> getNonUserBucketList(String ssid) throws Exception;
+	
+	public int changeNonUserQty(String ssid, int product_id, int qty) throws Exception;
+
+	void nonUserDeleteItemAllB(String ssid) throws Exception;
+
+	void nonUserDeleteItem(String ssid, int product_id) throws Exception;
+
+	Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception;
 }

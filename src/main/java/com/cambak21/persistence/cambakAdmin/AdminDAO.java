@@ -2,7 +2,9 @@ package com.cambak21.persistence.cambakAdmin;
 
 import java.util.List;
 
+import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface AdminDAO {
 
@@ -34,7 +36,10 @@ public interface AdminDAO {
 	
 	public RevenueVO getDayRevenue() throws Exception;
 
-	public List<RevenueVO> getPerDayRevenue() throws Exception;
+	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception;
+
+	public List<RevenueVO> selectDate(String startDate, String endDate)throws Exception;
+
 	
 	
 	
@@ -133,13 +138,13 @@ public interface AdminDAO {
 	
 //	============================================== 효원 ==============================================================================
 	
+	public List<AdminOrderListVO> readOrderList(PagingCriteria cri) throws Exception;
 	
 	
+	public int readOrderListNum() throws Exception;
 	
 	
-	
-	
-	
+	public int orderProductNum(int payment_no) throws Exception;
 	
 	
 	

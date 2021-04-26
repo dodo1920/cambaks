@@ -26,7 +26,7 @@ public class ChattingController {
 	@Inject
 	private ChattingService service;
 	
-	@RequestMapping("/userChatting")
+	@RequestMapping("/mall/userChatting")
 	public String userChatting (@SessionAttribute("loginMember") MemberVO loginMember, Model model) throws Exception {
 		
 		model.addAttribute("chatting", service.getChatting(loginMember.getMember_id()));
@@ -36,19 +36,19 @@ public class ChattingController {
 		return "cambakMall/userChatting";
 	}
 	
-	@RequestMapping("/adminChatting")
+	@RequestMapping("/admin/adminChatting")
 	public String adminChatting (@RequestParam("id") String member_id, Model model) throws Exception {
 		
 		model.addAttribute("chatting", service.getChatting(member_id));
 		
-		return "cambakMall/adminChatting";
+		return "admin/adminChatting";
 	}
 	
-	@RequestMapping("/chattingList")
+	@RequestMapping("/admin/chattingList")
 	public String chattingList (Model model) throws Exception {
 		
 		model.addAttribute("ChattingList", service.chattingList());
-		return "cambakMall/chatiingList";
+		return "admin/chattingList";
 	}
 	
 	/**
@@ -66,9 +66,9 @@ public class ChattingController {
 		
 		try {
 			service.fromUser(loginMember.getMember_id(), msg);
-			new ResponseEntity<String>("ok", HttpStatus.OK);
+			entity = new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		
@@ -81,9 +81,9 @@ public class ChattingController {
 		
 		try {
 			service.fromAdmin(member_id, chatting_content);
-			new ResponseEntity<String>("ok", HttpStatus.OK);
+			entity = new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		
@@ -93,12 +93,12 @@ public class ChattingController {
 	@PostMapping("/isRead/{who}/{member_id}")
 	public ResponseEntity<String> updateIsRead (@PathVariable("member_id") String member_id, @PathVariable("who") String who) {
 		ResponseEntity<String> entity = null;
-		
+
 		try {
 			service.updateIsRead(member_id, who);
-			new ResponseEntity<>(HttpStatus.OK);
+			entity = new ResponseEntity<String>("ok", HttpStatus.OK);
 		} catch (Exception e) {
-			new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			e.printStackTrace();
 		}
 		return entity;

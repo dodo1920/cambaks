@@ -1,8 +1,11 @@
 package com.cambak21.service.cambakAdmin;
 
 import java.util.List;
+import java.util.Map;
 
+import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
 
@@ -32,7 +35,9 @@ public interface adminService {
 		
 	public RevenueVO getDayRevenue() throws Exception;
 
-	public List<RevenueVO> getPerDayRevenue()throws Exception;
+	public List<RevenueVO> getPerDayRevenue(int dateVal)throws Exception;
+
+	public List<RevenueVO> selectDate(String startDate, String endDate) throws Exception;
 		
 		
 		
@@ -132,7 +137,7 @@ public interface adminService {
 //		============================================== 효원 ==============================================================================
 		
 		
-		
+		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
 		
 		
 		

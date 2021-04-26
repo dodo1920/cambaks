@@ -33,6 +33,7 @@
     google.charts.load("current", {packages:['corechart']});
         
     function checkDate() {
+    	let bool = true;
     	
 		let startDate = $("#startDate").val();
 		
@@ -41,39 +42,11 @@
 		if(startDate == '' || endDate == ''){
 			alert("날짜를 입력해 주세요");
 			
-		}else {
-			 $.ajax({
-		  			type : "get",
-		  			dataType : "json", // 받을 데이터
-		  			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-		  			url : "revenue/selectDate",// 서블릿 주소
-		  			data : {startDate : startDate,
-		  				endDate: endDate},
-		  			success : function(result) {
-		  				if (result != null) {
-		  					console.log(result);
-		  					window.setTimeout(200);
-		  					google.charts.setOnLoadCallback(drawChart(result));
-		  				}
-		  				
-		  				
-		  				console.log("1");
-		  			}, // 통신 성공시
-		  			error : function(result) {
-		  				
-		  			}, // 통신 실패시
-		  			complete : function(result) {
-		  				console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		  				console.log(result);
-//		   				if(result != null){
-		  					
-//		   				}
-		  				
-		  				
-		  			} // 통신 완료시
-		  		});
+			bool = false
+			return bool;
 		}
 		
+		return bool;
 		
 	}
     
@@ -136,7 +109,6 @@
   			data : {dateVal : dateVal},
   			success : function(result) {
   				if (result != null) {
-  					console.log(result);
   					window.setTimeout(200);
   					google.charts.setOnLoadCallback(drawChart(result));
   				}
@@ -160,6 +132,7 @@
 	}
     
     function drawChart(result) {
+    	console.log(result)
     	
     	var data = new google.visualization.DataTable();
     	data.addColumn('string', '연도');
@@ -193,7 +166,19 @@
   }
     
     $(function(){
-    	testAjax();
+    	
+    	let obj = JSON.stringify("${selectDate}");
+    	var dateArray = new Array();
+    	let price11 = ("${selectDate[0].buyProduct_totPrice}");
+    	for(var i = 0; i < 2; i++){
+    		dateArray.push("${selectDate[i].buyProduct_totPrice}");
+    	}
+    	console.log(dateArray);
+    	console.log(obj);
+    	console.log("${selectDate}");
+//     	console.log(Object.entries(obj));
+//     	console.log(${selectDate});
+//     	google.charts.setOnLoadCallback(drawChart(${selectDate})
     	defaultDate();
     });
   </script>
@@ -232,19 +217,19 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <ul class="navbar-nav">
     <li class="nav-item active">
-      <a class="nav-link" href="/admin/revenue">일별 매출</a>
+      <a class="nav-link" href="#">일별 매출</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/admin/revenueWeekly">주별 매출</a>
+      <a class="nav-link" href="#">주별 매출</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="/admin/revenueMonthly">월별 매출</a>
+      <a class="nav-link" href="#">월별 매출</a>
     </li>
    
   </ul>
 </nav>
 
-
+<form action="selectDate" onsubmit="return checkDate();" method="get">
 <div style="margin-top: 50px;height:150px;background-color:#ddd;" >
 	<table class="table table-bordered h-25">
     <thead>
@@ -267,9 +252,9 @@
     </thead>
    
   </table>
-  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="checkDate();"/>
+  <input type="submit" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색"/>
 </div>
-
+</form>
 <div>
 	<div id="columnchart_values" style="width: 100%; height: 300px;"></div>
 </div>
