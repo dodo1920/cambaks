@@ -35,6 +35,66 @@
 		// 웹 소켓 초기화
 		webSocketInit();
 
+		// 전송 Enter 이벤트
+		$("#msg").keydown(function(key) {
+			// Enter 눌렀을 경우
+			if (key.keyCode == 13) {
+				socketMsgSend();
+				$("#msg").val("");
+			}
+		});
+
+		// 이미지 업로드, 드래그 앤 드롭 방식
+		$(".chatting-content").on("dragenter", function(e) { //드래그 요소가 들어왔을떄
+			$(this).addClass('drag-over');
+		}).on("dragleave", function(e) { //드래그 요소가 나갔을때
+			$(this).removeClass('drag-over');
+		}).on("dragover", function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}).on('drop', function(e) { //드래그한 항목을 떨어뜨렸을때
+			e.preventDefault();
+
+			// 드롭한 이미지 파일 정보들
+			let files = e.originalEvent.dataTransfer.files;
+			// FormData 객체 생성
+			let data = new FormData();
+			
+			for (var i = 0; i < files.length; i++) {
+				data.append("file", files[i]);
+			}
+
+			$.ajax({
+				url : "/chatting/img/admin/" + member_id,
+				data : data,
+				type : 'POST',
+				enctype : 'multipart/form-data',
+				processData : false,
+				contentType : false,
+				dataType : 'text',
+				cache : false,
+				success : function(data) {
+					// 이미지 DB에 저장 성공하면 이미지 출력
+					let output = '<div class="msgOutput user-msg-wrap">';
+					output += '<span class="isRead">안읽음</span><span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span>';
+					output += '<span class="user-msg"><img src="../resources/uploads/chatting/'+data+'"></span></div>';
+					$(".chatting-content").append(output);
+					
+					// 채팅하면 스크롤 자동으로 맨밑
+					let textBox = $(".chatting-content");
+					$(".chatting-content").scrollTop(textBox[0].scrollHeight);
+					
+					// 유저 서버로 메시지 보냄
+					webSocket.send('<img src="../resources/uploads/chatting/'+data+'">' + ":" + member_id);
+				},
+				error : function(data) {
+					$("#notImg").modal();
+				}, 
+				complete : function(data) {
+				}
+			});
+		});
+
 	})
 
 	function webSocketInit() {
@@ -107,6 +167,9 @@
 		output += '<span class="user-msg">' + msg + '</span></div>';
 		$(".chatting-content").append(output);
 
+		// 입력창 비우기
+		$("#msg").val("");
+
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
@@ -136,10 +199,10 @@
 			});
 		} else if (msg != "noExistSession" && msg != "existSession") { // 유저 한테서 메시지가 왔다면 ...
 			// 유저 메시지 출력
-			let output = '<div class="msgOutput admin-msg-wrap">';
+			let output = '<div class="userProfile"><img alt="" src="../resources/uploads/${loginMember.member_img }" style="width: 35px"></div>';
+			output += '<div class="msgOutput admin-msg-wrap">';
 			output += '<span class="admin-msg">' + msg + '</span>';
-			output += '<span class="msg-date">' + new Date().getHours() + ":"
-					+ new Date().getMinutes() + '</span></div>';
+			output += '<span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span></div>';
 			$(".chatting-content").append(output);
 		}
 
@@ -224,7 +287,7 @@ span.msg-date {
 }
 /* input창 */
 input.textInput {
-	border: 1px solid gray;
+	border: 1px solid lightgray;
 }
 
 /* 읽음 안읽음 */
@@ -235,7 +298,16 @@ span.isRead {
 
 /* 유저 프로필 사진 출력 */
 .userProfile {
-    padding-left: 10px;
+	padding-left: 10px;
+}
+
+#btnSend {
+	background-color: #27a9e3;
+	border: 1px solid #27a9e3;
+}
+
+.img-submit {
+	color: gray;
 }
 </style>
 <body>
@@ -272,8 +344,6 @@ span.isRead {
 			<div class="chatting-wrap">
 				<div class="chatting-container">
 					<div class="chatting-content">
-						<div class="msgOutput"></div>
-
 						<!-- 메시지 출력 -->
 						<c:forEach var="item" items="${chatting }">
 							<!-- 운영자가 보낸 메시지 -->
@@ -293,24 +363,20 @@ span.isRead {
 									</span> <span class="user-msg">${item.chatting_content }</span>
 								</div>
 							</c:if>
-
+							
 							<!-- 유저 보낸 메시지 -->
 							<c:if test="${item.member_id != 'admin' }">
-								<c:if test="${item.member_img == 'memberProfile/profileDefualt.png' }">
-									<div class="userProfile"><img alt="" src="../resources/uploads/memberProfile/profileDefualt.png" style="width: 35px"></div>
-								</c:if>
-								<c:if test="${item.member_img != 'memberProfile/profileDefualt.png' }">
-									<div class="userProfile"><img alt="" src="../resources/uploads/${item.member_img }" style="width: 35px"></div>
-								</c:if>
-								
-									<div class="msgOutput admin-msg-wrap">
-										<span class="admin-msg">${item.chatting_content }</span><span
-											class="msg-date"><fmt:formatDate
-												value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
-									</div>
+								<div class="userProfile">
+									<img alt="" src="../resources/uploads/${item.member_img }"
+										style="width: 35px">
+								</div>
+								<div class="msgOutput admin-msg-wrap">
+									<span class="admin-msg">${item.chatting_content }</span><span
+										class="msg-date"><fmt:formatDate
+											value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
+								</div>
 							</c:if>
 						</c:forEach>
-
 					</div>
 					<div class="msgText-wrap">
 						<input class="textInput" id="msg" type="text" style="width: 100%"
@@ -318,6 +384,7 @@ span.isRead {
 						<button type="button" id="btnSend" class="btn btn-primary"
 							onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
 					</div>
+					<div class="img-submit">※ 이미지 파일을 채팅창에 끌어다 놓으면 보내실 수 있습니다.</div>
 				</div>
 			</div>
 
@@ -328,16 +395,26 @@ span.isRead {
 			</script>
 		</div>
 
+		<!-- modal -->
+	<div id="notImg" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">알림</h4>
+				</div>
+				<div class="modal-body" id="modalText">이미지 파일이 아닙니다!</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+				</div>
+			</div>
 
+		</div>
+	</div>
 		<!-- 본문 작성 끝  -->
 		<%@ include file="adminFooter.jsp"%>
 		<%@ include file="adminJs.jsp"%>
-
-
-
-
 	</div>
-
-
 </body>
 </html>
