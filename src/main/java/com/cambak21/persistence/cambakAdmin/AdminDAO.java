@@ -6,6 +6,7 @@ import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface AdminDAO {
 
@@ -99,10 +100,11 @@ public interface AdminDAO {
 	// 게시물 총 개수 가져오기
 	public int getTotalProdListCnt() throws Exception;
 	
+	// 검색된 게시글 총 개수 가져오기
+	public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception;
 	
-	
-	
-	
+	// 검색된 게시글 리스트 가져오기
+	public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 	
 	
 	
@@ -147,6 +149,9 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
+
+
 
 
 	

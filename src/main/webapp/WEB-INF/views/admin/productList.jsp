@@ -51,13 +51,22 @@
 
 <script>
 
-$(function() { //전체선택 체크박스 클릭 
-        if ($("#allChecked").is(':checked')) {
-            $("input[type=checkbox]").prop("checked", true);
-        } else {
-            $("input[type=checkbox]").prop("checked", false);
+// 수정 삭제를 위한 체크 박스 설정
+$(document).ready(function(){
+    //최상단 체크박스 클릭
+    $("#allChecked").click(function(){
+        //클릭되었으면
+        if($("#allChecked").prop("checked")){
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+            $("input[name=chk]").prop("checked",true);
+            //클릭이 안되있으면
+        }else{
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+            $("input[name=chk]").prop("checked",false);
         }
-	});
+    });
+    
+});
 
 </script>
 
@@ -96,20 +105,22 @@ $(function() { //전체선택 체크박스 클릭
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card">
+					<form  action="/admin/searchProdList" method="GET">
 					<div class="card-body">
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">검색어</label>
 							<div class="col-md-1" style="padding-left: 0px;">
-								<select class="select form-control" name="checkOption" style="height:36px;">
+								<select class="select form-control" name="searchType" style="height:36px;">
 											<option value="searchAll">전체</option>
-											<option value="prodName">상품명</option>
-											<option value="PurchaseName">제조사명</option>
-											<option value="PurchaseId">상품등록제목</option>
-											<option value="PurchaseEmail">상품등록내용</option>
+											<option value="product_id">상품명</option>
+											<option value="product_name">제조사명</option>
 								</select>
 							</div>
 							<div class="col-md-3">
-							    <input type="text" class="form-control" name="checkOptionSearch" placeholder="검색어를 입력해주세요.">
+								<input type="text" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요.">
+							</div>
+							<div class="col-md-3">
+								<button type="submit" class="btn btn-primary" id="goSearch">검색</button>&nbsp;<button type="button" class="btn btn-light" onclick="location.href='/admin/prodList?page=1'">초기화</button>
 							</div>
 							<div class="col-md-7"></div>
 						</div>
@@ -161,7 +172,7 @@ $(function() { //전체선택 체크박스 클릭
 						</div>
 						<div class="form-group row">
 						    <label class="col-md-1">상품등록일</label>
-						    <div class="col-md-7">
+						    <div class="col-md-7"  style="padding-left: 0px;">
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">오늘</button>
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">7일</button>
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">1개월</button>
@@ -180,50 +191,27 @@ $(function() { //전체선택 체크박스 클릭
 						    <div class="col-md-4"></div>
 						</div>
 						
-						<div class="form-group row">
-							<label class="col-md-1 m-t-15">상품</label>
-							<div class="col-md-1" style="padding-left: 0px;">
-								<select class="select form-control" name="productInfo" style="height:36px;">
-										<option value="">상품명</option>
-										<option value="">제조사</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-							    <input type="text" name="productInfoSearch" class="form-control">
-							</div>
-							<div class="col-md-7"></div>
-						</div>
 						
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">진열상태</label>
 							<div class="col-md-3" style="padding-left: 0px;">
 								<input type="radio" name="display" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="display">진열&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="displayNone">진열안함
 							</div>
-							<label class="col-md-1 m-t-15">판매상태</label>
-							<div class="col-md-3" style="padding-left: 0px;">
-								<input type="radio" name="sell" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="sell" value="display">판매함&nbsp;&nbsp;&nbsp;<input type="radio" name="sell" value="displayNone">판매안함
-							</div>
-						</div>
-						<div class="border-top">
-							<div class="card-body">
-								<span style="margin-right: 5px;">
-								<button type="submit" class="btn btn-primary">검색</button>
-								</span>
-								<span style="margin-left: 5px;">
-								<button type="button" class="btn btn-light" onclick="location.href='/admin/orderManagement?page=1'">초기화</button>
-								</span>
-							</div>
 						</div>
 					</div>
+					</form>
 					
 				</div>
 				<div class="card">
 					<div class="card-body">
 						<div class="table-responsive">
 									<!-- 글쓰기 버튼 -->
-									<div class="row justify-content-end">
-										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 20px; margin-bottom: 20px;">
+									<div>
+										<input type="button" class="btn btn-primary" value="수정" onclick="location.href='수정하러가자'" style="margin-left: 10px; margin-bottom: 20px;">
+										<input type="button" class="btn btn-primary" value="삭제" onclick="location.href='삭제하러가자'" style="margin-right: 20px; margin-bottom: 20px;">
+										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 20px; margin-bottom: 20px; float: right;">
 									</div>
+									
 							<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
 							
 									
@@ -244,7 +232,7 @@ $(function() { //전체선택 체크박스 클릭
 										<tbody>
 											<c:forEach var="board" items="${boardList }" varStatus="status">
 											<tr role="row">
-												<td><input type="checkbox" id="check${board.product_id }"/></td>
+												<td><input type="checkbox" name="chk" id="check${board.product_id }"/></td>
 												<td>${board.product_id }</td>
 												<td>${board.product_name }</td>
 												<td>${board.product_sellPrice }</td>

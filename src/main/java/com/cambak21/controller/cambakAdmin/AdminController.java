@@ -127,6 +127,27 @@ public class AdminController {
 	}
 	
 
+	// 검색어 입력
+	@RequestMapping(value="/searchProdList", method = RequestMethod.GET)
+	public String searchProductList(PagingCriteria cri, SearchCriteria scri, Model model) throws Exception {
+		
+		System.out.println("검색을 시작합니다.");
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		// 검색한 결과의 총 게시글 수
+		pp.setTotalCount(service.getTotalSearchProdListCnt(scri));
+		System.out.println(pp.toString());
+		
+		model.addAttribute("boardList", service.goSearchProdList(scri, cri)); // 게시물 데이터
+		model.addAttribute("SearchCriteria", scri);
+		model.addAttribute("pagingParam", pp);
+		
+		System.out.println("boardList : " + service.goSearchProdList(scri, cri).toString());
+
+		return "/admin/productList";
+		
+	}
+	
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/prodRegister")
 	public String productInsert() {

@@ -13,6 +13,7 @@ import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -130,8 +131,24 @@ public class AdminDAOImpl implements AdminDAO {
 			return ses.selectOne(ns + ".getTotalProdListCnt");
 		}
 		
-		
-		
+		// 검색된 게시글 총 개수 가져오기
+		@Override
+		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception {
+			return ses.selectOne(ns + ".getTotalSearchProdListCnt", scri);
+		}
+
+		// 검색된 결과 리스트 가져오기
+		@Override
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception {
+			// 여러 개의 객체를 한번에 보낼 때, Map을 사용
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("searchType", scri.getSearchType());
+			param.put("searchWord", scri.getSearchWord());
+			param.put("pageStart", cri.getPageStart());
+			param.put("perPageNum", cri.getPerPageNum());
+			return ses.selectList(ns + ".goSearchProdList", param);
+		}
+
 		
 		
 		
@@ -186,6 +203,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
+
 
 
 

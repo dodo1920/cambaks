@@ -14,6 +14,7 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Service
 public class adminServiceImpl implements adminService {
@@ -127,10 +128,18 @@ public class adminServiceImpl implements adminService {
 			return dao.getTotalProdListCnt();
 		}
 		
+		// 검색한 결과의 총 게시글 수
+		@Override
+		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception {
+			return dao.getTotalSearchProdListCnt(scri);
+		}
 		
-		
-		
-		
+		// 검색한 결과 리스트 가져오기
+		@Override
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception {
+			return dao.goSearchProdList(scri,cri);
+		}
+
 		
 		
 		
@@ -187,6 +196,8 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
 
 
 
