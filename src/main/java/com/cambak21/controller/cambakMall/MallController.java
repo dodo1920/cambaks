@@ -29,6 +29,8 @@ import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
 import com.cambak21.domain.MyNonUserBucketVO;
+import com.cambak21.domain.PayInfoVO;
+import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.domain.ProductDetailOrderVO;
@@ -80,12 +82,23 @@ public class MallController {
 	    return "cambakMall/prodOrder";
 	}
 	
-	@RequestMapping(value = "/orderFin")
-	public String orderFin(@RequestParam("finallyPrice") int finallyPrice) throws Exception {
-		System.out.println(finallyPrice);
+	@RequestMapping(value = "/prodOrder/payInfo", method = RequestMethod.POST)
+	public ResponseEntity<Integer> pcheckForm(PayInfoVO vo) throws Exception {
+		System.out.println(vo.toString());
+		ResponseEntity<Integer> entity = null;
+		if (service.payInfo(vo) == 1) {
+			entity = new ResponseEntity<Integer>(service.payInfoNo(), HttpStatus.OK);
+		} else {
+			entity = new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	
+	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
+	public void orderFin(PaymentsInfoVO vo) throws Exception {
+		System.out.println("paymentInfo : " + vo.toString());
 		
-		
-		return "cambakMall/orderFin";
+//		return "cambakMall/orderFin";
 	}
 
 	// **************************************** 김대기 컨트롤러

@@ -75,6 +75,7 @@ public class MemberController {
    @RequestMapping(value="/login", method=RequestMethod.POST)
    private String login(LoginDTO dto, HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
       MemberVO vo = service.login(dto);
+      System.out.println(dto.toString());
       System.out.println("유저 컨트롤러 : " );
                if(vo == null) {
                   System.out.println("회원이름 못찾음");
