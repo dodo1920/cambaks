@@ -200,9 +200,42 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		<if test="searchType == 'product_factory'">
   			product_factory like concat('%', #{searchWord}, '%')
   		</if>
+  		
+  	<!-- ********************전체 셀렉트 + 검색어 입력이 있는 경우****************************** -->
+	<if test="searchType == 'searchAll'">
+	  		<if test="searchWord != null">
+	  			product_factory like concat('%', #{searchWord}, '%') or product_name like concat('%', #{searchWord}, '%')
+	  		</if>
+	  		<!-- 전체 셀렉트 + 검색어 입력이 없는 경우 -->
+	  		<if test="searchWord == null">
+	  			product_factory like '%' and product_name like '%'
+	  		</if>
+    </if>
+  		
+  		<!-- 메인 카테고리 아이디값이 있는 경우, -->
+  		<if test="mainCategory_id != 'defaultMain'">
+  			and mainCategory_id = #{mainCategory_id}
+  		</if>
+  		
+  		<!-- 미들 카테고리 아이디값이 있는 경우, -->
+  		<if test="middleCategory_id != 'defaultMiddle'">
+  			and middleCategory_id = #{middleCategory_id}
+  		</if>
+  		
+  		<!-- product_show 전시 여부
+  		<if test='product_show == "Y"'>
+  			and product_show in('Y')
+  		</if>
+  		<if test='product_show == "N"'>
+  			and product_show in('N')
+  		</if>
+  		<if test='product_show == "all"'>
+  			and product_show in('Y','N')
+  		</if> -->
+  		
   	</select>
   
-  	<!-- 검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어) -->
+  	<!-- **********************검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어)************************* -->
   	<select id="goSearchProdList" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where
   		<if test="searchType == 'product_name'">
@@ -211,6 +244,41 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		<if test="searchType == 'product_factory'">
   			product_factory like concat('%', #{searchWord}, '%')
   		</if>
+  		
+  		<!-- 전체 셀렉트 + 검색어 입력이 있는 경우 -->
+	  	<if test="searchType == 'searchAll'">
+	  		<if test="searchWord != null">
+	  			product_factory like concat('%', #{searchWord}, '%') or product_name like concat('%', #{searchWord}, '%')
+	  		</if>
+	  		<!-- 전체 셀렉트 + 검색어 입력이 없는 경우 -->
+	  		<if test="searchWord == null">
+	  			product_factory like '%' and product_name like '%'
+	  		</if>
+  		</if>
+  		
+  		
+  		<!-- 메인 카테고리 아이디값이 있는 경우, -->
+  		<if test="mainCategory_id != 'defaultMain'">
+  			and mainCategory_id = #{mainCategory_id}
+  		</if>
+  		
+  		<!-- 미들 카테고리 아이디값이 있는 경우, -->
+  		<if test="middleCategory_id != 'defaultMiddle'">
+  			and middleCategory_id = #{middleCategory_id}
+  		</if>
+  		
+  		<!-- product_show 전시 여부
+  		<if test='product_show == "Y"'>
+  			and product_show in('Y')
+  		</if>
+  		<if test='product_show == "N"'>
+  			and product_show in('N')
+  		</if>
+  		<if test='product_show == "all"'>
+  			and product_show in('Y','N')
+  		</if>-->
+  		
+  		
   		order by product_id desc limit #{pageStart}, #{perPageNum}
   	</select>
   
@@ -219,7 +287,9 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		select * from MainCategories;
   	</select>
   
-  
+  	<select id="getMiddleCategories" resultType="com.cambak21.domain.MiddleCategoryVO">
+  		select * from MiddleCategories where mainCategory_id=#{mainCategory_id}
+  	</select>
   
   
   

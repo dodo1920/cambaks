@@ -26,6 +26,7 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.OrderManagementOrderVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -139,20 +140,23 @@ public class AdminController {
 
 		// 검색어 입력
 		@RequestMapping(value="/searchProdList", method = RequestMethod.GET)
-		public String searchProductList(PagingCriteria cri, SearchCriteria scri, Model model) throws Exception {
-			System.out.println("모델: " + model.toString());
+		public String searchProductList(PagingCriteria cri, SearchCriteria scri, AdminProductListDTO dto, Model model, @RequestParam("product_show") String aa) throws Exception {
+			
+			System.out.println("aaaaaaaaaaaaaa: " + aa);
+			System.out.println("productListDTO: " + dto.toString());
+			System.out.println("scri: " + scri.toString());
 			System.out.println("검색을 시작합니다.");
 			PagingParam pp = new PagingParam();
 			pp.setCri(cri);
 			// 검색한 결과의 총 게시글 수
-			pp.setTotalCount(service.getTotalSearchProdListCnt(scri));
-			System.out.println(pp.toString());
+			pp.setTotalCount(service.getTotalSearchProdListCnt(scri, dto));
+			System.out.println("controller pp : " + pp.toString());
 			
-			model.addAttribute("boardList", service.goSearchProdList(scri, cri)); // 게시물 데이터
+			model.addAttribute("boardList", service.goSearchProdList(scri, cri, dto)); // 게시물 데이터
 			model.addAttribute("SearchCriteria", scri);
 			model.addAttribute("pagingParam", pp);
 			
-			System.out.println("boardList : " + service.goSearchProdList(scri, cri).toString());
+			System.out.println("controller model : " + model.toString());
 
 			return "/admin/productList";
 			
@@ -163,14 +167,20 @@ public class AdminController {
 		public @ResponseBody Map<String, Object> selectMainCategories() throws Exception {
 			logger.info("/admin_product게시판의 getMainCategories-GET방식 호출");
 		    Map<String, Object> result = new HashMap<String, Object>();
-		    
-		    ;
 		    result.put("mainCategories", service.getMainCategories());
 		    return result;
 			
 		} 
 	
-	
+		// 상품 미들 카테고리 목록 ajax로 가져오는 부분
+		@RequestMapping(value="getMiddleCategories", method=RequestMethod.GET)
+		public @ResponseBody Map<String, Object> selectMiddleCategories(@RequestParam("mainCategory_id") int mainCategory_id) throws Exception {
+			logger.info("/admin_product게시판의 getMainCategories-GET방식 호출");
+				  Map<String, Object> result = new HashMap<String, Object>();
+				  result.put("middleCategories", service.getMiddleCategories(mainCategory_id));
+				  return result;
+					
+				} 
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    @GetMapping("/prodRegister")

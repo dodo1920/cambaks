@@ -51,20 +51,32 @@
 
 <script>
 
+// 메인 카테고리 select 박스를 ajax 방식으로 출력
 function selectMainCategories() {
-				$.ajax({
-					  method: "get",
+	let output = '<select class="select form-control" id="checkOption" style="height:36px;" onchange="getMainCate(this);")><optgroup label="-검색항목선택-"><option value="default">- 카테고리 대분류 -</option>';
+				
+					$.ajax({
+						method: "get",
 					  url: "/admin/getMainCategories",
 					  headers: {	// 요청하는 데이터의 헤더에 전송
 						  "Content-Type" : "application/json",
 						  "X-HTTP-Method-Override" : "GET"
 					  },
-					  dataType: "text", // 응답 받는 데이터 타입
 					  success : function(data) {
 
 					      console.log(data);
 					      
+					      let mainCategory = data.mainCategories;
 					      
+					      console.log(mainCategory);
+					      $(mainCategory).each(function(index, item) {
+					    	  
+					    	  output += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';
+					    	  
+					      }); // end of foreach
+
+						  output += '</optgroup></select>';
+						  $("#selectMainCategories").html(output);
 					  }
 					  
 					}); // end of ajax
@@ -73,6 +85,7 @@ function selectMainCategories() {
 
 // 수정 삭제를 위한 체크 박스 설정
 $(document).ready(function(){
+	
     //최상단 체크박스 클릭
     $("#allChecked").click(function(){
         //클릭되었으면
@@ -86,9 +99,60 @@ $(document).ready(function(){
         }
     });
     
-    
+    //메인 카테고리 목록을 ajax로 호출
     selectMainCategories();
+    
+    
+    
+    
+    
+    
+    
 });
+
+
+//메인카테고리의 셀렉트박스가 선택되었을 때, 해당 카테고리의 id로 미들 카테고리 출력
+function getMainCate(obj) {
+	let mainCategory_id = $("#checkOption option:selected").val();
+	console.log(mainCategory_id);
+	let output1 = '<select class="select form-control" id="checkMidle" style="height:36px;" onchange="getMidCate(this);")><optgroup label="-검색항목선택-"><option value="default">- 카테고리 중분류 -</option>';
+	$.ajax({
+		method: "get",
+	  	url: "/admin/getMiddleCategories",
+	  	headers: {	// 요청하는 데이터의 헤더에 전송
+		  "Content-Type" : "application/json",
+		  "X-HTTP-Method-Override" : "GET"
+	  }, 
+	  data		:  {
+  		'mainCategory_id' : mainCategory_id
+		}, 
+	  success : function(data) {
+
+	      console.log(data);
+	      
+	      let middleCategory = data.middleCategories;
+	      
+	      console.log(middleCategory);
+	      $(middleCategory).each(function(index, item) {
+	    	  
+	    	  output1 += '<option value="' + item.middleCategory_id + '">' + item.middleCategory_content + '</option>';
+	    	  
+	      }); // end of foreach
+	      output1 += '</optgroup></select>';
+		  $("#selectMiddleCategories").html(output1);
+		  // body에 input type hidden 부분에 form태그 전송을 위한 value 넣기
+		  $('input[name=mainCategory_id]').attr('value',mainCategory_id);
+	  }
+	  
+	}); // end of ajax
+}
+
+function getMidCate(obj) {
+	let middleCategory_id = $("#checkMidle option:selected").val();
+	console.log(middleCategory_id);
+	// body에 input type hidden 부분에 form태그 전송을 위한 value 넣기
+	$('input[name=middleCategory_id]').attr('value',middleCategory_id);
+}
 
 </script>
 
@@ -127,10 +191,17 @@ $(document).ready(function(){
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card">
+				<!-- 검색을 위한 form 태그 시작 부분 -->
 					<form  action="/admin/searchProdList" method="GET">
 					<div class="card-body">
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">검색어</label>
+							<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
+							<input type="hidden" id="mainCategory_id" name="mainCategory_id" value="defaultMain"/>
+							<input type="hidden" id="middleCategory_id" name="middleCategory_id" value="defaultMiddle"/>
+							<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
+							
+							
 							<div class="col-md-1" style="padding-left: 0px;">
 								<select class="select form-control" name="searchType" style="height:36px;">
 											<option value="searchAll">전체</option>
@@ -148,47 +219,14 @@ $(document).ready(function(){
 						</div>
 						<div class="form-group row">
 						    <label class="col-md-1  m-t-15">상품분류</label>
+						    <!-- 대분류 카테고리 ajax 삽입 부분 -->
 							    <div class="col-md-1.5" id="selectMainCategories">
-									<select class="select form-control" name="checkOption" style="height:36px;">
-									<!-- 메인 카테고리 -->
-										<optgroup label="-검색항목선택-">
-											<option value="default">- 카테고리 대분류 -</option>
-											<option value="prodName">기타</option>
-											<option value="PurchaseName">랜턴</option>
-											<option value="PurchaseId">수납/케이스</option>
-											<option value="PurchaseEmail">침낭/매트</option>
-											<option value="PurchaseEmail">키친/취사용품</option>
-											<option value="PurchaseEmail">테이블/체어/베트</option>
-											<option value="PurchaseEmail">텐트/타프</option>
-											<option value="PurchaseEmail">화로/히터</option>
-											
-										</optgroup>
-									</select>
+									
 									
 								</div>
-								<div class="col-md-1.5">
-									<select class="select form-control" name="checkOption" style="height:36px;">
-									<!-- 미들 카테고리 -->
-										<optgroup label="-검색항목선택-">
-											<option value="default">- 카테고리 중분류 -</option>
-											<option value="prodName">경량 테이블</option>
-											<option value="PurchaseName">기타</option>
-											<option value="PurchaseId">담요</option>
-											<option value="PurchaseEmail">랜턴</option>
-											<option value="PurchasePhone">매트</option>
-											<option value="PurchasePhone">버너</option>
-											<option value="PurchasePhone">설거지용품</option>
-											<option value="PurchasePhone">수납</option>
-											<option value="PurchasePhone">식기/일반</option>
-											<option value="PurchasePhone">착화제</option>
-											<option value="PurchasePhone">체어</option>
-											<option value="PurchasePhone">침낭</option>
-											<option value="PurchasePhone">쿨러/아이스박스</option>
-											<option value="PurchasePhone">타프</option>
-											<option value="PurchasePhone">텐트</option>
-											<option value="PurchasePhone">화로대</option>
-										</optgroup>
-									</select>
+							<!-- 중분류 카테고리 ajax 삽입 부분 -->
+								<div class="col-md-1.5" id="selectMiddleCategories">
+									
 									
 								</div>
 								
@@ -203,13 +241,13 @@ $(document).ready(function(){
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">3개월</button>
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">1년</button>
 							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">전체</button>
-							    <input type="date" id="checkLowDate" onchange="" />
+							    <input type="date" id="checkLowDate" name="checkLowDate" onchange="" />
 							    <span>~</span>
-							    <input type="date" id="checkHighDate" onchange="" />
+							    <input type="date" id="checkHighDate" name="checkHighDate" onchange="" />
 							    <div id="checkOrderDate">
 								    <input type="hidden" value="" name="checkDate"/>
-								    <input type="hidden" value="" name="checkLowDate"/>
-								    <input type="hidden" value="" name="checkHighDate"/>
+								    <!-- <input type="hidden" value="" name="checkLowDate"/>
+								    <input type="hidden" value="" name="checkHighDate"/> -->
 							    </div>
 						    </div>
 						    <div class="col-md-4"></div>
@@ -219,11 +257,12 @@ $(document).ready(function(){
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">진열상태</label>
 							<div class="col-md-3" style="padding-left: 0px;">
-								<input type="radio" name="display" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="display">진열&nbsp;&nbsp;&nbsp;<input type="radio" name="display" value="displayNone">진열안함
+								<input type="radio" name="product_show" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;<input type="radio" name="product_show" value="Y">진열&nbsp;&nbsp;&nbsp;<input type="radio" name="product_show" value="N">진열안함
 							</div>
 						</div>
 					</div>
 					</form>
+				<!-- 검색을 위한 form 태그 종료 부분 -->
 					
 				</div>
 				<div class="card">
