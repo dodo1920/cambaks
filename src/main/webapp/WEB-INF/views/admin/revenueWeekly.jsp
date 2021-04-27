@@ -337,6 +337,28 @@ $(function(){
 	</div>
 	
 </div>
+<div style="margin-top: 30px">
+	<h2>주별 통계</h2>
+	<table class="table table-bordered" style="text-align: center;">
+		<thead>
+			<tr>
+				<th rowspan="2">일자</th>
+				<th colspan="3">결제완료 주문</th>
+				<th rowspan="2">결제합계</th>
+				<th rowspan="2">환불합계</th>
+				<th rowspan="2">순매출</th>
+			</tr>
+			<tr>
+				<th>주문수</th>
+				<th>품목수</th>
+				<th>상품구매금액</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
+</div>
 	</div>
 	<!-- 본문 작성 끝  -->
      <%@ include file="adminFooter.jsp" %>    
