@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
@@ -140,8 +141,7 @@ public interface adminService {
 		
 //		============================================== 종진 ==============================================================================
 		
-		
-		
+		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
 		
 		
 		
@@ -169,6 +169,24 @@ public interface adminService {
 		
 		
 		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
 
 		
 		

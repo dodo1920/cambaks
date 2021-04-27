@@ -249,8 +249,15 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   <!-- ***************************************** 종진 ********************************************************************************* -->
   
   
-  
-  
+  	<select id="goGetBoard_admin" resultType="com.cambak21.domain.BoardVO">
+  		select * from Boards
+  		
+  		<if test="board_category != 'all'">
+  			where board_category = #{board_category}
+  		</if>
+  		
+  		order by board_no desc limit #{pageStart}, #{perPageNum}
+  	</select>
   
   
   

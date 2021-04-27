@@ -45,7 +45,7 @@ let noncheckedCnt = 0;
 			} 
 		 }else{
 			 
-			 if (confirm("회원만 댓글 작성이 가능합니다. 로그인 페이지로 이동하시겠습니까?") == true) { //확인
+			 if (confirm("회원만 체크리스트 작성이 가능합니다. 로그인 페이지로 이동하시겠습니까?") == true) { //확인
 	             location.href='/user/login/yet';
 	        } else { //취소
            		 return false;

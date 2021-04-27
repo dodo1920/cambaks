@@ -3,6 +3,7 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
@@ -143,6 +144,7 @@ public interface AdminDAO {
 	
 //	============================================== 종진 ==============================================================================
 	
+	public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
 	
 	
 	
@@ -177,6 +179,22 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
