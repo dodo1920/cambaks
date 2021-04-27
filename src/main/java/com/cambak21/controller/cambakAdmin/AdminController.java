@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
+
+import com.cambak21.domain.OrderManagementOrderVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.service.cambakAdmin.adminService;
@@ -197,6 +199,11 @@ public class AdminController {
 		return "/admin/adminOrderManagement";
 	}
 	
+	@RequestMapping(value="/orderManagement/search")
+	public String orderManagementSearch(OrderManagementOrderVO vo, PagingCriteria cri, Model model) throws Exception{
+		System.out.println(vo.toString());
+		return "";
+	}
 	
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
