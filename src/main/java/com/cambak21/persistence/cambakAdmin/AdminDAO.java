@@ -10,6 +10,9 @@ import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 public interface AdminDAO {
 
@@ -117,15 +120,17 @@ public interface AdminDAO {
 	
 //	============================================== 정민 ==============================================================================
 	
+	// 페이징 처리한 productList 출력
+	public List<ProductsVO> prodList(PagingCriteria cri) throws Exception;
 	
+	// 게시물 총 개수 가져오기
+	public int getTotalProdListCnt() throws Exception;
 	
+	// 검색된 게시글 총 개수 가져오기
+	public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception;
 	
-	
-	
-	
-	
-	
-	
+	// 검색된 게시글 리스트 가져오기
+	public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 	
 	
 	

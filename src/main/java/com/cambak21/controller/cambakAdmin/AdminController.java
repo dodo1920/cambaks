@@ -28,6 +28,8 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 import com.mysql.cj.xdevapi.JsonArray;
 import com.mysql.cj.xdevapi.JsonValue;
 
@@ -168,8 +170,47 @@ public class AdminController {
 
 
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	
+	// 페이징 있는 전체 게시글 목록 출력
+	@RequestMapping(value = "/prodList", method = RequestMethod.GET)
+	public String productList(Model model, PagingCriteria cri) throws Exception  {
+		System.out.println(cri.toString());
+		logger.info("productList호출, 페이징을 이용한 전체 리스트 출력");
+		// 검색한 결과의 총 게시글 수
+		model.addAttribute("boardList", service.prodList(cri));// 게시물 데이터
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(service.getTotalProdListCnt());// 게시물 총 개수를 가져와서 세팅
 
+		System.out.println(pp.toString());
+		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체
+		System.out.println(model.toString());
+		return "/admin/productList";
+	}
+	
 
+	// 검색어 입력
+	@RequestMapping(value="/searchProdList", method = RequestMethod.GET)
+	public String searchProductList(PagingCriteria cri, SearchCriteria scri, Model model) throws Exception {
+		
+		System.out.println("검색을 시작합니다.");
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		// 검색한 결과의 총 게시글 수
+		pp.setTotalCount(service.getTotalSearchProdListCnt(scri));
+		System.out.println(pp.toString());
+		
+		model.addAttribute("boardList", service.goSearchProdList(scri, cri)); // 게시물 데이터
+		model.addAttribute("SearchCriteria", scri);
+		model.addAttribute("pagingParam", pp);
+		
+		System.out.println("boardList : " + service.goSearchProdList(scri, cri).toString());
+
+		return "/admin/productList";
+		
+	}
+	
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/prodRegister")
 	public String productInsert() {

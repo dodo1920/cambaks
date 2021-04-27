@@ -153,15 +153,37 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 MONTH)) group by payment_isCo
   <!-- ***************************************** 원영 끝 ********************************************************************************* -->
   
   <!-- ***************************************** 정민 ********************************************************************************* -->
+  	<!-- 게시물 페이징 리스트 -->
+  	<select id="prodList" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products order by product_id desc limit #{pageStart}, #{perPageNum}
+  	</select>
+  	<!-- 총 게시물 개수 가져오기 -->
+  	<select id="getTotalProdListCnt" resultType="int">
+  		select count(*) from Products;
+  	</select>
   
+  	<!-- 검색된 게시글 총 개수 가져오기 -->
+  	<select id="getTotalSearchProdListCnt" resultType="int">
+  		select count(*) from Products where
+  		<if test="searchType == 'product'">
+  			product_name like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'factory'">
+  			product_factory like concat('%', #{searchWord}, '%')
+  		</if>
+  	</select>
   
-  
-  
-  
-  
-  
-  
-  
+  	<!-- 검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어) -->
+  	<select id="goSearchProdList" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products where
+  		<if test="searchType == 'product'">
+  			product_name like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'factory'">
+  			product_factory like concat('%', #{searchWord}, '%')
+  		</if>
+  		order by product_id desc limit #{pageStart}, #{perPageNum}
+  	</select>
   
   
   

@@ -14,11 +14,13 @@ import com.cambak21.domain.MemberVO;
 
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 @Service
 public class adminServiceImpl implements adminService {
@@ -195,14 +197,30 @@ public class adminServiceImpl implements adminService {
 		
 //		============================================== 정민 ==============================================================================
 		
+		// 페이징 처리한 productList 출력
+		@Override
+		public List<ProductsVO> prodList(PagingCriteria cri) throws Exception {
+			return dao.prodList(cri);
+		}
 		
+		// 게시물 총 개수 가져오기
+		@Override
+		public int getTotalProdListCnt() throws Exception {
+			return dao.getTotalProdListCnt();
+		}
 		
+		// 검색한 결과의 총 게시글 수
+		@Override
+		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception {
+			return dao.getTotalSearchProdListCnt(scri);
+		}
 		
-		
-		
-		
-		
-		
+		// 검색한 결과 리스트 가져오기
+		@Override
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception {
+			return dao.goSearchProdList(scri,cri);
+		}
+
 		
 		
 		
