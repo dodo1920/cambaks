@@ -657,6 +657,12 @@ public class MallController {
 
 		return entity;
 	}
+	
+	@RequestMapping("/cart/merge")
+	public void margeCarts(@RequestBody MyNonUserBucketVO vo) {
+			System.out.println(vo.toString());
+		
+	}
 
 	// **************************************** 김태훈 컨트롤러
 	

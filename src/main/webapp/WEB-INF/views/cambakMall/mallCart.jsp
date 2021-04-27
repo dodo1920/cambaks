@@ -86,7 +86,29 @@ button.btn.btn-default.cntCh {
 </style>
 
 <script type="text/javascript">
+	let ssid = '${ssid}';
+	console.log(ssid);
+	
+	function margeCart(data) {
+		console.log(typeof data);
+	}
+	
+	function getSsidProducts() {
+		$.ajax({
+			type : "get",
+			dataType : "json", // 응답을 어떤 형식으로 받을지	
+			url : "/mall/cart/no/" + ssid, // 서블릿 주소
+			success : function(data) {
+				console.log(data);
+				margeCart(data);
+			}, // 통신 성공시
+			error : function(data) {
+			} // 통신 실패시
+		});
+	}
+	
 	$(document).ready(function() {
+		getSsidProducts();
 		cartList();
 	})
 	
