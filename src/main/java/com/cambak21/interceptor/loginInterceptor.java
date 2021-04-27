@@ -19,35 +19,34 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
    
    private static Logger logger = LoggerFactory.getLogger(loginInterceptor.class);
    
-//   @Override
-//   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-//         throws Exception {
-//      
-//      logger.info("로그인 하기 전 . . . . . . . . . .");
-//      HttpSession ses = request.getSession();
-//      
-//      if(ses.getAttribute("loginMember") != null) {    // 이전 로그인 정보가 세션에 남아 있다면
-//            ses.removeAttribute("loginMember");   // 로그인 정보 삭제
-//      }
-//      
-//      return true;   // 이후 인터셉터 또는 컨트롤러에게 제어권을 넘김
-//   }
+   @Override
+   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+         throws Exception {
+      
+      logger.info("로그인 하기 전 . . . . . . . . . .");
+      HttpSession ses = request.getSession();
+      
+      if(ses.getAttribute("loginMember") != null) {    // 이전 로그인 정보가 세션에 남아 있다면
+            ses.removeAttribute("loginMember");   // 로그인 정보 삭제
+      }
+      
+      return true;   // 이후 인터셉터 또는 컨트롤러에게 제어권을 넘김
+   }
    
    
    @Override
-   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-         ModelAndView modelAndView) throws Exception {
+   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
         HttpSession ses = request.getSession();
-         ModelMap modelMap = modelAndView.getModelMap();
-         MemberVO vo = (MemberVO)modelMap.get("loginMember");
-//         MemberVO vo = (MemberVO)ses.getAttribute("loginMember");
+//         ModelMap modelMap = modelAndView.getModelMap();
+//         MemberVO vo = (MemberVO) modelMap.get("loginMember");
+         MemberVO vo = (MemberVO)ses.getAttribute("loginMember");
          
-         System.out.println("gggggggg : " + vo);
+         System.out.println("무야호 : " + vo);
         
          if(vo != null) {
       
-        	 System.out.println("로그인 유저 : " + vo.toString());         
+            System.out.println("로그인 유저 : " + vo.toString());         
             // 쿠키 처리
             if(request.getParameter("member_cookie") != null) { // 자동 로그인이 체크 되었을 때
                System.out.println(request.getParameter("member_cookie"));
@@ -58,7 +57,7 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
                loginCook.setMaxAge(60 * 60 * 24 * 7); // 일주일 동안 
                response.addCookie(loginCook);
             }
-//      
+      
 //            String dest = (String)ses.getAttribute("prevPage");
 //            response.sendRedirect((dest != null)? dest : "/index/main");
           }

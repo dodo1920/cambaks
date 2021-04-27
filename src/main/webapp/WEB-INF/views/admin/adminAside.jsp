@@ -32,7 +32,7 @@
 						href="javascript:void(0)" aria-expanded="false"><i
 							class="mdi mdi-face"></i><span class="hide-menu">회원 관리 (도연&효원)</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
-							<li class="sidebar-item"><a href="form-basic.html"
+							<li class="sidebar-item"><a href="../admin/memberList"
 								class="sidebar-link"><i class="mdi mdi-emoticon"></i><span
 									class="hide-menu"> 정보 (도연) </span></a></li>
 							<li class="sidebar-item"><a href="form-wizard.html"

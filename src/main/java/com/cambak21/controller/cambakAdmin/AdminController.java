@@ -21,14 +21,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.controller.HomeController;
+import com.cambak21.domain.RevenueMonthVO;
+
+import com.cambak21.domain.OrderManagementOrderVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.PagingCriteria;
-import com.mysql.cj.xdevapi.JsonArray;
-import com.mysql.cj.xdevapi.JsonValue;
-
-import twitter4j.JSONArray;
-import twitter4j.JSONObject;
+import com.cambak21.util.PagingParam;
+import com.cambak21.util.SearchCriteria;
 
 
 @Controller
@@ -102,7 +103,20 @@ public class AdminController {
    
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 도연@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+   
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	public String memberList(Model model) {
+		logger.info("memberList호출");
+		
+		try {
+			model.addAttribute("members",service.getMember());
+		} catch (Exception e) {
+			model.addAttribute("noMembers");
+			e.printStackTrace();
+		}
+		
+		return "/admin/memberList";
+	}
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
@@ -140,5 +154,4 @@ public class AdminController {
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-   
 }

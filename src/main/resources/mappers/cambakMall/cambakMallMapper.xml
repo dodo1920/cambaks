@@ -35,6 +35,14 @@
  		insert into Points (buyProduct_no, member_id, grade_name, buyProduct_totPrice, point_reason, point_usedPoint, point_futurePoint, payment_date)
 		values (#{buyProduct_no}, #{member_id}, #{grade_name}, #{buyProduct_totPrice}, #{point_reason}, #{point_usedPoint}, #{point_futurePoint}, #{payment_date});
   	</select>
+
+	<insert id="payInfoInsert">
+			insert into goot6.PayInfos(member_id, payInfo_way) values(#{member_id}, #{payInfo_way})
+	</insert>
+	
+	<select id="payInfoNo" resultType="int">
+		select max(payInfo_no) from PayInfos
+	</select>
  
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">

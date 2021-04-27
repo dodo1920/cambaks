@@ -67,7 +67,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
       $("#modalText").text("로그인 후에 이용해 주세요");
       $("#bbsk-modal").modal();
    } else {
-      location.href="../../userChatting";
+      location.href="../../mall/userChatting";
    }
 }
  

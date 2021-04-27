@@ -30,26 +30,28 @@
 </head>
 
 <script type="text/javascript">
-	$(document).ready(function () {
+	$(document).ready(function() {
 		textLimit(40);
 	})
 </script>
 
 <style type="text/css">
 span.userId {
-    font-size: 20px;
-    font-weight: bold;
+	font-size: 20px;
+	font-weight: bold;
+	padding-left: 20px;
 }
-
 .userProfile {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
-
 span.msgDate {
-    margin-left: 20px;
-    font-weight: bold;
+	margin-left: 20px;
+	font-weight: bold;
 }
-
+.isReadImg {
+	height: 30px;
+	padding-left: 10px;
+}
 </style>
 <body>
 	<div class="preloader">
@@ -68,7 +70,7 @@ span.msgDate {
 			<div class="page-breadcrumb">
 				<div class="row">
 					<div class="col-12 d-flex no-block align-items-center">
-						<h4 class="page-title">Dashboard</h4>
+						<h4 class="page-title">실시간 채팅 문의</h4>
 						<div class="ml-auto text-right">
 							<nav aria-label="breadcrumb">
 								<ol class="breadcrumb">
@@ -83,12 +85,18 @@ span.msgDate {
 			<!-- 본문 작성  -->
 			<div class="container-fluid">
 				<c:forEach var="item" items="${ChattingList }">
-					<div class="userProfile"><img alt="" src="../resources/uploads/${item.member_img }" class="userImg"><span class="userId">${item.member_id }</span></div>
+					<div class="userProfile">
+						<img alt="" src="../resources/uploads/${item.member_img }"
+							class="userImg"><span class="userId">${item.member_id }</span>
+					</div>
 					<div class="userMsg-wrap">
-						<a href="../admin/adminChatting?id=${item.member_id }" class="board-title-a">${item.chatting_content }</a>
-						<span class="msgDate"><fmt:formatDate value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
+						<a href="../admin/adminChatting?id=${item.member_id }"
+							class="board-title-a">${item.chatting_content }</a> <span
+							class="msgDate"><fmt:formatDate
+								value="${item.chatting_date }" pattern="HH:mm" type="DATE" /></span>
 						<c:if test="${item.chatting_isRead == 'N' }">
-							<img alt="" src="../resources/img/noReadMsg.png">
+							<img alt="" src="../resources/img/noReadMsg.png"
+								class="isReadImg">
 						</c:if>
 					</div>
 					<hr>

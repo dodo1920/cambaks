@@ -21,6 +21,7 @@ public class MemberVO {
 	private String member_isDelete;
 	private String member_cookie;
 	private Date member_cookieAge;
+	private Date member_registerDate;
 	
 	public String getMember_id() {
 		return member_id;
@@ -129,6 +130,12 @@ public class MemberVO {
 	}
 	public void setMember_cookieAge(Date member_cookieAge) {
 		this.member_cookieAge = member_cookieAge;
+	}	
+	public Date getMember_registerDate() {
+		return member_registerDate;
+	}
+	public void setMember_registerDate(Date member_registerDate) {
+		this.member_registerDate = member_registerDate;
 	}
 	
 	@Override
@@ -139,7 +146,8 @@ public class MemberVO {
 				+ ", member_addrDetail=" + member_addrDetail + ", member_email=" + member_email + ", member_mobile="
 				+ member_mobile + ", member_img=" + member_img + ", member_payment=" + member_payment
 				+ ", member_isAdmin=" + member_isAdmin + ", member_totPoint=" + member_totPoint + ", member_isDelete="
-				+ member_isDelete + ", member_cookie=" + member_cookie + ", member_cookieAge=" + member_cookieAge + "]";
-	}
+				+ member_isDelete + ", member_cookie=" + member_cookie + ", member_cookieAge=" + member_cookieAge
+				+ ", member_registerDate=" + member_registerDate + "]";
+	}	
 
 }
