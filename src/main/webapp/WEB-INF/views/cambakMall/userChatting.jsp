@@ -54,9 +54,7 @@
 <script type="text/javascript">
 	//웹소켓 전역 변수 생성
 	let webSocket;
-
 	let member_id = "${loginMember.member_id}";
-
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
@@ -82,7 +80,6 @@
 			e.preventDefault();
 		}).on('drop', function(e) { //드래그한 항목을 떨어뜨렸을때
 			e.preventDefault();
-
 			// 드롭한 이미지 파일 정보들
 			let files = e.originalEvent.dataTransfer.files;
 			// FormData 객체 생성
@@ -91,7 +88,6 @@
 			for (var i = 0; i < files.length; i++) {
 				data.append("file", files[i]);
 			}
-
 			$.ajax({
 				url : "/chatting/img/notAdmin/" + member_id,
 				data : data,
@@ -106,7 +102,6 @@
 					let output = '<div class="msgOutput user-msg-wrap">';
 					output += '<span class="isRead">안읽음</span><span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span>';
 					output += '<span class="user-msg"><img src="../resources/uploads/chatting/'+data+'"></span></div>';
-
 					$(".chatting-content").append(output);
 					
 					// 채팅하면 스크롤 자동으로 맨밑
@@ -124,12 +119,10 @@
 			});
 		});
 	})
-
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
 		webSocket = new WebSocket("ws://localhost:8081/userChatting/"
 				+ member_id);
-
 		webSocket.onopen = function(event) {
 			socketOpen(event);
 		};
@@ -143,10 +136,8 @@
 			socketError(event);
 		};
 	}
-
 	//웹소켓 연결
 	function socketOpen(event) {
-
 		// 운영자가 접속중일때 isRead 읽음으로 업데이트
 		$.ajax({
 			type : "post",
@@ -160,19 +151,15 @@
 			} // 통신 완료시
 		});
 	}
-
 	//웹소켓 닫힘
 	function socketClose(event) {
-
 		// 웹소켓이 닫히면 연결을 재시도함
 		webSocketInit();
 	}
-
 	//메시지를 보내는 메서드
 	function socketMsgSend() {
 		// 메시지 포맷
 		let msg = $("#msg").val();
-
 		// 메시지 DB저장		
 		$.ajax({
 			type : "post",
@@ -185,17 +172,13 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-
 		// 운영자한테 메시지 전송
 		webSocket.send(msg)
-
 		// 본인 메시지 출력
 		let output = '<div class="msgOutput user-msg-wrap">';
 		output += '<span class="isRead">안읽음</span><span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span>';
 		output += '<span class="user-msg">' + msg + '</span></div>';
-
 		$(".chatting-content").append(output);
-
 		// 입력창 비우기
 		$("#msg").val("");
 		
@@ -203,13 +186,10 @@
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	}
-
 	//메시지 받는 메서드
 	function socketMessage(event) {
-
 		if (event.data == "existSession") { // 운영자 세션이 존재한다면...
 			$(".isRead").text("읽음");
-
 			// 운영자가 접속중일때 isRead 읽음으로 업데이트
 			$.ajax({
 				type : "post",
@@ -222,9 +202,7 @@
 				complete : function(data) {
 				} // 통신 완료시
 			});
-
 		} else if (event.data != "noExistSession" && event.data != "existSession") { // 운영자 한테서 메시지가 왔다면 ...
-
 			// 운영자 메시지 출력
 			let output = '<div class="userProfile"><img alt="" src="../resources/uploads/memberProfile/profileDefualt.png" style="width: 35px"></div>';
 			output += '<div class="msgOutput admin-msg-wrap">';
@@ -232,17 +210,14 @@
 			output += '<span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span></div>';
 			$(".chatting-content").append(output);
 		}
-
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	}
-
 	//웹소켓 에러
 	function socketError(event) {
 		alert("에러가 발생하였습니다.");
 	}
-
 	//웹소켓 종료
 	function disconnect() {
 		webSocket.close();
@@ -253,12 +228,10 @@
 	display: flex;
 	justify-content: center;
 }
-
 .chatting-container {
 	width: 600px;
 	margin-left: 50px;
 }
-
 .chatting-content {
 	overflow: auto;
 	max-height: 770px;
@@ -308,39 +281,31 @@ span.msg-date {
 input.textInput {
 	border: 1px solid gray;
 }
-
 /* 읽음 안읽음 */
 span.isRead {
 	font-size: 15px;
 	padding: 8px 0;
 }
-
 .myProfile-wrap {
 	margin-bottom: 50px;
 }
-
 .profile-content-wrap {
 	padding-top: 20px;
 }
-
 .profile-content {
 	margin-bottom: 10px;
 }
-
 .profile-content>a {
 	color: black;
 	font-size: 14px;
 }
-
 /* 운영자 프로필 사진 */
 .userProfile {
 	padding-left: 10px;
 }
-
 .img-submit {
     color: gray;
 }
-
 </style>
 </head>
 

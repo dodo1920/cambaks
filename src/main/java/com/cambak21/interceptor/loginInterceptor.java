@@ -46,7 +46,7 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
         
          if(vo != null) {
       
-        	 System.out.println("로그인 유저 : " + vo.toString());         
+            System.out.println("로그인 유저 : " + vo.toString());         
             // 쿠키 처리
             if(request.getParameter("member_cookie") != null) { // 자동 로그인이 체크 되었을 때
                System.out.println(request.getParameter("member_cookie"));

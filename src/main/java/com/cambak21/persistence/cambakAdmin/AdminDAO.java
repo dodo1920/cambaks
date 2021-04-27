@@ -13,6 +13,8 @@ import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
 
 public interface AdminDAO {
 
@@ -175,7 +177,6 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
-
 	
 	
 	

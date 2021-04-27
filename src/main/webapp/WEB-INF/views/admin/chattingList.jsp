@@ -41,21 +41,17 @@ span.userId {
 	font-weight: bold;
 	padding-left: 20px;
 }
-
 .userProfile {
 	margin-bottom: 20px;
 }
-
 span.msgDate {
 	margin-left: 20px;
 	font-weight: bold;
 }
-
 .isReadImg {
 	height: 30px;
 	padding-left: 10px;
 }
-
 </style>
 <body>
 	<div class="preloader">

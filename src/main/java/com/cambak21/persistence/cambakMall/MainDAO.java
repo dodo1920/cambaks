@@ -30,4 +30,8 @@ public interface MainDAO {
 		public ProductsVO getBasicInfo(int id) throws Exception;
 		
 		public InsertintoBucketDTO getProductAll(int product_id) throws Exception;
+		
+		public int getTotalReviewsNum(int id) throws Exception;
+		
+		
 	}

@@ -15,6 +15,7 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 
+import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
 
@@ -67,7 +68,6 @@ public interface adminService {
 	public RevRefundVO thisWeekRefund() throws Exception;
 
 	public RevRefundVO prevWeekRefund() throws Exception;
-
 
 		
 		

@@ -30,11 +30,9 @@
 	//웹소켓 전역 변수 생성
 	let webSocket;
 	let member_id = "${param.id}";
-
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
-
 		// 전송 Enter 이벤트
 		$("#msg").keydown(function(key) {
 			// Enter 눌렀을 경우
@@ -43,7 +41,6 @@
 				$("#msg").val("");
 			}
 		});
-
 		// 이미지 업로드, 드래그 앤 드롭 방식
 		$(".chatting-content").on("dragenter", function(e) { //드래그 요소가 들어왔을떄
 			$(this).addClass('drag-over');
@@ -54,7 +51,6 @@
 			e.preventDefault();
 		}).on('drop', function(e) { //드래그한 항목을 떨어뜨렸을때
 			e.preventDefault();
-
 			// 드롭한 이미지 파일 정보들
 			let files = e.originalEvent.dataTransfer.files;
 			// FormData 객체 생성
@@ -63,7 +59,6 @@
 			for (var i = 0; i < files.length; i++) {
 				data.append("file", files[i]);
 			}
-
 			$.ajax({
 				url : "/chatting/img/admin/" + member_id,
 				data : data,
@@ -94,14 +89,11 @@
 				}
 			});
 		});
-
 	})
-
 	function webSocketInit() {
 		// 해당 주소로 웹소켓 객체 생성
 		webSocket = new WebSocket("ws://localhost:8081/adminChatting/"
 				+ member_id);
-
 		webSocket.onopen = function(event) {
 			socketOpen(event);
 		};
@@ -115,7 +107,6 @@
 			socketError(event);
 		};
 	}
-
 	//웹소켓 연결
 	function socketOpen(event) {
 		// 연결 할때 isRead컬럼 업데이트
@@ -131,18 +122,15 @@
 			} // 통신 완료시
 		});
 	}
-
 	//웹소켓 닫힘
 	function socketClose(event) {
 		// 웹소켓이 닫히면 연결을 재시도함
 		webSocketInit();
 	}
-
 	//메시지를 보내는 메서드
 	function socketMsgSend() {
 		// 메시지 포맷
 		let msg = $("#msg").val();
-
 		// 운영자가 보내는 메시지 DB에 저장
 		$.ajax({
 			type : "post",
@@ -155,10 +143,8 @@
 			complete : function(data) {
 			} // 통신 완료시
 		});
-
 		// 유저 서버로 메시지 보냄
 		webSocket.send(msg + ":" + member_id);
-
 		// 본인 메시지 출력
 		let output = '<div class="msgOutput user-msg-wrap">';
 		output += '<span class="isRead">안읽음</span><span class="msg-date">'
@@ -166,25 +152,19 @@
 				+ '</span>';
 		output += '<span class="user-msg">' + msg + '</span></div>';
 		$(".chatting-content").append(output);
-
 		// 입력창 비우기
 		$("#msg").val("");
-
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	}
-
 	//메시지 받는 메서드
 	function socketMessage(event) {
 		let fromUserData = event.data.split(":");
-
 		// 유저가 보낸 메시지
 		let msg = fromUserData[0];
-
 		if (msg == "existSession") { // 운영자 세션이 존재한다면...
 			$(".isRead").text("읽음");
-
 			// 유저가 접속중일때 isRead 읽음으로 업데이트
 			$.ajax({
 				type : "post",
@@ -205,17 +185,14 @@
 			output += '<span class="msg-date">' + new Date().getHours() + ":" + new Date().getMinutes() + '</span></div>';
 			$(".chatting-content").append(output);
 		}
-
 		// 채팅하면 스크롤 자동으로 맨밑
 		let textBox = $(".chatting-content");
 		$(".chatting-content").scrollTop(textBox[0].scrollHeight);
 	}
-
 	//웹소켓 에러
 	function socketError(event) {
 		alert("에러가 발생하였습니다.");
 	}
-
 	//웹소켓 종료
 	function disconnect() {
 		webSocket.close();
@@ -227,18 +204,15 @@
 	float: left;
 	border: 1px solid black;
 }
-
 /* 채팅 관련 */
 .chatting-wrap {
 	display: flex;
 	justify-content: center;
 }
-
 .chatting-container {
 	width: 100%;
 	padding: 20px 50px 100px 50px;
 }
-
 .chatting-content {
 	overflow: auto;
 	max-height: 770px;
@@ -289,23 +263,19 @@ span.msg-date {
 input.textInput {
 	border: 1px solid lightgray;
 }
-
 /* 읽음 안읽음 */
 span.isRead {
 	font-size: 15px;
 	padding: 8px 0;
 }
-
 /* 유저 프로필 사진 출력 */
 .userProfile {
 	padding-left: 10px;
 }
-
 #btnSend {
 	background-color: #27a9e3;
 	border: 1px solid #27a9e3;
 }
-
 .img-submit {
 	color: gray;
 }

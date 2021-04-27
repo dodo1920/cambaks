@@ -430,11 +430,11 @@
   	</update>
   	
   	<update id="destiModyAjax">
-  		update Destinations set destination_nickname = #{destination_nickname}, destination_address = #{destination_address}, destination_addressDetail = #{destination_addressDetail}, destination_updateDate = now(), destination_toUser = #{destination_toUser}, destination_mobile = #{destination_mobile} where destination_no = #{destination_no}    
+  		update Destinations set destination_nickname = #{destination_nickname}, destination_address = #{destination_address}, destination_addressDetail = #{destination_addressDetail}, destination_updateDate = now(), destination_toUser = #{destination_toUser}, destination_mobile = #{destination_mobile}, destination_zipCode = #{destination_zipCode} where destination_no = #{destination_no}    
   	</update>
   	
   	<insert id="insertDestiny">
-  		insert into Destinations(member_id, destination_nickname, destination_address, destination_addressDetail, destination_toUser, destination_mobile) values(#{member_id}, #{destination_nickname}, #{destination_address}, #{destination_addressDetail}, #{destination_toUser}, #{destination_mobile})
+  		insert into Destinations(member_id, destination_nickname, destination_address, destination_addressDetail, destination_toUser, destination_mobile, destination_zipCode) values(#{member_id}, #{destination_nickname}, #{destination_address}, #{destination_addressDetail}, #{destination_toUser}, #{destination_mobile}, #{destination_zipCode})
   	</insert>	
   	
   	<update id="deleteDestiny">
