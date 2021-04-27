@@ -33,12 +33,6 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   	<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
-	<script>
-// 		function usePoint() {
-			
-// 		}
-	</script>
-</head>
 <script type="text/javascript">
 let commaJ = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 let numberJ= /^[0-9]/g;
@@ -49,6 +43,7 @@ let numberJ= /^[0-9]/g;
 	 default_addr();
 	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 	 addPoint();  // 페이지 로딩 시, 유저의 적립 예정금액
+	 
 });
 
 //김대기 script start
@@ -64,9 +59,9 @@ function destList(){
 			output += "<div>" + this.destination_nickname + "</div>"
 			output += "<div>" + this.destination_address + " " + this.destination_addressDetail + "</div>"
 			output += "<div>" + this.destination_mobile + "</div><button type='button' class='btn btn-default' data-dismiss='modal' onclick='selectDest(" + this.destination_no + ")'>선택하기</button><hr/>"
-			
-			
 		});
+		 
+		 
 		 $("#destList").html(output); 
 	});
 	
@@ -129,6 +124,15 @@ function checkForm(){
 	agreement = $("#agreement").prop("checked");
 	let result = true;
 	console.log(agreement);
+	
+	let deliName = $("#user_name").text();
+	let deliPhone = $("#user_number").text();
+	let user_dest = $("#user_dest").text();
+	
+	if (deliName == "배송지 선택 버튼을 클릭해주세요" || deliPhone == "배송지 선택 버튼을 클릭해주세요" || user_dest == "배송지 선택 버튼을 클릭해주세요") {
+		alert("배송지를 작성바랍니다.");
+		return false;
+	}
 	
 	if($("#account").prop("checked")) {
 		payInfo_way = $("#account").val();
@@ -298,6 +302,7 @@ function addPoint() {
 	vertical-align: middle;
 }
 </style>
+</head>
 <body>
 
 	<%@include file="mallHeader.jsp" %>
@@ -525,9 +530,9 @@ function addPoint() {
 						<tr>
 							<th>결제방법</th>
 							<th>
-							<label class="radio-inline"><input type="radio" id="account" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
-							<label class="radio-inline"><input type="radio" id="card" value="카드" onclick="showcreditCard();">카드</label>
-							<label class="radio-inline"><input type="radio" id="tranfer" value="계좌이체" onclick="showtransfer();">계좌이체</label>
+							<label class="radio-inline" for="account"><input type="radio" id="account" name="pay" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
+							<label class="radio-inline" for="card"><input type="radio" id="card" name="pay" value="카드" onclick="showcreditCard();">카드</label>
+							<label class="radio-inline" for="tranfer"><input type="radio" id="tranfer" name="pay" value="계좌이체" onclick="showtransfer();">계좌이체</label>
 							</th>
 							</tr>
 							<tr>

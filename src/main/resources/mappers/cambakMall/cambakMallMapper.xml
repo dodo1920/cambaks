@@ -7,15 +7,15 @@
   	<!-- 김대기 맵퍼 -->
   	<!-- 주소록 리스트 가져오는 셀렉트 문 -->
   	<select id="destinationSelect" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where member_id = #{member_id}
+  		select * from goot6.Destinations where member_id = #{member_id} and destination_isDelete = 'N'
   	</select>
   	<!-- 한개 주소록 -->
   	<select id="selectDestOne" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where destination_no = #{destination_no}
+  		select * from goot6.Destinations where destination_no = #{destination_no} and destination_isDelete = 'N'
   	</select>
   	<!-- 기본 주소록 -->
   	<select id="defaultDest" resultType="com.cambak21.domain.DestinationVO">
-  		select * from goot6.Destinations where member_id = #{member_id} and destination_no = default_address;
+  		select * from goot6.Destinations where member_id = #{member_id} and destination_no = default_address and destination_isDelete = 'N'
   	</select>
   	
   	
@@ -44,6 +44,11 @@
 		select max(payInfo_no) from PayInfos
 	</select>
  
+	<select id="readSerialNo" resultType="int">
+		select max(payment_serialNo) from Payments
+	</select>
+	
+	
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where product_id = #{product_id}

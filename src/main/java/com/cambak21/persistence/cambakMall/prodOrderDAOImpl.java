@@ -65,6 +65,11 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		return ses.selectOne(namespace + ".payInfoNo");
 	}
 	
+	@Override
+	public int readSerialNo() {
+		return ses.selectOne(namespace + ".readSerialNo");
+	}
+	
 //  	<!-- 김도연 DAO -->
   	
   	

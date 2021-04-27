@@ -1,5 +1,6 @@
 package com.cambak21.service.cambakMall;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.PayInfoVO;
+import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ResellBoardVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -61,7 +64,38 @@ public class prodOrderServiceImpl implements prodOrderService {
 	
 		return dao.payInfoNo();
 	}
-		  	
+	
+	@Override
+	public boolean payInfoSave(PaymentsInfoVO vo) throws Exception {
+		
+		int serialNo = dao.readSerialNo() + 1;
+		
+		
+//		if (vo.getBuyProduct_no1() != 0) {
+//			paymentVO tmpVo = new paymentVO();
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return false;
+	}
 		  	
 //		  	<!-- 김도연 DAO -->
 		  	

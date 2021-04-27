@@ -24,6 +24,8 @@ public interface prodOrderDAO {
 	  	
 	  	public int payInfoNo() throws Exception;
 	  	
+	  	public int readSerialNo();
+	  	
 //	  	<!-- 김도연 DAO -->
 	  	
 	  	

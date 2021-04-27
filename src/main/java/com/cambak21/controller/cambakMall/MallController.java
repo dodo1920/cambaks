@@ -96,7 +96,8 @@ public class MallController {
 	
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
 	public void orderFin(PaymentsInfoVO vo) throws Exception {
-		System.out.println("paymentInfo : " + vo.toString());
+
+		service.payInfoSave(vo);
 		
 //		return "cambakMall/orderFin";
 	}

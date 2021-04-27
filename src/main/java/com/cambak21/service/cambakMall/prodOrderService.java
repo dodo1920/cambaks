@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.PayInfoVO;
+import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
@@ -25,6 +26,8 @@ public interface prodOrderService {
 	public int payInfo(PayInfoVO vo) throws Exception;
 	
 	public int payInfoNo() throws Exception;
+	
+	public boolean payInfoSave(PaymentsInfoVO vo) throws Exception;
   	
 //  	<!-- 김도연 DAO -->
   	
