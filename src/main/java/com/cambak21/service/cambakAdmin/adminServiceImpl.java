@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
@@ -22,7 +23,10 @@ public class adminServiceImpl implements adminService {
 	
 	// ======================================== 도연 ============================================================================
 	
-	
+	@Override
+	public List<MemberVO> getMember() throws Exception {
+		return dao.getMember();
+	}
 	
 	
 	
@@ -178,6 +182,8 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
 		
 		
 		

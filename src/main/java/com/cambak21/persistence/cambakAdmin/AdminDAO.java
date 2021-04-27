@@ -3,6 +3,7 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -13,7 +14,7 @@ public interface AdminDAO {
 	
 	// ======================================== 도연 ============================================================================
 	
-	
+	public List<MemberVO> getMember() throws Exception;
 	
 	
 	
@@ -145,6 +146,7 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
 	
 	
 	

@@ -5,7 +5,9 @@
   
   <mapper namespace="com.cambak21.mappers.cambakAdmin.adminMapper">
   <!-- ***************************************** 도연 ********************************************************************************* -->
-	
+	<select id="getMember" resultType="com.cambak21.domain.MemberVO">
+		select * from Members order by member_registerDate limit 0, 10
+	</select>
 	
 	
 	

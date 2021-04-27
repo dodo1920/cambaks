@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -22,7 +23,10 @@ public class AdminDAOImpl implements AdminDAO {
 	
 	// ======================================== 도연 ============================================================================
 	
-	
+	@Override
+	public List<MemberVO> getMember() throws Exception {
+		return ses.selectList(ns + ".getMember");
+	}
 	
 	
 	
@@ -176,6 +180,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
+
 		
 		
 		
