@@ -6,6 +6,10 @@ import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
+import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
 
 public interface AdminDAO {
 
@@ -40,6 +44,26 @@ public interface AdminDAO {
 	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception;
 
 	public List<RevenueVO> selectDate(String startDate, String endDate)throws Exception;
+
+	public List<RevenueMonthVO> selectMothly(int revenueMonthly) throws Exception;
+
+	public List<RevenueWeeklyVO> selectWeekly(int revenueWeekly) throws Exception;
+
+	public RevRefundVO thisMonthRevenue() throws Exception;
+
+	public RevRefundVO prevMonthRevenue()throws Exception;
+
+	public RevRefundVO thisMonthRefund() throws Exception;
+
+	public RevRefundVO prevMonthRefund()throws Exception;
+
+	public RevRefundVO thisWeekRevenue() throws Exception;
+
+	public RevRefundVO prevWeekRevenue() throws Exception;
+
+	public RevRefundVO thisWeekRefund() throws Exception;
+
+	public RevRefundVO prevWeekRefund()throws Exception;
 
 	
 	

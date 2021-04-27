@@ -7,12 +7,18 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
+
+import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
 
 @Repository
 public class AdminDAOImpl implements AdminDAO {
@@ -67,6 +73,68 @@ public class AdminDAOImpl implements AdminDAO {
 		params.put("endDate", endDate);
 		
 		return ses.selectList(ns + ".betweenDayRevenue", params);
+	}
+
+	@Override
+	public List<RevenueMonthVO> selectMothly(int revenueMonthly) throws Exception {
+		System.out.println("다오 : " + revenueMonthly);
+		return ses.selectList(ns +".selectMonthly" , revenueMonthly);
+		
+	}
+
+	@Override
+	public List<RevenueWeeklyVO> selectWeekly(int revenueWeekly) throws Exception {
+		
+		return ses.selectList(ns + ".selectWeekly", revenueWeekly);
+	}
+
+	@Override
+	public RevRefundVO thisMonthRevenue() throws Exception {
+		
+		return ses.selectOne(ns + ".thisMonthRevenue");
+		
+	}
+
+	@Override
+	public RevRefundVO prevMonthRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevMonthRevenue");
+	}
+
+	@Override
+	public RevRefundVO thisMonthRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".thisMonthRefund");
+	}
+
+	@Override
+	public RevRefundVO prevMonthRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevMonthRefund");
+	}
+
+	@Override
+	public RevRefundVO thisWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".thisWeekRevenue");
+	}
+
+	@Override
+	public RevRefundVO prevWeekRevenue() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevWeekRevenue");
+	}
+
+	@Override
+	public RevRefundVO thisWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".thisWeekRefund");
+	}
+
+	@Override
+	public RevRefundVO prevWeekRefund() throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".prevWeekRefund");
 	}
 		
 		

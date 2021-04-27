@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cambak21.controller.HomeController;
+import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.PagingCriteria;
 import com.mysql.cj.xdevapi.JsonArray;
@@ -88,14 +90,60 @@ public class AdminController {
 		
 	}
 	@RequestMapping(value = "/revenueWeekly", method = RequestMethod.GET)
-	public String revenueWeekly() throws Exception{
+	public String revenueWeekly(Model model) throws Exception{
+		
+		model.addAttribute("thisWeekRevenue", service.thisWeekRevenue());
+		
+		model.addAttribute("prevWeekRevenue", service.prevWeekRevenue());
+		model.addAttribute("thisWeekRefund", service.thisWeekRefund());
+		model.addAttribute("prevWeekRefund", service.prevWeekRefund());
 		
 		return "/admin/revenueWeekly";
 	}
+	@RequestMapping(value = "revenue/selectWeekly", method = RequestMethod.GET)
+	public ResponseEntity<List<RevenueWeeklyVO>> selectWeekly(@RequestParam("revenueWeekly") int revenueWeekly, Model model) {
+				
+		ResponseEntity<List<RevenueWeeklyVO>> entity = null;
+		try {
+			entity = new ResponseEntity<List<RevenueWeeklyVO>>(service.selectWeekly(revenueWeekly), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<List<RevenueWeeklyVO>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
+	}
+	
+	
 	@RequestMapping(value = "/revenueMonthly", method = RequestMethod.GET)
-	public String revenueMonthly() throws Exception{
+	public String revenueMonthly(Model model) throws Exception{
+		
+		
+		model.addAttribute("thisMonthRevenue", service.thisMonthRevenue());
+		
+		model.addAttribute("prevMonthRevenue", service.prevMonthRevenue());
+		model.addAttribute("thisMonthRefund", service.thisMonthRefund());
+		model.addAttribute("prevMonthRefund", service.prevMonthRefund());
 		
 		return "/admin/revenueMonthly";
+	}
+	
+	@RequestMapping(value = "revenue/selectMonthly", method = RequestMethod.GET)
+	public ResponseEntity<List<RevenueMonthVO>> selectMonthly(@RequestParam("revenueMonthly") int revenueMonthly, Model model) {
+				
+		ResponseEntity<List<RevenueMonthVO>> entity = null;
+		try {
+			entity = new ResponseEntity<List<RevenueMonthVO>>(service.selectMonthly(revenueMonthly), HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<List<RevenueMonthVO>>(HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+		
 	}
 	
 	
