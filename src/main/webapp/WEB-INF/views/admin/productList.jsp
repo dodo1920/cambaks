@@ -51,6 +51,26 @@
 
 <script>
 
+function selectMainCategories() {
+				$.ajax({
+					  method: "get",
+					  url: "/admin/getMainCategories",
+					  headers: {	// 요청하는 데이터의 헤더에 전송
+						  "Content-Type" : "application/json",
+						  "X-HTTP-Method-Override" : "GET"
+					  },
+					  dataType: "text", // 응답 받는 데이터 타입
+					  success : function(data) {
+
+					      console.log(data);
+					      
+					      
+					  }
+					  
+					}); // end of ajax
+}
+
+
 // 수정 삭제를 위한 체크 박스 설정
 $(document).ready(function(){
     //최상단 체크박스 클릭
@@ -66,6 +86,8 @@ $(document).ready(function(){
         }
     });
     
+    
+    selectMainCategories();
 });
 
 </script>
@@ -112,8 +134,8 @@ $(document).ready(function(){
 							<div class="col-md-1" style="padding-left: 0px;">
 								<select class="select form-control" name="searchType" style="height:36px;">
 											<option value="searchAll">전체</option>
-											<option value="product_id">상품명</option>
-											<option value="product_name">제조사명</option>
+											<option value="product_name">상품명</option>
+											<option value="product_factory">제조사명</option>
 								</select>
 							</div>
 							<div class="col-md-3">
@@ -126,8 +148,9 @@ $(document).ready(function(){
 						</div>
 						<div class="form-group row">
 						    <label class="col-md-1  m-t-15">상품분류</label>
-							    <div class="col-md-1.5">
+							    <div class="col-md-1.5" id="selectMainCategories">
 									<select class="select form-control" name="checkOption" style="height:36px;">
+									<!-- 메인 카테고리 -->
 										<optgroup label="-검색항목선택-">
 											<option value="default">- 카테고리 대분류 -</option>
 											<option value="prodName">기타</option>
@@ -145,6 +168,7 @@ $(document).ready(function(){
 								</div>
 								<div class="col-md-1.5">
 									<select class="select form-control" name="checkOption" style="height:36px;">
+									<!-- 미들 카테고리 -->
 										<optgroup label="-검색항목선택-">
 											<option value="default">- 카테고리 중분류 -</option>
 											<option value="prodName">경량 테이블</option>
@@ -250,9 +274,11 @@ $(document).ready(function(){
 									<div class="col-sm-12 col-md-7">
 										<div>
 											<ul class="pagination">
+											<c:choose>
+               									<c:when test="${SearchCriteria.searchType != null}">
 												<c:if test="${pagingParam.prev }">
 												<li class="page-item">
-													<a class="page-link" href="prodList?page=${param.page -1 }" aria-label="Previous">
+													<a class="page-link" href="searchProdList?page=${param.page -1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" aria-label="Previous">
 														<span aria-hidden="true">«</span>
 														<span class="sr-only">Previous</span>
 													</a>
@@ -260,17 +286,43 @@ $(document).ready(function(){
 												</c:if>
 												<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
 												<li class="page-item active">
-													<a href="prodList?page=${pageNo }" class="page-link">${pageNo }</a>
+													<a href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" class="page-link">${pageNo }</a>
 												</li>
 												</c:forEach>
 												<c:if test="${pagingParam.next }">
 												<li class="page-item">
-													<a class="page-link" href="prodList?page=${param.page +1 }" aria-label="Next">
+													<a class="page-link" href="searchProdList?page=${param.page +1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" aria-label="Next">
 														<span aria-hidden="true">»</span>
 														<span class="sr-only">Next</span>
 													</a>
 												</li>
 												</c:if>
+											</c:when>
+											<c:otherwise>
+												<c:if test="${pagingParam.prev }">
+													<li class="page-item">
+														<a class="page-link" href="prodList?page=${param.page -1 }" aria-label="Previous">
+															<span aria-hidden="true">«</span>
+															<span class="sr-only">Previous</span>
+														</a>
+													</li>
+													</c:if>
+													<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
+													<li class="page-item active">
+														<a href="prodList?page=${pageNo }" class="page-link">${pageNo }</a>
+													</li>
+													</c:forEach>
+													<c:if test="${pagingParam.next }">
+													<li class="page-item">
+														<a class="page-link" href="prodList?page=${param.page +1 }" aria-label="Next">
+															<span aria-hidden="true">»</span>
+															<span class="sr-only">Next</span>
+														</a>
+													</li>
+												</c:if>
+											</c:otherwise>
+											</c:choose>
+											
 											</ul>
 										</div>
 									</div>

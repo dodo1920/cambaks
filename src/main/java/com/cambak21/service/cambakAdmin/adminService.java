@@ -3,6 +3,7 @@ package com.cambak21.service.cambakAdmin;
 import java.util.List;
 import java.util.Map;
 
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
@@ -102,8 +103,8 @@ public interface adminService {
 		// 검색 게시글 목록 출력
 		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 		
-		
-		
+		// ajax 방식으로 메인카테고리 목록 가져오기
+		public List<MainCategoryVO> getMainCategories() throws Exception;
 		
 		
 //		---------------------------------------------- 정민 끝 ---------------------------------------------------------------------------------------------
@@ -139,6 +140,8 @@ public interface adminService {
 		
 		
 		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
+
+
 
 
 

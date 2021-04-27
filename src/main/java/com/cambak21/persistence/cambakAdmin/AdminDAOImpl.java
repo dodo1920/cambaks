@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
@@ -149,8 +150,11 @@ public class AdminDAOImpl implements AdminDAO {
 			return ses.selectList(ns + ".goSearchProdList", param);
 		}
 
-		
-		
+		// ajax 이용 메인 카테고리 리스트 출력
+		@Override
+		public List<MainCategoryVO> getMainCategories() throws Exception {
+			return ses.selectList(ns + ".getMainCategories");
+		}
 		
 		
 		
@@ -203,6 +207,7 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
+
 
 
 

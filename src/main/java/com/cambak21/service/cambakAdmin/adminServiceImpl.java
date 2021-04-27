@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
@@ -141,7 +142,12 @@ public class adminServiceImpl implements adminService {
 		}
 
 		
-		
+		// ajax를 통한 메인 카테고리 리스트 출력
+		@Override
+		public List<MainCategoryVO> getMainCategories() throws Exception {
+			return dao.getMainCategories();
+		}
+
 		
 		
 		
@@ -196,6 +202,7 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
 
 
 

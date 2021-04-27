@@ -3,6 +3,7 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
@@ -106,7 +107,8 @@ public interface AdminDAO {
 	// 검색된 게시글 리스트 가져오기
 	public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 	
-	
+	// ajax를 이용한 메인 카테고리 리스트 출력
+	public List<MainCategoryVO> getMainCategories() throws Exception;
 	
 	
 	
@@ -149,6 +151,7 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
 
 
 

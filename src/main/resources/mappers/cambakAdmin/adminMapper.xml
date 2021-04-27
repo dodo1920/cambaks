@@ -130,10 +130,10 @@
   	<!-- 검색된 게시글 총 개수 가져오기 -->
   	<select id="getTotalSearchProdListCnt" resultType="int">
   		select count(*) from Products where
-  		<if test="searchType == 'product'">
+  		<if test="searchType == 'product_name'">
   			product_name like concat('%', #{searchWord}, '%')
   		</if>
-  		<if test="searchType == 'factory'">
+  		<if test="searchType == 'product_factory'">
   			product_factory like concat('%', #{searchWord}, '%')
   		</if>
   	</select>
@@ -141,16 +141,19 @@
   	<!-- 검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어) -->
   	<select id="goSearchProdList" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where
-  		<if test="searchType == 'product'">
+  		<if test="searchType == 'product_name'">
   			product_name like concat('%', #{searchWord}, '%')
   		</if>
-  		<if test="searchType == 'factory'">
+  		<if test="searchType == 'product_factory'">
   			product_factory like concat('%', #{searchWord}, '%')
   		</if>
   		order by product_id desc limit #{pageStart}, #{perPageNum}
   	</select>
   
-  
+  	<!-- ajax 이용 메인 카테고리 리스트 출력 -->
+  	<select id="getMainCategories" resultType="com.cambak21.domain.MainCategoryVO">
+  		select * from MainCategories;
+  	</select>
   
   
   

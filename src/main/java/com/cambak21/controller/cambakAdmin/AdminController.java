@@ -111,7 +111,6 @@ public class AdminController {
 	// 페이징 있는 전체 게시글 목록 출력
 	@RequestMapping(value = "/prodList", method = RequestMethod.GET)
 	public String productList(Model model, PagingCriteria cri) throws Exception  {
-		System.out.println(cri.toString());
 		logger.info("productList호출, 페이징을 이용한 전체 리스트 출력");
 		// 검색한 결과의 총 게시글 수
 		model.addAttribute("boardList", service.prodList(cri));// 게시물 데이터
@@ -122,7 +121,7 @@ public class AdminController {
 
 		System.out.println(pp.toString());
 		model.addAttribute("pagingParam", pp); // 페이징 처리를 위한 파라메터 객체
-		System.out.println(model.toString());
+		System.out.println("model:" + model.toString());
 		return "/admin/productList";
 	}
 	
@@ -130,7 +129,7 @@ public class AdminController {
 	// 검색어 입력
 	@RequestMapping(value="/searchProdList", method = RequestMethod.GET)
 	public String searchProductList(PagingCriteria cri, SearchCriteria scri, Model model) throws Exception {
-		
+		System.out.println("모델: " + model.toString());
 		System.out.println("검색을 시작합니다.");
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
@@ -147,6 +146,18 @@ public class AdminController {
 		return "/admin/productList";
 		
 	}
+	
+	// 상품 메인 카테고리 목록 ajax로 가져오는 부분
+	@RequestMapping(value="getMainCategories", method=RequestMethod.GET)
+	public @ResponseBody Map<String, Object> selectMainCategories() throws Exception {
+		logger.info("/admin_product게시판의 getMainCategories-GET방식 호출");
+	    Map<String, Object> result = new HashMap<String, Object>();
+	    
+	    ;
+	    result.put("mainCategories", service.getMainCategories());
+	    return result;
+		
+	} 
 	
 	//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	@GetMapping("/prodRegister")
