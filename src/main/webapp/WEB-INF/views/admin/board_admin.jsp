@@ -307,7 +307,10 @@ a.btnIcon, button.btnIcon, span.btnIcon, .btnIcon:before {
     transition: .2s ease-out;
 }
 
-
+.mBreadcrumb li.now {
+    color: #2a3954;
+    text-decoration: underline;
+}
 
     
     </style>
@@ -355,7 +358,7 @@ a.btnIcon, button.btnIcon, span.btnIcon, .btnIcon:before {
                         <h1>게시물 관리</h1>
                         <div class="cTip" code="BR.BO.BA.110"></div>
                                                     <span style="display: none;" class="cManual" code="BR.BO.BA" href="brd/brd1010001"></span>
-                                                <span class="cManual eSmartMode" code="BD.BA"><a href="//serviceguide.cafe24.com/IN/ko_KR/BD.BA.html" target="_blank" class="btnManual" title="새창 열림">매뉴얼</a></span>
+                                                
                     </div>
                     <div class="mBreadcrumb">
                         <ol>

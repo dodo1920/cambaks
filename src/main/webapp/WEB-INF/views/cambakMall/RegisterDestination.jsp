@@ -139,7 +139,7 @@ function chkInsert() {
 	   let result = getParameter("result");
 	
 	   if (result == "success") {
-		   alert("글 등록이 완료 되었습니다.");
+		   alert("배송지 등록이 완료 되었습니다.");
 		   opener.location.reload();
 	 		window.close();
 	   }else if(result == "modisuccess"){
@@ -148,7 +148,7 @@ function chkInsert() {
 	 		window.close();
 		   
 	   }else if (result == "fail") {
-		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		   alert("배송지 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 	   }
 }
 
@@ -488,7 +488,7 @@ li {
                                 <span class="_input basic_input" style="width: 64px; background-color: gainsboro;">
 								<label for="zipCode" class="lb_text blind"></label>
 								<input type="text" readonly name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
-							</span>
+							</span>&nbsp&nbsp&nbsp
                         <a onclick="sample3_execDaumPostcode();" style="cursor:pointer;" class="_search setting_btn green">주소검색</a>
                         <p class="address_detail">
                                     <span class="_input basic_input" style="width: 338px; background-color: gainsboro;">
