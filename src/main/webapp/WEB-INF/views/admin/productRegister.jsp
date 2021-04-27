@@ -75,12 +75,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-// 		var quill = new Quill('#editor', {
-// 			modules : {
-// 				toolbar : '#toolbar'
-// 			}
-// 		});
-
+		// quill 에디터 옵션
 		var toolbarOptions = [
 			  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 			  ['blockquote', 'code-block'],
@@ -101,6 +96,7 @@
 			  ['clean']                                         // remove formatting button
 		];
 			
+		// quill 에디터 객체 생성
 		var quill = new Quill('#editor', {
 			modules: {
 			  toolbar: toolbarOptions
@@ -108,20 +104,82 @@
 			theme: 'snow'
 		});
 		
-		quill.getModules('toolbar').addHandler('image', function () {
+		// quill에디터 데이터 보내기 위한 ...
+		quill.on('text-change', function(delta, oldDelta, source) {
+	        document.getElementById("product_detail").value = quill.root.innerHTML;
+	    });
+		
+		// quill 에디터 이미지 핸들러 추가
+		quill.getModule('toolbar').addHandler('image', function () {
 			imgCallback(); // 이미지 업로드 콜백 함수 실행
 		})
 		
-		// 콜백 함수 실행
+	})
+	
+		// quill 에디터 이미지 콜백 함수 실행
 		function imgCallback() {
+			// input 태그 생성
 			let input = document.createElement('input');
 			input.setAttribute('type', 'file');
 			input.click();
+			
+			// product_detail 사진 웹서버에 저장하기 위한 ...
+			input.onchange = function () {
+				let formData = new FormData();
+				let file = $(this)[0].files[0];
+				formData.append("image", file);
+				
+				$.ajax({
+					url : "/admin/productDetail",
+					data : formData,
+					type : 'POST',
+					enctype : 'multipart/form-data',
+					processData : false,
+					contentType : false,
+					dataType : 'text',
+					cache : false,
+					success : function(data) {
+						let imgSrc = "../resources/uploads/product/" + data // 웹서버에 저장한 이미지 경로
+						let content = $("#product_detail").val(); // 기존 html 값들 가져오기
+						content += '<img src="'+imgSrc+'">'; // 기존 html 값에다가 이미지 추가
+						
+						$(".ql-editor").append('<img src="'+imgSrc+'">'); // quill 에디터 창에도 이미지 출력
+					},
+					error : function(data) {
+					}, 
+					complete : function(data) {
+					}
+				});
+			}
 		}
-		
-		
-	})
 	
+	// 썸네일 이미지 업로드
+	function ThumnailUpload() {
+		let formData = new FormData();
+		let file = $("#product_thumnail")[0].files[0];
+		formData.append("image", file);
+		
+		$.ajax({
+			url : "/admin/productThumnail",
+			data : formData,
+			type : 'POST',
+			enctype : 'multipart/form-data',
+			processData : false,
+			contentType : false,
+			dataType : 'text',
+			cache : false,
+			success : function(data) {
+				let imgSrc = "../resources/uploads/product/" + data
+				$(".preview-thumb").attr("src", imgSrc);
+				$("#product_img1").val("product/" + data)
+			},
+			error : function(data) {
+				console.log("실패!")
+			}, 
+			complete : function(data) {
+			}
+		});
+	}
 	
 </script>
 <style type="text/css">
@@ -180,31 +238,31 @@ input[type="text"] {
 			<!-- 본문 작성  -->
 			<div class="container-fluid">
 				<div class="container">
-					<form method="post">
+					<form method="post" action="../admin/productInsert">
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">제품이름</td>
-								<td><input type="text" value="활활화로" style="width: 300px"
+								<td><input type="text" value="" style="width: 300px" name="product_name"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입가</td>
-								<td><input type="text" value="활활화로" style="width: 200px"
+								<td><input type="text" value="" style="width: 200px" name="product_purchPrice"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입수량</td>
-								<td><input type="text" value="활활화로" style="width: 200px"
+								<td><input type="text" value="" style="width: 200px" name="product_purchaseQty"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">제조사</td>
-								<td><input type="text" value="활활화로" style="width: 300px"
+								<td><input type="text" value="" style="width: 300px" name="product_factory"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">상품 이름</td>
-								<td><input type="text" value="활활화로" style="width: 600px"
+								<td><input type="text" value="" style="width: 600px" name="product_title"
 									class="input_style"> [ 0 / 250 ]</td>
 							</tr>
 						</table>
@@ -217,6 +275,7 @@ input[type="text"] {
 										<div id="toolbar">
 										</div>
 										<div id="editor" style="height: 300px;"></div>
+										<input type="hidden" name="product_detail" id="product_detail">
 									</div>
 								</div>
 							</div>
@@ -225,63 +284,73 @@ input[type="text"] {
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">대표 이미지</td>
-								<td><input type="file" value="활활화로"> <br>- 권장
-									사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)</td>
+								<td><input type="file" value="" id="product_thumnail" onchange="ThumnailUpload()"> <br>- 권장 사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)
+								<input type="hidden" name="product_img1" id="product_img1">
+								</td>
 							</tr>
 							<tr>
 								<td class="table_title">미리보기</td>
-								<td><img alt="" src="../resources/img/test.jpg"></td>
+								<td><img alt="" src="" class="preview-thumb" style="max-width: 412px;"></td>
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
-								<td><select>
+								<td>
+								<select name="mainCategory_id">
 										<option>-대분류-</option>
-										<option>텐트/타프</option>
-										<option>텐트/타프</option>
+										<option value="1">텐트/타프</option>
+										<option value="2">텐트/타프</option>
 										<option>텐트/타프</option>
 										<option>텐트/타프</option>
 										<option>기타</option>
-								</select></td>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td class="table_title">소분류</td>
-								<td><select>
+								<td>
+								<select name="middleCategory_id">
 										<option>-소분류-</option>
-										<option>국자</option>
-										<option>젓가락</option>
+										<option value="11">국자</option>
+										<option value="12">젓가락</option>
 										<option>숟가락</option>
 										<option>모자</option>
 										<option>신발</option>
-								</select></td>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td class="table_title">판매가</td>
-								<td><input type="text" value="50,000" style="width: 200px"
-									class="input_style"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
+								<td><input type="text" value="" style="width: 200px"
+									class="input_style" name="product_sellPrice"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
 									10% ]</td>
 							</tr>
 							<tr>
 								<td class="table_title">진열 여부</td>
-								<td><select>
-										<option>진열함</option>
-										<option>진열안함</option>
-								</select></td>
+								<td>
+								<select name="product_show">
+										<option value="Y">진열함</option>
+										<option value="N">진열안함</option>
+								</select>
+								</td>
 							</tr>
 							<tr>
 								<td class="table_title">인기 상품 진열 여부</td>
-								<td><select>
-										<option>진열함</option>
-										<option>진열안함</option>
-								</select> <span> [ 쇼핑몰 하단에 랜덤으로 상품이 노출 됩니다. ]</span></td>
+								<td>
+								<select name="product_popularProduct">
+										<option value="Y">진열함</option>
+										<option value="N">진열안함</option>
+								</select>
+								<span> [ 쇼핑몰 하단에 랜덤으로 상품이 노출 됩니다. ] </span>
+								</td>
 							</tr>
 							<tr>
 								<td class="table_title">배송비</td>
-								<td><input type="text" style="width: 200px" value="3,000"
-									class="input_style"></td>
+								<td><input type="text" style="width: 200px" value=""
+									class="input_style" name="product_shipPrice"></td>
 							</tr>
 						</table>
 						<div class="btn-Wrap">
-							<button type="button" class="btn btn-primary">상품 등록</button>
+							<button type="submit" class="btn btn-primary">상품 등록</button>
 						</div>
 					</form>
 				</div>
