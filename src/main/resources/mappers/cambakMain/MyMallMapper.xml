@@ -138,8 +138,7 @@
 		from Buckets bk
 		inner join Products p
 		on bk.product_id = p.product_id
-		where bk.member_id =
-		#{member_id}
+		where bk.member_id = #{member_id} and bk.bucket_isDelete = 'N'
 		LIMIT 0, 10;
 	</select>
 
