@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.ChangeMemberInfoDTO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
 
@@ -61,6 +62,16 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int loginRequestCheck(LoginDTO dto) throws Exception {
 		return ses.selectOne(namespace + ".loginRequestCheck", dto);
+	}
+	
+	@Override
+	public int updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception {
+		return ses.update(namespace + ".updateMemberInfo", dto);
+	}
+	
+	@Override
+	public MemberVO sesUserInfoChange(String member_id) throws Exception {
+		return ses.selectOne(namespace + ".memberSelect", member_id);
 	}
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	

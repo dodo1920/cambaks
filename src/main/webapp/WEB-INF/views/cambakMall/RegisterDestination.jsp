@@ -14,16 +14,18 @@ let thirdNum = "";
 let finalNum = "";
 const regExpName = /^[가-힣a-zA-Z]+$/;
 const NumPattern = /^\d{2,3}-\d{3,4}-\d{4}$/;
+const DetailPattern = /^[가-힣0-9\s]+$/;
 
 //부모창으로부터 열린 자식창임을 선언 //
 opener.popup = this;
 
-
 //우측 상단 X버튼 눌렀을 경우 이벤트 설정 //
+	
 $(window).bind("beforeunload", function (e){
+	
 	opener.location.reload();
-	return "창을 닫으실래요?";
-
+// 	return "정말 닫으시겠습니까?";
+	 
 });
 
 
@@ -66,19 +68,20 @@ function getDataParent(){
 function registerDestinationcheck(){
 	
 		if(validCheck()){
-
 				$("#registerDestinationForm").submit();
 			}
 	
 }
 
+
+
 function validCheck(){
 	
 	 if(document.getElementsByName("destination_nickname")[0].value == ""){
-		 alert("배송지 별칭을 입력해주세요.");
+		 alert("배송지명을 입력해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_nickname")[0].value.length >= 20){
-		 alert("배송지 별칭 글자수가 너무 많습니다. 20자 이내로 작성해주세요.");
+		 alert("배송지명 글자수가 너무 많습니다. 20자 이내로 작성해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_toUser")[0].value == ""){
 		 alert("수령인을 입력해주세요.");
@@ -94,6 +97,12 @@ function validCheck(){
 		 return false;
 	 }else if(document.getElementsByName("destination_toUser")[0].value.match(regExpName) == null){
 		 alert("수령인을 올바르게 작성해주세요.");
+		 return false;
+	 }else if(document.getElementsByName("destination_addressDetail")[0].value.match(DetailPattern) == null){
+		 alert("배송받을 상세 주소를 정확히 입력해주세요.");
+		 return false;
+	 }else if(document.getElementsByName("destination_nickname")[0].value.match(DetailPattern) == null){
+		 alert("배송지명을 올바르게 입력해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_mobile")[0].value.match(NumPattern) == null){
 		 alert("연락처를 올바르게 입력해주세요.");
@@ -130,7 +139,7 @@ function chkInsert() {
 	   let result = getParameter("result");
 	
 	   if (result == "success") {
-		   alert("글 등록이 완료 되었습니다.");
+		   alert("배송지 등록이 완료 되었습니다.");
 		   opener.location.reload();
 	 		window.close();
 	   }else if(result == "modisuccess"){
@@ -139,7 +148,7 @@ function chkInsert() {
 	 		window.close();
 		   
 	   }else if (result == "fail") {
-		   alert("글 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+		   alert("배송지 등록을 실패 했습니다. 다시 시도 후 실패 시 문의바랍니다.");
 	   }
 }
 
@@ -476,13 +485,13 @@ li {
                 <tr>
                     <th class="cell_title">주소 <em class="mark_necessity"><span class="blind"></span></em></th>
                     <td>
-                                <span class="_input basic_input" style="width: 64px">
+                                <span class="_input basic_input" style="width: 64px; background-color: gainsboro;">
 								<label for="zipCode" class="lb_text blind"></label>
 								<input type="text" readonly name="destination_zipCode" id="sample3_postcode" class="ip_text" value="">
-							</span>
+							</span>&nbsp&nbsp&nbsp
                         <a onclick="sample3_execDaumPostcode();" style="cursor:pointer;" class="_search setting_btn green">주소검색</a>
                         <p class="address_detail">
-                                    <span class="_input basic_input" style="width: 338px">
+                                    <span class="_input basic_input" style="width: 338px; background-color: gainsboro;">
 									<label for="baseAddress" class="lb_text blind"></label>
 									<input type="text" name="destination_address" readonly id="sample3_address" class="ip_text" value="">
 									<input type="hidden" id="roadNameAddressYn" value="">

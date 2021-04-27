@@ -3,6 +3,16 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 
@@ -13,7 +23,7 @@ public interface AdminDAO {
 	
 	// ======================================== 도연 ============================================================================
 	
-	
+	public List<MemberVO> getMember() throws Exception;
 	
 	
 	
@@ -39,6 +49,26 @@ public interface AdminDAO {
 	public List<RevenueVO> getPerDayRevenue(int dateVal) throws Exception;
 
 	public List<RevenueVO> selectDate(String startDate, String endDate)throws Exception;
+
+	public List<RevenueMonthVO> selectMothly(int revenueMonthly) throws Exception;
+
+	public List<RevenueWeeklyVO> selectWeekly(int revenueWeekly) throws Exception;
+
+	public RevRefundVO thisMonthRevenue() throws Exception;
+
+	public RevRefundVO prevMonthRevenue()throws Exception;
+
+	public RevRefundVO thisMonthRefund() throws Exception;
+
+	public RevRefundVO prevMonthRefund()throws Exception;
+
+	public RevRefundVO thisWeekRevenue() throws Exception;
+
+	public RevRefundVO prevWeekRevenue() throws Exception;
+
+	public RevRefundVO thisWeekRefund() throws Exception;
+
+	public RevRefundVO prevWeekRefund()throws Exception;
 
 	
 	
@@ -92,15 +122,17 @@ public interface AdminDAO {
 	
 //	============================================== 정민 ==============================================================================
 	
+	// 페이징 처리한 productList 출력
+	public List<ProductsVO> prodList(PagingCriteria cri) throws Exception;
 	
+	// 게시물 총 개수 가져오기
+	public int getTotalProdListCnt() throws Exception;
 	
+	// 검색된 게시글 총 개수 가져오기
+	public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception;
 	
-	
-	
-	
-	
-	
-	
+	// 검색된 게시글 리스트 가져오기
+	public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 	
 	
 	

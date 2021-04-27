@@ -8,8 +8,10 @@ public class mallMainTopCountDTO {
 	private String product_name;
 	private int product_sellPrice;
 	private String product_img1;
-	
-	
+	private int total_reviewNum;
+	private String Product_info;
+	private String Product_popularProduct;
+	private int Product_StuckCnt;
 	public int getCount() {
 		return count;
 	}
@@ -46,13 +48,37 @@ public class mallMainTopCountDTO {
 	public void setProduct_img1(String product_img1) {
 		this.product_img1 = product_img1;
 	}
+	public int getTotal_reviewNum() {
+		return total_reviewNum;
+	}
+	public void setTotal_reviewNum(int total_reviewNum) {
+		this.total_reviewNum = total_reviewNum;
+	}
+	public String getProduct_info() {
+		return Product_info;
+	}
+	public void setProduct_info(String product_info) {
+		Product_info = product_info;
+	}
+	public String getProduct_popularProduct() {
+		return Product_popularProduct;
+	}
+	public void setProduct_popularProduct(String product_popularProduct) {
+		Product_popularProduct = product_popularProduct;
+	}
+	public int getProduct_StuckCnt() {
+		return Product_StuckCnt;
+	}
+	public void setProduct_StuckCnt(int product_StuckCnt) {
+		Product_StuckCnt = product_StuckCnt;
+	}
 	@Override
 	public String toString() {
 		return "mallMainTopCountDTO [count=" + count + ", star=" + star + ", product_id=" + product_id
 				+ ", product_name=" + product_name + ", product_sellPrice=" + product_sellPrice + ", product_img1="
-				+ product_img1 + "]";
-	}
-	
+				+ product_img1 + ", total_reviewNum=" + total_reviewNum + ", Product_info=" + Product_info
+				+ ", Product_popularProduct=" + Product_popularProduct + ", Product_StuckCnt=" + Product_StuckCnt + "]";
+	}	
 	
 	
 	
