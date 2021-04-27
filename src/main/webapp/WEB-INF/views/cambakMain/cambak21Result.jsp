@@ -76,24 +76,142 @@
 		.container {
  			padding-left: 0px;
  		}
- 		
- 		.campingImg {
- 			padding-bottom: 0px;
- 		}
-		
-		#campingListContainer {
-			height:788px;
-			border : 1px solid black;
-			overflow: scroll;
-		}
-		
-		#map {
-			height: 788px;
-		}
 		
 		iframe {
 			width: 100%;
 		}
+		
+		.map_wrap {
+			position:relative;
+			width:100%;
+			height:700px;
+			margin-bottom:2%;
+			}
+		
+		#menu_wrap {
+			position:absolute;
+			top:0;
+			left:0;
+			bottom:0;
+			width:350px;
+			margin:10px 0 30px 10px;
+			padding:5px;overflow-y:auto;
+			background:rgba(255, 255, 255, 0.7);
+			z-index: 1;
+			font-size:12px;
+			border-radius: 10px;
+			}
+			
+		.bg_white {
+			background:#fff;
+			}
+		
+		li {
+			list-style: none;
+			}
+			
+		.camping {
+			position:relative;
+			border-bottom:1px solid #888;
+			overflow: hidden;
+			cursor: pointer;
+			min-height: 65px;
+			}
+		
+		.camping span {
+			display: block;
+			}
+			
+		.camping .campingImg {
+			float:left;
+			position:absolute;
+			margin:10px 0 0 10px;
+			}
+			
+		.camping .boxInfo {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			padding:10px 0 10px 120px;
+			}			
+			
+		#pagination {
+			margin:10px auto;
+			text-align: center;
+			}
+			
+		#pagination a {
+			display:inline-block;
+			margin-right:10px;
+			}
+			
+		#pagination .on {
+			font-weight: bold; 
+			cursor: default;color:#777;
+			}
+		 	
+	    .wrap * {
+	    	padding: 0;
+	    	margin: 0;
+	    	}
+	    	
+	    .wrap .info {
+	    	width: 248px;
+	    	height: 120px;
+	    	border-radius: 5px;
+	    	border-bottom: 2px solid #ccc;
+	    	border-right: 1px solid #ccc;
+	    	overflow: hidden;
+	    	background: #fff;
+	    	}
+	    	
+	    .wrap .info:nth-child(1) {
+	    	border: 0;
+	    	box-shadow: 0px 1px 2px #888;
+	    	}
+	    	
+	    .info .title {
+	    	padding: 5px 0 0 10px;
+	    	height: 30px;
+	    	background: #eee;
+	    	border-bottom: 1px solid #ddd;
+	    	font-size: 14px;
+	    	font-weight: bold;
+	    	}
+	    
+	    .info .body {
+	    	position: relative;
+	    	overflow: hidden;
+	    	}
+	    	
+	    .info .desc {
+	    	position: relative;
+	    	margin: 13px 0 0 90px;
+	    	height: 75px;
+	    	}
+	    	
+	    .desc .ellipsis {
+	    	overflow: hidden;
+	    	text-overflow: ellipsis;
+	    	white-space: nowrap;
+	    	}
+	    	
+	    .desc .jibun {
+	    	font-size: 11px;
+	    	color: #888;
+	    	margin-top: -2px;
+	    	}
+	    	
+	    .info .img {
+	    	position: absolute;
+	    	top: 6px;
+	    	left: 5px;
+	    	width: 73px;
+	    	height: 71px;
+	    	border: 1px solid #ddd;
+	    	color: #888;
+	    	overflow: hidden;
+	    	}
     
 	</style>
 	
@@ -172,38 +290,44 @@
     		output += '<p> 검색결과 없음 </p>';
     	} else {
     		$(campings).each(function(index, item) {
-    			output += '<table>';
-    			output += '<tr><td rowspan="4" class="campingImg"><img src="' + item.camping_firstImageUrl + '"  width="150px" height="150px"/></td>';
-    			output += '<td><a href="../index/detail?contentId=' + item.camping_contentId + '">' + item.camping_facltNm + '</a></td></tr>';
-    			output += '<tr><td>' + item.camping_addr1 + '</td></tr>';
-    			output += '<tr><td>' + item.camping_tel + '</td></tr>';
-    			output += '<tr><td>8</td></tr>';
-    			output += '</table>';
+    			output += '<li class="camping">';
+    			output += '<span class="campingImg"><img src="' + item.camping_firstImageUrl + '" width="100px" height="100px"/></span>';
+    			output += '<div class="boxInfo"><span><a href="../index/detail?contentId=' + item.camping_contentId + '">' + item.camping_facltNm + '</a></span>';
+    			output += '<span>' + item.camping_addr1 + '</span>';
+    			output += '<span>' + item.camping_tel + '</span>';
+    			output += '<span>8</span></div>';
+    			output += '</li>';
     		});
     	}
     	
-    	$("#campingListContainer").append(output);
+    	$("#campingListContainer").html(output);
     }
     
     
-    function pagingScroll(data) {
-    	$("#campingListContainer").scroll(function() {
-    		let paging = data.pagings;
-    		if(page < paging.endPage){
-    			let scroll = 0;
-    			console.log($("#campingListContainer").height());
-//     	        if () {
-//     	        	scroll += $("#campingListContainer").scrollTop() - $(window).height() + 30;
-//     	        	page++;
-//     	        	addCampings(page);
-//     	        }
-        	} 
-//     		// 페이지 스크롤이 완료된 경우,
-//     		else{
-//     			let output1 = '<div style="float:right;"><a href="" onclick="goToTop(); return false;"><img src ="../../../resources/img/go-up.png" style="width: 70px;"/></a></div>';
-//         		$("#goUp").html(output1);
-//         	}
-    	});    	
+    function pagingScroll(pagingInfo) {
+    		let data = pagingInfo.pagings;
+    		let page = data.cri.page;
+    		
+    		let prev = Number(page) - 1;
+    		let next = Number(page) + 1;
+    		
+    		let output = '';
+    		
+    		if(page > 1) { // 2페이지 이상으로 넘어갈 경우, 전으로 돌아가는 버튼 생성
+    			output += '<a href="javascript:void(0);" onclick="addCampings(\'1\')"> << </a>';
+    			output += '<a href="javascript:void(0);" onclick="addCampings(' + prev + ')"> < </a>';
+    		}
+    		
+    		for(let i = 1; i < data.endPage + 1; i++) { // 페이지 번호별 버튼 생성
+    			output += '<a href="javascript:void(0);" onclick="addCampings(' + i + ')">' + i + '</a>';
+    		}
+    		
+    		if(page < data.endPage) { // 다음 페이지가 있을 경우, 다음으로 가기 버튼 생성
+    			output += '<a href="javascript:void(0);" onclick="addCampings(' + next + ')"> > </a>';
+    			output += '<a href="javascript:void(0);" onclick="addCampings(' + data.endPage + ')"> >> </a>';
+    		}
+    		
+    		$("#pagination").html(output);   	
     }
     
     function showMap(data) {
@@ -215,43 +339,32 @@
         	level: 13 //지도의 레벨(확대, 축소 정도)
         };
 
-    	let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        
-     	// 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정합니다 
-        let positions = [campings.length];
-    	
+    	let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴	
 
     	
         for (let i = 1; i < campings.length; i++) {
+        	// 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: new kakao.maps.LatLng(campings[i].camping_mapY,campings[i].camping_mapX)	 // 마커의 위치
+            });
+        	
         	let content1 = '<div class="wrap">';
         	content1 += '<div class="info">';
         	content1 += '<div class="title">';
         	content1 += campings[i].camping_facltNm;
-        	content1 += '<div class="close" onclick="closeOverlay()" title="닫기"></div></div>';
+        	content1 += '</div>';
         	content1 += '<div class="body">';
         	content1 += '<div class="img">';
         	content1 += '<img src="' + campings[i].camping_firstImageUrl + '" width="73" height="70"></div>';
         	content1 += '<div class="desc">';
         	content1 += '<div class="ellipsis">' + campings[i].camping_addr1 + '</div>';
         	content1 += '<div class="jibun ellipsis">(우) ' + campings[i].camping_zipcode + '</div>';
-        	content1 += '<div><a href="' + campings[i].camping_resveUrl + '" target="_blank" class="link">홈페이지</a></div></div></div></div></div>';
+        	content1 += '<div>' + campings[i].camping_tel + '</div></div></div></div></div>';
 
-        	let position = {
-        			content: content1, 
-                    latlng: new kakao.maps.LatLng(campings[i].camping_mapY,campings[i].camping_mapX)	
-        	}
-        	
-        	positions.push(position);
-        	
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                map: map, // 마커를 표시할 지도
-                position: positions[i].latlng // 마커의 위치
-            });
-
-            // 마커에 표시할 인포윈도우를 생성합니다 
+        	// 마커에 표시할 인포윈도우를 생성합니다 
             var infowindow = new kakao.maps.InfoWindow({
-                content: positions[i].content // 인포윈도우에 표시할 내용
+                content: content1 // 인포윈도우에 표시할 내용
             });
 
             // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
@@ -259,26 +372,24 @@
             // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
             kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
             kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-            kakao.maps.event.addListener(marker, 'click', makeClickListener(infowindow, campings[i].camping_contentId));
-        }
-        
-        console.log(positions);
-
-        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-        function makeOverListener(map, marker, infowindow) {
-            return function() {
-                infowindow.open(map, marker);
-            };
+            kakao.maps.event.addListener(marker, 'click', makeClickListener(campings[i].camping_contentId));
         }
 
-        // 인포윈도우를 닫는 클로저를 만드는 함수입니다 
-        function makeOutListener(infowindow) {
-            return function() {
-                infowindow.close();
-            }; 
-        }
+		// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+		function makeOverListener(map, marker, infowindow) {
+		    return function() {
+		        infowindow.open(map, marker);
+		    };
+		}
+		
+		// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+		function makeOutListener(infowindow) {
+		    return function() {
+		        infowindow.close();
+		    };
+		}
         
-        function makeClickListener(infowindow, contentId) {
+        function makeClickListener(contentId) {
         	return function() {
         		location.href = '../index/detail?contentId=' + contentId;
         	}
@@ -443,13 +554,16 @@
 					</nav>
 				</div>
 		        <div id="content">
-		        	<div class="col-lg-6 col-md-6">
-		        		<div class="contact__content" id="campingListContainer">
-				        </div>
-				    </div>
-				    <div class="col-lg-6 col-md-6">
-				        <div class="well" id="map">
-				        </div>
+<!-- 		        	<div class="col-lg-6 col-md-6"> -->
+<!-- 		        		<div class="contact__content" id="campingListContainer"> -->
+<!-- 				        </div> -->
+<!-- 				    </div> -->
+				    <div class="map_wrap">
+				        <div class="well" id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				        <div id="menu_wrap" class="bg_white">
+					        <ul id="campingListContainer"></ul>
+					        <div id="pagination"></div>
+					    </div>
 				    </div>
 				</div>                  
 				</section>
