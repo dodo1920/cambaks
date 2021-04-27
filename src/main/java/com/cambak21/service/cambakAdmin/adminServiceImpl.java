@@ -17,6 +17,7 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -32,14 +33,40 @@ public class adminServiceImpl implements adminService {
 	// ======================================== 도연 ============================================================================
 	
 	@Override
-	public List<MemberVO> getMember() throws Exception {
-		return dao.getMember();
+	public List<MemberVO> getMember(PagingCriteria cri) throws Exception {
+		return dao.getMember(cri);
 	}
 	
+	@Override
+	public int getTotMemberCnt() throws Exception {
+		return dao.getTotMemberCnt();
+	}
 	
+	@Override
+	public boolean deleteMember(String member_id) throws Exception {
+		boolean result = false;
+		
+		int i = dao.deleteMember(member_id);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;	
+	}
 	
-	
-	
+	@Override
+	public boolean updateMember(UpdateAdminMemberDTO dto) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updateMember(dto);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;	
+	}
 	
 	
 	
@@ -279,6 +306,26 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 		
 		
 		

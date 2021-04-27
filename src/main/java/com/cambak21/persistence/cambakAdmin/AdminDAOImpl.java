@@ -20,6 +20,7 @@ import com.cambak21.util.SearchCriteria;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -33,15 +34,28 @@ public class AdminDAOImpl implements AdminDAO {
 	// ======================================== 도연 ============================================================================
 	
 	@Override
-	public List<MemberVO> getMember() throws Exception {
-		return ses.selectList(ns + ".getMember");
+	public List<MemberVO> getMember(PagingCriteria cri) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".getMember", params);
 	}
 	
+	@Override
+	public int getTotMemberCnt() throws Exception {
+		return ses.selectOne(ns + ".getTotMemberCnt");
+	}
 	
+	@Override
+	public int deleteMember(String member_id) throws Exception {
+		return ses.update(ns + ".deleteMember", member_id);
+	}
 	
-	
-	
-	
+	@Override
+	public int updateMember(UpdateAdminMemberDTO dto) throws Exception {
+		return ses.update(ns + ".updateMember", dto);
+	}
 	
 	
 	
@@ -278,6 +292,27 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 		
 		
 		

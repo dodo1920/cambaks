@@ -14,17 +14,20 @@ import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
-
+import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
 
 	
 	// ======================================== 도연 ============================================================================
-	public List<MemberVO> getMember() throws Exception;
+	public List<MemberVO> getMember(PagingCriteria cri) throws Exception;
 	
+	public int getTotMemberCnt() throws Exception;
 	
+	public boolean deleteMember(String member_id) throws Exception;
 	
+	public boolean updateMember(UpdateAdminMemberDTO dto) throws Exception;
 	
 	
 	
@@ -169,6 +172,27 @@ public interface adminService {
 		
 		
 		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
+
+		
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		
 		

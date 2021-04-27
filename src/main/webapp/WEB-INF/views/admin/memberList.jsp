@@ -50,11 +50,103 @@
 <script src="../resources/adminAssets/libs/quill/dist/quill.min.js"></script>
 
 <script>
-
-$(document).ready(function() {
+	let pageNo = '${param.page}';
 	
-});
-
+	$(document).ready(function() {
+		console.log('${paging}');
+	});
+	
+	function showBtns(obj) {
+		let no = $(obj).attr("id");
+		
+		$("#btns" + no).toggle();
+	}
+	
+	function delMember(member_id) {
+		
+		$.ajax({
+			url: '/admin/deleteMember/' + member_id,
+			data : {member_id : member_id},
+			dataType : 'text', // 응답 받을 형식
+			type : 'get',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				
+				if(pageNo.length == 0) {
+					pageNo = 1;
+				}
+				
+				location.href="./memberList?page=" + pageNo; 
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function showModi(no) {
+		
+		
+		$("#spName" + no).hide();
+		$("#spTotPoint" + no).hide();
+		$("#inputName" + no).show();
+		$("#inputTotPoint" + no).show();
+		
+		
+		$("#btns" + no).hide();
+		$("#modiBtns" + no).show();		
+	}
+	
+	function modiMember(no) {
+		console.log(no);
+		
+		let member_name = $("#member_name" + no).val();
+		let member_totPoint = $("#member_totPoint" + no).val();
+		let member_id = $("#id" + no).html();
+		
+		console.log(member_name);
+		console.log(member_totPoint);
+		console.log(member_id);
+		
+		$.ajax({
+			url: '/admin/modifyMember',
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({
+				member_id : member_id, 
+				member_name : member_name,
+				member_totPoint : member_totPoint
+			}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				
+				if(pageNo.length == 0) {
+					pageNo = 1;
+				}
+				
+				location.href="./memberList?page=" + pageNo; 
+			},
+			fail : function(result) {
+				alert(result);
+			}
+		});	
+	}
+	
+	function chagneModi(no) {
+		$("#spName" + no).show();
+		$("#spTotPoint" + no).show();
+		$("#inputName" + no).hide();
+		$("#inputTotPoint" + no).hide();
+		
+		$("#modiBtns" + no).hide();		
+	}
 
 
 
@@ -78,7 +170,7 @@ $(document).ready(function() {
 	<div class="page-breadcrumb">
 		<div class="row">
 			<div class="col-12 d-flex no-block align-items-center">
-				<h4 class="page-title">주문목록</h4>
+				<h4 class="page-title">회원 관리</h4>
 				<div class="ml-auto text-right">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
@@ -166,12 +258,6 @@ $(document).ready(function() {
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusCancel" id="csStatusCancel">
-								    <label class="custom-control-label" for="csStatusCancel">취소</label>
-								</div>
-							</div>
-							<div class="col-ms" style="margin-right: 15px;">
-								<div class="custom-control custom-checkbox">
 								    <input type="checkbox" class="custom-control-input" name="csStatusChange" id="csStatusChange">
 								    <label class="custom-control-label" for="csStatusChange">A등급</label>
 								</div>
@@ -213,26 +299,52 @@ $(document).ready(function() {
 											<tr role="row">
 												<th style="font-weight: bold; width: 100px;">이름</th>
 												<th style="font-weight: bold; width: 150px;">아이디</th>
+												<th style="font-weight: bold; width: 150px;">등급</th>
+												<th style="font-weight: bold; width: 150px;">생년월일</th>
+												<th style="font-weight: bold; width: 150px;">주소</th>
+												<th style="font-weight: bold; width: 150px;">이메일</th>
+												<th style="font-weight: bold; width: 150px;">휴대번호</th>
+												<th style="font-weight: bold; width: 150px;">누적사용금액</th>
 												<th style="font-weight: bold; width: 75px;">보유 포인트</th>
 												<th style="font-weight: bold; width: 180px;">회원 등록일</th>
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach var="memberList" items="${members }">
-											<tr role="row" id="memberInfo">
-												<td>${memberList.member_name }</td>
-												<td>${memberList.member_id }</td>
+											<c:forEach var="memberList" items="${members }" varStatus="status">
+											<tr role="row" >
+												<td id="name${status.index }">
+													<span id="spName${status.index }"><a href="javascript:void(0);" id="${status.index }" onclick="showBtns(this);">${memberList.member_name }</a></span>
+													<span id="inputName${status.index }" style="display:none"><input type='text' id='member_name${status.index }' value='${memberList.member_name }' /></span>
+												</td>
+												<td id="id${status.index }">${memberList.member_id }</td>
+												<td>${memberList.grade_name }</td>
+												<td><fmt:formatDate value="${memberList.member_birth }" pattern="yyyy-MM-dd" /></td>
+												<td>(${memberList.member_postCode}) <br/> ${memberList.member_addr }</td>
+												<td>${memberList.member_email }</td>
+												<td>${memberList.member_mobile }</td>
 												<td>
-													<fmt:formatNumber value="${memberList.member_totPoint }" type="number" maxFractionDigits="3" /> point
+												<fmt:formatNumber value="${memberList.member_payment }" type="currency"  />
+												</td>
+												<td>
+													<span id="spTotPoint${status.index }"><fmt:formatNumber value="${memberList.member_totPoint }" type="number" maxFractionDigits="3" /></span>
+													<span id="inputTotPoint${status.index }" style="display:none"><input type='number' id='member_totPoint${status.index }' value='${memberList.member_totPoint }' /></span>
+													point
 												</td>
 												<td><fmt:formatDate value="${memberList.member_registerDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											</tr>
-											<tr role="row" id="btns" >
-												<td>
-													<button>수정</button>
-													<button>삭제</button>
+											<tr role="row" style="display:none" id="btns${status.index }">
+												<td colspan="10">													
+													<input type="submit" value="수정" onclick="showModi('${status.index}')" />
+													<input type="button" value="삭제" onclick="delMember('${memberList.member_id }');">
 												</td>
 											</tr>
+											<tr role="row" style="display:none" id="modiBtns${status.index }">
+												<td colspan="10">													
+													<input type="submit" value="저장" onclick="modiMember('${status.index}')" />
+													<input type="button" value="취소" onclick="chagneModi('${status.index}');">
+												</td>
+											</tr>
+											
 											</c:forEach>
 										</tbody>
                                     </table>
@@ -243,22 +355,22 @@ $(document).ready(function() {
 									<div class="col-sm-12 col-md-7">
 										<div>
 											<ul class="pagination">
-												<c:if test="${order.paging.prev }">
+												<c:if test="${paging.prev }">
 												<li class="page-item">
-													<a class="page-link" href="#" aria-label="Previous">
+													<a class="page-link" href="./memberList?page=${paging.cri.page - 1}" aria-label="Previous">
 														<span aria-hidden="true">«</span>
 														<span class="sr-only">Previous</span>
 													</a>
 												</li>
 												</c:if>
-												<c:forEach begin="${order.paging.startPage }" end="${order.paging.endPage }" var="pageNo">
+												<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="pageNo">
 												<li class="page-item active">
-													<a href="#" class="page-link">${pageNo }</a>
+													<a href="./memberList?page=${pageNo}" class="page-link">${pageNo }</a>
 												</li>
 												</c:forEach>
-												<c:if test="${order.paging.next }">
+												<c:if test="${paging.next }">
 												<li class="page-item">
-													<a class="page-link" href="#" aria-label="Next">
+													<a class="page-link" href="./memberList?page=${paging.cri.page + 1}" aria-label="Next">
 														<span aria-hidden="true">»</span>
 														<span class="sr-only">Next</span>
 													</a>

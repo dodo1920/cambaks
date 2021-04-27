@@ -10,6 +10,7 @@ import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -23,13 +24,13 @@ public interface AdminDAO {
 	
 	// ======================================== 도연 ============================================================================
 	
-	public List<MemberVO> getMember() throws Exception;
+	public List<MemberVO> getMember(PagingCriteria cri) throws Exception;
 	
+	public int getTotMemberCnt() throws Exception;
 	
+	public int deleteMember(String member_id) throws Exception;
 	
-	
-	
-	
+	public int updateMember(UpdateAdminMemberDTO dto) throws Exception;
 	
 	
 	
@@ -177,6 +178,26 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

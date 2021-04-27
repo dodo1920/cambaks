@@ -6,14 +6,20 @@
   <mapper namespace="com.cambak21.mappers.cambakAdmin.adminMapper">
   <!-- ***************************************** 도연 ********************************************************************************* -->
 	<select id="getMember" resultType="com.cambak21.domain.MemberVO">
-		select * from Members order by member_registerDate limit 0, 10
+		select * from Members where member_isDelete = 'N' order by member_registerDate limit #{pageStart}, #{perPageNum}
 	</select>
 	
+	<select id="getTotMemberCnt" resultType="int">
+		select count(*) from Members where member_isDelete = 'N'
+	</select>
 	
+	<update id="deleteMember">
+		update Members set member_isDelete = 'Y' where member_id = #{member_id}
+	</update>	
 	
-	
-	
-	
+	<update id="updateMember">
+		update Members set member_name = #{member_name}, member_totPoint = #{member_totPoint} where member_id = #{member_id}
+	</update>
 	
 	
 	

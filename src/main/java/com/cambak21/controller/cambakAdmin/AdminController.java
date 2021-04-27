@@ -3,9 +3,11 @@ package com.cambak21.controller.cambakAdmin;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +16,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
-
+import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.OrderManagementOrderVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -104,12 +109,20 @@ public class AdminController {
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 도연@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    
-	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
-	public String memberList(Model model) {
+	@RequestMapping("/memberList")
+	public String memberList(@RequestParam(value="page", required = false, defaultValue = "1") int pageNo, Model model, PagingCriteria cri) {
 		logger.info("memberList호출");
 		
+		cri.setPage(pageNo);
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		
 		try {
-			model.addAttribute("members",service.getMember());
+			pp.setTotalCount(service.getTotMemberCnt());
+			System.out.println(pp);
+			model.addAttribute("paging", pp);
+			model.addAttribute("members", service.getMember(cri));
 		} catch (Exception e) {
 			model.addAttribute("noMembers");
 			e.printStackTrace();
@@ -117,6 +130,47 @@ public class AdminController {
 		
 		return "/admin/memberList";
 	}
+	
+	@RequestMapping(value="/deleteMember/{member_id}", method = RequestMethod.GET)
+	public ResponseEntity<String> deleteMember(@PathVariable("member_id") String member_id) {
+		logger.info("회원 탈퇴시키기");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(member_id);
+		
+		try {
+			if(service.deleteMember(member_id)) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		};
+		
+		return entity;
+	}
+	
+	@RequestMapping(value="/modifyMember", method = RequestMethod.POST)
+	public ResponseEntity<String> getMember(@RequestBody UpdateAdminMemberDTO dto) {
+		logger.info("회원 정보 수정");
+
+		ResponseEntity<String> entity = null;
+		
+		System.out.println(dto.toString());
+		
+		try {
+			if(service.updateMember(dto)) {
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+		}
+		
+		return entity;
+	}
+	
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
