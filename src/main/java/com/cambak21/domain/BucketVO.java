@@ -8,6 +8,7 @@ public class BucketVO {
 	private int bucket_sellPrice;
 	private int totBuyPrice;
 	private String bucket_isChecked;
+	private String bucket_isDelete;
 	
 	public int getBucket_no() {
 		return bucket_no;
@@ -51,12 +52,19 @@ public class BucketVO {
 	public void setBucket_isChecked(String bucket_isChecked) {
 		this.bucket_isChecked = bucket_isChecked;
 	}
+	public String getBucket_isDelete() {
+		return bucket_isDelete;
+	}
+	public void setBucket_isDelete(String bucket_isDelete) {
+		this.bucket_isDelete = bucket_isDelete;
+	}
 	
 	@Override
 	public String toString() {
 		return "BucketVO [bucket_no=" + bucket_no + ", member_id=" + member_id + ", pruduct_id=" + pruduct_id
 				+ ", bucket_buyQty=" + bucket_buyQty + ", bucket_sellPrice=" + bucket_sellPrice + ", totBuyPrice="
-				+ totBuyPrice + ", bucket_isChecked=" + bucket_isChecked + "]";
+				+ totBuyPrice + ", bucket_isChecked=" + bucket_isChecked + ", bucket_isDelete=" + bucket_isDelete + "]";
 	}
+	
 	
 }

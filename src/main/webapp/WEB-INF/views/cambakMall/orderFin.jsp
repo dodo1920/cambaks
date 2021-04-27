@@ -30,6 +30,24 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  	
+  	<script>
+  	
+  	$(document).ready(function() {
+  		
+  		orderResult();
+  		
+  		
+  	});
+  	
+  	function orderResult() {
+  		let result = '${param.result}';
+  		
+  		if (result == "success") alert("주문이 성공적으로 완료되었습니다.");
+  	}
+  	
+  	</script>
+  	
 </head>
 <body>
 <%@include file="mallHeader.jsp" %>
@@ -58,7 +76,7 @@
       <!-- 본문 시작 -->
       <!-- 주문완료 안내 start -->
       <h2>주문이 성공적으로 완료되었습니다.</h2>
-      <div>주문번호 : ㅇㅇㅇㅇㅇㅇ</div>
+      <div>주문번호 : ${orderInfo.payment_no }</div>
      
       <!-- 주문완료 안내 end -->
       <!-- 배송지 정보 start -->
@@ -79,16 +97,16 @@
     		
     		<tr>
     			<td>이름</td>
-    			<td id="user_name">배송지 선택 버튼을 클릭해주세요</td>
+    			<td id="user_name">${orderInfo.destination_toUser }</td>
     			
     		</tr>
     		<tr>
     			<td>연락처</td>
-    			<td id="user_number">배송지 선택 버튼을 클릭해주세요</td>
+    			<td id="user_number">${orderInfo.destination_mobile }</td>
     		</tr>
     		<tr>
     			<td>주소</td>
-    			<td id = "user_dest">배송지 선택 버튼을 클릭해주세요</td>
+    			<td id = "user_dest">(${orderInfo.destination_zipCode }) ${orderInfo.destination_address } ${orderInfo.destination_addressDetail }</td>
     			
     		</tr>
     		<tr>
@@ -97,12 +115,12 @@
     		</tr>
     		<tr>
     			<td>결제 수단</td>
-    			<td id="user_name">카드</td>
+    			<td id="user_name">${orderInfo.payInfo_way }</td>
     			
     		</tr>
     		<tr>
     			<td>결제시간</td>
-    			<td id="user_number">몇월 몇일 몇시</td>
+    			<td id="user_number"><fmt:formatDate value="${orderInfo.payInfo_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
     		</tr>
     		
     		<tr>
@@ -110,7 +128,7 @@
     	</tr>
     	<tr>
     			<td>금액</td>
-    			<td id="totBuyPrice">얼마얼마 얼마</td>
+    			<td id="totBuyPrice"><fmt:formatNumber value="${orderInfo.totPrice }" pattern="#,###" />원</td>
     		</tr>
     		
     	</tbody>

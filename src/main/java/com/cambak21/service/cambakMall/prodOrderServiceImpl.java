@@ -1,20 +1,31 @@
 package com.cambak21.service.cambakMall;
 
+import java.text.*;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.OrderCompleteInfoSessionVO;
 import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ResellBoardVO;
+import com.cambak21.domain.orderCompleteInfoVO;
 import com.cambak21.domain.paymentVO;
+import com.cambak21.dto.PaymentInfoSave;
+import com.cambak21.dto.savePointHistoryDTO;
 import com.cambak21.persistence.cambakMall.prodOrderDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -66,35 +77,173 @@ public class prodOrderServiceImpl implements prodOrderService {
 	}
 	
 	@Override
-	public boolean payInfoSave(PaymentsInfoVO vo) throws Exception {
+	public int readSerialNo() throws Exception {
+		return dao.readSerialNo();
+	}
+	
+	@Override
+	public orderCompleteInfoVO orderCompleteInfo(OrderCompleteInfoSessionVO vo) throws Exception {
+		orderCompleteInfoVO infoVO = dao.orderCompleteInfo(vo.getPayment_no());
+		infoVO.setTotPrice(vo.getTotPrice());
+		infoVO.setPayment_no(vo.getPayment_no());
 		
-		int serialNo = dao.readSerialNo() + 1;
-		
-		
-//		if (vo.getBuyProduct_no1() != 0) {
-//			paymentVO tmpVo = new paymentVO();
-//		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return infoVO;
+	}
+	
+	@Override
+	public boolean payInfoSave(PaymentsInfoVO vo, int payment_no, int serialNo) throws Exception {
+		boolean result = false;
+		Date payTime = new Date();
+		System.out.println(vo.toString());
 		
 		
+		if (vo.getBuyProduct_no1() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no1());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no1())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no1()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no2() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no2());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no2())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no2()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no3() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no3());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no3())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no3()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no4() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no4());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no4())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no4()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no5() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no5());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no5())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no5()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no6() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no6());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no6())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no6()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no7() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no7());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no7())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no7()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no8() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no8());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no8())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no8()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no9() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no9());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no9())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no9()) == 0) return false;
+		}
+		if (vo.getBuyProduct_no10() != 0) {
+			PaymentInfoSave tmpVo = new PaymentInfoSave();
+			tmpVo.setPayment_no(payment_no);
+			tmpVo.setMember_id(vo.getMember_id());
+			tmpVo.setPayInfo_no(vo.getPayInfo_no());
+			tmpVo.setDestination_no(vo.getDestination_no());
+			tmpVo.setPayment_date(payTime);
+			tmpVo.setBuyProduct_no(vo.getBuyProduct_no10());
+			tmpVo.setPayment_deliveryMsg(vo.getPayment_deliveryMsg());
+			if (dao.orderInfoSave(tmpVo) == 0) return false;
+			if (dao.updateStockNum(dao.searchProductNo(vo.getBuyProduct_no10())) == 0) return false;
+			if (dao.updateOrderFinish(vo.getBuyProduct_no10()) == 0) return false;
+		}
 		
+		if (dao.makeDeliveryInfo(serialNo) == 0) return false;
 		
+		savePointHistoryDTO dto = new savePointHistoryDTO();
 		
+		dto.setMember_id(vo.getMember_id());
+		dto.setGrade_name(vo.getGrade_name());
+		dto.setPoint_usedPoint(vo.getUsePointNum());
+		dto.setPoint_futurePoint(vo.getSavePointNum());
+		dto.setPayment_date(payTime);
 		
+		if (dao.savePointHistory(dto) == 0) return false;
+		if (dao.deleteBucketHistory(vo.getMember_id()) == 0) return false;
 		
+		result = true;
 		
-		return false;
+		return result;
 	}
 		  	
 //		  	<!-- 김도연 DAO -->

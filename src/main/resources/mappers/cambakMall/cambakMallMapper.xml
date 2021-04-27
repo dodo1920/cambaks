@@ -21,10 +21,10 @@
   	
   	<!-- 장원영 맵퍼 -->
   	<select id="bucketInfoSelect" resultType="com.cambak21.domain.ProdInfoVO">
-  		select bp.buyProduct_no, p.product_name, p.product_img1, bp.buyProduct_qty, p.product_sellPrice, bp.buyProduct_deliveriPay, bp.buyProduct_totPrice, m.member_id
-		from BuyProducts bp inner join Members m inner join Products p
-		on bp.member_id = m.member_id and bp.product_id = p.product_id
-		where bp.member_id = #{member_id} and bp.buyProduct_isFinished = 'N'
+		select bp.buyProduct_no, p.product_name, p.product_img1, bp.buyProduct_qty, p.product_sellPrice, bp.buyProduct_deliveriPay, bp.buyProduct_totPrice, m.member_id
+		from BuyProducts bp inner join Members m inner join Products p inner join Buckets b
+		on bp.member_id = m.member_id and bp.product_id = p.product_id and b.member_id = m.member_id
+		where bp.member_id = #{member_id} and bp.buyProduct_isFinished = 'N' and b.bucket_isDelete = 'N' and b.bucket_isChecked = 'Y' group by buyProduct_no
   	</select>
   	
   	<select id="viewPoint" resultType="com.cambak21.domain.PointVO">
@@ -48,6 +48,40 @@
 		select max(payment_serialNo) from Payments
 	</select>
 	
+	<insert id="orderInfoSave">
+		insert into Payments (payment_no, member_id, payInfo_no, destination_no, buyProduct_no, payment_date, payment_deliveryMsg) values (#{payment_no}, #{member_id}, #{payInfo_no}, #{destination_no}, #{buyProduct_no}, #{payment_date}, #{payment_deliveryMsg})
+	</insert>
+	
+	<select id="searchProductNo" resultType="com.cambak21.domain.changeStockVO">
+		select product_id, buyProduct_qty from BuyProducts where buyProduct_no = #{buyProduct_no}
+	</select>
+	
+	<update id="updateStockNum">
+		update Products set product_saleQty = product_saleQty + #{buyProduct_qty}, product_totQty = product_totQty - #{buyProduct_qty} where product_id = #{product_id}
+	</update>
+	
+	<insert id="makeDeliveryInfo">
+		insert into Deliveries (payment_serialNo) value (#{payment_serialNo})
+	</insert>
+	
+	<insert id="savePointHistory">
+		insert into Points (member_id, grade_name, point_reason, point_usedPoint, point_futurePoint, payment_date) values (#{member_id}, #{grade_name}, '상품구매', #{point_usedPoint}, #{point_futurePoint}, #{payment_date})
+	</insert>
+	
+	<update id="deleteBucketHistory">
+		update Buckets set bucket_isDelete = 'Y' where member_id = #{member_id} and bucket_isChecked = 'Y'
+	</update>
+	
+	<update id="updateOrderFinish">
+		update BuyProducts set buyProduct_isFinished = 'Y' where buyProduct_no = #{buyProduct_no}
+	</update>
+	
+	<select id="orderCompleteInfoVO" resultType="com.cambak21.domain.orderCompleteInfoVO">
+		select distinct * from 
+		(select d.destination_toUser, d.destination_mobile, d.destination_zipCode, d.destination_address, d.destination_addressDetail, p.payInfo_way, p.payInfo_date
+		from Payments pay, Destinations d, PayInfos p where pay.destination_no = d.destination_no and pay.payInfo_no = p.payInfo_no
+		and pay.payment_no = #{payment_no}) as lst
+	</select>
 	
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">

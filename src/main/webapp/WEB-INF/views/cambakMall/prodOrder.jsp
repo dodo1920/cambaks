@@ -36,6 +36,8 @@
 <script type="text/javascript">
 let commaJ = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 let numberJ= /^[0-9]/g;
+let usePointVar = 0;
+let savePointVar = 0;
 
 //화면시작시 실행할 함수들
  $(function(){
@@ -166,7 +168,15 @@ function checkForm(){
 			  }
 			});
 	}
+	
+	if (result == true) {
+		let totPriceNum = '${totPrice }';
 		
+		$("#usePointNum").val(usePointVar);
+		$("#savePointNum").val(savePointVar);
+		$("#totPriceNum").val(Number(totPriceNum));
+	}
+	
 	return result;
 }
 
@@ -255,7 +265,7 @@ function usePoint() {
 	let totalPoint = '${loginMember.member_totPoint }';
 	
 	dis = parseInt(dis);
-	
+	usePointVar = dis;
 	console.log(Number.isInteger(dis * 0.01));
 	
 	if (!Number.isInteger(dis * 0.01)) {
@@ -279,11 +289,11 @@ function addPoint() {
 	
 	if ('${loginMember.grade_name}' == 'A' ) {
 		let test = Math.ceil(parseInt('${totPrice * 0.1 }')); // 1500.0
-		
+		savePointVar = test;
 		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else if ('${loginMember.grade_name}' == 'B' ) {
 		let test = Math.ceil(parseInt('${totPrice * 0.05 }')); // 1500.0
-		
+		savePointVar = test;
 		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else {
 		$("#addPoint").text('0');
@@ -458,7 +468,7 @@ function addPoint() {
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
 	   							<span><input type="number" id="myPoint" value="0"><i>점</i></span>
-	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
+	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint();">할인적용</button>
 	   							<div style="color: red; font-size: 13px; font-weight: 600;  padding: 0 40px;">* 포인트 사용은 100단위로 가능합니다.</div>
 	   						</li>
 	   					</ul>
@@ -638,7 +648,9 @@ function addPoint() {
     	<button class="btn btn-default">취소</button>
     	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
     	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />
-		
+    	<input type="hidden" name="usePointNum" id="usePointNum" value=""/>
+		<input type="hidden" name="savePointNum" id="savePointNum" value=""/>
+		<input type="hidden" name="totPriceNum" id="totPriceNum" value=""/>
     </div>
     </form>    
     <!-- 약관동의 테이블 end -->

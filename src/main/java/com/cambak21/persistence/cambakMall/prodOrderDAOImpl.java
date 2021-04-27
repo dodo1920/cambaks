@@ -14,6 +14,10 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.changeStockVO;
+import com.cambak21.domain.orderCompleteInfoVO;
+import com.cambak21.dto.PaymentInfoSave;
+import com.cambak21.dto.savePointHistoryDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -66,8 +70,49 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	}
 	
 	@Override
-	public int readSerialNo() {
+	public int readSerialNo() throws Exception {
 		return ses.selectOne(namespace + ".readSerialNo");
+	}
+	
+	@Override
+	public int orderInfoSave(PaymentInfoSave vo) throws Exception {
+		return ses.insert(namespace + ".orderInfoSave", vo);
+	}
+	
+	@Override
+	public changeStockVO searchProductNo(int buyProduct_no) throws Exception {
+		return ses.selectOne(namespace + ".searchProductNo", buyProduct_no);
+	}
+	
+	@Override
+	public int updateStockNum(changeStockVO vo) throws Exception {
+		return ses.update(namespace + ".updateStockNum", vo);
+	}
+	
+	@Override
+	public int makeDeliveryInfo(int serialNo) throws Exception {
+		return ses.insert(namespace + ".makeDeliveryInfo", serialNo);
+	}
+	
+	@Override
+	public int savePointHistory(savePointHistoryDTO dto) throws Exception {
+		return ses.insert(namespace + ".savePointHistory", dto);
+	}
+	
+	@Override
+	public int deleteBucketHistory(String member_id) throws Exception {
+		return ses.update(namespace + ".deleteBucketHistory", member_id);
+	}
+	
+	@Override
+	public int updateOrderFinish(int buyProduct_no) throws Exception {
+		System.out.println("무야호" + buyProduct_no);
+		return ses.update(namespace + ".updateOrderFinish", buyProduct_no);
+	}
+	
+	@Override
+	public orderCompleteInfoVO orderCompleteInfo(int payment_no) throws Exception {
+		return ses.selectOne(namespace + ".orderCompleteInfoVO", payment_no);
 	}
 	
 //  	<!-- 김도연 DAO -->
@@ -189,6 +234,9 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	public DestinationVO GetModifydst(int dstno) throws Exception {
 		return ses.selectOne(namespace + ".GetModifydst", dstno);
 	}
+
+
+	
 
 
 
