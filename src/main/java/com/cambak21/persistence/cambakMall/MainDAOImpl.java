@@ -75,4 +75,11 @@ public class MainDAOImpl implements MainDAO {
 		return ses.selectOne(namespace + ".getProductAll", product_id);
 	}
 
+	@Override
+	public int getTotalReviewsNum(int id) throws Exception {
+		
+		return ses.selectOne(namespace + ".getTotalReviewsNum", id);
+	}
+
+
 }

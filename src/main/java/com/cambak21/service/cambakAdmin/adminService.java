@@ -1,17 +1,27 @@
 package com.cambak21.service.cambakAdmin;
 
 import java.util.List;
+import java.util.Map;
+
+import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.PagingCriteria;
+import com.cambak21.util.SearchCriteria;
 
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 
+import com.cambak21.util.PagingCriteria;
+
 public interface adminService {
 
 	
 	// ======================================== 도연 ============================================================================
-	
+	public List<MemberVO> getMember() throws Exception;
 	
 	
 	
@@ -58,7 +68,6 @@ public interface adminService {
 	public RevRefundVO thisWeekRefund() throws Exception;
 
 	public RevRefundVO prevWeekRefund() throws Exception;
-
 
 		
 		
@@ -111,17 +120,17 @@ public interface adminService {
 //		---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 정민 ==============================================================================
+		// 페이징 처리한 productList 출력
+		public List<ProductsVO> prodList(PagingCriteria cri) throws Exception;
 		
+		// 게시물 총 개수
+		public int getTotalProdListCnt() throws Exception;
 		
+		// 검색된 게시글 총 개수
+		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception;
 		
-		
-		
-		
-		
-		
-		
-		
-		
+		// 검색 게시글 목록 출력
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception;
 		
 		
 		
@@ -159,7 +168,8 @@ public interface adminService {
 //		============================================== 효원 ==============================================================================
 		
 		
-		
+		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
+
 		
 		
 		

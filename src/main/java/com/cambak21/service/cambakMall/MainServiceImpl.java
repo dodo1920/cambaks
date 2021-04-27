@@ -85,4 +85,13 @@ public class MainServiceImpl implements MainService {
 		return dao.getProductAll(product_id);
 	}
 
+
+	@Override
+	public int getTotalReviewsNum(int id) throws Exception {
+		
+		return dao.getTotalReviewsNum(id);
+	}
+
+
+
 }

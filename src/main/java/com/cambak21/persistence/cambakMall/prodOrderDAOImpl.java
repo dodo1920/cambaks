@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
@@ -50,7 +51,20 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		
 		return ses.selectList(namespace + ".bucketInfoSelect", member_id);
 	}
+	
+	@Override
+	public int payInfo(PayInfoVO vo) throws Exception {
+		System.out.println(vo.toString());
+		return ses.insert(namespace + ".payInfoInsert", vo);
+	}
   	
+
+	@Override
+	public int payInfoNo() throws Exception {
+	
+		return ses.selectOne(namespace + ".payInfoNo");
+	}
+	
 //  	<!-- 김도연 DAO -->
   	
   	
@@ -170,6 +184,10 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	public DestinationVO GetModifydst(int dstno) throws Exception {
 		return ses.selectOne(namespace + ".GetModifydst", dstno);
 	}
+
+
+
+	
 
 
 //	<!-- 이영광 DAO -->

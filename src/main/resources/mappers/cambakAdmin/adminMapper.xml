@@ -5,7 +5,9 @@
   
   <mapper namespace="com.cambak21.mappers.cambakAdmin.adminMapper">
   <!-- ***************************************** 도연 ********************************************************************************* -->
-	
+	<select id="getMember" resultType="com.cambak21.domain.MemberVO">
+		select * from Members order by member_registerDate limit 0, 10
+	</select>
 	
 	
 	
@@ -26,23 +28,23 @@
   <!-- ***************************************** 도연 끝 ********************************************************************************* -->
   
   <!-- ***************************************** 대기 ********************************************************************************* -->
-  <select id="getDayRevenue" resultType="com.cambak21.domain.RevenueVO">
-  	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and payment_date = date_format(now(),'%Y-%m-%d') group by date_format(p.payment_date,'%Y-%m-%d')
+	<select id="getDayRevenue" resultType="com.cambak21.domain.RevenueVO">
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and payment_date = date_format(now(),'%Y-%m-%d') group by date_format(p.payment_date,'%Y-%m-%d')
   </select>
   
   <select id="getPerDayRevenue" resultType="com.cambak21.domain.RevenueVO">
- 	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{dateVal} DAY)) group by date_format(p.payment_date,'%Y-%m-%d')
+    select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{dateVal} DAY)) group by date_format(p.payment_date,'%Y-%m-%d')
   </select>
   
   <select id="betweenDayRevenue" resultType="com.cambak21.domain.RevenueVO">
-  	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and payment_date between #{startDate} and #{endDate} group by date_format(p.payment_date,'%Y-%m-%d');
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and payment_date between #{startDate} and #{endDate} group by date_format(p.payment_date,'%Y-%m-%d');
 
   </select>
   <select id="selectMonthly" resultType="com.cambak21.domain.RevenueMonthVO">
-  	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
 where buyProduct_isFinished = 'y' and  now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -${revenueMonthly} MONTH)) group by date_format(p.payment_date,'%Y-%m')
   </select>
   <select id="selectWeekly" resultType="com.cambak21.domain.RevenueWeeklyVO">
@@ -103,6 +105,7 @@ on b.buyProduct_no = p.buyProduct_no
 where payment_isComit='환불' and  now() > payment_date and 
 payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p.payment_date, '%Y-%u');
   </select>
+
   
   
   
@@ -178,15 +181,37 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   <!-- ***************************************** 원영 끝 ********************************************************************************* -->
   
   <!-- ***************************************** 정민 ********************************************************************************* -->
+  	<!-- 게시물 페이징 리스트 -->
+  	<select id="prodList" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products order by product_id desc limit #{pageStart}, #{perPageNum}
+  	</select>
+  	<!-- 총 게시물 개수 가져오기 -->
+  	<select id="getTotalProdListCnt" resultType="int">
+  		select count(*) from Products;
+  	</select>
   
+  	<!-- 검색된 게시글 총 개수 가져오기 -->
+  	<select id="getTotalSearchProdListCnt" resultType="int">
+  		select count(*) from Products where
+  		<if test="searchType == 'product'">
+  			product_name like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'factory'">
+  			product_factory like concat('%', #{searchWord}, '%')
+  		</if>
+  	</select>
   
-  
-  
-  
-  
-  
-  
-  
+  	<!-- 검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어) -->
+  	<select id="goSearchProdList" resultType="com.cambak21.domain.ProductsVO">
+  		select * from Products where
+  		<if test="searchType == 'product'">
+  			product_name like concat('%', #{searchWord}, '%')
+  		</if>
+  		<if test="searchType == 'factory'">
+  			product_factory like concat('%', #{searchWord}, '%')
+  		</if>
+  		order by product_id desc limit #{pageStart}, #{perPageNum}
+  	</select>
   
   
   
@@ -267,13 +292,55 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   
   <!-- ***************************************** 효원 ********************************************************************************* -->
   
+  <select id="readOrderList" resultType="com.cambak21.domain.AdminOrderListVO">
+	select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
+	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo limit #{pageStart}, #{perPageNum}) as list
+  </select>
   
   
+  <select id="readOrderListNum" resultType="int">
+	select count(*) 
+	from (select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
+	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo) as list) as num
+  </select>
   
   
-  
-  
-  
+  <select id="orderProductNum" resultType="int">
+	select count(*)
+	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
+	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
+	from Payments payment
+	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
+	left join Destinations destination on destination.destination_no = payment.destination_no
+	left join Products product on buyProduct.product_name = product.product_name
+	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
+	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
+	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
+	left join Members member on member.member_id = payment.member_id
+	group by payment.payment_serialNo limit 0, 10) as list where payment_no = #{payment_no}
+  </select>
   
   
   

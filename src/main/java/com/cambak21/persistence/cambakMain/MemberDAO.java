@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.ChangeMemberInfoDTO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
 
@@ -171,5 +172,7 @@ public interface MemberDAO {
 	
 //	서효원 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	public int loginRequestCheck(LoginDTO dto) throws Exception;
+	public int updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception;
+	public MemberVO sesUserInfoChange(String member_id) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 }

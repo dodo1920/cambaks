@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.ChangeMemberInfoDTO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
 import com.cambak21.persistence.cambakMain.MemberDAO;
@@ -81,6 +82,24 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
+	
+	@Override
+	public boolean updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception {
+		boolean result = false;
+		int i = dao.updateMemberInfo(dto);
+		if(i == 1) {
+			
+			
+			result = true;
+		}
+		return result;
+	}
+	
+	@Override
+	public MemberVO sesUserInfoChange(String member_id) throws Exception {
+		return dao.sesUserInfoChange(member_id);
+	}
+	
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	@Override
@@ -145,6 +164,6 @@ public class MemberServiceImpl implements MemberService {
 		
 		return result;
 	}
-
+	
 
 }

@@ -124,16 +124,46 @@ function showtransfer() {
 }
 
 function checkForm(){
-	
+	let member_id = "${loginMember.member_id}";
+	let payInfo_way = "";
 	agreement = $("#agreement").prop("checked");
+	let result = true;
 	console.log(agreement);
-	if(agreement == false){
-		alert("겔제 동의가 필요합니다.");
-		return false;
+	
+	if($("#account").prop("checked")) {
+		payInfo_way = $("#account").val();
+	} else if($("#card").prop("checked")) {
+		payInfo_way = $("#card").val();
+	} else {
+		payInfo_way = $("#tranfer").val();
 	}
 	
+	console.log(payInfo_way);
+	console.log(member_id);
 	
-
+	if(agreement == false){
+		alert("결제 동의가 필요합니다.");
+		result = false;
+	} else {
+		$.ajax({
+			  method: "POST",
+			  url: "/mall/prodOrder/payInfo",
+			  dataType: "JSON", // 응답 받는 데이터 타입
+			  data : {member_id : member_id, payInfo_way : payInfo_way},
+			  async: false,
+			  success : function(data){
+				  let no = Number(data);
+				  console.log(typeof no);
+				  $("#payinfo_no").attr("value", no);
+				  
+			  },
+			  complete : function() {
+				 result = true;
+			  }
+			});
+	}
+		
+	return result;
 }
 
 function default_addr() {
@@ -170,28 +200,36 @@ function oderFin() {
 	let dis = parseInt($("#myPoint").val().replace(',', ''));
 	let totalPrice = '${totPrice }'
 	let finallyPrice = totalPrice - dis + 2500;
+	let payInfo_way = "";
+	let result = false;
 	
-	console.log(member_id);
-	console.log(dis);
-	console.log(totalPrice);
-	console.log(finallyPrice);
+	alert("안녕");
 	
-// 	$.ajax({
-// 		  method: "POST",
-// 		  url: "/mall/orderFin" ,
-// 		  headers : { // 요청하는 데이터의 헤더에 전송
-// 			  "Content-Type" : "application/json",
-// 			  "X-HTTP-Method-Override" : "POST)"
-// 		  },
-// 		  dataType: "JSON", // 응답 받는 데이터 타입
-// 		  data : {finallyPrice : finallyPrice},
-// 		  success : function(result){
+// 	console.log(member_id);
+// 	console.log(dis);
+// 	console.log(totalPrice);
+// 	console.log(finallyPrice);
+
+	$.ajax({
+		  method: "POST",
+		  url: "/mall/payInfo" ,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "POST)"
+		  },
+		  dataType: "JSON", // 응답 받는 데이터 타입
+		  data : {finallyPrice : finallyPrice},
+		  success : function(data){
 // 			 if(result != null){
 // 				 $("#totBuyPrice").html(result.finallyPrice);
 // 			 }
-			
-// 		  }
-// 		});
+			console.log(data);
+		  }
+		});
+
+	return result;
+	
+	
 	
 }
 
@@ -287,7 +325,7 @@ function addPoint() {
       <div class="container">
       
     <!-- 배송지 선택 테이블 start -->
-    <form action = "" method ="post" onsubmit="checkForm(); return false;">
+    <form action = "/mall/orderFin" method ="post" onsubmit="return checkForm();">
     <div>
     <h2>배송지 정보</h2>
     <div class="tbl_wrap">
@@ -319,6 +357,10 @@ function addPoint() {
     			<th>주소</th>
     			<td id = "user_dest">배송지 선택 버튼을 클릭해주세요</td>
     			
+    		</tr>
+    		<tr>
+    			<th>배송요청사항</th>
+    			<td id = ""><input type="text" name="payment_deliveryMsg" style="width: 400px;" /></td>
     		</tr>
     	</tbody>
     	</table>
@@ -380,7 +422,7 @@ function addPoint() {
 <!--     		<td>12,500<i>원</i></td> -->
 <!--    		</tr> -->
     	
-    	<c:forEach var="item" items="${prodInfo }">
+    	<c:forEach var="item" items="${prodInfo }" varStatus="status">
 			<tr>
 				<td style="display: none">${item.buyProduct_no }</td>
 				<td><img alt="" src="../../resources/img/${item.product_img1 }" style="width: 100px;"></td>
@@ -390,6 +432,7 @@ function addPoint() {
 <%-- 	    		<td style="text-align: center;">${item.buyProduct_deliveriPay }</td> --%>
 	    		<td style="text-align: center;"><fmt:formatNumber value="${item.buyProduct_totPrice }" pattern="#,##0" /></td>
     		</tr>
+    		<input type="hidden" name="buyProduct_no${status.count}"  value="${item.buyProduct_no }" />
     	</c:forEach>
     	
     	
@@ -482,9 +525,9 @@ function addPoint() {
 						<tr>
 							<th>결제방법</th>
 							<th>
-							<label class="radio-inline"><input type="radio" name="optradio" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
-							<label class="radio-inline"><input type="radio" name="optradio" value="카드" onclick="showcreditCard();">카드</label>
-							<label class="radio-inline"><input type="radio" name="optradio" value="계좌이체" onclick="showtransfer();">계좌이체</label>
+							<label class="radio-inline"><input type="radio" id="account" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
+							<label class="radio-inline"><input type="radio" id="card" value="카드" onclick="showcreditCard();">카드</label>
+							<label class="radio-inline"><input type="radio" id="tranfer" value="계좌이체" onclick="showtransfer();">계좌이체</label>
 							</th>
 							</tr>
 							<tr>
@@ -586,23 +629,20 @@ function addPoint() {
     	</div>
     </div>
     <div>
-    	<button type="submit" class="btn btn-default" onclick="oderFin()">결제하기</button>
+    	<button type="submit" class="btn btn-default">결제하기</button>
     	<button class="btn btn-default">취소</button>
+    	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
+    	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />
+		
     </div>
     </form>    
     <!-- 약관동의 테이블 end -->
     
-    <!-- 결제하기 폼태그 start -->
-    <form name="FinalOder" action="/orderFin.jsp" method="POST">
-		<input type="hidden" name="" id="totalBuy" value="totalBuy" />
-		<input type="hidden" name="" id="disPt" value="disPt" />
-		<input type="hidden" name="" id="addPt" value="addPt" />
-		<input type="hidden" name="" id="isFinishied" value="isFinishied" />
-		<input type="hidden" name="" id="payinfo-id" value="payinfo-id" />
-		<input type="hidden" name="" id="payinfo-way" value="payinfo-way" />
-		<input type="hidden" name="" id="payinfo-date" value="payinfo-date" />
-	</form>
-	<!-- 결제하기 폼태그 end -->
+<!--     결제하기 폼태그 start -->
+<!--     <form name="FinalOder" action="/orderFin.jsp" method="POST"> -->
+		
+<!-- 	</form> -->
+<!-- 	<!-- 결제하기 폼태그 end --> 
 
 
     </div>

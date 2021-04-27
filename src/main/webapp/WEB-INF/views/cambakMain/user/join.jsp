@@ -57,9 +57,15 @@
    
    });
    
+   function changeBasicProfilePic() {
+		$("#member_img").val("memberProfile/profileDefualt.png");
+		$("#tmpUserProfile").attr("src", "/resources/uploads/memberProfile/profileDefualt.png");
+	}
+   
 	function getSelectAddress(sendAddress) {
 		$("#getZipCode").val(sendAddress[1]);
 		$("#getAddress").val(sendAddress[0]);
+		$("#detailAddress").val("");
 		closeAddrBar();
 	}
    
@@ -630,6 +636,16 @@
     font-weight: bold;
 }
 
+.basicProfileBtn {
+	margin-top: 8px;
+    vertical-align: middle;
+    background-color: #efefef;
+    font-size: 14px;
+    color: #3e3d3c;
+    display: inline-block;
+    font-weight: bold;
+}
+
 .addressBar {
 	display: none;
 	position: fixed;
@@ -803,7 +819,7 @@
 									<input type="text" class="resultPost" id="getAddress" name="member_addr" size="55" readonly autocomplete="off">
 									<span class="textBarInfo">기본주소</span>
 									<br>
-									<input type="text" id="sample6_detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;" autocomplete="off">
+									<input type="text" id="detailAddress" name="member_addrDetail" size="55" style="font-size: 13px;" autocomplete="off">
 									<span class="textBarInfo">나머지주소 (선택입력가능)</span>
 									<div id="searchAddrBar" class="addressBar"></div>
 								</td>
@@ -818,6 +834,7 @@
 									</div>
 									<div>
 									<button type="button" id="clickFileSelector" class="uploadBtn">업로드</button>
+									<button type="button" id="changeBasicProfile" class="basicProfileBtn" onclick="changeBasicProfilePic();">기본사진으로 변경</button>
 									</div>
 									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
