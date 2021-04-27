@@ -103,7 +103,20 @@ public class AdminController {
    
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 도연@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+   
+	@RequestMapping(value = "/memberList", method = RequestMethod.GET)
+	public String memberList(Model model) {
+		logger.info("memberList호출");
+		
+		try {
+			model.addAttribute("members",service.getMember());
+		} catch (Exception e) {
+			model.addAttribute("noMembers");
+			e.printStackTrace();
+		}
+		
+		return "/admin/memberList";
+	}
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
