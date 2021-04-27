@@ -87,10 +87,17 @@ button.btn.btn-default.cntCh {
 
 <script type="text/javascript">
 	let ssid = '${ssid}';
+	let member_id = '${loginMember.member_id}';
 	console.log(ssid);
+	console.log(member_id);
 	
 	$(document).ready(function() {
-		cartList();
+		if(member_id.length != 0) {
+			location.href="../cart";
+		} else {
+			cartList();
+		}
+		
 	})
 	
 	// 게시글 가져오기 ajax
@@ -276,13 +283,12 @@ button.btn.btn-default.cntCh {
 		
 		let totPrice = $(".totPrice-value").text();
 		
-		if(totPrice != 0) {
-			$("#modalText").text("로그인 후 주문 가능합니다");
-			$("#myModal").modal();
-		} else {
+		if(totPrice = 0) {
 			$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
 			$("#deleteModalText").text("선택된 상품이 없습니다");
 			$("#deleteModal").modal();
+		} else {
+			location.href="../../user/login/yet";
 		}
 
 	}
