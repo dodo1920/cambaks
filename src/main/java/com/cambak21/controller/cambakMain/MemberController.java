@@ -28,11 +28,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.cambak21.domain.FindIdVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.dto.ChangeMemberInfoDTO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
 import com.cambak21.service.cambakMain.MemberService;
@@ -75,6 +77,7 @@ public class MemberController {
    @RequestMapping(value="/login", method=RequestMethod.POST)
    private String login(LoginDTO dto, HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
       MemberVO vo = service.login(dto);
+      System.out.println(dto.toString());
       System.out.println("유저 컨트롤러 : " );
                if(vo == null) {
                   System.out.println("회원이름 못찾음");
@@ -275,27 +278,27 @@ public class MemberController {
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 이영광 회원가입 파트
 	
 //	김태훈 회원정보 수정 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	@RequestMapping(value = "/Modify/{memberId}",method=RequestMethod.POST)
-	public String userModify(@PathVariable("memberId") String memberId,Model model) throws Exception{
-		System.out.println("memberId : "+memberId);
-		model.addAttribute("member",service.memberSelect(memberId));
-		System.out.println(service.memberSelect(memberId));
-		return "cambakMain/myPage/userModify";
-	}
-	
-	@RequestMapping(value = "/userDateUpdate",method = RequestMethod.POST)
-	public String userUpdate(UpdateMemberDTO dto)throws Exception {
-		System.out.println("userDateUpdate...POST통신 성공");
-		System.out.println(dto.toString());
-		if(service.memberUpdate(dto)) {
-			System.out.println("수정완료");
-		}else{
-			System.out.println("수정 실패");
-		}
-		
-		return "redirect:/myPage/checkList";		
-	}
-	
+//	@RequestMapping(value = "/Modify/{memberId}",method=RequestMethod.POST)
+//	public String userModify(@PathVariable("memberId") String memberId,Model model) throws Exception{
+//		System.out.println("memberId : "+memberId);
+//		model.addAttribute("member",service.memberSelect(memberId));
+//		System.out.println(service.memberSelect(memberId));
+//		return "cambakMain/myPage/userModify";
+//	}
+//	
+//	@RequestMapping(value = "/userDateUpdate",method = RequestMethod.POST)
+//	public String userUpdate(UpdateMemberDTO dto)throws Exception {
+//		System.out.println("userDateUpdate...POST통신 성공");
+//		System.out.println(dto.toString());
+//		if(service.memberUpdate(dto)) {
+//			System.out.println("수정완료");
+//		}else{
+//			System.out.println("수정 실패");
+//		}
+//		
+//		return "redirect:/myPage/checkList";		
+//	}
+//	
 		
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김태훈 회원정보 수정 파트
 
@@ -319,7 +322,25 @@ public class MemberController {
 	      return entity;
 	   }
 	
-
+	   @RequestMapping(value="/modify", method=RequestMethod.GET)
+	   private String cambakLoginCheck(Model model) {
+	      return "cambakMain/myPage/modify";
+	   }
+	   
+	   @RequestMapping(value="/modify", method=RequestMethod.POST)
+	   private String updateMemberInfo(ChangeMemberInfoDTO dto, HttpSession session, RedirectAttributes rttr) throws Exception {
+		   
+		   MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
+		   dto.setMember_id(loginMember.getMember_id());
+		   if (service.updateMemberInfo(dto)) {
+			   session.removeAttribute("loginMember");
+			   session.setAttribute("loginMember", service.sesUserInfoChange(loginMember.getMember_id()));
+			   
+			   return "redirect:/user/modify?result=success";
+		   } else {
+			   return "redirect:/user/modify?result=fail";
+		   }
+	   }
 	
 //		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 	

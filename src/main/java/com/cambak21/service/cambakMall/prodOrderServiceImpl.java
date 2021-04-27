@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ResellBoardVO;
@@ -48,6 +49,18 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return dao.prodOrderInfo(member_id);
 	}
 	
+	@Override
+	public int payInfo(PayInfoVO vo) throws Exception {
+		
+		return dao.payInfo(vo);
+		
+	}
+
+	@Override
+	public int payInfoNo() throws Exception {
+	
+		return dao.payInfoNo();
+	}
 		  	
 		  	
 //		  	<!-- 김도연 DAO -->
@@ -156,6 +169,9 @@ public class prodOrderServiceImpl implements prodOrderService {
 	public DestinationVO GetModifydst(int dstno) throws Exception {
 		return dao.GetModifydst(dstno);
 	}
+
+
+	
 
 	
 

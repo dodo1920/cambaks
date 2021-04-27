@@ -5,7 +5,9 @@
   
   <mapper namespace="com.cambak21.mappers.cambakAdmin.adminMapper">
   <!-- ***************************************** 도연 ********************************************************************************* -->
-	
+	<select id="getMember" resultType="com.cambak21.domain.MemberVO">
+		select * from Members order by member_registerDate limit 0, 10
+	</select>
 	
 	
 	
@@ -26,20 +28,82 @@
   <!-- ***************************************** 도연 끝 ********************************************************************************* -->
   
   <!-- ***************************************** 대기 ********************************************************************************* -->
-  <select id="getDayRevenue" resultType="com.cambak21.domain.RevenueVO">
-  	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and payment_date = date_format(now(),'%Y-%m-%d') group by date_format(p.payment_date,'%Y-%m-%d')
+	<select id="getDayRevenue" resultType="com.cambak21.domain.RevenueVO">
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and payment_date = date_format(now(),'%Y-%m-%d') group by date_format(p.payment_date,'%Y-%m-%d')
   </select>
   
   <select id="getPerDayRevenue" resultType="com.cambak21.domain.RevenueVO">
- 	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{dateVal} DAY)) group by date_format(p.payment_date,'%Y-%m-%d')
+    select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{dateVal} DAY)) group by date_format(p.payment_date,'%Y-%m-%d')
   </select>
   
   <select id="betweenDayRevenue" resultType="com.cambak21.domain.RevenueVO">
-  	select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
-	where buyProduct_isFinished = 'y' and payment_date between #{startDate} and #{endDate} group by date_format(p.payment_date,'%Y-%m-%d');
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+   where buyProduct_isFinished = 'y' and payment_date between #{startDate} and #{endDate} group by date_format(p.payment_date,'%Y-%m-%d');
 
+  </select>
+  <select id="selectMonthly" resultType="com.cambak21.domain.RevenueMonthVO">
+     select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -${revenueMonthly} MONTH)) group by date_format(p.payment_date,'%Y-%m')
+  </select>
+  <select id="selectWeekly" resultType="com.cambak21.domain.RevenueWeeklyVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, DATE_FORMAT(p.payment_date, '%Y-%u') as payment_week from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -${revenuWeekly} WEEK)) group by payment_week;
+  
+  </select>
+  <select id="thisMonthRevenue" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m') as payment_date from 
+BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -0 MONTH)) group by date_format(p.payment_date,'%Y-%m');
+  </select>
+  <select id="prevMonthRevenue" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m') as payment_date from 
+BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 MONTH)) group by date_format(p.payment_date,'%Y-%m');
+  </select>
+  <select id="thisMonthRefund" resultType="com.cambak21.domain.RevRefundVO">
+  SELECT date_format(payment_date,'%Y-%m') as payment_date, sum(buy.buyProduct_totPrice) as buyProduct_totPrice FROM goot6.Payments pay 
+join goot6.BuyProducts buy on pay.buyProduct_no = buy.buyProduct_no
+where payment_isComit='환불' and now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -0 MONTH)) group by payment_isComit;
+  </select>
+  <select id="prevMonthRefund" resultType="com.cambak21.domain.RevRefundVO">
+  SELECT date_format(payment_date,'%Y-%m') as payment_date, sum(buy.buyProduct_totPrice) as buyProduct_totPrice FROM goot6.Payments pay 
+join goot6.BuyProducts buy on pay.buyProduct_no = buy.buyProduct_no
+where payment_isComit='환불' and now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 MONTH)) group by payment_isComit;
+  </select>
+  
+  <select id="thisWeekRevenue" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, 
+DATE_FORMAT(p.payment_date, '%Y-%u') as payment_date from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -0 WEEK)) group by DATE_FORMAT(p.payment_date, '%Y-%u');
+  </select>
+  <select id="prevWeekRevenue" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, 
+DATE_FORMAT(p.payment_date, '%Y-%u') as payment_date from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'y' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p.payment_date, '%Y-%u');
+  </select>
+  <select id="thisWeekRefund" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, 
+DATE_FORMAT(p.payment_date, '%Y-%u') as payment_date from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where payment_isComit='환불' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -0 WEEK)) group by DATE_FORMAT(p.payment_date, '%Y-%u');
+  </select>
+  <select id="prevWeekRefund" resultType="com.cambak21.domain.RevRefundVO">
+  select sum(buyProduct_totPrice) as buyProduct_totPrice, 
+DATE_FORMAT(p.payment_date, '%Y-%u') as payment_date from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where payment_isComit='환불' and  now() > payment_date and 
+payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p.payment_date, '%Y-%u');
   </select>
   
   

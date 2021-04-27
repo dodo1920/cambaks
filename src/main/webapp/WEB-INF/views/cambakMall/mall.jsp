@@ -35,6 +35,8 @@ let loginUser = '${loginMember.member_id}';
 
  $(document).ready(function() {
 	 $("#main-sidebar").css("display","none");
+	 
+	 console.log("${para}");
  });
 
  
@@ -145,6 +147,17 @@ let loginUser = '${loginMember.member_id}';
 	text-decoration: underline;
 }
 
+.starScoreReviewNum {
+    font-size: 11px;
+    color: #777777;
+}
+
+
+.product__item__text .product__price {
+     color: #111111; 
+    font-weight: 600;
+}
+
 </style>
 
 
@@ -248,15 +261,41 @@ let loginUser = '${loginMember.member_id}';
           	
         <c:forEach var="NewProduct1" items="${para.NewProduct1 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix tent">
-	                <div class="product__item">
-	                
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id}'"  data-setbg="${NewProduct1.product_img1 }">
-	                 
-	                 
-	                        <div class="label new">New</div>
-	                 
-	                 
-	                    </div>
+			     
+			     <c:choose>
+                        <c:when test="${NewProduct1.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct1.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct1.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+			     
+			     
+<!-- 	                <div class="product__item"> -->
+<%-- 	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id}'"  data-setbg="${NewProduct1.product_img1 }"> --%>
+<!-- 	                       <div class="label new">New</div> -->
+<!-- 	                    </div> -->
+	                    
+	                    
 	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct1.product_id }">${NewProduct1.product_name }</a></h6>
@@ -264,7 +303,12 @@ let loginUser = '${loginMember.member_id}';
 	                   <div class="rating">
 	                   
 			              			<c:if test="${NewProduct1.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+								 			 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct1.total_reviewNum})</span>
 								    </c:if>
 								    
 								    
@@ -296,7 +340,7 @@ let loginUser = '${loginMember.member_id}';
 								    </c:if>
                             </div>
 	                        
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct1.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct1.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -305,17 +349,51 @@ let loginUser = '${loginMember.member_id}';
         	
         <c:forEach var="NewProduct2" items="${para.NewProduct2 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix sleepmatt">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id}'"  data-setbg="${NewProduct2.product_img1 }">
-	                        <div class="label new">New</div>
+			     
+			        <c:choose>
+                        <c:when test="${NewProduct2.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct2.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct2.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+<!-- 	                <div class="product__item"> -->
+<%-- 	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id}'"  data-setbg="${NewProduct2.product_img1 }"> --%>
+<!-- 	                        <div class="label new">New</div> -->
 
-	                    </div>
+<!-- 	                    </div> -->
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct2.product_id }">${NewProduct2.product_name }</a></h6>
 	                        
 	                             <div class="rating">
                               		<c:if test="${NewProduct2.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct2.total_reviewNum})</span>
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct2.star == 1 }">
@@ -345,7 +423,7 @@ let loginUser = '${loginMember.member_id}';
 								    </c:if>
                             </div>
 	                        
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct2.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct2.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -353,20 +431,49 @@ let loginUser = '${loginMember.member_id}';
 			
         <c:forEach var="NewProduct3" items="${para.NewProduct3 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix table">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id}'"  data-setbg="${NewProduct3.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct3.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+	            <c:choose>
+                        <c:when test="${NewProduct3.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct3.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct3.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+	                    
+	                    
+	                    
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct3.product_id }">${NewProduct3.product_name }</a></h6>
 	                        
 	                            <div class="rating">
 	                            
 	                                <c:if test="${NewProduct3.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct3.total_reviewNum})</span>
 								    </c:if>
 								    								    
 				              		<c:if test="${NewProduct3.star == 1 }">
@@ -395,7 +502,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct3.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct3.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -403,20 +510,49 @@ let loginUser = '${loginMember.member_id}';
         
         <c:forEach var="NewProduct4" items="${para.NewProduct4 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix light">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id}'"  data-setbg="${NewProduct4.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct4.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+			     
+		   <c:choose>
+                        <c:when test="${NewProduct4.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct4.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct4.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+	                    
+	                    
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct4.product_id }">${NewProduct4.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	                   
 	                   				<c:if test="${NewProduct4.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct4.total_reviewNum})</span>
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct4.star == 1 }">
@@ -446,7 +582,7 @@ let loginUser = '${loginMember.member_id}';
 								    </c:if>
                             </div>
 	                        
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct4.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct4.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -454,20 +590,49 @@ let loginUser = '${loginMember.member_id}';
         
         <c:forEach var="NewProduct5" items="${para.NewProduct5 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix accessories">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id}'"  data-setbg="${NewProduct5.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct5.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+	   <c:choose>
+                        <c:when test="${NewProduct5.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct5.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct5.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+	                    
+	                    
+	                    
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct5.product_id }">${NewProduct5.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	                   
 	              				     <c:if test="${NewProduct5.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
 								    
 								    
@@ -497,7 +662,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct5.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct5.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -505,20 +670,48 @@ let loginUser = '${loginMember.member_id}';
         
         <c:forEach var="NewProduct6" items="${para.NewProduct6 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix heater">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id}'"  data-setbg="${NewProduct6.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct6.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+	            <c:choose>
+                        <c:when test="${NewProduct6.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct6.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct6.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+	                    
+	                    
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct6.product_id }">${NewProduct6.product_name }</a></h6>
 	                        
 	                  <div class="rating">
 	                  
 	                				<c:if test="${NewProduct6.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct6.star == 1 }">
@@ -547,7 +740,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct6.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct6.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -555,19 +748,43 @@ let loginUser = '${loginMember.member_id}';
         
         <c:forEach var="NewProduct7" items="${para.NewProduct7 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix case">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id}'"  data-setbg="${NewProduct7.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct7.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+	                <c:choose>
+                        <c:when test="${NewProduct7.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct7.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct7.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct7.product_id }">${NewProduct7.product_name }</a></h6>
 	                        
 	                  <div class="rating">
 	               				    <c:if test="${NewProduct7.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct7.star == 1 }">
@@ -596,7 +813,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct7.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct7.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -604,19 +821,45 @@ let loginUser = '${loginMember.member_id}';
         
         <c:forEach var="NewProduct8" items="${para.NewProduct8 }" varStatus="status">
 			     <div class="col-lg-3 col-md-4 col-sm-6 mix kitchen">
-	                <div class="product__item">
-	                    <div class="product__item__pic set-bg" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id}'"  data-setbg="${NewProduct8.product_img1 }">
-	                        <div class="label new">New</div>
-<!-- 	                        <ul class="product__hover"> -->
-<%-- 	                            <li><a onclick="goCheckBuckets(${NewProduct8.product_id});"><span class="icon_bag_alt"></span></a></li> --%>
-<!-- 	                        </ul> -->
-	                    </div>
+	   <c:choose>
+                        <c:when test="${NewProduct8.product_info == 'soldOut' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }'">
+                            	<div class="label stockout stockblue">일시품절</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct8.product_info == 'popular' }">
+                        	<div class="product__item sale">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }'">
+                            	<div class="label"  style="color: #333" >HOT</div>
+                            </div>
+                        </c:when>
+                        <c:when test="${NewProduct8.product_info == 'new' }">
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }">
+                            <div class="label new">New</div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                        	<div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }'">
+                            </div>
+                        </c:otherwise>
+                        </c:choose>
+			     
+	                    
+	                    
 	                    <div class="product__item__text">
 	                        <h6><a href="/mall/prodDetail/main?prodId=${NewProduct8.product_id }">${NewProduct8.product_name }</a></h6>
 	                        
 	                   <div class="rating">
 	              				    <c:if test="${NewProduct8.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct8.star == 1 }">
@@ -645,7 +888,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-	                        <div class="product__price"><fmt:formatNumber value="${NewProduct8.product_sellPrice}" pattern="#,###원" /></div>
+	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct8.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
 	                </div>
 	             </div>
@@ -744,7 +987,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-                           <div class="product__price"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
+                           <div class="product__price" style="color: #333"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
 			</c:forEach>
@@ -795,7 +1038,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-                            <div class="product__price"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
+                            <div class="product__price" style="color: #333"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
 					</c:forEach>
@@ -847,7 +1090,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 								    </c:if>
                             </div>
-                            <div class="product__price"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
+                            <div class="product__price" style="color: #333"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
                     </div>
 					</c:forEach>

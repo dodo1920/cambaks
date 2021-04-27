@@ -38,49 +38,49 @@
    <script src="/resources/cambak21/js/SHWtamplet.js"></script>
    <script>
    function loginOK(){
-	   let member_id = $("#member_id").val();
-	   let member_password = $("#member_password").val();
-	   
-		console.log("qqqqqqqqqq : " + member_id );
-		console.log("qqqqqqqqqq : " + member_password );
-		
-	   $.ajax({
-		   method: "POST",
-		   url: "/user/loginCheck",
-		   dataType: "text",
-		   data : {member_id : member_id, member_password : member_password},
-		   success : function(data) {
-			   console.log(data);
-			   if (data == "memberCheck") {
-				   $.ajax({
-					   method: "POST",
-					   url: "/user/login",
-					   dataType: "text",
-					   data : {member_id : member_id, member_password : member_password}
-				   });
+      let member_id = $("#member_id").val();
+      let member_password = $("#member_password").val();
+      
+      console.log("qqqqqqqqqq : " + member_id );
+      console.log("qqqqqqqqqq : " + member_password );
+      
+      $.ajax({
+         method: "POST",
+         url: "/user/loginCheck",
+         dataType: "text",
+         data : {member_id : member_id, member_password : member_password},
+         success : function(data) {
+            console.log(data);
+            if (data == "memberCheck") {
+               $.ajax({
+                  method: "POST",
+                  url: "/user/login",
+                  dataType: "text",
+                  data : {member_id : member_id, member_password : member_password}
+               });
 
-			  } else {
-				  alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다");
-			  }
-		  }, error : function(data) {
-			  alert(data);
-		}
-			  
-		});
+           } else {
+              alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다");
+           }
+        }, error : function(data) {
+           alert(data);
+      }
+           
+      });
    }
    
    function chkCookie() {
-	   chkCookie = $("#chkCookie").prop("checked");
-		console.log(agreement);
-		if(agreement == true){
-			alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
-			return true;
-		}
+      chkCookie = $("#chkCookie").prop("checked");
+      console.log(chkCookie);
+      if(chkCookie == true){
+         alert("자동 로그인 기능은 공공장소에서는 사용하지 마세요!");
+         return true;
+      }
    }
    
    function loginRequestCheck() {
-		
-	}
+      
+   }
    </script>
    <style>
       @import url(../../resources/cambak21/css/SHWtamplet.css);

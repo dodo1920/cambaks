@@ -23,13 +23,18 @@
 	<!--Custom JavaScript -->
 	<script src="../resources/adminDist/js/custom.min.js"></script>
 	<!--This page JavaScript -->
-	<script src="../dist/js/pages/dashboards/dashboard1.js"></script>
+
+	<script src="../adminDist/js/pages/dashboards/dashboard1.js"></script>
 	<!-- Charts js Files -->
 	<script src="../resources/adminAssets/libs/flot/excanvas.js"></script>
 	<script src="../resources/adminAssets/libs/flot/jquery.flot.js"></script>
 	<script src="../resources/adminAssets/libs/flot/jquery.flot.pie.js"></script>
 	<script src="../resources/adminAssets/libs/flot/jquery.flot.time.js"></script>
+
+	<script src="../resources/adminAssets/libs/flot/jquery.flot.stackrevenueMonthly.js"></script>
+
 	<script src="../resources/adminAssets/libs/flot/jquery.flot.stack.js"></script>
+
 	<script
 		src="../resources/adminAssets/libs/flot/jquery.flot.crosshair.js"></script>
 	<script

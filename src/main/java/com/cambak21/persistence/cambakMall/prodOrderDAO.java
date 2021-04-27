@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
@@ -18,6 +19,10 @@ public interface prodOrderDAO {
 		public DestinationVO defaultDest(String member_id) throws Exception;
 //	  	<!-- 장원영 DAO -->
 	  	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception;
+	  	
+	  	public int payInfo(PayInfoVO vo) throws Exception;
+	  	
+	  	public int payInfoNo() throws Exception;
 	  	
 //	  	<!-- 김도연 DAO -->
 	  	
@@ -50,6 +55,7 @@ public interface prodOrderDAO {
 	  	public int insertDestiny(DestinationVO vo) throws Exception;
 
 	  	public DestinationVO GetModifydst(int dstno) throws Exception;
+
 	  	
 	  	
 	  	
