@@ -7,7 +7,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-let member_id = '${loginMember.member_id}';
+
 let firstNum = "";
 let secondNum = "";
 let thirdNum = "";
@@ -30,7 +30,7 @@ $(window).bind("beforeunload", function (e){
 
 
 $(function(){
-
+	$("#hash").val('${loginMember.member_id}');
 	getDataParent();
 	chkInsert();
 });
@@ -100,9 +100,6 @@ function validCheck(){
 		 return false;
 	 }else if(document.getElementsByName("destination_addressDetail")[0].value.match(DetailPattern) == null){
 		 alert("배송받을 상세 주소를 정확히 입력해주세요.");
-		 return false;
-	 }else if(document.getElementsByName("destination_nickname")[0].value.match(DetailPattern) == null){
-		 alert("배송지명을 올바르게 입력해주세요.");
 		 return false;
 	 }else if(document.getElementsByName("destination_mobile")[0].value.match(NumPattern) == null){
 		 alert("연락처를 올바르게 입력해주세요.");
