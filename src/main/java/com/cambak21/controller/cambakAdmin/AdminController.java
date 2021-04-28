@@ -281,7 +281,7 @@ public class AdminController {
 		   ra.addFlashAttribute("fail");
 	   }
 	   
-	   return "/admin/productList";
+	   return "redirect:/admin/prodList";
    }
    
    /**
