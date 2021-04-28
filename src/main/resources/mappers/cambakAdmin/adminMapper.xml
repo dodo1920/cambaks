@@ -202,25 +202,20 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		</if>
   		
   	<!-- ********************전체 셀렉트 + 검색어 입력이 있는 경우****************************** -->
-	<if test="searchType == 'searchAll'">
-	  		<if test="searchWord != null">
+	<!-- 전체 셀렉트 + 검색어 입력이 있는 경우 -->
+	  	<if test="searchType == 'searchAll'">
 	  			product_factory like concat('%', #{searchWord}, '%') or product_name like concat('%', #{searchWord}, '%')
-	  		</if>
-	  		<!-- 전체 셀렉트 + 검색어 입력이 없는 경우 -->
-	  		<if test="searchWord == null">
-	  			product_factory like '%' and product_name like '%'
-	  		</if>
-    </if>
+  		</if>
   		
   		<!-- 메인 카테고리 아이디값이 있는 경우,
-  		<if test="mainCategory_id != 'defaultMain'">
+  		<if test="mainCategory_id != null">
   			and mainCategory_id = #{mainCategory_id}
-  		</if> -->
-  		
-  		<!-- 미들 카테고리 아이디값이 있는 경우,
-  		<if test="middleCategory_id != 'defaultMiddle'">
-  			and middleCategory_id = #{middleCategory_id}
   		</if>  -->
+  		
+  		<!-- 미들 카테고리 아이디값이 있는 경우, 
+  		<if test="middleCategory_id != null">
+  			and middleCategory_id = #{middleCategory_id}
+  		</if> -->
   		
   		<!-- product_show 전시 여부
   		<if test='product_show == "Y"'>
@@ -247,33 +242,18 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		
   		<!-- 전체 셀렉트 + 검색어 입력이 있는 경우 -->
 	  	<if test="searchType == 'searchAll'">
-	  		<if test="searchWord != null">
 	  			product_factory like concat('%', #{searchWord}, '%') or product_name like concat('%', #{searchWord}, '%')
-	  		</if>
-	  		<!-- 전체 셀렉트 + 검색어 입력이 없는 경우 -->
-	  		<if test="searchWord == null">
-	  			product_factory like '%' and product_name like '%'
-	  			<!-- 메인 카테고리 아이디값이 있는 경우,  -->
-  		
-		  		<if test="mainCategory_id != 'defaultMain'">
-		  			and mainCategory_id = #{mainCategory_id}
-		  		</if>
-		  		<!-- 미들 카테고리 아이디값이 있는 경우,  -->
-		  		<if test="middleCategory_id != 'defaultMiddle'">
-		  			and middleCategory_id = #{middleCategory_id}
-		  		</if>
-	  		</if>
+  		</if>
+
+  		<!-- 메인 카테고리 아이디값이 있는 경우,  -->
+  		<if test="mainCategory_id != null">
+  			and mainCategory_id = #{mainCategory_id}
   		</if>
   		
-  		<!-- 메인 카테고리 아이디값이 있는 경우,
-  		<if test="mainCategory_id != 'defaultMain'">
-  			and mainCategory_id = #{mainCategory_id}
-  		</if>  -->
-  		
-  		<!-- 미들 카테고리 아이디값이 있는 경우,
-  		<if test="middleCategory_id != 'defaultMiddle'">
+  		<!-- 미들 카테고리 아이디값이 있는 경우,   -->
+  		<if test="middleCategory_id != null">
   			and middleCategory_id = #{middleCategory_id}
-  		</if>  -->
+  		</if>
   		
   		<!-- product_show 전시 여부
   		<if test='product_show == "Y"'>

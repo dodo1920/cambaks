@@ -196,10 +196,7 @@ function getMidCate(obj) {
 					<div class="card-body">
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">검색어</label>
-							<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
-							<input type="hidden" id="mainCategory_id" name="mainCategory_id" value="defaultMain"/>
-							<input type="hidden" id="middleCategory_id" name="middleCategory_id" value="defaultMiddle"/>
-							<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
+							
 							
 							
 							<div class="col-md-1" style="padding-left: 0px;">
@@ -208,9 +205,14 @@ function getMidCate(obj) {
 											<option value="product_name">상품명</option>
 											<option value="product_factory">제조사명</option>
 								</select>
+								
 							</div>
 							<div class="col-md-3">
 								<input type="text" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요.">
+								<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
+								<input type="hidden" id="mainCategory_id" name="mainCategory_id" value=""/>
+								<input type="hidden" id="middleCategory_id" name="middleCategory_id" value=""/>
+								<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
 							</div>
 							<div class="col-md-3">
 								<button type="submit" class="btn btn-primary" id="goSearch">검색</button>&nbsp;<button type="button" class="btn btn-light" onclick="location.href='/admin/prodList?page=1'">초기화</button>
