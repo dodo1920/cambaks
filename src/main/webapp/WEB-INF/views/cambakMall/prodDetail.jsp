@@ -1117,7 +1117,7 @@
 						insertBucket(flag);
 					} else if(result.bucket_buyQty == 11) { // 장바구니에 이미 들어있는 상품 종류가 10가지가 넘을 경우, 장바구니 상품 추가 안됨
 						$("#myModal").modal();
-						changeModalButtons("over");
+						goBucket("over");
 					} else { // 이미 장바구니에 있는 상품일 경우
 						$("#myModal").modal();
 						addAlreadyItem(flag, result);
@@ -1719,7 +1719,7 @@
 
 
 
-<%-- <%@include file="mallFooter.jsp" %> --%>
+<%@include file="mallFooter.jsp" %>
 
 
 <!-- Js Plugins -->

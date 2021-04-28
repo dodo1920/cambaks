@@ -83,33 +83,69 @@ button.btn.btn-default.cntCh {
     float: left;
 }
 
+.modal-sm {
+	max-width: 400px;
+}
+
 </style>
 
 <script type="text/javascript">
 	let ssid = '${ssid}';
+	let sameBucketLst = '${sameBucketLst}';
 	console.log(ssid);
 	
-	function margeCart(data) {
-		console.log(typeof data);
-	}
-	
-	function getSsidProducts() {
+	function updateBucket(flag, prodId) {
+		let member_id = "${loginMember.member_id}";
+		
+		let bucket_buyQty = $("#buyQty" + prodId).text();
+		let bucket_sellPrice = $("#sellPrice" + prodId).val();
+		let bucket_totBuyPrice = $("#totBuyPrice" + prodId).val();
+		
+		console.log(bucket_buyQty);
+		console.log(bucket_sellPrice);
+		console.log(bucket_totBuyPrice);
+		
 		$.ajax({
-			type : "get",
-			dataType : "json", // 응답을 어떤 형식으로 받을지	
-			url : "/mall/cart/no/" + ssid, // 서블릿 주소
-			success : function(data) {
-				console.log(data);
-				margeCart(data);
-			}, // 통신 성공시
-			error : function(data) {
-			} // 통신 실패시
-		});
+			url: '/mall/cart/updateBucekt?status=' + flag,
+			headers: {	// 요청 하는 데이터의 헤더에 전송
+				"Content-Type" : "application/json"
+					},
+			data : JSON.stringify({	// 요청하는 데이터
+				product_id: prodId,
+				member_id : member_id,
+				bucket_sellPrice : bucket_sellPrice,
+				bucket_buyQty : bucket_buyQty,
+				bucket_totBuyPrice : bucket_totBuyPrice
+				}),
+			dataType : 'text', // 응답 받을 형식
+			type : 'post',
+			processData : false, // 전송 데이터를 쿼리 스트링 형태로 변환하는지를 결정
+			contentType : false, // 기본 값 : application/x-www-form-urlencoded (form 태그의 인코딩 기본값)
+			success : function(result) {
+				console.log(result);
+				if(result == "modiSuccess") {
+					$("#statusBtns" + prodId).html("변경 완료");
+				} else if(result == "addSuccess") {
+					$("#statusBtns" + prodId).html("추가 완료");
+				}
+			},
+			fail : function(result) {
+				alert(result);
+			},
+			complete : function(result) {
+				cartList();
+			}
+		});		
 	}
 	
 	$(document).ready(function() {
-		getSsidProducts();
-		cartList();
+		console.log(sameBucketLst);
+		
+		if(sameBucketLst.length != 0) {
+			$("#checkModal").modal();
+		} else {
+			cartList();	
+		}
 	})
 	
 	// 게시글 가져오기 ajax
@@ -461,6 +497,44 @@ button.btn.btn-default.cntCh {
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" id="piece">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- modal -->
+	<div id="checkModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">장바구니</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="modalText">
+					<p>이미 장바구니에 존재하는 상품입니다!</p>
+					<ul>
+						<c:forEach var="item" items="${sameBucketLst }">
+							<li style="list-style: none;">
+								<div>
+								<span id="${item.product_id }">${item.product_name }</span>
+								<span id="buyQty${item.product_id }">${item.bucket_buyQty }</span> 개
+								<input type="hidden" id="sellPrice${item.product_id }" value="${item.bucket_sellPrice }" />
+								<input type="hidden" id="totBuyPrice${item.product_id }" value="${item.bucket_totBuyPrice }" />
+								<span id="statusBtns${item.product_id }">
+								<button type="button" class="btn btn-default" onclick="updateBucket('add','${item.product_id }');">추가하기</button>
+								<button type="button" class="btn btn-default" onclick="updateBucket('modi','${item.product_id }');">변경하기</button>
+								</span>
+								</div>								
+							</li>
+						</c:forEach>
+					</ul>
+				</div>
+				<div class="modal-footer">
+<!-- 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('add');">추가하기</button> -->
+<!-- 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('modi');">변경하기</button> -->
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cartList();">장바구니로</button>
 				</div>
 			</div>
 
