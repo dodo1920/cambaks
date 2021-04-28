@@ -267,8 +267,10 @@
            <version>[4.0,)</version>
        </dependency>
 
-		<!-- -->
-
+		<!-- 디버깅을 위한 SQL 찍어주는 용도 -->
+		<dependency>
+			<groupId>org.lazyluke</groupId> <artifactId>log4jdbc-remix</artifactId> <version>0.2.7</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
