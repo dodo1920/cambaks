@@ -1,14 +1,20 @@
 package com.cambak21.controller.cambakAdmin;
 
 import java.util.Base64.Decoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.json.JsonObject;
 import javax.mail.Multipart;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,6 +45,17 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import org.springframework.web.util.WebUtils;
+
+import com.cambak21.controller.HomeController;
+import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.OrderManagementOrderVO;
+import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
+import com.cambak21.domain.RevenueVO;
+import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.ChattingImageUploads;
 import com.cambak21.util.PagingCriteria;
@@ -339,6 +356,62 @@ public class AdminController {
       
       return "/admin/board_admin";
    }
+   
+   
+
+   
+   @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
+   public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+	   ResponseEntity<Map<String, Object>> entity = null;
+	   System.out.println(goStartDate + "," + goEndDate + "," + board_category + "," + searchselectedCategory + "," + searchboardType + "," + searchTxtValue + "," + page);
+//	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+//	   Date to = fm.parse(goStartDate);
+//	   System.out.println(to);
+	   AdminBoardDTO vo = new AdminBoardDTO();
+	
+	   Map<String, Object> para = new HashMap<String, Object>();
+	   
+	   List<BoardVO> Boardlst = new ArrayList<BoardVO>();
+	   
+	   PagingCriteria pc = new PagingCriteria();
+	   pc.setPage(page);
+	   PagingParam pp = new PagingParam();
+	   pp.setCri(pc);
+//	   pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
+		
+	   try {
+	    if(searchselectedCategory.equals("board")) {
+	    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+	    }else {
+	    	
+	    }
+		
+		para.put("Boardlst", Boardlst);
+	} catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	   
+	   
+	   	para.put("pagingParam", pp);
+	   	
+			 try { 
+//				 @PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo
+				 	entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+				
+				
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					 e.printStackTrace();
+				}
+			
+			return entity;
+	   }
+   
+   
+   
+   
+   
    
    
    

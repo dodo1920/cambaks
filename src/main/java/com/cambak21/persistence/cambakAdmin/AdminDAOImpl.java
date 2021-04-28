@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.ProductsVO;
@@ -276,6 +277,21 @@ public class AdminDAOImpl implements AdminDAO {
 //		============================================== 종진 ==============================================================================
 		
 		
+		@Override
+		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", goStartDate);
+			param.put("goEndDate", goEndDate);
+			param.put("board_category", board_category);
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".goGetBoard_admin", param);
+		}
+
+
+		
+		
 		
 		
 		
@@ -316,7 +332,36 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		
 		

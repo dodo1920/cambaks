@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
+import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.RevRefundVO;
@@ -272,9 +273,14 @@ public class adminServiceImpl implements adminService {
 //		============================================== 종진 ==============================================================================
 		
 		
-		
-		
-		
+
+		@Override
+		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+		}
+
+	
 		
 		
 		
@@ -316,6 +322,38 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
 		
 		
 		
