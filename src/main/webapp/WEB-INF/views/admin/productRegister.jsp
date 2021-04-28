@@ -114,6 +114,9 @@
 			imgCallback(); // 이미지 업로드 콜백 함수 실행
 		})
 		
+		// 메인카테고리 동적 출력
+		outputMainCategory();
+		
 	})
 	
 		// quill 에디터 이미지 콜백 함수 실행
@@ -130,7 +133,7 @@
 				formData.append("image", file);
 				
 				$.ajax({
-					url : "/admin/productDetail",
+					url : "/admin/productImage",
 					data : formData,
 					type : 'POST',
 					enctype : 'multipart/form-data',
@@ -160,7 +163,7 @@
 		formData.append("image", file);
 		
 		$.ajax({
-			url : "/admin/productThumnail",
+			url : "/admin/productImage",
 			data : formData,
 			type : 'POST',
 			enctype : 'multipart/form-data',
@@ -179,6 +182,58 @@
 			complete : function(data) {
 			}
 		});
+	}
+	
+	function outputMainCategory() {
+		let output = '<select name="mainCategory_id" onchange="outputMiddleCategory()" id="checkOption">';
+		
+		$.ajax({
+		  method: "get",
+		  url: "/admin/getMainCategories",
+		  headers: {	// 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "GET"
+		  },
+		  success : function(data) {
+		      let mainCategory = data.mainCategories;
+		      
+		      $(mainCategory).each(function(index, item) {
+		    	
+		    	  output += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';
+		    	  
+		      }); // end of foreach
+
+			  output += '</select>';
+			  $("#select-wrap").html(output);
+		  }
+		  
+		}); // end of ajax
+	}
+	
+	function outputMiddleCategory() {
+		let mainCategory_id = $("#checkOption option:selected").val();
+		
+		let output = "";
+		$.ajax({
+			method: "get",
+		  	url: "/admin/getMiddleCategories",
+		  	headers: {	// 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "GET"
+		  }, 
+		  data		:  {
+	  		'mainCategory_id' : mainCategory_id
+			}, 
+		  success : function(data) {
+			  
+		      let middleCategory = data.middleCategories;
+		      $(middleCategory).each(function(index, item) {
+		    	  output += '<option value="' + item.middleCategory_id + '">' + item.middleCategory_content + '</option>';
+		      });
+			  $("#middle-wrap").html(output);
+		  }
+		  
+		}); // end of ajax
 	}
 	
 </script>
@@ -294,28 +349,15 @@ input[type="text"] {
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
-								<td>
-								<select name="mainCategory_id">
-										<option>-대분류-</option>
-										<option value="1">텐트/타프</option>
-										<option value="2">텐트/타프</option>
-										<option>텐트/타프</option>
-										<option>텐트/타프</option>
-										<option>기타</option>
-								</select>
+								<td id="select-wrap">
 								</td>
 							</tr>
 							<tr>
 								<td class="table_title">소분류</td>
 								<td>
-								<select name="middleCategory_id">
-										<option>-소분류-</option>
-										<option value="11">국자</option>
-										<option value="12">젓가락</option>
-										<option>숟가락</option>
-										<option>모자</option>
-										<option>신발</option>
-								</select>
+									<select id="middle-wrap" name="middleCategory_id">
+										<option>대분류를 선택해 주세요</option>
+									</select>
 								</td>
 							</tr>
 							<tr>

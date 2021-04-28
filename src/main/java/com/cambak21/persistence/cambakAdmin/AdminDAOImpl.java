@@ -174,7 +174,20 @@ public class AdminDAOImpl implements AdminDAO {
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 승권 ==============================================================================
-		
+	   /**
+		  * @Method Name : insertProduct
+		  * @작성일 : 2021. 4. 28.
+		  * @작성자 : goott6
+		  * @변경이력 : 
+		  * @Method 설명 :
+		  * @param vo
+		  * @return
+		  * @throws Exception
+		  */
+		@Override
+		public int insertProduct(ProductsVO vo) throws Exception {
+			return ses.insert(ns + ".insertProduct", vo);
+		}
 		
 		
 		
@@ -332,6 +345,8 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
+
+	
 
 
 
