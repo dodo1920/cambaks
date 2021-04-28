@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
@@ -21,6 +23,7 @@ import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -222,26 +225,47 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		// 검색된 게시글 총 개수 가져오기
 		@Override
-		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception {
-			return ses.selectOne(ns + ".getTotalSearchProdListCnt", scri);
+		public int getTotalSearchProdListCnt(SearchCriteria scri, AdminProductListDTO dto) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("searchType", scri.getSearchType());
+			param.put("searchWord", scri.getSearchWord());
+			System.out.println("dao scri.searchWord:" + scri.getSearchWord());
+			
+			param.put("product_show", dto.getProduct_show());
+			param.put("mainCategory_id", dto.getMainCategory_id());
+			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			System.out.println("dao의 param:" + param.toString());
+			return ses.selectOne(ns + ".getTotalSearchProdListCnt", param);
 		}
 
 		// 검색된 결과 리스트 가져오기
 		@Override
-		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception {
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri, AdminProductListDTO dto) throws Exception {
 			// 여러 개의 객체를 한번에 보낼 때, Map을 사용
+			System.out.println("dao의 dto: " + dto.toString());
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("searchType", scri.getSearchType());
 			param.put("searchWord", scri.getSearchWord());
 			param.put("pageStart", cri.getPageStart());
 			param.put("perPageNum", cri.getPerPageNum());
+			param.put("product_show", dto.getProduct_show());
+			param.put("mainCategory_id", dto.getMainCategory_id());
+			param.put("middleCategory_id", dto.getMiddleCategory_id());
 			return ses.selectList(ns + ".goSearchProdList", param);
 		}
 
+		// ajax 이용 메인 카테고리 리스트 출력
+		@Override
+		public List<MainCategoryVO> getMainCategories() throws Exception {
+			return ses.selectList(ns + ".getMainCategories");
+		}
 		
-		
-		
-		
+		// ajax 방식으로 메인카테고리 하위의 미들카테고리 목록 가져오기
+		@Override
+		public List<MiddleCategoryVO> getMiddleCategories(int mainCategory_id) throws Exception {
+			return ses.selectList(ns + ".getMiddleCategories", mainCategory_id);
+		}
+			
 		
 		
 		
@@ -292,28 +316,6 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
-
-	
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-		
 		
 		
 		

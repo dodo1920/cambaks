@@ -10,14 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
+import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.MemberVO;
-
+import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+<<<<<<< HEAD
 import com.cambak21.dto.UpdateAdminMemberDTO;
+=======
+import com.cambak21.dto.AdminProductListDTO;
+>>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -240,20 +245,28 @@ public class adminServiceImpl implements adminService {
 		
 		// 검색한 결과의 총 게시글 수
 		@Override
-		public int getTotalSearchProdListCnt(SearchCriteria scri) throws Exception {
-			return dao.getTotalSearchProdListCnt(scri);
+		public int getTotalSearchProdListCnt(SearchCriteria scri, AdminProductListDTO dto) throws Exception {
+			return dao.getTotalSearchProdListCnt(scri, dto);
 		}
 		
 		// 검색한 결과 리스트 가져오기
 		@Override
-		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri) throws Exception {
-			return dao.goSearchProdList(scri,cri);
+		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri, AdminProductListDTO dto) throws Exception {
+			return dao.goSearchProdList(scri,cri, dto);
 		}
 
 		
-		
-		
-		
+		// ajax를 통한 메인 카테고리 리스트 출력
+		@Override
+		public List<MainCategoryVO> getMainCategories() throws Exception {
+			return dao.getMainCategories();
+		}
+
+		// ajax 방식으로 메인카테고리 하위의 미들카테고리 목록 가져오기
+		@Override
+		public List<MiddleCategoryVO> getMiddleCategories(int mainCategory_id) throws Exception {
+			return dao.getMiddleCategories(mainCategory_id);
+		}
 		
 		
 		
@@ -308,7 +321,10 @@ public class adminServiceImpl implements adminService {
 	}
 
 
+<<<<<<< HEAD
 	
+=======
+>>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
 
 
 
@@ -321,11 +337,14 @@ public class adminServiceImpl implements adminService {
 
 
 
+<<<<<<< HEAD
 
 
 
 
 	
+=======
+>>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
 		
 		
 		
