@@ -53,7 +53,7 @@
 
 // 메인 카테고리 select 박스를 ajax 방식으로 출력
 function selectMainCategories() {
-	let output = '<select class="select form-control" id="checkOption" style="height:36px;" onchange="getMainCate(this);")><optgroup label="-검색항목선택-"><option value="default">- 카테고리 대분류 -</option>';
+	let output = '<select class="select form-control" id="checkOption" style="height:36px;" onchange="getMainCate(this);")><optgroup label="-검색항목선택-"><option value="mainCategory_id">- 카테고리 대분류 -</option>';
 				
 					$.ajax({
 						method: "get",
@@ -115,7 +115,7 @@ $(document).ready(function(){
 function getMainCate(obj) {
 	let mainCategory_id = $("#checkOption option:selected").val();
 	console.log(mainCategory_id);
-	let output1 = '<select class="select form-control" id="checkMidle" style="height:36px;" onchange="getMidCate(this);")><optgroup label="-검색항목선택-"><option value="default">- 카테고리 중분류 -</option>';
+	let output1 = '<select class="select form-control" id="checkMidle" style="height:36px;" onchange="getMidCate(this);")><optgroup label="-검색항목선택-"><option value="middleCategory_id">- 카테고리 중분류 -</option>';
 	$.ajax({
 		method: "get",
 	  	url: "/admin/getMiddleCategories",
@@ -210,8 +210,8 @@ function getMidCate(obj) {
 							<div class="col-md-3">
 								<input type="text" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요.">
 								<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
-								<input type="hidden" id="mainCategory_id" name="mainCategory_id" value=""/>
-								<input type="hidden" id="middleCategory_id" name="middleCategory_id" value=""/>
+								<input type="hidden" id="mainCategory_id" name="mainCategory_id" value="mainCategory_id"/>
+								<input type="hidden" id="middleCategory_id" name="middleCategory_id" value="middleCategory_id"/>
 								<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
 							</div>
 							<div class="col-md-3">
@@ -287,6 +287,8 @@ function getMidCate(obj) {
 											<tr role="row">
 												<th style="font-weight: bold; width: 100px;"><input type="checkbox" id="allChecked" value="allChecked"/></th>
 												<th style="font-weight: bold; width: 100px;">상품번호</th>
+												<th style="font-weight: bold; width: 100px;">메인카테고리</th>
+												<th style="font-weight: bold; width: 100px;">하위카테고리</th>
 												<th style="font-weight: bold; width: 150px;">상품명</th>
 												<th style="font-weight: bold; width: 75px;">판매가</th>
 												<th style="font-weight: bold; width: 180px;">진열상태</th>
@@ -299,6 +301,8 @@ function getMidCate(obj) {
 											<tr role="row">
 												<td><input type="checkbox" name="chk" id="check${board.product_id }"/></td>
 												<td>${board.product_id }</td>
+												<td>${board.mainCategory_id }</td>
+												<td>${board.middleCategory_id }</td>
 												<td>${board.product_name }</td>
 												<td>${board.product_sellPrice }</td>
 												<td>${board.product_show }</td>
