@@ -30,7 +30,8 @@
 
 <script>
 
-
+let ResultList = new Array();
+let AfterResultList = new Array();
 
 	$(function() {
 	
@@ -46,6 +47,22 @@
 		
 	});
 	
+	function changeResultViewList(data){
+		if(data.options[data.selectedIndex].value == "basic"){
+			console.log("기본 정렬");
+		}else if(data.options[data.selectedIndex].value == "viewCnt"){
+			console.log("조회 수 정렬");
+			AfterResultList = ResultList.Boardlst;
+			
+			AfterResultList.sort(function(a, b){
+				return b.board_viewCnt - a.board_viewCnt;
+			});
+			console.log(AfterResultList);
+// 			console.log(ResultList.sort(ResultList.Boardlst.board_viewCnt));
+			
+		}
+	
+	}
 	
 	function chageLangSelect(data){
 		if(data.options[data.selectedIndex].value == "reply"){
@@ -98,7 +115,7 @@ function getPastDate(period){
  
     return year + "-" + month + "-" + day;
 }
-	
+
 	function goBoardListAll(){
 		let goStartDate = $("#startDate").val();
 		let goEndDate = $("#endDate").val();
@@ -111,21 +128,24 @@ function getPastDate(period){
 			searchTxtValue = $("#searchBoard_key").val();
 		}
 	    
+// 	    console.log(typeof($("#endDate").val()));
+	    
+	    
 // 		if(data == "none"){
 			
 // 		}
 	
 	    
 		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
-		
-			console.log(data);
-// 			$(data).each(function(index, item){
 			
-			
-			
+			$("#newBoardCnt").html(data.todayTotCnt);
+			$("#newReplyCnt").html(data.todayreplyTotCnt);
+			$("#totalResultCnt").html(data.pagingParam.totalCount);
+			ResultList = data;
+			console.log(ResultList);
+// 			$(data).each(function(index, item){			
 // 			});
-
-			});
+		});
 		
 	}
 
@@ -676,6 +696,9 @@ table {
 						</table>
 					</div>
 					<div class="mButton gCenter">
+					
+						<a id="eBtnSearch" href="javascript:window.location.reload();"
+							class="btnSearch"><span>초기화</span></a>
 						<a id="eBtnSearch" href="javascript:goBoardListAll();"
 							class="btnSearch"><span>검색</span></a>
 
@@ -684,20 +707,19 @@ table {
 
 				<div class="section">
 					<div class="mTitle">
-						<h2>전체 게시물 목록</h2>
+						<h2 id="Result_h2" >게시물 목록</h2>
 					</div>
 					<div class="mState">
 						<div class="gLeft">
 							<p class="total">
-								[오늘 등록된 새 글 <strong>1</strong>건] 검색결과 <strong>1</strong> 건 <span
-									id="admngDebug"> <span id="admngSide_1"></span>
+								[오늘 등록된 새 글 <strong id="newBoardCnt">1</strong>건 & 댓글 <strong id="newReplyCnt">1</strong> 건] <strong>검색 결과</strong> <strong id="totalResultCnt">1</strong> 건
 							</p>
 						</div>
 						<div class="gRight">
 							<select class="fSelect" id="eSearchSort" name="searchSort"
-								onchange="view_board('submit');" align="absmiddle">
-								<option value="" selected="selected">기본정렬</option>
-								<option value="H">조회수많은순</option>
+								onchange="changeResultViewList(this);" align="absmiddle">
+								<option value="basic" selected="selected">기본정렬</option>
+								<option value="viewCnt">조회수많은순</option>
 							</select> <select class="fSelect" id="list_limit" name="list_limit"
 								onchange="view_board('submit');" align="absmiddle">
 								<option value="10" selected="">10개씩보기</option>

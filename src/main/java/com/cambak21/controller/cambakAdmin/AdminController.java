@@ -59,6 +59,7 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.service.cambakAdmin.adminService;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.ChattingImageUploads;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -336,7 +337,7 @@ public class AdminController {
    @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
    public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;
-	   System.out.println(goStartDate + "," + goEndDate + "," + board_category + "," + searchselectedCategory + "," + searchboardType + "," + searchTxtValue + "," + page);
+//	   System.out.println(goStartDate + "," + goEndDate + "," + board_category + "," + searchselectedCategory + "," + searchboardType + "," + searchTxtValue + "," + page);
 //	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 //	   Date to = fm.parse(goStartDate);
 //	   System.out.println(to);
@@ -350,28 +351,34 @@ public class AdminController {
 	   pc.setPage(page);
 	   PagingParam pp = new PagingParam();
 	   pp.setCri(pc);
-//	   pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
-		
-	   try {
+	   
+	   BoardAdminSearchCriteria BAcri1 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category);
+	   BoardAdminSearchCriteria BAcri2 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue);
+
+			   try {
 			if(searchTxtValue.equals("none")) {
 				
 			
 			    if(searchselectedCategory.equals("board")) {
-			    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+			    	Boardlst = service.goGetBoard_admin(BAcri1, pc);
+			    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
 			    }
 				
 			    if(searchselectedCategory.equals("reply")) {
-			    	replyBoardlst = service.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+			    	replyBoardlst = service.goGetreply_admin(BAcri1, pc);
+			    	pp.setTotalCount(service.getReply_adminCnt(BAcri1));
 			    }
 			para.put("Boardlst", Boardlst);
 			}else {
 			
 				 if(searchselectedCategory.equals("board")) {
-				    	Boardlst = service.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue,pc);
+				    	Boardlst = service.searchGetBoard_admin(BAcri2,pc);
+				    	pp.setTotalCount(service.getsearchBoard_adminCnt(BAcri2));
 				    }
 					
 				    if(searchselectedCategory.equals("reply")) {
-				    	replyBoardlst = service.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+				    	replyBoardlst = service.searchGetreply_admin(BAcri2, pc);
+				    	pp.setTotalCount(service.getsearchReply_adminCnt(BAcri2));
 				    }
 		
 			    para.put("Boardlst", Boardlst);	
