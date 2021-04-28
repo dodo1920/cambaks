@@ -40,6 +40,7 @@ import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.OrderManagementOrderVO;
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
@@ -425,6 +426,11 @@ public class AdminController {
       return "/admin/adminOrderManagement";
    }
    
+   @RequestMapping(value="/orderManagement/search")
+   public String orderManagementSearch(OrderManagementSearchVO vo, PagingCriteria cri, Model model) throws Exception{
+      System.out.println(vo.toString());
+      return "/admin/adminOrderManagementSearch";
+   }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
