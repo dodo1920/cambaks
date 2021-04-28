@@ -36,7 +36,7 @@ let loginUser = '${loginMember.member_id}';
  $(document).ready(function() {
 	 $("#main-sidebar").css("display","none");
 	 
-	 
+	 console.log("${para.countReviews}");
  });
 
  
@@ -308,28 +308,40 @@ let loginUser = '${loginMember.member_id}';
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
-								    <span class="starScoreReviewNum">&nbsp(${NewProduct1.total_reviewNum})</span>
+								   
 								    </c:if>
 								    
 								    
 								    <c:if test="${NewProduct1.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											         
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct1.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+									         <i class="fa fa-star" style="color: #777777"></i>
+											       
 								    </c:if>
 				              		<c:if test="${NewProduct1.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct1.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct1.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -338,6 +350,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 								    </c:if>
+								     <span class="starScoreReviewNum">&nbsp(${NewProduct1.total_reviewNum})</span>
                             </div>
 	                        
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct1.product_sellPrice}" pattern="#,###원" /></div>
@@ -393,26 +406,36 @@ let loginUser = '${loginMember.member_id}';
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
-								    <span class="starScoreReviewNum">&nbsp(${NewProduct2.total_reviewNum})</span>
+								   
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct2.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct2.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct2.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct2.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct2.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -421,6 +444,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 								    </c:if>
+								     <span class="starScoreReviewNum">&nbsp(${NewProduct2.total_reviewNum})</span>
                             </div>
 	                        
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct2.product_sellPrice}" pattern="#,###원" /></div>
@@ -473,26 +497,36 @@ let loginUser = '${loginMember.member_id}';
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
-								    <span class="starScoreReviewNum">&nbsp(${NewProduct3.total_reviewNum})</span>
+<!-- 								    <span class="starScoreReviewNum">&nbsp(${NewProduct3.total_reviewNum})</span> -->
 								    </c:if>
 								    								    
 				              		<c:if test="${NewProduct3.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct3.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct3.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct3.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
 								    </c:if>
 				              		<c:if test="${NewProduct3.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -500,7 +534,9 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 
 								    </c:if>
+								    <span class="starScoreReviewNum">&nbsp(${NewProduct3.total_reviewNum})</span>
                             </div>
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct3.product_sellPrice}" pattern="#,###원" /></div>
 	                    </div>
@@ -552,26 +588,40 @@ let loginUser = '${loginMember.member_id}';
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
-								    <span class="starScoreReviewNum">&nbsp(${NewProduct4.total_reviewNum})</span>
+								    	
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct4.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+							
 								    </c:if>
 				              		<c:if test="${NewProduct4.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										
 								    </c:if>
 				              		<c:if test="${NewProduct4.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+						
 								    </c:if>
 				              		<c:if test="${NewProduct4.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+									
 								    </c:if>
 				              		<c:if test="${NewProduct4.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -579,7 +629,9 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											
 								    </c:if>
+								     <span class="starScoreReviewNum">&nbsp(${NewProduct4.total_reviewNum})</span>
                             </div>
 	                        
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct4.product_sellPrice}" pattern="#,###원" /></div>
@@ -638,21 +690,35 @@ let loginUser = '${loginMember.member_id}';
 								    
 				              		<c:if test="${NewProduct5.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct5.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct5.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct5.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct5.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -660,6 +726,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct5.total_reviewNum})</span>
 								    </c:if>
                             </div>
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct5.product_sellPrice}" pattern="#,###원" /></div>
@@ -716,21 +783,25 @@ let loginUser = '${loginMember.member_id}';
 								    
 				              		<c:if test="${NewProduct6.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct6.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct6.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct6.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct6.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -738,6 +809,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct6.total_reviewNum})</span>
 								    </c:if>
                             </div>
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct6.product_sellPrice}" pattern="#,###원" /></div>
@@ -789,21 +861,35 @@ let loginUser = '${loginMember.member_id}';
 								    
 				              		<c:if test="${NewProduct7.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct7.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct7.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct7.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct7.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -811,6 +897,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct7.total_reviewNum})</span>
 								    </c:if>
                             </div>
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct7.product_sellPrice}" pattern="#,###원" /></div>
@@ -860,25 +947,40 @@ let loginUser = '${loginMember.member_id}';
 										     <i class="fa fa-star" style="color: #777777"></i>
 										     <i class="fa fa-star" style="color: #777777"></i>
 								    <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
+								    
 								    </c:if>
 								    
 				              		<c:if test="${NewProduct8.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct8.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct8.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct8.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${NewProduct8.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -886,6 +988,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span>
 								    </c:if>
                             </div>
 	                        <div class="product__price" style="color: #333"><fmt:formatNumber value="${NewProduct8.product_sellPrice}" pattern="#,###원" /></div>
@@ -958,26 +1061,47 @@ let loginUser = '${loginMember.member_id}';
                              <div class="rating">
                              
                              		<c:if test="${topSelling.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+                             		     	 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
+<!-- 								    <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span> -->
+<!-- 											 <span class="noneReivews">평가 없음</span> -->
 								    </c:if>
 								    
 				              		<c:if test="${topSelling.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topSelling.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topSelling.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topSelling.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topSelling.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -985,6 +1109,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${topSelling.total_reviewNum})</span>
 								    </c:if>
                             </div>
                            <div class="product__price" style="color: #333"><fmt:formatNumber value="${topSelling.product_sellPrice}" pattern="#,###원" /></div>
@@ -1008,27 +1133,48 @@ let loginUser = '${loginMember.member_id}';
                              <a href="/mall/prodDetail/main?prodId=${topReview.product_id }"><h6>${topReview.product_name }</h6></a>
                          <div class="rating">
                          
-                         			<c:if test="${topReview.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+                         			<c:if test="${topReview.star == 0 }">	 
+                       						 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
+<!-- 								    <span class="starScoreReviewNum">&nbsp(${NewProduct8.total_reviewNum})</span> -->
+<!-- 											 <span class="noneReivews">평가 없음</span> -->
 								    </c:if>
 								    
 				              		<c:if test="${topReview.star == 1 }">
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topReview.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topReview.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topReview.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+											 <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
 								    </c:if>
 				              		<c:if test="${topReview.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -1036,6 +1182,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <span class="starScoreReviewNum">&nbsp(${topReview.total_reviewNum})</span>
 								    </c:if>
                             </div>
                             <div class="product__price" style="color: #333"><fmt:formatNumber value="${topReview.product_sellPrice}" pattern="#,###원" /></div>
@@ -1061,26 +1208,47 @@ let loginUser = '${loginMember.member_id}';
                          <div class="rating">
                          
                      			    <c:if test="${countReviews.star == 0 }">
-											 <span class="noneReivews">평가 없음</span>
+                     			    		 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+							
+
+<!-- 											 <span class="noneReivews">평가 없음</span> -->
 								    </c:if>
 								    
 				              		<c:if test="${countReviews.star == 1 }">
 											 <i class="fa fa-star"></i>
+							 		         <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+							       
 								    </c:if>
 				              		<c:if test="${countReviews.star == 2 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+											 <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+							
 								    </c:if>
 				              		<c:if test="${countReviews.star == 3 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+						 				     <i class="fa fa-star" style="color: #777777"></i>
+										     <i class="fa fa-star" style="color: #777777"></i>
+     								
 								    </c:if>
 				              		<c:if test="${countReviews.star == 4 }">
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
+									         <i class="fa fa-star" style="color: #777777"></i>
+						
 								    </c:if>
 				              		<c:if test="${countReviews.star == 5 }">
 											 <i class="fa fa-star"></i>
@@ -1089,6 +1257,7 @@ let loginUser = '${loginMember.member_id}';
 											 <i class="fa fa-star"></i>
 											 <i class="fa fa-star"></i>
 								    </c:if>
+								     <span class="starScoreReviewNum">&nbsp(${countReviews.count})</span>
                             </div>
                             <div class="product__price" style="color: #333"><fmt:formatNumber value="${countReviews.product_sellPrice}" pattern="#,###원" /></div>
                         </div>
