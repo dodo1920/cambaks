@@ -36,12 +36,28 @@
 		webSocketInit();
 		// 전송 Enter 이벤트
 		$("#msg").keydown(function(key) {
+			let msgLen = $("#msg").val();
+			
+			// 입력 숫자 출력
+			if (msgLen.length <= 200) {
+				$(".count").text(msgLen.length);
+				$(".count").css("color", "black");
+			} else {
+				$(".count").text(msgLen.length);
+				$(".count").css("color", "red");
+			}
+			
 			// Enter 눌렀을 경우
 			if (key.keyCode == 13) {
-				socketMsgSend();
-				$("#msg").val("");
+				if(msgLen.length < 200) {
+					socketMsgSend();
+					$("#msg").val("");
+				} else {
+					alert("최대 200자 까지만 입력 가능합니다.")
+				}
 			}
 		});
+		
 		// 이미지 업로드, 드래그 앤 드롭 방식
 		$(".chatting-content").on("dragenter", function(e) { //드래그 요소가 들어왔을떄
 			$(this).addClass('drag-over');
@@ -90,6 +106,7 @@
 				}
 			});
 		});
+		
 	})
 	function webSocketInit() {
 		let hostname = $(location).attr("hostname");
@@ -231,6 +248,8 @@ span.admin-msg {
 	border-radius: 5px;
 	padding: 5px;
 	margin-left: 10px;
+	word-break: break-all;
+    max-width: 400px;
 }
 /* 유저 메시지 */
 span.user-msg {
@@ -238,8 +257,9 @@ span.user-msg {
 	border-radius: 5px;
 	padding: 5px;
 	margin-right: 10px;
-	max-width: 400px;
 	color: white;
+	word-break: break-all;
+    max-width: 400px;
 }
 /* 메시지 하나하나 감싸는 부분에서 유저만 */
 .user-msg-wrap {
@@ -280,6 +300,12 @@ span.isRead {
 }
 .img-submit {
 	color: gray;
+	display: inline-block;
+}
+
+.msgCnt {
+    float: right;
+    font-size: 20px;
 }
 </style>
 <body>
@@ -357,6 +383,7 @@ span.isRead {
 							onclick="socketMsgSend()" style="border-radius: 0">전송하기</button>
 					</div>
 					<div class="img-submit">※ 이미지 파일을 채팅창에 끌어다 놓으면 보내실 수 있습니다.</div>
+					<div class="msgCnt"><span class="count">0</span> / 200</div>
 				</div>
 			</div>
 
