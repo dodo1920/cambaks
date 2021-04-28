@@ -263,7 +263,10 @@ function getDestinationsList(){
             </div>
         
         </div>
-        <div style="font-weight: bold; float: right; margin-right: 20%; margin-top: 10px; font-size: 15px; color: chocolate;"> ※ &nbsp 최대 3개까지 저장 가능합니다.</div>
+        <div style="font-weight: bold; margin-left:68%; font-size: 15px; color: chocolate;"> ※ &nbsp 최대 3개까지 저장 가능합니다.</div>
+        <div style="font-weight: bold; margin-left:75%; margin-top: 25px; font-size: 15px; color: chocolate;"><button onclick="window.history.back()">이전 페이지</button></div>
+   		
+   
     </section>
     <!-- Shop Cart Section End -->
 
