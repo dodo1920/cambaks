@@ -136,7 +136,7 @@
     	<input type="hidden" name="destination_no" value="" id="destination_no">
     </div>
      <div style="text-align:right">
-      	<a href="localhost:8081" class="btn btn-info" role="button">메인화면으로</a>
+      	<a href="main/" class="btn btn-info" role="button">메인화면으로</a>
       </div>
     </div>
     <!-- 배송지 선택 테이블 end -->

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -102,6 +103,7 @@ public class MallController {
 		return entity;
 	}
 	
+	@Transactional
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
 	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		Calendar cal = Calendar.getInstance();

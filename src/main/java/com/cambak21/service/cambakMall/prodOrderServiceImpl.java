@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
@@ -90,6 +91,7 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return infoVO;
 	}
 	
+	@Transactional
 	@Override
 	public boolean payInfoSave(PaymentsInfoVO vo, int payment_no, int serialNo) throws Exception {
 		boolean result = false;
