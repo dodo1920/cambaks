@@ -14,22 +14,35 @@
 <link rel="icon" type="image/x-icon"
 	href="/resources/cambak21/assets/favicon.ico" />
 <title>Cambak's - Admin Pages</title>
-<!-- Custom CSS -->
-<link href="../resources/adminAssets/libs/flot/css/float-chart.css"
-	rel="stylesheet">
-<!-- Custom CSS -->
+<!-- css -->
+<link href="../resources/adminDist/css/bootstrap.min.css"
+	type="text/css">
+<link href="../resources/adminDist/css/font-awesome.min.css"
+	type="text/css">
+<link href="../resources/adminDist/css/elegant-icons.css"
+	type="text/css">
+<link href="../resources/adminDist/css/jquery-ui.min.css"
+	type="text/css">
+<link href="../resources/adminDist/css/magnific-popup.css"
+	type="text/css">
+<link href="../resources/adminDist/css/owl.carousel.min.css"
+	type="text/css">
+<link href="../resources/adminDist/css/slicknav.min.css" type="text/css">
+<link href="../resources/adminDist/css/style.css" type="text/css">
 <link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
-<!-- include summernote css/js -->
+<link rel="stylesheet" type="text/css"
+	href="../resources/adminAssets/libs/select2/dist/css/select2.min.css">
+<link rel="stylesheet" type="text/css"
+	href="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.css">
+<link rel="stylesheet" type="text/css"
+	href="../resources/adminAssets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+<link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	href="../resources/adminAssets/libs/quill/dist/quill.snow.css">
 
-<!-- All Jquery -->
-<!-- ============================================================== -->
-<script src="../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<!-- include summernote css/js -->
-<script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
+<!-- js -->
 <script src="../resources/adminAssets/libs/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap tether Core JavaScript -->
 <script
 	src="../resources/adminAssets/libs/popper.js/dist/umd/popper.min.js"></script>
 <script
@@ -37,73 +50,137 @@
 <script
 	src="../resources/adminAssets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
 <script src="../resources/adminAssets/extra-libs/sparkline/sparkline.js"></script>
-<!--Wave Effects -->
 <script src="../resources/adminDist/js/waves.js"></script>
-<!--Menu sidebar -->
 <script src="../resources/adminDist/js/sidebarmenu.js"></script>
-<!--Custom JavaScript -->
 <script src="../resources/adminDist/js/custom.min.js"></script>
-<!-- Charts js Files -->
-<script src="../resources/adminAssets/libs/flot/excanvas.js"></script>
-<script src="../resources/adminAssets/libs/flot/jquery.flot.js"></script>
-<script src="../resources/adminAssets/libs/flot/jquery.flot.pie.js"></script>
-<script src="../resources/adminAssets/libs/flot/jquery.flot.time.js"></script>
-<script src="../resources/adminAssets/libs/flot/jquery.flot.stack.js"></script>
 <script
-	src="../resources/adminAssets/libs/flot/jquery.flot.crosshair.js"></script>
+	src="../resources/adminAssets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+<script src="../resources/adminDist/js/pages/mask/mask.init.js"></script>
 <script
-	src="../resources/adminAssets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-<script src="../resources/adminDist/js/pages/chart/chart-page-init.js"></script>
-
-<!-- 썸머노트관련 -->
-<script src="../resources/cambak21/lib/jquery-3.5.1.min.js"></script>
-<script src="../resources/adminAssets/libs/jquery/dist/jquery.min.js"></script>
+	src="../resources/adminAssets/libs/select2/dist/js/select2.full.min.js"></script>
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<!-- include summernote css/js -->
+	src="../resources/adminAssets/libs/select2/dist/js/select2.min.js"></script>
 <script
-	src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+	src="../resources/adminAssets/libs/jquery-asColor/dist/jquery-asColor.min.js"></script>
+<script
+	src="../resources/adminAssets/libs/jquery-asGradient/dist/jquery-asGradient.js"></script>
+<script
+	src="../resources/adminAssets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js"></script>
+<script
+	src="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+<script
+	src="../resources/adminAssets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="../resources/adminAssets/libs/quill/dist/quill.min.js"></script>
 
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#summernote').summernote({
-			height : 500,
-			focus : true,
-			callbacks : {
-				onImageUpload : function(files, editor, welEditable) {
-					for (var i = files.length - 1; i >= 0; i--) {
-						sendFile(files[i], this);
-					}
-				}
-			}
+		// quill 에디터 옵션
+		var toolbarOptions = [
+			  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+			  ['blockquote', 'code-block'],
+
+			  [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+			  [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+			  [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+			  [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+			  [{ 'direction': 'rtl' }],                         // text direction
+
+			  [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+			  [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+			  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+			  [{ 'font': [] }],
+			  [{ 'align': [] }],
+			  ['image', 'code-block'],
+			  ['clean']                                         // remove formatting button
+		];
+			
+		// quill 에디터 객체 생성
+		var quill = new Quill('#editor', {
+			modules: {
+			  toolbar: toolbarOptions
+			},
+			theme: 'snow'
 		});
-	});
-
-	function sendFile(file, el) {
-		let path = "/resources/uploads/boardCs";
-
-		var form_data = new FormData();
-
-		form_data.append('file', file);
-
+		
+		// quill에디터 데이터 보내기 위한 ...
+		quill.on('text-change', function(delta, oldDelta, source) {
+	        document.getElementById("product_detail").value = quill.root.innerHTML;
+	    });
+		
+		// quill 에디터 이미지 핸들러 추가
+		quill.getModule('toolbar').addHandler('image', function () {
+			imgCallback(); // 이미지 업로드 콜백 함수 실행
+		})
+		
+	})
+	
+		// quill 에디터 이미지 콜백 함수 실행
+		function imgCallback() {
+			// input 태그 생성
+			let input = document.createElement('input');
+			input.setAttribute('type', 'file');
+			input.click();
+			
+			// product_detail 사진 웹서버에 저장하기 위한 ...
+			input.onchange = function () {
+				let formData = new FormData();
+				let file = $(this)[0].files[0];
+				formData.append("image", file);
+				
+				$.ajax({
+					url : "/admin/productDetail",
+					data : formData,
+					type : 'POST',
+					enctype : 'multipart/form-data',
+					processData : false,
+					contentType : false,
+					dataType : 'text',
+					cache : false,
+					success : function(data) {
+						let imgSrc = "../resources/uploads/product/" + data // 웹서버에 저장한 이미지 경로
+						let content = $("#product_detail").val(); // 기존 html 값들 가져오기
+						content += '<img src="'+imgSrc+'">'; // 기존 html 값에다가 이미지 추가
+						
+						$(".ql-editor").append('<img src="'+imgSrc+'">'); // quill 에디터 창에도 이미지 출력
+					},
+					error : function(data) {
+					}, 
+					complete : function(data) {
+					}
+				});
+			}
+		}
+	
+	// 썸네일 이미지 업로드
+	function ThumnailUpload() {
+		let formData = new FormData();
+		let file = $("#product_thumnail")[0].files[0];
+		formData.append("image", file);
+		
 		$.ajax({
-			data : form_data,
-			type : "POST",
-			url : '/board/cs/image',
-			cache : false,
-			contentType : false,
+			url : "/admin/productThumnail",
+			data : formData,
+			type : 'POST',
 			enctype : 'multipart/form-data',
 			processData : false,
-			success : function(url) {
-				$(el).summernote('editor.insertImage', path + url);
-			}, // 통신 성공시
-			error : function(data) {
-				$("#modalText").text("이미지 파일이 아닙니다");
-				$("#myModal").modal();
+			contentType : false,
+			dataType : 'text',
+			cache : false,
+			success : function(data) {
+				let imgSrc = "../resources/uploads/product/" + data
+				$(".preview-thumb").attr("src", imgSrc);
+				$("#product_img1").val("product/" + data)
 			},
+			error : function(data) {
+				console.log("실패!")
+			}, 
+			complete : function(data) {
+			}
 		});
 	}
+	
 </script>
 <style type="text/css">
 td.table_title {
@@ -116,9 +193,15 @@ td.table_title {
 }
 
 input[type="text"] {
-    background-color: lightgrey;
-    border: 1px;
-    padding: 6px;
+	background-color: lightgrey;
+	border: 1px;
+	padding: 6px;
+}
+
+.btn-Wrap {
+	display: flex;
+	justify-content: center;
+	padding: 50px 0;
 }
 </style>
 
@@ -155,102 +238,130 @@ input[type="text"] {
 			<!-- 본문 작성  -->
 			<div class="container-fluid">
 				<div class="container">
-					<table class="table table-bordered">
-						<tr>
-							<td class="table_title">제품이름</td>
-							<td><input type="text" value="활활화로" style="width: 300px" class="input_style"></td>
-						</tr>
-						<tr>
-							<td class="table_title">매입가</td>
-							<td><input type="text" value="활활화로" style="width: 200px" class="input_style"></td>
-						</tr>
-						<tr>
-							<td class="table_title">매입수량</td>
-							<td><input type="text" value="활활화로" style="width: 200px" class="input_style"></td>
-						</tr>
-						<tr>
-							<td class="table_title">제조사</td>
-							<td><input type="text" value="활활화로" style="width: 300px" class="input_style"></td>
-						</tr>
-						<tr>
-							<td class="table_title">상품 이름</td>
-							<td><input type="text" value="활활화로" style="width: 600px" class="input_style"> [ 0 / 250 ]</td>
-						</tr>
-					</table>
-					<div class="product-detail">
-						<form method="post">
-							<textarea id="summernote" name="editordata" placeholder="상품 설명"></textarea>
-						</form>
-					</div>
+					<form method="post" action="../admin/productInsert">
+						<table class="table table-bordered">
+							<tr>
+								<td class="table_title">제품이름</td>
+								<td><input type="text" value="" style="width: 300px" name="product_name"
+									class="input_style"></td>
+							</tr>
+							<tr>
+								<td class="table_title">매입가</td>
+								<td><input type="text" value="" style="width: 200px" name="product_purchPrice"
+									class="input_style"></td>
+							</tr>
+							<tr>
+								<td class="table_title">매입수량</td>
+								<td><input type="text" value="" style="width: 200px" name="product_purchaseQty"
+									class="input_style"></td>
+							</tr>
+							<tr>
+								<td class="table_title">제조사</td>
+								<td><input type="text" value="" style="width: 300px" name="product_factory"
+									class="input_style"></td>
+							</tr>
+							<tr>
+								<td class="table_title">상품 이름</td>
+								<td><input type="text" value="" style="width: 600px" name="product_title"
+									class="input_style"> [ 0 / 250 ]</td>
+							</tr>
+						</table>
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">Quill Editor</h4>
+										<!-- Create the editor container -->
+										<div id="toolbar">
+										</div>
+										<div id="editor" style="height: 300px;"></div>
+										<input type="hidden" name="product_detail" id="product_detail">
+									</div>
+								</div>
+							</div>
+						</div>
 
-					<table class="table table-bordered">
-						<tr>
-							<td class="table_title">대표 이미지</td>
-							<td><input type="file" value="활활화로"> <br>- 권장 사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)</td>
-						</tr>
-						<tr>
-							<td class="table_title">미리보기</td>
-							<td><img alt="" src="../resources/img/test.jpg"> </td>
-						</tr>
-						<tr>
-							<td class="table_title">대분류</td>
-							<td><select>
-									<option>-대분류-</option>
-									<option>텐트/타프</option>
-									<option>텐트/타프</option>
-									<option>텐트/타프</option>
-									<option>텐트/타프</option>
-									<option>기타</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td class="table_title">소분류</td>
-							<td><select>
-									<option>-소분류-</option>
-									<option>국자</option>
-									<option>젓가락</option>
-									<option>숟가락</option>
-									<option>모자</option>
-									<option>신발</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td class="table_title">판매가</td>
-							<td><input type="text" value="50,000" style="width: 200px" class="input_style"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 : 10% ]</td>
-						</tr>
-						<tr>
-							<td class="table_title">진열 여부</td>
-							<td>
-								<select>
-									<option>진열함</option>
-									<option>진열안함</option>
+						<table class="table table-bordered">
+							<tr>
+								<td class="table_title">대표 이미지</td>
+								<td><input type="file" value="" id="product_thumnail" onchange="ThumnailUpload()"> <br>- 권장 사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)
+								<input type="hidden" name="product_img1" id="product_img1">
+								</td>
+							</tr>
+							<tr>
+								<td class="table_title">미리보기</td>
+								<td><img alt="" src="" class="preview-thumb" style="max-width: 412px;"></td>
+							</tr>
+							<tr>
+								<td class="table_title">대분류</td>
+								<td>
+								<select name="mainCategory_id">
+										<option>-대분류-</option>
+										<option value="1">텐트/타프</option>
+										<option value="2">텐트/타프</option>
+										<option>텐트/타프</option>
+										<option>텐트/타프</option>
+										<option>기타</option>
 								</select>
-							</td>
-						</tr>
-						<tr>
-							<td class="table_title">인기 상품 진열 여부</td>
-							<td>
-								<select>
-									<option>진열함</option>
-									<option>진열안함</option>
+								</td>
+							</tr>
+							<tr>
+								<td class="table_title">소분류</td>
+								<td>
+								<select name="middleCategory_id">
+										<option>-소분류-</option>
+										<option value="11">국자</option>
+										<option value="12">젓가락</option>
+										<option>숟가락</option>
+										<option>모자</option>
+										<option>신발</option>
 								</select>
-								 <span> [ 쇼핑몰 하단에 랜덤으로 상품이 노출 됩니다. ]</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="table_title">배송비</td>
-							<td><input type="text" style="width: 200px" value="3,000" class="input_style"></td>
-						</tr>
-					</table>
+								</td>
+							</tr>
+							<tr>
+								<td class="table_title">판매가</td>
+								<td><input type="text" value="" style="width: 200px"
+									class="input_style" name="product_sellPrice"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
+									10% ]</td>
+							</tr>
+							<tr>
+								<td class="table_title">진열 여부</td>
+								<td>
+								<select name="product_show">
+										<option value="Y">진열함</option>
+										<option value="N">진열안함</option>
+								</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="table_title">인기 상품 진열 여부</td>
+								<td>
+								<select name="product_popularProduct">
+										<option value="Y">진열함</option>
+										<option value="N">진열안함</option>
+								</select>
+								<span> [ 쇼핑몰 하단에 랜덤으로 상품이 노출 됩니다. ] </span>
+								</td>
+							</tr>
+							<tr>
+								<td class="table_title">배송비</td>
+								<td><input type="text" style="width: 200px" value=""
+									class="input_style" name="product_shipPrice"></td>
+							</tr>
+						</table>
+						<div class="btn-Wrap">
+							<button type="submit" class="btn btn-primary">상품 등록</button>
+						</div>
+					</form>
 				</div>
 			</div>
+
 			<!-- 본문 작성 끝  -->
 			<%@ include file="adminFooter.jsp"%>
 
 		</div>
 
 	</div>
-
 
 </body>
 </html>

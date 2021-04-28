@@ -18,11 +18,8 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
-<<<<<<< HEAD
 import com.cambak21.dto.UpdateAdminMemberDTO;
-=======
 import com.cambak21.dto.AdminProductListDTO;
->>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -319,32 +316,6 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
-
-
-<<<<<<< HEAD
-	
-=======
->>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
-
-
-
-
-
-
-
-
-
-
-
-
-<<<<<<< HEAD
-
-
-
-
-	
-=======
->>>>>>> a2acdf79c84aaf202218bc8ebf6756648bfe9489
 		
 		
 		
