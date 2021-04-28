@@ -3,6 +3,7 @@ package com.cambak21.domain;
 public class PaymentsInfoVO {
 	private int payment_no;
 	private String member_id;
+	private String grade_name;
 	private int payInfo_no;
 	private int destination_no;
 	private int buyProduct_no1;
@@ -16,6 +17,9 @@ public class PaymentsInfoVO {
 	private int buyProduct_no9;
 	private int buyProduct_no10;
 	private String payment_deliveryMsg;
+	private int usePointNum;
+	private int savePointNum;
+	private int totPriceNum;
 	
 	public int getPayment_no() {
 		return payment_no;
@@ -28,6 +32,12 @@ public class PaymentsInfoVO {
 	}
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
+	}
+	public String getGrade_name() {
+		return grade_name;
+	}
+	public void setGrade_name(String grade_name) {
+		this.grade_name = grade_name;
 	}
 	public int getPayInfo_no() {
 		return payInfo_no;
@@ -107,16 +117,35 @@ public class PaymentsInfoVO {
 	public void setPayment_deliveryMsg(String payment_deliveryMsg) {
 		this.payment_deliveryMsg = payment_deliveryMsg;
 	}
+	public int getUsePointNum() {
+		return usePointNum;
+	}
+	public void setUsePointNum(int usePointNum) {
+		this.usePointNum = usePointNum;
+	}
+	public int getSavePointNum() {
+		return savePointNum;
+	}
+	public void setSavePointNum(int savePointNum) {
+		this.savePointNum = savePointNum;
+	}
+	public int getTotPriceNum() {
+		return totPriceNum;
+	}
+	public void setTotPriceNum(int totPriceNum) {
+		this.totPriceNum = totPriceNum;
+	}
 	
 	@Override
 	public String toString() {
-		return "PaymentsInfoVO [buyProduct_no1=" + buyProduct_no1 + ", buyProduct_no10=" + buyProduct_no10
-				+ ", buyProduct_no2=" + buyProduct_no2 + ", buyProduct_no3=" + buyProduct_no3 + ", buyProduct_no4="
-				+ buyProduct_no4 + ", buyProduct_no5=" + buyProduct_no5 + ", buyProduct_no6=" + buyProduct_no6
-				+ ", buyProduct_no7=" + buyProduct_no7 + ", buyProduct_no8=" + buyProduct_no8 + ", buyProduct_no9="
-				+ buyProduct_no9 + ", destination_no=" + destination_no + ", member_id=" + member_id + ", payInfo_no="
-				+ payInfo_no + ", payment_deliveryMsg=" + payment_deliveryMsg + ", payment_no=" + payment_no + "]";
+		return "PaymentsInfoVO [payment_no=" + payment_no + ", member_id=" + member_id + ", grade_name=" + grade_name
+				+ ", payInfo_no=" + payInfo_no + ", destination_no=" + destination_no + ", buyProduct_no1="
+				+ buyProduct_no1 + ", buyProduct_no2=" + buyProduct_no2 + ", buyProduct_no3=" + buyProduct_no3
+				+ ", buyProduct_no4=" + buyProduct_no4 + ", buyProduct_no5=" + buyProduct_no5 + ", buyProduct_no6="
+				+ buyProduct_no6 + ", buyProduct_no7=" + buyProduct_no7 + ", buyProduct_no8=" + buyProduct_no8
+				+ ", buyProduct_no9=" + buyProduct_no9 + ", buyProduct_no10=" + buyProduct_no10
+				+ ", payment_deliveryMsg=" + payment_deliveryMsg + ", usePointNum=" + usePointNum + ", savePointNum="
+				+ savePointNum + ", totPriceNum=" + totPriceNum + "]";
 	}
-	
 	
 }

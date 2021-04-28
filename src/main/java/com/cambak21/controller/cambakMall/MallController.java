@@ -1,5 +1,6 @@
 package com.cambak21.controller.cambakMall;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MyBucketListVO;
 import com.cambak21.domain.MyNonUserBucketVO;
+import com.cambak21.domain.OrderCompleteInfoSessionVO;
 import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
@@ -95,10 +97,44 @@ public class MallController {
 	}
 	
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
-	public void orderFin(PaymentsInfoVO vo) throws Exception {
-		System.out.println("paymentInfo : " + vo.toString());
+	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+		Calendar cal = Calendar.getInstance();
 		
-//		return "cambakMall/orderFin";
+		int year = cal.get(cal.YEAR);
+		int tmpMonth = cal.get(cal.MONTH) + 1;
+		int date = cal.get(cal.DATE);
+		
+		int serialNo = service.readSerialNo() + 1;
+		String month;
+		
+		if (tmpMonth < 10) month = "0" + String.valueOf(tmpMonth);
+		else month = String.valueOf(tmpMonth);
+		
+		String tmpPaymentNo = String.valueOf(year) + month + String.valueOf(date) + String.valueOf(serialNo);
+		int payment_no = Integer.parseInt(tmpPaymentNo);
+		
+		OrderCompleteInfoSessionVO successVO = new OrderCompleteInfoSessionVO();
+		successVO.setPayment_no(payment_no);
+		successVO.setTotPrice(vo.getTotPriceNum());
+		
+		session.removeAttribute("orderInfo");
+		session.setAttribute("orderInfo", successVO);
+		
+		vo.setGrade_name(memberVo.getGrade_name());
+		if (service.payInfoSave(vo, payment_no, serialNo)) {
+			return "redirect: /mall/orderFinally";
+		} else {
+			return "redirect: /mall/main/";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/orderFinally", method = RequestMethod.GET)
+	public String orderFinally(HttpSession session, Model model) throws Exception {
+		OrderCompleteInfoSessionVO vo = (OrderCompleteInfoSessionVO)session.getAttribute("orderInfo");
+		model.addAttribute("orderInfo", service.orderCompleteInfo(vo));
+		
+		return "cambakMall/orderFin";
 	}
 
 	// **************************************** 김대기 컨트롤러

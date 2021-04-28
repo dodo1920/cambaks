@@ -33,15 +33,11 @@
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   	<script src="../../resources/mallMain/js/cambakMallCommon.js"></script>
 
-	<script>
-// 		function usePoint() {
-			
-// 		}
-	</script>
-</head>
 <script type="text/javascript">
 let commaJ = /\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g;
 let numberJ= /^[0-9]/g;
+let usePointVar = 0;
+let savePointVar = 0;
 
 //화면시작시 실행할 함수들
  $(function(){
@@ -49,6 +45,7 @@ let numberJ= /^[0-9]/g;
 	 default_addr();
 	 myAllPoint(); // 페이지 로딩 시, 유저의 포인트 넣어주기
 	 addPoint();  // 페이지 로딩 시, 유저의 적립 예정금액
+	 
 });
 
 //김대기 script start
@@ -64,9 +61,9 @@ function destList(){
 			output += "<div>" + this.destination_nickname + "</div>"
 			output += "<div>" + this.destination_address + " " + this.destination_addressDetail + "</div>"
 			output += "<div>" + this.destination_mobile + "</div><button type='button' class='btn btn-default' data-dismiss='modal' onclick='selectDest(" + this.destination_no + ")'>선택하기</button><hr/>"
-			
-			
 		});
+		 
+		 
 		 $("#destList").html(output); 
 	});
 	
@@ -130,6 +127,15 @@ function checkForm(){
 	let result = true;
 	console.log(agreement);
 	
+	let deliName = $("#user_name").text();
+	let deliPhone = $("#user_number").text();
+	let user_dest = $("#user_dest").text();
+	
+	if (deliName == "배송지 선택 버튼을 클릭해주세요" || deliPhone == "배송지 선택 버튼을 클릭해주세요" || user_dest == "배송지 선택 버튼을 클릭해주세요") {
+		alert("배송지를 작성바랍니다.");
+		return false;
+	}
+	
 	if($("#account").prop("checked")) {
 		payInfo_way = $("#account").val();
 	} else if($("#card").prop("checked")) {
@@ -162,7 +168,15 @@ function checkForm(){
 			  }
 			});
 	}
+	
+	if (result == true) {
+		let totPriceNum = '${totPrice }';
 		
+		$("#usePointNum").val(usePointVar);
+		$("#savePointNum").val(savePointVar);
+		$("#totPriceNum").val(Number(totPriceNum));
+	}
+	
 	return result;
 }
 
@@ -251,7 +265,7 @@ function usePoint() {
 	let totalPoint = '${loginMember.member_totPoint }';
 	
 	dis = parseInt(dis);
-	
+	usePointVar = dis;
 	console.log(Number.isInteger(dis * 0.01));
 	
 	if (!Number.isInteger(dis * 0.01)) {
@@ -275,11 +289,11 @@ function addPoint() {
 	
 	if ('${loginMember.grade_name}' == 'A' ) {
 		let test = Math.ceil(parseInt('${totPrice * 0.1 }')); // 1500.0
-		
+		savePointVar = test;
 		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else if ('${loginMember.grade_name}' == 'B' ) {
 		let test = Math.ceil(parseInt('${totPrice * 0.05 }')); // 1500.0
-		
+		savePointVar = test;
 		$("#addPoint").text(String(test).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	} else {
 		$("#addPoint").text('0');
@@ -298,6 +312,7 @@ function addPoint() {
 	vertical-align: middle;
 }
 </style>
+</head>
 <body>
 
 	<%@include file="mallHeader.jsp" %>
@@ -453,7 +468,7 @@ function addPoint() {
 	   						<li>
 	   							<em style="margin-right:10px; margin-bottom:10px;font-style:NORMAL">사용</em>
 	   							<span><input type="number" id="myPoint" value="0"><i>점</i></span>
-	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint()">할인적용</button>
+	   							<button type="button" class="btn btn-info" style="padding: 6px;" onclick="usePoint();">할인적용</button>
 	   							<div style="color: red; font-size: 13px; font-weight: 600;  padding: 0 40px;">* 포인트 사용은 100단위로 가능합니다.</div>
 	   						</li>
 	   					</ul>
@@ -525,9 +540,9 @@ function addPoint() {
 						<tr>
 							<th>결제방법</th>
 							<th>
-							<label class="radio-inline"><input type="radio" id="account" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
-							<label class="radio-inline"><input type="radio" id="card" value="카드" onclick="showcreditCard();">카드</label>
-							<label class="radio-inline"><input type="radio" id="tranfer" value="계좌이체" onclick="showtransfer();">계좌이체</label>
+							<label class="radio-inline" for="account"><input type="radio" id="account" name="pay" value="무통장입금" onclick="shownoAccount();" checked>무통장입금</label>
+							<label class="radio-inline" for="card"><input type="radio" id="card" name="pay" value="카드" onclick="showcreditCard();">카드</label>
+							<label class="radio-inline" for="tranfer"><input type="radio" id="tranfer" name="pay" value="계좌이체" onclick="showtransfer();">계좌이체</label>
 							</th>
 							</tr>
 							<tr>
@@ -633,7 +648,9 @@ function addPoint() {
     	<button class="btn btn-default">취소</button>
     	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
     	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />
-		
+    	<input type="hidden" name="usePointNum" id="usePointNum" value=""/>
+		<input type="hidden" name="savePointNum" id="savePointNum" value=""/>
+		<input type="hidden" name="totPriceNum" id="totPriceNum" value=""/>
     </div>
     </form>    
     <!-- 약관동의 테이블 end -->

@@ -1,11 +1,15 @@
 package com.cambak21.service.cambakMall;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.DestinationVO;
+import com.cambak21.domain.OrderCompleteInfoSessionVO;
 import com.cambak21.domain.PayInfoVO;
+import com.cambak21.domain.PaymentsInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.orderCompleteInfoVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -25,7 +29,13 @@ public interface prodOrderService {
 	public int payInfo(PayInfoVO vo) throws Exception;
 	
 	public int payInfoNo() throws Exception;
+	
+	public boolean payInfoSave(PaymentsInfoVO vo, int payment_no, int serialNo) throws Exception;
   	
+	public int readSerialNo() throws Exception;
+	
+	public orderCompleteInfoVO orderCompleteInfo(OrderCompleteInfoSessionVO vo) throws Exception;
+	
 //  	<!-- 김도연 DAO -->
   	
   	

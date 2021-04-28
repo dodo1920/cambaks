@@ -7,6 +7,10 @@ import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.ProdInfoVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.changeStockVO;
+import com.cambak21.domain.orderCompleteInfoVO;
+import com.cambak21.dto.PaymentInfoSave;
+import com.cambak21.dto.savePointHistoryDTO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -23,6 +27,24 @@ public interface prodOrderDAO {
 	  	public int payInfo(PayInfoVO vo) throws Exception;
 	  	
 	  	public int payInfoNo() throws Exception;
+	  	
+	  	public int readSerialNo() throws Exception;
+	  	
+	  	public int orderInfoSave(PaymentInfoSave vo) throws Exception;
+	  	
+	  	public changeStockVO searchProductNo(int buyProduct_no) throws Exception;
+	  	
+	  	public int updateStockNum(changeStockVO vo) throws Exception;
+	  	
+	  	public int makeDeliveryInfo(int serialNo) throws Exception;
+	  	
+	  	public int savePointHistory(savePointHistoryDTO dto) throws Exception;
+	  	
+	  	public int deleteBucketHistory(String member_id) throws Exception;
+	  	
+	  	public int updateOrderFinish(int buyProduct_no) throws Exception;
+	  	
+	  	public orderCompleteInfoVO orderCompleteInfo(int payment_no) throws Exception;
 	  	
 //	  	<!-- 김도연 DAO -->
 	  	
@@ -55,6 +77,8 @@ public interface prodOrderDAO {
 	  	public int insertDestiny(DestinationVO vo) throws Exception;
 
 	  	public DestinationVO GetModifydst(int dstno) throws Exception;
+
+		
 
 	  	
 	  	
