@@ -30,6 +30,7 @@
 	//웹소켓 전역 변수 생성
 	let webSocket;
 	let member_id = "${param.id}";
+	
 	$(document).ready(function() {
 		// 웹 소켓 초기화
 		webSocketInit();
@@ -91,9 +92,10 @@
 		});
 	})
 	function webSocketInit() {
+		let hostname = $(location).attr("hostname");
+		
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/adminChatting/"
-				+ member_id);
+		webSocket = new WebSocket("ws://"+hostname+":8081/adminChatting/"+ member_id);
 		webSocket.onopen = function(event) {
 			socketOpen(event);
 		};

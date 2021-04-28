@@ -120,8 +120,11 @@
 		});
 	})
 	function webSocketInit() {
+		// 동적 주소 가져오기
+		let hostname = $(location).attr("hostname");
+		
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/userChatting/"
+		webSocket = new WebSocket("ws://"+hostname+":8081/userChatting/"
 				+ member_id);
 		webSocket.onopen = function(event) {
 			socketOpen(event);
