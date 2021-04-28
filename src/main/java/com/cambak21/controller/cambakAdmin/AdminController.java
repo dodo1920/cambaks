@@ -4,6 +4,7 @@ import java.util.Base64.Decoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -367,11 +368,11 @@ public class AdminController {
 //	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 //	   Date to = fm.parse(goStartDate);
 //	   System.out.println(to);
-	   AdminBoardDTO vo = new AdminBoardDTO();
 	
 	   Map<String, Object> para = new HashMap<String, Object>();
 	   
 	   List<BoardVO> Boardlst = new ArrayList<BoardVO>();
+	   List<ReplyBoardVO> replyBoardlst = new ArrayList<ReplyBoardVO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
 	   pc.setPage(page);
@@ -380,31 +381,42 @@ public class AdminController {
 //	   pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
 		
 	   try {
-	    if(searchselectedCategory.equals("board")) {
-	    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
-	    }else {
-	    	
-	    }
-		
-		para.put("Boardlst", Boardlst);
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	   
-	   
-	   	para.put("pagingParam", pp);
-	   	
-			 try { 
-//				 @PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo
-				 	entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+			if(searchTxtValue.equals("none")) {
 				
-				
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					 e.printStackTrace();
-				}
 			
+			    if(searchselectedCategory.equals("board")) {
+			    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+			    }
+				
+			    if(searchselectedCategory.equals("reply")) {
+			    	replyBoardlst = service.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+			    }
+			para.put("Boardlst", Boardlst);
+			}else {
+			
+				 if(searchselectedCategory.equals("board")) {
+				    	Boardlst = service.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue,pc);
+				    }
+					
+				    if(searchselectedCategory.equals("reply")) {
+				    	replyBoardlst = service.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+				    }
+		
+			    para.put("Boardlst", Boardlst);	
+			    para.put("replyBoardlst", replyBoardlst);	
+			}
+			 para.put("todayTotCnt", service.getTodayTotCnt());
+			 para.put("todayreplyTotCnt", service.getTodayreplyTotCnt());
+			 para.put("pagingParam", pp);
+			 entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+			 
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   
+	   	
+
 			return entity;
 	   }
    

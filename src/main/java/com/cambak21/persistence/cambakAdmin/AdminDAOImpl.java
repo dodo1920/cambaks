@@ -16,6 +16,7 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -288,8 +289,54 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".goGetBoard_admin", param);
 		}
+		
+		@Override
+		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", goStartDate);
+			param.put("goEndDate", goEndDate);
+			param.put("board_category", board_category);
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".goGetreply_admin", param);
+		}
+		
+		@Override
+		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", goStartDate);
+			param.put("goEndDate", goEndDate);
+			param.put("board_category", board_category);
+			param.put("searchboardType", searchboardType);
+			param.put("searchTxtValue", searchTxtValue);
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchGetBoard_admin", param);
+		}
+		
+		@Override
+		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", goStartDate);
+			param.put("goEndDate", goEndDate);
+			param.put("board_category", board_category);
+			param.put("searchboardType", searchboardType);
+			param.put("searchTxtValue", searchTxtValue);
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchGetreply_admin", param);
+		}
 
+		public int getTodayTotCnt() throws Exception{
+			return ses.selectOne(ns + ".getTodayTotCnt");
+		}
 
+		public int getTodayreplyTotCnt() throws Exception{
+			return ses.selectOne(ns + ".getTodayreplyTotCnt");
+		}
 		
 		
 		

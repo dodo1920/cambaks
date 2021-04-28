@@ -17,6 +17,7 @@ import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
@@ -279,8 +280,34 @@ public class adminServiceImpl implements adminService {
 			// TODO Auto-generated method stub
 			return dao.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
 		}
+		
+		@Override
+		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+		}
+		
+		@Override
+		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue,PagingCriteria pc) throws Exception {
+			
+			return dao.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+		}
+		
+		@Override
+		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception {
+			
+			return dao.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+		}
 
-	
+		public int getTodayTotCnt() throws Exception {
+			
+			return dao.getTodayTotCnt();
+		}
+		
+		public int getTodayreplyTotCnt() throws Exception {
+			
+			return dao.getTodayreplyTotCnt();
+		}
 		
 		
 		

@@ -36,7 +36,7 @@ let loginUser = '${loginMember.member_id}';
  $(document).ready(function() {
 	 $("#main-sidebar").css("display","none");
 	 
-	 console.log("${para}");
+	 
  });
 
  
@@ -189,7 +189,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">텐트/타프</h4>
                                 <p style="color:white;"> ${para.total[0].totcount} items</p>
-                                <a style="color:white;" href="/mall/categories?mainCategory_id=1">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=1&middleCategory_id=1">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">침낭/매트</h4>
                                 <p style="color:white;" >${para.total[1].totcount} items</p>
-                                <a style="color:white;" href="/mall/categories?mainCategory_id=2">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=2&middleCategory_id=1">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">테이블/체어/배트</h4>
                                 <p  style="color:white;">${para.total[2].totcount} items</p>
-                                <a style="color:white;" href="/mall/categories?mainCategory_id=3">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=3&middleCategory_id=1">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -217,7 +217,7 @@ let loginUser = '${loginMember.member_id}';
                             <div class="categories__text">
                                 <h4 style="color:white;">화로/히터</h4>
                                 <p style="color:white;">${para.total[0].totcount} items</p>
-                                <a style="color:white;" href="/mall/categories?mainCategory_id=6">Shop now</a>
+                                <a style="color:white;" href="/mall/categories?mainCategory_id=6&middleCategory_id=1">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -277,7 +277,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct1.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct1.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct1.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -365,7 +365,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct2.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct2.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct2.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -446,7 +446,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct3.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct3.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct3.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -526,7 +526,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct4.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct4.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct4.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -605,7 +605,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct5.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct5.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct5.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -685,7 +685,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct6.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct6.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct6.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -763,7 +763,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct7.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct7.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct7.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
@@ -836,7 +836,7 @@ let loginUser = '${loginMember.member_id}';
                         </c:when>
                         <c:when test="${NewProduct8.product_info == 'new' }">
                         	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }">
+                            <div class="product__item__pic set-bg" data-setbg="${NewProduct8.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${NewProduct8.product_id }'">
                             <div class="label new">New</div>
                             </div>
                         </c:when>
