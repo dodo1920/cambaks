@@ -252,6 +252,7 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("product_show", dto.getProduct_show());
 			param.put("mainCategory_id", dto.getMainCategory_id());
 			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			
 			return ses.selectList(ns + ".goSearchProdList", param);
 		}
 
