@@ -192,7 +192,7 @@ public interface AdminDAO {
 	
 	public int orderProductNum(int payment_no) throws Exception;
 
-
+	public int orderTotalPrice(int payment_no) throws Exception;
 
 
 

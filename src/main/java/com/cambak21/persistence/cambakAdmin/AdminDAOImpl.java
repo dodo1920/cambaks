@@ -333,6 +333,11 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
 
+	@Override
+	public int orderTotalPrice(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".orderTotalPrice", payment_no);
+	}
+
 
 
 

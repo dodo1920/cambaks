@@ -311,6 +311,7 @@ public class adminServiceImpl implements adminService {
 		
 		for (int i = 0; i < vo.size(); i++) {
 			vo.get(i).setOrderProductNum(dao.orderProductNum(vo.get(i).getPayment_no()) - 1); // 해당 상품의 리뷰 개수 넣기
+			vo.get(i).setBuyProduct_totPrice(dao.orderTotalPrice(vo.get(i).getPayment_no())); // 해당 주문의 총 결제 금액 넣기
 		}
 		
 		param.put("orderList", vo);
