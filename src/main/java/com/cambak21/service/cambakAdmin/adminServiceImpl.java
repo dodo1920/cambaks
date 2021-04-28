@@ -192,7 +192,20 @@ public class adminServiceImpl implements adminService {
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 승권 ==============================================================================
-		
+	   /**
+		  * @Method Name : insertProduct
+		  * @작성일 : 2021. 4. 28.
+		  * @작성자 : goott6
+		  * @변경이력 : 
+		  * @Method 설명 :
+		  * @param vo
+		  * @return
+		  * @throws Exception
+		  */
+		@Override
+		public int insertProduct(ProductsVO vo) throws Exception {
+			return dao.insertProduct(vo);
+		}
 		
 		
 		
@@ -323,6 +336,8 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+	
 
 
 

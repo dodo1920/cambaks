@@ -63,10 +63,25 @@
 		
 		// 전송 Enter 이벤트
 		$("#msg").keydown(function(key) {
+			let msgLen = $("#msg").val();
+			
+			// 입력 숫자 출력
+			if (msgLen.length <= 200) {
+				$(".count").text(msgLen.length);
+				$(".count").css("color", "black");
+			} else {
+				$(".count").text(msgLen.length);
+				$(".count").css("color", "red");
+			}
+			
 			// Enter 눌렀을 경우
 			if (key.keyCode == 13) {
-				socketMsgSend();
-				$("#msg").val("");
+				if(msgLen.length < 200) {
+					socketMsgSend();
+					$("#msg").val("");
+				} else {
+					alert("최대 200자 까지만 입력 가능합니다.")
+				}
 			}
 		});
 		
@@ -120,8 +135,11 @@
 		});
 	})
 	function webSocketInit() {
+		// 동적 주소 가져오기
+		let hostname = $(location).attr("hostname");
+		
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://localhost:8081/userChatting/"
+		webSocket = new WebSocket("ws://"+hostname+":8081/userChatting/"
 				+ member_id);
 		webSocket.onopen = function(event) {
 			socketOpen(event);
@@ -248,6 +266,8 @@ span.admin-msg {
 	border-radius: 5px;
 	padding: 5px;
 	margin-left: 10px;
+	word-break: break-all;
+    max-width: 400px;
 }
 /* 유저 메시지 */
 span.user-msg {
@@ -255,7 +275,8 @@ span.user-msg {
 	border-radius: 5px;
 	padding: 5px;
 	margin-right: 10px;
-	max-width: 400px;
+	word-break: break-all;
+    max-width: 400px;
 }
 /* 메시지 하나하나 감싸는 부분에서 유저만 */
 .user-msg-wrap {

@@ -271,10 +271,17 @@ public class AdminController {
    }
    
    @PostMapping("/productInsert")
-   public String productInsert(ProductsVO vo) {
-	   System.out.println("product VO : " + vo.toString());
+   public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
 	   
-	   return null;
+	   System.out.println("상품등록 VO : " + vo.toString());
+	   
+	   if(service.insertProduct(vo) == 1) {
+		   ra.addFlashAttribute("ok");
+	   } else {
+		   ra.addFlashAttribute("fail");
+	   }
+	   
+	   return "/admin/productList";
    }
    
    /**
@@ -286,47 +293,11 @@ public class AdminController {
   * @param vo
   * @return
   */
-   @RequestMapping(value="/productDetail", method = RequestMethod.POST, produces = "text/html; charset=utf8")
+   @RequestMapping(value="/productImage", method = RequestMethod.POST, produces = "text/html; charset=utf8")
    public ResponseEntity<String> productDetail_imgUpload(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
 	   ResponseEntity<String> entity = null;
 	   
 	   try {
-			// 파일 업로드 될 서버 경로
-			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/product");
-			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
-			String uploadFile = ChattingImageUploads.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-			if (!uploadFile.equals("-1")) {
-				
-				// -1이 아니라면 이미지 파일
-				entity = new ResponseEntity<String>(uploadFile, HttpStatus.OK);
-			} else {
-				// 이미지 파일 아닌것
-				// view에서 modal 띄움
-				entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}	   
-	   return entity;
-   }
-   
-   /**
-  * @Method Name : productThumnail_imgUpload
-  * @작성일 : 2021. 4. 27.
-  * @작성자 : 승권
-  * @변경이력 : 
-  * @Method 설명 : 썸네일 이미지 업로드
-  * @param file
-  * @param request
-  * @return
-  */
-@RequestMapping(value="/productThumnail", method = RequestMethod.POST, produces = "text/html; charset=utf8")
-   public ResponseEntity<String> productThumnail_imgUpload(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
-	   ResponseEntity<String> entity = null;
-	   
-		try {
 			// 파일 업로드 될 서버 경로
 			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/product");
 			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
