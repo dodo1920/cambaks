@@ -56,6 +56,25 @@ pageNumColor();
    
 });
 
+function searchDataChk() {
+	let checkLowDate = $("#checkLowDate").val();
+	let checkHighDate = $("#checkHighDate").val();
+	let result = true;
+	
+	if (checkLowDate != "" && checkHighDate == "") {
+		alert("검색할 주문일을 확인바랍니다.");
+		result = false;
+	} else if (checkLowDate == "" && checkHighDate != "") {
+		alert("검색할 주문일을 확인바랍니다.");
+		result = false;
+	}
+	
+	if (result) {
+		$("#orderManageSearch").submit();
+	}
+	
+}
+
 function csStatusCheck() {
    let cancelRequest = $("#csCancelRequest").prop("checked");
    let cancelCompleted = $("#csCancelCompleted").prop("checked");
@@ -159,14 +178,14 @@ function calendarSearch(change) {
    
    if (change == "start") {
       let startDate = $("#startDate").val().split("/");
-      $("#checkLowDate").val(startDate[2] + "-" + startDate[1] + "-" + startDate[0]);
+      $("#checkLowDate").val(startDate[2] + "-" + startDate[0] + "-" + startDate[1]);
       
    } else if (change == "end") {
       let endDate = $("#endDate").val().split("/");
-      $("#checkHighDate").val(endDate[2] + "-" + endDate[1] + "-" + endDate[0]);
+      $("#checkHighDate").val(endDate[2] + "-" + endDate[0] + "-" + endDate[1]);
    }
    
-   $("#checkDate").val("");
+   $("#checkDate").val(0);
 }
 
 function searchDate(order, date) {
@@ -211,6 +230,10 @@ $('#endDate').datepicker({
 </script>
 <style>
 
+.custom-control-label{
+	cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -242,7 +265,7 @@ $('#endDate').datepicker({
    <div class="container-fluid">
       <div class="row">
          <div class="col-md-12">
-            <form action="/admin/orderManagement/search">
+            <form action="/admin/orderManagement/search" id="orderManageSearch">
             <div class="card">
                <div class="card-body">
                   <div class="form-group row">
@@ -279,7 +302,7 @@ $('#endDate').datepicker({
                          <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="orderDate6" onclick="searchDate(6, 90);">3개월</button>
                          <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" id="orderDate7" onclick="searchDate(7, 180);">6개월</button>
                          <div id="checkOrderDate">
-                            <input type="hidden" value="0" id="checkDate" name="checkDate" />
+                            <input type="hidden" value="" id="checkDate" name="checkDate" />
                             <input type="hidden" value="" id="checkLowDate" name="checkLowDate" />
                             <input type="hidden" value="" id="checkHighDate" name="checkHighDate" />
                          </div>
@@ -307,8 +330,8 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">상품</label>
                      <div class="col-md-1">
                         <select class="select form-control" name="productInfo" style="height:36px;">
-                              <option value="">상품명</option>
-                              <option value="">제조사</option>
+                              <option value="prodName">상품명</option>
+                              <option value="manufacturer">제조사</option>
                         </select>
                      </div>
                      <div class="col-md-3">
@@ -320,19 +343,19 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">구매확정</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseStatusAll" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
+                            <input type="checkbox" class="custom-control-input" name="purchaseStatusAll" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();" checked>
                             <label class="custom-control-label" for="purchaseStatusAll">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmationBefore" id="purchaseConfirmationBefore" onchange="purchaseStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmationBefore" id="purchaseConfirmationBefore" onchange="purchaseStatusCheck();" checked>
                             <label class="custom-control-label" for="purchaseConfirmationBefore">구매확정전</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmation" id="purchaseConfirmation" onchange="purchaseStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmation" id="purchaseConfirmation" onchange="purchaseStatusCheck();" checked>
                             <label class="custom-control-label" for="purchaseConfirmation">구매확정완료</label>
                         </div>
                      </div>
@@ -342,25 +365,25 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">주문상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="orderStatusTotal" onchange="orderStatusTotalCheck();">
+                            <input type="checkbox" class="custom-control-input" id="orderStatusTotal" onchange="orderStatusTotalCheck();" checked>
                             <label class="custom-control-label" for="orderStatusTotal">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderDeliveryReady" id="orderDeliveryReady" onchange="orderStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="orderDeliveryReady" id="orderDeliveryReady" onchange="orderStatusCheck();" checked>
                             <label class="custom-control-label" for="orderDeliveryReady">배송전</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderOnDelivery" id="orderOnDelivery" onchange="orderStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="orderOnDelivery" id="orderOnDelivery" onchange="orderStatusCheck();" checked>
                             <label class="custom-control-label" for="orderOnDelivery">배송중</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderDeliveryCompleted" id="orderDeliveryCompleted" onchange="orderStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="orderDeliveryCompleted" id="orderDeliveryCompleted" onchange="orderStatusCheck();" checked>
                             <label class="custom-control-label" for="orderDeliveryCompleted">배송완료</label>
                         </div>
                      </div>
@@ -370,55 +393,55 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">CS주문상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="csStatusTotal" onchange="csStatusTotalCheck();">
+                            <input type="checkbox" class="custom-control-input" id="csStatusTotal" onchange="csStatusTotalCheck();" checked>
                             <label class="custom-control-label" for="csStatusTotal">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csCancelRequest" id="csCancelRequest" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csCancelRequest" id="csCancelRequest" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csCancelRequest">주문취소요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csCancelCompleted" id="csCancelCompleted" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csCancelCompleted" id="csCancelCompleted" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csCancelCompleted">주문취소완료</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csChangeRequest" id="csChangeRequest" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csChangeRequest" id="csChangeRequest" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csChangeRequest">교환요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csChangeCompleted" id="csChangeCompleted" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csChangeCompleted" id="csChangeCompleted" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csChangeCompleted">교환완료</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csReturnRequest" id="csReturnRequest" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csReturnRequest" id="csReturnRequest" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csReturnRequest">반품요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csReturnCompleted" id="csReturnCompleted" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csReturnCompleted" id="csReturnCompleted" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csReturnCompleted">반품완료</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csRefundRequest" id="csRefundRequest" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csRefundRequest" id="csRefundRequest" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csRefundRequest">환불요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csRefundCompleted" id="csRefundCompleted" onchange="csStatusCheck();">
+                            <input type="checkbox" class="custom-control-input" name="csRefundCompleted" id="csRefundCompleted" onchange="csStatusCheck();" checked>
                             <label class="custom-control-label" for="csRefundCompleted">환불완료</label>
                         </div>
                      </div>
@@ -428,7 +451,7 @@ $('#endDate').datepicker({
                <div class="border-top">
                   <div class="card-body">
                      <span style="margin-right: 5px;">
-                     <button type="submit" class="btn btn-primary">검색</button>
+                     <button type="button" class="btn btn-primary" onclick="searchDataChk();">검색</button>
                      </span>
                      <span style="margin-left: 5px;">
                      <button type="button" class="btn btn-light" onclick="location.href='/admin/orderManagement?page=1'">초기화</button>

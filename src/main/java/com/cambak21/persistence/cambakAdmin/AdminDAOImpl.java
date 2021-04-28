@@ -15,6 +15,7 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
@@ -397,6 +398,13 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int orderTotalPrice(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderTotalPrice", payment_no);
+	}
+
+	@Override
+	public List<AdminOrderListVO> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		return ses.selectList(ns + ".orderManageSearch", param);
 	}
 
 

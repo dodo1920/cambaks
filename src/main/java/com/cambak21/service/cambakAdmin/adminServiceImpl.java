@@ -14,6 +14,7 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
@@ -362,6 +363,15 @@ public class adminServiceImpl implements adminService {
 		param.put("paging", pp);
 		
 		return param;
+	}
+
+	@Override
+	public Map<String, Object> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+
+		dao.orderManageSearch(vo, cri);
+		
+		
+		return null;
 	}
 
 	
