@@ -1,7 +1,5 @@
 package com.cambak21.domain;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RevenueMonthVO {
