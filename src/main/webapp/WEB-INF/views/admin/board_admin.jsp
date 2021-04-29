@@ -58,29 +58,10 @@ let AfterResultList = new Array();
 			    let date111 = new Date(this.board_updateDate);
 			    var modifyDate = date111.getFullYear() + "-" + (date111.getMonth() + 1)  + "-" + date111.getDate() + "     " + date111.getHours() + ":" + date111.getMinutes();
 			
-			    let Category = "";
-				let CategoryLink = "";
 				outputList += "<tr>";
-				if(this.board_category == "humor"){
-					Category = "유머";
-					CategoryLink = "/board/humor/read?no=";
-				}else if(this.board_category == "QA"){
-					Category = "Q&A";
-					CategoryLink = "/board/qa/detail?no=";
-				}else if(this.board_category == "Tip"){
-					Category = "캠핑팁";
-					CategoryLink = "/board/campingTip/view?id=Tip&no=";
-				}else if(this.board_category == "CS"){
-					Category = "고객센터";
-					CategoryLink = "/board/cs/detail?no=";
-				}else if(this.board_category == "notice"){
-					Category = "공지사항";
-					CategoryLink = "/board/notice/read?no=";
-				}
-			
 				outputList += '<td><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
-				outputList += '<td>' + this.board_no + '</td><td>' + Category + '</td>';
-				outputList += '<td class="left"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
+				outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
+				outputList += '<td class="left"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
 				outputList += '<td>' + this.member_id + '</td>';
 				outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
 				outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
@@ -105,30 +86,11 @@ let AfterResultList = new Array();
 		    let replydate111 = new Date(this.replyBoard_updateDate);
 		    var replymodifyDate = replydate111.getFullYear() + "-" + (replydate111.getMonth() + 1)  + "-" + replydate111.getDate() + "     " + replydate111.getHours() + ":" + replydate111.getMinutes();
 			
-		    
-		    let Category = "";
-			let CategoryLink = "";
+		 
 			outputList += "<tr>";
-			if(this.board_category == "humor"){
-				Category = "유머";
-				CategoryLink = "/board/humor/read?no=";
-			}else if(this.board_category == "QA"){
-				Category = "Q&A";
-				CategoryLink = "/board/qa/detail?no=";
-			}else if(this.board_category == "Tip"){
-				Category = "캠핑팁";
-				CategoryLink = "/board/campingTip/view?id=Tip&no=";
-			}else if(this.board_category == "CS"){
-				Category = "고객센터";
-				CategoryLink = "/board/cs/detail?no=";
-			}else if(this.board_category == "notice"){
-				Category = "공지사항";
-				CategoryLink = "/board/notice/read?no=";
-			}
-			
 			outputList += '<td><br/><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
-			outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + Category + '</td>';
-			outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+			outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
+			outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
 			outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
 			outputList += '<td><br/><a href="#"><span>본문 미리보기</span></a></td>';
 			outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
@@ -160,6 +122,34 @@ let AfterResultList = new Array();
 
 			BoardOutputGo(AfterResultList);
 		
+		}else if(data.options[data.selectedIndex].value == "categorydesc"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.board_category > a.board_category ? -1 : b.board_category > a.board_category ? 1 : 0;
+			});
+			
+			BoardOutputGo(AfterResultList);
+		}else if(data.options[data.selectedIndex].value == "titledesc"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.board_title > a.board_title ? -1 : b.board_title > a.board_title ? 1 : 0;
+			});
+			
+			BoardOutputGo(AfterResultList);
+		}else if(data.options[data.selectedIndex].value == "writerdesc"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.member_id > a.member_id ? -1 : b.member_id > a.member_id ? 1 : 0;
+			});
+			
+			BoardOutputGo(AfterResultList);
+		}else if(data.options[data.selectedIndex].value == "updatedaydesc"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.board_updateDate - a.board_updateDate;
+			});
+			
+			BoardOutputGo(AfterResultList);
 		}else if(data.options[data.selectedIndex].value == "viewCnt"){
 	
 			AfterResultList.sort(function(a, b){
@@ -167,7 +157,25 @@ let AfterResultList = new Array();
 			});
 			
 			BoardOutputGo(AfterResultList);
+		}else if(data.options[data.selectedIndex].value == "replyCnt"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.board_replyCnt - a.board_replyCnt;
+			});
+			
+			BoardOutputGo(AfterResultList);
+		}else if(data.options[data.selectedIndex].value == "likeCnt"){
+	
+			AfterResultList.sort(function(a, b){
+				return b.board_likeCnt - a.board_likeCnt;
+			});
+			
+			BoardOutputGo(AfterResultList);
 		}
+		
+		
+		
+		
 	}
 		
 	
@@ -273,8 +281,8 @@ function getPastDate(period){
 			$("#newBoardCnt").html(data.todayTotCnt);
 			$("#newReplyCnt").html(data.todayreplyTotCnt);
 			$("#totalResultCnt").html(data.pagingParam.totalCount);
-			console.log(data);
-			ResultList = data;
+	
+// 			ResultList = data;
 	
 			let outputList = "";
 				
@@ -292,36 +300,33 @@ function getPastDate(period){
 					    let replydate111 = new Date(this.replyBoard_updateDate);
 					    var replymodifyDate = replydate111.getFullYear() + "-" + (replydate111.getMonth() + 1)  + "-" + replydate111.getDate() + "     " + replydate111.getHours() + ":" + replydate111.getMinutes();
 						
-					    
-					    
-					    
-					    let Category = "";
-						let CategoryLink = "";
+				
 						outputList += "<tr>";
 						if(this.board_category == "humor"){
-							Category = "유머";
-							CategoryLink = "/board/humor/read?no=";
+							this.board_category = "유머";
+							this.CategoryLink = "/board/humor/read?no=";
 						}else if(this.board_category == "QA"){
-							Category = "Q&A";
-							CategoryLink = "/board/qa/detail?no=";
+							this.board_category = "Q&A";
+							this.CategoryLink = "/board/qa/detail?no=";
 						}else if(this.board_category == "Tip"){
-							Category = "캠핑팁";
-							CategoryLink = "/board/campingTip/view?id=Tip&no=";
+							this.board_category = "캠핑팁";
+							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
 						}else if(this.board_category == "CS"){
-							Category = "고객센터";
-							CategoryLink = "/board/cs/detail?no=";
+							this.board_category = "고객센터";
+							this.CategoryLink = "/board/cs/detail?no=";
 						}else if(this.board_category == "notice"){
-							Category = "공지사항";
-							CategoryLink = "/board/notice/read?no=";
+							this.board_category = "공지사항";
+							this.CategoryLink = "/board/notice/read?no=";
 						}
 						
 						outputList += '<td><br/><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
-						outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + Category + '</td>';
-						outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+						outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
+						outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
 						outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
 						outputList += '<td><br/><a href="#"><span>본문 미리보기</span></a></td>';
 						outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 					});
+						ResultList = data;
 				}
 			
 				if(data.Boardlst != null){
@@ -332,35 +337,33 @@ function getPastDate(period){
 						var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
 					    let date111 = new Date(this.board_updateDate);
 					    var modifyDate = date111.getFullYear() + "-" + (date111.getMonth() + 1)  + "-" + date111.getDate() + "     " + date111.getHours() + ":" + date111.getMinutes();
-						
-					    let Category = "";
-						let CategoryLink = "";
+					
 						outputList += "<tr>";
 						if(this.board_category == "humor"){
-							Category = "유머";
-							CategoryLink = "/board/humor/read?no=";
+							this.board_category = "유머";
+							this.CategoryLink = "/board/humor/read?no=";
 						}else if(this.board_category == "QA"){
-							Category = "Q&A";
-							CategoryLink = "/board/qa/detail?no=";
+							this.board_category = "Q&A";
+							this.CategoryLink = "/board/qa/detail?no=";
 						}else if(this.board_category == "Tip"){
-							Category = "캠핑팁";
-							CategoryLink = "/board/campingTip/view?id=Tip&no=";
+							this.board_category = "캠핑팁";
+							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
 						}else if(this.board_category == "CS"){
-							Category = "고객센터";
-							CategoryLink = "/board/cs/detail?no=";
+							this.board_category = "고객센터";
+							this.CategoryLink = "/board/cs/detail?no=";
 						}else if(this.board_category == "notice"){
-							Category = "공지사항";
-							CategoryLink = "/board/notice/read?no=";
+							this.board_category = "공지사항";
+							this.CategoryLink = "/board/notice/read?no=";
 						}
 						
 						outputList += '<td><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
-						outputList += '<td>' + this.board_no + '</td><td>' + Category + '</td>';
-						outputList += '<td class="left"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
+						outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
+						outputList += '<td class="left"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
 						outputList += '<td>' + this.member_id + '</td>';
 						outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
 						outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 					});
-					
+					ResultList = data;
 				}
 				
 
@@ -939,8 +942,15 @@ table {
 						<div class="gRight">
 							<select class="fSelect" id="eSearchSort" name="searchSort"
 								onchange="changeResultViewList(this);" align="absmiddle">
-								<option value="basic" selected="selected">기본정렬</option>
-								<option value="viewCnt">조회수많은순</option>
+								<option value=""> - 정렬 조건</option>
+								<option value="basic" selected="selected">최신</option>
+								<option value="categorydesc">분류</option>
+								<option value="titledesc">제목</option>
+								<option value="writerdesc">작성자</option>
+								<option value="updatedaydesc">수정일</option>
+								<option value="viewCnt">조회순</option>
+								<option value="replyCnt">댓글순</option>
+								<option value="likeCnt">좋아요순</option>
 							</select> <select class="fSelect" id="list_limit" name="list_limit"
 								onchange="view_board('submit');" align="absmiddle">
 								<option value="10" selected="">10개씩보기</option>

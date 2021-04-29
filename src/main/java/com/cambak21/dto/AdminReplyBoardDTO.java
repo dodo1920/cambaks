@@ -21,9 +21,7 @@ public class AdminReplyBoardDTO {
 	private Date replyBoard_writeDate;
 	private Date replyBoard_updateDate;
 	private String replyBoard_isdelete;
-	
-	
-	
+	private String CategoryLink;
 	public int getBoard_no() {
 		return board_no;
 	}
@@ -120,6 +118,12 @@ public class AdminReplyBoardDTO {
 	public void setReplyBoard_isdelete(String replyBoard_isdelete) {
 		this.replyBoard_isdelete = replyBoard_isdelete;
 	}
+	public String getCategoryLink() {
+		return CategoryLink;
+	}
+	public void setCategoryLink(String categoryLink) {
+		CategoryLink = categoryLink;
+	}
 	@Override
 	public String toString() {
 		return "AdminReplyBoardDTO [board_no=" + board_no + ", Bmember_id=" + Bmember_id + ", board_title="
@@ -128,7 +132,10 @@ public class AdminReplyBoardDTO {
 				+ board_viewCnt + ", board_isDelete=" + board_isDelete + ", board_replyCnt=" + board_replyCnt
 				+ ", replyBoard_no=" + replyBoard_no + ", Rmember_id=" + Rmember_id + ", replyBoard_content="
 				+ replyBoard_content + ", replyBoard_writeDate=" + replyBoard_writeDate + ", replyBoard_updateDate="
-				+ replyBoard_updateDate + ", replyBoard_isdelete=" + replyBoard_isdelete + "]";
+				+ replyBoard_updateDate + ", replyBoard_isdelete=" + replyBoard_isdelete + ", CategoryLink="
+				+ CategoryLink + "]";
 	}
+	
+	
 	
 }

@@ -46,6 +46,7 @@ import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 
@@ -344,7 +345,7 @@ public class AdminController {
 //	   System.out.println(to);
 	
 	   Map<String, Object> para = new HashMap<String, Object>();
-	   List<BoardVO> Boardlst = new ArrayList<BoardVO>();
+	   List<AdminBoardDTO> Boardlst = new ArrayList<AdminBoardDTO>();
 	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();

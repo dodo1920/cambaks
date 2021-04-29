@@ -21,6 +21,7 @@ import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
@@ -291,7 +292,7 @@ public class adminServiceImpl implements adminService {
 		
 
 		@Override
-		public List<BoardVO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
 			// TODO Auto-generated method stub
 			return dao.goGetBoard_admin(BAcri1, pc);
 		}
@@ -303,7 +304,7 @@ public class adminServiceImpl implements adminService {
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
 			
 			return dao.searchGetBoard_admin(BAcri2, pc);
 		}

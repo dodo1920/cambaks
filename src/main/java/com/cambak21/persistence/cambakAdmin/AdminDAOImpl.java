@@ -26,6 +26,7 @@ import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.util.PagingCriteria;
@@ -295,7 +296,7 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		
 		@Override
-		public List<BoardVO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri1.getGoStartDate());
@@ -319,7 +320,7 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri2.getGoStartDate());

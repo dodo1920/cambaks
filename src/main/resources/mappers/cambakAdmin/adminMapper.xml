@@ -316,7 +316,7 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   <!-- ***************************************** 종진 ********************************************************************************* -->
   
   
-  	<select id="goGetBoard_admin" resultType="com.cambak21.domain.BoardVO">
+  	<select id="goGetBoard_admin" resultType="com.cambak21.dto.AdminBoardDTO">
   		select * from Boards where
 	  		<if test="board_category != 'all'">
 	  			board_category = #{board_category} and 
@@ -335,7 +335,7 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   
   
   
-  	<select id="searchGetBoard_admin" resultType="com.cambak21.domain.BoardVO">
+  	<select id="searchGetBoard_admin" resultType="com.cambak21.dto.AdminBoardDTO">
   		select * from Boards where
   		
 	  		<if test="board_category == 'all' and searchboardType == 'title'">
