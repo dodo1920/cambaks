@@ -327,9 +327,9 @@ function addPoint() {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Women’s </a>
-                        <span>Essential structured blazer</span>
+                        <a href="/mall/main/"><i class="fa fa-home"></i> Home</a>
+                        <a href="/mall/cart">Shopping cart </a>
+                        <span>Order</span>
                     </div>
                 </div>
             </div>

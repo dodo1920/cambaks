@@ -189,7 +189,8 @@
 				}
 			}
 			
-			output += "<p class='comment-content' id='content"+item.replyBoard_no+"'>"+item.replyBoard_content+"</p></div>";
+			output += "<p class='comment-content' id='content"+item.replyBoard_no+"'>"+item.replyBoard_content+"</p>";
+			output += "<p id='imgOutput'></div>";
 			
 			// 작성날짜, 답글 버튼
 			if(item.replyBoard_content != "[삭제된 댓글입니다.]") {
@@ -398,7 +399,64 @@
 		return year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
 	};
 	
+	// 댓글에 첨부파일 표출
+    function show() {
+        let preview = document.querySelector('img');
+        // console.log(preview);
+        let file = document.querySelector('input[type=file]').files; // 배열
+        console.log(file);
+        $.each(file, function (index, item) {
+            let reader = new FileReader();
+            //console.log(reader);
+            let out = "";
+            reader.addEventListener("load", function () {
+                out = "<img src='' id='loadImg" + index + "' width=''100px' height='100px' />";
+                $('#imgOutput').append(out);
+                $("#loadImg" + index).attr("src", reader.result);
+                // console.log(preview.src);
+                // reader = null;
+            }, false);
+            // console.log(preview.src);
+
+            // console.log(file);
+            reader.readAsDataURL(item);
+        });
+    }
+	
 </script>
+
+<style>
+	.btnImage {
+		font-size: 25px;
+		position: absolute;
+		right: 0px;
+		top: 0px;
+		opacity: 0;
+		filter: alpha(opacity=0);
+		cursor: pointer;
+	}
+	
+	.filebox input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
+
+        .filebox label {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #999;
+            vertical-align: middle;
+            background-color: #fdfdfd;
+            cursor: pointer;
+            border: 1px solid #ebebeb;
+            border-radius: 5px;
+        }
+    }
+</style>
+
 </head>
 
 <body>
@@ -491,7 +549,9 @@
 							<!-- 댓글 작성 Ajax -->
 							<div class="form-group">
 								<input type="text" class="form-control" placeholder="댓글을 입력해주세요" id="replyBoard_content" name="replyBoard_content">
-								<input type="file" name="replyBoard_img">
+								<label for="file"><img style="width: 30px; height: 30px;" src="../../../../resources/img/photo-camera.png" /></label>
+                            	<input type="file" id="file" name="replyBoard_img" class="btnImage" onchange="show()" multiple />
+                            	<span id="imgOutput"></span>
 								<button type="button" class="btn btn-success" onclick="replyWrite();" >댓글 작성</button>
 							</div>
 						</div>
