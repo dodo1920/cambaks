@@ -199,6 +199,11 @@ public class AdminController {
 		return entity;
 	}
 	
+	@RequestMapping(value="/memberSearch", method = RequestMethod.POST)
+	public void memberSearch(@RequestBody MemberVO vo) {
+		System.out.println(vo.toString());
+	}
+	
 
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 정민@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	// 페이징 있는 전체 게시글 목록 출력
