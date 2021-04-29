@@ -190,7 +190,10 @@ public class AdminDAOImpl implements AdminDAO {
 			return ses.insert(ns + ".insertProduct", vo);
 		}
 		
-		
+		@Override
+		public ProductsVO getProduct(String product_id) throws Exception {
+			return ses.selectOne(ns + ".getProduct", product_id);
+		}
 		
 		
 		

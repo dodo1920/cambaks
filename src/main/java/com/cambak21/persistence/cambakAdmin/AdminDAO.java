@@ -97,7 +97,7 @@ public interface AdminDAO {
 	// 상품 등록
 	int insertProduct(ProductsVO vo) throws Exception;
 	
-	
+	ProductsVO getProduct(String product_id) throws Exception;
 	
 	
 	
