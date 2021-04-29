@@ -14,7 +14,11 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+
 import com.cambak21.domain.ProductAnalysisVO;
+
+import com.cambak21.domain.OrderManagementSearchVO;
+
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
@@ -406,6 +410,43 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+	@Override
+	public Map<String, Object> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		List<AdminOrderListVO> lst = dao.orderManageSearch(vo, cri);
+		
+		for (int i = 0; i < lst.size(); i++) {
+			lst.get(i).setOrderProductNum(dao.orderProductNum(lst.get(i).getPayment_no()) - 1); // 해당 상품의 리뷰 개수 넣기
+			lst.get(i).setBuyProduct_totPrice(dao.orderTotalPrice(lst.get(i).getPayment_no())); // 해당 주문의 총 결제 금액 넣기
+		}
+		
+		param.put("orderList", lst);
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(dao.orderManageSearchNum(vo));
+		param.put("paging", pp);
+		
+		return param;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		
 		

@@ -8,7 +8,10 @@ import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+
 import com.cambak21.domain.ProductAnalysisVO;
+
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
@@ -253,7 +256,7 @@ public interface adminService {
 
 		
 		
-		
+		public Map<String, Object> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception;
 		
 		
 		

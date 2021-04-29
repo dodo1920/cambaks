@@ -14,38 +14,38 @@
 <title>Cambak's - Admin Pages</title>
 
 <!-- css -->
-<link href="../resources/adminDist/css/bootstrap.min.css" type="text/css">
-<link href="../resources/adminDist/css/font-awesome.min.css" type="text/css">
-<link href="../resources/adminDist/css/elegant-icons.css" type="text/css">
-<link href="../resources/adminDist/css/jquery-ui.min.css" type="text/css">
-<link href="../resources/adminDist/css/magnific-popup.css" type="text/css">
-<link href="../resources/adminDist/css/owl.carousel.min.css" type="text/css">
-<link href="../resources/adminDist/css/slicknav.min.css" type="text/css">
-<link href="../resources/adminDist/css/style.css" type="text/css">
-<link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/select2/dist/css/select2.min.css">
-<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.css">
-<link rel="stylesheet" type="text/css" href="../resources/adminAssets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-<link href="../resources/adminDist/css/style.min.css" rel="stylesheet">
+<link href="../../resources/adminDist/css/bootstrap.min.css" type="text/css">
+<link href="../../resources/adminDist/css/font-awesome.min.css" type="text/css">
+<link href="../../resources/adminDist/css/elegant-icons.css" type="text/css">
+<link href="../../resources/adminDist/css/jquery-ui.min.css" type="text/css">
+<link href="../../resources/adminDist/css/magnific-popup.css" type="text/css">
+<link href="../../resources/adminDist/css/owl.carousel.min.css" type="text/css">
+<link href="../../resources/adminDist/css/slicknav.min.css" type="text/css">
+<link href="../../resources/adminDist/css/style.css" type="text/css">
+<link href="../../resources/adminDist/css/style.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../../resources/adminAssets/libs/select2/dist/css/select2.min.css">
+<link rel="stylesheet" type="text/css" href="../../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.css">
+<link rel="stylesheet" type="text/css" href="../../resources/adminAssets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+<link href="../../resources/adminDist/css/style.min.css" rel="stylesheet">
 
 <!-- js -->
-<script src="../resources/adminAssets/libs/jquery/dist/jquery.min.js"></script>
-<script src="../resources/adminAssets/libs/popper.js/dist/umd/popper.min.js"></script>
-<script src="../resources/adminAssets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="../resources/adminAssets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-<script src="../resources/adminAssets/extra-libs/sparkline/sparkline.js"></script>
-<script src="../resources/adminDist/js/waves.js"></script>
-<script src="../resources/adminDist/js/sidebarmenu.js"></script>
-<script src="../resources/adminDist/js/custom.min.js"></script>
-<script src="../resources/adminAssets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
-<script src="../resources/adminDist/js/pages/mask/mask.init.js"></script>
-<script src="../resources/adminAssets/libs/select2/dist/js/select2.full.min.js"></script>
-<script src="../resources/adminAssets/libs/select2/dist/js/select2.min.js"></script>
-<script src="../resources/adminAssets/libs/jquery-asColor/dist/jquery-asColor.min.js"></script>
-<script src="../resources/adminAssets/libs/jquery-asGradient/dist/jquery-asGradient.js"></script>
-<script src="../resources/adminAssets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js"></script>
-<script src="../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
-<script src="../resources/adminAssets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="../../resources/adminAssets/libs/jquery/dist/jquery.min.js"></script>
+<script src="../../resources/adminAssets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="../../resources/adminAssets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../resources/adminAssets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="../../resources/adminAssets/extra-libs/sparkline/sparkline.js"></script>
+<script src="../../resources/adminDist/js/waves.js"></script>
+<script src="../../resources/adminDist/js/sidebarmenu.js"></script>
+<script src="../../resources/adminDist/js/custom.min.js"></script>
+<script src="../../resources/adminAssets/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+<script src="../../resources/adminDist/js/pages/mask/mask.init.js"></script>
+<script src="../../resources/adminAssets/libs/select2/dist/js/select2.full.min.js"></script>
+<script src="../../resources/adminAssets/libs/select2/dist/js/select2.min.js"></script>
+<script src="../../resources/adminAssets/libs/jquery-asColor/dist/jquery-asColor.min.js"></script>
+<script src="../../resources/adminAssets/libs/jquery-asGradient/dist/jquery-asGradient.js"></script>
+<script src="../../resources/adminAssets/libs/jquery-asColorPicker/dist/jquery-asColorPicker.min.js"></script>
+<script src="../../resources/adminAssets/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+<script src="../../resources/adminAssets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script>
 
@@ -55,6 +55,12 @@ datwpicker();
 pageNumColor();
    
 });
+
+function paramDefault() {
+	let 
+	
+	
+}
 
 function searchDataChk() {
 	let checkLowDate = $("#checkLowDate").val();
@@ -287,16 +293,16 @@ $('#endDate').datepicker({
                      <div class="col-md-2" style="padding: 0px;">
                         <select class="select form-control" name="checkOption" style="height:36px;">
                            <optgroup label="-검색항목선택-">
-                              <option value="orderNum">주문번호</option>
-                              <option value="PurchaseName">주문자명</option>
-                              <option value="PurchaseId">주문자 아이디</option>
-                              <option value="PurchaseEmail">회원 이메일</option>
-                              <option value="PurchasePhone">주문자 휴대전화</option>
+                              <option id="orderNum" value="orderNum">주문번호</option>
+                              <option id="PurchaseName" value="PurchaseName">주문자명</option>
+                              <option id="PurchaseId" value="PurchaseId">주문자 아이디</option>
+                              <option id="PurchaseEmail" value="PurchaseEmail">회원 이메일</option>
+                              <option id="PurchasePhone" value="PurchasePhone">주문자 휴대전화</option>
                            </optgroup>
                            <optgroup label="---------------">
-                              <option value="RecipientName">수령자명</option>
-                              <option value="RecipientPhone">수령자 휴대전화</option>
-                              <option value="RecipientAddr">배송지 주소</option>
+                              <option id="RecipientName" value="RecipientName">수령자명</option>
+                              <option id="RecipientPhone" value="RecipientPhone">수령자 휴대전화</option>
+                              <option id="RecipientAddr" value="RecipientAddr">배송지 주소</option>
                            </optgroup>
                         </select>
                      </div>
@@ -344,8 +350,8 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">상품</label>
                      <div class="col-md-1" style="padding: 0px;">
                         <select class="select form-control" name="productInfo" style="height:36px;">
-                              <option value="prodName">상품명</option>
-                              <option value="manufacturer">제조사</option>
+                              <option id="prodName" value="prodName">상품명</option>
+                              <option id="manufacturer" value="manufacturer">제조사</option>
                         </select>
                      </div>
                      <div class="col-md-3">
@@ -461,7 +467,6 @@ $('#endDate').datepicker({
                      </div>
                      <div class="col-md-5">
                      	<input type="hidden" id="csOrderRange" name="csOrderRange" value="noRange"/>
-                     	<input type="hidden" name="page" value="1"/>
                      </div>
                   </div>
                </div>

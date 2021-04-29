@@ -41,7 +41,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.MemberVO;
-import com.cambak21.domain.OrderManagementOrderVO;
 import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
@@ -56,7 +55,6 @@ import org.springframework.web.util.WebUtils;
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.BoardVO;
-import com.cambak21.domain.OrderManagementOrderVO;
 
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
@@ -601,9 +599,46 @@ public class AdminController {
    }
    
    @RequestMapping(value="/orderManagement/search")
-   public String orderManagementSearch(OrderManagementSearchVO vo, PagingCriteria cri, Model model) throws Exception{
+   public String orderManagementSearch(OrderManagementSearchVO vo, @RequestParam("checkDate") int checkDate, @RequestParam("checkLowDate") String checkLowDate,
+		   @RequestParam("checkHighDate") String checkHighDate, PagingCriteria cri, Model model) throws Exception{
       System.out.println(vo.toString());
-      return "/admin/adminOrderManagementSearch";
+      System.out.println(checkDate);
+      
+      if (vo.getCheckOptionSearch().equals("")) vo.setCheckOptionSearch(null);
+      if (vo.getProductInfoSearch().equals("")) vo.setProductInfoSearch(null);
+      
+      if (checkDate != 0 && checkLowDate.equals("") && checkHighDate.equals("")) {
+    	  Calendar cal = Calendar.getInstance();
+    	  cal.add(Calendar.DATE, - checkDate);
+    	  Date startDate = cal.getTime();
+    	  Date endDate = new Date();
+    	  
+    	  vo.setStartDate(startDate);
+    	  vo.setEndDate(endDate);
+    	  vo.setSearchDateRange("range");
+      } else if (checkDate == 0 && checkLowDate.length() != 0 && checkHighDate.length() != 0) {
+    	  checkLowDate = checkLowDate + " 00:00:00";
+    	  checkHighDate = checkHighDate + " 23:59:59";
+    	  
+    	  SimpleDateFormat tmpStartDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	  Date startDate = tmpStartDate.parse(checkLowDate);
+    	  
+    	  SimpleDateFormat tmpEndDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	  Date endDate = tmpEndDate.parse(checkHighDate);
+    	  
+    	  vo.setStartDate(startDate);
+    	  vo.setEndDate(endDate);
+    	  vo.setSearchDateRange("range");
+      }
+      
+      System.out.println(vo.toString());
+      
+      Map<String, Object> param = service.orderManageSearch(vo, cri);
+      System.out.println(param.toString());
+      
+      model.addAttribute("order", param);
+      
+      return "/admin/adminOrderSearch";
    }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

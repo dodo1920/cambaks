@@ -1,13 +1,16 @@
 package com.cambak21.domain;
 
+import java.util.Date;
+
 public class OrderManagementSearchVO {
 	private String checkOption;
 	private String checkOptionSearch;
-	private int checkDate;
-	private String checkLowDate;
-	private String checkHighDate;
+	private String searchDateRange = "all";
+	private Date startDate;
+	private Date endDate;
 	private String productInfo;
 	private String productInfoSearch;
+	private String csOrderRange;
 	private boolean purchaseConfirmationBefore;
 	private boolean purchaseConfirmation;
 	private boolean orderDeliveryReady;
@@ -34,23 +37,23 @@ public class OrderManagementSearchVO {
 	public void setCheckOptionSearch(String checkOptionSearch) {
 		this.checkOptionSearch = checkOptionSearch;
 	}
-	public int getCheckDate() {
-		return checkDate;
+	public String getSearchDateRange() {
+		return searchDateRange;
 	}
-	public void setCheckDate(int checkDate) {
-		this.checkDate = checkDate;
+	public void setSearchDateRange(String searchDateRange) {
+		this.searchDateRange = searchDateRange;
 	}
-	public String getCheckLowDate() {
-		return checkLowDate;
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setCheckLowDate(String checkLowDate) {
-		this.checkLowDate = checkLowDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public String getCheckHighDate() {
-		return checkHighDate;
+	public Date getEndDate() {
+		return endDate;
 	}
-	public void setCheckHighDate(String checkHighDate) {
-		this.checkHighDate = checkHighDate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	public String getProductInfo() {
 		return productInfo;
@@ -63,6 +66,12 @@ public class OrderManagementSearchVO {
 	}
 	public void setProductInfoSearch(String productInfoSearch) {
 		this.productInfoSearch = productInfoSearch;
+	}
+	public String getCsOrderRange() {
+		return csOrderRange;
+	}
+	public void setCsOrderRange(String csOrderRange) {
+		this.csOrderRange = csOrderRange;
 	}
 	public boolean isPurchaseConfirmationBefore() {
 		return purchaseConfirmationBefore;
@@ -146,15 +155,15 @@ public class OrderManagementSearchVO {
 	@Override
 	public String toString() {
 		return "OrderManagementSearchVO [checkOption=" + checkOption + ", checkOptionSearch=" + checkOptionSearch
-				+ ", checkDate=" + checkDate + ", checkLowDate=" + checkLowDate + ", checkHighDate=" + checkHighDate
-				+ ", productInfo=" + productInfo + ", productInfoSearch=" + productInfoSearch
-				+ ", purchaseConfirmationBefore=" + purchaseConfirmationBefore + ", purchaseConfirmation="
-				+ purchaseConfirmation + ", orderDeliveryReady=" + orderDeliveryReady + ", orderOnDelivery="
-				+ orderOnDelivery + ", orderDeliveryCompleted=" + orderDeliveryCompleted + ", csCancelRequest="
-				+ csCancelRequest + ", csCancelCompleted=" + csCancelCompleted + ", csChangeRequest=" + csChangeRequest
-				+ ", csChangeCompleted=" + csChangeCompleted + ", csReturnRequest=" + csReturnRequest
-				+ ", csReturnCompleted=" + csReturnCompleted + ", csRefundRequest=" + csRefundRequest
-				+ ", csRefundCompleted=" + csRefundCompleted + "]";
+				+ ", searchDateRange=" + searchDateRange + ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", productInfo=" + productInfo + ", productInfoSearch=" + productInfoSearch + ", csOrderRange="
+				+ csOrderRange + ", purchaseConfirmationBefore=" + purchaseConfirmationBefore
+				+ ", purchaseConfirmation=" + purchaseConfirmation + ", orderDeliveryReady=" + orderDeliveryReady
+				+ ", orderOnDelivery=" + orderOnDelivery + ", orderDeliveryCompleted=" + orderDeliveryCompleted
+				+ ", csCancelRequest=" + csCancelRequest + ", csCancelCompleted=" + csCancelCompleted
+				+ ", csChangeRequest=" + csChangeRequest + ", csChangeCompleted=" + csChangeCompleted
+				+ ", csReturnRequest=" + csReturnRequest + ", csReturnCompleted=" + csReturnCompleted
+				+ ", csRefundRequest=" + csRefundRequest + ", csRefundCompleted=" + csRefundCompleted + "]";
 	}
 	
 }

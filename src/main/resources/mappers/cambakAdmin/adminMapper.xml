@@ -784,40 +784,27 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   <!-- ***************************************** 종진 끝 ********************************************************************************* -->
   
-  <!-- ***************************************** 효원 ********************************************************************************* -->
+  <!--  ***************************************** 효원 ********************************************************************************* -->
   
   <select id="readOrderList" resultType="com.cambak21.domain.AdminOrderListVO">
-	select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
-	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
-	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
-	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
-	from Payments payment
-	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
-	left join Destinations destination on destination.destination_no = payment.destination_no
-	left join Products product on buyProduct.product_name = product.product_name
-	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
-	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
-	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
-	left join Members member on member.member_id = payment.member_id
-	group by payment.payment_serialNo limit #{pageStart}, #{perPageNum}) as list
+	select pay.payment_no, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+	des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice, 
+	del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+	from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem
+	where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+	and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id
+	group by pay.payment_serialNo limit #{pageStart}, #{perPageNum}
   </select>
   
   
   <select id="readOrderListNum" resultType="int">
-	select count(*) 
-	from (select distinct payment_no, payment_date, product_name, member_id, member_name, destination_toUser, destination_mobile,
-	point_usedPoint, buyProduct_totPrice, delivery_status, payInfo_way, payment_isComit
-	from (select payment.payment_no, payment.payment_date, buyProduct.product_name, payment.member_id, member.member_name, destination.destination_toUser,
-	destination.destination_mobile, poin.point_usedPoint, buyProduct.buyProduct_totPrice, deliverie.delivery_status, payInfo.payInfo_way, payment.payment_isComit
-	from Payments payment
-	left join  BuyProducts buyProduct on payment.buyProduct_no = buyProduct.buyProduct_no
-	left join Destinations destination on destination.destination_no = payment.destination_no
-	left join Products product on buyProduct.product_name = product.product_name
-	left join PayInfos payInfo on payInfo.payInfo_no = payment.payInfo_no
-	left join Deliveries deliverie on payment.payment_serialNo = deliverie.payment_serialNo
-	left join Points poin on poin.buyProduct_no = payment.buyProduct_no
-	left join Members member on member.member_id = payment.member_id
-	group by payment.payment_serialNo) as list) as num
+	select count(*) from (select pay.payment_no, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+	des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice, 
+	del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+	from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem
+	where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+	and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id
+	group by pay.payment_serialNo) as lst
   </select>
   
   
@@ -838,9 +825,385 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   
   
+  <select id="orderManageSearch" resultType="com.cambak21.domain.AdminOrderListVO">
+	<if test="csOrderRange == 'noRange'">
+	  	select pay.payment_no, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+		des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice,
+		del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+		from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem, Products pro
+		where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
+		
+		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
+			and pay.payment_no = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
+			and mem.member_name = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
+			and pay.member_id = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
+			and mem.member_email = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
+			and mem.member_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
+			and des.destination_toUser = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
+			and des.destination_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
+			and (des.destination_address like concat('%', #{checkOptionSearch}, '%') or des.destination_addressDetail like concat('%', #{checkOptionSearch}, '%'))
+		</if>
+		
+		<if test="searchDateRange != 'all'">
+			and pay.payment_date >= #{startDate} and pay.payment_date <![CDATA[<=]]> #{endDate}
+		</if>
+		
+		<if test="productInfo == 'prodName' and productInfoSearch != null">
+			and buy.product_name like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="productInfo == 'manufacturer' and productInfoSearch != null">
+			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="purchaseConfirmationBefore == true">
+			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
+		</if>
+		
+		<if test="purchaseConfirmation == true">
+		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
+		</if>
+		
+		<if test="orderDeliveryReady">
+		and del.delivery_status = '배송전'
+		</if>
+		
+		<if test="orderOnDelivery">
+		and del.delivery_status = '배송중'
+		</if>
+		
+		<if test="orderDeliveryCompleted">
+		and del.delivery_status = '배송완료'
+		</if>
+		
+		group by pay.payment_serialNo limit #{pageStart}, #{perPageNum}
+  	</if>
+  	<if test="csOrderRange == 'check'">
+	 	select payment_no, payment_date, product_name, lst.member_id, member_name, destination_toUser, 
+		destination_mobile, point_usedPoint, buyProduct_totPrice,
+		delivery_status, payInfo_way, payment_isComit
+		from (select pay.payment_no, pay.payment_serialNo, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+		des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice,
+		del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+		from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem, Products pro
+		where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
+		
+		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
+			and pay.payment_no = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
+			and mem.member_name = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
+			and pay.member_id = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
+			and mem.member_email = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
+			and mem.member_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
+			and des.destination_toUser = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
+			and des.destination_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
+			and (des.destination_address like concat('%', #{checkOptionSearch}, '%') or des.destination_addressDetail like concat('%', #{checkOptionSearch}, '%'))
+		</if>
+		
+		<if test="searchDateRange != 'all'">
+			and pay.payment_date >= #{startDate} and pay.payment_date <![CDATA[<=]]> #{endDate}
+		</if>
+		
+		<if test="productInfo == 'prodName' and productInfoSearch != null">
+			and buy.product_name like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="productInfo == 'manufacturer' and productInfoSearch != null">
+			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="purchaseConfirmationBefore == true">
+			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
+		</if>
+		
+		<if test="purchaseConfirmation == true">
+		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
+		</if>
+		
+		<if test="orderDeliveryReady">
+		and del.delivery_status = '배송전'
+		</if>
+		
+		<if test="orderOnDelivery">
+		and del.delivery_status = '배송중'
+		</if>
+		
+		<if test="orderDeliveryCompleted">
+		and del.delivery_status = '배송완료'
+		</if>
+		
+		group by pay.payment_serialNo) lst, RefundnExchanges refund
+		where lst.payment_serialNo = refund.payment_serialNo
+		
+		<if test="csCancelRequest">
+			and refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csCancelCompleted">
+			and refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csChangeRequest">
+			and refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csChangeCompleted">
+			and refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csReturnRequest">
+			and refund.refundnExchange_status = '반품요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csReturnCompleted">
+			and refund.refundnExchange_status = '반품완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csRefundRequest">
+			and refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csRefundCompleted">
+			and refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+	limit #{pageStart}, #{perPageNum}
+  	</if>
+  	
+  </select>
   
-  
-  
+  <select id="orderManageSearchNum" resultType="int">
+	<if test="csOrderRange == 'noRange'">
+	  	select count(*) from
+	  	(select pay.payment_no, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+		des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice,
+		del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+		from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem, Products pro
+		where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
+		
+		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
+			and pay.payment_no = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
+			and mem.member_name = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
+			and pay.member_id = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
+			and mem.member_email = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
+			and mem.member_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
+			and des.destination_toUser = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
+			and des.destination_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
+			and (des.destination_address like concat('%', #{checkOptionSearch}, '%') or des.destination_addressDetail like concat('%', #{checkOptionSearch}, '%'))
+		</if>
+		
+		<if test="searchDateRange != 'all'">
+			and pay.payment_date >= #{startDate} and pay.payment_date <![CDATA[<=]]> #{endDate}
+		</if>
+		
+		<if test="productInfo == 'prodName' and productInfoSearch != null">
+			and buy.product_name like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="productInfo == 'manufacturer' and productInfoSearch != null">
+			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="purchaseConfirmationBefore == true">
+			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
+		</if>
+		
+		<if test="purchaseConfirmation == true">
+		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
+		</if>
+		
+		<if test="orderDeliveryReady">
+		and del.delivery_status = '배송전'
+		</if>
+		
+		<if test="orderOnDelivery">
+		and del.delivery_status = '배송중'
+		</if>
+		
+		<if test="orderDeliveryCompleted">
+		and del.delivery_status = '배송완료'
+		</if>
+		
+		group by pay.payment_serialNo) as num
+  	</if>
+  	<if test="csOrderRange == 'check'">
+	 	select count(*) from
+	 	(select payment_no, payment_date, product_name, lst.member_id, member_name, destination_toUser, 
+		destination_mobile, point_usedPoint, buyProduct_totPrice,
+		delivery_status, payInfo_way, payment_isComit
+		from (select pay.payment_no, pay.payment_serialNo, pay.payment_date, buy.product_name, pay.member_id, mem.member_name, des.destination_toUser, 
+		des.destination_mobile, poin.point_usedPoint, buy.buyProduct_totPrice,
+		del.delivery_status, pinfo.payInfo_way, pay.payment_isComit
+		from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem, Products pro
+		where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
+		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
+		
+		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
+			and pay.payment_no = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
+			and mem.member_name = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
+			and pay.member_id = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
+			and mem.member_email = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
+			and mem.member_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
+			and des.destination_toUser = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
+			and des.destination_mobile = #{checkOptionSearch}
+		</if>
+		
+		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
+			and (des.destination_address like concat('%', #{checkOptionSearch}, '%') or des.destination_addressDetail like concat('%', #{checkOptionSearch}, '%'))
+		</if>
+		
+		<if test="searchDateRange != 'all'">
+			and pay.payment_date >= #{startDate} and pay.payment_date <![CDATA[<=]]> #{endDate}
+		</if>
+		
+		<if test="productInfo == 'prodName' and productInfoSearch != null">
+			and buy.product_name like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="productInfo == 'manufacturer' and productInfoSearch != null">
+			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
+		</if>
+		
+		<if test="purchaseConfirmationBefore == true">
+			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
+		</if>
+		
+		<if test="purchaseConfirmation == true">
+		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
+		</if>
+		
+		<if test="orderDeliveryReady">
+		and del.delivery_status = '배송전'
+		</if>
+		
+		<if test="orderOnDelivery">
+		and del.delivery_status = '배송중'
+		</if>
+		
+		<if test="orderDeliveryCompleted">
+		and del.delivery_status = '배송완료'
+		</if>
+		
+		group by pay.payment_serialNo) lst, RefundnExchanges refund
+		where lst.payment_serialNo = refund.payment_serialNo
+		
+		<if test="csCancelRequest">
+			and refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csCancelCompleted">
+			and refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csChangeRequest">
+			and refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csChangeCompleted">
+			and refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csReturnRequest">
+			and refund.refundnExchange_status = '반품요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csReturnCompleted">
+			and refund.refundnExchange_status = '반품완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csRefundRequest">
+			and refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csRefundCompleted">
+			and refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+	) as num
+  	</if>
+  	
+  </select>
   
   
   

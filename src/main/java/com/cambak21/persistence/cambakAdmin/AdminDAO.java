@@ -1,6 +1,7 @@
 package com.cambak21.persistence.cambakAdmin;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
@@ -10,8 +11,10 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 
 import com.cambak21.domain.MiddleCategoryVO;
+
 import com.cambak21.domain.ProductAnalysisVO;
 
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
@@ -213,10 +216,13 @@ public interface AdminDAO {
 	
 	public int orderProductNum(int payment_no) throws Exception;
 
-
 	public int orderTotalPrice(int payment_no) throws Exception;
 
 
+	public List<AdminOrderListVO> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception;
+
+
+	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception;
 
 
 

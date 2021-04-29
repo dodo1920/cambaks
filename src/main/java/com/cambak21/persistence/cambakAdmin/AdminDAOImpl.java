@@ -15,7 +15,11 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+
 import com.cambak21.domain.ProductAnalysisVO;
+
+import com.cambak21.domain.OrderManagementSearchVO;
+
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
@@ -469,6 +473,70 @@ public class AdminDAOImpl implements AdminDAO {
 	@Override
 	public int orderTotalPrice(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderTotalPrice", payment_no);
+	}
+
+	@Override
+	public List<AdminOrderListVO> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		// 검색 필터
+		param.put("checkOption", vo.getCheckOption());
+		param.put("checkOptionSearch", vo.getCheckOptionSearch());
+		param.put("searchDateRange", vo.getSearchDateRange());
+		param.put("startDate", vo.getStartDate());
+		param.put("endDate", vo.getEndDate());
+		param.put("productInfo", vo.getProductInfo());
+		param.put("productInfoSearch", vo.getProductInfoSearch());
+		param.put("csOrderRange", vo.getCsOrderRange());
+		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
+		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
+		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
+		param.put("orderOnDelivery", vo.isOrderOnDelivery());
+		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
+		param.put("csCancelRequest", vo.isCsCancelRequest());
+		param.put("csCancelCompleted", vo.isCsCancelCompleted());
+		param.put("csChangeRequest", vo.isCsChangeRequest());
+		param.put("csChangeCompleted", vo.isCsChangeCompleted());
+		param.put("csReturnRequest", vo.isCsReturnRequest());
+		param.put("csReturnCompleted", vo.isCsReturnCompleted());
+		param.put("csRefundRequest", vo.isCsRefundRequest());
+		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		
+		// 페이징 필터
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".orderManageSearch", param);
+	}
+
+	@Override
+	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		// 검색 필터
+		param.put("checkOption", vo.getCheckOption());
+		param.put("checkOptionSearch", vo.getCheckOptionSearch());
+		param.put("searchDateRange", vo.getSearchDateRange());
+		param.put("startDate", vo.getStartDate());
+		param.put("endDate", vo.getEndDate());
+		param.put("productInfo", vo.getProductInfo());
+		param.put("productInfoSearch", vo.getProductInfoSearch());
+		param.put("csOrderRange", vo.getCsOrderRange());
+		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
+		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
+		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
+		param.put("orderOnDelivery", vo.isOrderOnDelivery());
+		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
+		param.put("csCancelRequest", vo.isCsCancelRequest());
+		param.put("csCancelCompleted", vo.isCsCancelCompleted());
+		param.put("csChangeRequest", vo.isCsChangeRequest());
+		param.put("csChangeCompleted", vo.isCsChangeCompleted());
+		param.put("csReturnRequest", vo.isCsReturnRequest());
+		param.put("csReturnCompleted", vo.isCsReturnCompleted());
+		param.put("csRefundRequest", vo.isCsRefundRequest());
+		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		
+		return ses.selectOne(ns + ".orderManageSearchNum", param);
 	}
 
 		
