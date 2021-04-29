@@ -146,7 +146,8 @@ public interface AdminDAO {
 	// ajax 방식으로 메인카테고리 하위의 미들카테고리 목록 가져오기
 	public List<MiddleCategoryVO> getMiddleCategories(int mainCategory_id) throws Exception;
 
-	
+	// deleteProdList
+	public String deleteProdList(List<String> prodList) throws Exception;
 	
 	
 	

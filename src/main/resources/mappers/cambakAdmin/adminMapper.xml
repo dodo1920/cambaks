@@ -323,29 +323,12 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		select * from MiddleCategories where mainCategory_id=#{mainCategory_id}
   	</select>
   
+  	<update id="deleteProdList">
+  		update Products set product_isDelete = 'Y' where product_id = {#deleteProdList}
+  	</update>
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   
   
   

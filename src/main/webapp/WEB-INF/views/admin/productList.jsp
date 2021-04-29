@@ -270,6 +270,42 @@ function getDate(date){
     return year + "-" + month + "-" + day;
 }
 
+// 선택된 체크박스 리스트 가져오기
+function getCheckBoxList() {
+	let size = document.getElementsByName("chk").length;
+	console.log(size);
+	
+	let arr = [];
+	
+	
+	//check이름을 가진 check중에서 체크된 것만 값 가져오기
+    for(var i = 0; i < size; i++){
+        if(document.getElementsByName("chk")[i].checked == true){
+            console.log(document.getElementsByName("chk")[i].value);
+            // 배열에 해당하는 값 넣어주기
+            arr.push(document.getElementsByName("chk")[i].value);
+        }
+    }
+	
+	console.log(arr);
+	
+	$.ajax({
+		method: "get",
+	  	url: "/admin/deleteProdList",
+	  	headers: {	// 요청하는 데이터의 헤더에 전송
+		  "Content-Type" : "application/json",
+		  "X-HTTP-Method-Override" : "GET"
+	  }, 
+	  data		:  {
+  		'prodList' : arr
+		}, 
+	  success : function(data) {
+
+	      console.log(data);
+	  }
+	  
+	}); // end of ajax
+}
 
 $(document).ready(function() {
 	console.log(lastWeek());
@@ -392,8 +428,8 @@ $(document).ready(function() {
 						<div class="table-responsive">
 									<!-- 글쓰기 버튼 -->
 									<div>
-										<input type="button" class="btn btn-primary" value="삭제" onclick="location.href='삭제하러가자'" style="margin-left: 10px; margin-bottom: 20px;">
-										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 10px; margin-bottom: 20px; float: right;">
+										<input type="button" class="btn btn-primary" value="삭제" onclick="getCheckBoxList();" style="margin-left: 10px; margin-bottom: 20px;">
+										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='/admin/prodRegister'" style="margin-right: 10px; margin-bottom: 20px; float: right;">
 									</div>
 									
 							<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -407,7 +443,7 @@ $(document).ready(function() {
 											<table class="table table-striped table-bordered dataTable" style="font-size: 13px;">
 											<thead>
 												<tr role="row">
-													<th style="font-weight: bold; width: 100px;"><input type="checkbox" id="allChecked" value="allChecked"/></th>
+													<th style="font-weight: bold; width: 100px;"><input type="checkbox" name="chk" id="allChecked" value="allChecked" onclick=""/></th>
 													<th style="font-weight: bold; width: 100px;">상품번호</th>
 													<th style="font-weight: bold; width: 100px;">메인카테고리</th>
 													<th style="font-weight: bold; width: 100px;">하위카테고리</th>
@@ -421,12 +457,12 @@ $(document).ready(function() {
 											<tbody>
 												<c:forEach var="board" items="${boardList }" varStatus="status">
 												<tr role="row">
-													<td><input type="checkbox" name="chk" id="check${board.product_id }"/></td>
+													<td><input type="checkbox" name="chk" id="${board.product_id }" value="${board.product_id }" onclick=""/></td>
 													<td>${board.product_id }</td>
 													<td>${board.mainCategory_id }</td>
 													<td>${board.middleCategory_id }</td>
 													<td>${board.product_name }</td>
-													<td>${board.product_sellPrice }</td>
+													<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.product_sellPrice }" />&#8361;</td>
 													<td>${board.product_show }</td>
 													<td>${board.product_factory }</td>
 													<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>

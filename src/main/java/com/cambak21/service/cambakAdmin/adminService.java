@@ -145,6 +145,8 @@ public interface adminService {
 		// ajax 방식으로 메인카테고리 하위의 미들카테고리 목록 가져오기
 		public List<MiddleCategoryVO> getMiddleCategories(int mainCategory_id) throws Exception;
 
+		// deleteProdList
+		public String deleteProdList(List<String> prodList) throws Exception;
 //		---------------------------------------------- 정민 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 종진 ==============================================================================
@@ -177,6 +179,7 @@ public interface adminService {
 		
 		
 		public Map<String, Object> readOrderList(PagingCriteria cri) throws Exception;
+
 		
 		
 		

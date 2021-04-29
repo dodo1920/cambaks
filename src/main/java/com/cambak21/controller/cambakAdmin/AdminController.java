@@ -260,7 +260,14 @@ public class AdminController {
 				  return result;
 					
 				} 
-
+		
+		// 상품 리스트의 삭제
+		@RequestMapping(value="deleteProdList", method=RequestMethod.GET)
+		public @ResponseBody void deleteProdList(@RequestParam(value="prodList[]") List<String> prodList) throws Exception {
+			logger.info("/deleteProdList의 GET방식 호출");
+				System.out.println("prodList:" + prodList);
+					service.deleteProdList(prodList);
+				} 
 		
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    @GetMapping("/prodRegister")
