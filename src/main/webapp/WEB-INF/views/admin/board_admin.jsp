@@ -34,10 +34,12 @@ let ResultList = new Array();
 let AfterResultList = new Array();
 
 	$(function() {
-	
+		// 오늘날짜로 기본설정
 		setPeriod(0);
+		// 오늘 날짜로 조회되는 게시판 목록 출력
 		goBoardListAll();
 	
+		// 1일, 3일 , 7일.. 버튼 클릭시 달력 날짜 동적 변경
 		$('.btnDate').on('click', function() {
 			$('.btnDate').removeClass('selected');
 			$(this).addClass('selected');
@@ -45,6 +47,7 @@ let AfterResultList = new Array();
 	
 	});
 	
+	// 오름차순 정렬 후 게시판만 출력 함수
 	function BoardOutputGo(data){
 		let outputList = "";
 		console.log(data);
@@ -86,7 +89,7 @@ let AfterResultList = new Array();
 			$("#boardListFrame").html(outputList);
 			
 	}
-	
+	// 오름차순 정렬 후 댓글 + 게시판 출력 함수
 	function replyOutputGo(data){
 		let outputList = "";
 		
@@ -141,10 +144,11 @@ let AfterResultList = new Array();
 		
 		
 		
-		
+	// 검색된 값(게시판 or 댓글+게시판)을 구분하여 오름차순 조건에 따라 오름차순 실행
 	function changeResultViewList(data){
 			let outputList = "";
 	
+	// 검색된 값이 게시판일 때만 조건문 구현 
 	if(ResultList.Boardlst != null){	
 		AfterResultList = ResultList.Boardlst;
 		
@@ -166,7 +170,10 @@ let AfterResultList = new Array();
 		}
 	}
 		
-
+	
+	
+	
+	// 검색된 값이 댓글 + 게시판일 경우에 오름차순 조건문 실행
 		if(ResultList.replyBoardlst != null){
 			
 			AfterResultList = ResultList.replyBoardlst;
@@ -195,13 +202,13 @@ let AfterResultList = new Array();
 	
 	
 	
-	
+	// 댓글은 제목이 없으므로 댓글 선택시 내용으로 자동 변경
 	function chageLangSelect(data){
 		if(data.options[data.selectedIndex].value == "reply"){
 			$("#searchboard_Type").val("content").prop("selected", true);  // 값이 content인거 선택
 		}
 	}
-	
+	// 게시판 선택시 제목으로 변경되도록 기본 설정 완료
 	function chagesearchboardTypeSelect(data){
 		
 		if(data.options[data.selectedIndex].value == "title"){
