@@ -62,9 +62,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <a href="#">Women’s </a>
-                        <span>Essential structured blazer</span>
+                        <a href="/mall/main/"><i class="fa fa-home"></i> Home</a>
+                        <a href="/mall/cart">Shopping cart </a>
+                        <a href="/mall/prodOrder">Order</a>
+                        <span>Order completed</span>
                     </div>
                 </div>
             </div>
@@ -76,7 +77,7 @@
       <!-- 본문 시작 -->
       <!-- 주문완료 안내 start -->
       <h2>주문이 성공적으로 완료되었습니다.</h2>
-      <div>주문번호 : ${orderInfo.payment_no }</div>
+      <div>주문번호 : <a href="/myMall/myOrder">${orderInfo.payment_no }</a></div>
      
       <!-- 주문완료 안내 end -->
       <!-- 배송지 정보 start -->

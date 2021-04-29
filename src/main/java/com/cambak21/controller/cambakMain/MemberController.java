@@ -155,7 +155,7 @@ public class MemberController {
 	  if (ses.getAttribute("prevPage") != null) {
 		  ses.setAttribute("prevPage", referer);
 	  } else {
-		  ses.removeAttribute("prevPage");
+		  ses.removeAttribute("prevPage"); 
 		  ses.setAttribute("prevPage", referer);
 	  }
 	   
