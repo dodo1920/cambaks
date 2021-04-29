@@ -609,9 +609,13 @@ public class AdminController {
       
       if (checkDate != 0 && checkLowDate.equals("") && checkHighDate.equals("")) {
     	  Calendar cal = Calendar.getInstance();
-    	  cal.add(Calendar.DATE, - checkDate);
-    	  Date startDate = cal.getTime();
+    	  cal.add(Calendar.DAY_OF_MONTH, - checkDate);
+    	  Date start = cal.getTime();
     	  Date endDate = new Date();
+    	  String tmpStartDate = new SimpleDateFormat("yyyy-MM-dd").format(start) + " 00:00:00";
+    	  
+    	  SimpleDateFormat tmpStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	  Date startDate = tmpStart.parse(tmpStartDate);
     	  
     	  vo.setStartDate(startDate);
     	  vo.setEndDate(endDate);

@@ -53,12 +53,86 @@ $(document).ready(function() {
 
 datwpicker();
 pageNumColor();
+paramDefault();
    
 });
 
 function paramDefault() {
-	let 
+	let checkOption = '${param.checkOption}';
+	let checkOptionSearch = '${param.checkOptionSearch}';
+	let checkDate = '${param.checkDate}';
+	let checkLowDate = '${param.checkLowDate}';
+	let checkHighDate = '${param.checkHighDate}';
+	let productInfo = '${param.productInfo}';
+	let productInfoSearch = '${param.productInfoSearch}';
+	let csOrderRange = '${param.csOrderRange}';
+	let purchaseConfirmationBefore = '${param.purchaseConfirmationBefore}';
+	let purchaseConfirmation = '${param.purchaseConfirmation}';
+	let orderDeliveryReady = '${param.orderDeliveryReady}';
+	let orderOnDelivery = '${param.orderOnDelivery}';
+	let orderDeliveryCompleted = '${param.orderDeliveryCompleted}';
+	let csCancelRequest = '${param.csCancelRequest}';
+	let csCancelCompleted = '${param.csCancelCompleted}';
+	let csChangeRequest = '${param.csChangeRequest}';
+	let csChangeCompleted = '${param.csChangeCompleted}';
+	let csReturnRequest = '${param.csReturnRequest}';
+	let csReturnCompleted = '${param.csReturnCompleted}';
+	let csRefundRequest = '${param.csRefundRequest}';
+	let csRefundCompleted = '${param.csRefundCompleted}';
 	
+	if (checkOption != "") $("#checkOption").val(checkOption).prop("selected", true);
+	if (checkOptionSearch != "") $("#checkOptionSearch").val(checkOptionSearch);
+	
+	if (checkDate != "0") {
+		$("#checkDate").val(checkDate);
+		if (checkDate == "1") checkDate = "1";
+		if (checkDate == "3") checkDate = "2";
+		if (checkDate == "7") checkDate = "3";
+		if (checkDate == "15") checkDate = "4";
+		if (checkDate == "30") checkDate = "5";
+		if (checkDate == "90") checkDate = "6";
+		if (checkDate == "180") checkDate = "7";
+		$("#orderDate" + checkDate).css("background-color", "#eeeeee");
+		$("#orderDate" + checkDate).css("border-color", "#eeeeee");
+		$("#orderDate" + checkDate).css("font-weight", "bold");
+	}
+	if (checkLowDate != "") {
+		$("#checkLowDate").val(checkLowDate);
+		let tempLowDate = checkLowDate.split("-")
+		checkLowDate = tempLowDate[1] + "/" + tempLowDate[2] + "/" + tempLowDate[0];
+		$("#startDate").val(checkLowDate);
+		$("#checkDate").val(0);
+	}
+	if (checkHighDate != "") {
+		$("#checkHighDate").val(checkHighDate);
+		let tempHighDate = checkHighDate.split("-")
+		checkHighDate = tempHighDate[1] + "/" + tempHighDate[2] + "/" + tempHighDate[0];
+		$("#endDate").val(checkHighDate);
+		$("#checkDate").val(0);
+	}
+	
+	if (productInfo != "") $("#productInfo").val(productInfo).prop("selected", true);
+	if (productInfoSearch != "") $("#productInfoSearch").val(productInfoSearch);
+	
+	if (purchaseConfirmationBefore == "on") $("#purchaseConfirmationBefore").prop("checked", true);
+	if (purchaseConfirmation == "on") $("#purchaseConfirmation").prop("checked", true);
+	
+	if (orderDeliveryReady == "on") $("#orderDeliveryReady").prop("checked", true);
+	if (orderOnDelivery == "on") $("#orderOnDelivery").prop("checked", true);
+	if (orderDeliveryCompleted == "on") $("#orderDeliveryCompleted").prop("checked", true);
+	
+	if (csCancelRequest == "on") $("#csCancelRequest").prop("checked", true);
+	if (csCancelCompleted == "on") $("#csCancelCompleted").prop("checked", true);
+	if (csChangeRequest == "on") $("#csChangeRequest").prop("checked", true);
+	if (csChangeCompleted == "on") $("#csChangeCompleted").prop("checked", true);
+	if (csReturnRequest == "on") $("#csReturnRequest").prop("checked", true);
+	if (csReturnCompleted == "on") $("#csReturnCompleted").prop("checked", true);
+	if (csRefundRequest == "on") $("#csRefundRequest").prop("checked", true);
+	if (csRefundCompleted == "on") $("#csRefundCompleted").prop("checked", true);
+	
+	csStatusCheck();
+	purchaseStatusCheck();
+	orderStatusCheck();
 	
 }
 
@@ -291,7 +365,7 @@ $('#endDate').datepicker({
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">검색어</label>
                      <div class="col-md-2" style="padding: 0px;">
-                        <select class="select form-control" name="checkOption" style="height:36px;">
+                        <select class="select form-control" name="checkOption" style="height:36px;" id="checkOption">
                            <optgroup label="-검색항목선택-">
                               <option id="orderNum" value="orderNum">주문번호</option>
                               <option id="PurchaseName" value="PurchaseName">주문자명</option>
@@ -307,7 +381,7 @@ $('#endDate').datepicker({
                         </select>
                      </div>
                      <div class="col-md-3">
-                         <input type="text" class="form-control" name="checkOptionSearch" autocomplete="off">
+                         <input type="text" class="form-control" name="checkOptionSearch" id="checkOptionSearch" autocomplete="off">
                      </div>
                      <div class="col-md-6"></div>
                   </div>
@@ -349,13 +423,13 @@ $('#endDate').datepicker({
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">상품</label>
                      <div class="col-md-1" style="padding: 0px;">
-                        <select class="select form-control" name="productInfo" style="height:36px;">
+                        <select class="select form-control" name="productInfo" id="productInfo" style="height:36px;">
                               <option id="prodName" value="prodName">상품명</option>
                               <option id="manufacturer" value="manufacturer">제조사</option>
                         </select>
                      </div>
                      <div class="col-md-3">
-                         <input type="text" name="productInfoSearch" class="form-control" autocomplete="off">
+                         <input type="text" name="productInfoSearch" id="productInfoSearch" class="form-control" autocomplete="off">
                      </div>
                      <div class="col-md-7"></div>
                   </div>
@@ -363,7 +437,7 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">구매확정</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseStatusAll" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
+                            <input type="checkbox" class="custom-control-input" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
                             <label class="custom-control-label" for="purchaseStatusAll">전체</label>
                         </div>
                      </div>
@@ -467,6 +541,7 @@ $('#endDate').datepicker({
                      </div>
                      <div class="col-md-5">
                      	<input type="hidden" id="csOrderRange" name="csOrderRange" value="noRange"/>
+                     	<input type="hidden" name="page" value="1"/>
                      </div>
                   </div>
                </div>

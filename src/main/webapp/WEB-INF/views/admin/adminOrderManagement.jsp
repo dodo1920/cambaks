@@ -357,7 +357,7 @@ $('#endDate').datepicker({
                      <label class="col-md-1 m-t-15">구매확정</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseStatusAll" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
+                            <input type="checkbox" class="custom-control-input" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
                             <label class="custom-control-label" for="purchaseStatusAll">전체</label>
                         </div>
                      </div>
