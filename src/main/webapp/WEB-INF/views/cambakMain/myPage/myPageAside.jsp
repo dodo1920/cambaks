@@ -49,6 +49,7 @@
 						<li id="#"><a href="">주문 목록</a></li>
 						<li id="#"><a href="/myMall/myRefund">취소 / 반품</a></li>
 						<li id="#"><a href="/myMall/myQnA?page=1">상품 문의</a></li>
+						<li id="#"><a href="/mall/destinationsList">배송지 관리</a></li>
 					</ul>
 				</div>
 			</div>

@@ -106,17 +106,19 @@ public class MallMainController {
 	      
 	        try {
 	        	para.put("total", service.getTotalCount());
-	        	List<mallMainTopCountDTO> topSelling;
-	        	topSelling = service.getTopSelling();
+	        	List<mallMainTopCountDTO> topSelling = service.getTopSelling();
+	        	List<mallMainTopCountDTO> topReview = service.getTopReview();
 	        	
 	        	for(int i = 0; i < topSelling.size(); i++) {
         				topSelling.get(i).setStar(service.getStar(topSelling.get(i).getProduct_id()));
         				topSelling.get(i).setProduct_img1(service.getProduct_img(topSelling.get(i).getProduct_id()));
+        				topSelling.get(i).setTotal_reviewNum(service.getTotalReviewsNum(topSelling.get(i).getProduct_id()));
+        				topReview.get(i).setTotal_reviewNum(service.getTotalReviewsNum(topReview.get(i).getProduct_id()));
+        				
 	        	}
-	        	
 	           	para.put("topSelling", topSelling);
 	        	para.put("total", service.getTotalCount());
-	        	para.put("topReview", service.getTopReview());
+	        	para.put("topReview", topReview);
 	        	para.put("countReviews", service.countReviews());
 				
 			} catch (Exception e) {

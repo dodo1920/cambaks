@@ -23,8 +23,11 @@ import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 import com.cambak21.util.SearchCriteria;
@@ -315,27 +318,27 @@ public class adminServiceImpl implements adminService {
 		
 
 		@Override
-		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
 			// TODO Auto-generated method stub
-			return dao.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+			return dao.goGetBoard_admin(BAcri1, pc);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+		public List<AdminReplyBoardDTO> goGetreply_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
 			// TODO Auto-generated method stub
-			return dao.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+			return dao.goGetreply_admin(BAcri1, pc);
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue,PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
 			
-			return dao.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+			return dao.searchGetBoard_admin(BAcri2, pc);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception {
+		public List<AdminReplyBoardDTO> searchGetreply_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
 			
-			return dao.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+			return dao.searchGetreply_admin(BAcri2, pc);
 		}
 
 		public int getTodayTotCnt() throws Exception {
@@ -349,7 +352,21 @@ public class adminServiceImpl implements adminService {
 		}
 		
 		
-		
+		public int getBoard_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			return dao.getBoard_adminCnt(BAcri1);
+		}
+			
+		public int getReply_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			return dao.getReply_adminCnt(BAcri1);
+		}
+	
+		public int getsearchBoard_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			return dao.getsearchBoard_adminCnt(BAcri2);
+		}
+			
+		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			return dao.getsearchReply_adminCnt(BAcri2);
+		}
 		
 		
 		

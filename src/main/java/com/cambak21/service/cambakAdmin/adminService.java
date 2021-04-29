@@ -12,6 +12,7 @@ import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -21,7 +22,9 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
@@ -150,19 +153,25 @@ public interface adminService {
 		
 //		============================================== 종진 ==============================================================================
 		
-		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 
-		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
+		public List<AdminReplyBoardDTO> goGetreply_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 		
-		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 		
-		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
+		public List<AdminReplyBoardDTO> searchGetreply_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 		
 		public int getTodayTotCnt() throws Exception;
 	
 		public int getTodayreplyTotCnt() throws Exception;
 		
+		public int getBoard_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 		
+		public int getReply_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
+		
+		public int getsearchBoard_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+		
+		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 		
 		
 		

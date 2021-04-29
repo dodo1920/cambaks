@@ -19,6 +19,7 @@ import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -27,7 +28,9 @@ import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -324,52 +327,52 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		
 		@Override
-		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".goGetBoard_admin", param);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+		public List<AdminReplyBoardDTO> goGetreply_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".goGetreply_admin", param);
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
-			param.put("searchboardType", searchboardType);
-			param.put("searchTxtValue", searchTxtValue);
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".searchGetBoard_admin", param);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+		public List<AdminReplyBoardDTO> searchGetreply_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
-			param.put("searchboardType", searchboardType);
-			param.put("searchTxtValue", searchTxtValue);
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".searchGetreply_admin", param);
@@ -384,7 +387,45 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		
+		public int getBoard_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 		
+			return ses.selectOne(ns + ".getBoard_adminCnt", param);
+		}
+			
+		public int getReply_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+
+			return ses.selectOne(ns + ".getReply_adminCnt", param);
+		}
+	
+		public int getsearchBoard_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+	
+			return ses.selectOne(ns + ".getsearchBoard_adminCnt", param);
+		}
+			
+		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+
+			return ses.selectOne(ns + ".getsearchReply_adminCnt", param);
+		}
 		
 		
 		
