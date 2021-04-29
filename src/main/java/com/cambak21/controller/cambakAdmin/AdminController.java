@@ -217,7 +217,7 @@ public class AdminController {
 		}
 		
 
-		// 검색어 입력
+		// 검색어 및 검색 조건 입력
 		@RequestMapping(value="/searchProdList", method = RequestMethod.GET)
 		public String searchProductList(PagingCriteria cri, SearchCriteria scri, AdminProductListDTO dto, Model model, @RequestParam("product_show") String aa) throws Exception {
 			
@@ -234,7 +234,7 @@ public class AdminController {
 			model.addAttribute("boardList", service.goSearchProdList(scri, cri, dto)); // 게시물 데이터
 			model.addAttribute("SearchCriteria", scri);
 			model.addAttribute("pagingParam", pp);
-			
+			model.addAttribute("dto", dto);
 			System.out.println("controller model : " + model.toString());
 
 			return "/admin/productList";
@@ -261,6 +261,7 @@ public class AdminController {
 					
 				} 
 
+		
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 승권@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    @GetMapping("/prodRegister")
    public String productInsert() {

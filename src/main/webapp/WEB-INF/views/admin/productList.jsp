@@ -50,6 +50,8 @@
 <script src="../resources/adminAssets/libs/quill/dist/quill.min.js"></script>
 
 <script>
+const date = new Date();
+//console.log(date);
 
 // 메인 카테고리 select 박스를 ajax 방식으로 출력
 function selectMainCategories() {
@@ -64,7 +66,7 @@ function selectMainCategories() {
 					  },
 					  success : function(data) {
 
-					      console.log(data);
+					      //console.log(data);
 					      
 					      let mainCategory = data.mainCategories;
 					      
@@ -102,19 +104,14 @@ $(document).ready(function(){
     //메인 카테고리 목록을 ajax로 호출
     selectMainCategories();
     
-    
-    
-    
-    
-    
-    
+
 });
 
 
 //메인카테고리의 셀렉트박스가 선택되었을 때, 해당 카테고리의 id로 미들 카테고리 출력
 function getMainCate(obj) {
 	let mainCategory_id = $("#checkOption option:selected").val();
-	console.log(mainCategory_id);
+	//console.log(mainCategory_id);
 	let output1 = '<select class="select form-control" id="checkMidle" style="height:36px;" onchange="getMidCate(this);")><optgroup label="-검색항목선택-"><option value="middleCategory_id">- 카테고리 중분류 -</option>';
 	$.ajax({
 		method: "get",
@@ -147,12 +144,136 @@ function getMainCate(obj) {
 	}); // end of ajax
 }
 
+// 하위 카테고리 가져오는 함수
 function getMidCate(obj) {
 	let middleCategory_id = $("#checkMidle option:selected").val();
 	console.log(middleCategory_id);
 	// body에 input type hidden 부분에 form태그 전송을 위한 value 넣기
 	$('input[name=middleCategory_id]').attr('value',middleCategory_id);
 }
+
+// 문자열을 Date형으로 변환하는 함수
+function stringToDate(date) {
+	let sYear = date.substring(0,4);
+    let sMonth = date.substring(5,7);
+    let sDate = date.substring(8,10);
+
+    //alert("sYear :"+sYear +"   sMonth :"+sMonth + "   sDate :"+sDate);
+    return new Date(Number(sYear), Number(sMonth)-1, Number(sDate));
+}
+
+// Date형을 문자열로 바꿔주는 함수
+function getDateStr(myDate){
+	var Year = myDate.getFullYear();
+	var Month = (myDate.getMonth() + 1);
+	var Day = myDate.getDate();
+	
+	Month = (Month < 10) ? "0" + String(Month) : Month;
+	Day = (Day < 10) ? "0" + String(Day) : Day;
+	
+	return  Year + '-' + Month + '-' + Day;
+}
+
+// 현재시간으로부터 일주일 전 날짜 구하는 함수
+function lastWeek() {
+	  let d = new Date();
+	  let dayOfMonth = d.getDate();
+	  d.setDate(dayOfMonth - 7);
+	  return getDateStr(d);
+	}
+	
+// 현재시간으로부터 1달 전 날짜를 구하는 함수
+function lastMonth() {
+	  let d = new Date();
+	  let monthOfYear = d.getMonth();
+	  d.setMonth(monthOfYear - 1);
+	  return getDateStr(d);
+	}
+
+// 현재시간으로부터 3달 전 날짜를 구하는 함수
+function lastThreeMonth() {
+	let d = new Date();
+	  let monthOfYear = d.getMonth();
+	  d.setMonth(monthOfYear - 3);
+	  return getDateStr(d);
+}
+
+// 현재시간으로부터 1년 전 날짜를 구하는 함수
+function lastYear() {
+	let d = new Date();
+	let lastOfYear = d.getFullYear();
+	d.setFullYear(lastOfYear - 1);
+	  return getDateStr(d);
+}
+
+// 날짜 유효성 검사
+function checkDate(Date, obj) {
+	console.log(obj);
+	//스트링 형식의 날짜를 잘라서 비교하기 위한 변수 선언
+	let lowDate = $("#checkLowDate").val();
+	console.log(typeof(lowDate));
+	let lowDateCheck = stringToDate(lowDate);
+	//console.log(lowDateCheck);
+	
+	let highDate = $("#checkHighDate").val();
+	console.log(highDate);
+	let highDateCheck = stringToDate(highDate);
+	//console.log(highDateCheck);
+	
+	let dateDiff = Math.ceil(lowDateCheck.getTime() - highDateCheck.getTime());
+	//console.log(dateDiff);
+	
+	
+	
+	
+	// 버튼 형식의 날짜지정 처리 부분
+	let today = $("#today").val(); 
+	console.log(today);
+	
+	if(dateDiff >= 0){
+		//alert("날짜를 올바르게 설정해주세요.");
+		//location.reload();
+	}
+	
+	// 날짜 범위에 따른 분류
+	if(Date == "checkLowDate"){
+		//alert("checkLowDate");
+		$("#checkLowDateSave").val(getDate(lowDateCheck));
+	}
+	else if(Date == "checkHighDate"){
+		//alert("checkHighDate");
+		$("#checkHighDateSave").val(getDate(highDateCheck));
+	}else if(Date =="today"){
+		//alert("today");
+		 $("#checkLowDateSave").val(getDate(date)); 
+	}else if(Date =="week"){
+		//alert("week");
+		$("#checkLowDateSave").val(lastWeek());
+	}else if(Date =="month"){
+		//alert("month");
+		$("#checkLowDateSave").val(lastMonth());
+	}else if(Date =="threeMonth"){
+		//alert("threeMonth");
+		$("#checkLowDateSave").val(lastThreeMonth());
+	}else if(Date =="oneYear"){
+		//alert("oneYear");
+		$("#checkLowDateSave").val(lastYear());
+	}
+}
+
+// Date 날짜 형식을 string(yyyy-mm-dd)으로 변환
+function getDate(date){
+    let year = date.getFullYear();
+    let month = ("0" + (1 + date.getMonth())).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+
+    return year + "-" + month + "-" + day;
+}
+
+
+$(document).ready(function() {
+	console.log(lastWeek());
+});
 
 </script>
 
@@ -237,19 +358,18 @@ function getMidCate(obj) {
 						<div class="form-group row">
 						    <label class="col-md-1">상품등록일</label>
 						    <div class="col-md-7"  style="padding-left: 0px;">
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">오늘</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">7일</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">1개월</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">3개월</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">1년</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">전체</button>
-							    <input type="date" id="checkLowDate" name="checkLowDate" onchange="" />
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="today" onclick="checkDate('today', this);" value="today">오늘</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="week" onclick="checkDate('week', this);" value="week">7일</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="month" onclick="checkDate('month', this);" value="month">1개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="threeMonth" onclick="checkDate('threeMonth', this);" value="threeMonth">3개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" id="oneYear" onclick="checkDate('oneYear', this);" value="halfYear">1년</button>
+							    <input type="date" id="checkLowDate" name="" onchange="checkDate('checkLowDate', this);" value=""/>
 							    <span>~</span>
-							    <input type="date" id="checkHighDate" name="checkHighDate" onchange="" />
+							    <input type="date" id="checkHighDate" name="" onchange="checkDate('checkHighDate', this);" value=""/>
 							    <div id="checkOrderDate">
-								    <input type="hidden" value="" name="checkDate"/>
-								    <!-- <input type="hidden" value="" name="checkLowDate"/>
-								    <input type="hidden" value="" name="checkHighDate"/> -->
+								    <!-- <input type="hidden" value="" name="checkDate"/> -->
+								    <input type="hidden" value="0000-00-00" name="checkLowDate" id="checkLowDateSave"/>
+								    <input type="hidden" value="9999-12-31" name="checkHighDate" id="checkHighDateSave"/>
 							    </div>
 						    </div>
 						    <div class="col-md-4"></div>
@@ -272,9 +392,8 @@ function getMidCate(obj) {
 						<div class="table-responsive">
 									<!-- 글쓰기 버튼 -->
 									<div>
-										<input type="button" class="btn btn-primary" value="수정" onclick="location.href='수정하러가자'" style="margin-left: 10px; margin-bottom: 20px;">
-										<input type="button" class="btn btn-primary" value="삭제" onclick="location.href='삭제하러가자'" style="margin-right: 20px; margin-bottom: 20px;">
-										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 20px; margin-bottom: 20px; float: right;">
+										<input type="button" class="btn btn-primary" value="삭제" onclick="location.href='삭제하러가자'" style="margin-left: 10px; margin-bottom: 20px;">
+										<input type="button" class="btn btn-primary" value="상품등록" onclick="location.href='글쓰러가자'" style="margin-right: 10px; margin-bottom: 20px; float: right;">
 									</div>
 									
 							<div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
@@ -282,36 +401,44 @@ function getMidCate(obj) {
 									
 								<div class="row">
 									<div class="col-sm-12">
-										<table class="table table-striped table-bordered dataTable" style="font-size: 13px;">
-										<thead>
-											<tr role="row">
-												<th style="font-weight: bold; width: 100px;"><input type="checkbox" id="allChecked" value="allChecked"/></th>
-												<th style="font-weight: bold; width: 100px;">상품번호</th>
-												<th style="font-weight: bold; width: 100px;">메인카테고리</th>
-												<th style="font-weight: bold; width: 100px;">하위카테고리</th>
-												<th style="font-weight: bold; width: 150px;">상품명</th>
-												<th style="font-weight: bold; width: 75px;">판매가</th>
-												<th style="font-weight: bold; width: 180px;">진열상태</th>
-												<th style="font-weight: bold; width: 130px;">제조사</th>
-												<th style="font-weight: bold; width: 102px;">상품등록일</th>
-											</tr>
-										</thead>
-										<tbody>
-											<c:forEach var="board" items="${boardList }" varStatus="status">
-											<tr role="row">
-												<td><input type="checkbox" name="chk" id="check${board.product_id }"/></td>
-												<td>${board.product_id }</td>
-												<td>${board.mainCategory_id }</td>
-												<td>${board.middleCategory_id }</td>
-												<td>${board.product_name }</td>
-												<td>${board.product_sellPrice }</td>
-												<td>${board.product_show }</td>
-												<td>${board.product_factory }</td>
-												<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-											</tr>
-											</c:forEach>
-										</tbody>
-                                    </table>
+										<c:choose>
+											<c:when test="${pagingParam.totalCount != 0}">
+											
+											<table class="table table-striped table-bordered dataTable" style="font-size: 13px;">
+											<thead>
+												<tr role="row">
+													<th style="font-weight: bold; width: 100px;"><input type="checkbox" id="allChecked" value="allChecked"/></th>
+													<th style="font-weight: bold; width: 100px;">상품번호</th>
+													<th style="font-weight: bold; width: 100px;">메인카테고리</th>
+													<th style="font-weight: bold; width: 100px;">하위카테고리</th>
+													<th style="font-weight: bold; width: 150px;">상품명</th>
+													<th style="font-weight: bold; width: 75px;">판매가</th>
+													<th style="font-weight: bold; width: 180px;">진열상태</th>
+													<th style="font-weight: bold; width: 130px;">제조사</th>
+													<th style="font-weight: bold; width: 102px;">상품등록일</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach var="board" items="${boardList }" varStatus="status">
+												<tr role="row">
+													<td><input type="checkbox" name="chk" id="check${board.product_id }"/></td>
+													<td>${board.product_id }</td>
+													<td>${board.mainCategory_id }</td>
+													<td>${board.middleCategory_id }</td>
+													<td>${board.product_name }</td>
+													<td>${board.product_sellPrice }</td>
+													<td>${board.product_show }</td>
+													<td>${board.product_factory }</td>
+													<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+												</tr>
+												</c:forEach>
+											</tbody>
+	                                    </table>
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                    	<div style="text-align: center;"><h4>검색 결과가 없습니다.</h4></div>
+	                                    </c:otherwise>
+									</c:choose>
 									</div>
 								</div>
 								<div class="row">
@@ -323,7 +450,7 @@ function getMidCate(obj) {
                									<c:when test="${SearchCriteria.searchType != null}">
 												<c:if test="${pagingParam.prev }">
 												<li class="page-item">
-													<a class="page-link" href="searchProdList?page=${param.page -1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" aria-label="Previous">
+													<a class="page-link" href="searchProdList?page=${param.page -1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" aria-label="Previous">
 														<span aria-hidden="true">«</span>
 														<span class="sr-only">Previous</span>
 													</a>
@@ -331,12 +458,12 @@ function getMidCate(obj) {
 												</c:if>
 												<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
 												<li class="page-item active">
-													<a href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" class="page-link">${pageNo }</a>
+													<a href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 												</li>
 												</c:forEach>
 												<c:if test="${pagingParam.next }">
 												<li class="page-item">
-													<a class="page-link" href="searchProdList?page=${param.page +1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }" aria-label="Next">
+													<a class="page-link" href="searchProdList?page=${param.page +1 }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" aria-label="Next">
 														<span aria-hidden="true">»</span>
 														<span class="sr-only">Next</span>
 													</a>
@@ -346,7 +473,7 @@ function getMidCate(obj) {
 											<c:otherwise>
 												<c:if test="${pagingParam.prev }">
 													<li class="page-item">
-														<a class="page-link" href="prodList?page=${param.page -1 }" aria-label="Previous">
+														<a class="page-link" href="prodList?page=${param.page -1 }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" aria-label="Previous">
 															<span aria-hidden="true">«</span>
 															<span class="sr-only">Previous</span>
 														</a>
@@ -354,12 +481,12 @@ function getMidCate(obj) {
 													</c:if>
 													<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
 													<li class="page-item active">
-														<a href="prodList?page=${pageNo }" class="page-link">${pageNo }</a>
+														<a href="prodList?page=${pageNo }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 													</li>
 													</c:forEach>
 													<c:if test="${pagingParam.next }">
 													<li class="page-item">
-														<a class="page-link" href="prodList?page=${param.page +1 }" aria-label="Next">
+														<a class="page-link" href="prodList?page=${param.page +1 }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" aria-label="Next">
 															<span aria-hidden="true">»</span>
 															<span class="sr-only">Next</span>
 														</a>

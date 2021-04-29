@@ -228,6 +228,7 @@ public class AdminDAOImpl implements AdminDAO {
 		@Override
 		public int getTotalSearchProdListCnt(SearchCriteria scri, AdminProductListDTO dto) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
+			System.out.println("dao의 dto: " + dto.toString());
 			param.put("searchType", scri.getSearchType());
 			param.put("searchWord", scri.getSearchWord());
 			System.out.println("dao scri.searchWord:" + scri.getSearchWord());
@@ -235,6 +236,8 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("product_show", dto.getProduct_show());
 			param.put("mainCategory_id", dto.getMainCategory_id());
 			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			param.put("checkLowDate", dto.getCheckLowDate());
+			param.put("checkHighDate", dto.getCheckHighDate());
 			System.out.println("dao의 param:" + param.toString());
 			return ses.selectOne(ns + ".getTotalSearchProdListCnt", param);
 		}
@@ -243,7 +246,7 @@ public class AdminDAOImpl implements AdminDAO {
 		@Override
 		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri, AdminProductListDTO dto) throws Exception {
 			// 여러 개의 객체를 한번에 보낼 때, Map을 사용
-			System.out.println("dao의 dto: " + dto.toString());
+			//System.out.println("dao의 dto: " + dto.toString());
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("searchType", scri.getSearchType());
 			param.put("searchWord", scri.getSearchWord());
@@ -252,6 +255,9 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("product_show", dto.getProduct_show());
 			param.put("mainCategory_id", dto.getMainCategory_id());
 			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			param.put("checkLowDate", dto.getCheckLowDate());
+			param.put("checkHighDate", dto.getCheckHighDate());
+
 			
 			return ses.selectList(ns + ".goSearchProdList", param);
 		}
