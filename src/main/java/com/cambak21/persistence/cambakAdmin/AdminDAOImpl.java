@@ -15,6 +15,7 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
@@ -22,6 +23,7 @@ import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
@@ -160,17 +162,25 @@ public class AdminDAOImpl implements AdminDAO {
 	      return ses.selectOne(ns + ".prevWeekRefund");
 	   }
 	      
+
+		@Override
+		public RevenueEachWeekVO selectEachWeek(int revenueWeekly)throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeek", revenueWeekly);
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		@Override
+		public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeekRefund", revenueWeekly);
+		}
+
+		@Override
+		public List<ProductAnalysisVO> productAnalysis(int perDate) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectList(ns + ".productAnalysis", perDate);
+		}
+
 		
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
@@ -420,36 +430,6 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.selectOne(ns + ".orderTotalPrice", payment_no);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 		
 		
 		
