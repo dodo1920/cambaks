@@ -1,5 +1,6 @@
 package com.cambak21.controller.cambakMall;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +40,10 @@ import com.cambak21.domain.ProductDetailListVO;
 import com.cambak21.domain.ProductDetailOrderVO;
 import com.cambak21.domain.ProductDetailParamVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.service.cambakMall.MyBucketListService;
 import com.cambak21.service.cambakMall.ProdListService;
+import com.cambak21.service.cambakMall.prodDetailService;
 import com.cambak21.service.cambakMall.prodOrderService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -59,6 +63,9 @@ public class MallController {
 	
 	@Inject
 	private ProdListService pListService;
+	
+	@Inject
+	private prodDetailService prodDetailService;
 	
 	// **************************************** 김도연 컨트롤러
 	// **********************************************
@@ -96,6 +103,7 @@ public class MallController {
 		return entity;
 	}
 	
+	@Transactional
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
 	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -496,7 +504,56 @@ public class MallController {
 	// **************************************** 백승권 컨트롤러
 	// **********************************************
 	@RequestMapping("cart")
-	public String cart() throws Exception {
+	public String cart(HttpServletRequest request, Model model) throws Exception {
+		HttpSession ses = request.getSession();
+		
+		MemberVO vo = (MemberVO) ses.getAttribute("loginMember");
+		String ssid = (String) ses.getAttribute("ssid");
+		System.out.println("member_id : " + vo.getMember_id() + ", ssid : " + ssid);
+		
+		List<MyNonUserBucketVO> nonUserBucketLst = bucketService.getNonUserBucketList(ssid);
+		
+		if(nonUserBucketLst.size() != 0) {
+			List<MyBucketListVO> bucketLst = bucketService.getBucketList(vo.getMember_id());
+			List<MyBucketListVO> sameBucketLst = new ArrayList<MyBucketListVO>();
+			boolean result = false;
+			
+			for(MyNonUserBucketVO nonUserBucket : nonUserBucketLst) {
+				for(MyBucketListVO bucket : bucketLst) {
+					if(nonUserBucket.getProduct_id() == bucket.getProduct_id()) {
+						System.out.println(nonUserBucket.getProduct_id() + "가 같습니다");
+						sameBucketLst.add(bucket);
+						result = false;
+						break;
+					} else {
+//						System.out.println("동일 상품 아님");
+						result = true;
+					}
+				}
+				
+				if(result) {
+					System.out.println("동일 상품이 없습니다.");
+					
+					InsertintoBucketDTO dto = new InsertintoBucketDTO();
+					dto.setMember_id(vo.getMember_id());
+					dto.setProduct_id(nonUserBucket.getProduct_id());
+					dto.setBucket_sellPrice(nonUserBucket.getNonUserBucket_sellPrice());
+					dto.setBucket_buyQty(nonUserBucket.getNonUserBucket_buyQty());
+					dto.setBucket_totBuyPrice(nonUserBucket.getNonUserBucket_totBuyPrice());
+					
+					if(prodDetailService.insertBucket(dto)) {
+						logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
+					} else {
+						return "errer";
+					}
+				} else {
+					System.out.println("동일 상품 존재");
+				}
+			}
+			
+			model.addAttribute("sameBucketLst", sameBucketLst);
+		}		
+		
 		return "cambakMall/mallCart";
 	}
 
@@ -504,7 +561,8 @@ public class MallController {
 	@RequestMapping("/cart/{member_id}")
 	public @ResponseBody ResponseEntity<List<MyBucketListVO>> cartList(@PathVariable("member_id") String member_id) {
 		ResponseEntity<List<MyBucketListVO>> entity = null;
-		try {
+		
+		try {			
 			entity = new ResponseEntity<List<MyBucketListVO>>(bucketService.getBucketList(member_id), HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -594,6 +652,35 @@ public class MallController {
 	}
 	
 	// **************************************** 김도연 비회원 장바구니 컨트롤러
+	@RequestMapping(value="cart/updateBucekt", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> updateBucekt(@RequestParam("status") String status, @RequestBody InsertintoBucketDTO dto) throws Exception {
+		logger.info("비회원 장바구니와 회원 장바구니 겹치는 상품 상태 결정");
+		
+		ResponseEntity<String> entity = null;
+		
+		System.out.println("status : " + status + ", dto : " + dto.toString());
+		
+		if(status.equals("modi")) {
+			logger.info("비회원 장바구니로 회원 장바구니 수량 변경");
+			
+			if(prodDetailService.updateBucketQty(dto)) {
+				entity = new ResponseEntity<String>("modiSuccess", HttpStatus.OK);
+			} else {
+				entity = new ResponseEntity<String>("modiFail", HttpStatus.BAD_REQUEST);
+			}
+		} else if(status.equals("add")) {
+			logger.info("비회원 장바구니와 회원 장바구니 수량 합침");
+			
+			if(prodDetailService.updateAddBucketQty(dto)) {
+				entity = new ResponseEntity<String>("addSuccess", HttpStatus.OK);
+			} else {
+				entity = new ResponseEntity<String>("addFail", HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		return entity;
+	}
+	
 	
 	@RequestMapping("cart/no")
 	public String nonUserCart() throws Exception {
@@ -692,12 +779,6 @@ public class MallController {
 		}
 
 		return entity;
-	}
-	
-	@RequestMapping("/cart/merge")
-	public void margeCarts(@RequestBody MyNonUserBucketVO vo) {
-			System.out.println(vo.toString());
-		
 	}
 
 	// **************************************** 김태훈 컨트롤러

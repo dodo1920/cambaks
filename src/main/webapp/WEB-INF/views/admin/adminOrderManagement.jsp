@@ -125,6 +125,30 @@ function orderStatusTotalCheck() {
    
 }
 
+function purchaseStatusCheck() {
+   let Before = $("#purchaseConfirmationBefore").prop("checked");
+   let confirmation = $("#purchaseConfirmation").prop("checked");
+   
+   if (Before && confirmation) {
+      $("#purchaseStatusAll").prop("checked", true);
+   } else {
+      $("#purchaseStatusAll").prop("checked", false);
+   }
+   
+}
+
+function purchaseStatusAllCheck() {
+   
+   if ($("#purchaseStatusAll").prop("checked")) {
+      $("#purchaseConfirmationBefore").prop("checked", true);
+      $("#purchaseConfirmation").prop("checked", true);
+   } else {
+      $("#purchaseConfirmationBefore").prop("checked", false);
+      $("#purchaseConfirmation").prop("checked", false);
+   }
+   
+}
+
 function calendarSearch(change) {
    
    for (let i = 1; i < 8; i++) {
@@ -240,7 +264,7 @@ $('#endDate').datepicker({
                         </select>
                      </div>
                      <div class="col-md-3">
-                         <input type="text" class="form-control" name="checkOptionSearch">
+                         <input type="text" class="form-control" name="checkOptionSearch" autocomplete="off">
                      </div>
                      <div class="col-md-6"></div>
                   </div>
@@ -255,14 +279,14 @@ $('#endDate').datepicker({
                          <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" id="orderDate6" onclick="searchDate(6, 90);">3개월</button>
                          <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" id="orderDate7" onclick="searchDate(7, 180);">6개월</button>
                          <div id="checkOrderDate">
-                            <input type="hidden" value="" id="checkDate" name="checkDate" />
+                            <input type="hidden" value="0" id="checkDate" name="checkDate" />
                             <input type="hidden" value="" id="checkLowDate" name="checkLowDate" />
                             <input type="hidden" value="" id="checkHighDate" name="checkHighDate" />
                          </div>
                       </div>
                       <div class="col-md-2">
                         <div class="input-group">
-                           <input type="text" class="form-control" id="startDate" onchange="calendarSearch('start');" placeholder="월 / 일 / 년">
+                           <input type="text" class="form-control" id="startDate" onchange="calendarSearch('start');" placeholder="월 / 일 / 년" autocomplete="off">
                            <div class="input-group-append">
                               <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                            </div>
@@ -271,7 +295,7 @@ $('#endDate').datepicker({
                      <span>~</span>
                      <div class="col-md-2">
                         <div class="input-group">
-                           <input type="text" class="form-control" id="endDate" onchange="calendarSearch('end');" placeholder="월 / 일 / 년">
+                           <input type="text" class="form-control" id="endDate" onchange="calendarSearch('end');" placeholder="월 / 일 / 년" autocomplete="off">
                            <div class="input-group-append">
                               <span class="input-group-text"><i class="fa fa-calendar"></i></span>
                            </div>
@@ -288,9 +312,31 @@ $('#endDate').datepicker({
                         </select>
                      </div>
                      <div class="col-md-3">
-                         <input type="text" name="productInfoSearch" class="form-control">
+                         <input type="text" name="productInfoSearch" class="form-control" autocomplete="off">
                      </div>
                      <div class="col-md-7"></div>
+                  </div>
+                  <div class="form-group row">
+                     <label class="col-md-1 m-t-15">구매확정</label>
+                     <div class="col-ms" style="margin-right: 15px;">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="purchaseStatusAll" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
+                            <label class="custom-control-label" for="purchaseStatusAll">전체</label>
+                        </div>
+                     </div>
+                     <div class="col-ms" style="margin-right: 15px;">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmationBefore" id="purchaseConfirmationBefore" onchange="purchaseStatusCheck();">
+                            <label class="custom-control-label" for="purchaseConfirmationBefore">구매확정전</label>
+                        </div>
+                     </div>
+                     <div class="col-ms" style="margin-right: 15px;">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmation" id="purchaseConfirmation" onchange="purchaseStatusCheck();">
+                            <label class="custom-control-label" for="purchaseConfirmation">구매확정완료</label>
+                        </div>
+                     </div>
+                     <div class="col-md-9"></div>
                   </div>
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">주문상태</label>
@@ -303,7 +349,7 @@ $('#endDate').datepicker({
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" name="orderDeliveryReady" id="orderDeliveryReady" onchange="orderStatusCheck();">
-                            <label class="custom-control-label" for="orderDeliveryReady">결제완료</label>
+                            <label class="custom-control-label" for="orderDeliveryReady">배송전</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
@@ -451,7 +497,7 @@ $('#endDate').datepicker({
                                  <ul class="pagination">
                                     <c:if test="${order.paging.prev }">
                                     <li class="page-item">
-                                       <a class="page-link" href="#" aria-label="Previous">
+                                       <a class="page-link" href="/admin/orderManagement?page=${param.page - 1 }" aria-label="Previous">
                                           <span aria-hidden="true">«</span>
                                           <span class="sr-only">Previous</span>
                                        </a>
@@ -464,7 +510,7 @@ $('#endDate').datepicker({
                                     </c:forEach>
                                     <c:if test="${order.paging.next }">
                                     <li class="page-item">
-                                       <a class="page-link" href="#" aria-label="Next">
+                                       <a class="page-link" href="/admin/orderManagement?page=${param.page + 1 }" aria-label="Next">
                                           <span aria-hidden="true">»</span>
                                           <span class="sr-only">Next</span>
                                        </a>

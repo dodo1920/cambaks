@@ -4,6 +4,7 @@ import java.util.Base64.Decoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.OrderManagementOrderVO;
+import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
@@ -278,10 +280,17 @@ public class AdminController {
    }
    
    @PostMapping("/productInsert")
-   public String productInsert(ProductsVO vo) {
-	   System.out.println("product VO : " + vo.toString());
+   public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
 	   
-	   return null;
+	   System.out.println("상품등록 VO : " + vo.toString());
+	   
+	   if(service.insertProduct(vo) == 1) {
+		   ra.addFlashAttribute("ok");
+	   } else {
+		   ra.addFlashAttribute("fail");
+	   }
+	   
+	   return "redirect:/admin/prodList";
    }
    
    /**
@@ -293,47 +302,11 @@ public class AdminController {
   * @param vo
   * @return
   */
-   @RequestMapping(value="/productDetail", method = RequestMethod.POST, produces = "text/html; charset=utf8")
+   @RequestMapping(value="/productImage", method = RequestMethod.POST, produces = "text/html; charset=utf8")
    public ResponseEntity<String> productDetail_imgUpload(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
 	   ResponseEntity<String> entity = null;
 	   
 	   try {
-			// 파일 업로드 될 서버 경로
-			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/product");
-			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
-			String uploadFile = ChattingImageUploads.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-			if (!uploadFile.equals("-1")) {
-				
-				// -1이 아니라면 이미지 파일
-				entity = new ResponseEntity<String>(uploadFile, HttpStatus.OK);
-			} else {
-				// 이미지 파일 아닌것
-				// view에서 modal 띄움
-				entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}	   
-	   return entity;
-   }
-   
-   /**
-  * @Method Name : productThumnail_imgUpload
-  * @작성일 : 2021. 4. 27.
-  * @작성자 : 승권
-  * @변경이력 : 
-  * @Method 설명 : 썸네일 이미지 업로드
-  * @param file
-  * @param request
-  * @return
-  */
-@RequestMapping(value="/productThumnail", method = RequestMethod.POST, produces = "text/html; charset=utf8")
-   public ResponseEntity<String> productThumnail_imgUpload(@RequestParam("image") MultipartFile file, HttpServletRequest request) {
-	   ResponseEntity<String> entity = null;
-	   
-		try {
 			// 파일 업로드 될 서버 경로
 			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/product");
 			// 파일 저장하기 위해 메서드 호출 후 경로 반환 받기
@@ -375,11 +348,11 @@ public class AdminController {
 //	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 //	   Date to = fm.parse(goStartDate);
 //	   System.out.println(to);
-	   AdminBoardDTO vo = new AdminBoardDTO();
 	
 	   Map<String, Object> para = new HashMap<String, Object>();
 	   
 	   List<BoardVO> Boardlst = new ArrayList<BoardVO>();
+	   List<ReplyBoardVO> replyBoardlst = new ArrayList<ReplyBoardVO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
 	   pc.setPage(page);
@@ -388,31 +361,42 @@ public class AdminController {
 //	   pp.setTotalCount(service.getSearchTotalNoticeBoardCnt(scri));
 		
 	   try {
-	    if(searchselectedCategory.equals("board")) {
-	    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
-	    }else {
-	    	
-	    }
-		
-		para.put("Boardlst", Boardlst);
-	} catch (Exception e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	   
-	   
-	   	para.put("pagingParam", pp);
-	   	
-			 try { 
-//				 @PathVariable("replyBoard_no") int replyBoard_no, @RequestBody ReplyBoardVO vo
-				 	entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+			if(searchTxtValue.equals("none")) {
 				
-				
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					 e.printStackTrace();
-				}
 			
+			    if(searchselectedCategory.equals("board")) {
+			    	Boardlst = service.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+			    }
+				
+			    if(searchselectedCategory.equals("reply")) {
+			    	replyBoardlst = service.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+			    }
+			para.put("Boardlst", Boardlst);
+			}else {
+			
+				 if(searchselectedCategory.equals("board")) {
+				    	Boardlst = service.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue,pc);
+				    }
+					
+				    if(searchselectedCategory.equals("reply")) {
+				    	replyBoardlst = service.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+				    }
+		
+			    para.put("Boardlst", Boardlst);	
+			    para.put("replyBoardlst", replyBoardlst);	
+			}
+			 para.put("todayTotCnt", service.getTodayTotCnt());
+			 para.put("todayreplyTotCnt", service.getTodayreplyTotCnt());
+			 para.put("pagingParam", pp);
+			 entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+			 
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   
+	   	
+
 			return entity;
 	   }
    
@@ -433,6 +417,11 @@ public class AdminController {
       return "/admin/adminOrderManagement";
    }
    
+   @RequestMapping(value="/orderManagement/search")
+   public String orderManagementSearch(OrderManagementSearchVO vo, PagingCriteria cri, Model model) throws Exception{
+      System.out.println(vo.toString());
+      return "/admin/adminOrderManagementSearch";
+   }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

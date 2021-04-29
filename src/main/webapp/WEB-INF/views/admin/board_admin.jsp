@@ -38,7 +38,6 @@
 		goBoardListAll();
 	
 		$('.btnDate').on('click', function() {
-
 			$('.btnDate').removeClass('selected');
 			$(this).addClass('selected');
 		});
@@ -47,6 +46,19 @@
 		
 	});
 	
+	
+	function chageLangSelect(data){
+		if(data.options[data.selectedIndex].value == "reply"){
+			$("#searchboard_Type").val("content").prop("selected", true);  // 값이 content인거 선택
+		}
+	}
+	
+	function chagesearchboardTypeSelect(data){
+		
+		if(data.options[data.selectedIndex].value == "title"){
+			$("#searchBoardCategory").val("board").prop("selected", true);  // 값이 content인거 선택
+		}
+	}
 	
 // 	let date = new Date(this.replyBoard_writeDate);
 	
@@ -94,27 +106,19 @@ function getPastDate(period){
 		let searchselectedCategory = $("select[name=searchselectedCategory]").val(); // 게시판인지 댓글인지 구분
 		let searchboardType = $("select[name=searchboardType]").val(); // 제목, 내용, 작성자 구분
 	    let searchTxtValue = "none";
-	    	
-	    	
-		
-		if($("#searchBoard_key").val() != ""){
+	    let page = $("#pageSave").val();
+	    if($("#searchBoard_key").val() != ""){
 			searchTxtValue = $("#searchBoard_key").val();
 		}
-		
-		let page = $("#pageSave").val();
-		
-			console.log(goStartDate);
-			console.log(goEndDate);
-			console.log(board_category);
-			console.log(searchselectedCategory);
-			console.log(searchboardType);
-			console.log(searchTxtValue);
-			console.log(page);
-		
-		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
-			console.log("아작스");
-			console.log(data);
+	    
+// 		if(data == "none"){
 			
+// 		}
+	
+	    
+		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
+		
+			console.log(data);
 // 			$(data).each(function(index, item){
 			
 			
@@ -654,16 +658,16 @@ table {
 									<th scope="row">게시글 찾기</th>
 									<td colspan="3">
 									<select id="searchBoardCategory" name="searchselectedCategory"
-										class="fSelect">
+										class="fSelect" onchange="chageLangSelect(this);" >
 											<option selected value="board">게시판</option>
 											<option value="reply">댓글</option>
 									</select> 
 									
-									<select id="search" name="searchboardType"
-										class="fSelect">
-											<option selected value="subject">제목</option>
+									<select id="searchboard_Type" name="searchboardType"
+										class="fSelect" onchange="chagesearchboardTypeSelect(this);" >
+											<option selected value="title">제목</option>
 											<option value="content">내용</option>
-											<option value="writer_name">작성자</option>
+											<option value="member_id">작성자</option>
 									</select> <input type="text" id="searchBoard_key" name="search_key" value=""
 										class="fText" style="width: 400px;"  ></td>
 								</tr>
@@ -672,7 +676,7 @@ table {
 						</table>
 					</div>
 					<div class="mButton gCenter">
-						<a id="eBtnSearch" href="javascript:searchGoCondition();"
+						<a id="eBtnSearch" href="javascript:goBoardListAll();"
 							class="btnSearch"><span>검색</span></a>
 
 					</div>

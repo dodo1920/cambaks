@@ -30,4 +30,6 @@ public interface prodDetailDAO {
 	
 	public List<mallMainTopCountDTO> getTopReview() throws Exception;
 
+	public int updateAddBucketQty(InsertintoBucketDTO updateAddBucket) throws Exception;
+
 }

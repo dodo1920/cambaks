@@ -17,6 +17,7 @@ import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
@@ -192,7 +193,20 @@ public class adminServiceImpl implements adminService {
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 승권 ==============================================================================
-		
+	   /**
+		  * @Method Name : insertProduct
+		  * @작성일 : 2021. 4. 28.
+		  * @작성자 : goott6
+		  * @변경이력 : 
+		  * @Method 설명 :
+		  * @param vo
+		  * @return
+		  * @throws Exception
+		  */
+		@Override
+		public int insertProduct(ProductsVO vo) throws Exception {
+			return dao.insertProduct(vo);
+		}
 		
 		
 		
@@ -283,8 +297,34 @@ public class adminServiceImpl implements adminService {
 			// TODO Auto-generated method stub
 			return dao.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
 		}
+		
+		@Override
+		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+		}
+		
+		@Override
+		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue,PagingCriteria pc) throws Exception {
+			
+			return dao.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+		}
+		
+		@Override
+		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception {
+			
+			return dao.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+		}
 
-	
+		public int getTodayTotCnt() throws Exception {
+			
+			return dao.getTodayTotCnt();
+		}
+		
+		public int getTodayreplyTotCnt() throws Exception {
+			
+			return dao.getTodayreplyTotCnt();
+		}
 		
 		
 		
@@ -315,6 +355,7 @@ public class adminServiceImpl implements adminService {
 		
 		for (int i = 0; i < vo.size(); i++) {
 			vo.get(i).setOrderProductNum(dao.orderProductNum(vo.get(i).getPayment_no()) - 1); // 해당 상품의 리뷰 개수 넣기
+			vo.get(i).setBuyProduct_totPrice(dao.orderTotalPrice(vo.get(i).getPayment_no())); // 해당 주문의 총 결제 금액 넣기
 		}
 		
 		param.put("orderList", vo);
@@ -326,6 +367,8 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+	
 
 
 

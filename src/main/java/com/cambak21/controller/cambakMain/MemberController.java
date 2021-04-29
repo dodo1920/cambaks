@@ -148,8 +148,22 @@ public class MemberController {
        }
       
       }
-         return "redirect:/index/main";
-   }	
+      
+      String referer = request.getHeader("REFERER");
+	   HttpSession ses = request.getSession();
+	   
+	  if (ses.getAttribute("prevPage") != null) {
+		  ses.setAttribute("prevPage", referer);
+	  } else {
+		  ses.removeAttribute("prevPage");
+		  ses.setAttribute("prevPage", referer);
+	  }
+	   
+      return "/cambakMain/user/login";
+//         return "redirect:/index/main";
+   }
+   
+   
 	
 //	김대기 멤버 탈퇴 파트 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	@RequestMapping(value = "/resign", method = RequestMethod.GET)

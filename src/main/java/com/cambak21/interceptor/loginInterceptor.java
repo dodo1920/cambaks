@@ -23,8 +23,8 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
          throws Exception {
       
-      logger.info("로그인 하기 전 . . . . . . . . . .");
       HttpSession ses = request.getSession();
+      logger.info("로그인 하기 전 . . . . . . . . . .");
       
       if(ses.getAttribute("loginMember") != null) {    // 이전 로그인 정보가 세션에 남아 있다면
             ses.removeAttribute("loginMember");   // 로그인 정보 삭제
@@ -38,11 +38,11 @@ public class loginInterceptor extends HandlerInterceptorAdapter{
    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
         HttpSession ses = request.getSession();
-//         ModelMap modelMap = modelAndView.getModelMap();
-//         MemberVO vo = (MemberVO) modelMap.get("loginMember");
-         MemberVO vo = (MemberVO)ses.getAttribute("loginMember");
+         ModelMap modelMap = modelAndView.getModelMap();
+         MemberVO vo = (MemberVO) modelMap.get("loginMember");
+//         MemberVO vo = (MemberVO)ses.getAttribute("loginMember");
          
-         System.out.println("무야호 : " + vo);
+         System.out.println("멤퍼븨오 : " + vo);
         
          if(vo != null) {
       

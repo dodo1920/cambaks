@@ -127,6 +127,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
     bottom: 80px;
     display: none;
     cursor: pointer;
+    z-index: 99999;
  }
  
  #main-sidebar{

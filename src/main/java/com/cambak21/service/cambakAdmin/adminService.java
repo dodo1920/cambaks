@@ -9,6 +9,7 @@ import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -91,8 +92,8 @@ public interface adminService {
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 승권 ==============================================================================
-		
-		
+		// 상품 등록
+		int insertProduct(ProductsVO vo) throws Exception;
 		
 		
 		
@@ -152,7 +153,16 @@ public interface adminService {
 //		============================================== 종진 ==============================================================================
 		
 		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
+
+		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
 		
+		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
+		
+		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
+		
+		public int getTodayTotCnt() throws Exception;
+	
+		public int getTodayreplyTotCnt() throws Exception;
 		
 		
 		

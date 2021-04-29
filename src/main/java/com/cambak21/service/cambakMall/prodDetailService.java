@@ -29,4 +29,6 @@ public interface prodDetailService {
 	public boolean updateNonUserBucketQty(InsertintoNonUserBucketDTO updateNonUserBucket) throws Exception;
 	
 	public List<mallMainTopCountDTO> getTopReview() throws Exception;
+
+	public boolean updateAddBucketQty(InsertintoBucketDTO updateAddBucket) throws Exception;
 }

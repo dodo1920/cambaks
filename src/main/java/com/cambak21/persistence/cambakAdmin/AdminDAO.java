@@ -5,6 +5,7 @@ import java.util.List;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
@@ -37,7 +38,9 @@ public interface AdminDAO {
 	
 	public int updateMember(UpdateAdminMemberDTO dto) throws Exception;
 	
-	
+	public int getTodayTotCnt() throws Exception;
+
+	public int getTodayreplyTotCnt() throws Exception;
 	
 	
 	
@@ -91,8 +94,8 @@ public interface AdminDAO {
 //	---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 	
 //	============================================== 승권 ==============================================================================
-	
-	
+	// 상품 등록
+	int insertProduct(ProductsVO vo) throws Exception;
 	
 	
 	
@@ -158,6 +161,13 @@ public interface AdminDAO {
 //	============================================== 종진 ==============================================================================
 	
 	public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
+
+	public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception;
+	
+	
+	public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
+	
+	public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception;
 	
 	
 	
@@ -193,7 +203,7 @@ public interface AdminDAO {
 	
 	public int orderProductNum(int payment_no) throws Exception;
 
-
+	public int orderTotalPrice(int payment_no) throws Exception;
 
 
 

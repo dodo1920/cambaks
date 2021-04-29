@@ -141,7 +141,11 @@ public class MallMainController {
 					if(getloginCook != null) {
 						String[] array = getloginCook.getValue().split("-");
 						for(int i=0; i < array.length; i++) {
-							allRecentlyProd.add(service.getBasicInfo(Integer.parseInt(array[i])));
+							
+						    if(service.getBasicInfo(Integer.parseInt(array[i])) != null) {
+						    	allRecentlyProd.add(service.getBasicInfo(Integer.parseInt(array[i])));
+						    }
+						    
 						}
 						entity = new ResponseEntity<List<ProductsVO>>(allRecentlyProd, HttpStatus.OK);
 					  }

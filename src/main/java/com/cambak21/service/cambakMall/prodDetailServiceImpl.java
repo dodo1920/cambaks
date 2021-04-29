@@ -102,4 +102,18 @@ public class prodDetailServiceImpl implements prodDetailService {
 		return dao.getTopReview();
 	}
 
+	@Override
+	public boolean updateAddBucketQty(InsertintoBucketDTO updateAddBucket) throws Exception {
+		boolean result = false;
+		
+		int i = dao.updateAddBucketQty(updateAddBucket);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+		
+	}
+
 }

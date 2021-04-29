@@ -81,4 +81,9 @@ public class prodDetailDAOImpl implements prodDetailDAO {
 		return ses.selectList(namespace + ".getTopReview");
 	}
 
+	@Override
+	public int updateAddBucketQty(InsertintoBucketDTO updateAddBucket) throws Exception {
+		return ses.update(namespace + ".updateAddBucketQty", updateAddBucket);
+	}
+
 }

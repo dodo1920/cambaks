@@ -100,7 +100,14 @@
   	<update id="updateBucketQty">
   		update Buckets 
   		set bucket_buyQty = #{bucket_buyQty}, bucket_totBuyPrice = #{bucket_totBuyPrice}
-  		where member_id = #{member_id} and bucket_no = #{bucket_no}
+  		where member_id = #{member_id}  
+  		
+  		<if test="bucket_no != 0">
+  			and bucket_no = #{bucket_no}
+  		</if>
+  		<if test="bucket_no == 0">
+  			and product_id = #{product_id} and bucket_isDelete = 'N'
+  		</if>
   	</update>
   	
   	<select id="checkBucketQty" resultType="int">
@@ -130,6 +137,12 @@
   		select avg(pr.prodReview_grade) as star, pr.product_id, p.product_name, p.product_sellPrice, p.product_img1 from ProdReviews pr, 
   		Products p where pr.product_id = p.product_id group by pr.product_id order by star desc limit 0, 4
   	</select>
+  	
+  	<update id="updateAddBucketQty">
+  		update Buckets 
+  		set bucket_buyQty = bucket_buyQty + #{bucket_buyQty}, bucket_totBuyPrice = bucket_totBuyPrice + #{bucket_totBuyPrice}
+  		where member_id = #{member_id} and product_id = #{product_id} and bucket_isDelete = 'N'
+  	</update>
   	
   	<!-- 김정민 맵퍼 -->
   	
