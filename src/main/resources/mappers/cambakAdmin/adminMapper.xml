@@ -107,24 +107,97 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   </select>
 
   
+  <select id="selectEachWeek" resultType="com.cambak21.domain.RevenueEachWeekVO">
+  <![CDATA[
+  select count(b.buyProduct_no) as buyProduct_no ,sum(b.buyProduct_qty) as buyProduct_qty,DATE_FORMAT(p.payment_date, '%Y-%u') as payment_week,
+sum(buyProduct_deliveriPay) as buyProduct_deliveriPay,sum(buyProduct_totPrice) as buyProduct_totPrice
+,   date_sub(p.payment_date, interval 0 week) as weeks,
+ date_format(
+    if(
+      weekday(
+        date_sub(p.payment_date, interval 0 week)
+      ) = 0, 
+      date_sub(p.payment_date, interval 0 week), 
+      date_sub(
+        date_sub(p.payment_date, interval 0 week), 
+        interval (
+          weekday(
+            date_sub(p.payment_date, interval 0 week)
+          )
+        ) DAY
+      )
+    ), 
+    '%Y-%m-%d'
+  ) AS startDate,
+date_format(
+    if(
+      weekday(
+        date_sub(p.payment_date, interval 0 week)
+      ) = 6, 
+      date_sub(p.payment_date, interval 0 week), 
+      date_add(
+        date_sub(p.payment_date, interval 0 week), 
+        interval (
+          6 - weekday(
+            date_sub(p.payment_date, interval 0 week)
+          )
+        ) DAY
+      )
+    ), 
+    '%Y-%m-%d'
+  ) AS endDate from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where buyProduct_isFinished = 'Y' and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{revenueWeekly} WEEK)) and payment_date < (SELECT DATE_ADD(NOW(), INTERVAL -#{revenueWeekly} +1 WEEK))
+group by DATE_FORMAT(p.payment_date, '%Y-%u') order by startDate desc ]]>
+  </select>
   
+  <select id="selectEachWeekRefund" resultType="com.cambak21.domain.RevenueEachWeekVO">
+  <![CDATA[
+  select sum(buyProduct_totPrice) as buyProduct_refundTotPrice
+,  date_sub(p.payment_date, interval 0 week) as weeks,DATE_FORMAT(p.payment_date, '%Y-%u') as payment_week,
+ date_format(
+    if(
+      weekday(
+        date_sub(p.payment_date, interval 0 week)
+      ) = 0, 
+      date_sub(p.payment_date, interval 0 week), 
+      date_sub(
+        date_sub(p.payment_date, interval 0 week), 
+        interval (
+          weekday(
+            date_sub(p.payment_date, interval 0 week)
+          )
+        ) DAY
+      )
+    ), 
+    '%Y-%m-%d'
+  ) AS startDate,
+date_format(
+    if(
+      weekday(
+        date_sub(p.payment_date, interval 0 week)
+      ) = 6, 
+      date_sub(p.payment_date, interval 0 week), 
+      date_add(
+        date_sub(p.payment_date, interval 0 week), 
+        interval (
+          6 - weekday(
+            date_sub(p.payment_date, interval 0 week)
+          )
+        ) DAY
+      )
+    ), 
+    '%Y-%m-%d'
+  ) AS endDate  from BuyProducts b join Payments p 
+on b.buyProduct_no = p.buyProduct_no 
+where payment_isComit='환불' and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{revenueWeekly} WEEK)) and payment_date < (SELECT DATE_ADD(NOW(), INTERVAL -#{revenueWeekly} +1 WEEK))
+ group by startDate order by startDate desc ]]>
+  </select>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  <select id="productAnalysis" resultType="com.cambak21.domain.ProductAnalysisVO">
+  	select sum(buyProduct_totPrice) as buyProduct_totPrice, sum(buyProduct_qty) as product_count, product_name, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where payment_isComit = '결제완료' and now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -#{perDate} DAY)) group by product_name limit 0, 9;
+  </select>
   
   
   <!-- ***************************************** 대기 끝 ********************************************************************************* -->

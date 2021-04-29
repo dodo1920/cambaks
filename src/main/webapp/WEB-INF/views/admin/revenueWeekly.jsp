@@ -101,8 +101,7 @@
                  
               }, // 통신 실패시
               complete : function(result) {
-                 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-                 console.log(result);
+               
 //                  if(result != null){
                     
 //                  }
@@ -110,6 +109,46 @@
                  
               } // 통신 완료시
            });
+      $.ajax({
+          type : "get",
+          dataType : "json", // 받을 데이터
+          //contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+          url : "revenue/selectEveryWeekly",// 서블릿 주소
+          data : {revenueWeekly : revenueWeekly},
+          success : function(result) {
+        	console.log("result = " + result);
+        	
+        	if(result.revenue.length > result.revenue1.length){
+        		
+        		
+        		$(result.revenue).each(function(idx, obj){
+        			/* console.log(obj);
+        			let output = '';
+        			console.log(obj.buyProduct_no);
+        			output = '<tr><td>' + obj.startDate+ '~'+ obj.endDate + '</td>';
+        			output = '<td>' + obj.buyProduct_no + '</td><td>' + obj.buyProduct_qty + '</td><td>' + obj.buyProduct_totPrice+'</td>';
+        			output = '<td>' + obj.buyProduct_deliveriPay+'</td><td>' + obj.buyProduct_totPrice+ obj.buyProduct_deliveriPay +'</td></tr>';
+        			
+        			
+        			
+        			$("#statisticsWeek").append(output); */
+        		});
+        		
+        		
+        	}else{
+        		let output = '<tr>';
+        		
+        	}
+            
+             
+          }, // 통신 성공시
+          error : function(result) {
+             
+          }, // 통신 실패시
+          complete : function(result) {
+          
+          } // 통신 완료시
+       });
       
    }
    
@@ -314,14 +353,16 @@ $(function(){
       </tr>
       <tr>
          <td>전월</td>
-         <td id="prevMonthRevenue"><c:choose>
-                  <c:when test="${prevWeekRevenue == null }">
+         <td id="prevMonthRevenue"> 
+        	 <c:choose>
+                 <c:when test="${prevWeekRevenue == null }">
                      0
-                  </c:when>
-                  <c:when test="${prevWeekRevenue }">
+                  </c:when> 
+                  <c:when test="${prevWeekRevenue != null}">
                      ${prevWeekRevenue.buyProduct_totPrice }
                   </c:when>
-               </c:choose></td>
+               </c:choose>
+               </td>
          <td id="prevMonthRefund"><c:choose>
                   <c:when test="${prevWeekRefund == null }">
                      0
@@ -353,9 +394,10 @@ $(function(){
 				<th>주문수</th>
 				<th>품목수</th>
 				<th>상품구매금액</th>
+				<th>배송료</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="statisticsWeek">
 			
 		</tbody>
 	</table>

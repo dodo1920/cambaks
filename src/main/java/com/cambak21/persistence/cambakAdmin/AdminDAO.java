@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
@@ -70,16 +72,13 @@ public interface AdminDAO {
 
 	public RevRefundVO prevWeekRefund()throws Exception;
 
+	public RevenueEachWeekVO selectEachWeek(int revenueWeekly)throws Exception;
 	
+	public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly)throws Exception;
+
+	public List<ProductAnalysisVO> productAnalysis(int perDate)throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 //	---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
@@ -177,7 +176,55 @@ public interface AdminDAO {
 	
 	
 	public int orderProductNum(int payment_no) throws Exception;
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	

@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MemberVO;
-
+import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
@@ -147,8 +148,25 @@ public class adminServiceImpl implements adminService {
 	      // TODO Auto-generated method stub
 	      return dao.prevWeekRefund();
 	   }
+	   
+	   @Override
+		public RevenueEachWeekVO selectEachWeek(int revenueWeekly) throws Exception {
+			
+			return dao.selectEachWeek(revenueWeekly);
+		}
 		
-		
+		@Override
+		public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.selectEachWeekRefund(revenueWeekly);
+		}
+
+		@Override
+		public List<ProductAnalysisVO> productAnalysis(int perDate) throws Exception {
+			
+			return dao.productAnalysis(perDate);
+		}
+
 		
 		
 		
@@ -279,24 +297,43 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		
 		

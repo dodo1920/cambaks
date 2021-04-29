@@ -255,7 +255,7 @@ $(function(){
 						<c:when test="${thisMonthRevenue == null }">
 							0
 						</c:when>
-						<c:when test="${thisMonthRevenue }">
+						<c:when test="${thisMonthRevenue != null }">
 							${thisMonthRevenue.buyProduct_totPrice }
 						</c:when>
 					</c:choose> </td>
@@ -264,7 +264,7 @@ $(function(){
 						<c:when test="${thisMonthRefund == null }">
 							0
 						</c:when>
-						<c:when test="${thisMonthRefund }">
+						<c:when test="${thisMonthRefund != null }">
 							${thisMonthRefund.buyProduct_totPrice }
 						</c:when>
 					</c:choose></td>
@@ -278,7 +278,7 @@ $(function(){
 						<c:when test="${prevMonthRevenue == null }">
 							0
 						</c:when>
-						<c:when test="${prevMonthRevenue }">
+						<c:when test="${prevMonthRevenue != null }">
 							${prevMonthRevenue.buyProduct_totPrice }
 						</c:when>
 					</c:choose></td>
@@ -286,7 +286,7 @@ $(function(){
 						<c:when test="${prevMonthRefund == null }">
 							0
 						</c:when>
-						<c:when test="${prevMonthRefund }">
+						<c:when test="${prevMonthRefund != null }">
 							${prevMonthRefund.buyProduct_totPrice }
 						</c:when>
 					</c:choose></td>

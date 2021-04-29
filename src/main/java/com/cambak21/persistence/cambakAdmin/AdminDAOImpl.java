@@ -12,12 +12,14 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MemberVO;
+import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.util.PagingCriteria;
@@ -141,17 +143,25 @@ public class AdminDAOImpl implements AdminDAO {
 	      return ses.selectOne(ns + ".prevWeekRefund");
 	   }
 	      
+
+		@Override
+		public RevenueEachWeekVO selectEachWeek(int revenueWeekly)throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeek", revenueWeekly);
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		@Override
+		public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeekRefund", revenueWeekly);
+		}
+
+		@Override
+		public List<ProductAnalysisVO> productAnalysis(int perDate) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectList(ns + ".productAnalysis", perDate);
+		}
+
 		
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
@@ -278,7 +288,54 @@ public class AdminDAOImpl implements AdminDAO {
 	public int orderProductNum(int payment_no) throws Exception {
 		return ses.selectOne(ns + ".orderProductNum", payment_no);
 	}
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		
 		
