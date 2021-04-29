@@ -210,7 +210,7 @@ public interface AdminDAO {
 	public List<AdminOrderListVO> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception;
 
 
-
+	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception;
 
 
 

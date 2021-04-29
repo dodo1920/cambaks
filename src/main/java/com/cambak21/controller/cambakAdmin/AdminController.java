@@ -427,7 +427,7 @@ public class AdminController {
     	  vo.setSearchDateRange("range");
       } else if (checkDate == 0 && checkLowDate.length() != 0 && checkHighDate.length() != 0) {
     	  checkLowDate = checkLowDate + " 00:00:00";
-    	  checkHighDate = checkHighDate + " 00:00:00";
+    	  checkHighDate = checkHighDate + " 23:59:59";
     	  
     	  SimpleDateFormat tmpStartDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	  Date startDate = tmpStartDate.parse(checkLowDate);
@@ -442,9 +442,12 @@ public class AdminController {
       
       System.out.println(vo.toString());
       
-      service.orderManageSearch(vo, cri);
+      Map<String, Object> param = service.orderManageSearch(vo, cri);
+      System.out.println(param.toString());
       
-      return "/admin/adminOrderManagementSearch";
+      model.addAttribute("order", param);
+      
+      return "/admin/adminOrderSearch";
    }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

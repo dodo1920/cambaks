@@ -10,6 +10,7 @@ public class OrderManagementSearchVO {
 	private Date endDate;
 	private String productInfo;
 	private String productInfoSearch;
+	private String csOrderRange;
 	private boolean purchaseConfirmationBefore;
 	private boolean purchaseConfirmation;
 	private boolean orderDeliveryReady;
@@ -65,6 +66,12 @@ public class OrderManagementSearchVO {
 	}
 	public void setProductInfoSearch(String productInfoSearch) {
 		this.productInfoSearch = productInfoSearch;
+	}
+	public String getCsOrderRange() {
+		return csOrderRange;
+	}
+	public void setCsOrderRange(String csOrderRange) {
+		this.csOrderRange = csOrderRange;
 	}
 	public boolean isPurchaseConfirmationBefore() {
 		return purchaseConfirmationBefore;
@@ -149,14 +156,14 @@ public class OrderManagementSearchVO {
 	public String toString() {
 		return "OrderManagementSearchVO [checkOption=" + checkOption + ", checkOptionSearch=" + checkOptionSearch
 				+ ", searchDateRange=" + searchDateRange + ", startDate=" + startDate + ", endDate=" + endDate
-				+ ", productInfo=" + productInfo + ", productInfoSearch=" + productInfoSearch
-				+ ", purchaseConfirmationBefore=" + purchaseConfirmationBefore + ", purchaseConfirmation="
-				+ purchaseConfirmation + ", orderDeliveryReady=" + orderDeliveryReady + ", orderOnDelivery="
-				+ orderOnDelivery + ", orderDeliveryCompleted=" + orderDeliveryCompleted + ", csCancelRequest="
-				+ csCancelRequest + ", csCancelCompleted=" + csCancelCompleted + ", csChangeRequest=" + csChangeRequest
-				+ ", csChangeCompleted=" + csChangeCompleted + ", csReturnRequest=" + csReturnRequest
-				+ ", csReturnCompleted=" + csReturnCompleted + ", csRefundRequest=" + csRefundRequest
-				+ ", csRefundCompleted=" + csRefundCompleted + "]";
+				+ ", productInfo=" + productInfo + ", productInfoSearch=" + productInfoSearch + ", csOrderRange="
+				+ csOrderRange + ", purchaseConfirmationBefore=" + purchaseConfirmationBefore
+				+ ", purchaseConfirmation=" + purchaseConfirmation + ", orderDeliveryReady=" + orderDeliveryReady
+				+ ", orderOnDelivery=" + orderOnDelivery + ", orderDeliveryCompleted=" + orderDeliveryCompleted
+				+ ", csCancelRequest=" + csCancelRequest + ", csCancelCompleted=" + csCancelCompleted
+				+ ", csChangeRequest=" + csChangeRequest + ", csChangeCompleted=" + csChangeCompleted
+				+ ", csReturnRequest=" + csReturnRequest + ", csReturnCompleted=" + csReturnCompleted
+				+ ", csRefundRequest=" + csRefundRequest + ", csRefundCompleted=" + csRefundCompleted + "]";
 	}
 	
 }
