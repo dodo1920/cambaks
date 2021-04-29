@@ -143,7 +143,9 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
 	(#{mainCategory_id}, #{middleCategory_id}, #{product_name}, #{product_purchPrice}, #{product_purchaseQty}, #{product_saleQty}, #{product_purchaseQty}, #{product_sellPrice}, #{product_factory}, #{product_detail}, #{product_img1}, #{product_show}, #{product_shipPrice}, #{product_title}, #{product_popularProduct});
   </insert>
   
-  
+  <select id="getProduct" resultType="com.cambak21.domain.ProductsVO">
+  	select * from Products where product_id = #{product_id}
+  </select>
   
   
   

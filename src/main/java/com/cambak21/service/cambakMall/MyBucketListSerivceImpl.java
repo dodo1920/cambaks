@@ -69,14 +69,14 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	@Override
 	@Transactional
 	public void deleteItem(String member_id, int product_id) throws Exception {
-		dao.deleteItemBP(member_id, product_id);
+//		dao.deleteItemBP(member_id, product_id);
 		dao.deleteItemB(member_id, product_id);
 	}
 
 	@Override
 	@Transactional
 	public void deleteItemAll(String member_id) throws Exception {
-		dao.deleteItemAllBP(member_id);
+//		dao.deleteItemAllBP(member_id);
 		dao.deleteItemAllB(member_id);
 	}
 
@@ -92,9 +92,8 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	  * @throws Exception
 	  */
 	@Override
-	@Transactional
 	public void goOrder(String member_id) throws Exception {
-		dao.deleteItemAllBP(member_id);
+//		dao.deleteItemAllBP(member_id);
 		dao.insertBP(dao.getCheckedY(member_id));
 	}
 

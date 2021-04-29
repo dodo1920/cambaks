@@ -298,6 +298,14 @@ public class AdminController {
 	   return "redirect:/admin/prodList";
    }
    
+   @RequestMapping("/productModify")
+   public String productModify(@RequestParam("product_id") String product_id, Model model) throws Exception {
+	   
+	   model.addAttribute("product", service.getProduct(product_id));
+	   
+	   return "/admin/productModi";
+   }
+   
    /**
   * @Method Name : productDetail_imgUpload
   * @작성일 : 2021. 4. 27.
