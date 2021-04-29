@@ -324,10 +324,10 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by board_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   	
-  	<select id="goGetreply_admin" resultType="com.cambak21.domain.ReplyBoardVO">
-  		select * from ReplyBoards r, Boards b where
+  	<select id="goGetreply_admin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
+  		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where r.board_no = b.board_no and 
 	  		<if test="board_category != 'all'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and 
+	  			 b.board_category = #{board_category} and 
 	  		</if>
   		date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by replyBoard_no desc limit #{pageStart}, #{perPageNum}
   	</select>
@@ -414,8 +414,8 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   	</select>
   	
   	
-  	<select id="searchGetreply_admin" resultType="com.cambak21.domain.ReplyBoardVO">
-  		select * from ReplyBoards r, Boards b where
+  	<select id="searchGetreply_admin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
+  		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where
   		
   			<if test="board_category == 'all' and searchboardType == 'title'">
 	  			 r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
@@ -499,9 +499,9 @@ payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -1 WEEK)) group by DATE_FORMAT(p
   	</select>
   	
   	<select id="getReply_adminCnt" resultType="int">
-  		select count(*) from ReplyBoards r, Boards b where
+  		select count(*) from ReplyBoards r, Boards b where r.board_no = b.board_no and 
 	  		<if test="board_category != 'all'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and 
+	  			 b.board_category = #{board_category} and 
 	  		</if>
   		date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}
   	</select>

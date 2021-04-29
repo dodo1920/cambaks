@@ -47,6 +47,8 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
+
 import org.springframework.web.util.WebUtils;
 
 import com.cambak21.controller.HomeController;
@@ -57,7 +59,6 @@ import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
-import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.ChattingImageUploads;
@@ -343,9 +344,8 @@ public class AdminController {
 //	   System.out.println(to);
 	
 	   Map<String, Object> para = new HashMap<String, Object>();
-	   
 	   List<BoardVO> Boardlst = new ArrayList<BoardVO>();
-	   List<ReplyBoardVO> replyBoardlst = new ArrayList<ReplyBoardVO>();
+	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
 	   pc.setPage(page);
@@ -362,27 +362,31 @@ public class AdminController {
 			    if(searchselectedCategory.equals("board")) {
 			    	Boardlst = service.goGetBoard_admin(BAcri1, pc);
 			    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+			    	para.put("Boardlst", Boardlst);
 			    }
 				
 			    if(searchselectedCategory.equals("reply")) {
 			    	replyBoardlst = service.goGetreply_admin(BAcri1, pc);
 			    	pp.setTotalCount(service.getReply_adminCnt(BAcri1));
+			    	para.put("replyBoardlst", replyBoardlst);
 			    }
-			para.put("Boardlst", Boardlst);
+			
 			}else {
 			
 				 if(searchselectedCategory.equals("board")) {
 				    	Boardlst = service.searchGetBoard_admin(BAcri2,pc);
 				    	pp.setTotalCount(service.getsearchBoard_adminCnt(BAcri2));
+				    	para.put("Boardlst", Boardlst);	
 				    }
 					
 				    if(searchselectedCategory.equals("reply")) {
 				    	replyBoardlst = service.searchGetreply_admin(BAcri2, pc);
 				    	pp.setTotalCount(service.getsearchReply_adminCnt(BAcri2));
+				    	para.put("replyBoardlst", replyBoardlst);	
 				    }
 		
-			    para.put("Boardlst", Boardlst);	
-			    para.put("replyBoardlst", replyBoardlst);	
+			    
+			  
 			}
 			 para.put("todayTotCnt", service.getTodayTotCnt());
 			 para.put("todayreplyTotCnt", service.getTodayreplyTotCnt());

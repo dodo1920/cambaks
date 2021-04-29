@@ -42,27 +42,159 @@ let AfterResultList = new Array();
 			$('.btnDate').removeClass('selected');
 			$(this).addClass('selected');
 		});
-
-		
-		
+	
 	});
 	
-	function changeResultViewList(data){
-		if(data.options[data.selectedIndex].value == "basic"){
-			console.log("기본 정렬");
-		}else if(data.options[data.selectedIndex].value == "viewCnt"){
-			console.log("조회 수 정렬");
-			AfterResultList = ResultList.Boardlst;
+	function BoardOutputGo(data){
+		let outputList = "";
+		console.log(data);
+			$(data).each(function(index, item){		
 			
+				let date = new Date(this.board_writeDate);
+				var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+			    let date111 = new Date(this.board_updateDate);
+			    var modifyDate = date111.getFullYear() + "-" + (date111.getMonth() + 1)  + "-" + date111.getDate() + "     " + date111.getHours() + ":" + date111.getMinutes();
+			
+			    let Category = "";
+				let CategoryLink = "";
+				outputList += "<tr>";
+				if(this.board_category == "humor"){
+					Category = "유머";
+					CategoryLink = "/board/humor/read?no=";
+				}else if(this.board_category == "QA"){
+					Category = "Q&A";
+					CategoryLink = "/board/qa/detail?no=";
+				}else if(this.board_category == "Tip"){
+					Category = "캠핑팁";
+					CategoryLink = "/board/campingTip/view?id=Tip&no=";
+				}else if(this.board_category == "CS"){
+					Category = "고객센터";
+					CategoryLink = "/board/cs/detail?no=";
+				}else if(this.board_category == "notice"){
+					Category = "공지사항";
+					CategoryLink = "/board/notice/read?no=";
+				}
+			
+				outputList += '<td><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
+				outputList += '<td>' + this.board_no + '</td><td>' + Category + '</td>';
+				outputList += '<td class="left"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
+				outputList += '<td>' + this.member_id + '</td>';
+				outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
+				outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
+			});
+		
+			$("#boardListFrame").html(outputList);
+			
+	}
+	
+	function replyOutputGo(data){
+		let outputList = "";
+		
+		$(data).each(function(index, item){		
+			
+			let date = new Date(this.board_writeDate);
+			var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+		    let date111 = new Date(this.board_updateDate);
+		    var modifyDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+									
+			let replydate = new Date(this.replyBoard_writeDate);
+			var replywriteDate = replydate.getFullYear() + "-" + (replydate.getMonth() + 1)  + "-" + replydate.getDate() + "     " + replydate.getHours() + ":" + replydate.getMinutes();
+		    let replydate111 = new Date(this.replyBoard_updateDate);
+		    var replymodifyDate = replydate111.getFullYear() + "-" + (replydate111.getMonth() + 1)  + "-" + replydate111.getDate() + "     " + replydate111.getHours() + ":" + replydate111.getMinutes();
+			
+		    
+		    let Category = "";
+			let CategoryLink = "";
+			outputList += "<tr>";
+			if(this.board_category == "humor"){
+				Category = "유머";
+				CategoryLink = "/board/humor/read?no=";
+			}else if(this.board_category == "QA"){
+				Category = "Q&A";
+				CategoryLink = "/board/qa/detail?no=";
+			}else if(this.board_category == "Tip"){
+				Category = "캠핑팁";
+				CategoryLink = "/board/campingTip/view?id=Tip&no=";
+			}else if(this.board_category == "CS"){
+				Category = "고객센터";
+				CategoryLink = "/board/cs/detail?no=";
+			}else if(this.board_category == "notice"){
+				Category = "공지사항";
+				CategoryLink = "/board/notice/read?no=";
+			}
+			
+			outputList += '<td><br/><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
+			outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + Category + '</td>';
+			outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+			outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+			outputList += '<td><br/><a href="#"><span>본문 미리보기</span></a></td>';
+			outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+		});
+	
+		
+	
+		
+		$("#boardListFrame").html(outputList);
+		
+	}
+		
+		
+		
+		
+		
+	function changeResultViewList(data){
+			let outputList = "";
+	
+	if(ResultList.Boardlst != null){	
+		AfterResultList = ResultList.Boardlst;
+		
+		if(data.options[data.selectedIndex].value == "basic"){
+		
+			AfterResultList.sort(function(a, b){
+				return b.board_no - a.board_no;
+			});
+
+			BoardOutputGo(AfterResultList);
+		
+		}else if(data.options[data.selectedIndex].value == "viewCnt"){
+	
 			AfterResultList.sort(function(a, b){
 				return b.board_viewCnt - a.board_viewCnt;
 			});
-			console.log(AfterResultList);
-// 			console.log(ResultList.sort(ResultList.Boardlst.board_viewCnt));
 			
+			BoardOutputGo(AfterResultList);
+		}
+	}
+		
+
+		if(ResultList.replyBoardlst != null){
+			
+			AfterResultList = ResultList.replyBoardlst;
+					if(data.options[data.selectedIndex].value == "basic"){
+						
+						AfterResultList.sort(function(a, b){
+							return b.board_no - a.board_no;
+						});
+						
+					replyOutputGo(AfterResultList);
+			
+				
+					}else if(data.options[data.selectedIndex].value == "viewCnt"){
+						
+						
+						AfterResultList.sort(function(a, b){
+							return b.board_viewCnt - a.board_viewCnt;
+						});
+						
+						replyOutputGo(AfterResultList);
+					}
 		}
 	
 	}
+
+	
+	
+	
 	
 	function chageLangSelect(data){
 		if(data.options[data.selectedIndex].value == "reply"){
@@ -117,6 +249,7 @@ function getPastDate(period){
 }
 
 	function goBoardListAll(){
+		
 		let goStartDate = $("#startDate").val();
 		let goEndDate = $("#endDate").val();
 		let board_category = $("select[name=cate_board_type]").val(); // 공지, 팁, 후기, 문의 인지 구분
@@ -128,23 +261,104 @@ function getPastDate(period){
 			searchTxtValue = $("#searchBoard_key").val();
 		}
 	    
-// 	    console.log(typeof($("#endDate").val()));
-	    
-	    
-// 		if(data == "none"){
-			
-// 		}
-	
-	    
 		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
-			
+	
 			$("#newBoardCnt").html(data.todayTotCnt);
 			$("#newReplyCnt").html(data.todayreplyTotCnt);
 			$("#totalResultCnt").html(data.pagingParam.totalCount);
+			console.log(data);
 			ResultList = data;
-			console.log(ResultList);
-// 			$(data).each(function(index, item){			
-// 			});
+	
+			let outputList = "";
+				
+				if(data.replyBoardlst != null){
+					
+						$(data.replyBoardlst).each(function(index, item){		
+						
+						let date = new Date(this.board_writeDate);
+						var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+					    let date111 = new Date(this.board_updateDate);
+					    var modifyDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+												
+						let replydate = new Date(this.replyBoard_writeDate);
+						var replywriteDate = replydate.getFullYear() + "-" + (replydate.getMonth() + 1)  + "-" + replydate.getDate() + "     " + replydate.getHours() + ":" + replydate.getMinutes();
+					    let replydate111 = new Date(this.replyBoard_updateDate);
+					    var replymodifyDate = replydate111.getFullYear() + "-" + (replydate111.getMonth() + 1)  + "-" + replydate111.getDate() + "     " + replydate111.getHours() + ":" + replydate111.getMinutes();
+						
+					    
+					    
+					    
+					    let Category = "";
+						let CategoryLink = "";
+						outputList += "<tr>";
+						if(this.board_category == "humor"){
+							Category = "유머";
+							CategoryLink = "/board/humor/read?no=";
+						}else if(this.board_category == "QA"){
+							Category = "Q&A";
+							CategoryLink = "/board/qa/detail?no=";
+						}else if(this.board_category == "Tip"){
+							Category = "캠핑팁";
+							CategoryLink = "/board/campingTip/view?id=Tip&no=";
+						}else if(this.board_category == "CS"){
+							Category = "고객센터";
+							CategoryLink = "/board/cs/detail?no=";
+						}else if(this.board_category == "notice"){
+							Category = "공지사항";
+							CategoryLink = "/board/notice/read?no=";
+						}
+						
+						outputList += '<td><br/><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
+						outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + Category + '</td>';
+						outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+						outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+						outputList += '<td><br/><a href="#"><span>본문 미리보기</span></a></td>';
+						outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+					});
+				}
+			
+				if(data.Boardlst != null){
+					
+					$(data.Boardlst).each(function(index, item){		
+						
+						let date = new Date(this.board_writeDate);
+						var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
+					    let date111 = new Date(this.board_updateDate);
+					    var modifyDate = date111.getFullYear() + "-" + (date111.getMonth() + 1)  + "-" + date111.getDate() + "     " + date111.getHours() + ":" + date111.getMinutes();
+						
+					    let Category = "";
+						let CategoryLink = "";
+						outputList += "<tr>";
+						if(this.board_category == "humor"){
+							Category = "유머";
+							CategoryLink = "/board/humor/read?no=";
+						}else if(this.board_category == "QA"){
+							Category = "Q&A";
+							CategoryLink = "/board/qa/detail?no=";
+						}else if(this.board_category == "Tip"){
+							Category = "캠핑팁";
+							CategoryLink = "/board/campingTip/view?id=Tip&no=";
+						}else if(this.board_category == "CS"){
+							Category = "고객센터";
+							CategoryLink = "/board/cs/detail?no=";
+						}else if(this.board_category == "notice"){
+							Category = "공지사항";
+							CategoryLink = "/board/notice/read?no=";
+						}
+						
+						outputList += '<td><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
+						outputList += '<td>' + this.board_no + '</td><td>' + Category + '</td>';
+						outputList += '<td class="left"><a href="' + CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
+						outputList += '<td>' + this.member_id + '</td>';
+						outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
+						outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
+					});
+					
+				}
+				
+
+				$("#boardListFrame").html(outputList);
+
 		});
 		
 	}
@@ -629,7 +843,7 @@ table {
 					<div class="mBreadcrumb">
 						<ol>
 							<li class="home">홈</li>
-							<li>게시판관리</li>
+							<li>캠박이일 게시판</li>
 							<li class="now" title="현재 페이지">게시물 관리</li>
 						</ol>
 					</div>
@@ -707,7 +921,7 @@ table {
 
 				<div class="section">
 					<div class="mTitle">
-						<h2 id="Result_h2" >게시물 목록</h2>
+						<h2 id="Result_h2" >게시물 목록(댓글 목록)</h2>
 					</div>
 					<div class="mState">
 						<div class="gLeft">
@@ -741,57 +955,55 @@ table {
 
 							<thead>
 								<tr>
-									<th style="width: 3.5%;" scope="col"><input
+									<th style="width: 2.5%;" scope="col"><input
 										type="checkbox" class="allChk"></th>
 									<th style="width: 5.5%;" scope="col">글 번호</th>
-									<th style="width: 8%;" scope="col">분류</th>
-									<th style="width: 18.5%;" scope="col">제목</th>
-									<th style="width: 10%;" scope="col">작성자</th>
+									<th style="width: 6%;" scope="col">분류</th>
+									<th style="width: 20.5%;" scope="col">제목</th>
+									<th style="width: 12%;" scope="col">작성자</th>
 									<th style="width: 10%;" scope="col">본문 미리보기</th>
-									<th style="width: 10%;" scope="col">댓글 미리보기</th>
-									<th style="width: 17.5%;" scope="col">작성일</th>
-									<th style="width: 5.5%;" scope="col">조회수</th>
-									<th style="width: 5.5%;" scope="col">댓글수</th>
+									<th style="width: 11.5%;" scope="col">작성일</th>
+									<th style="width: 11.5%;" scope="col">수정일</th>
+									<th style="width: 4.5%;" scope="col">조회수</th>
+									<th style="width: 4.5%;" scope="col">댓글수</th>
+									<th style="width: 4.5%;" scope="col">좋아요</th>
 
 								</tr>
 							</thead>
-							<tbody class="center">
-								<tr>
-									<td><input type="checkbox" name="bbs_no[]" value="1"
-										class="rowChk"></td>
-									<!-- 번호 -->
-									<td>1</td>
-									<!-- 분류명 -->
-									<td>공지사항</td>
-									<!-- 제목 -->
-									<td class="left"><a
-										href="javascript:open_detail_view('1','1','1');"
-										class="txtLink"> 몰 오픈을 축하합니다. </a> <!-- 게시함여부 --> <!-- 노출설정 -->
+							<tbody class="center" id="boardListFrame">
+<!-- 								<tr> -->
+<!-- 									<td><input type="checkbox" name="bbs_no[]" value="1" -->
+<!-- 										class="rowChk"></td> -->
+		
+<!-- 									<td>1</td> -->
+					
+<!-- 									<td>공지사항</td> -->
+			
+<!-- 									<td class="left"><a -->
+<!-- 										href="javascript:open_detail_view('1','1','1');" -->
+<!-- 										class="txtLink"> 몰 오픈을 축하합니다. </a> 게시함여부 노출설정 -->
 
-									</td>
-									<!-- 작성자 -->
-									<td><input type="hidden" id="writer_type_1" value="">
-										EC Hosting</td>
-									<!-- 미리보기 -->
-									<td><a href="#layerPreview"
-										class="layerPreviewPopup btnNormal eLayerClick"
-										data-board-no="1" data-no="1" data-board-group="1"
-										data-save-btn="F" namelayer="layer_0" bindstatus="true"><span>본문
-												미리보기</span></a></td>
-									<td><a href="#layerPreview"
-										class="layerPreviewPopup btnNormal eLayerClick"
-										data-board-no="1" data-no="1" data-board-group="1"
-										data-save-btn="F" namelayer="layer_0" bindstatus="true"><span>댓글
-												미리보기</span></a></td>
+<!-- 									</td> -->
+						
+<!-- 									<td><input type="hidden" id="writer_type_1" value=""> -->
+<!-- 										EC Hosting</td> -->
+			
+<!-- 									<td><a href="#layerPreview" -->
+<!-- 										class="layerPreviewPopup btnNormal eLayerClick" -->
+<!-- 										data-board-no="1" data-no="1" data-board-group="1" -->
+<!-- 										data-save-btn="F" namelayer="layer_0" bindstatus="true"><span>본문 -->
+<!-- 												미리보기</span></a></td> -->
+							
+	
+<!-- 									<td>2021-04-26 07:12:00</td> -->
 
-									<!-- 작성일 -->
-									<td>2021-04-26 07:12:00</td>
-									<!-- 조회 -->
-									<td class="right">0</td>
-									<!-- 댓글 -->
-									<td class="right">0</td>
+<!-- 									<td class="right">0</td> -->
+				
+<!-- 									<td class="right">0</td> -->
+					
+<!-- 									<td class="right">0</td> -->
 
-								</tr>
+<!-- 								</tr> -->
 							</tbody>
 						</table>
 					</div>
@@ -800,25 +1012,8 @@ table {
 				</div>
 
 
-
-
-				<!-- 				<div class="mBox typeBg" style="display: none;"> -->
-				<!-- 					<div class="gLeft"> -->
-				<!-- 						<ul class="mList typeMore"> -->
-				<!-- 							<li>게시판에서 삭제된 글 확인/복원 가능한 기능입니다.</li> -->
-				<!-- 							<li><span class="txtWarn">삭제된 글은 삭제일로 부터 30일 동안만 저장되고 -->
-				<!-- 									30일이 경과한 게시글은 영구 삭제되어 복원 불가능합니다.</span></li> -->
-				<!-- 						</ul> -->
-				<!-- 					</div> -->
-				<!-- 					<div class="gRight"> -->
-				<!-- 						<a href="#none" class="btnSubmit" -->
-				<!-- 							onclick="window.open('board_admin_bulletin_del_list.php','board_admin_bulletin_del_list','width=800,height=900,scrollbars=yes');"><span>삭제된 -->
-				<!-- 								글 보기</span></a> -->
-				<!-- 					</div> -->
-				<!-- 				</div> -->
-
 				<!--미리보기-->
-				<div class="mLayer ui-draggable ui-resizable"
+			<div class="mLayer ui-draggable ui-resizable"
 					style="display: none; width: auto;" id="layerPreview">
 					<h2>게시글 내용 미리보기</h2>
 					<div class="wrap" style="width: 400px; height: 400px;"
@@ -839,14 +1034,28 @@ table {
 						class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se"
 						style="z-index: 90;"></div>
 				</div>
-			</div>
+	
 			<!-- 본문 작성  -->
-
+			
+			<!--  미리보기  -->
+<!-- 			<div class="mLayer ui-draggable ui-resizable" style="display: block; width: auto; position: absolute; z-index: 200; left: 474px; top: 168px;" id="layerPreview" namelayer="layer_0"> -->
+<!--                 <h2>게시글 내용 미리보기</h2> -->
+<!--                 <div class="wrap" style="width:400px;height:400px;" id="eBulletinContentWrap"> -->
+<!--                     <iframe id="eBulletinContent" frameborder="0" width="400px" height="400px" marginwidth="0" marginheight="0" scrolling="auto" src="/admin/php/b/board_admin_bulletin_preview.php?board_no=1&amp;no=1&amp;board_group=1&amp;disp_reply_btn=F"></iframe> -->
+<!--                 </div> -->
+<!--                 <div class="footer"> -->
+<!--                     <a href="#none" class="btnNormal eClose"><span>닫기</span></a> -->
+<!--                 </div> -->
+<!--                 <button type="button" class="btnClose eClose" id="layerPreviewClose">닫기</button> -->
+<!--             <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div>
+				</div> -->
+			<!--  미리보기  -->
+			
 			<!-- 본문 작성 끝  -->
 			<%@ include file="adminFooter.jsp"%>
 			<%@ include file="adminJs.jsp"%>
 		</div>
-
+	
 	</div>
 <input type="hidden" id="pageSave" value="1">
 </body>
