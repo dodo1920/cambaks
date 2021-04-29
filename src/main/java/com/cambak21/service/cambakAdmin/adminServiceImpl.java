@@ -280,7 +280,11 @@ public class adminServiceImpl implements adminService {
 			return dao.getMiddleCategories(mainCategory_id);
 		}
 		
-		
+		// deleteProdList
+		@Override
+		public String deleteProdList(List<String> prodList) throws Exception {
+			return dao.deleteProdList(prodList);
+		}
 		
 //		---------------------------------------------- 정민 끝 ---------------------------------------------------------------------------------------------
 		
@@ -365,6 +369,7 @@ public class adminServiceImpl implements adminService {
 	}
 
 	
+
 
 
 

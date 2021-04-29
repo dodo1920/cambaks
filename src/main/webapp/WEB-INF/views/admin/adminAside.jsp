@@ -56,7 +56,7 @@
 						href="javascript:void(0)" aria-expanded="false"><i
 							class="mdi mdi-view-dashboard"></i><span class="hide-menu"> 상품관리 (정민&승권)</span></a>
 						<ul aria-expanded="false" class="collapse  first-level">
-							<li class="sidebar-item"><a href="icon-material.html"
+							<li class="sidebar-item"><a href="/admin/prodList?page=1"
 								class="sidebar-link"><i class="mdi mdi-view-dashboard"></i><span
 									class="hide-menu"> 상품목록 </span></a></li>
 							<li class="sidebar-item"><a href="../admin/prodRegister"
