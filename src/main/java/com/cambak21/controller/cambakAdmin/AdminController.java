@@ -443,10 +443,8 @@ public class AdminController {
       return "/admin/productRegister";
    }
    
-   @PostMapping("/productInsert")
+   @RequestMapping( value = "/productInsert", method = RequestMethod.POST)
    public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
-	   
-	   System.out.println("상품등록 VO : " + vo.toString());
 	   
 	   if(service.insertProduct(vo) == 1) {
 		   ra.addFlashAttribute("ok");
@@ -470,7 +468,7 @@ public class AdminController {
   * @작성일 : 2021. 4. 27.
   * @작성자 : 승권
   * @변경이력 : 
-  * @Method 설명 : product_detail에 사용될 이미지 업로드
+  * @Method 설명 : product_detail, 썸네일에 사용될 이미지 업로드
   * @param vo
   * @return
   */

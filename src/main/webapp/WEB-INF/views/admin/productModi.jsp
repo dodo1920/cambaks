@@ -104,7 +104,7 @@
 			theme: 'snow'
 		});
 		
-		// quill에디터 데이터 보내기 위한 ...
+		// quill에디터 디테일 보내기 위한 ...
 		quill.on('text-change', function(delta, oldDelta, source) {
 	        document.getElementById("product_detail").value = quill.root.innerHTML;
 	    });
@@ -186,6 +186,7 @@
 	
 	function outputMainCategory() {
 		let output = '<select name="mainCategory_id" onchange="outputMiddleCategory()" id="checkOption">';
+		let output1;
 		
 		$.ajax({
 		  method: "get",
@@ -196,15 +197,21 @@
 		  },
 		  success : function(data) {
 		      let mainCategory = data.mainCategories;
-		      
+
 		      $(mainCategory).each(function(index, item) {
-		    	
-		    	  output += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';
+		    	  if(item.mainCategory_id == "${product.mainCategory_id}") {
+		    		  output += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';  
+		    	  } else {
+			    	  output1 += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';
+		    	  }
 		    	  
 		      }); // end of foreach
 
-			  output += '</select>';
+			  output += output1 + '</select>';
+			  
 			  $("#select-wrap").html(output);
+			  
+			  outputMiddleCategory();
 		  }
 		  
 		}); // end of ajax
@@ -227,6 +234,7 @@
 		  success : function(data) {
 			  
 		      let middleCategory = data.middleCategories;
+		      
 		      $(middleCategory).each(function(index, item) {
 		    	  output += '<option value="' + item.middleCategory_id + '">' + item.middleCategory_content + '</option>';
 		      });
@@ -297,27 +305,27 @@ input[type="text"] {
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">제품이름</td>
-								<td><input type="text" value="" style="width: 300px" name="product_name"
+								<td><input type="text" value="${product.product_name }" style="width: 300px" name="product_name"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입가</td>
-								<td><input type="text" value="" style="width: 200px" name="product_purchPrice"
+								<td><input type="text" value="${product.product_purchPrice }" style="width: 200px" name="product_purchPrice"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입수량</td>
-								<td><input type="text" value="" style="width: 200px" name="product_purchaseQty"
+								<td><input type="text" value="${product.product_purchaseQty }" style="width: 200px" name="product_purchaseQty"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">제조사</td>
-								<td><input type="text" value="" style="width: 300px" name="product_factory"
+								<td><input type="text" value="${product.product_factory }" style="width: 300px" name="product_factory"
 									class="input_style"></td>
 							</tr>
 							<tr>
 								<td class="table_title">상품 이름</td>
-								<td><input type="text" value="" style="width: 600px" name="product_title"
+								<td><input type="text" value="${product.product_title }" style="width: 600px" name="product_title"
 									class="input_style"> [ 0 / 250 ]</td>
 							</tr>
 						</table>
@@ -329,8 +337,10 @@ input[type="text"] {
 										<!-- Create the editor container -->
 										<div id="toolbar">
 										</div>
-										<div id="editor" style="height: 300px;"></div>
-										<input type="hidden" name="product_detail" id="product_detail">
+										<div id="editor" style="height: 300px;">
+											${product.product_detail }
+										</div>
+										<input type="hidden" name="product_detail" id="product_detail" value="">
 									</div>
 								</div>
 							</div>
@@ -345,7 +355,7 @@ input[type="text"] {
 							</tr>
 							<tr>
 								<td class="table_title">미리보기</td>
-								<td><img alt="" src="" class="preview-thumb" style="max-width: 412px;"></td>
+								<td><img alt="" src="${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
@@ -356,13 +366,12 @@ input[type="text"] {
 								<td class="table_title">소분류</td>
 								<td>
 									<select id="middle-wrap" name="middleCategory_id">
-										<option>대분류를 선택해 주세요</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td class="table_title">판매가</td>
-								<td><input type="text" value="" style="width: 200px"
+								<td><input type="text" value="${product.product_sellPrice }" style="width: 200px"
 									class="input_style" name="product_sellPrice"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
 									10% ]</td>
 							</tr>
@@ -370,8 +379,14 @@ input[type="text"] {
 								<td class="table_title">진열 여부</td>
 								<td>
 								<select name="product_show">
+									<c:if test="${product.product_show == 'Y' }">
 										<option value="Y">진열함</option>
 										<option value="N">진열안함</option>
+									</c:if>
+									<c:if test="${product.product_show == 'N' }">
+										<option value="N">진열안함</option>
+										<option value="Y">진열함</option>
+									</c:if>
 								</select>
 								</td>
 							</tr>
@@ -379,20 +394,26 @@ input[type="text"] {
 								<td class="table_title">인기 상품 진열 여부</td>
 								<td>
 								<select name="product_popularProduct">
+									<c:if test="${product.product_popularProduct == 'Y' }">
 										<option value="Y">진열함</option>
 										<option value="N">진열안함</option>
+									</c:if>
+									<c:if test="${product.product_popularProduct == 'N' }">
+										<option value="N">진열안함</option>
+										<option value="Y">진열함</option>
+									</c:if>
 								</select>
 								<span> [ 쇼핑몰 하단에 랜덤으로 상품이 노출 됩니다. ] </span>
 								</td>
 							</tr>
 							<tr>
 								<td class="table_title">배송비</td>
-								<td><input type="text" style="width: 200px" value=""
+								<td><input type="text" style="width: 200px" value="${product.product_shipPrice }"
 									class="input_style" name="product_shipPrice"></td>
 							</tr>
 						</table>
 						<div class="btn-Wrap">
-							<button type="submit" class="btn btn-primary">상품 등록</button>
+							<button type="submit" class="btn btn-primary">상품 수정</button>
 						</div>
 					</form>
 				</div>
