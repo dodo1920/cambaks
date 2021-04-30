@@ -212,8 +212,10 @@ public class AdminDAOImpl implements AdminDAO {
 			return ses.selectOne(ns + ".getProduct", product_id);
 		}
 		
-		
-		
+		@Override
+		public int updateProduct(ProductsVO vo) throws Exception{
+			return ses.update(ns + ".updateProduct", vo);
+		}
 		
 		
 		

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,6 +119,17 @@
 		// 메인카테고리 동적 출력
 		outputMainCategory();
 		
+		//상품이름 글자 수 제한
+		$("#product_title").keydown(function () {
+			let len = $("#product_title").val()
+			
+			// 입력 숫자 출력
+			if (len.length < 250) {
+				$(".cnt").text(len.length + 1);
+			} else {
+				$("#product_title").val(len.substring(0, 250));
+			}
+		})
 	})
 	
 		// quill 에디터 이미지 콜백 함수 실행
@@ -243,7 +256,6 @@
 		  
 		}); // end of ajax
 	}
-	
 </script>
 <style type="text/css">
 td.table_title {
@@ -301,7 +313,7 @@ input[type="text"] {
 			<!-- 본문 작성  -->
 			<div class="container-fluid">
 				<div class="container">
-					<form method="post" action="../admin/productInsert">
+					<form method="post" action="../admin/productModify">
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">제품이름</td>
@@ -311,12 +323,12 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">매입가</td>
 								<td><input type="text" value="${product.product_purchPrice }" style="width: 200px" name="product_purchPrice"
-									class="input_style"></td>
+									class="input_style" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입수량</td>
 								<td><input type="text" value="${product.product_purchaseQty }" style="width: 200px" name="product_purchaseQty"
-									class="input_style"></td>
+									class="input_style" readonly="readonly"></td>
 							</tr>
 							<tr>
 								<td class="table_title">제조사</td>
@@ -326,7 +338,7 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">상품 이름</td>
 								<td><input type="text" value="${product.product_title }" style="width: 600px" name="product_title"
-									class="input_style"> [ 0 / 250 ]</td>
+									class="input_style" id="product_title"> [ <span class="cnt">${fn:length(product.product_title) }</span> / 250 ]</td>
 							</tr>
 						</table>
 						<div class="row">
@@ -355,7 +367,7 @@ input[type="text"] {
 							</tr>
 							<tr>
 								<td class="table_title">미리보기</td>
-								<td><img alt="" src="${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
+								<td><img alt="" src="../resources/uploads/${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
@@ -415,6 +427,7 @@ input[type="text"] {
 						<div class="btn-Wrap">
 							<button type="submit" class="btn btn-primary">상품 수정</button>
 						</div>
+						<input type="hidden" name="product_id" value="${product.product_id }">
 					</form>
 				</div>
 			</div>

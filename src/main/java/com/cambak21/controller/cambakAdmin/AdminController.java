@@ -445,22 +445,46 @@ public class AdminController {
    
    @RequestMapping( value = "/productInsert", method = RequestMethod.POST)
    public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
-	   System.out.println("여기옴~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	   
 	   if(service.insertProduct(vo) == 1) {
-		   ra.addFlashAttribute("ok");
+		   ra.addFlashAttribute("status", "insertOk");
 	   } else {
-		   ra.addFlashAttribute("fail");
+		   ra.addFlashAttribute("status", "insertFail");
 	   }
 	   
 	   return "redirect:/admin/prodList";
    }
    
-   @RequestMapping("/productModify")
+   /**
+  * @Method Name : productModify
+  * @작성일 : 2021. 4. 30.
+  * @작성자 : 승권
+  * @변경이력 : 
+  * @Method 설명 : 수정 폼 열기
+  * @param product_id
+  * @param model
+  * @return
+  * @throws Exception
+  */
+@RequestMapping("/productModify")
    public String productModify(@RequestParam("product_id") String product_id, Model model) throws Exception {
 	   
 	   model.addAttribute("product", service.getProduct(product_id));
 	   
 	   return "/admin/productModi";
+   }
+   
+   @PostMapping("/productModify")
+   public String productModify(ProductsVO vo, RedirectAttributes ra) throws Exception {
+	   System.out.println(vo.toString());
+	   
+	  if(service.updateProduct(vo) == 1) {
+		  ra.addFlashAttribute("status", "modiOk");
+	  } else {
+		  ra.addFlashAttribute("status", "modiFail");
+	  }
+	   
+	  return "redirect:/admin/prodList";
    }
    
    /**
