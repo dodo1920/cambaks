@@ -42,7 +42,7 @@ public class MyMallController {
 	private static final Logger logger = LoggerFactory.getLogger(MyMallController.class);
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 대기 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-	@RequestMapping("/myRefund")
+	@RequestMapping("myRefund")
 	public String myRefund(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception {
 		
 		PagingParam pp = new PagingParam();
@@ -59,13 +59,14 @@ public class MyMallController {
 		return "cambakMain/myPage/myRefund";
 	}
 	
-	@RequestMapping("/myOrder")
+	@RequestMapping("myOrder")
 	public String myOrder(Model model, @SessionAttribute("loginMember") MemberVO member, PagingCriteria cri) throws Exception{
 		model.addAttribute("order", service.getTotalOrderList(member.getMember_id(), cri));
 		System.out.println(service.getTotalOrderList(member.getMember_id(), cri).toString());
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
 		pp.setTotalCount(service.getTotalOrder(member.getMember_id()));
+		System.out.println("여기는 마이오더" + service.getTotalOrder(member.getMember_id()));
 		System.out.println(cri.toString());
 		model.addAttribute("pagingParam", pp);
 		
@@ -81,6 +82,7 @@ public class MyMallController {
 		SearchCriteria sc = new SearchCriteria();
 		
 		pp.setCri(cri);
+		System.out.println("@@#@#@#@#@#@@##@#@@#" + service.searchOrderCnt(scri, member.getMember_id()));
 		pp.setTotalCount(service.searchOrderCnt(scri, member.getMember_id()));
 		
 		model.addAttribute("pagingParam", pp);

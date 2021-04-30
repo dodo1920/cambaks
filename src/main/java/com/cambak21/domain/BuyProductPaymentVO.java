@@ -17,11 +17,18 @@ public class BuyProductPaymentVO {
 	private int payment_serialNo;
 	private int payInfo_no;
 	private int destination_no;
-	private Date payment_date;
+	private String payment_date;
 	private String payment_deliverryMsg;
 	private String payment_isComit;
 	private Date payment_comitDate;
 	private String payment_isChecked;
+	private String product_img1;
+	public String getProduct_img1() {
+		return product_img1;
+	}
+	public void setProduct_img1(String product_img1) {
+		this.product_img1 = product_img1;
+	}
 	public int getBuyProduct_no() {
 		return buyProduct_no;
 	}
@@ -106,10 +113,10 @@ public class BuyProductPaymentVO {
 	public void setDestination_no(int destination_no) {
 		this.destination_no = destination_no;
 	}
-	public Date getPayment_date() {
+	public String getPayment_date() {
 		return payment_date;
 	}
-	public void setPayment_date(Date payment_date) {
+	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
 	public String getPayment_deliverryMsg() {
@@ -145,8 +152,10 @@ public class BuyProductPaymentVO {
 				+ ", product_id=" + product_id + ", payment_no=" + payment_no + ", payment_serialNo=" + payment_serialNo
 				+ ", payInfo_no=" + payInfo_no + ", destination_no=" + destination_no + ", payment_date=" + payment_date
 				+ ", payment_deliverryMsg=" + payment_deliverryMsg + ", payment_isComit=" + payment_isComit
-				+ ", payment_comitDate=" + payment_comitDate + ", payment_isChecked=" + payment_isChecked + "]";
+				+ ", payment_comitDate=" + payment_comitDate + ", payment_isChecked=" + payment_isChecked
+				+ ", product_img1=" + product_img1 + "]";
 	}
+	
 	
 	
 }

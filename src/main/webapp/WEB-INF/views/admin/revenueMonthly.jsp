@@ -297,7 +297,7 @@ $(function(){
 	</div>
 	
 </div>
-<div style="margin-top: 30px">
+<!-- <div style="margin-top: 30px">
 	<h2>월별 통계</h2>
 	<table class="table table-bordered" style="text-align: center;">
 		<thead>
@@ -318,7 +318,7 @@ $(function(){
 			
 		</tbody>
 	</table>
-</div>
+</div> -->
 	</div>
 	<!-- 본문 작성 끝  -->
      <%@ include file="adminFooter.jsp" %>    

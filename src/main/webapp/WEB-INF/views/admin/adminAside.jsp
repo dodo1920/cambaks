@@ -76,9 +76,17 @@
 									class="hide-menu"> QnA </span></a></li>
 						</ul></li>						
 					<li class="sidebar-item"><a
-						class="sidebar-link waves-effect waves-dark sidebar-link"
-						href="pages-elements.html" aria-expanded="false"><i
-							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출 (대기)</span></a></li>
+						class="sidebar-link has-arrow waves-effect waves-dark"
+						href="javascript:void(0)" aria-expanded="false"><i
+							class="mdi mdi-chart-bar"></i><span class="hide-menu">매출 (대기)</span></a>
+							<ul aria-expanded="false" class="collapse  first-level">
+							<li class="sidebar-item"><a href="revenue"
+								class="sidebar-link"><i class="mdi mdi-bulletin-board"></i><span
+									class="hide-menu"> 매출분석  </span></a></li>
+							<li class="sidebar-item"><a href="productAnalysis"
+								class="sidebar-link"><i class="mdi mdi-message-outline"></i><span
+									class="hide-menu"> 상품분석 </span></a></li>
+						</ul></li>
 							<li class="sidebar-item"><a
 						class="sidebar-link waves-effect waves-dark sidebar-link"
 						href="/admin/chattingList" aria-expanded="false"><i

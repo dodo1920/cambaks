@@ -40,9 +40,6 @@ function testAjax(obj) {
 	if(obj != null){
 		dateVal = obj.id;
 		console.log(dateVal);
-	}else{
-		dateVal = 1;
-		console.log(dateVal);
 	}
 	console.log("@@@@@@@@@" + dateVal);
 	
@@ -186,7 +183,7 @@ $(function(){
 	<div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">매출</h4>
+                        <h4 class="page-title">상품별 판매 비중</h4>
                         <div class="ml-auto text-right">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -200,20 +197,7 @@ $(function(){
             </div>
 	<!-- 본문 작성  -->
 	<div class="container-fluid">
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <ul class="navbar-nav">
-    <li class="nav-item active">
-      <a class="nav-link" href="/admin/revenue">일별 매출</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/revenueWeekly">주별 매출</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/admin/revenueMonthly">월별 매출</a>
-    </li>
-   
-  </ul>
-</nav>
+
 
 
 <div style="margin-top: 50px;height:150px;background-color:#ddd;" >
@@ -222,7 +206,7 @@ $(function(){
       <tr style="height:80px;background-color:#ddd;margin-top: 50px">
         <td style="vertical-align: middle;text-align: center" class="w-25">기간</td>
         <td style="vertical-align: middle;text-align: left">  <div class="btn-group btn-group-lg">
-    <button type="button" class="btn btn-primary" id="1" onclick='testAjax(this);'>오늘</button>
+    <button type="button" class="btn btn-primary" id="0" onclick='testAjax(this);'>오늘</button>
     <button type="button" class="btn btn-primary" id="3" onclick='testAjax(this);'>3일</button>
     <button type="button" class="btn btn-primary" id="7" onclick='testAjax(this);'>7일</button>
     <button type="button" class="btn btn-primary" id="30" onclick='testAjax(this);'>30일</button>

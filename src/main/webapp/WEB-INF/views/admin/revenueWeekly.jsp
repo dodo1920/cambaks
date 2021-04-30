@@ -109,46 +109,7 @@
                  
               } // 통신 완료시
            });
-      $.ajax({
-          type : "get",
-          dataType : "json", // 받을 데이터
-          //contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-          url : "revenue/selectEveryWeekly",// 서블릿 주소
-          data : {revenueWeekly : revenueWeekly},
-          success : function(result) {
-        	console.log("result = " + result);
-        	
-        	if(result.revenue.length > result.revenue1.length){
-        		
-        		
-        		$(result.revenue).each(function(idx, obj){
-        			/* console.log(obj);
-        			let output = '';
-        			console.log(obj.buyProduct_no);
-        			output = '<tr><td>' + obj.startDate+ '~'+ obj.endDate + '</td>';
-        			output = '<td>' + obj.buyProduct_no + '</td><td>' + obj.buyProduct_qty + '</td><td>' + obj.buyProduct_totPrice+'</td>';
-        			output = '<td>' + obj.buyProduct_deliveriPay+'</td><td>' + obj.buyProduct_totPrice+ obj.buyProduct_deliveriPay +'</td></tr>';
-        			
-        			
-        			
-        			$("#statisticsWeek").append(output); */
-        		});
-        		
-        		
-        	}else{
-        		let output = '<tr>';
-        		
-        	}
-            
-             
-          }, // 통신 성공시
-          error : function(result) {
-             
-          }, // 통신 실패시
-          complete : function(result) {
-          
-          } // 통신 완료시
-       });
+
       
    }
    
@@ -378,7 +339,7 @@ $(function(){
    </div>
    
 </div>
-<div style="margin-top: 30px">
+<!-- <div style="margin-top: 30px">
 
 	<h2>주별 통계</h2>
 	<table class="table table-bordered" style="text-align: center;">
@@ -401,7 +362,7 @@ $(function(){
 			
 		</tbody>
 	</table>
-</div>
+</div> -->
 	</div>
 	<!-- 본문 작성 끝  -->
 

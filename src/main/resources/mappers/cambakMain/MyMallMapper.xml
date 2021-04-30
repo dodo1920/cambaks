@@ -31,45 +31,49 @@
 	</select>
 	<select id="getTotalOrderList"
 	resultType="com.cambak21.domain.BuyProductPaymentVO">
-	SELECT bp.buyProduct_no, bp.member_id, bucket_no, product_name,
-	buyProduct_qty, product_sellPrice,
-	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date,
+	 SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
+	buyProduct_qty, prod.product_sellPrice,
+	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
-	bp.buyProduct_no where bp.member_id=#{member_id} and
-	buyProduct_isFinished='Y' order by bp.buyProduct_no desc limit
+	bp.buyProduct_no join Products prod on bp.product_id = prod.product_id  where bp.member_id=#{member_id} and
+	buyProduct_isFinished='Y' order by payment_serialNo desc limit
 	#{pageStart}, #{perPageNum}
 </select>
 	<select id="searchOrder"
 	resultType="com.cambak21.domain.BuyProductPaymentVO">
-	SELECT bp.buyProduct_no, bp.member_id, bucket_no, product_name,
-	buyProduct_qty, product_sellPrice,
-	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date,
+	SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
+	buyProduct_qty, prod.product_sellPrice,
+	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
-	bp.buyProduct_no where bp.member_id=#{member_id} and
-	buyProduct_isFinished='Y' and bp.product_name like concat('%',
-	#{searchWord}, '%') order by bp.buyProduct_no desc limit #{pageStart},
+	bp.buyProduct_no join Products prod on bp.product_id = prod.product_id where bp.member_id=#{member_id} and
+	buyProduct_isFinished='Y' and prod.product_name like concat('%',
+	#{searchWord}, '%') order by payment_serialNo desc limit #{pageStart},
 	#{perPageNum}
 </select>
 	<select id="searchOrderCnt" resultType="int">
 		SELECT count(*) FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_isFinished='Y' and product_name like concat('%', #{searchWord}, '%') order by buyProduct_no
 	</select>
 	<select id="getOrder" resultType="com.cambak21.domain.BuyProductVO">
-		SELECT * FROM goot6.BuyProducts where member_id=#{member_id} and buyProduct_no=#{buyProduct_no} and buyProduct_isFinished='Y' order by buyProduct_no desc
+		
+		SELECT * FROM goot6.BuyProducts bp join goot6.Products prod on bp.product_name = prod.product_name
+join goot6.Payments pay on pay.buyProduct_no = bp.buyProduct_no
+where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyProduct_isFinished='Y' order by bp.buyProduct_no desc; 
+		
 	</select>
 	<select id="getDest" resultType="int">
-		SELECT destination_no FROM goot6.Payments where member_id=#{member_id} and buyProduct_no=#{buyProduct_no}
+		SELECT destination_no FROM goot6.Payments where member_id=#{member_id} and payment_serialNo=#{buyProduct_no}
 	</select>
 	<select id="getDestOne" resultType="com.cambak21.domain.DestinationVO">
 		SELECT * FROM goot6.Destinations where destination_no = #{destination_no}
 	</select>
 	<select id="getPayno" resultType="int">
-		SELECT payInfo_no FROM goot6.Payments where member_id=#{member_id} and buyProduct_no=#{buyProduct_no}
+		SELECT payInfo_no FROM goot6.Payments where member_id=#{member_id} and payment_serialNo=#{buyProduct_no}
 	</select>
 	<select id="getPayInfo" resultType="com.cambak21.domain.PayInfoVO">
 		SELECT * FROM goot6.PayInfos where payInfo_no = #{payInfo_no}

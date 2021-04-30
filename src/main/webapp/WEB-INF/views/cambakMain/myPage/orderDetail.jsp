@@ -151,12 +151,12 @@
 														<td>
 															<div style="float: left; width: 120px; margin-top: 15px">
 																<img
-																	src="http://th2.tmon.kr/thumbs/image/bff/b03/84e/0a872d274_320x320_95_FIT.jpg"
+																	src= ${order.product_img1 }
 																	width="110" height="110" />
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
-																<a href="#"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
