@@ -274,6 +274,8 @@ public class AdminController {
    @PostMapping("/productInsert")
    public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
 	   
+	   
+	   
 	   System.out.println("상품등록 VO : " + vo.toString());
 	   
 	   if(service.insertProduct(vo) == 1) {
