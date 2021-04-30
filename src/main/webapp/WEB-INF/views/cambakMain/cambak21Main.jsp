@@ -382,7 +382,6 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#home">캠핑후기</a></li>
             <li><a data-toggle="tab" href="#menu1">캠핑Tip</a></li>
-            <li><a data-toggle="tab" href="#menu2">캠박마켓</a></li>
             <li><a data-toggle="tab" href="#menu3">Q&amp;A</a></li>
             <li><a data-toggle="tab" href="#menu4">유머</a></li>
         </ul>
@@ -433,31 +432,6 @@
 				      <td class="boardPageLink"><a href="/board/campingTip/view?id=Tip&no=${Tip.board_no }" class="boardLinkSize">${Tip.board_title }</a></td>
 				      <td>${Tip.board_likeCnt }</td>
 				      <td>${Tip.board_viewCnt }</td>
-				    </tr>
-				    </c:forEach>
-				  </tbody>
-				</table>
-            </div>
-            <div id="menu2" class="tab-pane fade">
-				<div class="moreView">
-					<a href="/board/resell/list?page=1" class="moreViewBtn">캠핑마켓 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
-				</div>
-				<table class="table">
-				  <thead>
-				    <tr>
-				      <th class="BoardListHead">작성일</th>
-				      <th class="BoardListHead">제목</th>
-				      <th class="BoardListHead">추천</th>
-				      <th class="BoardListHead">조회</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  	<c:forEach var="Resell" items="${Boards.Resell }">
-				    <tr class="BoardListBody">
-				      <td><fmt:formatDate value="${Resell.resellBoard_postDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
-				      <td class="boardPageLink"><a href="/board/resell/detail?no=${Resell.resellBoard_no }" class="boardLinkSize">${Resell.resellBoard_title }</a></td>
-				      <td>${Resell.resellBoard_likeCnt }</td>
-				      <td>${Resell.resellBoard_viewCnt }</td>
 				    </tr>
 				    </c:forEach>
 				  </tbody>
@@ -548,7 +522,6 @@
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
 					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
-					<p><a href="/board/resell/list?page=1">캠박마켓 게시판</a></p>
 					<p><a href="/board/qa/list.bo?7page=1">Q&amp;A 게시판</a></p>
 					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>

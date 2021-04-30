@@ -871,23 +871,23 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
 		</if>
 		
-		<if test="purchaseConfirmationBefore == true">
+		<if test="purchaseStatus == 'purchaseConfirmationBefore'">
 			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
 		</if>
 		
-		<if test="purchaseConfirmation == true">
+		<if test="purchaseStatus == 'purchaseConfirmation'">
 		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
 		</if>
 		
-		<if test="orderDeliveryReady">
+		<if test="orderStatus == 'orderDeliveryReady'">
 		and del.delivery_status = '배송전'
 		</if>
 		
-		<if test="orderOnDelivery">
+		<if test="orderStatus == 'orderOnDelivery'">
 		and del.delivery_status = '배송중'
 		</if>
 		
-		<if test="orderDeliveryCompleted">
+		<if test="orderStatus == 'orderDeliveryCompleted'">
 		and del.delivery_status = '배송완료'
 		</if>
 		
@@ -948,63 +948,54 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
 		</if>
 		
-		<if test="purchaseConfirmationBefore == true">
+		<if test="purchaseStatus == 'purchaseConfirmationBefore'">
 			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
 		</if>
 		
-		<if test="purchaseConfirmation == true">
+		<if test="purchaseStatus == 'purchaseConfirmation'">
 		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
 		</if>
 		
-		<if test="orderDeliveryReady == true">
+		<if test="orderStatus == 'orderDeliveryReady'">
 		and del.delivery_status = '배송전'
 		</if>
 		
-		<if test="orderOnDelivery == true">
+		<if test="orderStatus == 'orderOnDelivery'">
 		and del.delivery_status = '배송중'
 		</if>
 		
-		<if test="orderDeliveryCompleted == true">
+		<if test="orderStatus == 'orderDeliveryCompleted'">
 		and del.delivery_status = '배송완료'
 		</if>
 		
 		group by pay.payment_serialNo) lst, RefundnExchanges refund
 		where lst.payment_serialNo = refund.payment_serialNo
-        and ( 1=1 or 
-      <if test="csCancelRequest == true">
-         (refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csCancelCompleted == true">
-         (refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csChangeRequest == true">
-         (refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csChangeCompleted == true">
-         (refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csReturnRequest == true">
-         (refund.refundnExchange_status = '반품요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csReturnCompleted == true">
-         (refund.refundnExchange_status = '반품완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csRefundRequest == true">
-         (refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csRefundCompleted == true">
-         (refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-        1=1)
-   limit #{pageStart}, #{perPageNum}
-     </if>
+		
+		<if test="csStatus == 'csCancelRequest'">
+			and refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csCancelCompleted'">
+			and refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csStatus == 'csChangeRequest'">
+			and refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csChangeCompleted'">
+			and refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csStatus == 'csRefundRequest'">
+			and refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csRefundCompleted'">
+			and refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+	limit #{pageStart}, #{perPageNum}
+  	</if>
   	
   </select>
   
@@ -1062,23 +1053,23 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
 		</if>
 		
-		<if test="purchaseConfirmationBefore == true">
+		<if test="purchaseStatus == 'purchaseConfirmationBefore'">
 			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
 		</if>
 		
-		<if test="purchaseConfirmation == true">
+		<if test="purchaseStatus == 'purchaseConfirmation'">
 		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
 		</if>
 		
-		<if test="orderDeliveryReady">
+		<if test="orderStatus == 'orderDeliveryReady'">
 		and del.delivery_status = '배송전'
 		</if>
 		
-		<if test="orderOnDelivery">
+		<if test="orderStatus == 'orderOnDelivery'">
 		and del.delivery_status = '배송중'
 		</if>
 		
-		<if test="orderDeliveryCompleted">
+		<if test="orderStatus == 'orderDeliveryCompleted'">
 		and del.delivery_status = '배송완료'
 		</if>
 		
@@ -1140,61 +1131,52 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 			and pro.product_factory like concat('%', #{productInfoSearch}, '%')
 		</if>
 		
-		<if test="purchaseConfirmationBefore == true">
+		<if test="purchaseStatus == 'purchaseConfirmationBefore'">
 			and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'N'
 		</if>
 		
-		<if test="purchaseConfirmation == true">
+		<if test="purchaseStatus == 'purchaseConfirmation'">
 		and pay.payment_isComit = '결제완료' and pay.payment_isChecked = 'Y'
 		</if>
 		
-		<if test="orderDeliveryReady">
+		<if test="orderStatus == 'orderDeliveryReady'">
 		and del.delivery_status = '배송전'
 		</if>
 		
-		<if test="orderOnDelivery">
+		<if test="orderStatus == 'orderOnDelivery'">
 		and del.delivery_status = '배송중'
 		</if>
 		
-		<if test="orderDeliveryCompleted">
+		<if test="orderStatus == 'orderDeliveryCompleted'">
 		and del.delivery_status = '배송완료'
 		</if>
 		
 		group by pay.payment_serialNo) lst, RefundnExchanges refund
 		where lst.payment_serialNo = refund.payment_serialNo
-        and ( 1=1 or 
-      <if test="csCancelRequest == true">
-         (refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csCancelCompleted == true">
-         (refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csChangeRequest == true">
-         (refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csChangeCompleted == true">
-         (refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csReturnRequest == true">
-         (refund.refundnExchange_status = '반품요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csReturnCompleted == true">
-         (refund.refundnExchange_status = '반품완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-      
-      <if test="csRefundRequest == true">
-         (refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N') or
-      </if>
-      
-      <if test="csRefundCompleted == true">
-         (refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y') or
-      </if>
-        1=1)
+		
+		<if test="csStatus == 'csCancelRequest'">
+			and refund.refundnExchange_status = '주문취소요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csCancelCompleted'">
+			and refund.refundnExchange_status = '주문취소완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csStatus == 'csChangeRequest'">
+			and refund.refundnExchange_status = '교환요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csChangeCompleted'">
+			and refund.refundnExchange_status = '교환완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
+		
+		<if test="csStatus == 'csRefundRequest'">
+			and refund.refundnExchange_status = '환불요청' and refund.refundnExchange_isChecked = 'N'
+		</if>
+		
+		<if test="csStatus == 'csRefundCompleted'">
+			and refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y'
+		</if>
 	) as num
   	</if>
   	

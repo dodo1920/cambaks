@@ -488,19 +488,9 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("productInfo", vo.getProductInfo());
 		param.put("productInfoSearch", vo.getProductInfoSearch());
 		param.put("csOrderRange", vo.getCsOrderRange());
-		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
-		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
-		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
-		param.put("orderOnDelivery", vo.isOrderOnDelivery());
-		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
-		param.put("csCancelRequest", vo.isCsCancelRequest());
-		param.put("csCancelCompleted", vo.isCsCancelCompleted());
-		param.put("csChangeRequest", vo.isCsChangeRequest());
-		param.put("csChangeCompleted", vo.isCsChangeCompleted());
-		param.put("csReturnRequest", vo.isCsReturnRequest());
-		param.put("csReturnCompleted", vo.isCsReturnCompleted());
-		param.put("csRefundRequest", vo.isCsRefundRequest());
-		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		param.put("purchaseStatus", vo.getPurchaseStatus());
+		param.put("orderStatus", vo.getOrderStatus());
+		param.put("csStatus", vo.getCsStatus());
 		
 		// 페이징 필터
 		param.put("pageStart", cri.getPageStart());
@@ -522,36 +512,19 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("productInfo", vo.getProductInfo());
 		param.put("productInfoSearch", vo.getProductInfoSearch());
 		param.put("csOrderRange", vo.getCsOrderRange());
-		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
-		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
-		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
-		param.put("orderOnDelivery", vo.isOrderOnDelivery());
-		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
-		param.put("csCancelRequest", vo.isCsCancelRequest());
-		param.put("csCancelCompleted", vo.isCsCancelCompleted());
-		param.put("csChangeRequest", vo.isCsChangeRequest());
-		param.put("csChangeCompleted", vo.isCsChangeCompleted());
-		param.put("csReturnRequest", vo.isCsReturnRequest());
-		param.put("csReturnCompleted", vo.isCsReturnCompleted());
-		param.put("csRefundRequest", vo.isCsRefundRequest());
-		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		param.put("purchaseStatus", vo.getPurchaseStatus());
+		param.put("orderStatus", vo.getOrderStatus());
+		param.put("csStatus", vo.getCsStatus());
 		
 		return ses.selectOne(ns + ".orderManageSearchNum", param);
 	}
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		
 		
 		

@@ -65,20 +65,10 @@ function paramDefault() {
 	let checkHighDate = '${param.checkHighDate}';
 	let productInfo = '${param.productInfo}';
 	let productInfoSearch = '${param.productInfoSearch}';
-	let csOrderRange = '${param.csOrderRange}';
-	let purchaseConfirmationBefore = '${param.purchaseConfirmationBefore}';
-	let purchaseConfirmation = '${param.purchaseConfirmation}';
-	let orderDeliveryReady = '${param.orderDeliveryReady}';
-	let orderOnDelivery = '${param.orderOnDelivery}';
-	let orderDeliveryCompleted = '${param.orderDeliveryCompleted}';
-	let csCancelRequest = '${param.csCancelRequest}';
-	let csCancelCompleted = '${param.csCancelCompleted}';
-	let csChangeRequest = '${param.csChangeRequest}';
-	let csChangeCompleted = '${param.csChangeCompleted}';
-	let csReturnRequest = '${param.csReturnRequest}';
-	let csReturnCompleted = '${param.csReturnCompleted}';
-	let csRefundRequest = '${param.csRefundRequest}';
-	let csRefundCompleted = '${param.csRefundCompleted}';
+	
+	let purchaseStatus = '${param.purchaseStatus}';
+	let orderStatus = '${param.orderStatus}';
+	let csStatus = '${param.csStatus}';
 	
 	if (checkOption != "") $("#checkOption").val(checkOption).prop("selected", true);
 	if (checkOptionSearch != "") $("#checkOptionSearch").val(checkOptionSearch);
@@ -114,25 +104,9 @@ function paramDefault() {
 	if (productInfo != "") $("#productInfo").val(productInfo).prop("selected", true);
 	if (productInfoSearch != "") $("#productInfoSearch").val(productInfoSearch);
 	
-	if (purchaseConfirmationBefore == "on") $("#purchaseConfirmationBefore").prop("checked", true);
-	if (purchaseConfirmation == "on") $("#purchaseConfirmation").prop("checked", true);
-	
-	if (orderDeliveryReady == "on") $("#orderDeliveryReady").prop("checked", true);
-	if (orderOnDelivery == "on") $("#orderOnDelivery").prop("checked", true);
-	if (orderDeliveryCompleted == "on") $("#orderDeliveryCompleted").prop("checked", true);
-	
-	if (csCancelRequest == "on") $("#csCancelRequest").prop("checked", true);
-	if (csCancelCompleted == "on") $("#csCancelCompleted").prop("checked", true);
-	if (csChangeRequest == "on") $("#csChangeRequest").prop("checked", true);
-	if (csChangeCompleted == "on") $("#csChangeCompleted").prop("checked", true);
-	if (csReturnRequest == "on") $("#csReturnRequest").prop("checked", true);
-	if (csReturnCompleted == "on") $("#csReturnCompleted").prop("checked", true);
-	if (csRefundRequest == "on") $("#csRefundRequest").prop("checked", true);
-	if (csRefundCompleted == "on") $("#csRefundCompleted").prop("checked", true);
-	
-	csStatusCheck();
-	purchaseStatusCheck();
-	orderStatusCheck();
+	if (purchaseStatus != "") $("#" + purchaseStatus).prop("checked", true);
+	if (orderStatus != "") $("#" + orderStatus).prop("checked", true);
+	if (csStatus != "") $("#" + csStatus).prop("checked", true);
 	
 }
 
@@ -150,116 +124,9 @@ function searchDataChk() {
 	}
 	
 	if (result) {
-		
-		let cancelRequest = $("#csCancelRequest").prop("checked");
-		let cancelCompleted = $("#csCancelCompleted").prop("checked");
-		let changeRequest = $("#csChangeRequest").prop("checked");
-		let changeCompleted = $("#csChangeCompleted").prop("checked");
-		let returnRequest = $("#csReturnRequest").prop("checked");
-		let returnCompleted = $("#csReturnCompleted").prop("checked");
-		let refundRequest = $("#csRefundRequest").prop("checked");
-		let refundCompleted = $("#csRefundCompleted").prop("checked");
-		
-		if (cancelRequest || cancelCompleted || changeRequest || changeCompleted || returnRequest || returnCompleted || refundRequest || refundCompleted)
-			$("#csOrderRange").val("check");
-		
-		
 		$("#orderManageSearch").submit();
 	}
 	
-}
-
-function csStatusCheck() {
-   let cancelRequest = $("#csCancelRequest").prop("checked");
-   let cancelCompleted = $("#csCancelCompleted").prop("checked");
-   let changeRequest = $("#csChangeRequest").prop("checked");
-   let changeCompleted = $("#csChangeCompleted").prop("checked");
-   let returnRequest = $("#csReturnRequest").prop("checked");
-   let returnCompleted = $("#csReturnCompleted").prop("checked");
-   let refundRequest = $("#csRefundRequest").prop("checked");
-   let refundCompleted = $("#csRefundCompleted").prop("checked");
-   
-   if (cancelRequest && cancelCompleted && changeRequest && changeCompleted && returnRequest && returnCompleted && refundRequest && refundCompleted) {
-      $("#csStatusTotal").prop("checked", true);
-   } else {
-      $("#csStatusTotal").prop("checked", false);
-   }
-   
-}
-
-function csStatusTotalCheck() {
-   
-   if ($("#csStatusTotal").prop("checked")) {
-      $("#csCancelRequest").prop("checked", true);
-      $("#csCancelCompleted").prop("checked", true);
-      $("#csChangeRequest").prop("checked", true);
-      $("#csChangeCompleted").prop("checked", true);
-      $("#csReturnRequest").prop("checked", true);
-      $("#csReturnCompleted").prop("checked", true);
-      $("#csRefundRequest").prop("checked", true);
-      $("#csRefundCompleted").prop("checked", true);
-   } else {
-      $("#csCancelRequest").prop("checked", false);
-      $("#csCancelCompleted").prop("checked", false);
-      $("#csChangeRequest").prop("checked", false);
-      $("#csChangeCompleted").prop("checked", false);
-      $("#csReturnRequest").prop("checked", false);
-      $("#csReturnCompleted").prop("checked", false);
-      $("#csRefundRequest").prop("checked", false);
-      $("#csRefundCompleted").prop("checked", false);
-   }
-   
-}
-
-function orderStatusCheck() {
-   let ready = $("#orderDeliveryReady").prop("checked");
-   let on = $("#orderOnDelivery").prop("checked");
-   let completed = $("#orderDeliveryCompleted").prop("checked");
-   
-   if (ready && on && completed) {
-      $("#orderStatusTotal").prop("checked", true);
-   } else {
-      $("#orderStatusTotal").prop("checked", false);
-   }
-   
-}
-
-function orderStatusTotalCheck() {
-   
-   if ($("#orderStatusTotal").prop("checked")) {
-      $("#orderDeliveryReady").prop("checked", true);
-      $("#orderOnDelivery").prop("checked", true);
-      $("#orderDeliveryCompleted").prop("checked", true);
-   } else {
-      $("#orderDeliveryReady").prop("checked", false);
-      $("#orderOnDelivery").prop("checked", false);
-      $("#orderDeliveryCompleted").prop("checked", false);
-   }
-   
-}
-
-function purchaseStatusCheck() {
-   let Before = $("#purchaseConfirmationBefore").prop("checked");
-   let confirmation = $("#purchaseConfirmation").prop("checked");
-   
-   if (Before && confirmation) {
-      $("#purchaseStatusAll").prop("checked", true);
-   } else {
-      $("#purchaseStatusAll").prop("checked", false);
-   }
-   
-}
-
-function purchaseStatusAllCheck() {
-   
-   if ($("#purchaseStatusAll").prop("checked")) {
-      $("#purchaseConfirmationBefore").prop("checked", true);
-      $("#purchaseConfirmation").prop("checked", true);
-   } else {
-      $("#purchaseConfirmationBefore").prop("checked", false);
-      $("#purchaseConfirmation").prop("checked", false);
-   }
-   
 }
 
 function calendarSearch(change) {
@@ -436,20 +303,20 @@ $('#endDate').datepicker({
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">구매확정</label>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="purchaseStatusAll" onchange="purchaseStatusAllCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="purchaseStatus" id="purchaseStatusAll" value="purchaseStatusAll" required>
                             <label class="custom-control-label" for="purchaseStatusAll">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmationBefore" id="purchaseConfirmationBefore" onchange="purchaseStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="purchaseStatus" id="purchaseConfirmationBefore" value="purchaseConfirmationBefore">
                             <label class="custom-control-label" for="purchaseConfirmationBefore">구매확정전</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="purchaseConfirmation" id="purchaseConfirmation" onchange="purchaseStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="purchaseStatus" id="purchaseConfirmation" value="purchaseConfirmation">
                             <label class="custom-control-label" for="purchaseConfirmation">구매확정완료</label>
                         </div>
                      </div>
@@ -458,26 +325,26 @@ $('#endDate').datepicker({
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">주문상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="orderStatusTotal" onchange="orderStatusTotalCheck();">
-                            <label class="custom-control-label" for="orderStatusTotal">전체</label>
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="orderStatus" name="orderStatus" value="orderStatus" required>
+                            <label class="custom-control-label" for="orderStatus">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderDeliveryReady" id="orderDeliveryReady" onchange="orderStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="orderStatus" id="orderDeliveryReady" value="orderDeliveryReady">
                             <label class="custom-control-label" for="orderDeliveryReady">배송전</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderOnDelivery" id="orderOnDelivery" onchange="orderStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="orderStatus" id="orderOnDelivery" value="orderOnDelivery">
                             <label class="custom-control-label" for="orderOnDelivery">배송중</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="orderDeliveryCompleted" id="orderDeliveryCompleted" onchange="orderStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="orderStatus" id="orderDeliveryCompleted" value="orderDeliveryCompleted">
                             <label class="custom-control-label" for="orderDeliveryCompleted">배송완료</label>
                         </div>
                      </div>
@@ -486,61 +353,48 @@ $('#endDate').datepicker({
                   <div class="form-group row">
                      <label class="col-md-1 m-t-15">CS주문상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="csStatusTotal" onchange="csStatusTotalCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="csStatusTotal" name="csStatus" value="csStatusTotal" required>
                             <label class="custom-control-label" for="csStatusTotal">전체</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csCancelRequest" id="csCancelRequest" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csCancelRequest" value="csCancelRequest">
                             <label class="custom-control-label" for="csCancelRequest">주문취소요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csCancelCompleted" id="csCancelCompleted" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csCancelCompleted" value="csCancelCompleted">
                             <label class="custom-control-label" for="csCancelCompleted">주문취소완료</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csChangeRequest" id="csChangeRequest" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csChangeRequest" value="csChangeRequest">
                             <label class="custom-control-label" for="csChangeRequest">교환요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csChangeCompleted" id="csChangeCompleted" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csChangeCompleted" value="csChangeCompleted">
                             <label class="custom-control-label" for="csChangeCompleted">교환완료</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csReturnRequest" id="csReturnRequest" onchange="csStatusCheck();">
-                            <label class="custom-control-label" for="csReturnRequest">반품요청</label>
-                        </div>
-                     </div>
-                     <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csReturnCompleted" id="csReturnCompleted" onchange="csStatusCheck();">
-                            <label class="custom-control-label" for="csReturnCompleted">반품완료</label>
-                        </div>
-                     </div>
-                     <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csRefundRequest" id="csRefundRequest" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csRefundRequest" value="csRefundRequest">
                             <label class="custom-control-label" for="csRefundRequest">환불요청</label>
                         </div>
                      </div>
                      <div class="col-ms" style="margin-right: 15px;">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" name="csRefundCompleted" id="csRefundCompleted" onchange="csStatusCheck();">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" name="csStatus" id="csRefundCompleted" value="csRefundCompleted">
                             <label class="custom-control-label" for="csRefundCompleted">환불완료</label>
                         </div>
                      </div>
                      <div class="col-md-5">
-                     	<input type="hidden" id="csOrderRange" name="csOrderRange" value="noRange"/>
                      	<input type="hidden" name="page" value="1"/>
                      </div>
                   </div>
