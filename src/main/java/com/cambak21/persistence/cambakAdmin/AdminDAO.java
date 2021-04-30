@@ -107,7 +107,7 @@ public interface AdminDAO {
 	
 	ProductsVO getProduct(String product_id) throws Exception;
 	
-	
+	int updateProduct(ProductsVO vo) throws Exception;
 	
 	
 	

@@ -117,6 +117,18 @@
 		// 메인카테고리 동적 출력
 		outputMainCategory();
 		
+		//상품이름 글자 수 제한
+		$("#product_title").keydown(function () {
+			let len = $("#product_title").val()
+			
+			// 입력 숫자 출력
+			if (len.length <= 250) {
+				$(".cnt").text(len.length);
+			} else {
+				$("#product_title").val(len.substring(0, 250));
+			}
+		})
+		
 	})
 	
 		// quill 에디터 이미지 콜백 함수 실행
@@ -201,12 +213,14 @@
 		    	
 		    	  output += '<option value="' + item.mainCategory_id + '">' + item.mainCategory_content + '</option>';
 		    	  
+		    	  
 		      }); // end of foreach
 
 			  output += '</select>';
 			  $("#select-wrap").html(output);
+			  
+			  outputMiddleCategory();
 		  }
-		  
 		}); // end of ajax
 	}
 	
@@ -236,6 +250,21 @@
 		}); // end of ajax
 	}
 	
+	function inputCheck() {
+// 		let thumb = $("#product_thumnail").val();
+// 		let detail = $("#product_detail").val();
+		
+// 		if (thumb == "") {
+// 			alert("대표 이미지를 설정해주세요!");
+// 		} else if(detail == "") {
+// 			alert("상세설명을 작성해 주세요.");
+// 		} else if() {
+			
+// 		} 
+// 		else {
+// 			$("#formData").submit();
+// 		}
+	}
 </script>
 <style type="text/css">
 td.table_title {
@@ -293,32 +322,32 @@ input[type="text"] {
 			<!-- 본문 작성  -->
 			<div class="container-fluid">
 				<div class="container">
-					<form method="post" action="../admin/productInsert">
+					<form method="post" action="../admin/productInsert" id="formData">
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">제품이름</td>
 								<td><input type="text" value="" style="width: 300px" name="product_name"
-									class="input_style"></td>
+									class="input_style" required="required"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입가</td>
 								<td><input type="text" value="" style="width: 200px" name="product_purchPrice"
-									class="input_style"></td>
+									class="input_style" required="required"></td>
 							</tr>
 							<tr>
 								<td class="table_title">매입수량</td>
 								<td><input type="text" value="" style="width: 200px" name="product_purchaseQty"
-									class="input_style"></td>
+									class="input_style" required="required"></td>
 							</tr>
 							<tr>
 								<td class="table_title">제조사</td>
 								<td><input type="text" value="" style="width: 300px" name="product_factory"
-									class="input_style"></td>
+									class="input_style" required="required"></td>
 							</tr>
 							<tr>
 								<td class="table_title">상품 이름</td>
 								<td><input type="text" value="" style="width: 600px" name="product_title"
-									class="input_style"> [ 0 / 250 ]</td>
+									class="input_style" id="product_title" required="required"> [ <span class="cnt">0</span> / 250 ]</td>
 							</tr>
 						</table>
 						<div class="row">
@@ -330,7 +359,7 @@ input[type="text"] {
 										<div id="toolbar">
 										</div>
 										<div id="editor" style="height: 300px;"></div>
-										<input type="hidden" name="product_detail" id="product_detail">
+										<input type="hidden" name="product_detail" id="product_detail" >
 									</div>
 								</div>
 							</div>
@@ -339,13 +368,13 @@ input[type="text"] {
 						<table class="table table-bordered">
 							<tr>
 								<td class="table_title">대표 이미지</td>
-								<td><input type="file" value="" id="product_thumnail" onchange="ThumnailUpload()"> <br>- 권장 사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)
-								<input type="hidden" name="product_img1" id="product_img1">
+								<td><input type="file" value="" id="product_thumnail" onchange="ThumnailUpload()" required="required"> <br>- 권장 사이즈 : 412 x 412 / 10M 이하 / gif, png, jpg(jpeg)
+								<input type="hidden" name="product_img1" id="product_img1" value="" >
 								</td>
 							</tr>
 							<tr>
 								<td class="table_title">미리보기</td>
-								<td><img alt="" src="" class="preview-thumb" style="max-width: 412px;"></td>
+								<td><img alt="" src="" class="preview-thumb" style="max-width: 412px;" id="checkImg"></td>
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
@@ -363,7 +392,7 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">판매가</td>
 								<td><input type="text" value="" style="width: 200px"
-									class="input_style" name="product_sellPrice"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
+									class="input_style" name="product_sellPrice" required="required"> [ 상품가 : 0원 / 과세금액 : 0원 / 과세상품 :
 									10% ]</td>
 							</tr>
 							<tr>
@@ -388,11 +417,11 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">배송비</td>
 								<td><input type="text" style="width: 200px" value=""
-									class="input_style" name="product_shipPrice"></td>
+									class="input_style" name="product_shipPrice" required="required"></td>
 							</tr>
 						</table>
 						<div class="btn-Wrap">
-							<button type="submit" class="btn btn-primary">상품 등록</button>
+							<button type="submit" class="btn btn-primary" class="subBtn" >상품 등록</button>
 						</div>
 					</form>
 				</div>

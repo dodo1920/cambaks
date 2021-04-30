@@ -370,9 +370,18 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	select * from Products where product_id = #{product_id}
   </select>
   
+  <!-- 상품 등록 -->
+  <insert id="insertProduct">
+  	insert into Products (mainCategory_id, middleCategory_id, product_name, product_purchPrice, product_purchaseQty, product_saleQty, product_totQty, product_sellPrice, product_factory, product_detail, product_img1, product_show, product_shipPrice, product_title, product_popularProduct)
+	values
+	(#{mainCategory_id}, #{middleCategory_id}, #{product_name}, #{product_purchPrice}, #{product_purchaseQty}, #{product_saleQty}, #{product_purchaseQty}, #{product_sellPrice}, #{product_factory}, #{product_detail}, #{product_img1}, #{product_show}, #{product_shipPrice}, #{product_title}, #{product_popularProduct});
+  </insert>
   
-  
-  
+ 	<!-- 상품 수정 -->
+ 	<update id="updateProduct">
+ 		update Products set product_name = #{product_name}, product_purchPrice = #{product_purchPrice}, product_factory = #{product_factory}, product_title = #{product_title}, product_detail = #{product_detail}, product_img1 = #{product_img1}, mainCategory_id = #{mainCategory_id}, middleCategory_id = #{middleCategory_id}, product_sellPrice = #{product_sellPrice}, product_show = #{product_show}, product_popularProduct = #{product_popularProduct}, product_shipPrice = #{product_shipPrice}
+ 		where product_id = #{product_id}; 
+ 	</update> 
   
   
   

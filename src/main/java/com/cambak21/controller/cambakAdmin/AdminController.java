@@ -484,21 +484,30 @@ public class AdminController {
       return "/admin/productRegister";
    }
    
-   @PostMapping("/productInsert")
+   @RequestMapping( value = "/productInsert", method = RequestMethod.POST)
    public String productInsert(ProductsVO vo, RedirectAttributes ra) throws Exception {
 	   
-	   System.out.println("상품등록 VO : " + vo.toString());
-	   
 	   if(service.insertProduct(vo) == 1) {
-		   ra.addFlashAttribute("ok");
+		   ra.addFlashAttribute("status", "insertOk");
 	   } else {
-		   ra.addFlashAttribute("fail");
+		   ra.addFlashAttribute("status", "insertFail");
 	   }
 	   
 	   return "redirect:/admin/prodList";
    }
    
-   @RequestMapping("/productModify")
+   /**
+  * @Method Name : productModify
+  * @작성일 : 2021. 4. 30.
+  * @작성자 : 승권
+  * @변경이력 : 
+  * @Method 설명 : 수정 폼 열기
+  * @param product_id
+  * @param model
+  * @return
+  * @throws Exception
+  */
+@RequestMapping("/productModify")
    public String productModify(@RequestParam("product_id") String product_id, Model model) throws Exception {
 	   
 	   model.addAttribute("product", service.getProduct(product_id));
@@ -506,12 +515,25 @@ public class AdminController {
 	   return "/admin/productModi";
    }
    
+   @PostMapping("/productModify")
+   public String productModify(ProductsVO vo, RedirectAttributes ra) throws Exception {
+	   System.out.println(vo.toString());
+	   
+	  if(service.updateProduct(vo) == 1) {
+		  ra.addFlashAttribute("status", "modiOk");
+	  } else {
+		  ra.addFlashAttribute("status", "modiFail");
+	  }
+	   
+	  return "redirect:/admin/prodList";
+   }
+   
    /**
   * @Method Name : productDetail_imgUpload
   * @작성일 : 2021. 4. 27.
   * @작성자 : 승권
   * @변경이력 : 
-  * @Method 설명 : product_detail에 사용될 이미지 업로드
+  * @Method 설명 : product_detail, 썸네일에 사용될 이미지 업로드
   * @param vo
   * @return
   */

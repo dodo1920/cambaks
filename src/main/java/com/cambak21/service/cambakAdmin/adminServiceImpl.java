@@ -246,8 +246,10 @@ public class adminServiceImpl implements adminService {
 			return dao.getProduct(product_id);
 		}
 		
-		
-		
+		@Override
+		public int updateProduct(ProductsVO vo) throws Exception{
+			return dao.updateProduct(vo);
+		}
 		
 		
 		
