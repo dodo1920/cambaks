@@ -47,6 +47,33 @@ function check_date(date, idNum) {
 
 }
 
+function purchaseSubmit(serialNo, payment_date) {
+	
+	$.ajax({
+		type : "get",
+		dataType : "json", // 받을 데이터
+		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+		url : "myOrder/purchaseSubmit",// 서블릿 주소
+		data : {serialNo : serialNo, payment_date : payment_date},
+		success : function(result) {
+			console.log(result);
+			
+		}, // 통신 성공시
+		error : function(result) {
+			
+		}, // 통신 실패시
+		complete : function(result) {
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(result);
+//			if(result != null){
+				
+//			}
+			
+			
+		} // 통신 완료시
+	});
+}
+
 $(document).ready(function(){
 	
 	
@@ -181,6 +208,7 @@ $(document).ready(function(){
 									
 									<c:forEach var="order" items="${order }">
 									
+									
 										<c:choose>
 											<c:when test="${order.payment_isComit == '결제완료' }">
 											<div align="center"
@@ -220,7 +248,7 @@ $(document).ready(function(){
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
 																	반품 신청</button>
 																
-																	<button type="button" class="btn btn-info">구매확정</button>
+																	<button type="button" class="btn btn-info" onclick="purchaseSubmit(${order.payment_serialNo },${order.payment_date });">구매확정</button>
 																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
 																
 																
@@ -300,10 +328,6 @@ $(document).ready(function(){
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
 																
-																<c:if test="">
-																	<button type="button">구매확정</button>
-																</c:if>	
-																
 
 															</div>
 														</td>
@@ -350,10 +374,6 @@ $(document).ready(function(){
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
-																
-																<c:if test="">
-																	<button type="button">구매확정</button>
-																</c:if>	
 																
 
 															</div>
@@ -403,11 +423,7 @@ $(document).ready(function(){
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
 																
-																<c:if test="">
-																	<button type="button">구매확정</button>
-																</c:if>	
 																
-
 															</div>
 														</td>
 													</tr>
@@ -415,32 +431,6 @@ $(document).ready(function(){
 												</tbody>
 											</table>
 											
-												<!-- Modal -->
-												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
-													<div class="modal-dialog" id="modalChange${order.buyProduct_no }">
-
-														<!-- Modal content-->
-														<div class="modal-content">
-															<div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal">&times;</button>
-																<h2 class="modal-title">교환 환불 신청</h2>
-															</div>
-															<div class="modal-body">
-																<p>교환 환불 선택</p>
-																<select>
-																	<option>교환</option>
-																	<option>환불</option>
-																</select>
-																<p>사유를 선택해 주세요</p>
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-default"
-																	data-dismiss="modal">Close</button>
-															</div>
-														</div>
-
-													</div>
-												</div>
 											</div>
 										</c:when>
 										</c:choose>
