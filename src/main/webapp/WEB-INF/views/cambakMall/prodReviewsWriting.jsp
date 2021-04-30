@@ -98,7 +98,7 @@
 				<div class="col-lg-12">
 					<form action="/cambakMall/writingProdReviews" method="post">
 					
-					<input type="hidden" id="product_id" name="product_id" value="4"/>
+					<input type="hidden" id="product_id" name="product_id" value="${param.prodId }"/>
 					<input type="hidden" id="member_id" name="member_id" value="${loginMember.member_id }"/>
 					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
 					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->

@@ -151,5 +151,32 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 	}
 
 
+	// 주문 확정된 개수 가져오기
+	@Override
+	public String getConfirmedOrder(String member_id, int prodId) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("product_id", prodId);
+		
+		String result = null;
+		int getConfirmedOrder = ses.selectOne(namespace + ".getConfirmedOrder", params);
+		int getWrittenReviewCnt = ses.selectOne(namespace + ".getWrittenReviewCnt", params);
+		if(getConfirmedOrder - getWrittenReviewCnt >0) {
+			result = "success";
+		}
+		return result;
+	}
+
+
+	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
+	/*@Override
+	public int getWrittenReviewCnt(String member_id, int prodId) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("product_id", prodId);
+		return ses.selectOne(namespace + ".getWrittenReviewCnt", params);
+	}*/
+
+
 
 }

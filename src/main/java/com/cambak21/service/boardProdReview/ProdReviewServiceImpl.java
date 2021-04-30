@@ -116,5 +116,19 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 		return dao.getProdReviewsLikeCnt(prodReview_no);
 	}
 
+	// 주문 확정된 개수 가져오기
+
+	@Override
+	public String getConfirmedOrder(String member_id, int prodId) throws Exception {
+		return dao.getConfirmedOrder(member_id, prodId);
+	}
+
+
+	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
+	/*@Override
+	public int getWrittenReviewCnt(String member_id, int prodId) throws Exception {
+		return dao.getWrittenReviewCnt(member_id, prodId);
+	}*/
+
 
 }

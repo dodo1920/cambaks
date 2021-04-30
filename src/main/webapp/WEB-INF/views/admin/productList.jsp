@@ -320,9 +320,27 @@ function getCheckBoxList() {
 	}
 	
 }
-
+function status() {
+    let status = "${status}"
+    
+    if(status == "insertOk") {
+       $("#modalText").text("상품이 등록 되었습니다.")
+       $("#productModal").show();
+    } else if(status == "insertFail") {
+       $("#modalText").text("상품 등록에 실패하였습니다.")
+       $("#productModal").show();
+    } else if(status == "modiOk") {
+       $("#modalText").text("상품이 수정 되었습니다.")
+       $("#productModal").show();
+    } else if(status == "modiFail") {
+       $("#modalText").text("상품 수정에 실패하였습니다.");
+       $("#productModal").show();
+    }
+ }
+ 
 $(document).ready(function() {
 	console.log(lastWeek());
+	status();
 });
 
 </script>
@@ -561,6 +579,23 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
+<!-- modal -->
+   <div id="productModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">알림</h4>
+            </div>
+            <div class="modal-body" id="modalText"></div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+         </div>
+
+      </div>
+   </div>
 <%@ include file="adminFooter.jsp"%>
 </div>
 </body>
