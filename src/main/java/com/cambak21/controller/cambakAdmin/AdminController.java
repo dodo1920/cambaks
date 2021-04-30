@@ -672,9 +672,16 @@ public class AdminController {
       
       if (checkDate != 0 && checkLowDate.equals("") && checkHighDate.equals("")) {
     	  Calendar cal = Calendar.getInstance();
-    	  cal.add(Calendar.DATE, - checkDate);
-    	  Date startDate = cal.getTime();
+    	  
+    	  if (checkDate == 1) cal.add(Calendar.DAY_OF_MONTH, 0);
+    	  else cal.add(Calendar.DAY_OF_MONTH, - checkDate);
+    	  
+    	  Date start = cal.getTime();
     	  Date endDate = new Date();
+    	  String tmpStartDate = new SimpleDateFormat("yyyy-MM-dd").format(start) + " 00:00:00";
+    	  
+    	  SimpleDateFormat tmpStart = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	  Date startDate = tmpStart.parse(tmpStartDate);
     	  
     	  vo.setStartDate(startDate);
     	  vo.setEndDate(endDate);
@@ -694,6 +701,8 @@ public class AdminController {
     	  vo.setSearchDateRange("range");
       }
       
+      if (vo.getCsStatus().equals("csStatusTotal")) vo.setCsOrderRange("noRange");
+      
       System.out.println(vo.toString());
       
       Map<String, Object> param = service.orderManageSearch(vo, cri);
@@ -702,6 +711,12 @@ public class AdminController {
       model.addAttribute("order", param);
       
       return "/admin/adminOrderSearch";
+   }
+   
+   @RequestMapping(value="/orderManagement/view")
+   public String OrderView(PagingCriteria cri, Model model) throws Exception{
+      model.addAttribute("order", service.readOrderList(cri));
+      return "/admin/adminOrderView";
    }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

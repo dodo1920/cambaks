@@ -10,20 +10,10 @@ public class OrderManagementSearchVO {
 	private Date endDate;
 	private String productInfo;
 	private String productInfoSearch;
-	private String csOrderRange;
-	private boolean purchaseConfirmationBefore;
-	private boolean purchaseConfirmation;
-	private boolean orderDeliveryReady;
-	private boolean orderOnDelivery;
-	private boolean orderDeliveryCompleted;
-	private boolean csCancelRequest;
-	private boolean csCancelCompleted;
-	private boolean csChangeRequest;
-	private boolean csChangeCompleted;
-	private boolean csReturnRequest;
-	private boolean csReturnCompleted;
-	private boolean csRefundRequest;
-	private boolean csRefundCompleted;
+	private String csOrderRange = "check";
+	private String purchaseStatus;
+	private String orderStatus;
+	private String csStatus;
 	
 	public String getCheckOption() {
 		return checkOption;
@@ -73,83 +63,23 @@ public class OrderManagementSearchVO {
 	public void setCsOrderRange(String csOrderRange) {
 		this.csOrderRange = csOrderRange;
 	}
-	public boolean isPurchaseConfirmationBefore() {
-		return purchaseConfirmationBefore;
+	public String getPurchaseStatus() {
+		return purchaseStatus;
 	}
-	public void setPurchaseConfirmationBefore(boolean purchaseConfirmationBefore) {
-		this.purchaseConfirmationBefore = purchaseConfirmationBefore;
+	public void setPurchaseStatus(String purchaseStatus) {
+		this.purchaseStatus = purchaseStatus;
 	}
-	public boolean isPurchaseConfirmation() {
-		return purchaseConfirmation;
+	public String getOrderStatus() {
+		return orderStatus;
 	}
-	public void setPurchaseConfirmation(boolean purchaseConfirmation) {
-		this.purchaseConfirmation = purchaseConfirmation;
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
 	}
-	public boolean isOrderDeliveryReady() {
-		return orderDeliveryReady;
+	public String getCsStatus() {
+		return csStatus;
 	}
-	public void setOrderDeliveryReady(boolean orderDeliveryReady) {
-		this.orderDeliveryReady = orderDeliveryReady;
-	}
-	public boolean isOrderOnDelivery() {
-		return orderOnDelivery;
-	}
-	public void setOrderOnDelivery(boolean orderOnDelivery) {
-		this.orderOnDelivery = orderOnDelivery;
-	}
-	public boolean isOrderDeliveryCompleted() {
-		return orderDeliveryCompleted;
-	}
-	public void setOrderDeliveryCompleted(boolean orderDeliveryCompleted) {
-		this.orderDeliveryCompleted = orderDeliveryCompleted;
-	}
-	public boolean isCsCancelRequest() {
-		return csCancelRequest;
-	}
-	public void setCsCancelRequest(boolean csCancelRequest) {
-		this.csCancelRequest = csCancelRequest;
-	}
-	public boolean isCsCancelCompleted() {
-		return csCancelCompleted;
-	}
-	public void setCsCancelCompleted(boolean csCancelCompleted) {
-		this.csCancelCompleted = csCancelCompleted;
-	}
-	public boolean isCsChangeRequest() {
-		return csChangeRequest;
-	}
-	public void setCsChangeRequest(boolean csChangeRequest) {
-		this.csChangeRequest = csChangeRequest;
-	}
-	public boolean isCsChangeCompleted() {
-		return csChangeCompleted;
-	}
-	public void setCsChangeCompleted(boolean csChangeCompleted) {
-		this.csChangeCompleted = csChangeCompleted;
-	}
-	public boolean isCsReturnRequest() {
-		return csReturnRequest;
-	}
-	public void setCsReturnRequest(boolean csReturnRequest) {
-		this.csReturnRequest = csReturnRequest;
-	}
-	public boolean isCsReturnCompleted() {
-		return csReturnCompleted;
-	}
-	public void setCsReturnCompleted(boolean csReturnCompleted) {
-		this.csReturnCompleted = csReturnCompleted;
-	}
-	public boolean isCsRefundRequest() {
-		return csRefundRequest;
-	}
-	public void setCsRefundRequest(boolean csRefundRequest) {
-		this.csRefundRequest = csRefundRequest;
-	}
-	public boolean isCsRefundCompleted() {
-		return csRefundCompleted;
-	}
-	public void setCsRefundCompleted(boolean csRefundCompleted) {
-		this.csRefundCompleted = csRefundCompleted;
+	public void setCsStatus(String csStatus) {
+		this.csStatus = csStatus;
 	}
 	
 	@Override
@@ -157,13 +87,8 @@ public class OrderManagementSearchVO {
 		return "OrderManagementSearchVO [checkOption=" + checkOption + ", checkOptionSearch=" + checkOptionSearch
 				+ ", searchDateRange=" + searchDateRange + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", productInfo=" + productInfo + ", productInfoSearch=" + productInfoSearch + ", csOrderRange="
-				+ csOrderRange + ", purchaseConfirmationBefore=" + purchaseConfirmationBefore
-				+ ", purchaseConfirmation=" + purchaseConfirmation + ", orderDeliveryReady=" + orderDeliveryReady
-				+ ", orderOnDelivery=" + orderOnDelivery + ", orderDeliveryCompleted=" + orderDeliveryCompleted
-				+ ", csCancelRequest=" + csCancelRequest + ", csCancelCompleted=" + csCancelCompleted
-				+ ", csChangeRequest=" + csChangeRequest + ", csChangeCompleted=" + csChangeCompleted
-				+ ", csReturnRequest=" + csReturnRequest + ", csReturnCompleted=" + csReturnCompleted
-				+ ", csRefundRequest=" + csRefundRequest + ", csRefundCompleted=" + csRefundCompleted + "]";
+				+ csOrderRange + ", purchaseStatus=" + purchaseStatus + ", orderStatus=" + orderStatus + ", csStatus="
+				+ csStatus + "]";
 	}
 	
 }
