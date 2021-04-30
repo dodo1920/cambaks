@@ -264,11 +264,11 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   <!-- ***************************************** 정민 ********************************************************************************* -->
   	<!-- 게시물 페이징 리스트 -->
   	<select id="prodList" resultType="com.cambak21.domain.ProductsVO">
-  		select * from Products order by product_id desc limit #{pageStart}, #{perPageNum}
+  		select * from Products where product_isDelete = 'N' order by product_id desc limit #{pageStart}, #{perPageNum} 
   	</select>
   	<!-- 총 게시물 개수 가져오기 -->
   	<select id="getTotalProdListCnt" resultType="int">
-  		select count(*) from Products;
+  		select count(*) from Products where product_isDelete = 'N';
   	</select>
   
   	<!-- 검색된 게시글 총 개수 가져오기 -->
@@ -325,6 +325,8 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		<!-- 날짜에 따른 검색조건 -->
 
   		and #{checkLowDate} <![CDATA[<=]]> product_date <![CDATA[<=]]> #{checkHighDate}
+  		
+  		and product_isDelete = 'N'
   	</select>
   
   	<!-- **********************검색된 게시글 리스트 출력, 동적 SQL 사용 부분(검색어)************************* -->
@@ -384,6 +386,8 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 
   		and #{checkLowDate} <![CDATA[<=]]> product_date <![CDATA[<=]]> #{checkHighDate}
   		
+  		and product_isDelete = 'N'
+  		
   		order by product_id desc limit #{pageStart}, #{perPageNum}
   	</select>
   
@@ -397,7 +401,8 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	</select>
   
   	<update id="deleteProdList">
-  		update Products set product_isDelete = 'Y' where product_id = {#deleteProdList}
+  		update Products set product_isDelete = 'Y' where product_id in
+  		(<foreach collection="list" item="item" separator=" , "> #{item} </foreach>)
   	</update>
   
   
