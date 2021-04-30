@@ -270,24 +270,31 @@ function getDate(date){
     return year + "-" + month + "-" + day;
 }
 
-// 선택된 체크박스 리스트 가져오기
+// 선택된 체크박스 리스트 가져온후 삭제 처리
 function getCheckBoxList() {
 	let size = document.getElementsByName("chk").length;
+	console.log(typeof(size));
 	console.log(size);
-	
 	let arr = [];
 	
-	
+	let sum = 0;
 	//check이름을 가진 check중에서 체크된 것만 값 가져오기
     for(var i = 0; i < size; i++){
         if(document.getElementsByName("chk")[i].checked == true){
             console.log(document.getElementsByName("chk")[i].value);
             // 배열에 해당하는 값 넣어주기
             arr.push(document.getElementsByName("chk")[i].value);
+            
+            // 총 개수 더해주기
+            sum += 1;
         }
     }
 	
-	console.log(arr);
+	// 체크된 것이 있다면, 삭제 버튼을 눌렀을 때 확인한다.
+	if(sum > 0){
+	
+	// 삭제 여부를 확인
+	if(confirm("해당 게시물을 삭제하시겠습니까?")) {
 	
 	$.ajax({
 		method: "get",
@@ -302,13 +309,38 @@ function getCheckBoxList() {
 	  success : function(data) {
 
 	      console.log(data);
+	      
+	      location.reload();
 	  }
 	  
 	}); // end of ajax
-}
 
+	} // end of if
+	
+	}
+	
+}
+function status() {
+    let status = "${status}"
+    
+    if(status == "insertOk") {
+       $("#modalText").text("상품이 등록 되었습니다.")
+       $("#productModal").show();
+    } else if(status == "insertFail") {
+       $("#modalText").text("상품 등록에 실패하였습니다.")
+       $("#productModal").show();
+    } else if(status == "modiOk") {
+       $("#modalText").text("상품이 수정 되었습니다.")
+       $("#productModal").show();
+    } else if(status == "modiFail") {
+       $("#modalText").text("상품 수정에 실패하였습니다.");
+       $("#productModal").show();
+    }
+ }
+ 
 $(document).ready(function() {
 	console.log(lastWeek());
+	status();
 });
 
 </script>
@@ -456,17 +488,21 @@ $(document).ready(function() {
 											</thead>
 											<tbody>
 												<c:forEach var="board" items="${boardList }" varStatus="status">
-												<tr role="row">
-													<td><input type="checkbox" name="chk" id="${board.product_id }" value="${board.product_id }" onclick=""/></td>
-													<td>${board.product_id }</td>
-													<td>${board.mainCategory_id }</td>
-													<td>${board.middleCategory_id }</td>
-													<td>${board.product_name }</td>
-													<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.product_sellPrice }" />&#8361;</td>
-													<td>${board.product_show }</td>
-													<td>${board.product_factory }</td>
-													<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
-												</tr>
+													<c:choose>
+														<c:when test="${board.product_isDelete == 'N' }">
+															<tr role="row" onclick="location.href='/admin/productModify?product_id=${board.product_id}'">
+																<td onclick='event.cancelBubble=true;'><input type="checkbox" name="chk" id="${board.product_id }" value="${board.product_id }" onclick=""/></td>
+																<td>${board.product_id }</td>
+																<td>${board.mainCategory_id }</td>
+																<td>${board.middleCategory_id }</td>
+																<td>${board.product_name }</td>
+																<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.product_sellPrice }" />&#8361;</td>
+																<td>${board.product_show }</td>
+																<td>${board.product_factory }</td>
+																<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
+															</tr>
+														</c:when>
+													</c:choose>
 												</c:forEach>
 											</tbody>
 	                                    </table>
@@ -478,7 +514,7 @@ $(document).ready(function() {
 									</div>
 								</div>
 								<div class="row">
-									<div class="col-sm-12 col-md-5"></div>
+									<div class="col-sm-12 col-md-4"></div>
 									<div class="col-sm-12 col-md-7">
 										<div>
 											<ul class="pagination">
@@ -543,6 +579,23 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
+<!-- modal -->
+   <div id="productModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-sm">
+         <!-- Modal content-->
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal">&times;</button>
+               <h4 class="modal-title">알림</h4>
+            </div>
+            <div class="modal-body" id="modalText"></div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+            </div>
+         </div>
+
+      </div>
+   </div>
 <%@ include file="adminFooter.jsp"%>
 </div>
 </body>

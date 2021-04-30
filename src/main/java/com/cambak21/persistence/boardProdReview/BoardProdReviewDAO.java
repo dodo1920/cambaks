@@ -50,6 +50,12 @@ public interface BoardProdReviewDAO {
 	// 게시글 좋아요 수 가져오기
 	public int getProdReviewsLikeCnt(int prodReview_no) throws Exception;
 	
+	// 주문 확정된 개수 가져오기
+	public String getConfirmedOrder(String member_id, int prodId) throws Exception;
+	
+	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
+	//public int getWrittenReviewCnt(String member_id, int prodId) throws Exception;
+	
 	
 	// 검색 결과 전체 글 수 가져오기
 	//public int getSearchCount(SearchCriteria scri) throws Exception;

@@ -615,6 +615,24 @@
 				
 		}
 	
+	// 주문 완료 처리한 상품에 대해서만 상품후기를 쓸 수 있도록 확인하는 메서드
+	/*function writingReviewCheck() {
+		
+		$.ajax({
+			  method: "post",
+			  url: "/mall/prodDetail/confirmBuyingCheck/" + loginUser + "/" + prodId,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  success : function(result) {
+				  console.log(result);
+			  }, complete : function(result) {
+			}
+			  
+			});// end of Ajax
+	}*/	
+		
 	//----------------------------------------------------------------------------정민오빠 js 끝!!!---------------------------------------------------------------------
 	
 	// **************************************************************************** 도연 상품 문의 js ******************************************************************
@@ -1658,19 +1676,20 @@
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>상품평</h6>
-                                <!-- *********아래부터 상품평 정렬순서 넣는 곳 *************************************************************-->	
+                                <!-- *********아래부터 상품평 정렬순서 넣는 곳(정민) *************************************************************-->	
                             	<ul>
                             	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'latest'); return false;" >최신순</a></li>
                             	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'grades'); return false;">별점순</a></li>
                             	<li class="orderList"><a href="" onclick="showProdList(0,1,0,'replies'); return false;">좋아요순</a></li>
                             	</ul>
-                                <!-- *********아래부터 상품평 내용 넣는 곳 *************************************************************-->
+                                <!-- *********아래부터 상품평 내용 넣는 곳(정민) *************************************************************-->
                                 <div>
                                 
 						     	<div>
 						     	<div class="form-row float-right" id="writingProdReviews">
-						     		<c:if test="${loginMember.member_id }">
-						        	<button type="button" class="btn btn-success" onclick="location.href=\'/cambakMall/writingProdReviews\'">글쓰기</button>
+						     		<!-- 로그인을 했으면, -->
+						     		<c:if test="${loginMember.member_id != null}">
+						        	<button type="button" class="btn btn-success" onclick="location.href='/myMall/myOrder';">글쓰기</button>
 						        	</c:if>
 						        </div>
 						     	<div id="prodBoardList"></div>

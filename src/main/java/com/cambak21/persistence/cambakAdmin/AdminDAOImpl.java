@@ -339,11 +339,12 @@ public class AdminDAOImpl implements AdminDAO {
 		// deleteProdList	
 		@Override
 		public String deleteProdList(List<String> prodList) throws Exception {
+			System.out.println("dao의 delete prodlist: " + prodList);
 			String result = null;
 			// for문을 돌려서 mapper로 보내줘야 한다.
 			// 또는 mapper에서 for문을 돌려서 작업해야한다.
-			if(ses.update(ns + ".deleteProdList", prodList) == 1) {
-				result = "deleted";
+			if(ses.update(ns + ".deleteProdList", prodList) != 0) {
+				result = "deleted";	
 			}
 			return result;
 		}

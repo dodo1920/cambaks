@@ -78,4 +78,14 @@
 	<select id="getProdReviewsLikeCnt" resultType="int">
 		select prodReview_likeCnt from goot6.ProdReviews where prodReview_no = #{prodReview_no} 
 	</select>
+	
+	<!-- 구매확정한 개수 가져오기 -->
+	<select id="getConfirmedOrder" resultType="int">
+		select count(*) from BuyProducts where member_id=#{member_id} and product_id=#{product_id} and buyProduct_isFinished='Y' and buyProduct_isReviewed='N'
+	</select>
+	
+	<!-- 해당 상품에 작성된 후기 수 가져오기 -->
+	<select id="getWrittenReviewCnt" resultType="int">
+		select count(*) from ProdReviews where member_id=#{member_id} and product_id=#{product_id}
+	</select>
  </mapper>

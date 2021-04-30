@@ -273,8 +273,26 @@ public class ProdDetail {
 			return result;
 		}
 	   
-	   
-	
+	   // 상품후기 작성 가능 여부 확인
+		@RequestMapping(value="/confirmBuyingCheck/{loginUser}/{prodId}",  method=RequestMethod.POST)
+		public @ResponseBody void confirmBuyingCheck(@PathVariable("loginUser") String member_id, @PathVariable("prodId") int prodId) {
+			logger.info("/confirmBuyingCheck의 post방식 호출");
+			System.out.println("/confirmBuyingCheck의 post방식 호출");
+			//Map<String, Object> result = new HashMap<String, Object>();
+			System.out.println(member_id);
+			System.out.println(prodId);
+			try {
+				// 아이디, 상품번호로 주문 확정된 buyProduct 항목 수 가져오기 
+				// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
+				System.out.println(service.getConfirmedOrder(member_id, prodId));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			//return result;
+		}
 	
 	
 	
