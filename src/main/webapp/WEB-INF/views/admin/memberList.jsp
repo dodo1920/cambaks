@@ -52,9 +52,192 @@
 <script>
 	let pageNo = '${param.page}';
 	
+	function genderTotalCheckBoxCtl() {
+		$("#genderTotal").change(function() {
+			if($("#genderTotal").prop("checked")) {
+	 			$("#female").prop("checked", true);
+	 			$("#male").prop("checked", true);
+	 		} else {
+	 			$("#female").prop("checked", false);
+	 			$("#male").prop("checked", false);
+	 		}
+		});
+	}
+	
+	function eachGenderCheckBoxCtl() {
+		$("#female").change(function() {
+			if($("#male").prop("checked")) {
+				$("#genderTotal").prop("checked", true);
+			}
+			
+			if(!$("#female").prop("checked")) {
+				$("#genderTotal").prop("checked", false);
+			}
+		});
+		
+		$("#male").change(function() {
+			if($("#female").prop("checked")) {
+				$("#genderTotal").prop("checked", true);
+			} 
+			
+			if(!$("#male").prop("checked")) {
+				$("#genderTotal").prop("checked", false);
+			}
+		});
+	}
+	
+	function gradeTotalCheckBoxCtl() {
+		$("#gradeTotal").change(function() {
+			if($("#gradeTotal").prop("checked")) {
+				$("#A").prop("checked", true);	
+				$("#B").prop("checked", true);	
+				$("#C").prop("checked", true);	
+			} else {
+				$("#A").prop("checked", false);	
+				$("#B").prop("checked", false);	
+				$("#C").prop("checked", false);	
+			}
+		});
+	}
+	
+	function eachGradeCheckBoxCtl() {
+		$("#A").change(function() {
+			if($("#B").prop("checked") && $("#C").prop("checked")) {
+				$("#gradeTotal").prop("checked", true);
+			}
+			
+			if(!$("#A").prop("checked")) {
+				$("#gradeTotal").prop("checked", false);
+			}
+		});
+		
+		$("#B").change(function() {
+			if($("#A").prop("checked") && $("#C").prop("checked")) {
+				$("#gradeTotal").prop("checked", true);
+			}
+			
+			if(!$("#B").prop("checked")) {
+				$("#gradeTotal").prop("checked", false);
+			}
+		});
+		
+		$("#C").change(function() {
+			if($("#A").prop("checked") && $("#B").prop("checked")) {
+				$("#gradeTotal").prop("checked", true);
+			}
+			
+			if(!$("#C").prop("checked")) {
+				$("#gradeTotal").prop("checked", false);
+			}
+		});
+	}
+	
+	function changeUnit() {
+		$("#PriceOption").change(function() {
+			if($("#PriceOption").val() == "puchasePrice") {
+				$("#unit").html("원");
+			} else if($("#PriceOption").val() == "point") {
+				$("#unit").html("point");
+			}
+		});
+	}
+// 	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 체크박스 유효성^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+	let date = new Date();
+	let todayDate = date.toISOString().substring(0,10);
+	
+	function today() {
+		$("#checkLowDate").val(todayDate);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function yesterday() {
+		let yesterdayMili = new Date(date.setDate(date.getDate() -1));
+		let yesterday = yesterdayMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(yesterday);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function threeDaysAgo() {
+		let threeDaysMili = new Date(date.setDate(date.getDate() -3));
+		let threeDaysAgo = threeDaysMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(threeDaysAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function sevenDaysAgo() {
+		let sevenDaysMili = new Date(date.setDate(date.getDate() -7));
+		let sevenDaysAgo = sevenDaysMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(sevenDaysAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function halfMonthAgo() {
+		let halfMonthMili = new Date(date.setDate(date.getDate() -15));
+		let halfMonthAgo = halfMonthMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(halfMonthAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function monthAgo() {
+		let monthMili = new Date(date.setMonth(date.getMonth() -1));
+		let monthAgo = monthMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(monthAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function threeMonthAgo() {
+		let threeMonthMili = new Date(date.setMonth(date.getMonth() -3));
+		let threeMonthAgo = threeMonthMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(threeMonthAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function sixMonthAgo() {
+		let sixMonthMili = new Date(date.setMonth(date.getMonth() -6));
+		let sixMonthAgo = sixMonthMili.toISOString().substring(0,10);
+		$("#checkLowDate").val(sixMonthAgo);
+		$("#checkHighDate").val(todayDate);
+	}
+	
+	function checkAll() {
+		console.log($("#memberOption").val());
+		console.log($("#memberOptionSearchWord").val());
+		
+		console.log($("#dateOption").val());
+		console.log($("#checkLowDate").val());
+		console.log($("#checkHighDate").val());
+		
+		console.log($("#PriceOption").val());
+		console.log($("#checkHighNum").val());
+		console.log($("#checkLowNum").val());
+		
+		if($("#female").prop("checked") && !$("#male").prop("checked")) {
+			$("#genderResult").val("F");
+		} else if(!$("#female").prop("checked") && $("#male").prop("checked")){
+			$("#genderResult").val("M");
+		} else {
+			$("#genderResult").val("all");
+		}
+		console.log($("#genderResult").val());
+		return false;
+	}
+	
+// 	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 검색 유효성 검사^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 	$(document).ready(function() {
 		console.log('${paging}');
+		
+		genderTotalCheckBoxCtl();
+		eachGenderCheckBoxCtl();
+		
+		gradeTotalCheckBoxCtl();
+		eachGradeCheckBoxCtl();
+		
+		changeUnit();
 	});
+	
+// 	vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 회원 리스트 수정/삭제 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 	
 	function showBtns(obj) {
 		let no = $(obj).attr("id");
@@ -87,13 +270,10 @@
 	}
 	
 	function showModi(no) {
-		
-		
 		$("#spName" + no).hide();
 		$("#spTotPoint" + no).hide();
 		$("#inputName" + no).show();
 		$("#inputTotPoint" + no).show();
-		
 		
 		$("#btns" + no).hide();
 		$("#modiBtns" + no).show();		
@@ -148,9 +328,6 @@
 		$("#modiBtns" + no).hide();		
 	}
 
-
-
-
 </script>
 <style>
 
@@ -185,65 +362,97 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
+				<form action="/admin/memberSearch" method="post">
 				<div class="card">
 					<div class="card-body">
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">회원 검색</label>
 							<div class="col-md-1">
-								<select class="select form-control" name="checkOption" style="height:36px;">
+								<select class="select form-control" name="memberOption"  id="memberOption" style="height:36px;">
 									<optgroup label="-검색항목선택-">
-										<option value="orderNum">이름</option>
-										<option value="PurchaseName">아이디</option>
-										<option value="PurchaseId">이메일</option>
-										<option value="PurchaseEmail">휴대전화</option>
+										<option value="name">이름</option>
+										<option value="id">아이디</option>
+										<option value="email">이메일</option>
+										<option value="mobile">휴대전화</option>
 									</optgroup>
 								</select>
 							</div>
 							<div class="col-md-3">
-							    <input type="text" class="form-control" name="checkOptionSearch">
+							    <input type="text" class="form-control" name="memberOptionSearchWord" id="memberOptionSearchWord">
 							</div>
 							<div class="col-md-7"></div>
 						</div>
 						<div class="form-group row">
-						    <label class="col-md-1">주문일</label>
+						    <label class="col-md-1">생년월일 / 가입일</label>
+						    <div class="col-md-1">
+								<select class="select form-control" name="dateOption" id="dateOption" style="height:36px;">
+									<optgroup label="-검색항목선택-">
+										<option value="birth">생년월일</option>
+										<option value="registDate">가입일</option>
+									</optgroup>
+								</select>
+							</div>
 						    <div class="col-md-7">
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">오늘</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">어제</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">3일</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">7일</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">15일</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">1개월</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="">3개월</button>
-							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="">6개월</button>
-							    <input type="date" id="checkLowDate" onchange="" />
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="today();">오늘</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="yesterday();">어제</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="threeDaysAgo();">3일</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="sevenDaysAgo();">7일</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="halfMonthAgo();">15일</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="monthAgo();">1개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 5px;" onclick="threeMonthAgo();">3개월</button>
+							    <button type="button" class="btn btn-light btn-sm" style="margin-right: 10px;" onclick="sixMonthAgo();">6개월</button>
+							    <input type="date" id="checkLowDate" name="checkLowDate" />
 							    <span>~</span>
-							    <input type="date" id="checkHighDate" onchange="" />
+							    <input type="date" id="checkHighDate" name="checkHighDate" />
 							    <div id="checkOrderDate">
 								    <input type="hidden" value="" name="checkDate"/>
-								    <input type="hidden" value="" name="checkLowDate"/>
-								    <input type="hidden" value="" name="checkHighDate"/>
+<!-- 								    <input type="hidden" value="" name="checkLowDate"/> -->
+<!-- 								    <input type="hidden" value="" name="checkHighDate"/> -->
+							    </div>
+						    </div>
+						    <div class="col-md-4"></div>
+						</div>
+						<div class="form-group row">
+						    <label class="col-md-1">누적 금액 / 포인트</label>
+						    <div class="col-md-1">
+								<select class="select form-control" name="PriceOption" id="PriceOption" style="height:36px;">
+									<optgroup label="-검색항목선택-">
+										<option value="puchasePrice">누적 금액</option>
+										<option value="point">포인트</option>
+									</optgroup>
+								</select>
+							</div>
+						    <div class="col-md-7">
+							    <input type="number" id="checkLowNum" onchange="" />
+							    <span>~</span>
+							    <input type="number" id="checkHighNum" onchange="" /> <span id="unit">원</span>
+							    <div id="checkOrderDate">
+								    <input type="hidden" value="" name="checkNum"/>
+								    <input type="hidden" value="" name="checkLowNum"/>
+								    <input type="hidden" value="" name="checkHighNum"/>
 							    </div>
 						    </div>
 						    <div class="col-md-4"></div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">성별</label>
+							<input type="hidden" name="gender" id="genderResult" value="all">
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="orderStatusTotal" id="orderStatusTotal">
-								    <label class="custom-control-label" for="orderStatusTotal">전체</label>
+								    <input type="checkbox" class="custom-control-input" id="genderTotal">
+								    <label class="custom-control-label" for="genderTotal">전체</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="orderDeliveryReady" id="orderDeliveryReady">
-								    <label class="custom-control-label" for="orderDeliveryReady">여성</label>
+								    <input type="checkbox" class="custom-control-input" id="female">
+								    <label class="custom-control-label" for="female">여성</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="orderOnDeliver" id="orderOnDeliver">
-								    <label class="custom-control-label" for="orderOnDeliver">남성</label>
+								    <input type="checkbox" class="custom-control-input" id="male">
+								    <label class="custom-control-label" for="male">남성</label>
 								</div>
 							</div>
 							<div class="col-md-9"></div>
@@ -252,26 +461,26 @@
 							<label class="col-md-1 m-t-15">회원 등급</label>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusTotal" id="csStatusTotal">
-								    <label class="custom-control-label" for="csStatusTotal">전체</label>
+								    <input type="checkbox" class="custom-control-input" name="csStatusTotal" id="gradeTotal">
+								    <label class="custom-control-label" for="gradeTotal">전체</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusChange" id="csStatusChange">
-								    <label class="custom-control-label" for="csStatusChange">A등급</label>
+								    <input type="checkbox" class="custom-control-input" name="A" id="A">
+								    <label class="custom-control-label" for="A">A등급</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusReturn" id="csStatusReturn">
-								    <label class="custom-control-label" for="csStatusReturn">B등급</label>
+								    <input type="checkbox" class="custom-control-input" name="B" id="B">
+								    <label class="custom-control-label" for="B">B등급</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusRefund" id="csStatusRefund">
-								    <label class="custom-control-label" for="csStatusRefund">C등급</label>
+								    <input type="checkbox" class="custom-control-input" name="C" id="C">
+								    <label class="custom-control-label" for="C">C등급</label>
 								</div>
 							</div>
 							<div class="col-md-6"></div>
@@ -280,14 +489,15 @@
 					<div class="border-top">
 						<div class="card-body">
 							<span style="margin-right: 5px;">
-							<button type="submit" class="btn btn-primary">검색</button>
+							<button type="submit" class="btn btn-primary" onclick="return checkAll();">검색</button>
 							</span>
 							<span style="margin-left: 5px;">
-							<button type="button" class="btn btn-light" onclick="location.href='/admin/orderManagement?page=1'">초기화</button>
+							<button type="button" class="btn btn-light" onclick="location.href='/admin/memberList?page=1'">초기화</button>
 							</span>
 						</div>
 					</div>
 				</div>
+				</form>
 				<div class="card">
 					<div class="card-body">
 						<div class="table-responsive">

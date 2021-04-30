@@ -15,17 +15,26 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+
+import com.cambak21.domain.ProductAnalysisVO;
+
+import com.cambak21.domain.OrderManagementSearchVO;
+
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -160,17 +169,25 @@ public class AdminDAOImpl implements AdminDAO {
 	      return ses.selectOne(ns + ".prevWeekRefund");
 	   }
 	      
+
+		@Override
+		public RevenueEachWeekVO selectEachWeek(int revenueWeekly)throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeek", revenueWeekly);
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		@Override
+		public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".selectEachWeekRefund", revenueWeekly);
+		}
+
+		@Override
+		public List<ProductAnalysisVO> productAnalysis(int perDate) throws Exception {
+			// TODO Auto-generated method stub
+			return ses.selectList(ns + ".productAnalysis", perDate);
+		}
+
 		
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 		
@@ -245,6 +262,7 @@ public class AdminDAOImpl implements AdminDAO {
 		@Override
 		public int getTotalSearchProdListCnt(SearchCriteria scri, AdminProductListDTO dto) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
+			System.out.println("dao의 dto: " + dto.toString());
 			param.put("searchType", scri.getSearchType());
 			param.put("searchWord", scri.getSearchWord());
 			System.out.println("dao scri.searchWord:" + scri.getSearchWord());
@@ -252,6 +270,8 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("product_show", dto.getProduct_show());
 			param.put("mainCategory_id", dto.getMainCategory_id());
 			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			param.put("checkLowDate", dto.getCheckLowDate());
+			param.put("checkHighDate", dto.getCheckHighDate());
 			System.out.println("dao의 param:" + param.toString());
 			return ses.selectOne(ns + ".getTotalSearchProdListCnt", param);
 		}
@@ -260,7 +280,7 @@ public class AdminDAOImpl implements AdminDAO {
 		@Override
 		public List<ProductsVO> goSearchProdList(SearchCriteria scri, PagingCriteria cri, AdminProductListDTO dto) throws Exception {
 			// 여러 개의 객체를 한번에 보낼 때, Map을 사용
-			System.out.println("dao의 dto: " + dto.toString());
+			//System.out.println("dao의 dto: " + dto.toString());
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("searchType", scri.getSearchType());
 			param.put("searchWord", scri.getSearchWord());
@@ -269,6 +289,9 @@ public class AdminDAOImpl implements AdminDAO {
 			param.put("product_show", dto.getProduct_show());
 			param.put("mainCategory_id", dto.getMainCategory_id());
 			param.put("middleCategory_id", dto.getMiddleCategory_id());
+			param.put("checkLowDate", dto.getCheckLowDate());
+			param.put("checkHighDate", dto.getCheckHighDate());
+
 			
 			return ses.selectList(ns + ".goSearchProdList", param);
 		}
@@ -285,7 +308,19 @@ public class AdminDAOImpl implements AdminDAO {
 			return ses.selectList(ns + ".getMiddleCategories", mainCategory_id);
 		}
 			
-		
+		// deleteProdList	
+		@Override
+		public String deleteProdList(List<String> prodList) throws Exception {
+			String result = null;
+			// for문을 돌려서 mapper로 보내줘야 한다.
+			// 또는 mapper에서 for문을 돌려서 작업해야한다.
+			if(ses.update(ns + ".deleteProdList", prodList) == 1) {
+				result = "deleted";
+			}
+			return result;
+		}
+
+
 		
 		
 		
@@ -296,52 +331,52 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		
 		@Override
-		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".goGetBoard_admin", param);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc)
+		public List<AdminReplyBoardDTO> goGetreply_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".goGetreply_admin", param);
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
-			param.put("searchboardType", searchboardType);
-			param.put("searchTxtValue", searchTxtValue);
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".searchGetBoard_admin", param);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc)
+		public List<AdminReplyBoardDTO> searchGetreply_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", goStartDate);
-			param.put("goEndDate", goEndDate);
-			param.put("board_category", board_category);
-			param.put("searchboardType", searchboardType);
-			param.put("searchTxtValue", searchTxtValue);
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
 			param.put("pageStart", pc.getPageStart());
 			param.put("perPageNum", pc.getPerPageNum());
 			return ses.selectList(ns + ".searchGetreply_admin", param);
@@ -356,7 +391,45 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		
+		public int getBoard_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 		
+			return ses.selectOne(ns + ".getBoard_adminCnt", param);
+		}
+			
+		public int getReply_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+
+			return ses.selectOne(ns + ".getReply_adminCnt", param);
+		}
+	
+		public int getsearchBoard_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+	
+			return ses.selectOne(ns + ".getsearchBoard_adminCnt", param);
+		}
+			
+		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+
+			return ses.selectOne(ns + ".getsearchReply_adminCnt", param);
+		}
 		
 		
 		
@@ -402,36 +475,70 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.selectOne(ns + ".orderTotalPrice", payment_no);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public List<AdminOrderListVO> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
 		
+		// 검색 필터
+		param.put("checkOption", vo.getCheckOption());
+		param.put("checkOptionSearch", vo.getCheckOptionSearch());
+		param.put("searchDateRange", vo.getSearchDateRange());
+		param.put("startDate", vo.getStartDate());
+		param.put("endDate", vo.getEndDate());
+		param.put("productInfo", vo.getProductInfo());
+		param.put("productInfoSearch", vo.getProductInfoSearch());
+		param.put("csOrderRange", vo.getCsOrderRange());
+		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
+		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
+		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
+		param.put("orderOnDelivery", vo.isOrderOnDelivery());
+		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
+		param.put("csCancelRequest", vo.isCsCancelRequest());
+		param.put("csCancelCompleted", vo.isCsCancelCompleted());
+		param.put("csChangeRequest", vo.isCsChangeRequest());
+		param.put("csChangeCompleted", vo.isCsChangeCompleted());
+		param.put("csReturnRequest", vo.isCsReturnRequest());
+		param.put("csReturnCompleted", vo.isCsReturnCompleted());
+		param.put("csRefundRequest", vo.isCsRefundRequest());
+		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		
+		// 페이징 필터
+		param.put("pageStart", cri.getPageStart());
+		param.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".orderManageSearch", param);
+	}
+
+	@Override
+	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		// 검색 필터
+		param.put("checkOption", vo.getCheckOption());
+		param.put("checkOptionSearch", vo.getCheckOptionSearch());
+		param.put("searchDateRange", vo.getSearchDateRange());
+		param.put("startDate", vo.getStartDate());
+		param.put("endDate", vo.getEndDate());
+		param.put("productInfo", vo.getProductInfo());
+		param.put("productInfoSearch", vo.getProductInfoSearch());
+		param.put("csOrderRange", vo.getCsOrderRange());
+		param.put("purchaseConfirmationBefore", vo.isPurchaseConfirmationBefore());
+		param.put("purchaseConfirmation", vo.isPurchaseConfirmation());
+		param.put("orderDeliveryReady", vo.isOrderDeliveryReady());
+		param.put("orderOnDelivery", vo.isOrderOnDelivery());
+		param.put("orderDeliveryCompleted", vo.isOrderDeliveryCompleted());
+		param.put("csCancelRequest", vo.isCsCancelRequest());
+		param.put("csCancelCompleted", vo.isCsCancelCompleted());
+		param.put("csChangeRequest", vo.isCsChangeRequest());
+		param.put("csChangeCompleted", vo.isCsChangeCompleted());
+		param.put("csReturnRequest", vo.isCsReturnRequest());
+		param.put("csReturnCompleted", vo.isCsReturnCompleted());
+		param.put("csRefundRequest", vo.isCsRefundRequest());
+		param.put("csRefundCompleted", vo.isCsRefundCompleted());
+		
+		return ses.selectOne(ns + ".orderManageSearchNum", param);
+	}
+
 		
 		
 		

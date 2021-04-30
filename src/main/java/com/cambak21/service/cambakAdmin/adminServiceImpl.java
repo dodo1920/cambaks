@@ -14,15 +14,24 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
+
+import com.cambak21.domain.ProductAnalysisVO;
+
+import com.cambak21.domain.OrderManagementSearchVO;
+
 import com.cambak21.domain.RevRefundVO;
+import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
+import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
+import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
+import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
 import com.cambak21.util.SearchCriteria;
@@ -178,8 +187,25 @@ public class adminServiceImpl implements adminService {
 	      // TODO Auto-generated method stub
 	      return dao.prevWeekRefund();
 	   }
+	   
+	   @Override
+		public RevenueEachWeekVO selectEachWeek(int revenueWeekly) throws Exception {
+			
+			return dao.selectEachWeek(revenueWeekly);
+		}
 		
-		
+		@Override
+		public RevenueEachWeekVO selectEachWeekRefund(int revenueWeekly) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.selectEachWeekRefund(revenueWeekly);
+		}
+
+		@Override
+		public List<ProductAnalysisVO> productAnalysis(int perDate) throws Exception {
+			
+			return dao.productAnalysis(perDate);
+		}
+
 		
 		
 		
@@ -283,7 +309,11 @@ public class adminServiceImpl implements adminService {
 			return dao.getMiddleCategories(mainCategory_id);
 		}
 		
-		
+		// deleteProdList
+		@Override
+		public String deleteProdList(List<String> prodList) throws Exception {
+			return dao.deleteProdList(prodList);
+		}
 		
 //		---------------------------------------------- 정민 끝 ---------------------------------------------------------------------------------------------
 		
@@ -292,27 +322,27 @@ public class adminServiceImpl implements adminService {
 		
 
 		@Override
-		public List<BoardVO> goGetBoard_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> goGetBoard_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
 			// TODO Auto-generated method stub
-			return dao.goGetBoard_admin(goStartDate, goEndDate, board_category, pc);
+			return dao.goGetBoard_admin(BAcri1, pc);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> goGetreply_admin(String goStartDate, String goEndDate, String board_category, PagingCriteria pc) throws Exception {
+		public List<AdminReplyBoardDTO> goGetreply_admin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
 			// TODO Auto-generated method stub
-			return dao.goGetreply_admin(goStartDate, goEndDate, board_category, pc);
+			return dao.goGetreply_admin(BAcri1, pc);
 		}
 		
 		@Override
-		public List<BoardVO> searchGetBoard_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue,PagingCriteria pc) throws Exception {
+		public List<AdminBoardDTO> searchGetBoard_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
 			
-			return dao.searchGetBoard_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+			return dao.searchGetBoard_admin(BAcri2, pc);
 		}
 		
 		@Override
-		public List<ReplyBoardVO> searchGetreply_admin(String goStartDate, String goEndDate, String board_category, String searchboardType, String searchTxtValue, PagingCriteria pc) throws Exception {
+		public List<AdminReplyBoardDTO> searchGetreply_admin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception {
 			
-			return dao.searchGetreply_admin(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue, pc);
+			return dao.searchGetreply_admin(BAcri2, pc);
 		}
 
 		public int getTodayTotCnt() throws Exception {
@@ -326,7 +356,21 @@ public class adminServiceImpl implements adminService {
 		}
 		
 		
-		
+		public int getBoard_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			return dao.getBoard_adminCnt(BAcri1);
+		}
+			
+		public int getReply_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception{
+			return dao.getReply_adminCnt(BAcri1);
+		}
+	
+		public int getsearchBoard_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			return dao.getsearchBoard_adminCnt(BAcri2);
+		}
+			
+		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception{
+			return dao.getsearchReply_adminCnt(BAcri2);
+		}
 		
 		
 		
@@ -367,57 +411,43 @@ public class adminServiceImpl implements adminService {
 		return param;
 	}
 
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
+	@Override
+	public Map<String, Object> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		List<AdminOrderListVO> lst = dao.orderManageSearch(vo, cri);
 		
+		for (int i = 0; i < lst.size(); i++) {
+			lst.get(i).setOrderProductNum(dao.orderProductNum(lst.get(i).getPayment_no()) - 1); // 해당 상품의 리뷰 개수 넣기
+			lst.get(i).setBuyProduct_totPrice(dao.orderTotalPrice(lst.get(i).getPayment_no())); // 해당 주문의 총 결제 금액 넣기
+		}
 		
+		param.put("orderList", lst);
 		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		pp.setTotalCount(dao.orderManageSearchNum(vo));
+		param.put("paging", pp);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		return param;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		
 		
