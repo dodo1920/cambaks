@@ -3,6 +3,7 @@ package com.cambak21.persistence.cambakAdmin;
 import java.util.List;
 import java.util.Map;
 
+import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
@@ -52,9 +53,9 @@ public interface AdminDAO {
 
 	public int getTodayreplyTotCnt() throws Exception;
 	
-	
-	
-	
+	public List<MemberVO> memberSearch(AdminMemberListVO vo, PagingCriteria cri) throws Exception;
+
+	public int getmemberSearchCnt(AdminMemberListVO vo) throws Exception;
 	
 	
 	
@@ -223,6 +224,9 @@ public interface AdminDAO {
 
 
 	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception;
+
+
+
 
 
 

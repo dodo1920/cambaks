@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
@@ -81,9 +82,15 @@ public class adminServiceImpl implements adminService {
 		return result;	
 	}
 	
+	@Override
+	public List<MemberVO> memberSearch(AdminMemberListVO vo, PagingCriteria cri) throws Exception {
+		return dao.memberSearch(vo, cri);
+	}
 	
-	
-	
+	@Override
+	public int getmemberSearchCnt(AdminMemberListVO vo) throws Exception {
+		return dao.getmemberSearchCnt(vo);
+	}
 	
 	
 	
@@ -430,6 +437,9 @@ public class adminServiceImpl implements adminService {
 		
 		return param;
 	}
+
+
+
 
 
 

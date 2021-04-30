@@ -21,7 +21,162 @@
 		update Members set member_name = #{member_name}, member_totPoint = #{member_totPoint} where member_id = #{member_id}
 	</update>
 	
+	<select id="memberSearch" resultType="com.cambak21.domain.MemberVO">
+		select * from Members where member_isDelete = 'N'
+		<choose>
+			<when test="memberOption == 'name'">
+				and member_name like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+			<when test="memberOption == 'id'">
+				and member_id like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+			<when test="memberOption == 'email'">
+				and member_email like concat('%', #{memberOptionSearchWord}, '%') 		
+			</when>
+			<when test="memberOption == 'mobile'">
+				and member_mobile like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="dateOption == 'birth' and checkLowDate == ''">
+				and #{checkHighDate} >= member_birth 
+			</when>
+			<when test="dateOption == 'birth'">
+				and member_birth between #{checkLowDate} and #{checkHighDate}		
+			</when>
+			<when test="dateOption == 'registDate' and checkLowDate == ''">
+				and #{checkLowDate} >= member_registerDate 
+			</when>
+			<when test="dateOption == 'registDate'">
+				and member_registerDate between #{checkLowDate} and #{checkHighDate}		
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="PriceOption == 'puchasePrice' and checkLowNum == ''">
+				and #{checkHighNum} >= member_payment 
+			</when>
+			<when test="PriceOption == 'puchasePrice' and checkHighNum == ''">
+				and member_payment >= #{checkLowNum}
+			</when>
+			<when test="PriceOption == 'puchasePrice'">
+				and member_payment between #{checkLowNum} and #{checkHighNum}		
+			</when>
+			<when test="PriceOption == 'point' and checkLowNum == ''">
+				and #{checkHighNum} >= member_totPoint 
+			</when>
+			<when test="PriceOption == 'point' and checkHighNum == ''">
+				and member_totPoint >= #{checkLowNum}
+			</when>
+			<when test="PriceOption == 'point'">
+				and member_totPoint between #{checkLowNum} and #{checkHighNum}		
+			</when>
+		</choose>
+		
+		<if test="genderResult != 'all'">
+			and member_gender = #{genderResult}
+		</if>
+		
+		<if test="AResult != '' and BResult != '' and CResult == ''">
+			and (grade_name = 'A' or grade_name = 'B')
+		</if>
+		<if test="AResult != '' and BResult == '' and CResult != ''">
+			and (grade_name = 'A' or grade_name = 'C')
+		</if>
+		<if test="AResult == '' and BResult != '' and CResult != ''">
+			and (grade_name = 'C' or grade_name = 'B')
+		</if>
+		<if test="AResult != '' and BResult == '' and CResult == ''">
+			and grade_name = 'A' 
+		</if>
+		<if test="AResult == '' and BResult != '' and CResult == ''">
+			and grade_name = 'B' 
+		</if>
+		<if test="AResult == '' and BResult == '' and CResult != ''">
+			and grade_name = 'C' 
+		</if>
+		
+		order by member_registerDate limit #{pageStart}, #{perPageNum}
+		
+	</select>
 	
+	<select id="getmemberSearchCnt" resultType="int">
+				select count(*) from Members where member_isDelete = 'N'
+		<choose>
+			<when test="memberOption == 'name'">
+				and member_name like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+			<when test="memberOption == 'id'">
+				and member_id like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+			<when test="memberOption == 'email'">
+				and member_email like concat('%', #{memberOptionSearchWord}, '%') 		
+			</when>
+			<when test="memberOption == 'mobile'">
+				and member_mobile like concat('%', #{memberOptionSearchWord}, '%') 			
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="dateOption == 'birth' and checkLowDate == ''">
+				and #{checkHighDate} >= member_birth 
+			</when>
+			<when test="dateOption == 'birth'">
+				and member_birth between #{checkLowDate} and #{checkHighDate}		
+			</when>
+			<when test="dateOption == 'registDate' and checkLowDate == ''">
+				and #{checkLowDate} >= member_registerDate 
+			</when>
+			<when test="dateOption == 'registDate'">
+				and member_registerDate between #{checkLowDate} and #{checkHighDate}		
+			</when>
+		</choose>
+		
+		<choose>
+			<when test="PriceOption == 'puchasePrice' and checkLowNum == ''">
+				and #{checkHighNum} >= member_payment 
+			</when>
+			<when test="PriceOption == 'puchasePrice' and checkHighNum == ''">
+				and member_payment >= #{checkLowNum}
+			</when>
+			<when test="PriceOption == 'puchasePrice'">
+				and member_payment between #{checkLowNum} and #{checkHighNum}		
+			</when>
+			<when test="PriceOption == 'point' and checkLowNum == ''">
+				and #{checkHighNum} >= member_totPoint 
+			</when>
+			<when test="PriceOption == 'point' and checkHighNum == ''">
+				and member_totPoint >= #{checkLowNum}
+			</when>
+			<when test="PriceOption == 'point'">
+				and member_totPoint between #{checkLowNum} and #{checkHighNum}		
+			</when>
+		</choose>
+		
+		<if test="genderResult != 'all'">
+			and member_gender = #{genderResult}
+		</if>
+		
+		<if test="AResult != '' and BResult != '' and CResult == ''">
+			and (grade_name = 'A' or grade_name = 'B')
+		</if>
+		<if test="AResult != '' and BResult == '' and CResult != ''">
+			and (grade_name = 'A' or grade_name = 'C')
+		</if>
+		<if test="AResult == '' and BResult != '' and CResult != ''">
+			and (grade_name = 'C' or grade_name = 'B')
+		</if>
+		<if test="AResult != '' and BResult == '' and CResult == ''">
+			and grade_name = 'A' 
+		</if>
+		<if test="AResult == '' and BResult != '' and CResult == ''">
+			and grade_name = 'B' 
+		</if>
+		<if test="AResult == '' and BResult == '' and CResult != ''">
+			and grade_name = 'C' 
+		</if>
+	</select>
 	
 	
 	

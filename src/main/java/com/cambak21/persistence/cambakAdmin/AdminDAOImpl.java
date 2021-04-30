@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
@@ -71,7 +72,32 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.update(ns + ".updateMember", dto);
 	}
 	
+	@Override
+	public List<MemberVO> memberSearch(AdminMemberListVO vo, PagingCriteria cri) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("memberOption", vo.getMemberOption());
+		params.put("memberOptionSearchWord", vo.getMemberOptionSearchWord());
+		params.put("dateOption", vo.getDateOption());
+		params.put("checkLowDate", vo.getCheckLowDate());
+		params.put("checkHighDate", vo.getCheckHighDate());
+		params.put("PriceOption", vo.getPriceOption());
+		params.put("checkHighNum", vo.getCheckHighNum());
+		params.put("checkLowNum", vo.getCheckLowNum());
+		params.put("genderResult", vo.getGenderResult());
+		params.put("AResult", vo.getAResult());
+		params.put("BResult", vo.getBResult());
+		params.put("CResult", vo.getCResult());
+		
+		params.put("pageStart", cri.getPageStart());
+		params.put("perPageNum", cri.getPerPageNum());
+		
+		return ses.selectList(ns + ".memberSearch", params);
+	}
 	
+	@Override
+	public int getmemberSearchCnt(AdminMemberListVO vo) throws Exception {
+		return ses.selectOne(ns + ".getmemberSearchCnt", vo);
+	}
 	
 	
 	
@@ -538,6 +564,8 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		return ses.selectOne(ns + ".orderManageSearchNum", param);
 	}
+
+
 
 		
 		

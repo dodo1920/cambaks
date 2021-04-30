@@ -4,6 +4,8 @@ import java.util.Base64.Decoder;
 import java.text.ParseException;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,6 +56,7 @@ import org.springframework.web.util.WebUtils;
 
 import com.cambak21.controller.HomeController;
 import com.cambak21.domain.RevenueMonthVO;
+import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.BoardVO;
 
 import com.cambak21.domain.ProductsVO;
@@ -358,9 +361,47 @@ public class AdminController {
 		return entity;
 	}
 	
-	@RequestMapping(value="/memberSearch", method = RequestMethod.POST)
-	public void memberSearch(@RequestBody MemberVO vo) {
+	@RequestMapping(value="/memberSearch", method = RequestMethod.GET)
+	public String memberSearch(AdminMemberListVO vo, @RequestParam(value="page", required = false, defaultValue = "1") int page, Model model, PagingCriteria cri) {
+		logger.info("회원 관리");
 		System.out.println(vo.toString());
+		
+		PagingParam pp = new PagingParam();
+		pp.setCri(cri);
+		System.out.println(cri);
+		
+		String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
+		if(vo.getMemberOptionSearchWord().equals("")) {
+			vo.setMemberOption(null);
+		}
+		
+		if(vo.getCheckLowDate().equals("") && vo.getCheckHighDate().equals("")) {
+			vo.setDateOption(null);
+		} else if(!vo.getCheckLowDate().equals("") && vo.getCheckHighDate().equals("")) {
+			vo.setCheckHighDate(today);
+		}
+		
+		if(vo.getCheckHighNum().equals("") && vo.getCheckLowNum().equals("")) {
+			vo.setPriceOption(null);
+		}		
+		
+		List<MemberVO> memberLst = null;
+		
+		try {
+			pp.setTotalCount(service.getmemberSearchCnt(vo));
+			System.out.println(pp);
+			
+			memberLst = service.memberSearch(vo, cri);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(memberLst.toString());
+		
+		model.addAttribute("paging", pp);
+		model.addAttribute("members", memberLst);
+		return "/admin/memberList";
 	}
 	
 

@@ -92,10 +92,18 @@
 				$("#A").prop("checked", true);	
 				$("#B").prop("checked", true);	
 				$("#C").prop("checked", true);	
+				
+				$("#AResult").val("A");
+				$("#BResult").val("B");
+				$("#CResult").val("C");
 			} else {
 				$("#A").prop("checked", false);	
 				$("#B").prop("checked", false);	
-				$("#C").prop("checked", false);	
+				$("#C").prop("checked", false);
+				
+// 				$("#AResult").val("");
+// 				$("#BResult").val("");
+// 				$("#CResult").val("");
 			}
 		});
 	}
@@ -108,6 +116,9 @@
 			
 			if(!$("#A").prop("checked")) {
 				$("#gradeTotal").prop("checked", false);
+				$("#AResult").val("");
+			} else {
+				$("#AResult").val("A");
 			}
 		});
 		
@@ -118,6 +129,9 @@
 			
 			if(!$("#B").prop("checked")) {
 				$("#gradeTotal").prop("checked", false);
+				$("#BResult").val("");
+			} else {
+				$("#BResult").val("B");
 			}
 		});
 		
@@ -128,6 +142,9 @@
 			
 			if(!$("#C").prop("checked")) {
 				$("#gradeTotal").prop("checked", false);
+				$("#CResult").val("");
+			} else {
+				$("#CResult").val("C");
 			}
 		});
 	}
@@ -213,14 +230,19 @@
 		console.log($("#checkLowNum").val());
 		
 		if($("#female").prop("checked") && !$("#male").prop("checked")) {
-			$("#genderResult").val("F");
+			$("#genderResult").val("여");
 		} else if(!$("#female").prop("checked") && $("#male").prop("checked")){
-			$("#genderResult").val("M");
+			$("#genderResult").val("남");
 		} else {
 			$("#genderResult").val("all");
 		}
 		console.log($("#genderResult").val());
-		return false;
+
+		console.log($("#AResult").val());
+		console.log($("#BResult").val());
+		console.log($("#CResult").val());
+		
+		return true;
 	}
 	
 // 	^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 검색 유효성 검사^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -362,7 +384,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-12">
-				<form action="/admin/memberSearch" method="post">
+				<form action="memberSearch?page=${param.page }" method="get">
 				<div class="card">
 					<div class="card-body">
 						<div class="form-group row">
@@ -404,11 +426,11 @@
 							    <input type="date" id="checkLowDate" name="checkLowDate" />
 							    <span>~</span>
 							    <input type="date" id="checkHighDate" name="checkHighDate" />
-							    <div id="checkOrderDate">
-								    <input type="hidden" value="" name="checkDate"/>
+<!-- 							    <div id="checkOrderDate"> -->
+<!-- 								    <input type="hidden" value="" name="checkDate"/> -->
 <!-- 								    <input type="hidden" value="" name="checkLowDate"/> -->
 <!-- 								    <input type="hidden" value="" name="checkHighDate"/> -->
-							    </div>
+<!-- 							    </div> -->
 						    </div>
 						    <div class="col-md-4"></div>
 						</div>
@@ -423,20 +445,20 @@
 								</select>
 							</div>
 						    <div class="col-md-7">
-							    <input type="number" id="checkLowNum" onchange="" />
+							    <input type="number" id="checkLowNum" name="checkLowNum" onchange="" />
 							    <span>~</span>
-							    <input type="number" id="checkHighNum" onchange="" /> <span id="unit">원</span>
-							    <div id="checkOrderDate">
-								    <input type="hidden" value="" name="checkNum"/>
-								    <input type="hidden" value="" name="checkLowNum"/>
-								    <input type="hidden" value="" name="checkHighNum"/>
-							    </div>
+							    <input type="number" id="checkHighNum" name="checkHighNum" onchange="" /> <span id="unit">원</span>
+<!-- 							    <div id="checkOrderDate"> -->
+<!-- 								    <input type="hidden" value="" name="checkNum"/> -->
+<!-- 								    <input type="hidden" value="" name="checkLowNum"/> -->
+<!-- 								    <input type="hidden" value="" name="checkHighNum"/> -->
+<!-- 							    </div> -->
 						    </div>
 						    <div class="col-md-4"></div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">성별</label>
-							<input type="hidden" name="gender" id="genderResult" value="all">
+							<input type="hidden" name="genderResult" id="genderResult" value="all">
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
 								    <input type="checkbox" class="custom-control-input" id="genderTotal">
@@ -459,27 +481,30 @@
 						</div>
 						<div class="form-group row">
 							<label class="col-md-1 m-t-15">회원 등급</label>
+							<input type="hidden" name="AResult" id="AResult" value="">
+							<input type="hidden" name="BResult" id="BResult" value="">
+							<input type="hidden" name="CResult" id="CResult" value="">
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="csStatusTotal" id="gradeTotal">
+								    <input type="checkbox" class="custom-control-input" id="gradeTotal">
 								    <label class="custom-control-label" for="gradeTotal">전체</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="A" id="A">
+								    <input type="checkbox" class="custom-control-input" id="A">
 								    <label class="custom-control-label" for="A">A등급</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="B" id="B">
+								    <input type="checkbox" class="custom-control-input" id="B">
 								    <label class="custom-control-label" for="B">B등급</label>
 								</div>
 							</div>
 							<div class="col-ms" style="margin-right: 15px;">
 								<div class="custom-control custom-checkbox">
-								    <input type="checkbox" class="custom-control-input" name="C" id="C">
+								    <input type="checkbox" class="custom-control-input" id="C">
 								    <label class="custom-control-label" for="C">C등급</label>
 								</div>
 							</div>
