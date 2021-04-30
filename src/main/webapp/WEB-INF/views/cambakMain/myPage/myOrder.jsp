@@ -26,6 +26,35 @@
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
+<script type="text/javascript">
+
+function check_date(date, idNum) {
+	
+	
+	let dateArr = date.split('-');
+	let today = new Date();
+	let buyDate = new Date(dateArr[0], dateArr[1] -1, dateArr[2]);
+	let dayAgo = (today - buyDate) / 86400000;
+	
+	console.log(dayAgo);
+	
+	if(dayAgo > 7){
+		let output = '<div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
+		output += '<h2 class="modal-title">교환 환불 신청</h2></div><div class="modal-body">7일이 지난 상품은 교환 환불이 불가능 합니다.</div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div></div>';
+		
+		$("#modalChange"+idNum).html(output);
+	}
+
+}
+
+$(document).ready(function(){
+	
+	
+	});
+
+</script>
+
+
 <style type="text/css">
 .emptySpace{
 	margin:20px;
@@ -151,13 +180,16 @@
 									<div id="output">
 									
 									<c:forEach var="order" items="${order }">
-										<div align="center"
-											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left;">
+									
+										<c:choose>
+											<c:when test="${order.payment_isComit == '결제완료' }">
+											<div align="center"
+											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
 
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.buyProduct_no }</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -166,12 +198,12 @@
 														<td>
 															<div style="float: left; width: 120px; margin-top: 15px">
 																<img
-																	src="http://th2.tmon.kr/thumbs/image/bff/b03/84e/0a872d274_320x320_95_FIT.jpg"
-																	width="110" height="110" />
+																	src= ${order.product_img1 }
+																	width="100" height="100" />
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
-																<a href="#"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
@@ -183,11 +215,15 @@
 														<td>
 															<div class="btn-group-vertical"
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
-																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.buyProduct_no }'">주문상세
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
-																<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
+																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
 																	반품 신청</button>
-
+																
+																	<button type="button" class="btn btn-info">구매확정</button>
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																
+																
 
 															</div>
 														</td>
@@ -198,7 +234,190 @@
 											
 												<!-- Modal -->
 												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
-													<div class="modal-dialog">
+													<div class="modal-dialog" id="modalChange${order.buyProduct_no }">
+
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h2 class="modal-title">교환 환불 신청</h2>
+															</div>
+															<div class="modal-body">
+																<p>교환 환불 선택</p>
+																<select>
+																	<option value="교환신청">교환</option>
+																	<option value="환불신청">환불</option>
+																</select>
+																<p>사유를 선택해 주세요</p>
+																<input type="radio" value="단순변심" checked="checked">단순변심
+																<input type="radio" value="배송문제">배송문제
+																<input type="radio" value="상품문제">상품문제
+																
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">Close</button>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											</c:when>
+											<c:when test="${order.payment_isComit == '주문취소' }">
+												<div align="center"
+											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
+
+											<table style="margin-left: 10px">
+												<thead>
+													<tr>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">주문 취소</strong></td>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr>
+														<td>
+															<div style="float: left; width: 120px; margin-top: 15px">
+																<img
+																	src= ${order.product_img1 }
+																	width="110" height="110" />
+															</div>
+															<div
+																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<div style="text-align: left">
+																	<div class="emptySpace"></div>
+																	<div style="margin-top: 60px">
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="btn-group-vertical"
+																style="float: right; margin-left: 60px; margin-bottom: 35px">
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
+																	보기</button>
+																
+																<c:if test="">
+																	<button type="button">구매확정</button>
+																</c:if>	
+																
+
+															</div>
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+											
+												
+											</div>
+											</c:when>
+											<c:when test="${order.payment_isComit == '환불요청'}">
+												<div align="center"
+											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
+
+											<table style="margin-left: 10px">
+												<thead>
+													<tr>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr>
+														<td>
+															<div style="float: left; width: 120px; margin-top: 15px">
+																<img
+																	src= ${order.product_img1 }
+																	width="110" height="110" />
+															</div>
+															<div
+																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<div style="text-align: left">
+																	<div class="emptySpace"></div>
+																	<div style="margin-top: 60px">
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="btn-group-vertical"
+																style="float: right; margin-left: 60px; margin-bottom: 35px">
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
+																	보기</button>
+																
+																<c:if test="">
+																	<button type="button">구매확정</button>
+																</c:if>	
+																
+
+															</div>
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+											
+												
+											</div>
+											</c:when>
+										
+										<c:when test="${order.payment_isComit == '교환요청'}">
+										<div align="center"
+											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
+
+											<table style="margin-left: 10px">
+												<thead>
+													<tr>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr>
+														<td>
+															<div style="float: left; width: 120px; margin-top: 15px">
+																<img
+																	src= ${order.product_img1 }
+																	width="110" height="110" />
+															</div>
+															<div
+																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<div style="text-align: left">
+																	<div class="emptySpace"></div>
+																	<div style="margin-top: 60px">
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="btn-group-vertical"
+																style="float: right; margin-left: 60px; margin-bottom: 35px">
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
+																	보기</button>
+																
+																<c:if test="">
+																	<button type="button">구매확정</button>
+																</c:if>	
+																
+
+															</div>
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+											
+												<!-- Modal -->
+												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
+													<div class="modal-dialog" id="modalChange${order.buyProduct_no }">
 
 														<!-- Modal content-->
 														<div class="modal-content">
@@ -223,7 +442,9 @@
 													</div>
 												</div>
 											</div>
-										</c:forEach>
+										</c:when>
+										</c:choose>
+									</c:forEach>
 									</div>
 								</div>	
 								<div class="pageBtn">
@@ -263,6 +484,7 @@
 									</li>
 								</c:if>
 							</c:otherwise>
+							
 								</c:choose>
 							</ul>
 						</div>	

@@ -11,7 +11,15 @@ public class BuyProductVO {
 	private int buyProduct_totPrice;
 	private String buyProduct_isFinished;
 	private int product_id;
+	private String product_img1;
 	
+	
+	public String getProduct_img1() {
+		return product_img1;
+	}
+	public void setProduct_img1(String product_img1) {
+		this.product_img1 = product_img1;
+	}
 	public int getBuyProduct_no() {
 		return buyProduct_no;
 	}
@@ -79,7 +87,7 @@ public class BuyProductVO {
 				+ ", product_name=" + product_name + ", buyProduct_qty=" + buyProduct_qty + ", product_sellPrice="
 				+ product_sellPrice + ", buyProduct_deliveriPay=" + buyProduct_deliveriPay + ", buyProduct_totPrice="
 				+ buyProduct_totPrice + ", buyProduct_isFinished=" + buyProduct_isFinished + ", product_id="
-				+ product_id + "]";
+				+ product_id + ", product_img1=" + product_img1 + "]";
 	}
 	
 	
