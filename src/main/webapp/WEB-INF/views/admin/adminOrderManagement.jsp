@@ -399,9 +399,9 @@ $('#endDate').datepicker({
                                     </td>
                                     <td>${orderList.destination_toUser }</td>
                                     <td>${orderList.destination_mobile }</td>
-                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" /></td>
+                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" />P</td>
                                     <td>${orderList.payInfo_way }</td>
-                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" /></td>
+                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" />원</td>
                                     <td>${orderList.delivery_status }</td>
                                     <td>${orderList.payment_isComit }</td>
                                  </tr>

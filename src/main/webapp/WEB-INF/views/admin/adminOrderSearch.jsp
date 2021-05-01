@@ -211,12 +211,13 @@ $('#endDate').datepicker({
    <div class="page-breadcrumb">
       <div class="row">
          <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">주문목록</h4>
+            <h4 class="page-title">주문목록 - 검색</h4>
             <div class="ml-auto text-right">
                <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">홈</a></li>
-                     <li class="breadcrumb-item active" aria-current="page">주문목록</li>
+                     <li class="breadcrumb-item"><a href="#" style="color: #6c757d;">홈</a></li>
+                     <li class="breadcrumb-item active" aria-current="page"><a href="/admin/orderManagement" style="color: #6c757d;">주문목록</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">검색</li>
                   </ol>
                </nav>
             </div>
@@ -323,7 +324,7 @@ $('#endDate').datepicker({
                      <div class="col-md-9"></div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-1 m-t-15">주문상태</label>
+                     <label class="col-md-1 m-t-15">배송상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-radio">
                             <input type="radio" class="custom-control-input" id="orderStatus" name="orderStatus" value="orderStatus" required>
@@ -453,9 +454,9 @@ $('#endDate').datepicker({
                                     </td>
                                     <td>${orderList.destination_toUser }</td>
                                     <td>${orderList.destination_mobile }</td>
-                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" /></td>
+                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" />P</td>
                                     <td>${orderList.payInfo_way }</td>
-                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" /></td>
+                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" />원</td>
                                     <td>${orderList.delivery_status }</td>
                                     <td>${orderList.payment_isComit }</td>
                                  </tr>
