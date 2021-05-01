@@ -221,7 +221,7 @@ $(document).ready(function(){
 																	반품 신청</button>
 																
 																	<button type="button" class="btn btn-info">구매확정</button>
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
 																
 																
 

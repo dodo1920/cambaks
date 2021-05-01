@@ -109,9 +109,41 @@
 		$("#updateBtn2").click(function() {
 			updateBucket("2");
 		});
+		
+		
+		// prodDetail 상단의 평균 별점과 총 리뷰 개수를 가져오기 위한 함수 호출
+		getStarRating();
 	});
 	
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
+	// prodDetail 상단의 평균 별점을 가져오기 위한 함수
+	function getStarRating() {
+		let getStarRating;
+		let output;
+		
+		$.ajax({
+			  method: "post",
+			  url: "/mall/prodDetail/getStarRating/" + prodId,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "json", // 응답 받는 데이터 타입
+			  success : function(data) {
+			      console.log(data);
+			      getStarRating = data.getStarRating;
+			      console.log(getStarRating);
+			      output = showStars(getStarRating);
+			      console.log(output);
+
+				  $("#getStarRating").html(output);
+			  }
+			}); // end of ajax
+	}
+	
+	// prodDetail 상단의 총 리뷰 개수를 가져오기 위한 함수
+	
+	
 	// 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(prodId, pageNum, checkPoint, orderList) {
 		if(prodId == 0){
@@ -137,6 +169,9 @@
      	console.log(orderList);
 //     	console.log(prodId);
 //     	console.log(pageNum);
+
+		// 총 리뷰 개수 가져오기
+		let totalReviews;
     	// ------------------게시판 리스트 출력-------------------------------
     	let output = '<div>';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th></tr></thead>';
@@ -153,7 +188,11 @@
 // 	        	console.log(data);
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
+	        	
+	        	totalReviews = data.pagingParam.totalCount;
 	        	currentPage = pagingParam.cri.page;
+	        	
+	        	console.log(totalReviews);
 	        	//console.log(currentPage);
 	        	//console.log(prodList);
 	        	console.log(pagingParam.cri);
@@ -253,6 +292,8 @@
 	              $("#prodBoardListPage").html(pageOutput);
 	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
+	              // prodDetail의 상단 리뷰수 출력 부분
+	              $("#totalReviews").html(totalReviews);
 	              
 	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
 	              if(checkPoint == 1){
@@ -1486,54 +1527,7 @@
                                 <c:when test="${prodDetail.mainCategory_id } == '8' and ${prodDetail.middleCategory_id } == '1'">
                         			<a href="#">수납/케이스</a><span>식기/일반</span>
                         		</c:when>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 1 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">텐트/타프</a><span>텐트</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 1 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">텐트/타프</a><span>타프</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 2 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">침낭/매트</a><span>침낭</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 2 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">침낭/매트</a><span>매트</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 3 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">테이블/체어/베트</a><span>경량 테이블</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 3 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">테이블/체어/베트</a><span>체어</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 4 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">랜턴</a><span>랜턴</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 5 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">액세서리</a><span>담요</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 5 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">액세서리</a><span>쿨러/아이스박스</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 6 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">화로/히터</a><span>화로대</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 6 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">화로/히터</a><span>착화제</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 7 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">수납/케이스</a><span>수납</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == '8' and ${prodDetail.middleCategory_id } == '1'"> --%>
-<!--                         			<a href="#">수납/케이스</a><span>식기/일반</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 8 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">키친/취사용품</a><span>설거지용품</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 8 and ${prodDetail.middleCategory_id } == 3"> --%>
-<!--                         			<a href="#">키친/취사용품</a><span>버너</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 9 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">기타</a><span>기타</span> -->
-<%--                         		</c:when> --%>
+
                         	</c:choose>                        
                     </div>
                 </div>
@@ -1575,13 +1569,11 @@
                 <div class="col-lg-6">
                     <div class="product__details__text">
                         <h3>${prodDetail.product_title }<span>${prodDetail.product_factory }</span></h3>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
+                        <!--  prodDetail 상단의 별점 및 후기 개수 표시 -->
+                        <div class="stars" id="star">
+                            <span id="getStarRating" style="margin-left: 0px;"></span>
+                            <!-- 총 리뷰 개수 출력 -->
+                            <span id="totalReviews">0</span><span>Reviews</span>
                         </div>
                         <div class="product__details__price" > <strong id="sellPrice"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /></strong></div>
 <%--                         <p>${prodDetail.product_detail }</p> --%>
