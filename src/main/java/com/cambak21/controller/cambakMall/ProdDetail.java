@@ -194,13 +194,14 @@ public class ProdDetail {
 			System.out.println("/writingProdReviews의 post방식 호출");
 			//logger.info(vo.toString());
 			System.out.println("vo.toString: " + vo.toString());
+			int prodId=vo.getProduct_id();
 			
 			if(service.insert(vo) == 1) {
 				rttr.addFlashAttribute("result", "success");
 			}
 			
 			// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
-			return "redirect:/mall/prodDetail/main?prodId=4";
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기

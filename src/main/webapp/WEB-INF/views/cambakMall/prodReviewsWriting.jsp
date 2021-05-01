@@ -57,6 +57,7 @@
 			  dataType: "json", // 응답 받는 데이터 타입
 			  success : function(data) {
 			      console.log(data);
+			      // 반환된 product_id와 buyProduct_no의 값을 쿼리스트링으로 함께 보내면 됩니다.
 			      let product_id =  data.product_id;
 			      let buyProduct_no = data.buyProduct_no;
 			      
@@ -125,7 +126,7 @@
             <div class="row">
 				<div class="col-lg-12">
 					<form action="/mall/prodDetail/writingProdReviews" method="post">
-					
+					<!-- 이 페이지에서 ajax를 이용할 시, 부트스트랩과 충돌이 난다. 대기형 페이지에서 쿼리스트링으로 함께 보내줘야 한다.(월요일 전달) -->
 					<input type="hidden" id="product_id" name="product_id" value="4"/>
 					<input type="hidden" id="member_id1" name="member_id" value="${loginMember.member_id }"/>
 					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
