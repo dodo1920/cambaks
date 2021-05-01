@@ -31,12 +31,12 @@
 function check_date(date, idNum) {
 	
 	
-	let dateArr = date.split('-');
-	let today = new Date();
-	let buyDate = new Date(dateArr[0], dateArr[1] -1, dateArr[2]);
-	let dayAgo = (today - buyDate) / 86400000;
 	
-	console.log(dayAgo);
+	let today =+ new Date();
+	
+	let dayAgo = (today - date) / 86400000;
+	
+	console.log(date);
 	
 	if(dayAgo > 7){
 		let output = '<div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
@@ -47,14 +47,15 @@ function check_date(date, idNum) {
 
 }
 
-function purchaseSubmit(serialNo, payment_date) {
+function purchaseSubmit(payInfo_no, payment_date) {
+	let member_id = ${loginMember.member_id};
 	
 	$.ajax({
 		type : "get",
 		dataType : "json", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
 		url : "myOrder/purchaseSubmit",// 서블릿 주소
-		data : {serialNo : serialNo, payment_date : payment_date},
+		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id},
 		success : function(result) {
 			console.log(result);
 			
@@ -245,10 +246,10 @@ $(document).ready(function(){
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
-																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.buyProduct_no }">교환
+																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
 																
-																	<button type="button" class="btn btn-info" onclick="purchaseSubmit(${order.payment_serialNo },${order.payment_date });">구매확정</button>
+																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
 																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
 																
 																
@@ -260,9 +261,9 @@ $(document).ready(function(){
 												</tbody>
 											</table>
 											
-												<!-- Modal -->
-												<div class="modal fade" id="myModal${order.buyProduct_no }" role="dialog">
-													<div class="modal-dialog" id="modalChange${order.buyProduct_no }">
+												<!-- Modal 환불 모달 -->
+												<div class="modal fade" id="myModal${order.payment_serialNo }" role="dialog">
+													<div class="modal-dialog" id="modalChange${order.payment_serialNo }">
 
 														<!-- Modal content-->
 														<div class="modal-content">
@@ -290,6 +291,81 @@ $(document).ready(function(){
 
 													</div>
 												</div>
+												<!-- Modal 주문확정 모달 -->
+												<div class="modal fade" id="purchase${order.payment_serialNo }" role="dialog">
+													<div class="modal-dialog" id="purchase${order.payment_serialNo }">
+
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h2 class="modal-title">주문확정</h2>
+															</div>
+															<div class="modal-body">
+																<p>주문확정시 같은 주문건에 대해 모두 주문확정이 됩니다 주문확정 하시겠습니까??</p>
+																
+															</div>
+															<div class="modal-footer">
+															<button type="button" class="btn btn-default"
+																	data-dismiss="modal" onclick="purchaseSubmit(${order.payInfo_no },${order.payment_date },${order.payInfo_no });">주문확정</button>
+																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">Close</button>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+											</c:when>
+											<c:when test="${order.payment_isChecked eq 'Y' and order.payment_isComit eq '결제완료'}">
+											<div align="center"
+											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
+
+											<table style="margin-left: 10px">
+												<thead>
+													<tr>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
+													</tr>
+												</thead>
+												<tbody>
+
+													<tr>
+														<td>
+															<div style="float: left; width: 120px; margin-top: 15px">
+																<img
+																	src= ${order.product_img1 }
+																	width="100" height="100" />
+															</div>
+															<div
+																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
+																<div style="text-align: left">
+																	<div class="emptySpace"></div>
+																	<div style="margin-top: 60px">
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																	</div>
+																</div>
+															</div>
+														</td>
+														<td>
+															<div class="btn-group-vertical"
+																style="float: right; margin-left: 60px; margin-bottom: 35px">
+																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
+																	보기</button>
+																
+																
+																<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																
+																
+
+															</div>
+														</td>
+													</tr>
+
+												</tbody>
+											</table>
+											
+												
 											</div>
 											</c:when>
 											<c:when test="${order.payment_isComit == '주문취소' }">
