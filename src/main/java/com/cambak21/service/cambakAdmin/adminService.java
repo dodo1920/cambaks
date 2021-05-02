@@ -29,6 +29,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
@@ -203,9 +204,9 @@ public interface adminService {
 		
 		public Map<String, Object> orderManageSearch(OrderManagementSearchVO vo, PagingCriteria cri) throws Exception;
 
-
+		public Map<String, Object> readBuyOrderInfo(int payment_no) throws Exception;
 		
-		
+		public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception;
 		
 		
 		

@@ -34,7 +34,7 @@
 	 SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d') as payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
@@ -47,7 +47,7 @@
 	SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d') as payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =

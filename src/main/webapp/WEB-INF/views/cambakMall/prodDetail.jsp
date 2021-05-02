@@ -508,13 +508,13 @@
 						  success : function(result) {
 							  console.log(result);
 
-							  $("#content" + prodReview_no).hide();
+							  //$("#content" + prodReview_no).hide();
 							  
 							  
 							  
 						  }, complete : function (result) {
-							  showContent(prodReview_no, result);
-							 //showProdList(prodId, currentPage, 1, orderList);
+							  //showContent(prodReview_no, result);
+							 showProdList(prodId, currentPage, 1, orderList);
 							//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
 						}
 						  

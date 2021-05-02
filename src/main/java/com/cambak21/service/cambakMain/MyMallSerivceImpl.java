@@ -92,6 +92,12 @@ public class MyMallSerivceImpl implements MyMallService {
 		
 		return dao.getPayInfo(payInfo_no);
 	}
+	
+	@Override
+	public void purchaseSubmit(int payment_serialNo) throws Exception {
+		//dao.purchaseSubmit(payment_serialNo);
+		
+	}
 
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -191,6 +197,8 @@ public class MyMallSerivceImpl implements MyMallService {
 		// TODO Auto-generated method stub
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
+
+	
 
 	
 

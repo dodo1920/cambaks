@@ -14,14 +14,19 @@ import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
-
+import com.cambak21.domain.OrderManagementBuyerInfoVO;
+import com.cambak21.domain.OrderManagementDestinationInfoVO;
+import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
-
+import com.cambak21.domain.OrderProductInfoVO;
+import com.cambak21.domain.OrderStatusInfo;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.RefundnExchangeVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.BoardAdminSearchCriteria;
@@ -36,6 +41,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -546,6 +552,54 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("csStatus", vo.getCsStatus());
 		
 		return ses.selectOne(ns + ".orderManageSearchNum", param);
+	}
+
+	@Override
+	public OrderManagementBuyerInfoVO readBuyerInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readBuyerInfo", payment_no);
+	}
+
+	@Override
+	public OrderManagementDestinationInfoVO readDestinationInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readDestinationInfo", payment_no);
+	}
+
+	@Override
+	public OrderManagementPayInfoVO readPayInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readPayInfo", payment_no);
+	}
+
+	@Override
+	public OrderStatusInfo readOrderStatusInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderStatusInfo", payment_no);
+	}
+
+	@Override
+	public int readOrderRequestNum(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderRequestNum", payment_no);
+	}
+	
+	@Override
+	public RefundnExchangeVO readOrderRequestInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderRequestInfo", payment_no);
+	}
+
+	@Override
+	public List<OrderProductInfoVO> readOrderProductInfo(int payment_no) throws Exception {
+		return ses.selectList(ns + ".readOrderProductInfo", payment_no);
+	}
+
+	@Override
+	public int modifyDestinationInfo(OrderDetailDestinationModifyDTO dto) throws Exception {
+		return ses.update(ns + ".modifyDestinationInfo", dto);
+	}
+
+	@Override
+	public int modifyDestinationMsg(String payment_deliveryMsg, int payment_no) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_deliveryMsg", payment_deliveryMsg);
+		param.put("payment_no", payment_no);
+		return ses.update(ns + ".modifyDestinationMsg", param);
 	}
 
 		
