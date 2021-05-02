@@ -51,6 +51,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 
 import org.springframework.web.util.WebUtils;
 
@@ -713,10 +714,24 @@ public class AdminController {
       return "/admin/adminOrderSearch";
    }
    
-   @RequestMapping(value="/orderManagement/view")
-   public String OrderView(PagingCriteria cri, Model model) throws Exception{
-      model.addAttribute("order", service.readOrderList(cri));
+   @RequestMapping(value="/orderManagement/detail")
+   public String OrderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
+	  
+	  model.addAttribute("buyProdInfo", service.readBuyOrderInfo(payment_no));
+	  
       return "/admin/adminOrderView";
+   }
+   
+   @RequestMapping(value="/orderManagement/destinationModi", method = RequestMethod.POST)
+   public String OrderView(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
+	  
+	  if (service.modifyDestinationInfo(dto, payment_no)) {
+		  rttr.addFlashAttribute("destinationModi", "success");
+	  } else {
+		  rttr.addFlashAttribute("destinationModi", "fail");
+	  }
+	  
+      return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
    }
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

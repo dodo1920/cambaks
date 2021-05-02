@@ -15,7 +15,7 @@ import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
-
+import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
@@ -31,6 +31,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
@@ -438,6 +439,45 @@ public class adminServiceImpl implements adminService {
 		param.put("paging", pp);
 		
 		return param;
+	}
+
+	@Override
+	public Map<String, Object> readBuyOrderInfo(int payment_no) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		// 주문자 정보 가져오기
+		param.put("buyerInfo", dao.readBuyerInfo(payment_no));
+		
+		// 배송지 정보 가져오기
+		param.put("destinationInfo", dao.readDestinationInfo(payment_no));
+		
+		// 주문/결제 금액 정보 가져오기
+		OrderManagementPayInfoVO payInfo = dao.readPayInfo(payment_no);
+		payInfo.setPayment_no(payment_no);
+		param.put("payInfo", payInfo);
+		
+		// 주문 배송상태, 구매 확정 정보 가져오기
+		param.put("orderStatusInfo", dao.readOrderStatusInfo(payment_no));
+		
+		// 주문 교환, 환불 요청 여부 가져오기
+		
+		if (dao.readOrderRequestNum(payment_no) == 0) {
+			param.put("orderRequestInfo", "noRequest");
+		} else {
+			param.put("orderRequestInfo", dao.readOrderRequestInfo(payment_no));
+		}
+		
+		// 전체 주문 상품 정보 가져오기
+		param.put("orderProductInfo", dao.readOrderProductInfo(payment_no));
+		
+		return param;
+	}
+
+	@Override
+	public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception {
+		boolean result = false;
+		if (dao.modifyDestinationInfo(dto) != 0) if (dao.modifyDestinationMsg(dto.getPayment_deliveryMsg(), payment_no) != 0) result = true;
+		return result;
 	}
 
 
