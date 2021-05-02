@@ -42,7 +42,7 @@
     
 	<script type="text/javascript">
 
-	let payment_serialNo = ${param.payment_serialNo}
+	let payment_serialNo = ${param.payment_serialNo};
 	console.log(payment_serialNo);
 	
 	// paymentSerialNum으로부터 prodId, buyProduct_no를 가져오는 함수

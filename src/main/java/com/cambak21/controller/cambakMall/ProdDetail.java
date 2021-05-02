@@ -218,15 +218,19 @@ public class ProdDetail {
 			return dto;
 		}
 		
-		// 상품후기 게시글 수정 페이지 출력
+		// 상품후기 게시글 수정 페이지 출력 및 수정할 사항 출력
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.GET)
-		public void modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
+		public String modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
 			logger.info("/prodReviewsModify 페이지 GET 호출");
 			
 			model.addAttribute("board", service.readProdBoard(prodReview_no));
 			model.addAttribute("prodReview_no", prodReview_no);
+			System.out.println("board 내용 : " + model.toString());
 			
+			return "cambakMall/prodReviewsModify";
 		}
+		
+		
 		
 		// 상품후기 게시글 수정 업데이트
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
@@ -237,19 +241,22 @@ public class ProdDetail {
 			if(service.updateProdBoard(vo) == 1) {
 				rttr.addFlashAttribute("result", "updateSuccess");
 			}
-			return "cambakMall/prodReviews";
+			int prodId=vo.getProduct_id();
+			
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		
 		// 상품후기 게시글 삭제
 		@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
-		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, RedirectAttributes rttr) throws Exception {
+		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId, RedirectAttributes rttr) throws Exception {
 			logger.info("/prodReviewsDelete의 post방식 호출");
+			System.out.println("/prodReviewsDelete의 post방식 호출");
 			if(service.deleteProdBoard(prodReview_no) ==1) {
 				rttr.addFlashAttribute("result", "deleteSuccess");
 			}
-
-			return "cambakMall/prodReviews";
+			
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		// 상품후기 게시글에 대한 좋아요 클릭

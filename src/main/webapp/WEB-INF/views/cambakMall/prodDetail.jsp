@@ -144,6 +144,16 @@
 	// prodDetail 상단의 총 리뷰 개수를 가져오기 위한 함수
 	
 	
+	
+	// 작성한 게시글 삭제 전 확인을 하는 함수
+	function checkDelete(prodReview_no) {
+		if(confirm("해당 게시물을 삭제하시겠습니까?")) {
+			console.log("삭제 확인");
+			location.href='prodReviewsDelete?prodReview_no=' + prodReview_no + "&prodId=" + prodId;
+		}
+	}
+	
+	
 	// 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(prodId, pageNum, checkPoint, orderList) {
 		if(prodId == 0){
@@ -220,7 +230,7 @@
 	                 
 	                 if("${loginMember.member_id}" == item.member_id || grade_name =='M'){
 	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
-	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
+	                	 output += '<button type="button" class="btn btn-info" onclick="checkDelete(' + item.prodReview_no + ');">삭제하기</button></div>';
 	                 }
 	                 
 	                 // display:none 되어있는 Content 내용
@@ -356,18 +366,22 @@
 				            	  }
 				            	  
 				              }
+				          	  // 삭제된 글인 경우 답글 및 수정 불가
+			            	  if(item.replyProdReview_isDelete != 'Y'){
 				              //답글 버튼(로그인한 회원에게만 보이도록 처리)
 				              if(${loginMember.member_id != null}){
 				            	  replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button>';
 				              }
 				              
 				              if(item.member_id == "${loginMember.member_id}" || grade_name =='M'){ // 로그인 아이디와 동일한 경우, 운영진인 경우에만 수정/삭제 표시
+				            	  
 				              //수정 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="openModifyReply(' + item.replyProdReview_no +');">수정</button>';
 				              //삭제 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="deleteReply(' + item.replyProdReview_no +');">삭제</button>';
-				              }
-				          
+				             	 }
+				            	  
+			            	  }
 				              replyOutput += '</li></ul></div>'; // 닫아주는 부분
 				              
 				              // ------------------------대댓글 등록 부분--------------------------
@@ -492,12 +506,15 @@
 							  replyProdReview_ref : replyProdReview_ref
 						  }),
 						  success : function(result) {
-							  //console.log(prodReview_no);
-// 							  console.log(currentPage);
+							  console.log(result);
+
+							  $("#content" + prodReview_no).hide();
 							  
-							  showProdList(prodId, currentPage, 1, orderList);
+							  
 							  
 						  }, complete : function (result) {
+							  showContent(prodReview_no, result);
+							 //showProdList(prodId, currentPage, 1, orderList);
 							//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
 						}
 						  
@@ -643,7 +660,7 @@
 						  "X-HTTP-Method-Override" : "POST"
 					  },
 					  success : function(result) {
-// 						  console.log(result);
+ 						  console.log(result);
 						  $("#content" + prodReview_no).hide();
 						  showContent(prodReview_no, result);
 						 //showProdList(product_id, currentPage, 1, orderList);
@@ -1475,7 +1492,7 @@
 	}
 	
 	p {
-		text-align : center;
+		<!-- text-align : center; -->
 	}
 	
 	.hiddenSecretDiv {
