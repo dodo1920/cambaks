@@ -30,6 +30,7 @@ import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
@@ -208,7 +209,7 @@ public interface adminService {
 		
 		public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception;
 		
-		
+		public boolean orderStatusModi(int payment_no, OrderInfoModifyDTO dto) throws Exception;
 		
 		
 		

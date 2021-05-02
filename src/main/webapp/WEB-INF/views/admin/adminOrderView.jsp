@@ -58,9 +58,27 @@ $(document).ready(function() {
 
 function destinationModiResult() {
 	let destinationModi = '${destinationModi}';
+	let orderStatusModi = '${orderStatusModi}';
 	
 	if (destinationModi == "success") alert("배송지 정보가 수정되었습니다.");
 	else if (destinationModi == "fail") alert("배송지 정보 수정을 실패했습니다.");
+	
+	if (orderStatusModi == "success") alert("주문 정보가 수정되었습니다.");
+	else if (orderStatusModi == "fail") alert("주문 정보 수정을 실패했습니다.");
+}
+
+function csStatusModi() {
+	$("#csStatusSelect").css("display", "");
+}
+
+function purchaseStatusModi() {
+	$("#purchaseStatus").css("display", "none");
+	$("#purchaseStatusSelect").css("display", "");
+}
+
+function deliveryInfoModi() {
+	$("#deliveryInfo").css("display", "none");
+	$("#deliveryInfoSelect").css("display", "");
 }
 
 function destinationMemoModi() {
@@ -187,6 +205,11 @@ function sample6_execDaumPostcode() {
 							<div>
 								<span>${buyProdInfo.buyerInfo.member_name } (${buyProdInfo.buyerInfo.member_id })</span>
 							</div>
+							<div class="ml-auto">
+								<div class="tetx-right">
+									<button type="button" class="btn btn-info btn-sm" onclick="window.open('/admin/memberSearch?memberOption=id&memberOptionSearchWord=${buyProdInfo.buyerInfo.member_id}&dateOption=birth&checkLowDate=&checkHighDate=&PriceOption=puchasePrice&checkLowNum=&checkHighNum=&genderResult=all&AResult=&BResult=&CResult=')">회원관리</button>
+								</div>
+							</div>
 						</li>
 						<li class="d-flex no-block card-body border-bottom">
 							<label class="col-md-2 m-t-15">생년월일</label>
@@ -297,7 +320,7 @@ function sample6_execDaumPostcode() {
             </form>
          </div>
          <div class="col-md-6">
-            <form action="/admin/orderManagement/search" id="orderManageSearch">
+            <form action="orderStatusModi" method="post">
             <div class="card">
 				<div class="card">
 					<div class="card-body">
@@ -354,38 +377,100 @@ function sample6_execDaumPostcode() {
 						</li>
 						<li class="d-flex no-block card-body">
 							<h4 class="card-title m-t-15" style="margin-top: 20px; margin-bottom: 20px;">주문 정보 변경</h4>
+							<input type="hidden" name="prodNo" value="${param.prodNo }"/>
 						</li>
 						<li class="d-flex no-block card-body border-top">
 							<label class="col-md-2 m-t-15">배송 상태</label>
 							<div>
-								<span>${buyProdInfo.orderStatusInfo.delivery_status }</span>
+								<span id="deliveryInfo">${buyProdInfo.orderStatusInfo.delivery_status }</span>
+								<c:choose>
+									<c:when test="${buyProdInfo.orderStatusInfo.delivery_status == '배송전' }">
+										<select class="select form-control" name="deliveryInfo" id="deliveryInfoSelect" style="display : none;">
+											<option value="orderDeliveryReady" selected>배송전</option>
+											<option value="orderOnDelivery">배송중</option>
+											<option value="orderDeliveryCompleted">배송완료</option>
+		                        		</select>
+									</c:when>
+									<c:when test="${buyProdInfo.orderStatusInfo.delivery_status == '배송중' }">
+										<select class="select form-control" name="deliveryInfo" id="deliveryInfoSelect" style="display : none;">
+											<option value="orderDeliveryReady">배송전</option>
+											<option value="orderOnDelivery" selected>배송중</option>
+											<option value="orderDeliveryCompleted">배송완료</option>
+		                        		</select>
+									</c:when>
+									<c:when test="${buyProdInfo.orderStatusInfo.delivery_status == '배송완료' }">
+										<select class="select form-control" name="deliveryInfo" id="deliveryInfoSelect" style="display : none;">
+											<option value="orderDeliveryReady">배송전</option>
+											<option value="orderOnDelivery">배송중</option>
+											<option value="orderDeliveryCompleted" selected>배송완료</option>
+		                        		</select>
+									</c:when>
+									<c:otherwise>
+										<select class="select form-control" name="deliveryInfo" id="deliveryInfoSelect" style="display : none;">
+											<option value="orderDeliveryReady">배송전</option>
+											<option value="orderOnDelivery">배송중</option>
+											<option value="orderDeliveryCompleted">배송완료</option>
+		                        		</select>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<div class="ml-auto">
 								<div class="tetx-right">
-									<button type="button" class="btn btn-warning btn-sm">변경</button>
+									<button type="button" class="btn btn-warning btn-sm" onclick="deliveryInfoModi();">변경</button>
 								</div>
 							</div>
 						</li>
 						<li class="d-flex no-block card-body border-top">
 							<label class="col-md-2 m-t-15">구매 확정</label>
 							<div>
-						<c:choose>
-							<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
-									<span>구매확정완료</span>
-							</c:when>
-							<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit != '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
-									<span>구매취소</span>
-							</c:when>
-							<c:otherwise>
-									<span>구매확정전</span>
-							</c:otherwise>
-						</c:choose>
+							<c:choose>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
+										<span id="purchaseStatus">구매확정완료</span>
+								</c:when>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit != '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
+										<span id="purchaseStatus">구매취소</span>
+								</c:when>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit != '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked != 'Y' }">
+										<span id="purchaseStatus">구매취소</span>
+								</c:when>
+								<c:otherwise>
+										<span id="purchaseStatus">구매확정전</span>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked != 'Y' }">
+									<select class="select form-control" name="purchaseStatus" id="purchaseStatusSelect" style="display : none;">
+										<option value="purchaseConfirmationBefore" selected>구매확정전</option>
+										<option value="purchaseConfirmation">구매확정완료</option>
+	                        		</select>
+								</c:when>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
+									<select class="select form-control" name="purchaseStatus" id="purchaseStatusSelect" style="display : none;">
+										<option value="purchaseConfirmationBefore">구매확정전</option>
+										<option value="purchaseConfirmation" selected>구매확정완료</option>
+	                        		</select>
+								</c:when>
+								<c:otherwise>
+									<input type="hidden" name="purchaseStatus" value="noChange" />
+								</c:otherwise>
+							</c:choose>
 							</div>
-							<div class="ml-auto">
-								<div class="tetx-right">
-									<button type="button" class="btn btn-warning btn-sm">변경</button>
-								</div>
-							</div>
+							<c:choose>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked == 'Y' }">
+									<div class="ml-auto">
+										<div class="tetx-right">
+											<button type="button" class="btn btn-warning btn-sm" onclick="purchaseStatusModi();">변경</button>
+										</div>
+									</div>
+								</c:when>
+								<c:when test="${buyProdInfo.orderStatusInfo.payment_isComit == '결제완료' and buyProdInfo.orderStatusInfo.payment_isChecked != 'Y' }">
+									<div class="ml-auto">
+										<div class="tetx-right">
+											<button type="button" class="btn btn-warning btn-sm" onclick="purchaseStatusModi();">변경</button>
+										</div>
+									</div>
+								</c:when>
+							</c:choose>
 						</li>
 						<c:choose>
 							<c:when test="${buyProdInfo.orderRequestInfo == 'noRequest' }">
@@ -393,6 +478,7 @@ function sample6_execDaumPostcode() {
 									<label class="col-md-2 m-t-15">고객요청</label>
 									<div>
 										<span>없음</span>
+										<input type="hidden" name="csStatus" value="noRequest" />
 									</div>
 								</li>
 							</c:when>
@@ -400,6 +486,38 @@ function sample6_execDaumPostcode() {
 								<li class="d-flex no-block card-body border-top">
 									<label class="col-md-2 m-t-15">고객요청</label>
 									<div>
+										<c:choose>
+											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '주문취소요청'}">
+											<p>
+											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="csCancelCompleted">주문취소완료</option>
+												<option value="csChangeCompleted">교환완료</option>
+												<option value="csRefundCompleted">환불완료</option>
+			                        		</select>
+			                        		</p>
+											</c:when>
+											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '교환요청'}">
+											<p>
+											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="csCancelCompleted">주문취소완료</option>
+												<option value="csChangeCompleted">교환완료</option>
+												<option value="csRefundCompleted">환불완료</option>
+			                        		</select>
+			                        		</p>
+											</c:when>
+											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '환불요청'}">
+											<p>
+											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="csCancelCompleted">주문취소완료</option>
+												<option value="csChangeCompleted">교환완료</option>
+												<option value="csRefundCompleted">환불완료</option>
+			                        		</select>
+			                        		</p>
+											</c:when>
+											<c:otherwise>
+												<input type="hidden" name="csStatus" value="noRequest" />
+											</c:otherwise>
+										</c:choose>
 										<p><strong>요청사항 / 처리결과 : </strong></p>
 										<p>${buyProdInfo.orderRequestInfo.refundnExchange_status }</p>
 										<p><strong>사유 : </strong></p>
@@ -418,11 +536,27 @@ function sample6_execDaumPostcode() {
 										</c:choose>
 										</p>
 									</div>
-									<div class="ml-auto">
-										<div class="tetx-right">
-											<button type="button" class="btn btn-warning btn-sm">요청처리</button>
+									<c:if test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '주문취소요청'}">
+										<div class="ml-auto">
+											<div class="tetx-right">
+												<button type="button" class="btn btn-warning btn-sm" onclick="csStatusModi();">요청처리</button>
+											</div>
 										</div>
-									</div>
+									</c:if>
+									<c:if test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '교환요청'}">
+										<div class="ml-auto">
+											<div class="tetx-right">
+												<button type="button" class="btn btn-warning btn-sm" onclick="csStatusModi();">요청처리</button>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '환불요청'}">
+										<div class="ml-auto">
+											<div class="tetx-right">
+												<button type="button" class="btn btn-warning btn-sm" onclick="csStatusModi();">요청처리</button>
+											</div>
+										</div>
+									</c:if>
 								</li>
 							</c:otherwise>
 						</c:choose>
@@ -431,7 +565,7 @@ function sample6_execDaumPostcode() {
                <div class="border-top">
                   <div class="card-body">
                      <span style="margin-right: 5px;">
-                     <button type="button" class="btn btn-success">변경사항저장</button>
+                     <button type="submit" class="btn btn-success">변경사항저장</button>
                      </span>
                      <span style="margin-left: 5px;">
                      <button type="button" class="btn btn-light" onclick="location.reload();">취소</button>
@@ -448,6 +582,7 @@ function sample6_execDaumPostcode() {
                      <div id="zero_config_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
                         <div class="row">
                            <div class="col-sm-12">
+                              <h4 class="page-title">주문 상품 내역</h4>
                               <table class="table table-striped table-bordered dataTable" style="font-size: 13px;">
                               <thead>
                                  <tr role="row">
@@ -458,6 +593,7 @@ function sample6_execDaumPostcode() {
                                     <th style="font-weight: bold; width: 50px;">주문수량</th>
                                     <th style="font-weight: bold; width: 80px;">상품가격</th>
                                     <th style="font-weight: bold; width: 80px;">총 금액</th>
+                                    <th style="font-weight: bold; width: 50px;">상품관리</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -470,6 +606,7 @@ function sample6_execDaumPostcode() {
                                     <td>${orderInfo.buyProduct_qty }</td>
                                     <td><fmt:formatNumber value="${orderInfo.product_sellPrice }" pattern="#,###" />원</td>
                                     <td><fmt:formatNumber value="${orderInfo.buyProduct_totPrice }" pattern="#,###" />원</td>
+                                    <td><button type="button" class="btn btn-secondary btn-sm" onclick="window.open('/admin/productModify?product_id=${orderInfo.product_id}')">상품 관리 이동</button></td>
                                  </tr>
                                  </c:forEach>
                               </tbody>

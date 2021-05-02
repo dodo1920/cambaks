@@ -1409,12 +1409,51 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 	where payment_no = #{payment_no}
   </update>
   
+  <select id="getOrderSerialNo" resultType="int">
+  	select min(payment_serialNo) from Payments where payment_no = #{payment_no}
+  </select>
   
+  <update id="modifyDeliveryInfo">
+  	update Deliveries set 
+  	delivery_status = #{delivery_status}
+	where payment_serialNo = #{payment_serialNo}
+  </update>
   
+  <update id="modifyPurchaseInfo">
+  	update Payments set 
+  	payment_isComit = #{payment_isComit}, payment_isChecked = #{payment_isChecked}
+	where payment_no = #{payment_no}
+  </update>
   
+  <select id="getOrderBuyProductList" resultType="int">
+  	select buyProduct_no from Payments where payment_no = #{payment_no}
+  </select>
   
+  <select id="getOrderProductIdList" resultType="com.cambak21.domain.BuyProductVO">
+  	select buyProduct_qty, product_id from BuyProducts where buyProduct_no = #{buyProduct_no}
+  </select>
   
+  <update id="modifyProductQty">
+	update Products set 
+	product_salseQty = product_saleQty - #{buyProduct_qty}, product_totQty = product_totQty + #{buyProduct_qty} 
+	where payment_no = #{product_id}
+  </update>
   
+  <select id="getOrderProductSerialNo" resultType="int">
+  	select payment_serialNo from Payments where payment_no = #{payment_no}
+  </select>
+  
+  <update id="modifyCsStatusRnE">
+	update RefundnExchanges set 
+	refundnExchange_status = #{modifyContent}, refundnExchange_isChecked = #{isChecked}, refundnExchange_checkedDate = now() 
+	where payment_serialNo = #{payment_serialNo}
+  </update>
+  
+  <update id="modifyCsStatusPayment">
+	update Payments set 
+	payment_isComit = #{modifyContent}, payment_comitDate = now(), payment_isChecked = #{isChecked} 
+	where payment_serialNo = #{payment_serialNo}
+  </update>
   
   
   <!-- ***************************************** 효원 끝 ********************************************************************************* -->
