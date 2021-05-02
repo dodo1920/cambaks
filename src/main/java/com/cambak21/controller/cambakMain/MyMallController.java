@@ -110,6 +110,16 @@ public class MyMallController {
 		return "cambakMain/myPage/orderDetail";
 	}
 	
+	@RequestMapping(value = "myOrder/purchaseSubmit", method = RequestMethod.GET)
+	public ResponseEntity<String> purchaseSubmit(@PathVariable("serialNo") int payment_serialNo) {
+		ResponseEntity<String> entity = null;
+		
+		service.purchaseSubmit(payment_serialNo);
+		
+		return entity;
+		
+	}
+	
 	@RequestMapping(value = "/refund/{payment_serialNo}", method = RequestMethod.GET)
 	public String addRefund() {
 		return "cambakMain/myPage/addRefund";
