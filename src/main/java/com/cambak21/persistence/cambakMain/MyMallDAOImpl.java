@@ -122,9 +122,40 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(ns + ".getPayInfo", payInfo_no);
 	}
 
-
-
+	@Override
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception{
+		// TODO Auto-generated method stub
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("payInfo_no", payInfo_no);
+		params.put("payment_date", payment_date);
+		ses.update(ns + ".purchaseSubmit", params);
+	}
+	@Override
+	public void changePointDate(String member_id, String payment_date) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("payment_date", payment_date);
+		ses.update(ns + ".changePointDate", params);
+		
+	}
 	
+	@Override
+	public int getPointVal(String member_id, String payment_date) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("payment_date", payment_date);
+		return ses.selectOne(ns + ".getPointVal", params);
+		
+	}
+
+	@Override
+	public void plusPoint(String member_id, int pointVal) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("pointVal", pointVal);
+		ses.update(ns + ".plusPoint", params);
+		
+	}
 
 
 
@@ -247,6 +278,17 @@ public class MyMallDAOImpl implements MyMallDAO {
 	}
 
 
+
+	
+
+
+	
+
+
+	
+
+
+	
 
 	
 	

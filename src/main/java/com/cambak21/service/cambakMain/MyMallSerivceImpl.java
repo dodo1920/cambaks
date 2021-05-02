@@ -94,8 +94,25 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public void purchaseSubmit(int payment_serialNo) throws Exception {
-		dao.purchaseSubmit(payment_serialNo);
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception {
+		dao.purchaseSubmit(payInfo_no, payment_date);
+		
+	}
+
+	@Override
+	public void changePointDate(String member_id, String payment_date) throws Exception {
+		dao.changePointDate(member_id, payment_date);
+		
+	}
+	@Override
+	public int getPointVal(String member_id, String payment_date) throws Exception {
+		
+		return dao.getPointVal(member_id, payment_date);
+	}
+
+	@Override
+	public void plusPoint(String member_id, int pointVal) throws Exception {
+		dao.plusPoint(member_id, pointVal);
 		
 	}
 
@@ -198,6 +215,11 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
 
+	
+
+	
+	
+	
 	
 
 	

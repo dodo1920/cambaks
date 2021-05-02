@@ -41,6 +41,14 @@ public interface MyMallDAO {
 	public int getPayno(String member_id, int buyProduct_no)throws Exception;
 	
 	public PayInfoVO getPayInfo(int payInfo_no)throws Exception;
+	
+	public void purchaseSubmit(int payInfo_no, String payment_date)throws Exception;
+	
+	public void changePointDate(String member_id, String payment_date)throws Exception;
+	
+	public int getPointVal(String member_id, String payment_date)throws Exception;
+	
+	public void plusPoint(String member_id, int pointVal)throws Exception;
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -88,6 +96,10 @@ public interface MyMallDAO {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 
 	public MemberOrderVO MemberDetailOrder(int serialNo, String userName);
+	
+	
+	
+	
 	
 	
 
