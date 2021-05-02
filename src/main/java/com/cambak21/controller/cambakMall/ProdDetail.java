@@ -236,12 +236,14 @@ public class ProdDetail {
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
 		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
 			logger.info("/prodReviewsModify의 post방식 호출");
+
+			int prodId=vo.getProduct_id();
+			
 //			System.out.println("vo : " + vo);
 //			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
 			if(service.updateProdBoard(vo) == 1) {
-				rttr.addFlashAttribute("result", "updateSuccess");
+				rttr.addFlashAttribute("result", "success");
 			}
-			int prodId=vo.getProduct_id();
 			
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}

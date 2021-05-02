@@ -29,10 +29,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=887fe4aa88407b63eba44422c0a6fef4"></script>
 	
-	<!-- 템플릿 js, css 파일 -->
+	<!-- 템플릿 js, css 파일 ../../resources/cambak21/js/skel.min.js -->
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
+	<!-- KJM 사용 부분 -->
+		<link href="../../resources/cambak21/lib/lightbox2-2.11.3/dist/css/lightbox.min.css" rel="stylesheet" />
+		<script src="../../resources/cambak21/lib/lightbox2-2.11.3/dist/js/lightbox-plus-jquery.min.js"></script>
 	
-		
 	<style>
 		@import url(/resources/cambak21/css/SHWtamplet.css);
 		
@@ -75,6 +77,8 @@
 		}
     
     <!-- 김정민 CSS -->
+    
+    
     .tourimg {
 			width: 100%;
 		}
@@ -141,7 +145,14 @@
     <!-- -->
     
 	</style>
-	
+	<script type="text/javascript">
+		lightbox.option({
+	        'resizeDuration': 200,
+	        'wrapAround': true,
+	        'maxWidth' : 600,
+	        'fadeDuration' : 1000
+	      })
+	</script>
 	<script>
 	
 	//쿼리문에서 해당 항목 값을 찾아주는 함수
@@ -188,8 +199,17 @@
 		    contentType : "application/json",
 		    success 	: function(data) {
 		    	console.log(data);
-		    	//메인 이미지
-		    	let campingFirstImgUrl = "<img src='" + data.camping_firstImageUrl + "' style=\"width: 640.547px; height:480.406px;\"/>";
+		    	let campingFirstImgUrl;
+		    	
+		    	//메인 이미지가 있다면,
+		    	if(data.camping_firstImageUrl != null){
+
+		    		campingFirstImgUrl = "<img src='" + data.camping_firstImageUrl + "' style=\"width: 567.5px; height:480px;\"/>";
+		    	} 
+		    	//메인 이미지가 없다면,
+		    	else {
+		    		campingFirstImgUrl = "<img src='../../resources/cambak21/img/trip.jpg' style=\"width: 1135px;\"/>";
+		    	}
 				
 		    	//캠핑장 이름
 		    	let output = "<div><h3><strong>" + data.camping_facltNm + "</strong></h3></div>";
@@ -294,8 +314,8 @@
 					} else {
 						if (itemData[i].imageUrl != null) {
 							let imageList;
-							imageList = "<a href='" + itemData[i].imageUrl + "' data-lightbox='tourList'/>" + "<img src = '" +
-								itemData[i].imageUrl + "'    class='tourimg'>" + "</a>";
+							imageList = "<a href='" + itemData[i].imageUrl + "' data-lightbox='tourList'>" + "<img src = '" +
+								itemData[i].imageUrl + "'    class='tourimg' style='width: 283.75px;height:240px;'/>" + "</a>";
 							// console.log(itemData[i].imageUrl);
 							$("#imageList" + (i + 1)).show();
 							$("#imageList" + (i + 1)).html(imageList);
@@ -368,10 +388,17 @@
 		return fixedData;
 	}
 	
+	// 검색어를 위한 키워드 전송 함수
+	function enterKey() {
+		let keyWord = $("#keyWord").val();
+		console.log(keyWord);
+		location.href = "/index/result?keyword=" + keyWord;
+	}
+	
 	$(function() {
 		showCampingDetail();
 
-		//ajaxLoading(imageUrl, 1);
+		ajaxLoading(imageUrl, 1);
 		
 		
 	});
@@ -396,9 +423,9 @@
 				<div id="research">
 		        <!-- <form> -->
 		           <div class="input-group">
-		              <input type="text" class="form-control" size="50" placeholder="Search" onkeypress="enterKey();">
+		              <input type="text" class="form-control" size="50" id="keyWord" placeholder="Search" onkeypress="enterKey();">
 		                 <div class="input-group-btn">
-		                    <button type="button" class="btn btn-danger search" onclick="sendKeyword();">Search</button>
+		                    <button type="button" class="btn" onclick="enterKey();" style="background-color: #333; color: #f1f1f1;">Search</button>
 		                 </div>
 		            </div>
 		        </div>
@@ -409,27 +436,22 @@
 				            <div class="row" id="imageListBox">
 								<div class="col-md-6" id="campingFirstImgUrl">
 									<div class="well">
-									대표이미지
 									</div>
 								</div>
 								<div class="col-md-6" id="imgListBox">
 									<div class="row">
-										<div class="col-md-6" id="imageList1">
-											이미지1
+										<div class="col-md-6" id="imageList1" style="height:240px;">
 											<!-- <div class="well"></div> -->
 										</div>
-										<div class="col-md-6" id="imageList2">
-											이미지2
+										<div class="col-md-6" id="imageList2" style="height:240px;">
 											<!-- <div class="well"></div> -->
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-md-6" id="imageList3">
-											이미지3
+										<div class="col-md-6" id="imageList3" style="height:240px;">
 											<!-- <div class="well"></div> -->
 										</div>
-										<div class="col-md-6" id="imageList4">
-											이미지4
+										<div class="col-md-6" id="imageList4" style="height:240px;">
 											<!-- <div class="well"></div> -->
 										</div>
 									</div>
@@ -448,7 +470,6 @@
 									<div class="row">
 										<div class="col-md-12" id="basicDesc1" style="padding-left: 110px;">
 											<div class="well">
-												야영지 기본 정보
 											</div>
 										</div>
 									</div>
@@ -464,7 +485,6 @@
 				            <div class="row" id="detailedBox">
 								<div class="col-sm-12" id="detailedDesc">
 									<div class="well">
-									야영지 상세 설명
 									</div>
 								</div>
 							</div>
