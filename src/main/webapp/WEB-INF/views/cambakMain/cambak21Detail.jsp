@@ -75,7 +75,67 @@
 		}
     
     <!-- 김정민 CSS -->
-    
+    .tourimg {
+			width: 100%;
+		}
+
+		.col-md-6 {
+			padding: 0px;
+		}
+
+		.row {
+			margin-left: 0px;
+			margin-right: 0px;
+		}
+
+		#kakaoMap {
+			padding-left: 0px;
+		}
+
+		#map {
+			height: 519px;
+		}
+
+		.h3 {
+			margin-top: 0px;
+		}
+
+		#basicDesc1 {
+			padding-right: 5px;
+			padding-left: 0%;
+			max-width: 100%;
+		}
+
+		#weather {
+			padding-right: 5px;
+			padding-left: 0%;
+			padding-top: 0%;
+		}
+
+		#descAndMap {
+			padding-top: 2%;
+			padding-bottom: 2%;
+		}
+
+		#detailedBox {
+			padding-bottom: 7%;
+			padding-left: 0px;
+		}
+
+		#imageList3 {
+			padding: 0;
+		}
+
+		#imageList4 {
+			padding: 0;
+		}
+		#detailedDesc{
+			padding-left: 0px;
+		}
+		#intro {
+			font-size: 18px;
+			font-weight: 500;
+		}
     
     
     <!-- -->
@@ -112,7 +172,12 @@
 	
 	// 날씨URL 변수 설정
 	const weatherServiceKey = "&appid=e3d6df7622a5cd65dca26e2c8231e08a&units";
+	const serviceKey = "1Bz08Ggw9EdLa34dX8ATnU3tvxuDhV42GoBODXgIVZtNli5M3OyA3YnArF6F9oJHdFtatdLkamelhBxgi4Fdvg%3D%3D";
 	
+	// firstImageUrl을 제외한 이미지 리스트를 담고 있는 json url
+	let imageUrl = "http://api.visitkorea.or.kr/openapi/service/rest/GoCamping/imageList?ServiceKey=" + serviceKey +
+		"&MobileOS=ETC&MobileApp=AppTest&contentId=" + contentId + "&_type=json";
+
 	console.log(typeof(contentId));
 	
 	function showCampingDetail() {
@@ -127,20 +192,20 @@
 		    	let campingFirstImgUrl = "<img src='" + data.camping_firstImageUrl + "' style=\"width: 640.547px; height:480.406px;\"/>";
 				
 		    	//캠핑장 이름
-		    	let output = "<div><h3>" + data.camping_facltNm + "</h3></div>";
+		    	let output = "<div><h3><strong>" + data.camping_facltNm + "</strong></h3></div>";
 				
 		    	
 		    	output += "<div class='cont_tb'><table class='table'><tbody>";
-		    	output += "<tr><th>주소</th><td>" + nullCheck(data.camping_addr1) + "</td></tr>";
-		    	output += "<tr><th>문의처</th><td>" + nullCheck(data.camping_tel) + "</td></tr>";
-		    	output += "<tr><th>캠핑장 환경</th><td>" + nullCheck(data.camping_lctCl) + "</td></tr>";
-		    	output += "<tr><th>캠핑장 유형</th><td>" + nullCheck(data.camping_induty) + "</td></tr>";
-		    	output += "<tr><th>운영기간</th><td>" + nullCheck(data.camping_operPdCl) + "</td></tr>";
-		    	output += "<tr><th>운영일</th><td>" + nullCheck(data.camping_operDeCl) + "</td></tr>";
-		    	output += "<tr><th>예약방법</th><td>" + nullCheck(data.camping_resveCl) + "</td></tr>";
+		    	output += "<tr><th><strong>주소</strong></th><td>" + nullCheck(data.camping_addr1) + "</td></tr>";
+		    	output += "<tr><th><strong>문의처</strong></th><td>" + nullCheck(data.camping_tel) + "</td></tr>";
+		    	output += "<tr><th><strong>캠핑장 환경</strong></th><td>" + nullCheck(data.camping_lctCl) + "</td></tr>";
+		    	output += "<tr><th><strong>캠핑장 유형</strong></th><td>" + nullCheck(data.camping_induty) + "</td></tr>";
+		    	output += "<tr><th><strong>운영기간</strong></th><td>" + nullCheck(data.camping_operPdCl) + "</td></tr>";
+		    	output += "<tr><th><strong>운영일</strong></th><td>" + nullCheck(data.camping_operDeCl) + "</td></tr>";
+		    	output += "<tr><th><strong>예약방법</strong></th><td>" + nullCheck(data.camping_resveCl) + "</td></tr>";
 		    	output += "</tbody></table><div>";
 		    	
-		    	let campingInfoDetail = "<div>" + nullCheck(data.camping_intro) + "</div>";
+		    	let campingInfoDetail = "<div><h4>" + nullCheck(data.camping_intro) + "</h4></div>";
 		    	
 				//메인 이미지 출력
 				$("#campingFirstImgUrl").html(campingFirstImgUrl);
@@ -180,6 +245,7 @@
 		});
 	}
 	
+	
 	// 데이터 로딩 후, 1)상세내용2)이미지3)날씨 관련 파싱하는 부분!
 	function parseTour(data, contentId, urlType) {
 		let tour = " ";
@@ -210,13 +276,49 @@
 		}
 	}
 	
+	//2)이미지 리스트 출력 함수
+	function printImageUrl(itemData, itemID) {
+		// 이미지리스트를 출력하는 부분
+		if (itemData != null) {
+			console.log(itemData);
+			for (let i = 0; i < itemData.length + 4; i++) {
+				$("#imageList" + (i)).hide();
+			}
+			for (let i = 0; i < itemData.length; i++) {
+				if (itemData[i].contentId == itemID) {
+					if (itemData[i].imageUrl == null) {
+						//console.log(tour[i].imageUrl);
+						var imgListBox = document.getElementById("imgListBox");
+						imgListBox.style.display = "none";
+						break;
+					} else {
+						if (itemData[i].imageUrl != null) {
+							let imageList;
+							imageList = "<a href='" + itemData[i].imageUrl + "' data-lightbox='tourList'/>" + "<img src = '" +
+								itemData[i].imageUrl + "'    class='tourimg'>" + "</a>";
+							// console.log(itemData[i].imageUrl);
+							$("#imageList" + (i + 1)).show();
+							$("#imageList" + (i + 1)).html(imageList);
+						} else {
+							$("#imageList" + (i + 1)).hide(); //html(imageList.display = "none");
+						}
+					}
+				}
+			}
+		} else {
+			var imgListBox = document.getElementById("imgListBox");
+			imgListBox.style.display = "none";
+		}
+
+	}
+	
 	//3) 날씨 데이터 파싱 함수
 	function printWeatherDataUrl(itemData) {
 		let weatherData;
 		// let weatherDataCheck = itemData;
 		// console.log(weatherDataCheck);
 		$.each(itemData, function (index, item) {
-			weatherData = "<div><h3 style='margin-top: 0%;'>현지 날씨</h3></div><div class='cont_tb'><table class='table'><tbody><tr><th>기온</th><td>" + itemData.main.temp + "도" + "</td></tr><tr><th>시간당 최저/최고기온</th><td> " + itemData.main.temp_min + "도 / " + itemData.main.temp_max + "도" + "</td></tr><tr><th>일몰 시간</th><td>" + msToTime(itemData.sys.sunset) + "</td></tr><tr><th>습도/풍속</th><td>"+ itemData.main.humidity + "% / " + itemData.wind.speed + " m/s </td></tr></tbody></table></div>";
+			weatherData = "<div><h3 style='margin-top: 0%;'><strong>현지 날씨</strong></h3></div><div class='cont_tb'><table class='table'><tbody><tr><th><strong>기온</strong></th><td>" + itemData.main.temp + "도" + "</td></tr><tr><th><strong>시간당 최저/최고기온<strong></th><td> " + itemData.main.temp_min + "도 / " + itemData.main.temp_max + "도" + "</td></tr><tr><th><strong>일몰 시간<strong></th><td>" + msToTime(itemData.sys.sunset) + "</td></tr><tr><th><strong>습도/풍속</strong></th><td>"+ itemData.main.humidity + "% / " + itemData.wind.speed + " m/s </td></tr></tbody></table></div>";
 		});
 		$("#weather").html(weatherData);
 	}
@@ -268,6 +370,10 @@
 	
 	$(function() {
 		showCampingDetail();
+
+		//ajaxLoading(imageUrl, 1);
+		
+		
 	});
     
     
@@ -298,7 +404,7 @@
 		        </div>
 		        	<div id="content">
 			            <div class="row">
-			            <div class="col-sm-12">
+			            <div class="col-sm-12" style="padding-left: 0px;">
 				            <!-- 이미지 4장 출력 부분 -->
 				            <div class="row" id="imageListBox">
 								<div class="col-md-6" id="campingFirstImgUrl">
