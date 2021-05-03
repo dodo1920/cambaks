@@ -395,12 +395,20 @@
 		location.href = "/index/result?keyword=" + keyWord;
 	}
 	
+	
+
+	
 	$(function() {
 		showCampingDetail();
 
 		ajaxLoading(imageUrl, 1);
 		
-		
+		// 엔터키를 눌렀을 때,
+		$("#keyWord").keydown(function(key) {
+	        if (key.keyCode == 13) {
+	        	enterKey();
+	        }
+	    });
 	});
     
     
@@ -423,7 +431,7 @@
 				<div id="research">
 		        <!-- <form> -->
 		           <div class="input-group">
-		              <input type="text" class="form-control" size="50" id="keyWord" placeholder="Search" onkeypress="enterKey();">
+		              <input type="text" class="form-control" size="50" id="keyWord" placeholder="Search" >
 		                 <div class="input-group-btn">
 		                    <button type="button" class="btn" onclick="enterKey();" style="background-color: #333; color: #f1f1f1;">Search</button>
 		                 </div>
