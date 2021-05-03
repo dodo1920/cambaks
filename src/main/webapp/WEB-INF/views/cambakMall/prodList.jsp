@@ -34,6 +34,7 @@
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
 let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
 let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
+let blankJ = /\s/; // 공백 정규표현식
 
 let mainCategory_id = '${param.mainCategory_id}';
 let middleCategory_id = '${param.middleCategory_id}';
@@ -261,12 +262,14 @@ function priceViewMove(priceRange, min, max) {
 		max = $("#maxPrice").val();
 		min = $("#minPrice").val();
 		
-		if (specialJ.test(max) || specialJ.test(min) || engJ.test(max) || engJ.test(min) || koreanJ.test(max) || koreanJ.test(min)) {
+		if (specialJ.test(max) || specialJ.test(min) || engJ.test(max) || engJ.test(min) || koreanJ.test(max) || koreanJ.test(min) || blankJ.test(max) || blankJ.test(min)) {
 			alert("가격 입력 창에는 숫자만 입력가능합니다.");
 			return;
 		} else if (parseInt(min) > parseInt(max)) {
 			alert("입력하신 가격 범위는 최대 가격이 최소 가격보다 적습니다.");
 			return;
+		} else if (min.length == 0 || max.length == 0) {
+			alert("검색하실 가격 범위를 모두 작성바랍니다.");
 		} else {
 			location.href="/mall/categories?mainCategory_id=" + mainCategory_id + "&middleCategory_id=" + middleCategory_id + "&prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum;
 		}

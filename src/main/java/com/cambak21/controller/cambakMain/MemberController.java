@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
@@ -335,13 +336,31 @@ public class MemberController {
 		  
 	      return entity;
 	   }
-	
-	   @RequestMapping(value="/modify", method=RequestMethod.GET)
-	   private String cambakLoginCheck(Model model) {
-	      return "cambakMain/myPage/modify";
+	   
+	   @RequestMapping(value="/pwdCheck", method=RequestMethod.GET)
+	   private String userInfoModifyConfirm(Model model) {
+	      return "cambakMain/myPage/modifyUserConfirm";
+	   }
+	   
+	   @RequestMapping(value="/checkUser", method=RequestMethod.GET)
+	   private ResponseEntity<String> userPwdCheck(@RequestParam("userId") String member_id, @RequestParam("userPwd") String member_password) {
+		  ResponseEntity<String> entity = null;
+		  
+		  try {
+			  if (service.modifyCheckUser(member_id, member_password)) entity = new ResponseEntity<String>("userOk", HttpStatus.OK);
+			  else entity = new ResponseEntity<String>("userBad", HttpStatus.OK);
+		  } catch (Exception e) {
+			  entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		  }
+	      return entity;
 	   }
 	   
 	   @RequestMapping(value="/modify", method=RequestMethod.POST)
+	   private String userInfoModify(Model model) {
+	      return "cambakMain/myPage/modify";
+	   }
+	   
+	   @RequestMapping(value="/modifyUserInfo", method=RequestMethod.POST)
 	   private String updateMemberInfo(ChangeMemberInfoDTO dto, HttpSession session, RedirectAttributes rttr) throws Exception {
 		   
 		   MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
@@ -349,11 +368,12 @@ public class MemberController {
 		   if (service.updateMemberInfo(dto)) {
 			   session.removeAttribute("loginMember");
 			   session.setAttribute("loginMember", service.sesUserInfoChange(loginMember.getMember_id()));
-			   
-			   return "redirect:/user/modify?result=success";
+			   rttr.addFlashAttribute("result", "success");
 		   } else {
-			   return "redirect:/user/modify?result=fail";
+			   rttr.addFlashAttribute("result", "fail");
 		   }
+		   
+		   return "redirect:/user/pwdCheck";
 	   }
 	
 //		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트

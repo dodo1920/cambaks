@@ -267,7 +267,7 @@
 	    let phoneSecond = $("#phoneSecond").val();
 	    let phoneThird = $("#phoneThird").val();
 	    
-	    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
+	    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || koreanJ.test(phoneSecond) || koreanJ.test(phoneThird) || StringJ.test(phoneSecond) || StringJ.test(phoneThird) || specialJ.test(phoneSecond) || specialJ.test(phoneThird) || blankJ.test(phoneSecond) || blankJ.test(phoneThird)) {
 			alert("휴대전화 번호를 확인해주세요.");
 	   		result = false;
 	   		return;
