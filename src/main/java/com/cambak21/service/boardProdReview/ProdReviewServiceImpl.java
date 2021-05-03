@@ -1,12 +1,14 @@
 package com.cambak21.service.boardProdReview;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.dto.ProdReviewWritingInfoDTO;
 import com.cambak21.persistence.boardProdReview.BoardProdReviewDAO;
 import com.cambak21.util.PagingCriteria;
 
@@ -121,6 +123,20 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	@Override
 	public String getConfirmedOrder(String member_id, int prodId) throws Exception {
 		return dao.getConfirmedOrder(member_id, prodId);
+	}
+
+
+	// 해당 상품 평균 별점 가져오기
+	@Override
+	public int getStarRating(int product_id) throws Exception {
+		return dao.getStarRating(product_id);
+	}
+
+
+	// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기
+	@Override
+	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception {
+		return dao.getReviewInfo(payment_serialNo);
 	}
 
 

@@ -50,6 +50,7 @@ import com.cambak21.dto.InsertintoBucketDTO;
 import com.cambak21.dto.InsertintoNonUserBucketDTO;
 import com.cambak21.dto.ProdQAInsertDTO;
 import com.cambak21.dto.ProdQAUpdateDTO;
+import com.cambak21.dto.ProdReviewWritingInfoDTO;
 import com.cambak21.service.boardProdQA.BoardProdQAService;
 import com.cambak21.service.boardProdReview.ProdReviewService;
 import com.cambak21.service.cambakMall.prodDetailService;
@@ -181,6 +182,7 @@ public class ProdDetail {
 		@RequestMapping(value="/writingProdReviews", method = RequestMethod.GET)
 		public String writingProdReviewGet() throws Exception{
 			logger.info("/writingProdReviews의 get방식 호출");
+			System.out.println("/writingProdReviews의 get방식 호출");
 			return "cambakMall/prodReviewsWriting";
 		}
 		
@@ -188,49 +190,75 @@ public class ProdDetail {
 		@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
 		public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
 			// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
-			logger.info("/writingProdReviews의 post방식 호출");
-			logger.info(vo.toString());
+			//logger.info("/writingProdReviews의 post방식 호출");
+			System.out.println("/writingProdReviews의 post방식 호출");
+			//logger.info(vo.toString());
+			System.out.println("vo.toString: " + vo.toString());
+			int prodId=vo.getProduct_id();
 			
 			if(service.insert(vo) == 1) {
 				rttr.addFlashAttribute("result", "success");
 			}
 			
 			// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
-			return "cambakMall/prodReviews";
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
-		// 상품후기 게시글 수정 페이지 출력
+		// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기
+		@RequestMapping(value="/getReviewInfo/{payment_serialNo}",  method=RequestMethod.POST)
+		public @ResponseBody ProdReviewWritingInfoDTO getReviewInfo(@PathVariable("payment_serialNo") int payment_serialNo) {
+			System.out.println("getReviewInfo의 post방식 호출");
+			ProdReviewWritingInfoDTO dto = null;
+			try {
+				dto = service.getReviewInfo(payment_serialNo);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return dto;
+		}
+		
+		// 상품후기 게시글 수정 페이지 출력 및 수정할 사항 출력
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.GET)
-		public void modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
+		public String modifyProdReviewGet(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("member_id") String member_id, Model model) throws Exception{
 			logger.info("/prodReviewsModify 페이지 GET 호출");
 			
 			model.addAttribute("board", service.readProdBoard(prodReview_no));
 			model.addAttribute("prodReview_no", prodReview_no);
+			System.out.println("board 내용 : " + model.toString());
 			
+			return "cambakMall/prodReviewsModify";
 		}
+		
+		
 		
 		// 상품후기 게시글 수정 업데이트
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
 		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
 			logger.info("/prodReviewsModify의 post방식 호출");
+
+			int prodId=vo.getProduct_id();
+			
 //			System.out.println("vo : " + vo);
 //			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
 			if(service.updateProdBoard(vo) == 1) {
-				rttr.addFlashAttribute("result", "updateSuccess");
+				rttr.addFlashAttribute("result", "success");
 			}
-			return "cambakMall/prodReviews";
+			
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		
 		// 상품후기 게시글 삭제
 		@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
-		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, RedirectAttributes rttr) throws Exception {
+		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId, RedirectAttributes rttr) throws Exception {
 			logger.info("/prodReviewsDelete의 post방식 호출");
+			System.out.println("/prodReviewsDelete의 post방식 호출");
 			if(service.deleteProdBoard(prodReview_no) ==1) {
 				rttr.addFlashAttribute("result", "deleteSuccess");
 			}
-
-			return "cambakMall/prodReviews";
+			
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		// 상품후기 게시글에 대한 좋아요 클릭
@@ -294,6 +322,21 @@ public class ProdDetail {
 			//return result;
 		}
 	
+		// 상단 평균 별점 가져오기
+			@RequestMapping(value="/getStarRating/{prodId}",  method=RequestMethod.POST)
+			public @ResponseBody Map<String, Object> getStarRating(@PathVariable("prodId") int product_id) {
+				System.out.println("getStarRating의 post방식 호출");
+				Map<String, Object> result = new HashMap<String, Object>();
+				System.out.println("getStarRating prodId: " + product_id);
+				
+				try {
+					System.out.println("getStarRating number: " + service.getStarRating(product_id));
+					result.put("getStarRating", service.getStarRating(product_id));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return result;
+			}
 	
 	
 //	==========================================정민 오빠 class 끝!! ======================================================================
