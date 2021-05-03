@@ -34,7 +34,7 @@
 	 SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d %H:%i:%s') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
@@ -47,7 +47,7 @@
 	SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d %H:%i:%s') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
@@ -78,6 +78,21 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<select id="getPayInfo" resultType="com.cambak21.domain.PayInfoVO">
 		SELECT * FROM goot6.PayInfos where payInfo_no = #{payInfo_no}
 	</select>
+	
+	<update id="purchaseSubmit">
+		UPDATE goot6.Payments SET payment_comitDate = now(), payment_isChecked = 'Y' WHERE payInfo_no = #{payInfo_no} and payment_date = #{payment_date}
+		
+	</update>
+	<update id="changePointDate">
+		UPDATE goot6.Points SET point_savingDate = now() WHERE member_id = #{member_id} and payment_date = #{payment_date}
+		
+	</update>
+	<select id="getPointVal" resultType="int">
+		select point_futurePoint from goot6.Points where member_id = #{member_id} and payment_date = #{payment_date}
+	</select>
+	<update id="plusPoint">
+		update goot6.Members set member_totPoint = member_totPoint + #{pointVal}  where member_id = #{member_id}
+	</update>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->

@@ -17,7 +17,7 @@ public class BuyProductPaymentVO {
 	private int payment_serialNo;
 	private int payInfo_no;
 	private int destination_no;
-	private Date payment_date;
+	private String payment_date;
 	private String payment_deliverryMsg;
 	private String payment_isComit;
 	private Date payment_comitDate;
@@ -113,10 +113,10 @@ public class BuyProductPaymentVO {
 	public void setDestination_no(int destination_no) {
 		this.destination_no = destination_no;
 	}
-	public Date getPayment_date() {
+	public String getPayment_date() {
 		return payment_date;
 	}
-	public void setPayment_date(Date payment_date) {
+	public void setPayment_date(String payment_date) {
 		this.payment_date = payment_date;
 	}
 	public String getPayment_deliverryMsg() {

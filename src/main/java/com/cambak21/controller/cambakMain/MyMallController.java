@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -110,11 +111,27 @@ public class MyMallController {
 		return "cambakMain/myPage/orderDetail";
 	}
 	
+	
 	@RequestMapping(value = "myOrder/purchaseSubmit", method = RequestMethod.GET)
-	public ResponseEntity<String> purchaseSubmit(@PathVariable("serialNo") int payment_serialNo) {
+	public ResponseEntity<String> purchaseSubmit(@PathVariable("payInfo_no") int payInfo_no, @PathVariable("payment_date") String payment_date, @PathVariable("member_id") String member_id) {
+		System.out.println("여기옵니까?");
 		ResponseEntity<String> entity = null;
 		
-		service.purchaseSubmit(payment_serialNo);
+		try {
+			service.purchaseSubmit(payInfo_no, payment_date);
+			System.out.println("구매확정 1단계 완료");
+			service.changePointDate(member_id, payment_date);
+			System.out.println("구매확정 2단계 완료");
+			int pointVal = service.getPointVal(member_id, payment_date);
+			
+			service.plusPoint(member_id, pointVal);
+			System.out.println("구매확정 3단계 완료");
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		
 		return entity;
 		

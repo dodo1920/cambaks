@@ -30,13 +30,18 @@
 
 function check_date(date, idNum) {
 	
+	dateArr = date.split("-");
+	day = dateArr[2];
+	day = day.split(' ');
+	console.log(day);
+	date =+ new Date(dateArr[0], dateArr[1]-1, day[0]);
 	
 	
 	let today =+ new Date();
 	
 	let dayAgo = (today - date) / 86400000;
 	
-	console.log(date);
+	console.log(dayAgo);
 	
 	if(dayAgo > 7){
 		let output = '<div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
@@ -48,11 +53,11 @@ function check_date(date, idNum) {
 }
 
 function purchaseSubmit(payInfo_no, payment_date) {
-	let member_id = ${loginMember.member_id};
+	let member_id = "${loginMember.member_id}";
 	
 	$.ajax({
-		type : "get",
-		dataType : "json", // 받을 데이터
+		type : "GET",
+		dataType : "text", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
 		url : "myOrder/purchaseSubmit",// 서블릿 주소
 		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id},
@@ -211,7 +216,7 @@ $(document).ready(function(){
 									
 									
 										<c:choose>
-											<c:when test="${order.payment_isComit == '결제완료' }">
+											<c:when test="${order.payment_isComit == '결제완료' and order.payment_isChecked eq 'N' }">
 											<div align="center"
 											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
 
@@ -250,7 +255,7 @@ $(document).ready(function(){
 																	반품 신청</button>
 																
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }&prodId=${order.product_id }&buyProduct_no=${order.buyProduct_no }'">리뷰작성하기</button>
 																
 																
 
@@ -307,7 +312,7 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-footer">
 															<button type="button" class="btn btn-default"
-																	data-dismiss="modal" onclick="purchaseSubmit(${order.payInfo_no },${order.payment_date },${order.payInfo_no });">주문확정</button>
+																	data-dismiss="modal" onclick="purchaseSubmit(${order.payInfo_no },'${order.payment_date}');">주문확정</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
@@ -324,7 +329,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(주문확정)</strong></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -354,7 +359,7 @@ $(document).ready(function(){
 																	보기</button>
 																
 																
-																<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }&prodId=${order.product_id }&buyProduct_no=${order.buyProduct_no }'">리뷰작성하기</button>
 																
 																
 

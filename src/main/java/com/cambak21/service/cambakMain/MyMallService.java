@@ -41,7 +41,13 @@ public interface MyMallService {
 	
 	public PayInfoVO getPayInfo(int payInfo_no) throws Exception;
 	
-	public void purchaseSubmit(int payment_serialNo) throws Exception;
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception;
+	
+	public void changePointDate(String member_id, String payment_date)throws Exception;
+	
+	public int getPointVal(String member_id, String payment_date)throws Exception;
+	
+	public void plusPoint(String member_id, int pointVal)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -83,6 +89,12 @@ public interface MyMallService {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);	
 	public MemberOrderVO MemberDetailOrder(int serialNo,String userName)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	
+
+	
+
+	
 
 	
 
