@@ -578,8 +578,8 @@ public class AdminController {
    
 
    
-   @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
-   public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+   @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}/{perPageCnt}", method = RequestMethod.GET)
+   public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;
 //	   System.out.println(goStartDate + "," + goEndDate + "," + board_category + "," + searchselectedCategory + "," + searchboardType + "," + searchTxtValue + "," + page);
 //	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
@@ -591,6 +591,7 @@ public class AdminController {
 	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
+	   pc.setPerPageNum(perPageCnt);
 	   pc.setPage(page);
 	   PagingParam pp = new PagingParam();
 	   pp.setCri(pc);

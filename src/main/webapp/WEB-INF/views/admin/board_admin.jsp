@@ -45,12 +45,19 @@ let AfterResultList = new Array();
 			$(this).addClass('selected');
 		});
 	
+		$('#list_limit').on('change', function() {
+			$("#perPageCnt").val(this.options[this.selectedIndex].value);
+			console.log(this.options[this.selectedIndex].value);
+		
+		});
+		
+		
 	});
 	
 	// 오름차순 정렬 후 게시판만 출력 함수
 	function BoardOutputGo(data){
 		let outputList = "";
-		console.log(data);
+		
 			$(data).each(function(index, item){		
 			
 				let date = new Date(this.board_writeDate);
@@ -67,8 +74,8 @@ let AfterResultList = new Array();
 				outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 			});
 			
-			if(data == null){
-				alert("검색된 데이터가 없습니다.");
+			if(data.length == 0){
+				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>'
 			}	
 		
 			$("#boardListFrame").html(outputList);
@@ -101,8 +108,8 @@ let AfterResultList = new Array();
 			outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 		});
 	
-		if(data == null){
-			alert("검색된 데이터가 없습니다.");
+		if(data.length == 0){
+			outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>'
 		}	
 	
 		
@@ -122,11 +129,11 @@ let AfterResultList = new Array();
 		AfterResultList = ResultList.Boardlst;
 		
 		if(data.options[data.selectedIndex].value == "basic"){
-		
+			
 			AfterResultList.sort(function(a, b){
 				return b.board_no - a.board_no;
 			});
-
+			BoardOutputGo(AfterResultList);
 		}else if(data.options[data.selectedIndex].value == "categorydesc"){
 	
 			AfterResultList.sort(function(a, b){
@@ -178,36 +185,73 @@ let AfterResultList = new Array();
 			BoardOutputGo(AfterResultList);
 		}
 		
-		
-		
-		
 	}
 		
-	
 	
 	
 	// 검색된 값이 댓글 + 게시판일 경우에 오름차순 조건문 실행
 		if(ResultList.replyBoardlst != null){
 			
 			AfterResultList = ResultList.replyBoardlst;
+					
 					if(data.options[data.selectedIndex].value == "basic"){
 						
 						AfterResultList.sort(function(a, b){
-							return b.board_no - a.board_no;
+							return b.replyBoard_no - a.replyBoard_no;
+						});
+						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "categorydesc"){
+				
+						AfterResultList.sort(function(a, b){
+							return b.board_category > a.board_category ? -1 : b.board_category > a.board_category ? 1 : 0;
 						});
 						
-					replyOutputGo(AfterResultList);
-			
+						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "titledesc"){
 				
+						AfterResultList.sort(function(a, b){
+							return b.board_title > a.board_title ? -1 : b.board_title > a.board_title ? 1 : 0;
+						});
+						
+						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "writerdesc"){
+				
+						AfterResultList.sort(function(a, b){
+							return b.rmember_id > a.rmember_id ? -1 : b.rmember_id > a.rmember_id ? 1 : 0;
+						});
+						
+						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "updatedaydesc"){
+				
+						AfterResultList.sort(function(a, b){
+							return b.replyBoard_updateDate - a.replyBoard_updateDate;
+						});
+						
+						replyOutputGo(AfterResultList);
 					}else if(data.options[data.selectedIndex].value == "viewCnt"){
-						
-						
+				
 						AfterResultList.sort(function(a, b){
 							return b.board_viewCnt - a.board_viewCnt;
 						});
 						
 						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "replyCnt"){
+				
+						AfterResultList.sort(function(a, b){
+							return b.board_replyCnt - a.board_replyCnt;
+						});
+						
+						replyOutputGo(AfterResultList);
+					}else if(data.options[data.selectedIndex].value == "likeCnt"){
+				
+						AfterResultList.sort(function(a, b){
+							return b.board_likeCnt - a.board_likeCnt;
+						});
+						
+						replyOutputGo(AfterResultList);
 					}
+					
+					
 		}
 	
 	}
@@ -277,11 +321,13 @@ function getPastDate(period){
 		let searchboardType = $("select[name=searchboardType]").val(); // 제목, 내용, 작성자 구분
 	    let searchTxtValue = "none";
 	    let page = $("#pageSave").val();
+	    let perPageCnt = $("#perPageCnt").val();
+	    
 	    if($("#searchBoard_key").val() != ""){
 			searchTxtValue = $("#searchBoard_key").val();
 		}
 	    
-		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
+		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page +"/" + perPageCnt, function(data){
 	
 			$("#newBoardCnt").html(data.todayTotCnt);
 			$("#newReplyCnt").html(data.todayreplyTotCnt);
@@ -292,7 +338,9 @@ function getPastDate(period){
 			let outputList = "";
 				
 				if(data.replyBoardlst != null){
-					
+					if(data.replyBoardlst.length == 0){
+						outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>';
+					}
 						$(data.replyBoardlst).each(function(index, item){		
 						
 						let date = new Date(this.board_writeDate);
@@ -332,10 +380,10 @@ function getPastDate(period){
 						outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 					});
 						ResultList = data;
-				}
-			
-				if(data.Boardlst != null){
-					
+				}else if(data.Boardlst != null){
+					if(data.Boardlst.length == 0){
+						outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>';
+					}
 					$(data.Boardlst).each(function(index, item){		
 						
 						let date = new Date(this.board_writeDate);
@@ -367,28 +415,21 @@ function getPastDate(period){
 						outputList += '<td>' + this.member_id + '</td>';
 						outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
 						outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
+					
+					 
+					
 					});
 					ResultList = data;
 				}
-				
-				if(data.Boardlst == null && data.replyBoardlst == null){
-					alert("!!!");
-				}
-				console.log(data.Boardlst.length == 0);
-				console.log(data.replyBoardlst == null);
-				
-				
+					
+			
+				console.log(data);
 				$("#boardListFrame").html(outputList);
 
 		});
 		
 	}
 
-	
-	
-	
-	
-	
 	
 	
 	
@@ -954,16 +995,15 @@ table {
 							<select class="fSelect" id="eSearchSort" name="searchSort"
 								onchange="changeResultViewList(this);" align="absmiddle">
 								<option value=""> - 정렬 조건</option>
-								<option value="basic" selected="selected">최신</option>
+								<option value="basic" selected="selected">최신()</option>
 								<option value="categorydesc">분류</option>
 								<option value="titledesc">제목</option>
-								<option value="writerdesc">작성자</option>
-								<option value="updatedaydesc">수정일</option>
+								<option value="writerdesc">작성자()</option>
+								<option value="updatedaydesc">수정일()</option>
 								<option value="viewCnt">조회순</option>
 								<option value="replyCnt">댓글순</option>
 								<option value="likeCnt">좋아요순</option>
-							</select> <select class="fSelect" id="list_limit" name="list_limit"
-								onchange="view_board('submit');" align="absmiddle">
+							</select> <select class="fSelect" id="list_limit" name="list_limit" align="absmiddle">
 								<option value="10" selected="">10개씩보기</option>
 								<option value="20">20개씩보기</option>
 								<option value="30">30개씩보기</option>
@@ -1086,5 +1126,7 @@ table {
 	
 	</div>
 <input type="hidden" id="pageSave" value="1">
+<input type="hidden" id="searchSorthidden" value="basic">
+<input type="hidden" id="perPageCnt" value="10">
 </body>
 </html>

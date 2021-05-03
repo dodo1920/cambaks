@@ -29,7 +29,7 @@
 
 <script>
 
-let member_id = "${loginMember.member_id}";
+// let member_id = "${loginMember.member_id}";   // 종진 생략(중복);
 console.log(member_id);
 let pageNum;
 
