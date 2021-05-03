@@ -47,12 +47,22 @@ let AfterResultList = new Array();
 	
 		$('#list_limit').on('change', function() {
 			$("#perPageCnt").val(this.options[this.selectedIndex].value);
-			console.log(this.options[this.selectedIndex].value);
-		
+			goBoardListAll();
 		});
 		
 		
 	});
+	
+	function outputPagingParam(data){
+		
+		console.log(data + "페이징 길이");	
+	}
+	
+	
+	
+	
+	
+	
 	
 	// 오름차순 정렬 후 게시판만 출력 함수
 	function BoardOutputGo(data){
@@ -77,9 +87,9 @@ let AfterResultList = new Array();
 			if(data.length == 0){
 				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>'
 			}	
-		
-			$("#boardListFrame").html(outputList);
 			
+			$("#boardListFrame").html(outputList);
+			outputPagingParam(data.length);
 	}
 	
 	// 오름차순 정렬 후 댓글 + 게시판 출력 함수
@@ -114,6 +124,7 @@ let AfterResultList = new Array();
 	
 		
 		$("#boardListFrame").html(outputList);
+		outputPagingParam(data.length);
 		
 	}
 		
@@ -424,6 +435,7 @@ function getPastDate(period){
 					
 			
 				console.log(data);
+			
 				$("#boardListFrame").html(outputList);
 
 		});
@@ -1008,7 +1020,6 @@ table {
 								<option value="20">20개씩보기</option>
 								<option value="30">30개씩보기</option>
 								<option value="50">50개씩보기</option>
-								<option value="100">100개씩보기</option>
 							</select>
 						</div>
 					</div>
