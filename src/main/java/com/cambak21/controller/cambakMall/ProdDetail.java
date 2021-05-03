@@ -232,29 +232,24 @@ public class ProdDetail {
 		
 		// 상품후기 게시글 수정 업데이트
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
-		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		public String modifyProdReviewPost(ProdReviewVO vo) throws Exception {
 			logger.info("/prodReviewsModify의 post방식 호출");
 			System.out.println("/prodReviewsModify의 post방식 호출");
 			int prodId=vo.getProduct_id();
 			System.out.println("prodId: " + prodId);
 			System.out.println("vo : " + vo);
 //			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
-			if(service.updateProdBoard(vo) == 1) {
-				rttr.addFlashAttribute("result", "success");
-			}
-			
-			return "/mall/prodDetail/main?prodId=" + prodId;
+			service.updateProdBoard(vo);
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		
 		// 상품후기 게시글 삭제
 		@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
-		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId, RedirectAttributes rttr) throws Exception {
+		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId) throws Exception {
 			logger.info("/prodReviewsDelete의 post방식 호출");
 			System.out.println("/prodReviewsDelete의 post방식 호출");
-			if(service.deleteProdBoard(prodReview_no) ==1) {
-				rttr.addFlashAttribute("result", "deleteSuccess");
-			}
+			service.deleteProdBoard(prodReview_no);
 			
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
