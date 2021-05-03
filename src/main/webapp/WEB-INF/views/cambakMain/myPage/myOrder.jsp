@@ -53,17 +53,18 @@ function check_date(date, idNum) {
 }
 
 function purchaseSubmit(payInfo_no, payment_date) {
+	console.log(payment_date);
 	let member_id = "${loginMember.member_id}";
 	
 	$.ajax({
-		type : "GET",
+		type : "get",
 		dataType : "text", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-		url : "myOrder/purchaseSubmit",// 서블릿 주소
+		url : "/myMall/myOrder/purchaseSubmit",// 서블릿 주소
 		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id},
 		success : function(result) {
 			console.log(result);
-			
+			location.reload();
 		}, // 통신 성공시
 		error : function(result) {
 			
@@ -80,9 +81,11 @@ function purchaseSubmit(payInfo_no, payment_date) {
 	});
 }
 
+
+
+
 $(document).ready(function(){
-	
-	
+
 	});
 
 </script>
@@ -312,7 +315,7 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-footer">
 															<button type="button" class="btn btn-default"
-																	data-dismiss="modal" onclick="purchaseSubmit(${order.payInfo_no },'${order.payment_date}');">주문확정</button>
+																	data-dismiss="modal" onclick='purchaseSubmit(${order.payInfo_no },"${order.payment_date}");'>주문확정</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>

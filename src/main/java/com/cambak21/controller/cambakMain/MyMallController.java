@@ -111,9 +111,9 @@ public class MyMallController {
 		return "cambakMain/myPage/orderDetail";
 	}
 	
-	
+	@Transactional
 	@RequestMapping(value = "myOrder/purchaseSubmit", method = RequestMethod.GET)
-	public ResponseEntity<String> purchaseSubmit(@PathVariable("payInfo_no") int payInfo_no, @PathVariable("payment_date") String payment_date, @PathVariable("member_id") String member_id) {
+	public ResponseEntity<String> purchaseSubmit(@RequestParam("payInfo_no") int payInfo_no, @RequestParam("payment_date") String payment_date, @RequestParam("member_id") String member_id) {
 		System.out.println("여기옵니까?");
 		ResponseEntity<String> entity = null;
 		
@@ -136,6 +136,10 @@ public class MyMallController {
 		return entity;
 		
 	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/refund/{payment_serialNo}", method = RequestMethod.GET)
 	public String addRefund() {
