@@ -68,6 +68,7 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 		@Override
 		public int updateProdBoard(ProdReviewVO vo) throws Exception {
 			int result = dao.updateProdBoard(vo);
+			System.out.println("Service result : " + result);
 			if (result == 1) {
 				dao.updateProductAvgStarScore(vo.getProduct_id());
 			}

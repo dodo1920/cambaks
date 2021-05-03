@@ -96,7 +96,7 @@
         <div class="container">
             <div class="row">
 				<div class="col-lg-12">
-					<form action="/cambakMall/prodReviewsModify" method="post">
+					<form action="/mall/prodDetail/prodReviewsModify" method="post">
 					
 					<input type="hidden" id="product_id" name="product_id" value="${board.product_id }"/>
 					<input type="hidden" id="member_id" name="member_id" value="${loginMember.member_id }"/>
