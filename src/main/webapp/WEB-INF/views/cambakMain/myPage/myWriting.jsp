@@ -46,7 +46,7 @@ function contentTopCategory(board_category) {
 
 // 카테고리를 위한 전역변수 선언
 let board_category;
-let member_id = "${loginMember.member_id}";
+// let member_id = "${loginMember.member_id}"; // 생략 종진(중복)
 
 // 게시글 제목 글자수를 조절하는 함수
 function textLimit() {
