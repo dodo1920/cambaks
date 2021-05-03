@@ -7,15 +7,21 @@ import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.RefundnExchangeVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberVO;
-
+import com.cambak21.domain.OrderManagementBuyerInfoVO;
+import com.cambak21.domain.OrderManagementDestinationInfoVO;
+import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.MiddleCategoryVO;
 
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
+import com.cambak21.domain.OrderProductInfoVO;
+import com.cambak21.domain.OrderStatusInfo;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
@@ -28,6 +34,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -226,26 +233,58 @@ public interface AdminDAO {
 	public int orderManageSearchNum(OrderManagementSearchVO vo) throws Exception;
 
 
+	public OrderManagementBuyerInfoVO readBuyerInfo(int payment_no) throws Exception;
 
 
-
-
-
-
-
-
+	public OrderManagementDestinationInfoVO readDestinationInfo(int payment_no) throws Exception;
 
 	
+	public OrderManagementPayInfoVO readPayInfo(int payment_no) throws Exception;
+
+
+	public OrderStatusInfo readOrderStatusInfo(int payment_no) throws Exception;
 	
 	
+	public int readOrderRequestNum(int payment_no) throws Exception;
 	
 	
+	public RefundnExchangeVO readOrderRequestInfo(int payment_no) throws Exception;
 	
 	
+	public List<OrderProductInfoVO> readOrderProductInfo(int payment_no) throws Exception;
 	
 	
+	public int modifyDestinationInfo(OrderDetailDestinationModifyDTO dto) throws Exception;
 	
 	
+	public int modifyDestinationMsg(String payment_deliveryMsg, int payment_no) throws Exception;
+	
+	
+	public int getOrderSerialNo(int payment_no) throws Exception;
+	
+	
+	public int modifyDeliveryInfo(int payment_serialNo, String delivery_status) throws Exception;
+	
+	
+	public int modifyPurchaseInfo(int payment_no, String payment_isComit, String payment_isChecked) throws Exception;
+	
+	
+	public List<Integer> getOrderBuyProductList(int payment_no) throws Exception;
+	
+	
+	public List<BuyProductVO> getOrderProductIdList(int buyProduct_no) throws Exception;
+	
+	
+	public int modifyProductQty(int buyProduct_qty, int product_id) throws Exception;
+	
+	
+	public List<Integer> getOrderProductSerialNo(int payment_no) throws Exception;
+	
+	
+	public int modifyCsStatusRnE(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
+	
+	
+	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
 	
 	
 //	---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------

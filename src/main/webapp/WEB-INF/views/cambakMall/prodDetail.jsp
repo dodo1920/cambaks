@@ -109,9 +109,51 @@
 		$("#updateBtn2").click(function() {
 			updateBucket("2");
 		});
+		
+		
+		// prodDetail 상단의 평균 별점과 총 리뷰 개수를 가져오기 위한 함수 호출
+		getStarRating();
 	});
 	
 	// ------------------------------------- 정민 오빠 js--------------------------------------------------------------------------
+	// prodDetail 상단의 평균 별점을 가져오기 위한 함수
+	function getStarRating() {
+		let getStarRating;
+		let output;
+		
+		$.ajax({
+			  method: "post",
+			  url: "/mall/prodDetail/getStarRating/" + prodId,
+			  headers: {	// 요청하는 데이터의 헤더에 전송
+				  "Content-Type" : "application/json",
+				  "X-HTTP-Method-Override" : "POST"
+			  },
+			  dataType: "json", // 응답 받는 데이터 타입
+			  success : function(data) {
+			      console.log(data);
+			      getStarRating = data.getStarRating;
+			      console.log(getStarRating);
+			      output = showStars(getStarRating);
+			      console.log(output);
+
+				  $("#getStarRating").html(output);
+			  }
+			}); // end of ajax
+	}
+	
+	// prodDetail 상단의 총 리뷰 개수를 가져오기 위한 함수
+	
+	
+	
+	// 작성한 게시글 삭제 전 확인을 하는 함수
+	function checkDelete(prodReview_no) {
+		if(confirm("해당 게시물을 삭제하시겠습니까?")) {
+			console.log("삭제 확인");
+			location.href='prodReviewsDelete?prodReview_no=' + prodReview_no + "&prodId=" + prodId;
+		}
+	}
+	
+	
 	// 상품평 배너 클릭시 ajax로 기본 게시글 호출
     function showProdList(prodId, pageNum, checkPoint, orderList) {
 		if(prodId == 0){
@@ -137,6 +179,9 @@
      	console.log(orderList);
 //     	console.log(prodId);
 //     	console.log(pageNum);
+
+		// 총 리뷰 개수 가져오기
+		let totalReviews;
     	// ------------------게시판 리스트 출력-------------------------------
     	let output = '<div>';
         output += '<table class="table table-hover"><thead><tr><th>글번호</th><th>글제목</th><th>만족도</th><th>작성자</th><th>작성일</th></tr></thead>';
@@ -153,7 +198,11 @@
 // 	        	console.log(data);
 	        	let prodList = data.prodList;
 	        	let pagingParam = data.pagingParam;
+	        	
+	        	totalReviews = data.pagingParam.totalCount;
 	        	currentPage = pagingParam.cri.page;
+	        	
+	        	console.log(totalReviews);
 	        	//console.log(currentPage);
 	        	//console.log(prodList);
 	        	console.log(pagingParam.cri);
@@ -181,7 +230,7 @@
 	                 
 	                 if("${loginMember.member_id}" == item.member_id || grade_name =='M'){
 	                	 output += '<div class="form-row float-right"><button type="button" class="btn btn-primary" onclick="location.href=\'prodReviewsModify?prodReview_no=' + item.prodReview_no + '&member_id=' + item.member_id + '\'">수정하기</button>';
-	                	 output += '<button type="button" class="btn btn-info" onclick="location.href=\'prodReviewsDelete?prodReview_no=' + item.prodReview_no + '\'">삭제하기</button></div>';
+	                	 output += '<button type="button" class="btn btn-info" onclick="checkDelete(' + item.prodReview_no + ');">삭제하기</button></div>';
 	                 }
 	                 
 	                 // display:none 되어있는 Content 내용
@@ -253,6 +302,8 @@
 	              $("#prodBoardListPage").html(pageOutput);
 	              $("#prodReviewsCnt").html("상품평(" + totalCount + ")");
 	              
+	              // prodDetail의 상단 리뷰수 출력 부분
+	              $("#totalReviews").html(totalReviews);
 	              
 	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
 	              if(checkPoint == 1){
@@ -315,18 +366,22 @@
 				            	  }
 				            	  
 				              }
+				          	  // 삭제된 글인 경우 답글 및 수정 불가
+			            	  if(item.replyProdReview_isDelete != 'Y'){
 				              //답글 버튼(로그인한 회원에게만 보이도록 처리)
 				              if(${loginMember.member_id != null}){
 				            	  replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="javascript:showReply(' + item.replyProdReview_no +');">답글</button>';
 				              }
 				              
 				              if(item.member_id == "${loginMember.member_id}" || grade_name =='M'){ // 로그인 아이디와 동일한 경우, 운영진인 경우에만 수정/삭제 표시
+				            	  
 				              //수정 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="openModifyReply(' + item.replyProdReview_no +');">수정</button>';
 				              //삭제 버튼
 				              replyOutput += '<button type="button" class="btn btn-dark" style="cursor:pointer" onClick="deleteReply(' + item.replyProdReview_no +');">삭제</button>';
-				              }
-				          
+				             	 }
+				            	  
+			            	  }
 				              replyOutput += '</li></ul></div>'; // 닫아주는 부분
 				              
 				              // ------------------------대댓글 등록 부분--------------------------
@@ -451,12 +506,15 @@
 							  replyProdReview_ref : replyProdReview_ref
 						  }),
 						  success : function(result) {
-							  //console.log(prodReview_no);
-// 							  console.log(currentPage);
+							  console.log(result);
+
+							  //$("#content" + prodReview_no).hide();
 							  
-							  showProdList(prodId, currentPage, 1, orderList);
+							  
 							  
 						  }, complete : function (result) {
+							  //showContent(prodReview_no, result);
+							 showProdList(prodId, currentPage, 1, orderList);
 							//$("#replyBox" + prodReview_no).load(document.URL + "#replyBox" + prodReview_no);
 						}
 						  
@@ -602,7 +660,7 @@
 						  "X-HTTP-Method-Override" : "POST"
 					  },
 					  success : function(result) {
-// 						  console.log(result);
+ 						  console.log(result);
 						  $("#content" + prodReview_no).hide();
 						  showContent(prodReview_no, result);
 						 //showProdList(product_id, currentPage, 1, orderList);
@@ -1434,7 +1492,7 @@
 	}
 	
 	p {
-		text-align : center;
+		<!-- text-align : center; -->
 	}
 	
 	.hiddenSecretDiv {
@@ -1486,54 +1544,7 @@
                                 <c:when test="${prodDetail.mainCategory_id } == '8' and ${prodDetail.middleCategory_id } == '1'">
                         			<a href="#">수납/케이스</a><span>식기/일반</span>
                         		</c:when>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 1 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">텐트/타프</a><span>텐트</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 1 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">텐트/타프</a><span>타프</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 2 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">침낭/매트</a><span>침낭</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 2 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">침낭/매트</a><span>매트</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 3 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">테이블/체어/베트</a><span>경량 테이블</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 3 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">테이블/체어/베트</a><span>체어</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 4 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">랜턴</a><span>랜턴</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 5 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">액세서리</a><span>담요</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 5 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">액세서리</a><span>쿨러/아이스박스</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 6 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">화로/히터</a><span>화로대</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 6 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">화로/히터</a><span>착화제</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 7 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">수납/케이스</a><span>수납</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == '8' and ${prodDetail.middleCategory_id } == '1'"> --%>
-<!--                         			<a href="#">수납/케이스</a><span>식기/일반</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 8 and ${prodDetail.middleCategory_id } == 2"> --%>
-<!--                         			<a href="#">키친/취사용품</a><span>설거지용품</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 8 and ${prodDetail.middleCategory_id } == 3"> --%>
-<!--                         			<a href="#">키친/취사용품</a><span>버너</span> -->
-<%--                         		</c:when> --%>
-<%--                         		<c:when test="${prodDetail.mainCategory_id } == 9 and ${prodDetail.middleCategory_id } == 1"> --%>
-<!--                         			<a href="#">기타</a><span>기타</span> -->
-<%--                         		</c:when> --%>
+
                         	</c:choose>                        
                     </div>
                 </div>
@@ -1575,13 +1586,11 @@
                 <div class="col-lg-6">
                     <div class="product__details__text">
                         <h3>${prodDetail.product_title }<span>${prodDetail.product_factory }</span></h3>
-                        <div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <span>( 138 reviews )</span>
+                        <!--  prodDetail 상단의 별점 및 후기 개수 표시 -->
+                        <div class="stars" id="star">
+                            <span id="getStarRating" style="margin-left: 0px;"></span>
+                            <!-- 총 리뷰 개수 출력 -->
+                            <span id="totalReviews">0</span><span>Reviews</span>
                         </div>
                         <div class="product__details__price" > <strong id="sellPrice"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /></strong></div>
 <%--                         <p>${prodDetail.product_detail }</p> --%>

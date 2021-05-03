@@ -211,12 +211,13 @@ $('#endDate').datepicker({
    <div class="page-breadcrumb">
       <div class="row">
          <div class="col-12 d-flex no-block align-items-center">
-            <h4 class="page-title">주문목록</h4>
+            <h4 class="page-title">주문목록 - 검색</h4>
             <div class="ml-auto text-right">
                <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="#">홈</a></li>
-                     <li class="breadcrumb-item active" aria-current="page">주문목록</li>
+                     <li class="breadcrumb-item"><a href="#" style="color: #6c757d;">홈</a></li>
+                     <li class="breadcrumb-item active" aria-current="page"><a href="/admin/orderManagement" style="color: #6c757d;">주문목록</a></li>
+                     <li class="breadcrumb-item active" aria-current="page">검색</li>
                   </ol>
                </nav>
             </div>
@@ -323,7 +324,7 @@ $('#endDate').datepicker({
                      <div class="col-md-9"></div>
                   </div>
                   <div class="form-group row">
-                     <label class="col-md-1 m-t-15">주문상태</label>
+                     <label class="col-md-1 m-t-15">배송상태</label>
                      <div class="col-ms" style="margin-right: 15px;">
                         <div class="custom-control custom-radio">
                             <input type="radio" class="custom-control-input" id="orderStatus" name="orderStatus" value="orderStatus" required>
@@ -426,11 +427,11 @@ $('#endDate').datepicker({
                                     <th style="font-weight: bold; width: 180px;">상품명</th>
                                     <th style="font-weight: bold; width: 85px;">받는사람</th>
                                     <th style="font-weight: bold; width: 130px;">배송지 연락처</th>
-                                    <th style="font-weight: bold; width: 102px;">사용 포인트</th>
                                     <th style="font-weight: bold; width: 102px;">결제수단</th>
                                     <th style="font-weight: bold; width: 102px;">총 주문금액</th>
                                     <th style="font-weight: bold; width: 90px;">배송 상태</th>
                                     <th style="font-weight: bold; width: 100px;">교환, 환불 여부</th>
+                                    <th style="font-weight: bold; width: 50px;">주문 관리</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -453,11 +454,11 @@ $('#endDate').datepicker({
                                     </td>
                                     <td>${orderList.destination_toUser }</td>
                                     <td>${orderList.destination_mobile }</td>
-                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" /></td>
                                     <td>${orderList.payInfo_way }</td>
-                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" /></td>
+                                    <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" />원</td>
                                     <td>${orderList.delivery_status }</td>
                                     <td>${orderList.payment_isComit }</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" onclick="window.open('/admin/orderManagement/detail?prodNo=${orderList.payment_no}')">상세보기</button></td>
                                  </tr>
                                  </c:forEach>
                               </tbody>

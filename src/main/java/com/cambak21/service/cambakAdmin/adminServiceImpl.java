@@ -1,5 +1,6 @@
 package com.cambak21.service.cambakAdmin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,10 @@ import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
-
+import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
@@ -31,6 +33,8 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
@@ -440,28 +444,127 @@ public class adminServiceImpl implements adminService {
 		return param;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public Map<String, Object> readBuyOrderInfo(int payment_no) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
 		
+		// 주문자 정보 가져오기
+		param.put("buyerInfo", dao.readBuyerInfo(payment_no));
 		
+		// 배송지 정보 가져오기
+		param.put("destinationInfo", dao.readDestinationInfo(payment_no));
+		
+		// 주문/결제 금액 정보 가져오기
+		OrderManagementPayInfoVO payInfo = dao.readPayInfo(payment_no);
+		payInfo.setPayment_no(payment_no);
+		param.put("payInfo", payInfo);
+		
+		// 주문 배송상태, 구매 확정 정보 가져오기
+		param.put("orderStatusInfo", dao.readOrderStatusInfo(payment_no));
+		
+		// 주문 교환, 환불 요청 여부 가져오기
+		
+		if (dao.readOrderRequestNum(payment_no) == 0) {
+			param.put("orderRequestInfo", "noRequest");
+		} else {
+			param.put("orderRequestInfo", dao.readOrderRequestInfo(payment_no));
+		}
+		
+		// 전체 주문 상품 정보 가져오기
+		param.put("orderProductInfo", dao.readOrderProductInfo(payment_no));
+		
+		return param;
+	}
+
+	@Override
+	public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception {
+		boolean result = false;
+		if (dao.modifyDestinationInfo(dto) != 0) if (dao.modifyDestinationMsg(dto.getPayment_deliveryMsg(), payment_no) != 0) result = true;
+		return result;
+	}
+
+	@Override
+	public boolean orderStatusModi(int payment_no, OrderInfoModifyDTO dto) throws Exception {
+		boolean result = true;
+		String delivery_status = "";
+		String payment_isComit = "";
+		String payment_isChecked = "";
+		
+		int payment_serialNo = dao.getOrderSerialNo(payment_no);
+		
+		if (dto.getDeliveryInfo().equals("orderDeliveryReady")) delivery_status = "배송전";
+		else if (dto.getDeliveryInfo().equals("orderOnDelivery")) delivery_status = "배송중";
+		else if (dto.getDeliveryInfo().equals("orderDeliveryCompleted")) delivery_status = "배송완료";
+		
+		// 배송 상태 업데이트
+		if (dao.modifyDeliveryInfo(payment_serialNo, delivery_status) == 0) result = false;
+		
+		if (!dto.getPurchaseStatus().equals("noChange")) {
+			if (dto.getPurchaseStatus().equals("purchaseConfirmationBefore")) {
+				payment_isComit = "결제완료";
+				payment_isChecked = "N";
+			} else if (dto.getPurchaseStatus().equals("purchaseConfirmation")) {
+				payment_isComit = "결제완료";
+				payment_isChecked = "Y";
+			}
+			
+			// 구매 확정 업데이트
+			if (dao.modifyPurchaseInfo(payment_no, payment_isComit, payment_isChecked) == 0) result = false;
+		}
+		
+		if (!dto.getCsStatus().equals("noRequest")) {
+			String modifyContent = "";
+			String isChecked = "Y";
+			
+			// 주문 취소, 환불 시 상품 판매 재고 변경
+			if (dto.getCsStatus().equals("csCancelRequest") || dto.getCsStatus().equals("csRefundRequest")) {
+				List<Integer> buyProductList = dao.getOrderBuyProductList(payment_no);
+				
+				for (int i = 0; i < buyProductList.size(); i++) {
+					List<BuyProductVO> productIdList = dao.getOrderProductIdList(buyProductList.get(i));
+					
+					for (int j = 0; i < productIdList.size(); i++) {
+						if (dao.modifyProductQty(productIdList.get(j).getBuyProduct_qty(), productIdList.get(j).getProduct_id()) == 0) result = false;
+					}
+				}
+			}
+			
+			// 교환, 취소, 환불 처리
+			if (dto.getCsStatus().equals("csCancelCompleted")) {
+				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
+				
+				modifyContent = "주문취소완료";
+				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
+				
+				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
+				}
+			} else if (dto.getCsStatus().equals("csChangeCompleted")) {
+				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
+				
+				modifyContent = "교환완료";
+				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
+				
+				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
+				}
+			} else if (dto.getCsStatus().equals("csRefundCompleted")) {
+				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
+				
+				modifyContent = "환불완료";
+				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
+				
+				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
+				}
+			}
+			
+		}
+		
+		return result;
+	}
+
+	
 		
 		
 //		---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------

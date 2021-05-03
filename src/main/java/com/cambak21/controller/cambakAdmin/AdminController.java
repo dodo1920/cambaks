@@ -51,6 +51,8 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 
 import org.springframework.web.util.WebUtils;
 
@@ -713,11 +715,41 @@ public class AdminController {
       return "/admin/adminOrderSearch";
    }
    
-   @RequestMapping(value="/orderManagement/view")
-   public String OrderView(PagingCriteria cri, Model model) throws Exception{
-      model.addAttribute("order", service.readOrderList(cri));
+   @RequestMapping(value="/orderManagement/detail")
+   public String orderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
+	  
+	  model.addAttribute("buyProdInfo", service.readBuyOrderInfo(payment_no));
+	  
       return "/admin/adminOrderView";
    }
+   
+   @RequestMapping(value="/orderManagement/destinationModi", method = RequestMethod.POST)
+   public String orderDestinationModi(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
+	  
+	  if (service.modifyDestinationInfo(dto, payment_no)) {
+		  rttr.addFlashAttribute("destinationModi", "success");
+	  } else {
+		  rttr.addFlashAttribute("destinationModi", "fail");
+	  }
+	  
+      return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
+   }
+   
+   @RequestMapping(value="/orderManagement/orderStatusModi", method = RequestMethod.POST)
+   public String orderStatusModi(@RequestParam("prodNo") int payment_no , OrderInfoModifyDTO dto, RedirectAttributes rttr) throws Exception{
+
+	  if (service.orderStatusModi(payment_no, dto)) {
+		  rttr.addFlashAttribute("orderStatusModi", "success");
+	  } else {
+		  rttr.addFlashAttribute("orderStatusModi", "fail");
+	  }
+	  
+	  System.out.println(payment_no);
+	  System.out.println(dto.toString());
+	  
+      return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
+   }
+   
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

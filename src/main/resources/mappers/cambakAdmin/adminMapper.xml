@@ -962,7 +962,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 	from Payments pay, BuyProducts buy, Destinations des, PayInfos pinfo, Deliveries del, Points poin, Members mem
 	where pay.buyProduct_no = buy.buyProduct_no and pay.destination_no = des.destination_no and pay.payInfo_no = pinfo.payInfo_no
 	and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id
-	group by pay.payment_serialNo limit #{pageStart}, #{perPageNum}
+	group by pay.payment_serialNo order by payment_date desc limit #{pageStart}, #{perPageNum}
   </select>
   
   
@@ -1060,7 +1060,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		and del.delivery_status = '배송완료'
 		</if>
 		
-		group by pay.payment_serialNo limit #{pageStart}, #{perPageNum}
+		group by pay.payment_serialNo order by payment_date desc limit #{pageStart}, #{perPageNum}
   	</if>
   	<if test="csOrderRange == 'check'">
 	 	select payment_no, payment_date, product_name, lst.member_id, member_name, destination_toUser, 
@@ -1163,7 +1163,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		<if test="csStatus == 'csRefundCompleted'">
 			and refund.refundnExchange_status = '환불완료' and refund.refundnExchange_isChecked = 'Y'
 		</if>
-	limit #{pageStart}, #{perPageNum}
+	order by payment_date desc limit #{pageStart}, #{perPageNum}
   	</if>
   	
   </select>
@@ -1351,34 +1351,109 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	
   </select>
   
+  <select id="readBuyerInfo" resultType="com.cambak21.domain.OrderManagementBuyerInfoVO">
+  	select mem.member_id, mem.grade_name, mem.member_name, mem.member_birth, mem.member_email, mem.member_mobile from
+	Members mem, Payments pay where mem.member_id = pay.member_id and pay.payment_no = #{payment_no} group by member_id
+  </select>
   
   
+  <select id="readDestinationInfo" resultType="com.cambak21.domain.OrderManagementDestinationInfoVO">
+  	select des.destination_no, des.destination_nickname, des.destination_mobile, des.destination_zipCode, des.destination_address, des.destination_addressDetail, des.destination_toUser, pay.payment_deliveryMsg from
+	Destinations des, Payments pay where des.destination_no = pay.destination_no and pay.payment_no = #{payment_no} group by destination_nickname
+  </select>
   
   
+  <select id="readPayInfo" resultType="com.cambak21.domain.OrderManagementPayInfoVO">
+  	select sum(buy.buyProduct_totPrice) as buyProduct_totPrice, buy.buyProduct_deliveriPay, poin.point_usedPoint, poin.point_futurePoint, pInfo.payInfo_way, pay.payment_isComit, pay.payment_date from BuyProducts buy, Payments pay, Points poin, PayInfos pInfo
+	where buy.buyProduct_no = pay.buyProduct_no and poin.payment_date = pay.payment_date and pay.payInfo_no = pInfo.payInfo_no and pay.payment_no =  #{payment_no}
+  </select>
   
   
+  <select id="readOrderStatusInfo" resultType="com.cambak21.domain.OrderStatusInfo">
+  	select del.delivery_status, pay.payment_isComit, pay.payment_isChecked from Deliveries del, Payments pay where del.payment_serialNo = pay.payment_serialNo and payment_no = #{payment_no}
+  </select>
+  
+  <select id="readOrderRequestNum" resultType="int">
+  	select count(*) from RefundnExchanges refund, Payments pay where refund.payment_serialNo = pay.payment_serialNo and payment_no = #{payment_no}
+  </select>
+  
+  <select id="readOrderRequestInfo" resultType="com.cambak21.domain.RefundnExchangeVO">
+  	select refund.refundnExchange_status, refund.refundnExchange_reason, refund.refundnExchange_date, refund.refundnExchange_isChecked, refund.refundnExchange_checkedDate
+  	from RefundnExchanges refund, Payments pay where refund.payment_serialNo = pay.payment_serialNo and payment_no = #{payment_no}
+  </select>
   
   
+  <select id="readOrderProductInfo" resultType="com.cambak21.domain.OrderProductInfoVO">
+  	select lst.product_id, main.mainCategory_content, middle.middleCategory_content, lst.product_name, lst.product_factory, lst.buyProduct_qty, lst.product_sellPrice, lst.buyProduct_totPrice from
+	(select prod.product_id, prod.mainCategory_id, prod.middleCategory_id, prod.product_name, prod.product_factory, buy.buyProduct_qty, prod.product_sellPrice, buy.buyProduct_totPrice from BuyProducts buy, Payments pay, Products prod
+	where buy.buyProduct_no = pay.buyProduct_no and prod.product_id = buy.product_id and pay.payment_no = #{payment_no}) as lst, MainCategories main, MiddleCategories middle
+	where middle.mainCategory_id = main.mainCategory_id and lst.middleCategory_id = middle.middleCategory_id group by product_id
+  </select>
   
   
+  <update id="modifyDestinationInfo">
+  	update Destinations set 
+  	destination_nickname = #{destination_nickname}, 
+  	destination_mobile = #{destination_mobile}, 
+  	destination_zipCode = #{destination_zipCode}, 
+  	destination_address = #{destination_address}, 
+  	destination_addressDetail = #{destination_addressDetail}, 
+  	destination_toUser = #{destination_toUser}
+	where destination_no = #{destination_no}
+  </update>
   
   
+  <update id="modifyDestinationMsg">
+  	update Payments set 
+  	payment_deliveryMsg = #{payment_deliveryMsg}
+	where payment_no = #{payment_no}
+  </update>
   
+  <select id="getOrderSerialNo" resultType="int">
+  	select min(payment_serialNo) from Payments where payment_no = #{payment_no}
+  </select>
   
+  <update id="modifyDeliveryInfo">
+  	update Deliveries set 
+  	delivery_status = #{delivery_status}
+	where payment_serialNo = #{payment_serialNo}
+  </update>
   
+  <update id="modifyPurchaseInfo">
+  	update Payments set 
+  	payment_isComit = #{payment_isComit}, payment_isChecked = #{payment_isChecked}
+	where payment_no = #{payment_no}
+  </update>
   
+  <select id="getOrderBuyProductList" resultType="int">
+  	select buyProduct_no from Payments where payment_no = #{payment_no}
+  </select>
   
+  <select id="getOrderProductIdList" resultType="com.cambak21.domain.BuyProductVO">
+  	select buyProduct_qty, product_id from BuyProducts where buyProduct_no = #{buyProduct_no}
+  </select>
   
+  <update id="modifyProductQty">
+	update Products set 
+	product_salseQty = product_saleQty - #{buyProduct_qty}, product_totQty = product_totQty + #{buyProduct_qty} 
+	where payment_no = #{product_id}
+  </update>
   
+  <select id="getOrderProductSerialNo" resultType="int">
+  	select payment_serialNo from Payments where payment_no = #{payment_no}
+  </select>
   
+  <update id="modifyCsStatusRnE">
+	update RefundnExchanges set 
+	refundnExchange_status = #{modifyContent}, refundnExchange_isChecked = #{isChecked}, refundnExchange_checkedDate = now() 
+	where payment_serialNo = #{payment_serialNo}
+  </update>
   
-  
-  
-  
-  
-  
-  
-  
+  <update id="modifyCsStatusPayment">
+	update Payments set 
+	payment_isComit = #{modifyContent}, payment_comitDate = now(), payment_isChecked = #{isChecked} 
+	where payment_serialNo = #{payment_serialNo}
+  </update>
   
   
   <!-- ***************************************** 효원 끝 ********************************************************************************* -->

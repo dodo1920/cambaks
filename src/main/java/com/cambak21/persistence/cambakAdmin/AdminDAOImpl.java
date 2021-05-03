@@ -14,14 +14,20 @@ import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
-
+import com.cambak21.domain.OrderManagementBuyerInfoVO;
+import com.cambak21.domain.OrderManagementDestinationInfoVO;
+import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
-
+import com.cambak21.domain.OrderProductInfoVO;
+import com.cambak21.domain.OrderStatusInfo;
 import com.cambak21.domain.ProductsVO;
+import com.cambak21.domain.RefundnExchangeVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.BoardAdminSearchCriteria;
@@ -36,6 +42,7 @@ import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
 
@@ -547,6 +554,121 @@ public class AdminDAOImpl implements AdminDAO {
 		
 		return ses.selectOne(ns + ".orderManageSearchNum", param);
 	}
+
+	@Override
+	public OrderManagementBuyerInfoVO readBuyerInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readBuyerInfo", payment_no);
+	}
+
+	@Override
+	public OrderManagementDestinationInfoVO readDestinationInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readDestinationInfo", payment_no);
+	}
+
+	@Override
+	public OrderManagementPayInfoVO readPayInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readPayInfo", payment_no);
+	}
+
+	@Override
+	public OrderStatusInfo readOrderStatusInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderStatusInfo", payment_no);
+	}
+
+	@Override
+	public int readOrderRequestNum(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderRequestNum", payment_no);
+	}
+	
+	@Override
+	public RefundnExchangeVO readOrderRequestInfo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".readOrderRequestInfo", payment_no);
+	}
+
+	@Override
+	public List<OrderProductInfoVO> readOrderProductInfo(int payment_no) throws Exception {
+		return ses.selectList(ns + ".readOrderProductInfo", payment_no);
+	}
+
+	@Override
+	public int modifyDestinationInfo(OrderDetailDestinationModifyDTO dto) throws Exception {
+		return ses.update(ns + ".modifyDestinationInfo", dto);
+	}
+
+	@Override
+	public int modifyDestinationMsg(String payment_deliveryMsg, int payment_no) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_deliveryMsg", payment_deliveryMsg);
+		param.put("payment_no", payment_no);
+		return ses.update(ns + ".modifyDestinationMsg", param);
+	}
+
+	@Override
+	public int getOrderSerialNo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".getOrderSerialNo", payment_no);
+	}
+
+	@Override
+	public int modifyDeliveryInfo(int payment_serialNo, String delivery_status) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("delivery_status", delivery_status);
+		return ses.update(ns + ".modifyDeliveryInfo", param);
+	}
+
+	@Override
+	public int modifyPurchaseInfo(int payment_no, String payment_isComit, String payment_isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_no", payment_no);
+		param.put("payment_isComit", payment_isComit);
+		param.put("payment_isChecked", payment_isChecked);
+		return ses.update(ns + ".modifyPurchaseInfo", param);
+	}
+
+	@Override
+	public List<Integer> getOrderBuyProductList(int payment_no) throws Exception {
+		return ses.selectList(ns + ".getOrderBuyProductList", payment_no);
+	}
+
+	@Override
+	public List<BuyProductVO> getOrderProductIdList(int buyProduct_no) throws Exception {
+		return ses.selectList(ns + ".getOrderProductIdList", buyProduct_no);
+	}
+	
+	@Override
+	public int modifyProductQty(int buyProduct_qty, int product_id) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("buyProduct_qty", buyProduct_qty);
+		param.put("product_id", product_id);
+		return ses.update(ns + ".modifyProductQty", param);
+	}
+
+	@Override
+	public List<Integer> getOrderProductSerialNo(int payment_no) throws Exception {
+		return ses.selectList(ns + ".getOrderProductSerialNo", payment_no);
+	}
+	
+	@Override
+	public int modifyCsStatusRnE(int payment_serialNo, String modifyContent, String isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("modifyContent", modifyContent);
+		param.put("isChecked", isChecked);
+		return ses.update(ns + ".modifyCsStatusRnE", param);
+	}
+
+	@Override
+	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("modifyContent", modifyContent);
+		param.put("isChecked", isChecked);
+		return ses.update(ns + ".modifyCsStatusPayment", param);
+	}
+
+	
+
+	
 
 		
 		

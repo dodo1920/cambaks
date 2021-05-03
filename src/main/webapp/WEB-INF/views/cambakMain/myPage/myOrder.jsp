@@ -257,8 +257,17 @@ $(document).ready(function(){
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
 																
+<<<<<<< HEAD
+																	<button type="button" class="btn btn-info">구매확정</button>
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+=======
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
+<<<<<<< HEAD
 																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }&prodId=${order.product_id }&buyProduct_no=${order.buyProduct_no }'">리뷰작성하기</button>
+=======
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+>>>>>>> 3973166317972cd36ee4c4399d7909c0b28ffae0
+>>>>>>> 3915c01479b159a1eb301d3ef2e29d48a1acf6b6
 																
 																
 
