@@ -202,7 +202,7 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 		inner join Products p
 		on b.product_id = p.product_id
 		where b.member_id = #{member_id}
-		and b.bucket_isChecked = 'Y';
+		and b.bucket_isChecked = 'Y' and b.bucket_isDelete = 'N';
 	</select>
 	<!-- BuyProducts테이블에 insert -->
 	<insert id="insertBP" parameterType="java.util.Map"> <!-- DAO에서 Map을 보냈기 때문에 -->
@@ -211,6 +211,10 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 			(#{item.member_id}, #{item.bucket_no}, #{item.product_name}, #{item.bucket_buyQty}, #{item.bucket_sellPrice}, #{item.bucket_totBuyPrice}, #{item.product_id})
 		</foreach>
 	</insert>
+	
+	<delete id="deletePastCart">
+		update BuyProducts set buyProduct_isFinished = replace(buyProduct_isFinished, 'N', 'Y') where member_id = #{member_id}
+	</delete>
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 

@@ -39,6 +39,8 @@ let numberJ= /^[0-9]/g;
 let usePointVar = 0;
 let savePointVar = 0;
 
+console.log('${prodInfo }');
+
 //화면시작시 실행할 함수들
  $(function(){
 	console.log($("#finalPay").html());

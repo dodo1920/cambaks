@@ -317,7 +317,7 @@ button.btn.btn-default.cntCh {
 				dataType : "json", // 응답을 어떤 형식으로 받을지	
 				url : "/mall/cart/order/" + member_id, // 서블릿 주소
 				success : function(data) {
-					if(data == 1) {
+					if(data == 1 || data == 0) {
 						location.href="../mall/prodOrder"
 					}
 				}, // 통신 성공시

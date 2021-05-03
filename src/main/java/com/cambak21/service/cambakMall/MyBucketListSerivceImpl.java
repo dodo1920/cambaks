@@ -96,6 +96,19 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 //		dao.deleteItemAllBP(member_id);
 		dao.insertBP(dao.getCheckedY(member_id));
 	}
+	
+	@Override
+	public boolean deletePastCart(String member_id) throws Exception {
+		boolean result = false;
+		
+		int i = dao.deletePastCart(member_id);
+		
+		if(i == 1) {
+			result = true;
+		}
+		
+		return result;
+	}
 
 //	***************************************** 도연 비회원 장바구니 
 	
@@ -124,5 +137,6 @@ public class MyBucketListSerivceImpl implements MyBucketListService {
 	public Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception {
 		return dao.nonUserCheckOnOff(ssid, product_id);
 	}
+
 
 }
