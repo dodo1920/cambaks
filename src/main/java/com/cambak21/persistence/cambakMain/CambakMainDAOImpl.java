@@ -104,15 +104,6 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 		return session.selectList(nameSpace + "getBoards", params);
 	}	
 	
-	@Override
-	public List<ResellBoardVO> getResellBoards(String searchWord, PagingCriteria cri) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("searchWord", searchWord);
-		params.put("pageStart", cri.getPageStart());
-		params.put("perPageNum", cri.getPerPageNum());
-		
-		return session.selectList(nameSpace + "getResellBoards", params);
-	}
 	
 	
 //	=============================도연 DAO 끝=======================================================

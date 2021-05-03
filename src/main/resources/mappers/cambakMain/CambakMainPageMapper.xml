@@ -75,12 +75,6 @@
 	</select>
 	
 	<select id="getTotBoardCnt" resultType="int">
-		<if test='flag == 4'>
-			select count(*) from ResellBoards 
-			where resellBoard_title like concat('%', #{searchWord} ,'%') or resellBoard_content like concat('%', #{searchWord} ,'%') 
-			or member_id like concat('%', #{searchWord} ,'%')
-		</if>
-		<if test='flag != 4'>
 			select count(*) from Boards
 			<if test='flag == 1'>
 				where (board_category = 'camping' and board_title like concat('%', #{searchWord} ,'%')) or 
@@ -112,8 +106,6 @@
 				(board_category = 'CS' and  board_content like concat('%', #{searchWord} ,'%')) or 
 				(board_category = 'CS' and member_id like concat('%', #{searchWord} ,'%'))
 			</if>
-			
-		</if>
 	</select>
 	
 	<select id="getBoards" resultType="com.cambak21.domain.BoardVO">
@@ -152,11 +144,6 @@
 			order by board_writeDate limit #{pageStart}, #{perPageNum}			
 	</select>
 	
-	<select id="getResellBoards" resultType="com.cambak21.domain.ResellBoardVO">
-		select * from ResellBoards 
-		where resellBoard_title like concat('%', #{searchWord} ,'%') or resellBoard_content like concat('%', #{searchWord} ,'%') 
-		or member_id like concat('%', #{searchWord} ,'%') order by resellBoard_postDate limit #{pageStart}, #{perPageNum}
-	</select>
 
 
 
