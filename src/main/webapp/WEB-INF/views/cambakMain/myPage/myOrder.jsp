@@ -27,6 +27,40 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script type="text/javascript">
+function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_serialNo, product_id) {
+	
+	let member_id = "${loginMember.member_id}";
+	console.log(payment_serialNo);
+	console.log(product_id);
+	
+	
+	$.ajax({
+		type : "get",
+		dataType : "text", // 받을 데이터
+		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+		url : "/myMall/myOrder/checkReview",// 서블릿 주소
+		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
+		success : function(result) {
+			if (result == 'noValue'){
+				location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+			}else if(result == 'hasValue'){
+				alert("이미 작성한 리뷰입니다.")
+			}
+		}, // 통신 성공시
+		error : function(result) {
+			
+		}, // 통신 실패시
+		complete : function(result) {
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(result);
+//			if(result != null){
+				
+//			}
+			
+			
+		} // 통신 완료시
+	});		
+}
 
 function check_date(date, idNum) {
 	
@@ -256,18 +290,12 @@ $(document).ready(function(){
 																	보기</button>
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
-																
-<<<<<<< HEAD
-																	<button type="button" class="btn btn-info">구매확정</button>
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
-=======
+
+
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
-<<<<<<< HEAD
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }&prodId=${order.product_id }&buyProduct_no=${order.buyProduct_no }'">리뷰작성하기</button>
-=======
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
->>>>>>> 3973166317972cd36ee4c4399d7909c0b28ffae0
->>>>>>> 3915c01479b159a1eb301d3ef2e29d48a1acf6b6
+
+																	<button type="button" class="btn btn-info" onclick="checkReview('${order.payment_isComit}', '${order.payment_isChecked }', ${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
+
 																
 																
 
@@ -283,6 +311,7 @@ $(document).ready(function(){
 													<div class="modal-dialog" id="modalChange${order.payment_serialNo }">
 
 														<!-- Modal content-->
+														<form action="">
 														<div class="modal-content">
 															<div class="modal-header">
 																<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -302,10 +331,12 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-footer">
 																<button type="button" class="btn btn-default"
+																	data-dismiss="modal">교환, 환불하기</button>
+																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
 														</div>
-
+														</form>
 													</div>
 												</div>
 												<!-- Modal 주문확정 모달 -->
@@ -371,7 +402,7 @@ $(document).ready(function(){
 																	보기</button>
 																
 																
-																<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }&prodId=${order.product_id }&buyProduct_no=${order.buyProduct_no }'">리뷰작성하기</button>
+																<button type="button" class="btn btn-info" onclick="checkReview('${order.payment_isComit}', '${order.payment_isChecked }', ${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
 																
 																
 

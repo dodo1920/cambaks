@@ -93,6 +93,10 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<update id="plusPoint">
 		update goot6.Members set member_totPoint = member_totPoint + #{pointVal}  where member_id = #{member_id}
 	</update>
+	
+	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
+		select * from goot6.Payments pay join goot6.ProdReviews re on pay.member_id = re.member_id where payment_isComit=#{payment_isComit} and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} and re.buyProduct_no = #{buyProduct_no}
+	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
