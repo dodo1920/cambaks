@@ -52,6 +52,7 @@ import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 
 import org.springframework.web.util.WebUtils;
 
@@ -715,7 +716,7 @@ public class AdminController {
    }
    
    @RequestMapping(value="/orderManagement/detail")
-   public String OrderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
+   public String orderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
 	  
 	  model.addAttribute("buyProdInfo", service.readBuyOrderInfo(payment_no));
 	  
@@ -723,7 +724,7 @@ public class AdminController {
    }
    
    @RequestMapping(value="/orderManagement/destinationModi", method = RequestMethod.POST)
-   public String OrderView(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
+   public String orderDestinationModi(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
 	  
 	  if (service.modifyDestinationInfo(dto, payment_no)) {
 		  rttr.addFlashAttribute("destinationModi", "success");
@@ -733,6 +734,22 @@ public class AdminController {
 	  
       return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
    }
+   
+   @RequestMapping(value="/orderManagement/orderStatusModi", method = RequestMethod.POST)
+   public String orderStatusModi(@RequestParam("prodNo") int payment_no , OrderInfoModifyDTO dto, RedirectAttributes rttr) throws Exception{
+
+	  if (service.orderStatusModi(payment_no, dto)) {
+		  rttr.addFlashAttribute("orderStatusModi", "success");
+	  } else {
+		  rttr.addFlashAttribute("orderStatusModi", "fail");
+	  }
+	  
+	  System.out.println(payment_no);
+	  System.out.println(dto.toString());
+	  
+      return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
+   }
+   
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 

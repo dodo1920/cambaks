@@ -10,6 +10,7 @@ import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RefundnExchangeVO;
 import com.cambak21.domain.ReplyBoardVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.OrderManagementBuyerInfoVO;
 import com.cambak21.domain.OrderManagementDestinationInfoVO;
@@ -257,6 +258,33 @@ public interface AdminDAO {
 	
 	
 	public int modifyDestinationMsg(String payment_deliveryMsg, int payment_no) throws Exception;
+	
+	
+	public int getOrderSerialNo(int payment_no) throws Exception;
+	
+	
+	public int modifyDeliveryInfo(int payment_serialNo, String delivery_status) throws Exception;
+	
+	
+	public int modifyPurchaseInfo(int payment_no, String payment_isComit, String payment_isChecked) throws Exception;
+	
+	
+	public List<Integer> getOrderBuyProductList(int payment_no) throws Exception;
+	
+	
+	public List<BuyProductVO> getOrderProductIdList(int buyProduct_no) throws Exception;
+	
+	
+	public int modifyProductQty(int buyProduct_qty, int product_id) throws Exception;
+	
+	
+	public List<Integer> getOrderProductSerialNo(int payment_no) throws Exception;
+	
+	
+	public int modifyCsStatusRnE(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
+	
+	
+	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
 	
 	
 //	---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------
