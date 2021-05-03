@@ -42,7 +42,7 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
 		success : function(result) {
 			if (result == 'noValue'){
-				location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else if(result == 'hasValue'){
 				alert("이미 작성한 리뷰입니다.")
 			}

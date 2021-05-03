@@ -127,9 +127,9 @@
 				<div class="col-lg-12">
 					<form action="/mall/prodDetail/writingProdReviews" method="post">
 					<!-- 이 페이지에서 ajax를 이용할 시, 부트스트랩과 충돌이 난다. 대기형 페이지에서 쿼리스트링으로 함께 보내줘야 한다.(월요일 전달) -->
-					<input type="hidden" id="product_id" name="product_id" value="4"/>
+					<input type="hidden" id="product_id" name="product_id" value="${param.prodId }"/>
 					<input type="hidden" id="member_id1" name="member_id" value="${loginMember.member_id }"/>
-					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
+					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="${param.buyProduct_no }"/>
 					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
 					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value="3"/>
 					<div class="form-group">
