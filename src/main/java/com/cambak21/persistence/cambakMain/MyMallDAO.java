@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -49,6 +50,9 @@ public interface MyMallDAO {
 	public int getPointVal(String member_id, String payment_date)throws Exception;
 	
 	public void plusPoint(String member_id, int pointVal)throws Exception;
+	
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no)throws Exception;
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -96,6 +100,7 @@ public interface MyMallDAO {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 
 	public MemberOrderVO MemberDetailOrder(int serialNo, String userName);
+	
 	
 	
 	

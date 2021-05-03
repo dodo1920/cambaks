@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -115,6 +116,13 @@ public class MyMallSerivceImpl implements MyMallService {
 		dao.plusPoint(member_id, pointVal);
 		
 	}
+	
+	@Override
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no) throws Exception {
+		
+		return dao.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+	}
 
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -214,6 +222,8 @@ public class MyMallSerivceImpl implements MyMallService {
 		// TODO Auto-generated method stub
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
+
+	
 
 	
 

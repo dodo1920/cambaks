@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MemberVO;
@@ -111,9 +112,9 @@ public class MyMallController {
 		return "cambakMain/myPage/orderDetail";
 	}
 	
-	
+	@Transactional
 	@RequestMapping(value = "myOrder/purchaseSubmit", method = RequestMethod.GET)
-	public ResponseEntity<String> purchaseSubmit(@PathVariable("payInfo_no") int payInfo_no, @PathVariable("payment_date") String payment_date, @PathVariable("member_id") String member_id) {
+	public ResponseEntity<String> purchaseSubmit(@RequestParam("payInfo_no") int payInfo_no, @RequestParam("payment_date") String payment_date, @RequestParam("member_id") String member_id) {
 		System.out.println("여기옵니까?");
 		ResponseEntity<String> entity = null;
 		
@@ -136,6 +137,30 @@ public class MyMallController {
 		return entity;
 		
 	}
+	
+	@RequestMapping(value = "myOrder/checkReview", method = RequestMethod.GET)
+	public ResponseEntity<String> checkReview(@RequestParam("payment_isComit") String payment_isComit,@RequestParam("payment_isChecked") String payment_isChecked, @RequestParam("member_id") String member_id, @RequestParam("buyProduct_no") int buyProduct_no ){
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			CheckReviewVO vo = service.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+			if(vo == null) {
+				entity = new ResponseEntity<String>("noValue", HttpStatus.OK);
+			}else {
+				entity = new ResponseEntity<String>("hasValue", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/refund/{payment_serialNo}", method = RequestMethod.GET)
 	public String addRefund() {
