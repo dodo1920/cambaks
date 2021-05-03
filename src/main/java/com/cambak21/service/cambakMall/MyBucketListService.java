@@ -19,6 +19,8 @@ public interface MyBucketListService {
 	
 	void goOrder(String member_id) throws Exception;
 	
+	boolean deletePastCart(String member_id) throws Exception;
+	
 //	***************************************** 도연 비회원 장바구니
 	List<MyNonUserBucketVO> getNonUserBucketList(String ssid) throws Exception;
 
@@ -29,4 +31,5 @@ public interface MyBucketListService {
 	void nonUserDeleteItem(String ssid, int product_id) throws Exception;
 
 	Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception;
+
 }

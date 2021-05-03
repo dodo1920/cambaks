@@ -1,8 +1,10 @@
 package com.cambak21.persistence.boardProdReview;
 
 import java.util.List;
+import java.util.Map;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.dto.ProdReviewWritingInfoDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface BoardProdReviewDAO {
@@ -52,6 +54,12 @@ public interface BoardProdReviewDAO {
 	
 	// 주문 확정된 개수 가져오기
 	public String getConfirmedOrder(String member_id, int prodId) throws Exception;
+
+	// 해당 상품 평균 별점 가져오기
+	public int getStarRating(int product_id) throws Exception;
+
+	// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기
+	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception;
 	
 	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
 	//public int getWrittenReviewCnt(String member_id, int prodId) throws Exception;

@@ -33,7 +33,6 @@ public interface CambakMainService {
 	
 	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag);
 	
-	public List<ResellBoardVO> getResellBoards(String searchWord, PagingCriteria cri);
 	
 //	=============================도연 인터페이스 끝=======================================================
 	

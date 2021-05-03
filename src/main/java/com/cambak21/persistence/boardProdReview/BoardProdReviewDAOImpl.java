@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.ProdReviewVO;
+import com.cambak21.dto.ProdReviewWritingInfoDTO;
 import com.cambak21.util.PagingCriteria;
 
 @Repository
@@ -165,6 +166,28 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 			result = "success";
 		}
 		return result;
+	}
+
+
+	// 해당 상품 평균 별점 가져오기
+	@Override
+	public int getStarRating(int product_id) throws Exception {
+		int result;
+		if(ses.selectOne(namespace + ".getStarRating", product_id) ==null) {
+			result = 0;
+		} else {
+			result = ses.selectOne(namespace + ".getStarRating", product_id);
+		}
+		return result;
+	}
+
+
+	// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기
+	@Override
+	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception {
+		ProdReviewWritingInfoDTO dto = null;
+		dto = ses.selectOne(namespace + ".getReviewInfo", payment_serialNo);
+		return dto;
 	}
 
 

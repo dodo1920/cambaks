@@ -88,4 +88,16 @@
 	<select id="getWrittenReviewCnt" resultType="int">
 		select count(*) from ProdReviews where member_id=#{member_id} and product_id=#{product_id}
 	</select>
+	
+	<!-- 해당 상품 평균 별점 가져오기 -->
+	<select id="getStarRating" resultType="int">
+		select round(avg(prodReview_grade)) from ProdReviews where product_id = #{product_id}
+	</select>
+	
+	<!--  -->
+	<select id="getReviewInfo" resultType="com.cambak21.dto.ProdReviewWritingInfoDTO">
+		select b.product_id, p.buyProduct_no from Payments p, BuyProducts b
+		where p.buyProduct_no = b.buyProduct_no
+		and p.payment_serialNo=#{payment_serialNo};
+	</select>
  </mapper>

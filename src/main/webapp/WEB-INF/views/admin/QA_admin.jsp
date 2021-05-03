@@ -66,15 +66,10 @@ let AfterResultList = new Array();
 				outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
 				outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 			});
-			
-			if(data == null){
-				alert("검색된 데이터가 없습니다.");
-			}	
 		
 			$("#boardListFrame").html(outputList);
 			
 	}
-	
 	// 오름차순 정렬 후 댓글 + 게시판 출력 함수
 	function replyOutputGo(data){
 		let outputList = "";
@@ -101,9 +96,7 @@ let AfterResultList = new Array();
 			outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 		});
 	
-		if(data == null){
-			alert("검색된 데이터가 없습니다.");
-		}	
+		
 	
 		
 		$("#boardListFrame").html(outputList);
@@ -127,6 +120,8 @@ let AfterResultList = new Array();
 				return b.board_no - a.board_no;
 			});
 
+			BoardOutputGo(AfterResultList);
+		
 		}else if(data.options[data.selectedIndex].value == "categorydesc"){
 	
 			AfterResultList.sort(function(a, b){
@@ -281,7 +276,7 @@ function getPastDate(period){
 			searchTxtValue = $("#searchBoard_key").val();
 		}
 	    
-		$.getJSON("/admin/board_admin/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
+		$.getJSON("/admin/QA/ajax/" + goStartDate + "/" + goEndDate + "/" + board_category + "/" + searchselectedCategory + "/" + searchboardType + "/" + searchTxtValue + "/" +  page, function(data){
 	
 			$("#newBoardCnt").html(data.todayTotCnt);
 			$("#newReplyCnt").html(data.todayreplyTotCnt);
@@ -293,7 +288,7 @@ function getPastDate(period){
 				
 				if(data.replyBoardlst != null){
 					
-						$(data.replyBoardlst).each(function(index, item){		
+					$(data.replyBoardlst).each(function(index, item){		
 						
 						let date = new Date(this.board_writeDate);
 						var writeDate = date.getFullYear() + "-" + (date.getMonth() + 1)  + "-" + date.getDate() + "     " + date.getHours() + ":" + date.getMinutes();
@@ -307,21 +302,12 @@ function getPastDate(period){
 						
 				
 						outputList += "<tr>";
-						if(this.board_category == "humor"){
-							this.board_category = "유머";
-							this.CategoryLink = "/board/humor/read?no=";
-						}else if(this.board_category == "QA"){
-							this.board_category = "Q&A";
-							this.CategoryLink = "/board/qa/detail?no=";
-						}else if(this.board_category == "Tip"){
-							this.board_category = "캠핑팁";
-							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
-						}else if(this.board_category == "CS"){
-							this.board_category = "고객센터";
-							this.CategoryLink = "/board/cs/detail?no=";
-						}else if(this.board_category == "notice"){
-							this.board_category = "공지사항";
-							this.CategoryLink = "/board/notice/read?no=";
+						if(this.board_category == "prodQA"){
+							this.board_category = "상품 Q&A";
+							this.CategoryLink = "/mall/prodDetail/main?ProdId=";
+						}else if(this.board_category == "review"){
+							this.board_category = "상품 리뷰";
+							this.CategoryLink = "/mall/prodDetail/main?ProdId=";
 						}
 						
 						outputList += '<td><br/><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
@@ -343,22 +329,13 @@ function getPastDate(period){
 					    let date111 = new Date(this.board_updateDate);
 					    var modifyDate = date111.getFullYear() + "-" + (date111.getMonth() + 1)  + "-" + date111.getDate() + "     " + date111.getHours() + ":" + date111.getMinutes();
 					
-						outputList += "<tr>";
-						if(this.board_category == "humor"){
-							this.board_category = "유머";
-							this.CategoryLink = "/board/humor/read?no=";
-						}else if(this.board_category == "QA"){
-							this.board_category = "Q&A";
-							this.CategoryLink = "/board/qa/detail?no=";
-						}else if(this.board_category == "Tip"){
-							this.board_category = "캠핑팁";
-							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
-						}else if(this.board_category == "CS"){
-							this.board_category = "고객센터";
-							this.CategoryLink = "/board/cs/detail?no=";
-						}else if(this.board_category == "notice"){
-							this.board_category = "공지사항";
-							this.CategoryLink = "/board/notice/read?no=";
+					    outputList += "<tr>";
+						if(this.board_category == "prodQA"){
+							this.board_category = "상품 Q&A";
+							this.CategoryLink = "/mall/prodDetail/main?ProdId=";
+						}else if(this.board_category == "review"){
+							this.board_category = "상품 리뷰";
+							this.CategoryLink = "/mall/prodDetail/main?ProdId=";
 						}
 						
 						outputList += '<td><input type="checkbox" name="bbs_no[]" value="' + this.board_no + '"class="rowChk"></td>';
@@ -371,13 +348,7 @@ function getPastDate(period){
 					ResultList = data;
 				}
 				
-				if(data.Boardlst == null && data.replyBoardlst == null){
-					alert("!!!");
-				}
-				console.log(data.Boardlst.length == 0);
-				console.log(data.replyBoardlst == null);
-				
-				
+
 				$("#boardListFrame").html(outputList);
 
 		});
@@ -873,7 +844,7 @@ table {
 				<div class="mTab typeNav" style="display: none;">
 					<ul>
 						<li class="selected"><a href="#none">전체 게시물 보기</a></li>
-						<li><a href="board_admin_bulletin_comment_l.php">전체 댓글 보기</a></li>
+						<li><a href="QA_bulletin_comment_l.php">전체 댓글 보기</a></li>
 					</ul>
 				</div>
 
@@ -901,11 +872,8 @@ table {
 										name="cate_board_type"
 										style="text-align-last: center; width: 155px;">
 											<option value="all" selected >*** 전체 ***</option>
-											<option value="Tip">캠핑 Tip 게시판</option>
-											<option value="QA">Q&A 게시판</option>
-											<option value="humor">유머 게시판</option>
-											<option value="notice">공지 사항</option>
-											<option value="CS">고객 문의</option>
+											<option value="prodQA">상품 Q&A</option>
+											<option value="review">상품 리뷰</option>
 									</select></td>
 
 								</tr>

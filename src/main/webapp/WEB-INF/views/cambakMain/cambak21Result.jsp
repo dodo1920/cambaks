@@ -250,19 +250,32 @@
                 console.log(index);
             });
         };
-
-        $(".row").on("click", ".heartIcon", function () {
-            fix(this);
-        });
-
-        $(".row").on("click", ".commentIcon", function () {
-            fix2(this);
-        });
         
         addCampings(page);   
         
+        // 엔터키를 누르면, 해당 캠핑장 검색하는 함수 호출
+        document.addEventListener('keydown', function(event) { // 키보드 버튼을 누르면,
+        	if(event.keyCode == 13) { // 그 누른 버튼이 엔터키라면,
+        		sendKeyword();
+        	}
+        });
     });
     
+    // 검색 창에 키워드를 입력하고 'search' 버튼을 누르면, 해당 캠핑장을 검색하는 함수 호출
+    function sendKeyword() {
+    	let keyword = $("#keyword").val();
+    	
+    	if(keyword.length < 2) {
+    		alert("검색어를 2자 이상 입력해주세요");
+    	} else {
+    		location.href="/index/result?keyword=" + keyword;
+    	}
+    	
+    }
+    
+    
+ // VVVVvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 캠핑장 검색 부분 시작 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv    
+    // keyword와 관련된 정보 가져오는 함수
     function addCampings(pageNum) {
     	$.ajax({
     	    type		: "post",
@@ -279,6 +292,7 @@
     		});
     }
     
+    // 캠핑장 검색 결과 데이터를 보여주는 함수 (왼쪽 리스트 박스)
     function showResult(data) {
     	let paging = data.pagings;
     	let campings = data.campings;
@@ -286,16 +300,33 @@
     	console.log(campings);
     	let output ="";
     	
-    	if(campings.length == 0) {
+    	if(campings.length == 0) { // 관련 캠핑장이 없으면,
     		output += '<p> 검색결과 없음 </p>';
     	} else {
-    		$(campings).each(function(index, item) {
+    		$(campings).each(function(index, item) { // 관련 캠핑장이 있다면, 
     			output += '<li class="camping">';
-    			output += '<span class="campingImg"><img src="' + item.camping_firstImageUrl + '" width="100px" height="100px"/></span>';
+    			output += '<span class="campingImg">';
+    			
+    			if(item.camping_firstImageUrl == null) { // 캠핑장 이미지가 등록되어 있지 않다면, no_image 사진 보여주기  
+    				output += '<img src="../../resources/img/no_image.png" width="100px" height="100px"/></span>';
+    			} else { // 캠핑장 이미지가 등뢱되어 있다면, 캠핑장 이미지 보여주기
+    				output += '<img src="' + item.camping_firstImageUrl + '" width="100px" height="100px"/></span>';
+    			}    			
     			output += '<div class="boxInfo"><span><a href="../index/detail?contentId=' + item.camping_contentId + '">' + item.camping_facltNm + '</a></span>';
     			output += '<span>' + item.camping_addr1 + '</span>';
-    			output += '<span>' + item.camping_tel + '</span>';
-    			output += '<span>8</span></div>';
+    			
+    			if(item.camping_addr2 != "null") { // 캠핑장 상세 주소가 등록되어 있으면, 보여주기
+    				output += '<span>' + item.camping_addr2 + '</span>';
+    			}
+    			
+    			if(item.camping_tel != null) { // 캠핑장 전화번호가 등록되어 있지 않다면, 안 보여주기
+    				output += '<span>' + item.camping_tel + '</span>';
+    			} 
+    			
+    			if(item.camping_sbrsCl != null) { // 캠핑장 유틸리티 정보가 등록되어 있지 않다면, 안 보여주기
+    				output += '<span>' + item.camping_sbrsCl + '</span></div>';
+    			}
+    			
     			output += '</li>';
     		});
     	}
@@ -303,7 +334,7 @@
     	$("#campingListContainer").html(output);
     }
     
-    
+    // 캠팡장 목록에 페이징 처리하는 함수
     function pagingScroll(pagingInfo) {
     		let data = pagingInfo.pagings;
     		let page = data.cri.page;
@@ -330,6 +361,7 @@
     		$("#pagination").html(output);   	
     }
     
+    // 관련 캠핑장 지도에 띄어주는 함수 (오른쪽 지도)
     function showMap(data) {
     	let campings = data.campings;
     	
@@ -342,13 +374,14 @@
     	let map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴	
 
     	
-        for (let i = 1; i < campings.length; i++) {
+        for (let i = 0; i < campings.length; i++) {
         	// 마커를 생성합니다
             var marker = new kakao.maps.Marker({
                 map: map, // 마커를 표시할 지도
                 position: new kakao.maps.LatLng(campings[i].camping_mapY,campings[i].camping_mapX)	 // 마커의 위치
             });
         	
+        	// 마커에 마우스를 오버하면 띄울 캠핑장 내용
         	let content1 = '<div class="wrap">';
         	content1 += '<div class="info">';
         	content1 += '<div class="title">';
@@ -356,11 +389,28 @@
         	content1 += '</div>';
         	content1 += '<div class="body">';
         	content1 += '<div class="img">';
-        	content1 += '<img src="' + campings[i].camping_firstImageUrl + '" width="73" height="70"></div>';
+        	if(campings[i].camping_firstImageUrl == null) { // 등록된 이미지가 없다면, no_imgae 사진 띄우기
+        		content1 += '<img src="../../resources/img/no_image.png" width="73" height="70"></div>';
+        	} else {
+        		content1 += '<img src="' + campings[i].camping_firstImageUrl + '" width="73" height="70"></div>';
+        	}
+        	
         	content1 += '<div class="desc">';
         	content1 += '<div class="ellipsis">' + campings[i].camping_addr1 + '</div>';
-        	content1 += '<div class="jibun ellipsis">(우) ' + campings[i].camping_zipcode + '</div>';
-        	content1 += '<div>' + campings[i].camping_tel + '</div></div></div></div></div>';
+        	
+        	if(campings[i].camping_addr2 != "null") { // 등록된 상세 주소가 있다면, 같이 보여주기
+        		content1 += '<div class="ellipsis">' + campings[i].camping_addr2 + '</div>';
+        	}
+        	
+        	if(campings[i].camping_zipcode != null) { // 등록된 우편 주소가 없다면, 안 보여주기
+        		content1 += '<div class="jibun ellipsis">(우) ' + campings[i].camping_zipcode + '</div>';
+        	}
+        	
+        	if(campings[i].camping_tel != null) { // 등록된 전화번호가 없다면, 안 보여주기
+        		content1 += '<div>' + campings[i].camping_tel + '</div>';
+        	}
+        	
+        	content1 += '</div></div></div></div>';
 
         	// 마커에 표시할 인포윈도우를 생성합니다 
             var infowindow = new kakao.maps.InfoWindow({
@@ -389,6 +439,7 @@
 		    };
 		}
         
+		// 마커를 클릭하면, 해당 상세페이지로 이동하는 함수
         function makeClickListener(contentId) {
         	return function() {
         		location.href = '../index/detail?contentId=' + contentId;
@@ -396,12 +447,11 @@
         }
     }
     
-    function sendKeyword() {
-    	let keyword = $("#keyword").val();
-    	
-    	location.href="/index/result?keyword=" + keyword;
-    }
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 캠핑장 검색 부분 끝(지도 검색) ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+// VVVVvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv 게시판 검색 부분 시작 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     
+    // 게시판 검색 결과 데이터 가져오는 함수
     function showBoard(flag, pageNum) {
     	console.log(flag);
     	if(pageNum == null) {
@@ -426,61 +476,73 @@
 			}); 
     }
     
+    // 게시판 검색 결과 보여주는 함수
     function showList(data, index) {
     	let output = '';
     	
     	if(data.length == 0) {
     		output += '<p>데이터 없음</p>';
     	} else {
+    		
     		output += '<ul class="list-group">';
     		
-    		if(index == 4) {
-    			$(data).each(function(index, item) {
-            		output += '<li class="list-group-item">';
-            		output += '<a href="#">' + item.resellBoard_title + '</a>';
-            		output += '<div><span>작성자: ' + item.member_id + '</span>';
-            		output += '<span> 작성일: ' + item.resellBoard_postDate + '</span>'
-            		output += '<span> 조회수: ' + item.resellBoard_viewCnt + '</span>'
-            		output += '<span> 좋아요: ' + item.resellBoard_likeCnt + '</span>'
-            		output += '</div>';
-            		output += '<div>' + item.resellBoard_content + '</div>';
-            		output += '</li>';
-            	});
-    		} else {
-    			let url = '';
-    			$(data).each(function(index, item) {
-        			if(index == 1) {
-        				url = '/board/campingreview/detail?no=' + item.board_no + '&page=1'; 
-        			} else if(index == 2) {
-        				url = '/board/humor/read?no=' + item.board_no + '&page=1';
-        			} else if(index == 3) {
-        				url = '/board/qa/detail?no=' + item.board_no + '&page=1';
-        			} else if(index == 5) {
-        				url = '/board/campingTip/view?id=Tip&no=' + item.board_no + '&page=1';
-        			} else if(index == 6) {
-        				url = '/board/notice/read?no=' + item.board_no + '&page=1';
-        			} else if(index == 7) {
-        				url = '/board/cs/detail?no=' + item.board_no + '&page=1';
-        			}
+    		let url = '';
+    		$(data).each(function(i, item) {
+    				
+    			let date = new Date(item.board_updateDate);
+		        let dateFormat = date.toLocaleString(); // 날짜 형식 변환
+    			
+        		if(index == 1) { // 인덱스가 1이면, '캠핑 후기 게시판'의 검색 결과 보여줌
+        			url = '/board/campingreview/detail?no=' + item.board_no + '&page=1'; 
+        		} else if(index == 2) { // 인덱스가 2이면, '유머 게시판'의 검색 결과 보여줌
+        			url = '/board/humor/read?no=' + item.board_no + '&page=1';
+        		} else if(index == 3) { // 인덱스가 3이면, 'QA 게시판'의 검색 결과 보여줌
+        			url = '/board/qa/detail?no=' + item.board_no + '&page=1';
+        		} else if(index == 5) { // 인덱스가 5이면, '캠핑 팁 게시판'의 검색 결과 보여줌
+        			url = '/board/campingTip/view?id=Tip&no=' + item.board_no + '&page=1';
+        		} else if(index == 6) { // 인덱스가 6이면, '공지사항 게시판'의 검색 결과 보여줌
+        			url = '/board/notice/read?no=' + item.board_no + '&page=1';
+        		} else if(index == 7) { // 인덱스가 7이면, '고객센터 게시판'의 검색 결과 보여줌
+        			url = '/board/cs/detail?no=' + item.board_no + '&page=1';
+        		}
         			
-            		output += '<li class="list-group-item">';
-            		output += '<a href="' + url + '">' + item.board_title + '</a>';
-            		output += '<div><span>작성자: ' + item.member_id + '</span>';
-            		output += '<span> 작성일: ' + item.board_updateDate + '</span>'
-            		output += '<span> 조회수: ' + item.board_viewCnt + '</span>'
-            		output += '<span> 좋아요: ' + item.board_likeCnt + '</span>'
-            		output += '</div>';
-            		output += '<div>' + item.board_content + '</div>';
-            		output += '</li>';
-            	});
-    		}        	
+            	output += '<li class="list-group-item">';
+            	output += '<a href="' + url + '">' + item.board_title + '</a>';
+            	output += '<div><span>작성자: ' + item.member_id + '</span>';
+            	output += '<span> 작성일: ' + dateFormat + '</span>'
+            	output += '<span> 조회수: ' + item.board_viewCnt + '</span>'
+            	output += '<span> 좋아요: ' + item.board_likeCnt + '</span>'
+            	output += '</div>';
+            	output += '<div class="boardContent">' + item.board_content + '</div>';
+            	output += '</li>';
+            });      	
         	
         	output += '</ul><div id="paging"></div>';    	
     	}
     	
     	$("#content").html(output);
+    	textLimitBoard();
     }
     
+ // 게시글, 댓글 길이가 20개를 넣을 시 21번째 글짜부터 ...으로로 변환
+    function textLimitBoard() {
+
+	 $(".boardContent").each(function() {
+          var length = 100; //표시할 글자수 정하기
+
+          $(this).each(function() {
+        	  console.log($(this).html().length);
+
+             if ($(this).html().length >= length) {
+
+                $(this).text($(this).text().substr(0, length) + '...');
+                //지정할 글자수 이후 표시할 텍스트
+             }
+          });
+       });
+    };
+    
+    // 게시판 페이징 처리 함수 
     function addPaging(data, flag) {
     	if(data.length == 0) {
     		console.log("데이터 없음")
@@ -545,7 +607,6 @@
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('1');">캠핑 후기</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('2');">유머</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('3');">Q&A</a></li>
-								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('4');">중고거래</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('5');">캠핑Tip</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('6');">공지사항</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('7');">고객센터</a></li>

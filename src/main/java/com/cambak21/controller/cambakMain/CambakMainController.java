@@ -92,7 +92,7 @@ public class CambakMainController {
 	private @ResponseBody Map<String, Object> resultBoard(@PathVariable("keyword") String keyword, @PathVariable(value="page") int page, PagingCriteria cri, @PathVariable("flag") int flag) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<BoardVO> boardLst = new ArrayList<BoardVO>();
-		List<ResellBoardVO> resellBoardLst = new ArrayList<ResellBoardVO>();
+		
 		PagingParam pp = new PagingParam();
 		System.out.println(flag + ", " + keyword + ", " + page);
 		
@@ -102,15 +102,9 @@ public class CambakMainController {
 		
 		System.out.println(pp);
 		
-		if(flag == 4) {
-			resellBoardLst = service.getResellBoards(keyword, cri);
-			System.out.println(resellBoardLst);
-			result.put("boards", resellBoardLst);
-		} else {
-			boardLst = service.getBoards(keyword, cri, flag);
-			System.out.println(boardLst);
-			result.put("boards", boardLst);
-		}
+		boardLst = service.getBoards(keyword, cri, flag);
+		System.out.println(boardLst);
+		result.put("boards", boardLst);
 		
 		result.put("pagings", pp);
 		

@@ -73,11 +73,7 @@ public class CambakMainServiceImpl implements CambakMainService {
 	public List<BoardVO> getBoards(String searchWord, PagingCriteria cri, int flag) {
 		return dao.getBoards(searchWord, cri, flag);
 	}
-	
-	@Override
-	public List<ResellBoardVO> getResellBoards(String searchWord, PagingCriteria cri) {
-		return dao.getResellBoards(searchWord, cri);
-	}	
+		
 	
 	
 //	=============================도연 Service 끝=======================================================

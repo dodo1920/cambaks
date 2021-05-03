@@ -171,6 +171,11 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		map.put("vo", vo);
 		ses.insert(ns + ".insertBP", map);
 	}
+	
+	@Override
+	public int deletePastCart(String member_id) throws Exception {
+		return ses.delete(ns + ".deletePastCart", member_id);
+	}
 
 //	***************************************** 도연 비회원 장바구니 *********************************************************
 	
@@ -208,5 +213,6 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		map.put("product_id", product_id);
 		return ses.update(ns + ".nonUserCheckOnOff", map);
 	}
+
 
 }

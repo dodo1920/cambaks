@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -94,9 +95,33 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public void purchaseSubmit(int payment_serialNo) throws Exception {
-		dao.purchaseSubmit(payment_serialNo);
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception {
+		dao.purchaseSubmit(payInfo_no, payment_date);
 		
+	}
+
+	@Override
+	public void changePointDate(String member_id, String payment_date) throws Exception {
+		dao.changePointDate(member_id, payment_date);
+		
+	}
+	@Override
+	public int getPointVal(String member_id, String payment_date) throws Exception {
+		
+		return dao.getPointVal(member_id, payment_date);
+	}
+
+	@Override
+	public void plusPoint(String member_id, int pointVal) throws Exception {
+		dao.plusPoint(member_id, pointVal);
+		
+	}
+	
+	@Override
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no) throws Exception {
+		
+		return dao.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
 	}
 
 	
@@ -198,6 +223,13 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
 
+	
+
+	
+
+	
+	
+	
 	
 
 	
