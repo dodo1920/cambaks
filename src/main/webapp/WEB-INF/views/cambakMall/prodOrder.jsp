@@ -442,7 +442,7 @@ function addPoint() {
     	<c:forEach var="item" items="${prodInfo }" varStatus="status">
 			<tr>
 				<td style="display: none">${item.buyProduct_no }</td>
-				<td><img alt="" src="../../resources/img/${item.product_img1 }" style="width: 100px;"></td>
+				<td><img alt="" src="${item.product_img1 }" style="width: 100px;"></td>
 	    		<td style="text-align: center;">${item.product_name }</td>
 	    		<td style="text-align: center;"><fmt:formatNumber value="${item.product_sellPrice}" pattern="#,##0" /></td>
 	    		<td style="text-align: center;"><fmt:formatNumber value="${item.buyProduct_qty }" pattern="#,##0" /></td>

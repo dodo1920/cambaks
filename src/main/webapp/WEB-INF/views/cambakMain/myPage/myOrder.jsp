@@ -42,7 +42,7 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
 		success : function(result) {
 			if (result == 'noValue'){
-				location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else if(result == 'hasValue'){
 				alert("이미 작성한 리뷰입니다.")
 			}
@@ -160,66 +160,7 @@ $(document).ready(function(){
 			<div class="row">
 
 
-<div>
-
-			<!--  효원이 디자인 시작 -->
-				<div class="profile">
-						<div>
-							<div class="profileSize">
-								<a href=""></a><img src="../../resources/cambak21/img/trip.jpg" class="userProfileImg">
-								<h4>${loginMember.member_id }</h4>
-								<div class="profileEmail">${loginMember.member_email }</div>
-							</div>
-							<div class="profileCategory">
-								<ul>
-									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">회원 정보 수정</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-		<!--  효원이 디자인 끝  -->
-
-	<!-- Sidebar top -->
-	<div id="sidebar" class="4u">
-		<div class="sidebar">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<p class="category-title" id="category-title" style="margin-bottom: 0px;">나의 캠박이일</p>
-				</div>
-			</div>
-			<ul class="nav nav-pills nav-stacked">
-				<li id="myPost"><a href="/myPage/myPost?member_id=${loginMember.member_id }&page=1">내가 쓴 글</a></li>
-				<li id="humorAside"><a href="#">내 댓글</a></li>
-				<li id="QnAAside"><a href="#">내 좋아요 글</a></li>
-				<li id="resellAside"><a href="#">나의 문의</a></li>
-		
-			</ul>
-		</div>
-	</div>
-
-	<!-- Sidebar -->
-	<div id="sidebar" class="4u">
-		<div class="sidebar">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<p class="category-title" id="category-title"  style="margin-bottom: 0px;">캠박몰</p>
-				</div>
-			</div>
-			<ul class="nav nav-pills nav-stacked">
-				<li id="#"><a href="#">적립금 관리</a></li>
-				<li id="#"><a href="#">주문 목록</a></li>
-				<li id="#"><a href="#">취소 / 반품</a></li>
-				<li id="#"><a href="#">구매 목록</a></li>
-			</ul>
-		</div>
-	</div>
-
-
-
-
-</div>
-			
+<%@include file="myPageAside.jsp"%>
 		
 		<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -294,7 +235,7 @@ $(document).ready(function(){
 
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
 
-																	<button type="button" class="btn btn-info" onclick="checkReview('${order.payment_isComit}', '${order.payment_isChecked }', ${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
+																	
 
 																
 																
@@ -319,7 +260,7 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-body">
 																<p>교환 환불 선택</p>
-																<select>
+																<select name="">
 																	<option value="교환신청">교환</option>
 																	<option value="환불신청">환불</option>
 																</select>

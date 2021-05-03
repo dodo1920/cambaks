@@ -528,7 +528,7 @@
     function textLimitBoard() {
 
 	 $(".boardContent").each(function() {
-          var length = 100; //표시할 글자수 정하기
+          var length = 50; //표시할 글자수 정하기
 
           $(this).each(function() {
         	  console.log($(this).html().length);

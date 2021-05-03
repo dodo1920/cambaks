@@ -188,17 +188,15 @@ public class ProdDetail {
 		
 		// 상품후기 게시글 작성
 		@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
-		public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		public String writingProdReviewPost(ProdReviewVO vo) throws Exception {
 			// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
 			//logger.info("/writingProdReviews의 post방식 호출");
-			System.out.println("/writingProdReviews의 post방식 호출");
+			System.out.println("/writingProdReviews의 post방식 호출입니다.");
 			//logger.info(vo.toString());
 			System.out.println("vo.toString: " + vo.toString());
 			int prodId=vo.getProduct_id();
 			
-			if(service.insert(vo) == 1) {
-				rttr.addFlashAttribute("result", "success");
-			}
+			service.insert(vo);
 			
 			// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
@@ -236,16 +234,16 @@ public class ProdDetail {
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
 		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
 			logger.info("/prodReviewsModify의 post방식 호출");
-
+			System.out.println("/prodReviewsModify의 post방식 호출");
 			int prodId=vo.getProduct_id();
-			
-//			System.out.println("vo : " + vo);
+			System.out.println("prodId: " + prodId);
+			System.out.println("vo : " + vo);
 //			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
 			if(service.updateProdBoard(vo) == 1) {
 				rttr.addFlashAttribute("result", "success");
 			}
 			
-			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
+			return "/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		

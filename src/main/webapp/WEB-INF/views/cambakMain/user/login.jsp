@@ -151,11 +151,11 @@
                     </a>
                   </div>
                   
-                  <div class="w-full text-center">
-                    <a href="buggo_signUp.html" class="txt3">
-                      회원 가입
-                    </a>
-                  </div>
+<!--                   <div class="w-full text-center"> -->
+<!--                     <a href="buggo_signUp.html" class="txt3"> -->
+<!--                       회원 가입 -->
+<!--                     </a> -->
+<!--                   </div> -->
                   
                </form>
                          
