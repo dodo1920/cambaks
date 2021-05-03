@@ -66,10 +66,15 @@ let AfterResultList = new Array();
 				outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
 				outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 			});
+			
+			if(data == null){
+				alert("검색된 데이터가 없습니다.");
+			}	
 		
 			$("#boardListFrame").html(outputList);
 			
 	}
+	
 	// 오름차순 정렬 후 댓글 + 게시판 출력 함수
 	function replyOutputGo(data){
 		let outputList = "";
@@ -96,7 +101,9 @@ let AfterResultList = new Array();
 			outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 		});
 	
-		
+		if(data == null){
+			alert("검색된 데이터가 없습니다.");
+		}	
 	
 		
 		$("#boardListFrame").html(outputList);
@@ -120,8 +127,6 @@ let AfterResultList = new Array();
 				return b.board_no - a.board_no;
 			});
 
-			BoardOutputGo(AfterResultList);
-		
 		}else if(data.options[data.selectedIndex].value == "categorydesc"){
 	
 			AfterResultList.sort(function(a, b){
@@ -366,7 +371,13 @@ function getPastDate(period){
 					ResultList = data;
 				}
 				
-
+				if(data.Boardlst == null && data.replyBoardlst == null){
+					alert("!!!");
+				}
+				console.log(data.Boardlst.length == 0);
+				console.log(data.replyBoardlst == null);
+				
+				
 				$("#boardListFrame").html(outputList);
 
 		});
