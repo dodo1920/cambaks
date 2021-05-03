@@ -215,7 +215,7 @@ public class MyMallController {
 	       try {
 			vo = service.getPointList(member_id, cri);
 			pp.setTotalCount(service.getPointListCnt(member_id));
-			System.out.println(vo.toString());
+			System.out.println("myPoint List vo :" + vo.toString());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
