@@ -1540,12 +1540,56 @@
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                            <c:choose> 
-                                <c:when test="${prodDetail.mainCategory_id } == '8' and ${prodDetail.middleCategory_id } == '1'">
-                        			<a href="#">수납/케이스</a><span>식기/일반</span>
-                        		</c:when>
-
-                        	</c:choose>                        
+                        <c:choose>
+	                        <c:when test="${prodDetail.mainCategory_id == 1 and prodDetail.middleCategory_id == 1}">
+	                        	<a href="#">텐트/타프</a><span>텐트</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 1 and prodDetail.middleCategory_id == 2}">
+	                        	<a href="#">텐트/타프</a><span>타프</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 2 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">침낭/매트</a><span>침낭</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 2 and prodDetail.middleCategory_id == 2} ">
+	                        	<a href="#">침낭/매트</a><span>매트</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 3 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">테이블/체어/베트</a><span>경량 테이블</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 3 and prodDetail.middleCategory_id == 2} ">
+	                        	<a href="#">테이블/체어/베트</a><span>체어</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 4 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">랜턴</a><span>랜턴</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 5 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">액세서리</a><span>담요</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 5 and prodDetail.middleCategory_id == 2} ">
+	                        	<a href="#">액세서리</a><span>쿨러/아이스박스</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 6 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">화로/히터</a><span>화로대</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 6 and prodDetail.middleCategory_id == 2} ">
+	                        	<a href="#">화로/히터</a><span>착화제</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 7 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">수납/케이스</a><span>수납</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 8 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">수납/케이스</a><span>식기/일반</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 8 and prodDetail.middleCategory_id == 2} ">
+	                        	<a href="#">키친/취사용품</a><span>설거지용품</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 8 and prodDetail.middleCategory_id == 3} ">
+	                        	<a href="#">키친/취사용품</a><span>버너</span>
+	                        </c:when>
+	                        <c:when test="${prodDetail.mainCategory_id == 9 and prodDetail.middleCategory_id == 1} ">
+	                        	<a href="#">기타</a><span>기타</span>
+	                        </c:when>
+                        </c:choose>
                     </div>
                 </div>
             </div>

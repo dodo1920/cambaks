@@ -109,11 +109,11 @@
 		
 		if(window.name == "writeBoard") {
 			output += '<select id="prodQA_category" name="prodQA_category" class="form-control">';
-			output += '<option value="product">상품</option>';
-			output += '<option value="delivery">배송</option>';
-			output += '<option value="refund">환불</option>';
-			output += '<option value="exchange">교환</option>';
-			output += '<option value="etc">기타</option>';
+			output += '<option value="상품">상품</option>';
+			output += '<option value="배송">배송</option>';
+			output += '<option value="환불">환불</option>';
+			output += '<option value="교환">교환</option>';
+			output += '<option value="기타">기타</option>';
 			output += '</select>';
 		} else if(window.name == "writeReply") {
 			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="reply" readonly>';
