@@ -128,14 +128,21 @@ let PagingResultList = new Array();
 	// 페이징 처리하는 부분	
 	function outputPagingParam(data){
 		let outputPaging = "";
-
+		console.log(data);
 		outputPaging += '<div class="pagingAdmin" style="display: flex; justify-content: center;"><ul class="pagination" style="margin:20px 0px;">';
 		if(data.prev){
 			outputPaging += '<li class="page-item"><a class="page-link" href="javascript:changePage(' +  (data.cri.page - 1) + ');">Prev</a></li>';
 		}
 		
 		for(let i = data.startPage; i <= data.endPage; i++){
-			outputPaging += '<li class="page-item" ><a class="page-link" href="javascript:changePage(' + i + ');">' + i + '</a>';
+			
+			if(i == $("#pageSave").val()){
+				outputPaging += '<li class="page-item" ><a style="background-color: whitesmoke;" class="page-link" href="javascript:changePage(' + i + ');">' + i + '</a>';
+			}else{
+				outputPaging += '<li class="page-item" ><a class="page-link" href="javascript:changePage(' + i + ');">' + i + '</a>';
+			}
+			
+			
 		}
 		
 		if(data.next){
@@ -155,7 +162,9 @@ let PagingResultList = new Array();
 	// 오름차순 정렬 후 게시판만 출력 함수
 	function BoardOutputGo(data){
 		let outputList = "";
-		
+		let outputPagingCheck1 = 0;
+		let outputPagingCheck2 = 0;
+		let outputPagingtemp = "";
 			$(data).each(function(index, item){		
 			
 				let date = new Date(this.board_writeDate);
@@ -165,8 +174,9 @@ let PagingResultList = new Array();
 			    
 
 			    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "Y"){
-			
+				
 		    	if(this.board_isDelete == "Y"){
+		    		outputPagingCheck1++;
 			    	outputList += "<tr>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td style="color:red;">' + this.board_no + '</td><td>' + this.board_category + '</td>';
@@ -178,7 +188,7 @@ let PagingResultList = new Array();
 			    
 		        }
 			    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "N"){ 
-			    	
+			    	outputPagingCheck2++;
 			       	outputList += "<tr>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
@@ -192,9 +202,18 @@ let PagingResultList = new Array();
 				
 			    });
 			
+			
 			if(data.length == 0){
-				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>'
+				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>';
+				
 			}	
+			
+			if(outputPagingCheck1 == 0 && $("#isDeleteCheckhidden").val() == "Y"){
+				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>';
+			
+			}
+			
+			
 			
 			$("#boardListFrame").html(outputList);
 			
@@ -472,6 +491,7 @@ function getPastDate(period){
 			$("#newBoardCnt").html(data.todayTotCnt);
 			$("#newReplyCnt").html(data.todayreplyTotCnt);
 			$("#totalResultCnt").html(data.pagingParam.totalCount);
+			$("#totalpageview").html(data.pagingParam.endPage);
 			
 				
 				if(data.replyBoardlst != null){
@@ -1144,7 +1164,7 @@ table {
 						<div class="gLeft">
 						
 							<p class="total">
-								[오늘 등록된 새 글 <strong id="newBoardCnt">1</strong>건 & 댓글 <strong id="newReplyCnt">1</strong> 건] <strong>검색 결과</strong> <strong id="totalResultCnt">1</strong> 건
+								[오늘 등록된 새 글 <strong id="newBoardCnt">1</strong>건 & 댓글 <strong id="newReplyCnt">1</strong> 건] <strong>검색 결과</strong> <strong id="totalResultCnt">1</strong> 건 & 총 <strong id="totalpageview">1</strong> 페이지 
 							</p>
 						</div>
 						<div class="gRight">
