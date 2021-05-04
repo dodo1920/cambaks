@@ -111,7 +111,7 @@
   	</update>
   	
   	<select id="checkBucketQty" resultType="int">
-  		select count(*) from Buckets where member_id = #{member_id}
+  		select count(*) from Buckets where member_id = #{member_id} and bucket_isDelete = 'N'
   	</select>
   	
   	<select id="checkNonUserBucket" resultType="com.cambak21.domain.NonUserBucketVO">
@@ -119,7 +119,7 @@
   	</select>
   	
   	<select id="checkNonUserBucketQty" resultType="int">
-  		select count(*) from NonUserBuckets where nonUserBucket_ssid = #{member_id}
+  		select count(*) from NonUserBuckets where nonUserBucket_ssid = #{nonUserBucket_ssid}
   	</select>
   	
   	<insert id="insertNonUserBucket">

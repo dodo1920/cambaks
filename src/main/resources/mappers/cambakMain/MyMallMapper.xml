@@ -63,7 +63,7 @@
 		
 		SELECT * FROM goot6.BuyProducts bp join goot6.Products prod on bp.product_name = prod.product_name
 join goot6.Payments pay on pay.buyProduct_no = bp.buyProduct_no
-where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyProduct_isFinished='Y' order by bp.buyProduct_no desc; 
+where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		
 	</select>
 	<select id="getDest" resultType="int">
@@ -97,6 +97,29 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
 		select * from goot6.Payments pay join goot6.ProdReviews re on pay.member_id = re.member_id where payment_isComit=#{payment_isComit} and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} and re.buyProduct_no = #{buyProduct_no}
 	</select>
+	<select id="plusTotPurchase" resultType="int">
+		select sum(buyProduct_totPrice) from goot6.BuyProducts buy join goot6.Payments pay on pay.buyProduct_no = buy.buyProduct_no where payment_no = #{payment_no} group by payment_no;
+	</select>
+	<update id="insertTotPurchase">
+		UPDATE goot6.Members SET member_payment = #{totPrice} WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- 환불 시작  -->
+	<select id="getpaymentNoCnt" resultType="int">
+		select count(payment_no) as payment_no from Payments where payment_no = #{payment_no}
+	</select>
+	<select id="getPaymentSerialNo" resultType="com.cambak21.domain.paymentVO">
+		select * from Payments where payment_no = #{payment_no}
+	</select>
+	<insert id="insertRnE">
+		INSERT INTO goot6.RefundnExchanges (refundnExchange_reason, refundnExchange_status, member_id, payment_serialNo) VALUES (#{refundnExchange_reason}, #{refundnExchange_status}, #{member_id}, #{serialNo});
+	</insert>
+	<update id="changePayComit">
+		update goot6.Payments set payment_isComit = #{refundnExchange_status} where payment_no = #{payment_no}
+	</update>
+	<select id="getUsedPoint" resultType="int">
+		select point_usedPoint from goot6.Points where payment_date = #{payment_date} and member_id = #{member_id}
+	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -107,10 +130,13 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<!-- 마이페이지-나의 적립금 포인트 적립 내역 가져오기 -->
 	<select id="getPointList"
 		resultType="com.cambak21.domain.MyPointVO">
-		select p.point_no, p.member_id, p.grade_name, p.buyProduct_totPrice, p.point_reason, p.point_usedPoint, 
-		p.point_savingDate, p.point_futurePoint, p.payment_date, b.product_name from Points p, BuyProducts b 
-		where p.buyProduct_no = b.buyProduct_no and p.member_id = #{member_id} order by payment_date desc 
-		limit #{pageStart}, #{perPageNum} 
+		select p.point_no, p.member_id, p.point_usedPoint, p.point_futurePoint, p.point_reason, p.point_savingDate, 
+		p.payment_date, group_concat(b.product_name) as product_name 
+		from Points p, Payments pm, BuyProducts b
+		where p.member_id = pm.member_id and p.payment_date = pm.payment_date 
+		and pm.buyProduct_no = b.buyProduct_no
+		and p.member_id = #{member_id}
+		group by point_no;
 	</select>
 	<!-- 마이페이지-나의 적립금 총 게시물 개수 가져오기 -->
 	<select id="getPointListCnt" resultType="int">

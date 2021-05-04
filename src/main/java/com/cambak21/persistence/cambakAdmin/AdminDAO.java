@@ -192,18 +192,19 @@ public interface AdminDAO {
 	
 	public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 	
+	public void deleteBoardAdmin(int no) throws Exception;
 	
+	public void deleteReplyBoardAdmin(int no) throws Exception;
+
+	public void deleteReplyAdmin(int no) throws Exception;
+
+	public List<BoardVO> admin_PreviewRead(int no) throws Exception;
 	
+	public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void recoveryReplyBoard(int recoveryNum) throws Exception;
+
+	public void recoveryBoard(int recoveryNum) throws Exception;
 	
 	
 	

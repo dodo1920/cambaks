@@ -292,34 +292,33 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">MENU<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                        	 <!-- 유저가 로그인 하지 않았다면 -->
-	                            <c:if test="${loginMember == null }">
-	                            	<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
-	                            	<li><a href="/user/register">회원가입</a></li>
-			                        <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
-			                        <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
-			                        <li><a href="/board/cs/list?page=1">고객센터</a></li>
-	                            </c:if>
-	                            <!-- 로그인 한 경우 -->
-	                            <c:if test="${loginMember != null }">
-	                            	<!-- 로그인한 유저가 어드민인 경우 -->
-	                            	<c:if test="${loginMember.member_isAdmin == 'Y' }">
-	                            		<li><a href="/myPage/myPost">마이페이지</a></li>
-			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
-			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
-			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
-			                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
-			                            <li><a href="/admin/productAnalysis">관리자 페이지</a></li>
-	                            	</c:if>
-	                            	<!-- 로그인한 유저가 일반 회원인 경우 -->
-	                            	<c:if test="${loginMember.member_isAdmin == 'N' }">
-	                            		<li><a href="/myPage/myPost">마이페이지</a></li>
-			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
-			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
-			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
-			                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
-	                            	</c:if>
-	                            </c:if>
+                       		<!-- 유저가 로그인 하지 않았다면 -->
+                            <c:if test="${loginMember == null }">
+                            	<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
+                            	<li><a href="/user/register">회원가입</a></li>
+		                        <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+		                        <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
+		                        <li><a href="/board/cs/list?page=1">고객센터</a></li>
+                            </c:if>
+                            <!-- 로그인 한 경우 -->
+                            <c:if test="${loginMember != null }">
+                            	<!-- 로그인한 유저가 어드민인 경우 -->
+                            	<c:if test="${loginMember.member_isAdmin == 'Y' }">
+                            		<li><a href="/admin/productAnalysis">관리자 페이지</a></li>
+		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
+		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+		                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
+                            	</c:if>
+                            	<!-- 로그인한 유저가 일반 회원인 경우 -->
+                            	<c:if test="${loginMember.member_isAdmin == 'N' }">
+                            		<li><a href="/myPage/myPost">마이페이지</a></li>
+		                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+		                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
+		                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
+		                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
+                            	</c:if>
+                            </c:if>
                         </ul>
                     </li>
                 </ul>
@@ -392,33 +391,30 @@
     <div id="contact" class="container">
         <h3 class="text-center" id="footerTitle">Cambark's board</h3>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#home">캠핑후기</a></li>
+            <li class="active"><a data-toggle="tab" href="#home">공지사항</a></li>
             <li><a data-toggle="tab" href="#menu1">캠핑Tip</a></li>
             <li><a data-toggle="tab" href="#menu3">Q&amp;A</a></li>
-            <li><a data-toggle="tab" href="#menu4">유머</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="home" class="tab-pane fade in active">
 				<div class="moreView">
-					<a href="/board/campingreview/listcri?page=1" class="moreViewBtn">캠핑후기 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
+					<a href="/board/notice/listCri?page=1" class="moreViewBtn">공지사항 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
 				</div>
 				<table class="table">
 				  <thead>
 				    <tr>
 				      <th class="BoardListHead">작성일</th>
 				      <th class="BoardListHead">제목</th>
-				      <th class="BoardListHead">추천</th>
 				      <th class="BoardListHead">조회</th>
 				    </tr>
 				  </thead>
 				  <tbody>
-				  	<c:forEach var="review" items="${Boards.review }">
+				  	<c:forEach var="notice" items="${Boards.notice }">
 				    <tr class="BoardListBody">
-				      <td><fmt:formatDate value="${review.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
-				      <td class="boardPageLink"><a href="/board/campingreview/detail?no=${review.board_no }" class="boardLinkSize">${review.board_title }</a></td>
-				      <td>${review.board_likeCnt }</td>
-				      <td>${review.board_viewCnt }</td>
+				      <td><fmt:formatDate value="${notice.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
+				      <td class="boardPageLink"><a href="/board/campingreview/detail?no=${notice.board_no }" class="boardLinkSize">${notice.board_title }</a></td>
+				      <td>${notice.board_viewCnt }</td>
 				    </tr>
 				    </c:forEach>
 				  </tbody>
@@ -474,31 +470,6 @@
 				  </tbody>
 				</table>
             </div>
-            <div id="menu4" class="tab-pane fade">
-				<div class="moreView">
-					<a href="/board/humor/listAll?page=1" class="moreViewBtn">유머 더보기<img src="/resources/cambak21/img/plus.png" class="plusBtn"/></a>
-				</div>
-				<table class="table">
-				  <thead>
-				    <tr>
-				      <th class="BoardListHead">작성일</th>
-				      <th class="BoardListHead">제목</th>
-				      <th class="BoardListHead">추천</th>
-				      <th class="BoardListHead">조회</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  	<c:forEach var="Humor" items="${Boards.Humor }">
-				    <tr class="BoardListBody">
-				      <td><fmt:formatDate value="${Humor.board_writeDate }" pattern="MM-dd HH:MM" type="DATE" /></td>
-				      <td class="boardPageLink"><a href="/board/humor/read?no=${Humor.board_no }" class="boardLinkSize">${Humor.board_title }</a></td>
-				      <td>${Humor.board_likeCnt }</td>
-				      <td>${Humor.board_viewCnt }</td>
-				    </tr>
-				    </c:forEach>
-				  </tbody>
-				</table>
-            </div>
         </div>
     </div>
 
@@ -532,10 +503,8 @@
 					<p><a href="/index/result?keyword=겨울">겨울</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
-					<p><a href="/board/campingreview/listcri?page=1">캠핑 후기 게시판</a></p>
 					<p><a href="/board/campingTip/list?page=1">캠핑Tip 게시판</a></p>
 					<p><a href="/board/qa/list.bo?7page=1">Q&amp;A 게시판</a></p>
-					<p><a href="/cambakMain/board/humor/listAll?page=1">유머 게시판</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/mall/main">메인페이지</a></p>
@@ -547,7 +516,7 @@
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p><a href="/board/notice/listCri?page=1">공지사항</a></p>
-					<p><a href="/board/cs/list?page=1">고객문의</a></p>
+					<p><a href="/board/cs/list?page=1">고객센터</a></p>
 				</div>
 				<div class="col-md-2" id="footerContent">
 					<p>김대기</p>

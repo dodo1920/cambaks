@@ -32,7 +32,7 @@
   	</update>
   	
   	<!-- 댓글 수정을 위한 댓글 조회 부분 -->
-  	<select id="readProdReviewReply" resultType="string">
+  	<select id="readProdReviewReply" resultType="String">
   		select replyProdReview_content from goot6.ReplyProdReviews where replyProdReview_no = #{replyProdReview_no}
   	</select>
   	

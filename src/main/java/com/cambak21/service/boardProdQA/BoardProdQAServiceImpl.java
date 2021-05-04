@@ -113,7 +113,13 @@ public class BoardProdQAServiceImpl implements BoardProdQAService {
 
 	@Override
 	public int getMaxNo() throws Exception {
-		return dao.getMaxNo();
+		int result = 0;
+		
+		if (dao.getQANum() != 0) {
+			result = dao.getMaxNo();
+		}
+		
+		return result;
 	}
 
 	@Override

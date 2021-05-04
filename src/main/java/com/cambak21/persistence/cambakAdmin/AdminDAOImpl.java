@@ -468,11 +468,42 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		
+		@Override
+		public void deleteBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteBoardAdmin", no);
+		}
+
+		@Override
+		public void deleteReplyBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyBoardAdmin", no);
+		}
+		@Override
+		public void deleteReplyAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyAdmin", no);
+		}
+
+		public List<BoardVO> admin_PreviewRead(int no) throws Exception{
+			return ses.selectList(ns + ".admin_PreviewRead", no);
+		}
 		
-		
-		
-		
-		
+		@Override
+		public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception {
+			return ses.selectList(ns + ".replyBoard_admin_Preview", no);
+		}
+
+		@Override
+		public void recoveryReplyBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryReplyBoard", recoveryNum);
+			
+		}
+
+		@Override
+		public void recoveryBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryBoard", recoveryNum);
+			
+		}
+
+
 		
 		
 		

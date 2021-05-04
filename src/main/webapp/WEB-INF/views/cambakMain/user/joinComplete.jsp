@@ -35,6 +35,12 @@
 
 $(document).ready(function() {
 	let result = '${result}';
+	let loginMember = '${loginMember}';
+	   
+	if (loginMember != "") {
+	   alert("잘못된 접근입니다.");
+	   location.href="/index/main";
+	}
 	
 	if (result == "fail") {
 		alert("회원가입을 실패했습니다. 다시 시도 후 실패 시 문의바랍니다.");

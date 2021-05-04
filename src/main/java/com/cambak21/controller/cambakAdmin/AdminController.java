@@ -69,6 +69,7 @@ import com.cambak21.domain.RevenueEachWeekVO;
 
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.service.boardNotice.BoardNoticeService;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.ChattingImageUploads;
@@ -84,6 +85,8 @@ public class AdminController {
    @Inject
    private adminService service;
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   
+  
    
    @RequestMapping(value = "/index", method = RequestMethod.GET)
    public String adminIndex() {
@@ -574,6 +577,78 @@ public class AdminController {
       
       return "/admin/board_admin";
    }
+   @RequestMapping(value = "/board_admin_Preview", method = RequestMethod.GET)
+   public void board_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+      
+	   model.addAttribute("adminBoard", service.admin_PreviewRead(no));
+	   
+   }
+   @RequestMapping(value = "/replyBoard_admin_Preview", method = RequestMethod.GET)
+   public void replyBoard_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+	   
+	   model.addAttribute("adminReply", service.replyBoard_admin_Preview(no));
+	   
+   }
+  
+   @RequestMapping(value = "/board_admin/ajax/recovery", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_recovery(@RequestParam("recoveryNum") int recoveryNum, @RequestParam("recoveryType") String recoveryType) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	 
+	   if(recoveryType.equals("B")) {
+		   service.recoveryBoard(recoveryNum);
+		 
+	   }else if(recoveryType.equals("R")) {
+		   service.recoveryReplyBoard(recoveryNum);
+	   }
+	   
+	   
+	   try {
+	    entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
+   
+   @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum, @RequestParam("deleteType") String deleteType) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	   String[] array = deleteAllNum.split("-");
+	   
+	  
+	   	   if(deleteType.equals("B")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }else if(deleteType.equals("R")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteReplyAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }
+   	 try {
+	   		 
+	      entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
    
    
 
@@ -761,22 +836,23 @@ public class AdminController {
    }
    
    @RequestMapping(value = "/QA/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
-   public ResponseEntity<Map<String, Object>> getNewProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+   public ResponseEntity<Map<String, Object>> getNewProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;
-	
+	   
 	   Map<String, Object> para = new HashMap<String, Object>();
 	   List<AdminBoardDTO> Boardlst = new ArrayList<AdminBoardDTO>();
 	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
+	   pc.setPerPageNum(perPageCnt);
 	   pc.setPage(page);
 	   PagingParam pp = new PagingParam();
 	   pp.setCri(pc);
 	   
 	   BoardAdminSearchCriteria BAcri1 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category);
 	   BoardAdminSearchCriteria BAcri2 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue);
-	   
-	   try {
+
+			   try {
 			if(searchTxtValue.equals("none")) {
 				
 			
