@@ -27,6 +27,36 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script type="text/javascript">
+function refundnExchange(payment_no,payment_date) {
+	let refundnExchange_reason = $('input[name="refundnExchange_reason"]:checked').val();
+	let refundnExchange_status = $('select[name="refundnExchange_status"]').val();
+	let member_id = "${loginMember.member_id}";
+	
+	$.ajax({
+		type : "POST",
+		dataType : "text", // 받을 데이터
+		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+		url : "/myMall/myOrder/insertRefund",// 서블릿 주소
+		data : {payment_no : payment_no, refundnExchange_reason : refundnExchange_reason, member_id : member_id, refundnExchange_status : refundnExchange_status, payment_date:payment_date},
+		success : function(result) {
+			location.reload();
+		}, // 통신 성공시
+		error : function(result) {
+			
+		}, // 통신 실패시
+		complete : function(result) {
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(result);
+//			if(result != null){
+				
+//			}
+			
+			
+		} // 통신 완료시
+	});		
+	
+}
+
 function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_serialNo, product_id) {
 	
 	let member_id = "${loginMember.member_id}";
@@ -86,7 +116,7 @@ function check_date(date, idNum) {
 
 }
 
-function purchaseSubmit(payInfo_no, payment_date) {
+function purchaseSubmit(payInfo_no, payment_date, payment_no) {
 	console.log(payment_date);
 	let member_id = "${loginMember.member_id}";
 	
@@ -95,7 +125,7 @@ function purchaseSubmit(payInfo_no, payment_date) {
 		dataType : "text", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
 		url : "/myMall/myOrder/purchaseSubmit",// 서블릿 주소
-		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id},
+		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id, payment_no:payment_no},
 		success : function(result) {
 			console.log(result);
 			location.reload();
@@ -252,7 +282,7 @@ $(document).ready(function(){
 													<div class="modal-dialog" id="modalChange${order.payment_serialNo }">
 
 														<!-- Modal content-->
-														<form action="">
+														
 														<div class="modal-content">
 															<div class="modal-header">
 																<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -260,24 +290,24 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-body">
 																<p>교환 환불 선택</p>
-																<select name="">
-																	<option value="교환신청">교환</option>
-																	<option value="환불신청">환불</option>
+																<select name="refundnExchange_status">
+																	<option value="교환요청">교환</option>
+																	<option value="환불요청">환불</option>
 																</select>
 																<p>사유를 선택해 주세요</p>
-																<input type="radio" value="단순변심" checked="checked">단순변심
-																<input type="radio" value="배송문제">배송문제
-																<input type="radio" value="상품문제">상품문제
+																<input type="radio" value="단순변심" checked="checked" name="refundnExchange_reason">단순변심
+																<input type="radio" value="배송문제" name="refundnExchange_reason">배송문제
+																<input type="radio" value="상품문제" name="refundnExchange_reason">상품문제
 																
 															</div>
 															<div class="modal-footer">
-																<button type="button" class="btn btn-default"
-																	data-dismiss="modal">교환, 환불하기</button>
+																<button type="submit" class="btn btn-default"
+																	data-dismiss="modal" onclick="refundnExchange(${order.payment_no}, '${order.payment_date }');">교환, 환불신청</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
 														</div>
-														</form>
+														
 													</div>
 												</div>
 												<!-- Modal 주문확정 모달 -->
@@ -296,7 +326,7 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-footer">
 															<button type="button" class="btn btn-default"
-																	data-dismiss="modal" onclick='purchaseSubmit(${order.payInfo_no },"${order.payment_date}");'>주문확정</button>
+																	data-dismiss="modal" onclick='purchaseSubmit(${order.payInfo_no },"${order.payment_date}", ${order.payment_no });'>주문확정</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
@@ -411,7 +441,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(환불)</strong></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -459,7 +489,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(교환)</strong></td>
 													</tr>
 												</thead>
 												<tbody>

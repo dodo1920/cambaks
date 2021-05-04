@@ -63,7 +63,7 @@
 		
 		SELECT * FROM goot6.BuyProducts bp join goot6.Products prod on bp.product_name = prod.product_name
 join goot6.Payments pay on pay.buyProduct_no = bp.buyProduct_no
-where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyProduct_isFinished='Y' order by bp.buyProduct_no desc; 
+where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		
 	</select>
 	<select id="getDest" resultType="int">
@@ -96,6 +96,29 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	
 	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
 		select * from goot6.Payments pay join goot6.ProdReviews re on pay.member_id = re.member_id where payment_isComit=#{payment_isComit} and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} and re.buyProduct_no = #{buyProduct_no}
+	</select>
+	<select id="plusTotPurchase" resultType="int">
+		select sum(buyProduct_totPrice) from goot6.BuyProducts buy join goot6.Payments pay on pay.buyProduct_no = buy.buyProduct_no where payment_no = #{payment_no} group by payment_no;
+	</select>
+	<update id="insertTotPurchase">
+		UPDATE goot6.Members SET member_payment = #{totPrice} WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- 환불 시작  -->
+	<select id="getpaymentNoCnt" resultType="int">
+		select count(payment_no) as payment_no from Payments where payment_no = #{payment_no}
+	</select>
+	<select id="getPaymentSerialNo" resultType="com.cambak21.domain.paymentVO">
+		select * from Payments where payment_no = #{payment_no}
+	</select>
+	<insert id="insertRnE">
+		INSERT INTO goot6.RefundnExchanges (refundnExchange_reason, refundnExchange_status, member_id, payment_serialNo) VALUES (#{refundnExchange_reason}, #{refundnExchange_status}, #{member_id}, #{serialNo});
+	</insert>
+	<update id="changePayComit">
+		update goot6.Payments set payment_isComit = #{refundnExchange_status} where payment_no = #{payment_no}
+	</update>
+	<select id="getUsedPoint" resultType="int">
+		select point_usedPoint from goot6.Points where payment_date = #{payment_date} and member_id = #{member_id}
 	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
