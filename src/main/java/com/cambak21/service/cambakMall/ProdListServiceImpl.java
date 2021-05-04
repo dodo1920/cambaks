@@ -86,13 +86,15 @@ public class ProdListServiceImpl implements ProdListService {
 		
 		param.put("prodList", vo);
 		
+		int resultNum = dao.prodSearchNum(detail, keyword);
 		ProdListPagingParam pp = new ProdListPagingParam();
 		pp.setCri(cri);
-		pp.setTotalCount(dao.prodSearchNum(detail, keyword));
+		pp.setTotalCount(resultNum);
 		param.put("paging", pp);
 		
 		// 인기 상품 6개 출력
 		param.put("popularList", dao.popularProdList());
+		param.put("searchResultNum", resultNum);
 		
 		return param;
 	}

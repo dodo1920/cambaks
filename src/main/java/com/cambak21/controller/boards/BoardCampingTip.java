@@ -108,10 +108,10 @@ public class BoardCampingTip {
 		
 		if(no != 0) {
 			result = "success";
-			rttr.addAttribute("write", result);
+			rttr.addFlashAttribute("tipWrite", result);
 		} else {
 			result = "fail";
-			rttr.addAttribute("write", result);
+			rttr.addFlashAttribute("tipWrite", result);
 		}
 		
 		return "redirect:view?id=Tip&no=" + no + "&page=1";
@@ -157,10 +157,10 @@ public class BoardCampingTip {
 		
 		if(service.modifyCampingTipBoard(modifyDTO)) {
 			result = "success";
-			rttr.addAttribute("result", result);
+			rttr.addFlashAttribute("tipModify", result);
 		} else {
 			result = "fail";
-			rttr.addAttribute("result", result);
+			rttr.addFlashAttribute("tipModify", result);
 		}
 		return "redirect:view?id=" + modifyDTO.getBoard_category() + "&no=" + modifyDTO.getBoard_no();
 	}

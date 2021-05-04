@@ -99,6 +99,10 @@
 		where member_id = #{member_id}
 	</update>
 	
+	<select id="modifyCheckUser" resultType="int">
+		select count(*) from Members where member_id = #{member_id} and member_password = md5(sha1(#{member_password}))
+	</select>
+	
 <!-- 	서효원 mapper -->
 	
   </mapper>
