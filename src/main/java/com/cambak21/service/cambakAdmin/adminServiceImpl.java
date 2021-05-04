@@ -267,21 +267,79 @@ public class adminServiceImpl implements adminService {
 		
 //		============================================== 원영 ==============================================================================
 		
+		@Override
+		public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.goGetBoard_QAadmin(BAcri1, pc);
+		}
+
+		@Override
+		public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			return dao.goGetreply_QAadmin(BAcri1, pc);
+		}
+
+		@Override
+		public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			return dao.searchGetBoard_QAadmin(BAcri2, pc);
+		}
+
+		@Override
+		public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			return dao.searchGetreply_QAadmin(BAcri2, pc);
+		}
+
+		@Override
+		public int getTodayTotalCnt() throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getTodayTotalCnt();
+		}
+
+		@Override
+		public int getTodayreplyTotalCnt() throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getTodayreplyTotalCnt();
+		}
+
+		@Override
+		public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getBoard_QAadminCnt(BAcri1);
+		}
+
+		@Override
+		public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getReply_QAadminCnt(BAcri1);
+		}
+
+		@Override
+		public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getsearchBoard_QAadminCnt(BAcri2);
+		}
+
+		@Override
+		public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.getsearchReply_QAadminCnt(BAcri2);
+		}
+
+		@Transactional
+		@Override
+		public void deleteBoardQAAdmin(int no) throws Exception {
+			// TODO Auto-generated method stub
+			dao.deleteBoardQAAdmin(no);
+			dao.deleteReplyBoardQAAdmin(no);
+		}
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 //		---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 정민 ==============================================================================
@@ -571,6 +629,8 @@ public class adminServiceImpl implements adminService {
 		
 		return result;
 	}
+
+	
 
 
 	
