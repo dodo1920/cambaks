@@ -76,23 +76,10 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
-                        <i class="mdi mdi-receipt"></i>
-                        <span class="hide-menu">상품 게시판 (원영)</span>
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../admin/QA" aria-expanded="false">
+                        <i class="mdi mdi-chart-bubble"></i>
+                        <span class="hide-menu">상품 리뷰 및 Q&A (원영)</span>
                     </a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item">
-                            <a href="icon-material.html" class="sidebar-link">
-                                <i class="mdi mdi-bulletin-board"></i>
-                                <span class="hide-menu"> 리뷰 </span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="icon-fontawesome.html" class="sidebar-link">
-                                <i class="mdi mdi-message-outline"></i>
-                                <span class="hide-menu"> QnA </span></a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-item">
                 	<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
