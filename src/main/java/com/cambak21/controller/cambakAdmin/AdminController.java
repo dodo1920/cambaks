@@ -69,6 +69,7 @@ import com.cambak21.domain.RevenueEachWeekVO;
 
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.service.boardNotice.BoardNoticeService;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.ChattingImageUploads;
@@ -84,6 +85,8 @@ public class AdminController {
    @Inject
    private adminService service;
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   
+  
    
    @RequestMapping(value = "/index", method = RequestMethod.GET)
    public String adminIndex() {
@@ -574,24 +577,72 @@ public class AdminController {
       
       return "/admin/board_admin";
    }
-   
+   @RequestMapping(value = "/board_admin_Preview", method = RequestMethod.GET)
+   public void board_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+      
+	   model.addAttribute("adminBoard", service.admin_PreviewRead(no));
+	   
+   }
+   @RequestMapping(value = "/replyBoard_admin_Preview", method = RequestMethod.GET)
+   public void replyBoard_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+	   
+	   model.addAttribute("adminReply", service.replyBoard_admin_Preview(no));
+	   
+   }
   
+   @RequestMapping(value = "/board_admin/ajax/recovery", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_recovery(@RequestParam("recoveryNum") int recoveryNum, @RequestParam("recoveryType") String recoveryType) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	 
+	   if(recoveryType.equals("B")) {
+		   service.recoveryBoard(recoveryNum);
+		 
+	   }else if(recoveryType.equals("R")) {
+		   service.recoveryReplyBoard(recoveryNum);
+	   }
+	   
+	   
+	   try {
+	    entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
+   
    @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
-   public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{
+   public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum, @RequestParam("deleteType") String deleteType) throws Exception{
 	  
 	   ResponseEntity<String> entity = null;
 	   String[] array = deleteAllNum.split("-");
 	   
-	   for(int i=0; i < array.length; i++) {
-			
-		    if(array[i] != "") {
-		    	System.out.println(array[i]);
-		    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
-		    }
-		}
-	   
-	   try {
-		   entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	  
+	   	   if(deleteType.equals("B")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }else if(deleteType.equals("R")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteReplyAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }
+   	 try {
+	   		 
+	      entity = new ResponseEntity<String>("1", HttpStatus.OK);
 	   } catch (Exception e) {
 		   // TODO Auto-generated catch block
 		   e.printStackTrace();
