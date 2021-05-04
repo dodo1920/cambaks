@@ -374,10 +374,10 @@ function status() {
 	function showSelected() {
 		if(page == -1){
 			page = 1;
-			$("#page" + page).attr("style", "topCategoryBar");
+			$("#page" + page).attr("class", "page-item active");
 		}
 		else {
-			$("#page" + page).attr("style", "topCategoryBar");
+			$("#page" + page).attr("class", "page-item active");
 			console.log(page);
 		}
 		
@@ -560,9 +560,12 @@ $(document).ready(function() {
 													<th style="font-weight: bold; width: 100px;">하위카테고리</th>
 													<th style="font-weight: bold; width: 150px;">상품명</th>
 													<th style="font-weight: bold; width: 75px;">판매가</th>
-													<th style="font-weight: bold; width: 180px;">진열상태</th>
-													<th style="font-weight: bold; width: 130px;">제조사</th>
-													<th style="font-weight: bold; width: 102px;">상품등록일</th>
+													<th style="font-weight: bold; width: 75px;">진열상태</th>
+													<th style="font-weight: bold; width: 100px;">구매수량</th>
+													<th style="font-weight: bold; width: 100px;">판매수량</th>
+													<th style="font-weight: bold; width: 100px;">총수량</th>
+													<th style="font-weight: bold; width: 100px;">제조사</th>
+													<th style="font-weight: bold; width: 150px;">상품등록일</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -577,6 +580,9 @@ $(document).ready(function() {
 																<td>${board.product_name }</td>
 																<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.product_sellPrice }" />&#8361;</td>
 																<td>${board.product_show }</td>
+																<td>${board.product_purchaseQty }</td>
+																<td>${board.product_saleQty }</td>
+																<td>${board.product_totQty }</td>
 																<td>${board.product_factory }</td>
 																<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 															</tr>
@@ -608,8 +614,8 @@ $(document).ready(function() {
 												</li>
 												</c:if>
 												<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-												<li class="page-item active">
-													<a id="page${pageNo }" href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
+												<li id="page${pageNo }" class="page-item">
+													<a href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 												</li>
 												</c:forEach>
 												<c:if test="${pagingParam.next }">
@@ -631,7 +637,7 @@ $(document).ready(function() {
 													</li>
 													</c:if>
 													<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-													<li class="page-item active">
+													<li id="page${pageNo }" class="page-item">
 														<a href="prodList?page=${pageNo }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 													</li>
 													</c:forEach>

@@ -176,7 +176,7 @@ function showWritingList(pageNum, board_category) {
             //console.log(endPage);
 
             for(var num = startPage; num <=endPage; num++){
-          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + num + ",\'" + board_category +'\'); return false;">' + num + '</a></li>';
+          	  pageOutput += '<li id="page' + num + '" class="page-item"><a class="page-link" href="" onclick="showWritingList(' + num + ",\'" + board_category +'\'); return false;">' + num + '</a></li>';
       	  }
             
             pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + next + ",\'" + board_category +'\'); return false;">next</a></li>';
@@ -191,6 +191,15 @@ function showWritingList(pageNum, board_category) {
 	    , complete : function(data) {
 
 	    	textLimit();
+	    	
+	    	if(pageNum == null){
+	    		pageNum = 1;
+				$("#page" + pageNum).attr("class", "page-item active");
+			}
+			else {
+				$("#page" + pageNum).attr("class", "page-item active");
+				console.log(page);
+			}
 		}  
 		});
 	
@@ -244,6 +253,11 @@ function showWritingList(pageNum, board_category) {
     border-radius: 0%;
     text-decoration: underline;
     text-underline-position: under;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
 }
 
 </style>
