@@ -73,6 +73,15 @@ public class MemberDAOImpl implements MemberDAO {
 	public MemberVO sesUserInfoChange(String member_id) throws Exception {
 		return ses.selectOne(namespace + ".memberSelect", member_id);
 	}
+	
+	@Override
+	public int modifyCheckUser(String member_id, String member_password) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("member_password", member_password);
+		return ses.selectOne(namespace + ".modifyCheckUser", param);
+	}
+	
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	@Override

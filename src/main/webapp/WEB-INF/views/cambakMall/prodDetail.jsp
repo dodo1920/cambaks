@@ -467,7 +467,10 @@
 	 // 별점에 따른 별 개수를 표현하는 부분
 	 function showStars(grade) {
 		var output1 = '';
-		if(grade == 1){
+		if(grade == 0){
+			output1 = '<span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>'
+		}
+		else if(grade == 1){
 			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
 		} else if(grade == 2){
 			output1 = '<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>';
@@ -576,6 +579,8 @@
 			console.log(replyProdReview_no);
 			//replyProdReview_no = replyProdReview_no;
 			
+			if(confirm("해당 게시물을 삭제하시겠습니까?")) {
+
 			$.ajax({
 				  method: "post",
 				  url: "/mall/prodDetail/deleteProdReviewReply/" + replyProdReview_no,
@@ -596,6 +601,7 @@
 				  }
 				  
 				});
+			}
 		}
 			
 		
@@ -615,7 +621,7 @@
 				  },
 				  dataType: "text", // 응답 받는 데이터 타입
 				  success : function(readResult) {
-// 					  console.log(readResult);
+ 					  console.log(readResult);
 					 $("#replyContentModi" + replyProdReview_no).html(readResult);
 					 // 귀신 잡은 포인트.
 				  }

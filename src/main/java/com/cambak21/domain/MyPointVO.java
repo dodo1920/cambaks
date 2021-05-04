@@ -5,8 +5,6 @@ import java.util.Date;
 public class MyPointVO {
 	private int point_no;
 	private String member_id;
-	private String grade_name;
-	private int buyProduct_totPrice;
 	private String point_reason;
 	private int point_usedPoint;
 	private int point_futurePoint;
@@ -25,18 +23,6 @@ public class MyPointVO {
 	}
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
-	}
-	public String getGrade_name() {
-		return grade_name;
-	}
-	public void setGrade_name(String grade_name) {
-		this.grade_name = grade_name;
-	}
-	public int getBuyProduct_totPrice() {
-		return buyProduct_totPrice;
-	}
-	public void setBuyProduct_totPrice(int buyProduct_totPrice) {
-		this.buyProduct_totPrice = buyProduct_totPrice;
 	}
 	public String getPoint_reason() {
 		return point_reason;
@@ -77,12 +63,18 @@ public class MyPointVO {
 	
 	@Override
 	public String toString() {
-		return "MyPointVO [point_no=" + point_no + ", member_id=" + member_id + ", grade_name=" + grade_name
-				+ ", buyProduct_totPrice=" + buyProduct_totPrice + ", point_reason=" + point_reason
+		return "MyPointVO [point_no=" + point_no + ", member_id=" + member_id + ", point_reason=" + point_reason
 				+ ", point_usedPoint=" + point_usedPoint + ", point_futurePoint=" + point_futurePoint
 				+ ", point_savingDate=" + point_savingDate + ", payment_date=" + payment_date + ", product_name="
-				+ product_name + "]";
+				+ product_name + ", getPoint_no()=" + getPoint_no() + ", getMember_id()=" + getMember_id()
+				+ ", getPoint_reason()=" + getPoint_reason() + ", getPoint_usedPoint()=" + getPoint_usedPoint()
+				+ ", getPoint_futurePoint()=" + getPoint_futurePoint() + ", getPoint_savingDate()="
+				+ getPoint_savingDate() + ", getPayment_date()=" + getPayment_date() + ", getProduct_name()="
+				+ getProduct_name() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+	
+	
 	
 	
 }

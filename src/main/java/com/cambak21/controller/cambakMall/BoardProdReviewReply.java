@@ -122,6 +122,7 @@ public class BoardProdReviewReply {
 			try {
 				
 				result = service.readProdReviewReply(replyProdReview_no);
+				System.out.println("modifyProdReviewReply... POST... result :" + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

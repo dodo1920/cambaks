@@ -575,6 +575,30 @@ public class AdminController {
       return "/admin/board_admin";
    }
    
+  
+   @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	   String[] array = deleteAllNum.split("-");
+	   
+	   for(int i=0; i < array.length; i++) {
+			
+		    if(array[i] != "") {
+		    	System.out.println(array[i]);
+		    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
+		    }
+		}
+	   
+	   try {
+		   entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
+   
    
 
    

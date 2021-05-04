@@ -100,6 +100,13 @@ public class MemberServiceImpl implements MemberService {
 		return dao.sesUserInfoChange(member_id);
 	}
 	
+	@Override
+	public boolean modifyCheckUser(String member_id, String member_password) throws Exception {
+		boolean result = false;
+		if (dao.modifyCheckUser(member_id, member_password) == 1) result = true;
+		return result;
+	}
+	
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	@Override

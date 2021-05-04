@@ -107,10 +107,13 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<!-- 마이페이지-나의 적립금 포인트 적립 내역 가져오기 -->
 	<select id="getPointList"
 		resultType="com.cambak21.domain.MyPointVO">
-		select p.point_no, p.member_id, p.grade_name, p.buyProduct_totPrice, p.point_reason, p.point_usedPoint, 
-		p.point_savingDate, p.point_futurePoint, p.payment_date, b.product_name from Points p, BuyProducts b 
-		where p.buyProduct_no = b.buyProduct_no and p.member_id = #{member_id} order by payment_date desc 
-		limit #{pageStart}, #{perPageNum} 
+		select p.point_no, p.member_id, p.point_usedPoint, p.point_futurePoint, p.point_reason, p.point_savingDate, 
+		p.payment_date, group_concat(b.product_name) as product_name 
+		from Points p, Payments pm, BuyProducts b
+		where p.member_id = pm.member_id and p.payment_date = pm.payment_date 
+		and pm.buyProduct_no = b.buyProduct_no
+		and p.member_id = #{member_id}
+		group by point_no;
 	</select>
 	<!-- 마이페이지-나의 적립금 총 게시물 개수 가져오기 -->
 	<select id="getPointListCnt" resultType="int">
