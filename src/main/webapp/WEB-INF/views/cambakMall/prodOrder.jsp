@@ -122,6 +122,12 @@ function showtransfer() {
 	$("#transferBank").removeAttr('disabled'); 
 }
 
+function goCart() {
+	
+	alert("주문을 취소합니다.");
+	location.href='http://localhost:8081/mall/cart';
+}
+
 function checkForm(){
 	let member_id = "${loginMember.member_id}";
 	let payInfo_way = "";
@@ -634,12 +640,12 @@ function addPoint() {
     <!-- 결제 방법테이블 테이블 end -->
     <!-- 약관동의 테이블 start -->
     <div style="margin-top: 50px;">
-    	<h2>약관동의</h2>
+    	<h2>주문 내용 확인</h2>
     	<div>
     		<div>
     			<dl>
     				<dt>
-    					 <label><input type="checkbox" value="" id="agreement">동의</label>
+    					 <label><input type="checkbox" value="" id="agreement">해당 주문 내용에 이상이 없음을 확인합니다</label>
     				</dt>
     			</dl>
     		</div>
@@ -647,14 +653,15 @@ function addPoint() {
     </div>
     <div>
     	<button type="submit" class="btn btn-default">결제하기</button>
-    	<button class="btn btn-default">취소</button>
+    	<button class="btn btn-default" onclick="goCart()">취소</button>
     	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
     	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />
     	<input type="hidden" name="usePointNum" id="usePointNum" value=""/>
 		<input type="hidden" name="savePointNum" id="savePointNum" value=""/>
 		<input type="hidden" name="totPriceNum" id="totPriceNum" value=""/>
     </div>
-    </form>    
+    </form>
+        
     <!-- 약관동의 테이블 end -->
     
 <!--     결제하기 폼태그 start -->
