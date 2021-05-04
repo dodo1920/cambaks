@@ -14,6 +14,7 @@ import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -32,7 +33,7 @@ public interface MyMallService {
 	public List<BuyProductPaymentVO> searchOrder(SearchCriteria scri, PagingCriteria cri, String member_id) throws Exception;
 	public int searchOrderCnt(SearchCriteria scri, String member_id)throws Exception;
 	
-	public BuyProductVO getOrder(String member_id, int buyProduct_no)throws Exception;
+	public BuyProductVO getOrder(String member_id, int payment_serialNo)throws Exception;
 	
 	public int getDest(String member_id, int buyProduct_no)throws Exception;
 
@@ -51,6 +52,20 @@ public interface MyMallService {
 	public void plusPoint(String member_id, int pointVal)throws Exception;
 	
 	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id, int buyProduct_no)throws Exception;
+	
+	public int plusTotPurchase(int payment_no)throws Exception;
+	
+	public void insertTotPurchase(String member_id, int totPrice)throws Exception;
+	
+	public int getpaymentNoCnt(int payment_no)throws Exception;
+	
+	public List<paymentVO> getPaymentSerialNo(int payment_no)throws Exception;
+	
+	public void insertRnE(int serialNo, String member_id, String refundnExchange_reason, String refundnExchange_status)throws Exception;
+	
+	public void changePayComit(String refundnExchange_status, int payment_no)throws Exception;
+	
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -92,6 +107,20 @@ public interface MyMallService {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);	
 	public MemberOrderVO MemberDetailOrder(int serialNo,String userName)throws Exception;
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+
 
 	
 
