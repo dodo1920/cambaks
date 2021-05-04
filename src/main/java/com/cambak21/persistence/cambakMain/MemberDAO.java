@@ -174,5 +174,6 @@ public interface MemberDAO {
 	public int loginRequestCheck(LoginDTO dto) throws Exception;
 	public int updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception;
 	public MemberVO sesUserInfoChange(String member_id) throws Exception;
+	public int modifyCheckUser(String member_id, String member_password) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 }

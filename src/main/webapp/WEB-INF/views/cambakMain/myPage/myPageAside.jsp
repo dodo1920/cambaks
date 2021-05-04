@@ -12,7 +12,7 @@
 							<div class="profileCategory">
 								<ul>
 									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
-									<li class="profileMenu2"><a href="/user/modify" class="profileMenu">회원 정보 수정</a></li>
+									<li class="profileMenu2"><a href="/user/pwdCheck" class="profileMenu">회원 정보 수정</a></li>
 								</ul>
 							</div>
 						</div>

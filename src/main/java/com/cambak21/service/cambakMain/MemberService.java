@@ -146,5 +146,6 @@ public interface MemberService {
 	public boolean loginRequestCheck(LoginDTO dto) throws Exception;
 	public boolean updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception;
 	public MemberVO sesUserInfoChange(String member_id) throws Exception;
+	public boolean modifyCheckUser(String member_id, String member_password) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 }

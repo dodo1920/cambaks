@@ -334,7 +334,7 @@
    
    // 글 등록 후 알럿 남겨주기
    function writeBoardInfo() {
-	   let result = getParameter("write");
+	   let result = '${tipWrite}';
 	   if (result == "success") {
 		   alert("글 등록 성공!");
 	   } else if (result == "fail") {
@@ -518,7 +518,7 @@
    
 	// 글 수정 후 알럿 남겨주기
 	function modifyBoardInfo() {
-		let result = getParameter("result");
+		let result = '${tipModify}';
 		if (result == "success") {
 			alert("글 수정 성공!");
 		} else if (result == "fail") {

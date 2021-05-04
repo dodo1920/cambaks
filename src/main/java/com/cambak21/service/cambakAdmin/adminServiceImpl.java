@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
@@ -385,7 +386,14 @@ public class adminServiceImpl implements adminService {
 			return dao.getsearchReply_adminCnt(BAcri2);
 		}
 		
-		
+		@Transactional
+		@Override
+		public void deleteBoardAdmin(int no) throws Exception {
+			dao.deleteBoardAdmin(no);
+			dao.deleteReplyBoardAdmin(no);
+			
+		}
+
 		
 		
 		
@@ -563,6 +571,7 @@ public class adminServiceImpl implements adminService {
 		
 		return result;
 	}
+
 
 	
 		

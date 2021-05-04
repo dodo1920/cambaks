@@ -179,7 +179,7 @@ public interface adminService {
 		
 		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 		
-		
+		public void deleteBoardAdmin(int no) throws Exception;
 		
 		
 		
