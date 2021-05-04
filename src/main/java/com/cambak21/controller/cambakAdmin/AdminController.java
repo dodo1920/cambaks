@@ -574,7 +574,11 @@ public class AdminController {
       
       return "/admin/board_admin";
    }
-   
+   @RequestMapping(value = "/board_admin_Preview", method = RequestMethod.GET)
+   public String board_admin_Preview() throws Exception{
+      
+      return "/admin/board_admin_Preview";
+   }
   
    @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
    public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{

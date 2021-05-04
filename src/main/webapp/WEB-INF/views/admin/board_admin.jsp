@@ -86,6 +86,19 @@ let PagingResultList = new Array();
 		
 	});
 	
+	function closePreviewFrame(){
+		$("#layerPreview").css("display","none");
+		
+	}
+	
+	
+	function PreviewOpen(data){
+		$("#layerPreview").css("display","block");
+		$("#eBulletinContent").attr("src","/admin/board_admin_Preview");
+
+	}
+	
+	
 	function deleteAllChecked(){
 		let checkBoxCount = 0;
 		let deleteAllNum = "";
@@ -163,7 +176,6 @@ let PagingResultList = new Array();
 	function BoardOutputGo(data){
 		let outputList = "";
 		let outputPagingCheck1 = 0;
-		let outputPagingCheck2 = 0;
 		let outputPagingtemp = "";
 			$(data).each(function(index, item){		
 			
@@ -174,9 +186,9 @@ let PagingResultList = new Array();
 			    
 
 			    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "Y"){
-				
+			    	outputPagingCheck1++;
 		    	if(this.board_isDelete == "Y"){
-		    		outputPagingCheck1++;
+		    		
 			    	outputList += "<tr>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td style="color:red;">' + this.board_no + '</td><td>' + this.board_category + '</td>';
@@ -184,22 +196,31 @@ let PagingResultList = new Array();
 					outputList += '<td>' + this.member_id + '</td>';
 					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시판</span></a></td>';	
 					outputList += '<td style="color:red;">' + writeDate + '</td><td style="color:red;">' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
+			 	   }else if(this.board_isDelete == "N"){
+			 		   
+			 		  	outputList += "<tr>";
+						outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+						outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
+						outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
+						outputList += '<td>' + this.member_id + '</td>';
+						outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
+						outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
+			 		   
 			 	   }
-			    
+			   
 		        }
-			    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "N"){ 
-			    	outputPagingCheck2++;
+			    if($("#isDeleteCheckhidden").val() == "N"){ 
+			    
 			       	outputList += "<tr>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
 					outputList += '<td>' + this.member_id + '</td>';
-					outputList += '<td><a href="#"><span>본문 미리보기</span></a></td>';
+					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
 					outputList += '<td>' + writeDate + '</td><td>' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 			   	
 			    }
 			
-				
 			    });
 			
 			
@@ -212,8 +233,6 @@ let PagingResultList = new Array();
 				outputList += '<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>';
 			
 			}
-			
-			
 			
 			$("#boardListFrame").html(outputList);
 			
@@ -237,29 +256,62 @@ let PagingResultList = new Array();
 			
 		    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "Y"){
 		    	
-		    	
-		    	if(this.replyBoard_isdelete == "Y"){
+		    	if(this.replyBoard_isdelete == "Y" && this.board_isDelete == "N"){
 			    	outputList += "<tr>";
 					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_no + ')</span></td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_content + ')</span></a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><a href="#"><span>본문 미리보기</span><hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">삭제된 댓글</span></a></td>';
+					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span><hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">삭제된 댓글</span></a></td>';
 					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replywriteDate + ')</span></td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replymodifyDate + ')</span></td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 				
+			    }else if(this.replyBoard_isdelete == "Y" && this.board_isDelete == "Y"){
+			    	outputList += "<tr>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+					outputList += '<td style="color:red;">' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_no + ')</span></td><td><br/>' + this.board_category + '</td>';
+					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink" style="color:red;">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_content + ')</span></a></td>';
+					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시글</span><hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">삭제된 댓글</span></a></td>';
+					outputList += '<td style="color:red;">' + writeDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replywriteDate + ')</span></td><td style="color:red;">' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replymodifyDate + ')</span></td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+			    	
+			    }else if(this.replyBoard_isdelete == "N" && this.board_isDelete == "N"){
+			    	
+			    	outputList += "<tr>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
+					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+					outputList += '<td><br/><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
+					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+			    	
 			    }
+		    	
 		    	
 		    }
 		    
-		    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "N"){
+		    if($("#isDeleteCheckhidden").val() == "N"){
 		    	
-		    	outputList += "<tr>";
-				outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
-				outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
-				outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
-				outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-				outputList += '<td><br/><a href="#"><span>본문 미리보기</span></a></td>';
-				outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+		    	if(this.replyBoard_isdelete == "N" && this.board_isDelete == "N"){
+		        	outputList += "<tr>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
+					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+					outputList += '<td><br/><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
+					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+			  		
+		    	}else if(this.replyBoard_isdelete == "N" && this.board_isDelete == "Y"){
+		    		
+
+			    	outputList += "<tr>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+					outputList += '<td style="color:red;">' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
+					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink" style="color:red;">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
+					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
+					outputList += '<td><br/><a href="#"><span style="color:red;">삭제된 게시판</span></a></td>';
+					outputList += '<td style="color:red;">' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td style="color:red;">' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
+			    		    		
+		    	}
 		    	
 		    }
 		   
@@ -1038,6 +1090,81 @@ table {
 	border: 1px solid transparent;
 	background-color: #55a0ff;
 }
+
+/*  미리보기  */
+.mLayer > h2 {
+    padding: 8px 50px 7px 20px;
+    border-bottom: 1px solid #686868;
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+    font-weight: normal;
+    background: #2f4363;
+}
+
+.mBoard.gSmall th {
+    width: 100px;
+}
+
+.mBoard tbody th {
+    border: 1px solid #d9dadc;
+    text-align: left;
+}
+
+.mBoard th {
+    font-weight: normal;
+    background-color: #f5f4f4;
+}
+
+.mBoard th, .mBoard td {
+    padding: 9px 9px 7px;
+    vertical-align: top;
+}
+
+.mBoard.gSmall td {
+    width: auto;
+}
+
+
+.mBoard tbody td {
+    border: 1px solid #d9dadc;
+}
+
+.mBoard th, .mBoard td {
+    padding: 9px 9px 7px;
+    vertical-align: top;
+}
+
+.mBoard table {
+    line-height: 1.5;
+    background-color: #fff;
+}
+
+.mLayer {
+    display: none;
+    position: absolute;
+    z-index: 110;
+    left: 50%;
+    border: 1px solid #2f4363;
+    line-height: 1.5;
+    background-color: #fff;
+}
+
+.mLayer .footer .btnNormal {
+    min-width: 63px;
+    height: 36px;
+    line-height: 34px;
+    font-size: 14px;
+    color: #55a0ff;
+    border-color: #55a0ff;
+}
+.mLayer .footer {
+    padding: 15px 0;
+    border-top: 1px solid #dedede;
+    text-align: center;
+    background-color: #fafafa;
+}
+
 </style>
 
 
@@ -1261,19 +1388,19 @@ table {
 
 
 				<!--미리보기-->
-			<div class="mLayer ui-draggable ui-resizable"
-					style="display: none; width: auto;" id="layerPreview">
+			 <div class="mLayer ui-draggable ui-resizable"
+					style="width: auto; display: none;  width: 450px; position: absolute; z-index: 200; left: 395px; top: 167px;" id="layerPreview">
+					
 					<h2>게시글 내용 미리보기</h2>
-					<div class="wrap" style="width: 400px; height: 400px;"
+					<div class="wrap" style="width: 450px; height: 450px;"
 						id="eBulletinContentWrap">
 						<iframe id="eBulletinContent" frameborder="0" width="400px"
 							height="400px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 					</div>
 					<div class="footer">
-						<a href="#none" class="btnNormal eClose"><span>닫기</span></a>
+						<a href="javascript:closePreviewFrame();" class="btnNormal eClose"><span>닫기</span></a>
 					</div>
-					<button type="button" class="btnClose eClose"
-						id="layerPreviewClose">닫기</button>
+			
 					<div class="ui-resizable-handle ui-resizable-e"
 						style="z-index: 90;"></div>
 					<div class="ui-resizable-handle ui-resizable-s"
