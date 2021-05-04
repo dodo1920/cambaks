@@ -77,7 +77,7 @@ function showPointList(pageNum) {
             
         	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
             //1.주문이 취소된 건인 경우,
-            if(item.point_reason == "주문취소"){
+            if(item.point_reason == "주문취소" || item.point_reason == "환불"){
             	
             	 if(item.point_usedPoint != 0){ //1-1.주문취소 + 포인트 사용
                  	//사용 포인트 반환
@@ -88,15 +88,16 @@ function showPointList(pageNum) {
                  	output += '<td><div>포인트</div><div  style="color: red;">+' + item.point_usedPoint +'</div></td></tr>';
 
                  
-                 if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정인 경우
+                 /*if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정인 경우
                  	//적립 포인트 회수
                  	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div  style="color: blue;">적립포인트회수</div></td>';
                  	output += '<td><div>구매제품</div><div class="prodName">' + textLimitBoard(item.product_name) +'</div></td>';
                  	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                  	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
-                 } 
-                 else {
+                 } */
+            	 
+            	 if(item.point_savingDate == 978188400000) {
                 	 //주문취소+포인트 적립 예정
                  	//적립 예정 포인트 회수 표시
                  	
@@ -106,21 +107,22 @@ function showPointList(pageNum) {
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                  	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
                  } 
-                 }// end of 주문취소 + 포인트 사용
+            	 }// end of 주문취소 + 포인트 사용
                  
                  //1-2.주문취소이면서, 사용자가 포인트를 사용하지 않았을 경우
-                 else{
+                 else
+                 {
                       
-                      if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정
+                      /*if(item.point_savingDate != 978188400000){//주문취소+포인트 적립 확정
                       	//적립 포인트 회수
                       	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div  style="color: blue;">적립포인트회수</div></td>';
                       	output += '<td><div>구매제품</div><div class="prodName">' + textLimitBoard(item.product_name) +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                       	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
-                      } 
+                      }*/
                       //주문취소+포인트 적립 예정
-                      else {
+                      
                       	//적립 예정 포인트 회수 표시
                       	
                       	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: blue;">적립예정포인트회수</div></td>';
@@ -128,14 +130,14 @@ function showPointList(pageNum) {
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                       	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
-                      } 
+                      
     			}
             	 
             }// end of  1.주문이 취소된 건인 경우,
             
 
             // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-          	// 2.주문이 취소되지 않은 건인 경우, !=주문취소
+          	// 2-1.주문 취소, 환불이 아닌 경우, !=주문취소
             else 
             {
             	if(item.point_usedPoint != 0){ //2-1.주문취소x + 포인트 사용o

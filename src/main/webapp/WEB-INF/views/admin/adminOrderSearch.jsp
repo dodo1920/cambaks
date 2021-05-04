@@ -205,7 +205,6 @@ $('#endDate').datepicker({
    </div>
 </div>
 <div id="main-wrapper">
-<%@ include file="adminTop.jsp"%>
 <%@ include file="adminAside.jsp"%>
 <div class="page-wrapper">
    <div class="page-breadcrumb">

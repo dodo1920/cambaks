@@ -142,7 +142,7 @@
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.buyProduct_no }</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
 													</tr>
 												</thead>
 												<tbody>

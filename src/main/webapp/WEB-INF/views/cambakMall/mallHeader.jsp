@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Header Section Begin -->
 <header class="header">
     <div class="container-fluid">
@@ -68,7 +69,7 @@
 	                        <a href="/user/register">회원가입</a>
 	                    </div>
                     </c:if>
-                	<c:if test="${loginMember != null}">
+                	<c:if test="${loginMember.member_isAdmin == 'N'}">
 	                    <form action="/mall/search" class="searchForm" id="searchForm" onkeyup="formSearchBtn();" onsubmit="return false;">
 	                    	<span id="searchArea">
 	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" autocomplete="off"/>
@@ -82,6 +83,22 @@
 	                    <div class="header__right__auth">
 	                        <a href="/user/logout">로그아웃</a>
 	                        <a href="/myPage/myPost">마이페이지</a>
+	                    </div>
+                    </c:if>
+                    <c:if test="${loginMember.member_isAdmin == 'Y'}">
+	                    <form action="/mall/search" class="searchForm" id="searchForm" onkeyup="formSearchBtn();" onsubmit="return false;">
+	                    	<span id="searchArea">
+	                    		<input type="text" class="searhcInput" id="keyword" name="keyword" autocomplete="off"/>
+	                    		<input type="hidden" name="page" value="1" />
+	                    	</span>
+	                    </form>
+	                    <ul class="header__right__widget">
+	                        <li style="margin-right: 10px;"><a id="searchIcon" onclick="viewSearchForm();"><img src="../../resources/mallMain/img/default/mallSearch.png" class="searchIconBtn"></a></li>
+	                        <li style="margin-right: 20px;"><a href="/mall/cart"><img src="../../resources/mallMain/img/default/shoppingCart.png" style="height: 22px;"></a></li>
+	                    </ul>
+	                    <div class="header__right__auth">
+	                        <a href="/user/logout">로그아웃</a>
+	                        <a href="/admin/productAnalysis">관리자페이지</a>
 	                    </div>
                     </c:if>
                 </div>
@@ -105,14 +122,13 @@
         </div>
         <div class="modal-body" style="padding:40px 50px;">
             <div class="form-group">
-              <input type="text" class="form-control" id="member_id" placeholder="아이디" style="font-size: 14px;">
+              <input type="text" class="form-control" id="member_id" placeholder="아이디" style="font-size: 14px;" onkeyup="loginEnter();">
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" id="member_password" placeholder="비밀번호" style="font-size: 14px;">
+              <input type="password" class="form-control" id="member_password" placeholder="비밀번호" style="font-size: 14px;" onkeyup="loginEnter();">
             </div>
             <div class="checkbox" style="margin-bottom: 5px; font-size: 13px;">
-              <label><input type="checkbox" value=""><span style="margin-left: 10px;">자동로그인</span></label>
-              <span><a href="/user/find_idPwd" style="color: #8e8e8e; float: right;">아이디 / 비밀번호 찾기</a></span>
+              <span><a href="/user/find_idPwd" style="color: #8e8e8e; float: right; padding-bottom: 10px;">아이디 / 비밀번호 찾기</a></span>
             </div>
               <button type="button" class="btn btn-basic btn-block" style="border: 1px solid #b3bcc5;" onclick="loginRequestCheck();"><span class="glyphicon glyphicon-off"></span> 로그인</button>
         </div>
@@ -130,17 +146,39 @@ $(document).ready(function(){
   $("#userLogin").click(function(){
     $("#loginModal").modal();
   });
-  //searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
+  searchSiteControll(); // 사이트 헤더에 있는 검색 창 열고 닫기 css 변경
 });
+
+//캠박몰 로그인 아이디 비밀번호 입력 후 엔터 누를 시 작동
+function loginEnter() {
+	
+	if (window.event.keyCode == 13) {
+		let member_id = $("#member_id").val();
+		let member_password = $("#member_password").val();
+		
+		if (member_id == "" || member_password == "") {
+			alert("아이디/비밀번호를 작성바랍니다.");
+			return;
+		} else {
+			loginRequestCheck();
+		}
+	}
+	
+}
 
 //캠박몰 로그인
 function loginRequestCheck() {
 	let member_id = $("#member_id").val();
 	let member_password = $("#member_password").val();
+	console.log(member_id);
+	if (member_id == "" || member_password == "") {
+		alert("아이디/비밀번호를 작성바랍니다.");
+		return;
+	}
 	
 	$.ajax({
 		  method: "POST",
-		  url: "/user/cambakLoginCheck",
+		  url: "/user/loginCheck",
 		  dataType: "text",
 		  data : {member_id : member_id, member_password : member_password},
 		  success : function(data) {
@@ -160,6 +198,7 @@ function loginRequestCheck() {
         }
 		  
 		});
+	
 }
 </script>
 <link rel="preconnect" href="https://fonts.gstatic.com">
