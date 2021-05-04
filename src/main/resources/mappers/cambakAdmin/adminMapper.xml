@@ -918,8 +918,13 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		</select>
    
   
+  		<update id="deleteBoardAdmin">
+  			update Boards set board_isDelete ='Y', board_updateDate = now() where board_no = #{no} 
+  		</update>
   
-  
+  		<update id="deleteReplyBoardAdmin">
+  			update ReplyBoards set replyBoard_isdelete ='Y', replyBoard_updateDate = now() where board_no = #{no} 
+  		</update>
   
   
   

@@ -468,7 +468,16 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		
-		
+		@Override
+		public void deleteBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteBoardAdmin", no);
+		}
+
+		@Override
+		public void deleteReplyBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyBoardAdmin", no);
+		}
+
 		
 		
 		
@@ -665,6 +674,7 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("isChecked", isChecked);
 		return ses.update(ns + ".modifyCsStatusPayment", param);
 	}
+
 
 	
 
