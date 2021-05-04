@@ -43,8 +43,8 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 		success : function(result) {
 			if (result == 'noValue'){
 				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
-			}else if(result == 'hasValue'){
-				alert("이미 작성한 리뷰입니다.")
+			}else{
+				alert("이미 작성한 리뷰입니다.");
 			}
 		}, // 통신 성공시
 		error : function(result) {
