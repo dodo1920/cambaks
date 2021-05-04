@@ -56,6 +56,35 @@
 				document.getElementById("chkPw").focus()
 			} 
 		} */
+		
+		function checkPw() {
+			let member_id = $("#member_id").val();
+			let member_password = #("#member_password").val();
+			
+			$.ajax({
+				type : "post",
+				dataType : "text", // 받을 데이터
+				//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+				url : "/user/resignStep3",// 서블릿 주소
+				data : {member_id : member_id, member_password : member_password},
+				success : function(result) {
+					
+				}, // 통신 성공시
+				error : function(result) {
+					
+				}, // 통신 실패시
+				complete : function(result) {
+					console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+					console.log(result);
+//					if(result != null){
+						
+//					}
+					
+					
+				} // 통신 완료시
+			});		
+			return false;
+		}
 	</script>
 
 <body>
@@ -105,43 +134,8 @@
 	<div id="main">
 		<div class="container">
 			<div class="row">
-				<!-- Sidebar -->
-				<div>
-					<div class="profile">
-						<div>
-							<div class="profileSize">
-								<a href=></a><img src="img/profileDefualt.png" class="userProfileImg"></a>
-								<h4>서효원</h4>
-								<div class="profileEmail">hyoniki@gmail.com</div>
-							</div>
-							<div class="profileCategory">
-								<ul>
-									<li class="profileMenu1"><a href="SHW_accountInfo.html" class="profileMenu">회원 정보
-											수정</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">캠핑장 찜 리스트</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">좋아요 표시한 게시글</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-
-
-					<!-- Sidebar -->
-					<div id="sidebar" class="4u">
-						<div class="sidebar">
-							<h3 class="myPage">MY PAGE</h3>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="SHW_myCamping.html" id="categoryFont">마이캠핑</a></li>
-								<li><a href="buggo_checkBox.html" id="categoryFont">여행계획</a></li>
-								<li><a href="glory_diarylist.html" id="categoryFont">여행일기</a></li>
-								<li><a href="#" id="categoryFont">작성한 게시글</a></li>
-								<li class="active"><a href="KJM_userOut1.html" id="categoryFont">회원 탈퇴</a></li>
-								
-							</ul>
-						</div>
-					</div>
-				</div>
+			
+				
 
 				<!-- Content -->
 				<div id="content" class="8u skel-cell-important" style="padding-bottom: 200px;">
@@ -155,9 +149,9 @@
 							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
 						</header>
 						<div>
-						<form action="/user/resignStep3" method="POST">
-							<input type="hidden" name="member_id" value = "${loginMember.member_id }"/>
-							<input type="password" name="member_password" id="chkPw" size="25" onblur="checkPw();">
+						<form action="/user/resignStep4" method="POST" onsubmit="return checkPw();">
+							<input type="hidden" name="member_id" id="member_id" value = "${loginMember.member_id }"/>
+							<input type="password" name="member_password" id="member_password" size="25">
 							<input type="submit" value="확인">
 							<span id="checkPwMessage"></span>
 						</form>
@@ -177,54 +171,9 @@
 	</div>
 	<!-- /Main -->
 
-	<!-- Tweet -->
-	<div id="tweet">
-		<div class="container">
-			<section>
-				<blockquote>&ldquo;진정한 여행은 새로운 풍경을 보러가는 것이 아니라, <br />세상을 바라보는 또 하나의 눈을 얻어오는 것이다.&rdquo;</blockquote>
-			</section>
-		</div>
-	</div>
-	<!-- /Tweet -->
-
+	
 	<!-- Footer -->
-	<footer class="text-center" id="foot">
-		<div id="contact" class="container">
-			<h3 class="text-center">Contact</h3>
-			<p class="text-center"><em>We love our fans!</em></p>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Feel free to contact us:)</p>
-					<p><span class="glyphicon glyphicon-map-marker"></span>서울, 대한민국</p>
-					<p><span class="glyphicon glyphicon-phone"></span>Phone: +00 1515151515</p>
-					<p><span class="glyphicon glyphicon-envelope"></span>Email: mail@mail.com</p>
-					<p><span class="glyphicon glyphicon-envelope"></span>SNS</p>
-				</div>
-				<div class="col-md-8">
-					<div class="row">
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-						</div>
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="email" name="email" placeholder="Email" type="email"
-								required>
-						</div>
-					</div>
-					<textarea class="form-control" id="comments" name="comments" placeholder="Comment"
-						rows="5"></textarea>
-					<br>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<button class="btn pull-right" type="submit">Send</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 위로 가기 버튼-->
-			<a href="#" class="top"><img src="images/top.png" class="topMove"></a>
-			<!-- 위로 가기 버튼-->
-	</footer>
+	<%@include file="../cambak21Footer.jsp"%>
 	<!-- /Footer -->
 </body>
 </html>

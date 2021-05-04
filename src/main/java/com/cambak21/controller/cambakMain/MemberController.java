@@ -181,12 +181,14 @@ public class MemberController {
 	
 	
 	@RequestMapping(value = "/resignStep3", method = RequestMethod.POST)
-	public String quitMemberStep2(LoginDTO dto, RedirectAttributes rttr) throws Exception {
+	public ResponseEntity<String>  quitMemberStep2(LoginDTO dto, RedirectAttributes rttr) throws Exception {
+		
+		 ResponseEntity<String> entity = null;
 		System.out.println(dto.toString());
-		if(service.memberDelete(dto)) {
-			rttr.addFlashAttribute("result", "success");
-		}
-		return "cambakMain/user/resignStep3";
+//		if(service.memberDelete(dto)) {
+//			rttr.addFlashAttribute("result", "success");
+//		}
+		return entity;
 	}
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김대기 멤버 탈퇴
 	
