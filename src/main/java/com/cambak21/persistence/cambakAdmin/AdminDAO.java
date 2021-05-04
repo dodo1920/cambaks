@@ -195,17 +195,16 @@ public interface AdminDAO {
 	public void deleteBoardAdmin(int no) throws Exception;
 	
 	public void deleteReplyBoardAdmin(int no) throws Exception;
+
+	public void deleteReplyAdmin(int no) throws Exception;
+
+	public List<BoardVO> admin_PreviewRead(int no) throws Exception;
 	
+	public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void recoveryReplyBoard(int recoveryNum) throws Exception;
+
+	public void recoveryBoard(int recoveryNum) throws Exception;
 	
 	
 	

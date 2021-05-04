@@ -393,12 +393,37 @@ public class adminServiceImpl implements adminService {
 			dao.deleteReplyBoardAdmin(no);
 			
 		}
+		@Override
+		public void deleteReplyAdmin(int no) throws Exception {
+		
+			dao.deleteReplyAdmin(no);
+			
+		}
+		
+		@Override
+		public List<BoardVO> admin_PreviewRead(int no) throws Exception {
+			return dao.admin_PreviewRead(no);
+		}
+	
 
+		@Override
+		public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception {
+			return dao.replyBoard_admin_Preview(no);
+		}
 		
-		
-		
-		
-		
+		@Override
+		public void recoveryReplyBoard(int recoveryNum) throws Exception {
+			dao.recoveryReplyBoard(recoveryNum);
+			
+		}
+
+		@Override
+		public void recoveryBoard(int recoveryNum) throws Exception {
+			dao.recoveryBoard(recoveryNum);
+			
+		}
+
+
 		
 		
 		
@@ -573,7 +598,10 @@ public class adminServiceImpl implements adminService {
 	}
 
 
+
 	
+
+
 		
 		
 //		---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------

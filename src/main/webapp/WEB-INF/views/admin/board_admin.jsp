@@ -25,9 +25,6 @@
 <script src="/resources/cambak21/lib/jquery-3.5.1.min.js"></script>
 
 
-
-
-
 <script>
 
 let ResultList = new Array();
@@ -86,6 +83,44 @@ let PagingResultList = new Array();
 		
 	});
 	
+	function recoveryBoard(data){
+		let recoveryNum = data;
+		let recoveryType = "";
+	
+		if($("#isoutputType").val() == "B"){
+			deleteType = "B";
+		}else if($("#isoutputType").val() == "R"){
+			deleteType = "R";
+		}	
+			
+		 if (confirm("해당 항목을 복구 하시겠습니까? 게시판을 복구 할 경우 모든 댓글은 별도 복구 작업이 필요합니다.") == true) { //확인
+
+				$.ajax({
+					method: "post",
+					url: "/admin/board_admin/ajax/recovery",
+					dataType: "text", // 응답 받는 데이터 타입
+					data : 	// 요청하는 데이터
+						{recoveryNum : recoveryNum,
+						recoveryType : recoveryType},
+					success : function(result){
+							alert(data + "항목 복구 완료");
+							goBoardListAll();
+					}
+				});
+			 
+	        } else { //취소
+	       		 return false;
+	        }
+		
+	
+	}
+	
+	function PreviewreplyOpen(data){
+		$("#layerPreview").css("display","block");
+		$("#eBulletinContent").attr("src","/admin/replyBoard_admin_Preview?no=" + data);
+	}
+	
+	
 	function closePreviewFrame(){
 		$("#layerPreview").css("display","none");
 		
@@ -94,7 +129,7 @@ let PagingResultList = new Array();
 	
 	function PreviewOpen(data){
 		$("#layerPreview").css("display","block");
-		$("#eBulletinContent").attr("src","/admin/board_admin_Preview");
+		$("#eBulletinContent").attr("src","/admin/board_admin_Preview?no=" + data);
 
 	}
 	
@@ -102,15 +137,47 @@ let PagingResultList = new Array();
 	function deleteAllChecked(){
 		let checkBoxCount = 0;
 		let deleteAllNum = "";
+		let deleteType = "";
+	
 		for (let i =0; i < $("input[name=bbs_no]").length; i++){
 			if($("input[name=bbs_no]")[i].checked == true){
-				checkBoxCount++;
-				deleteAllNum += $("input[name=bbs_no]")[i].value;
-				deleteAllNum += "-";
+				
+				if($("#isoutputType").val() == "B"){
+					deleteType = "B";
+					if($("#isDeleteCheckBox" + $("input[name=bbs_no]")[i].value).val() == 'N'){
+						console.log($("input[name=bbs_no]")[i]);
+						checkBoxCount++;
+						deleteAllNum += $("input[name=bbs_no]")[i].value;
+						deleteAllNum += "-";
+						
+					}else{
+						checkBoxCount = 100;
+					}
+					
+				}else if($("#isoutputType").val() == "R"){
+					deleteType = "R";
+					if($("#isDeleteReplyCheckBox" + $("input[name=bbs_no]")[i].value).val() == 'N'){
+				
+					console.log($("input[name=bbs_no]")[i]);
+					checkBoxCount++;
+					deleteAllNum += $("input[name=bbs_no]")[i].value;
+					deleteAllNum += "-";
+					
+					
+					}else{
+						checkBoxCount = 100;
+					}
+				}
+				
 			}
+			
 		}
+		
+		
 		if(checkBoxCount == 0){
-			alert("선택된 게시글이 없습니다.");
+			alert("삭제할 항목이 없습니다.");
+		}else if(checkBoxCount >= 100){
+			alert("이미 삭제된 항목이 포함되어 있습니다.");
 		}else{
 			
 			$.ajax({
@@ -118,7 +185,8 @@ let PagingResultList = new Array();
 				url: "/admin/board_admin/ajax/delete",
 				dataType: "text", // 응답 받는 데이터 타입
 				data : 	// 요청하는 데이터
-					{deleteAllNum : deleteAllNum},
+					{deleteAllNum : deleteAllNum,
+					deleteType : deleteType},
 				success : function(result){
 						alert(checkBoxCount + "건 삭제 완료");
 						goBoardListAll();
@@ -189,16 +257,16 @@ let PagingResultList = new Array();
 			    	outputPagingCheck1++;
 		    	if(this.board_isDelete == "Y"){
 		    		
-			    	outputList += "<tr>";
+			    	outputList += "<tr><input type='hidden' id='isDeleteCheckBox" + this.board_no + "' value='Y'>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td style="color:red;">' + this.board_no + '</td><td>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink" style="color:red;">' + this.board_title + '</a></td> -->';
 					outputList += '<td>' + this.member_id + '</td>';
-					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시판</span></a></td>';	
+					outputList += '<td><a href="javascript:recoveryBoard(' + this.board_no + ')"><span style="color:red;">삭제 복구하기</span></a></td>';	
 					outputList += '<td style="color:red;">' + writeDate + '</td><td style="color:red;">' + modifyDate + '</td><td class="right">' + this.board_viewCnt + '</td><td class="right">' + this.board_replyCnt + '</td><td class="right">' + this.board_likeCnt + '</td></tr>';
 			 	   }else if(this.board_isDelete == "N"){
 			 		   
-			 		  	outputList += "<tr>";
+			 		  	outputList += "<tr><input type='hidden' id='isDeleteCheckBox" + this.board_no + "' value='N'>";
 						outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 						outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
 						outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
@@ -211,7 +279,7 @@ let PagingResultList = new Array();
 		        }
 			    if($("#isDeleteCheckhidden").val() == "N"){ 
 			    
-			       	outputList += "<tr>";
+			       	outputList += "<tr><input type='hidden' id='isDeleteCheckBox" + this.board_no + "' value='N'>";
 					outputList += '<td><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '</td><td>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '</a></td> -->';
@@ -235,7 +303,7 @@ let PagingResultList = new Array();
 			}
 			
 			$("#boardListFrame").html(outputList);
-			
+			$("#isoutputType").val("B");
 	}
 	
 	// 오름차순 정렬 후 댓글 + 게시판 출력 함수
@@ -257,31 +325,31 @@ let PagingResultList = new Array();
 		    if($("#isDeleteCheckhidden").val() == "all" || $("#isDeleteCheckhidden").val() == "Y"){
 		    	
 		    	if(this.replyBoard_isdelete == "Y" && this.board_isDelete == "N"){
-			    	outputList += "<tr>";
-					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+			    	outputList += "<tr><input type='hidden' id='isDeleteReplyCheckBox" + this.replyBoard_no + "' value='Y'>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.replyBoard_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_no + ')</span></td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_content + ')</span></a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span><hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">삭제된 댓글</span></a></td>';
+					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a><hr/ style="margin:5px; background-color: thistle;"><a href="javascript:recoveryBoard(' + this.replyBoard_no + ')"><span style="color:red;">댓글 복구하기</span></a></td>';
 					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replywriteDate + ')</span></td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replymodifyDate + ')</span></td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 				
 			    }else if(this.replyBoard_isdelete == "Y" && this.board_isDelete == "Y"){
-			    	outputList += "<tr>";
-					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+			    	outputList += "<tr><input type='hidden' id='isDeleteReplyCheckBox" + this.replyBoard_no + "' value='Y'>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.replyBoard_no + '"class="rowChk"></td>';
 					outputList += '<td style="color:red;">' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_no + ')</span></td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink" style="color:red;">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + this.replyBoard_content + ')</span></a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시글</span><hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">삭제된 댓글</span></a></td>';
+					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시판</span></a><hr/ style="margin:5px; background-color: thistle;"><a href="javascript:recoveryBoard(' + this.replyBoard_no + ')"><span style="color:red;">댓글 복구하기</span></a></td>';
 					outputList += '<td style="color:red;">' + writeDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replywriteDate + ')</span></td><td style="color:red;">' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;"><span style="color:red;">(' + replymodifyDate + ')</span></td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 			    	
 			    }else if(this.replyBoard_isdelete == "N" && this.board_isDelete == "N"){
 			    	
-			    	outputList += "<tr>";
-					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+			    	outputList += "<tr><input type='hidden' id='isDeleteReplyCheckBox" + this.replyBoard_no + "' value='N'>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.replyBoard_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><br/><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
+					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a><hr/ style="margin:5px; background-color: thistle;"><a href="javascript:PreviewreplyOpen(' + this.replyBoard_no + ');"><span>댓글 미리보기</span></a></td>';
 					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 			    	
 			    }
@@ -292,23 +360,23 @@ let PagingResultList = new Array();
 		    if($("#isDeleteCheckhidden").val() == "N"){
 		    	
 		    	if(this.replyBoard_isdelete == "N" && this.board_isDelete == "N"){
-		        	outputList += "<tr>";
-					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+		        	outputList += "<tr><input type='hidden' id='isDeleteReplyCheckBox" + this.replyBoard_no + "' value='N'>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.replyBoard_no + '"class="rowChk"></td>';
 					outputList += '<td>' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><br/><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a></td>';
+					outputList += '<td><a href="javascript:PreviewOpen(' + this.board_no + ');"><span>본문 미리보기</span></a><hr/ style="margin:5px; background-color: thistle;"><a href="javascript:PreviewreplyOpen(' + this.replyBoard_no + ');"><span>댓글 미리보기</span></a></td>';
 					outputList += '<td>' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td>' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 			  		
 		    	}else if(this.replyBoard_isdelete == "N" && this.board_isDelete == "Y"){
 		    		
 
-			    	outputList += "<tr>";
-					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.board_no + '"class="rowChk"></td>';
+			    	outputList += "<tr><input type='hidden' id='isDeleteReplyCheckBox" + this.replyBoard_no + "' value='N'>";
+					outputList += '<td><br/><input type="checkbox" name="bbs_no" value="' + this.replyBoard_no + '"class="rowChk"></td>';
 					outputList += '<td style="color:red;">' + this.board_no + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_no + ')</td><td><br/>' + this.board_category + '</td>';
 					outputList += '<td class="left" style="width: 240px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><a href="' + this.CategoryLink + this.board_no + '" class="txtLink" style="color:red;">' + this.board_title + '<hr/ style="margin:5px; background-color: thistle;">(' + this.replyBoard_content + ')</a></td>';
 					outputList += '<td>' + this.bmember_id + '<hr/ style="margin:5px; background-color: thistle;"> (' + this.rmember_id + ')</td>';
-					outputList += '<td><br/><a href="#"><span style="color:red;">삭제된 게시판</span></a></td>';
+					outputList += '<td><a href="#"><span style="color:red;">삭제된 게시판</span></a><hr/ style="margin:5px; background-color: thistle;"><a href="javascript:PreviewreplyOpen(' + this.replyBoard_no + ');"><span>댓글 미리보기</span></a></td>';
 					outputList += '<td style="color:red;">' + writeDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replywriteDate + ')</td><td style="color:red;">' + modifyDate + '<hr/ style="margin:5px; background-color: thistle;">(' + replymodifyDate + ')</td><td class="right"><br/>' + this.board_viewCnt + '</td><td class="right"><br/>' + this.board_replyCnt + '</td><td class="right"><br/>' + this.board_likeCnt + '</td></tr>';
 			    		    		
 		    	}
@@ -324,7 +392,7 @@ let PagingResultList = new Array();
 	
 		
 		$("#boardListFrame").html(outputList);
-		
+		$("#isoutputType").val("R");
 		
 	}
 		
@@ -1186,8 +1254,7 @@ table {
 		</div>
 	</div>
 	<div id="main-wrapper">
-		<!-- 헤더 -->
-		<%@ include file="adminTop.jsp"%>
+	
 		<!-- 어사이드 -->
 		<%@ include file="adminAside.jsp"%>
 
@@ -1389,13 +1456,13 @@ table {
 
 				<!--미리보기-->
 			 <div class="mLayer ui-draggable ui-resizable"
-					style="width: auto; display: none;  width: 450px; position: absolute; z-index: 200; left: 395px; top: 167px;" id="layerPreview">
+					style="width: auto; display: none;  width: 450px; position: absolute; z-index: 200; left: 35%; top: 10%;" id="layerPreview">
 					
 					<h2>게시글 내용 미리보기</h2>
-					<div class="wrap" style="width: 450px; height: 450px;"
+					<div class="wrap" style="width: 430px; height: 430px; margin:10px;"
 						id="eBulletinContentWrap">
-						<iframe id="eBulletinContent" frameborder="0" width="400px"
-							height="400px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+						<iframe id="eBulletinContent" frameborder="0" width="430px"
+							height="430px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 					</div>
 					<div class="footer">
 						<a href="javascript:closePreviewFrame();" class="btnNormal eClose"><span>닫기</span></a>
@@ -1436,5 +1503,6 @@ table {
 <input type="hidden" id="searchSorthidden" value="basic">
 <input type="hidden" id="perPageCnt" value="10">
 <input type="hidden" id="isDeleteCheckhidden" value="all">
+<input type="hidden" id="isoutputType" value="B">
 </body>
 </html>

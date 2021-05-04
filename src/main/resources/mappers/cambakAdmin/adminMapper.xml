@@ -925,10 +925,28 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		<update id="deleteReplyBoardAdmin">
   			update ReplyBoards set replyBoard_isdelete ='Y', replyBoard_updateDate = now() where board_no = #{no} 
   		</update>
+
+  		<update id="deleteReplyAdmin">
+  			update ReplyBoards set replyBoard_isdelete ='Y', replyBoard_updateDate = now() where replyBoard_no = #{no} 
+  		</update>
+  		
+  		<update id="recoveryBoard">
+  			update Boards set board_isDelete ='N', board_updateDate = now() where board_no = #{recoveryNum} 
+  		</update>
   
+  		<update id="recoveryReplyBoard">
+  			update ReplyBoards set replyBoard_isdelete ='N', replyBoard_updateDate = now() where replyBoard_no = #{recoveryNum} 
+  		</update>
   
+  		<select id="admin_PreviewRead" resultType="com.cambak21.domain.BoardVO">
+  			select * from Boards where board_no = #{no}
+  		</select>
+  		
+  		<select id="replyBoard_admin_Preview" resultType="com.cambak21.domain.ReplyBoardVO">
+  			select * from ReplyBoards where replyBoard_no = #{no}
+  		</select>
   
-  
+  		
   
   
   

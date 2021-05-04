@@ -153,27 +153,21 @@ html {
 
 <div class="mBoard gSmall">
         <table border="1" summary="">
-            <caption>게시글 내용 미리보기</caption>
+            <caption>댓글 내용 미리보기</caption>
             <tbody>
             <tr>
-                <th scope="row">제목</th>
+                <th scope="row">댓글 내용</th>
                 <td>
-                    <div id="eSubject">${adminBoard[0].board_title}</div>
+                    <div id="eSubject">${adminReply[0].replyBoard_content}</div>
                     
                 </td>
             </tr>
             <tr>
                 <th scope="row">작성자</th>
-                <td>${adminBoard[0].member_id}</td>
+                <td>${adminReply[0].member_id}</td>
             </tr>
-            <tr id="view_area">
-                <th scope="row" colspan="2">원글</th>
-                
-            </tr>
-            <tr>
-            <td colspan="2"><div name="board_content" class="board_contentPreview" style="width:400px; min-height:245px;" >${adminBoard[0].board_content}</div></td>
-            </tr>
-          
+           
+           
             </tbody>
         </table>
     </div>
