@@ -472,11 +472,22 @@ function categoryMove(main, middle) {
         <div class="row">
         	<c:forEach var="item" items="${popularList }">
 	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
-	                    <div class="instagram__text">
-	                        <a>More View</a>
-	                    </div>
-	                </div>
+	                <c:choose>
+	                	<c:when test="${item.product_id <= 605 }">
+			                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+			                    <div class="instagram__text">
+			                        <a>More View</a>
+			                    </div>
+			                </div>
+			        	</c:when>
+			        	<c:otherwise>
+			                <div class="instagram__item set-bg" data-setbg="../../resources/uploads/${item.product_img1 }">
+			                    <div class="instagram__text">
+			                        <a>More View</a>
+			                    </div>
+			                </div>
+			        	</c:otherwise>
+	                </c:choose>
 	            </div>
             </c:forEach>
         </div>

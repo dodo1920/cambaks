@@ -14,8 +14,8 @@
 	</select>
 
 <!-- 	메인페이지에 캠핑 리뷰 게시판의 최신 게시글 5개 출력 -->
-	<select id="readRecentReview" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = 'camping' order by board_writeDate desc limit 0, 5
+	<select id="readNoticeReview" resultType="com.cambak21.domain.BoardVO">
+		select * from Boards where board_category = 'CS' order by board_writeDate desc limit 0, 5
 	</select>
 
 <!-- 	메인페이지에 캠핑팁 게시판의 최신 게시글 5개 출력 -->
@@ -31,11 +31,6 @@
 <!-- 	메인페이지에 Q&A 게시판의 최신 게시글 5개 출력 -->
 	<select id="readRecentQA" resultType="com.cambak21.domain.BoardVO">
 		select * from Boards where board_category = 'QA' order by board_writeDate desc limit 0, 5
-	</select>
-	
-<!-- 	메인페이지에 유머 게시판의 최신 게시글 5개 출력 -->
-	<select id="readRecentHumor" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = 'humor' order by board_writeDate desc limit 0, 5
 	</select>
 	
 <!-- 	메인페이지 자동검색 -->
