@@ -147,5 +147,5 @@ public interface BoardProdQADAO {
 
 	public int getRestProdQty(int product_id) throws Exception;
 	
-	 
+	public int getQANum() throws Exception;
 }

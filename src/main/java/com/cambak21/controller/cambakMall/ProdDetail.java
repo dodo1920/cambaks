@@ -673,7 +673,7 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public ResponseEntity<String> uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
+	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 글쓰기 저장");
 		
 		ResponseEntity<String> entity = null;
@@ -681,10 +681,10 @@ public class ProdDetail {
 		
 		System.out.println(insertQA.toString());
 
-		if(insertQA.getProdQA_isSecret() != null) {
-			insertQA.setProdQA_isSecret("Y");
-		} else {
+		if(insertQA.getProdQA_isSecret() == null) {
 			insertQA.setProdQA_isSecret("N");
+		} else {
+			insertQA.setProdQA_isSecret("Y");
 		}
 		
 		int getMaxNo = QAService.getMaxNo();
@@ -695,13 +695,13 @@ public class ProdDetail {
 		insertQA.setProdQA_refOrder(1);
 		insertQA.setProdQA_step(1);
 		
+		System.out.println(insertQA.toString());
+		
 		if(QAService.insertProdQA(insertQA)) {
-			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 		}
 		
-		return entity;
+		return "error";
 	}
 	
 	/**
@@ -772,7 +772,7 @@ public class ProdDetail {
 		ResponseEntity<List<String>> entity = null;
 		
 		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA"));
-		System.out.println(request.getRealPath("resources/uploads/boardProdQA"));
+//		System.out.println(request.getRealPath("resources/uploads/boardProdQA"));
 		
 		String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
 		

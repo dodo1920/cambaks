@@ -38,8 +38,7 @@
 	$(function() {
 		
 		if(loginUser.length == 0) {
-			opener.document.location.reload();
-			self.close();
+			location.href="user/login";
 		}
 		
 		checkCategory();
@@ -112,11 +111,11 @@
 		if(window.name == "modiBoard") {
 			output += '<input type="hidden" class="form-control" id="prodQA_categoryVal" value="${prodQA.prodQA_category }">';
 			output += '<select id="prodQA_category" name="prodQA_category" class="form-control">';
-			output += '<option value="product">상품</option>';
-			output += '<option value="delivery">배송</option>';
-			output += '<option value="refund">환불</option>';
-			output += '<option value="exchange">교환</option>';
-			output += '<option value="etc">기타</option>';
+			output += '<option value="상품">상품</option>';
+			output += '<option value="배송">배송</option>';
+			output += '<option value="환불">환불</option>';
+			output += '<option value="교환">교환</option>';
+			output += '<option value="기타">기타</option>';
 			output += '</select>';	
 		} else if(window.name == "modiReply") {
 			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="reply" readonly>';
@@ -205,17 +204,42 @@
 </script>
 <style>
 	@media (min-width: 768px) {
-		#fDrop {
-			width : 80.7%;
-			height :200px;
-			border : 1px dotted gray;
-			margin-left : 15px;
-			margin-right : 15px;
+			#fDrop {
+				width : 80.7%;
+				height :200px;
+				border : 1px dotted gray;
 			}
-			
 		.col-sm-2  {
-			width : 8.5%;
+			width : 14.5%;
+			text-align: right
 			}
+	}
+	
+	@media (min-width: 576px){
+		.col-sm-2 {
+		    -ms-flex: 0 0 16.666667%;
+		    flex: 0 0 16.666667%;
+		    max-width: 18%;
+		    text-align: right
+		}
+	}
+	
+	.col-sm-10 {
+		margin-bottom : 10px;
+	}
+	
+	#fDrop {
+		display: block;
+	    width: 100%;
+	    height: 200px;
+/* 	    padding: 6px 12px; */
+	    font-size: 14px;
+	    line-height: 1.42857143;
+	    color: #555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
 	}
 </style>
 <body>
@@ -227,7 +251,7 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="member_id">작성자 :</label>
 		               <div class="col-sm-10">
-		                  <input type="text" class="form-control" id="member_id" name="member_id" value="fff">
+		                  <input type="text" class="form-control" id="member_id" name="member_id" value="${prodQA.member_id }" readonly>
 		               </div>
 		            </div>
 		            <div class="form-group">
@@ -250,7 +274,8 @@
 		            </div>
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="file1">파 일 :</label>
-		               <div class="col-sm-10" id="fDrop">
+		               <div class="col-sm-10" >
+		                  <div id="fDrop"></div>
 		                  <input type="hidden" id="prodQA_img1" name="prodQA_img1" />
 		                  <input type="hidden" id="prodQA_img2" name="prodQA_img2" />
 		                  <input type="hidden" id="prodQA_img3" name="prodQA_img3" />
