@@ -36,11 +36,10 @@ public class CambakMainServiceImpl implements CambakMainService {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
 		
-		param.put("review", dao.readRecentReview());
+		param.put("notice", dao.readNoticeReview());
 		param.put("Tip", dao.readRecentTip());
 		param.put("Resell", dao.readRecentResell());
 		param.put("QA", dao.readRecentQA());
-		param.put("Humor", dao.readRecentHumor());
 		
 		return param;
 	}

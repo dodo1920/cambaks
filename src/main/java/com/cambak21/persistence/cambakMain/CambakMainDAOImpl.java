@@ -31,9 +31,9 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	}
 
 	@Override
-	public List<BoardVO> readRecentReview() throws Exception {
+	public List<BoardVO> readNoticeReview() throws Exception {
 		// 메인페이지에 캠핑 리뷰 게시판의 최신 게시글 5개 출력
-		return session.selectList(nameSpace + "readRecentReview");
+		return session.selectList(nameSpace + "readNoticeReview");
 	}
 
 	@Override
@@ -52,12 +52,6 @@ public class CambakMainDAOImpl implements CambakMainDAO {
 	public List<BoardVO> readRecentQA() throws Exception {
 		// 메인페이지에 Q&A 게시판의 최신 게시글 5개 출력
 		return session.selectList(nameSpace + "readRecentQA");
-	}
-
-	@Override
-	public List<BoardVO> readRecentHumor() throws Exception {
-		// 메인페이지에 유머 게시판의 최신 게시글 5개 출력
-		return session.selectList(nameSpace + "readRecentHumor");
 	}
 
 	@Override

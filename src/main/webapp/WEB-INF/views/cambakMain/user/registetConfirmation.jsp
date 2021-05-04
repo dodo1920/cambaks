@@ -38,7 +38,12 @@
    let checkResultEmail = false;
    
    $(document).ready(function() {
-
+	   let loginMember = '${loginMember}';
+	   
+	   if (loginMember != "") {
+		   alert("잘못된 접근입니다.");
+		   location.href="/index/main";
+	   }
 	   
    });
    
