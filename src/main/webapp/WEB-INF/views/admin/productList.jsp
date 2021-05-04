@@ -370,17 +370,17 @@ function status() {
 	console.log(page, searchType, searchWord, mainCategory_id, middleCategory_id, checkLowDate, checkHighDate, product_show);
 
 	
-	// 위 파라메터로 검색 조건 버튼을 유지하는 함수
-	function showSelected() {
-		if(page == -1){
-			page = 1;
-			$("#page" + page).attr("class", "page-item active");
-		}
-		else {
-			$("#page" + page).attr("class", "page-item active");
-			console.log(page);
-		}
-		
+		// 위 파라메터로 검색 조건 버튼을 유지하는 함수
+		function showSelected() {
+			if(page == -1){
+				page = 1;
+				$("#page" + page).attr("class", "page-item active");
+			}
+			else {
+				$("#page" + page).attr("class", "page-item active");
+				console.log(page);
+			}
+			
 		
 		// 검색어 유지 부분
 		if(searchWord != -1){
@@ -390,11 +390,19 @@ function status() {
 			$("#searchWord").val(searchWord);
 		}
 		
-		/*// select option 유지 부분
-		if(searchType != 'searchAll'){
+		// select option 유지 부분
+		console.log(searchType);
+		if(searchType != -1){
+			console.log("전체보기가 아니다.");
 			$("#searchType").val(searchType).prop("selected", true);
-		}else {
-			$("#searchType").val('searchAll').prop("selected", true);
+		}
+		
+		/*// 메인 카테고리 유지 부분
+		if(mainCategory_id != -1){
+			console.log(mainCategory_id);
+			console.log(typeof(mainCategory_id));
+			console.log("메인카테고리를 선택했다!");
+			$("#checkOption").val(mainCategory_id).prop("selected", true);
 		}*/
 	}
 
