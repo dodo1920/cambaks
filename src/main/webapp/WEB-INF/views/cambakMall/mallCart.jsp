@@ -172,6 +172,7 @@ button.btn.btn-default.cntCh {
 		let totPrice = 0;
 		
 		$.each(data, function(index, item) {
+			console.log(item);
 			output += "<tr>";
 			if (item.bucket_isChecked == "Y") {
 				totPrice += item.bucket_totBuyPrice;
@@ -179,7 +180,13 @@ button.btn.btn-default.cntCh {
 			} else {
 				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
 			}
-			output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
+			
+			// 606 보다 작은거는 크롤링한 상품들
+			if (item.product_id > 605) {
+				output += '<td class="cart__product__item"><img src="../resources/uploads/'+item.product_img1+'" alt="" style="width: 120px">';
+			} else {
+				output += '<td class="cart__product__item"><img src="'+item.product_img1+'" alt="" style="width: 120px">';
+			}
 			output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
 			
 			// 상품 별 찍기
@@ -194,7 +201,6 @@ button.btn.btn-default.cntCh {
 			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
 			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
 			output += "</tr>";
-			
 		});
 		$(".cart_list").html(output);
 		$(".totPrice-value").text(totPrice.toLocaleString());
