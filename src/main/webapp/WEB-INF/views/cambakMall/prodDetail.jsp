@@ -786,7 +786,7 @@
 		        	
 		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
 		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
-		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
+		        		output += '<td><div id="' + item.prodQA_no + '" ><span class="lockImg"><img src="../../resources/img/lock.png" width="18px" height="18px"/></span>비밀글입니다</div></td>';
 		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
 		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';	
 		        	}
@@ -1565,6 +1565,10 @@
 	
 	.contentDiv {
 		margin : 20px 3px;
+	}
+	
+	.lockImg {
+		margin : 0px 5px;
 	}
 
 </style>
