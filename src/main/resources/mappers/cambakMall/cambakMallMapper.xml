@@ -89,7 +89,7 @@
   	</select>
   	
   	<select id="checkBucket" resultType="com.cambak21.domain.BucketVO">
-  		select * from Buckets where member_id = #{member_id} and product_id = #{product_id}
+  		select * from Buckets where member_id = #{member_id} and product_id = #{product_id} and bucket_isDelete='N'
   	</select>
   	
   	<insert id="insertBucket">

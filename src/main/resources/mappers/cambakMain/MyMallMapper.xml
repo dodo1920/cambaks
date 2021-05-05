@@ -136,7 +136,8 @@ where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		where p.member_id = pm.member_id and p.payment_date = pm.payment_date 
 		and pm.buyProduct_no = b.buyProduct_no
 		and p.member_id = #{member_id}
-		group by point_no;
+		group by point_no
+		order by p.payment_date desc;
 	</select>
 	<!-- 마이페이지-나의 적립금 총 게시물 개수 가져오기 -->
 	<select id="getPointListCnt" resultType="int">
