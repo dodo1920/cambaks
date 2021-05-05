@@ -98,16 +98,16 @@
 				<div class="col-lg-12">
 					<form action="/cambakMall/prodReviewsModify" method="post">
 					
-					<input type="hidden" id="product_id" name="product_id" value="4"/>
+					<input type="hidden" id="product_id" name="product_id" value="${board.product_id }"/>
 					<input type="hidden" id="member_id" name="member_id" value="${loginMember.member_id }"/>
-					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="9"/>
-					<input type="hidden" id="prodReview_no" name="prodReview_no" value="${prodReview_no}"/>
+					<input type="hidden" id="buyProduct_no" name="buyProduct_no" value="${board.buyProduct_no }"/>
+					<input type="hidden" id="prodReview_no" name="prodReview_no" value="${board.prodReview_no}"/>
 					<!-- name에 컬럼명을 제대로 적어줘야 한다. -->
-					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value="3"/>
+					<input type="hidden" id="prodReview_grade" name="prodReview_grade" class='rating' value="${board.prodReview_grade }"/>
 					<div class="form-group">
 		               	  <div class="form-row float-right">
 			                  <button type="submit" class="btn btn-success">저장하기</button>
-			                  <button type="button" class="btn btn-primary" onclick="location.href='/cambakMall/prodReviews'">목록</button>
+			                  <button type="button" class="btn btn-primary" onclick="location.href='/mall/prodDetail/main?prodId=' + ${board.product_id}">목록</button>
 		                  </div>
 		            </div>
 					<div class="form-group">
