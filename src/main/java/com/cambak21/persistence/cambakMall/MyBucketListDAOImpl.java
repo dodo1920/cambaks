@@ -77,24 +77,6 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 	}
 
 	/**
-	  * @Method Name : deleteItemBP
-	  * @작성일 : 2021. 4. 11.
-	  * @작성자 : 승권
-	  * @변경이력 : 
-	  * @Method 설명 : 장바구니에서 선택삭제 했을 시 BuyProduct테이블에 있는 데이터 지우기
-	  * @param member_id
-	  * @param product_id
-	  * @throws Exception
-	  */
-	@Override
-	public void deleteItemBP(String member_id, int product_id) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("member_id", member_id);
-		map.put("product_id", product_id);
-		ses.delete(ns + ".deleteItemBP", map);
-	}
-
-	/**
 	  * @Method Name : deleteItemB
 	  * @작성일 : 2021. 4. 11.
 	  * @작성자 : 승권
@@ -109,21 +91,7 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("member_id", member_id);
 		map.put("product_id", product_id);
-		ses.delete(ns + ".deleteItemB", map);
-	}
-
-	/**
-	  * @Method Name : deleteItemAllBP
-	  * @작성일 : 2021. 4. 12.
-	  * @작성자 :  승권
-	  * @변경이력 : 
-	  * @Method 설명 : 장바구니 아이템 전체삭제 시 BuyProducts테이블 데이터 지우기
-	  * @param member_id
-	  * @throws Exception
-	  */
-	@Override
-	public void deleteItemAllBP(String member_id) throws Exception {
-		ses.delete(ns + ".deleteItemAllBP", member_id);
+		ses.update(ns + ".deleteItemB", map);
 	}
 
 	/**
@@ -137,7 +105,7 @@ public class MyBucketListDAOImpl implements MyBucketListDAO {
 	  */
 	@Override
 	public void deleteItemAllB(String member_id) throws Exception {
-		ses.delete(ns + ".deleteItemAllB", member_id);
+		ses.update(ns + ".deleteItemAllB", member_id);
 	}
 
 	/**

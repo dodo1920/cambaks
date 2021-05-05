@@ -172,6 +172,7 @@ button.btn.btn-default.cntCh {
 		let totPrice = 0;
 		
 		$.each(data, function(index, item) {
+			console.log(item);
 			output += "<tr>";
 			if (item.bucket_isChecked == "Y") {
 				totPrice += item.bucket_totBuyPrice;
@@ -179,7 +180,13 @@ button.btn.btn-default.cntCh {
 			} else {
 				output += '<td><label class="checkbox-inline"><input type="checkbox" onclick="checkClick('+item.product_id+')"></label></td>';
 			}
-			output += '<td class="cart__product__item"><img src="../../resources/mallMain/img/shop-cart/cp-1.jpg" alt="">';
+			
+			// 606 보다 작은거는 크롤링한 상품들
+			if (item.product_id > 605) {
+				output += '<td class="cart__product__item"><img src="../resources/uploads/'+item.product_img1+'" alt="" style="width: 120px">';
+			} else {
+				output += '<td class="cart__product__item"><img src="'+item.product_img1+'" alt="" style="width: 120px">';
+			}
 			output += '<div class="cart__product__item__title"><h6><a href="../mall/prodDetail/main?prodId='+item.product_id+'">'+item.product_name+'</a></h6>';
 			
 			// 상품 별 찍기
@@ -194,7 +201,6 @@ button.btn.btn-default.cntCh {
 			output += '<div class="cntChBtn-wrap"><button type="button" class="btn btn-default cntCh" onclick="change('+item.product_id+')">수량변경</button></div><div class="choiceDelete"><button type="button" class="btn btn-default cntCh choiceCtn" onclick="openBox('+item.product_id+', 1)">상품삭제</button></div></td>';
 			output += '<td class="cart__total">￦ '+item.bucket_totBuyPrice.toLocaleString()+'</td>'
 			output += "</tr>";
-			
 		});
 		$(".cart_list").html(output);
 		$(".totPrice-value").text(totPrice.toLocaleString());
@@ -254,13 +260,13 @@ button.btn.btn-default.cntCh {
 		if(del == 2) {
 			// 전체 상품 삭제
 			$("#piece").attr("onclick", "deleteItemAll()");
-			$("#modalText").text("상품 전체 삭제 하시겠습니까?");
-			$("#myModal").modal();
+			$("#bsk-modal-text").text("상품 전체 삭제 하시겠습니까?");
+			$("#bsk-cart-madal").modal();
 		} else {
 			// 개별 상품 삭제
 			$("#piece").attr("onclick", "deleteItem("+product_id+")");
-			$("#modalText").text("해당 상품을 삭제 하시겠습니까?");
-			$("#myModal").modal();
+			$("#bsk-modal-text").text("해당 상품을 삭제 하시겠습니까?");
+			$("#bsk-cart-madal").modal();
 		}
 	}
 	
@@ -328,8 +334,8 @@ button.btn.btn-default.cntCh {
 			});
 		} else {
 			$(".modal-footer").html('<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>');
-			$("#modalText").text("선택된 상품이 없습니다");
-			$("#myModal").modal();
+			$("#bsk-modal-text").text("선택된 상품이 없습니다");
+			$("#bsk-cart-madal").modal();
 		}
 
 	}
@@ -485,15 +491,15 @@ button.btn.btn-default.cntCh {
 	</div>
 	<!-- Search End -->
 	<!-- modal -->
-	<div id="myModal" class="modal fade" role="dialog">
+	<div id="bsk-cart-madal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title"></h4>
+					<h4 class="bsk-modal-title"></h4>
 				</div>
-				<div class="modal-body" id="modalText"></div>
+				<div class="modal-body" id="bsk-modal-text"></div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal" id="piece">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
