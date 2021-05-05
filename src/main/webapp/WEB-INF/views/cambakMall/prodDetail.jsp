@@ -201,6 +201,7 @@
 	        success 	: function(data) {
 // 	        	console.log(data);
 	        	let prodList = data.prodList;
+	        	console.log(prodList);
 	        	let pagingParam = data.pagingParam;
 	        	
 	        	totalReviews = data.pagingParam.totalCount;
@@ -238,11 +239,16 @@
 	                 }
 	                 
 	                 // display:none 되어있는 Content 내용
-	                 output += '<div>' + item.prodReview_content + '</div>';
+	                 output += '<div>' + item.prodReview_content + '</div><div class="likeProdReviews">';
 	                 // --------------상품후기 좋아요 표시 부분-----------------
-	                 output += '<div class="likeProdReviews"><span id="likeProd' + item.prodReview_no + '"></span></div>';
+	                 if(loginUser != null){
+	                	 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ item.prodReview_no +')";/>' + item.prodReview_likeCnt + '</span>';  
+						 }
+					 else{
+						 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + item.prodReview_likeCnt + '</span>';
+						}
 	                 
-	                 output += '<div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
+	                 output += '</div><div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
 	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
@@ -310,8 +316,10 @@
 	              $("#totalReviews").html(totalReviews);
 	              
 	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
+	              // showContent 를 이용해서 열어주면 가능할 수도
 	              if(checkPoint == 1){
-	            	  $("#content" + prodReviewNo).show();
+	            	  showContent(prodReviewNo);
+	            	 // $("#content" + prodReviewNo).show();
 	              }
 	              
 	        }, // end of Success
@@ -435,6 +443,7 @@
 		 		if(loginUser == ""){
 		 			loginUser = "a";
 		 		}
+		 		
 				// 좋아요 표시 가져오기
 				$.ajax({
 					  method: "post",
@@ -446,17 +455,21 @@
 					  dataType: "json", // 응답 받는 데이터 타입
 					  success : function(data) {
 					      	let myLike = data.myLike;
+					      	console.log("myLike : " + myLike);
 					      	let likeCnt = data.likeCnt;
 					      // 좋아요를 클릭 안 했으면,
 					      if(myLike==0){
 					    	  if(loginUser != "a"){
+					    		  // 로그인한 경우, 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;  
 					    	  }else{
+					    		  // 로그인 하지 않은 경우에도 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + likeCnt;
 					    	  }
 					    	  
 					    	  $("#likeProd" + prodReview_no).html(showLike);
-					      }else{// 좋아요를 클릭했으면
+					      }else{
+					    	  //해당 글에 좋아요를 클릭했으면
 					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;
 					    	  $("#likeProd" + prodReview_no).html(showLike);
 					      }
@@ -466,8 +479,7 @@
 					}); // end of ajax
 					
 		}
-
-
+	
 	 // 별점에 따른 별 개수를 표현하는 부분
 	 function showStars(grade) {
 		var output1 = '';
@@ -564,6 +576,7 @@
 				      console.log("#checkcheck" + replyProdReview_no);
 					  //$("#replyName" + replyProdReview_no).html(replyMember_id);
 					  showProdList(prodId, currentPage, 1, orderList);
+					  console.log("prodReview_no : " + prodReview_no);
 				  }, complete : function (result) {
 					  
 				}
@@ -652,7 +665,7 @@
 					  
 					  //수정 후 리스트를 다시 출력하라
 					  showProdList(prodId, currentPage, 1, orderList);
-					  
+					  console.log(prodReviewNo);
 				  }
 				  
 				});
