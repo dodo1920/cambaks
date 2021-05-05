@@ -463,6 +463,8 @@ public class ProdDetail {
 	public ResponseEntity<PagingParam> prodQAPageing(@RequestParam("prodId") int prodId, @RequestParam("cate") String cate, PagingCriteria cri) {
 		logger.info("QA 리스트 페이징 호출");
 		
+		System.out.println("prodID : " + prodId + ", cate : " + cate);
+		
 		ResponseEntity<PagingParam> entity = null;
 		
 		PagingParam pp = new PagingParam();
@@ -470,6 +472,7 @@ public class ProdDetail {
 		
 		try {
 			pp.setTotalCount(QAService.totalProdQACnt(1, prodId, cate));
+			System.out.println(pp.toString());
 			entity = new ResponseEntity<PagingParam>(pp, HttpStatus.OK);
 		} catch (Exception e) {
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // 예외가 발생하면 List<ReplyVO>는 null이므로 >> ResponseEntity<>

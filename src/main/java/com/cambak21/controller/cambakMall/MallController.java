@@ -503,26 +503,37 @@ public class MallController {
 
 	// **************************************** 백승권 컨트롤러
 	// **********************************************
+	/**
+	 * @Method Name : cart
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 비회원 장바구니의 상품과 회원 장바구니의 상품을 비교해서 중복 상품있는지 체크 후, 중복 없으면 인서트, 있으면 model로 보내줌
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("cart")
 	public String cart(HttpServletRequest request, Model model) throws Exception {
 		HttpSession ses = request.getSession();
 		
-		MemberVO vo = (MemberVO) ses.getAttribute("loginMember");
-		String ssid = (String) ses.getAttribute("ssid");
+		MemberVO vo = (MemberVO) ses.getAttribute("loginMember"); // 로그인한 유저의 id 가져옴
+		String ssid = (String) ses.getAttribute("ssid"); // ssid 가져옴
 		System.out.println("member_id : " + vo.getMember_id() + ", ssid : " + ssid);
 		
-		List<MyNonUserBucketVO> nonUserBucketLst = bucketService.getNonUserBucketList(ssid);
+		List<MyNonUserBucketVO> nonUserBucketLst = bucketService.getNonUserBucketList(ssid); // 가져온 ssid의 비회원 장바구니 상품들 가져옴 
 		
-		if(nonUserBucketLst.size() != 0) {
-			List<MyBucketListVO> bucketLst = bucketService.getBucketList(vo.getMember_id());
+		if(nonUserBucketLst.size() != 0) { // 비회원 장바구니에 상품이 있을 때,
+			List<MyBucketListVO> bucketLst = bucketService.getBucketList(vo.getMember_id()); // 장바구니의 상품들을 가져옴
 			List<MyBucketListVO> sameBucketLst = new ArrayList<MyBucketListVO>();
 			boolean result = false;
 			
-			for(MyNonUserBucketVO nonUserBucket : nonUserBucketLst) {
-				for(MyBucketListVO bucket : bucketLst) {
-					if(nonUserBucket.getProduct_id() == bucket.getProduct_id()) {
+			for(MyNonUserBucketVO nonUserBucket : nonUserBucketLst) { // 비회원 상품들을 하나씩 반복
+				for(MyBucketListVO bucket : bucketLst) { // 장바구니 상품들 하나씩 반복
+					if(nonUserBucket.getProduct_id() == bucket.getProduct_id()) { // 비회원 상품들과 장바구니 상품들 중 중복이 있다면,
 						System.out.println(nonUserBucket.getProduct_id() + "가 같습니다");
-						sameBucketLst.add(bucket);
+						sameBucketLst.add(bucket); // sameBucketLst에 해당 상품 add
 						result = false;
 						break;
 					} else {
@@ -531,7 +542,7 @@ public class MallController {
 					}
 				}
 				
-				if(result) {
+				if(result) { // 중복 상품이 없다면, 
 					System.out.println("동일 상품이 없습니다.");
 					
 					InsertintoBucketDTO dto = new InsertintoBucketDTO();
@@ -541,21 +552,21 @@ public class MallController {
 					dto.setBucket_buyQty(nonUserBucket.getNonUserBucket_buyQty());
 					dto.setBucket_totBuyPrice(nonUserBucket.getNonUserBucket_totBuyPrice());
 					
-					if(prodDetailService.checkBucketQty(vo.getMember_id()) < 10) {
+					if(prodDetailService.checkBucketQty(vo.getMember_id()) < 10) { // 장바구니에 상품 개수가 10개가 넘지 않는다면,
 						logger.info("장바구니 상품 수량이 10개 이하");
-						if(prodDetailService.insertBucket(dto)) {
+						if(prodDetailService.insertBucket(dto)) { // 장바구니에 중복되지 않은 상품 추가
 							logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
 						} else {
 							return "errer";
 						}
-					} else {
+					} else { // 장바구니에 이미 10개 이상의 상품이 들어있을 경우,
 						logger.info("장바구니 상품 수량이 10개 초과!!");
 						bucketService.nonUserDeleteItem(ssid, dto.getProduct_id());
 						model.addAttribute("bucketQty", 11);
 					}					
-				} else {
+				} else { // 중복 상품이 있다면,
 					System.out.println("동일 상품 존재");
-					model.addAttribute("sameBucketLst", sameBucketLst);
+					model.addAttribute("sameBucketLst", sameBucketLst); // 중복 상품 model로 view에 보내주기
 				}
 			}
 		}		
@@ -663,6 +674,18 @@ public class MallController {
 	}
 	
 	// **************************************** 김도연 비회원 장바구니 컨트롤러
+	/**
+	 * @Method Name : updateBucekt
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니 페이지에서, 비회원 장바구니의 상품이라 장바구니랑 중복 상품이 있을 떄, 유저가 추가를 원하면 추가하고, 변경을 원하면 변경해주는 메서드
+	 * @param status
+	 * @param dto
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="cart/updateBucekt", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> updateBucekt(@RequestParam("status") String status, @RequestBody InsertintoBucketDTO dto, HttpServletRequest request) throws Exception {
 		logger.info("비회원 장바구니와 회원 장바구니 겹치는 상품 상태 결정");
@@ -699,13 +722,31 @@ public class MallController {
 	}
 	
 	
+	/**
+	 * @Method Name : nonUserCart
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 비회원 장바구니 페이지 호출
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("cart/no")
 	public String nonUserCart() throws Exception {
 		logger.info("비회원 장바구니 페이지 호출");
 		return "cambakMall/mallNonUserCart";
 	}
 
-	// 장바구니 목록
+	
+	/**
+	 * @Method Name : nonUserCartList
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 비회원 장바구니 목록 가져오기
+	 * @param ssid
+	 * @return
+	 */
 	@RequestMapping("/cart/no/{ssid}")
 	public @ResponseBody ResponseEntity<List<MyNonUserBucketVO>> nonUserCartList(@PathVariable("ssid") String ssid) {
 		logger.info("비회원 장바구니 상품 가져오기");
@@ -721,7 +762,18 @@ public class MallController {
 		return entity;
 	}
 	
-	// 장바구니 수량 변경
+	
+	/**
+	 * @Method Name : changeNonUserQty
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니 수량 변경
+	 * @param ssid
+	 * @param product_id
+	 * @param qty
+	 * @return
+	 */
 	@RequestMapping("/cart/no/{ssid}/{product_id}/{qty}")
 	public @ResponseBody ResponseEntity<Integer> changeNonUserQty(@PathVariable("ssid") String ssid, 
 			@PathVariable("product_id") int product_id, @PathVariable("qty") int qty) {
@@ -740,7 +792,16 @@ public class MallController {
 		return entity;
 	}
 	
-	// 장바구니 아이템 전체 삭제
+	
+	/**
+	 * @Method Name : nonUserDeleteItemAll
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니 아이템 전체 삭제
+	 * @param ssid
+	 * @return
+	 */
 	@RequestMapping("/cart/no/delete/all/{ssid}")
 	public @ResponseBody ResponseEntity<Integer> nonUserDeleteItemAll(@PathVariable("ssid") String ssid) {
 		logger.info("비회원 장바구니 전체 상품 삭제");
@@ -762,7 +823,17 @@ public class MallController {
 	
 	
 	
-	// 장바구니 개별 아이템 삭제
+	
+	/**
+	 * @Method Name : nonUserDeleteItem
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니 개별 아이템 삭제
+	 * @param ssid
+	 * @param product_id
+	 * @return
+	 */
 	@RequestMapping("/cart/no/delete/{ssid}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> nonUserDeleteItem(@PathVariable("ssid") String ssid, @PathVariable("product_id") int product_id) {
 		logger.info("비회원 장바구니 개별 상품 삭제");
@@ -782,7 +853,17 @@ public class MallController {
 		return entity;
 	}
 	
-	// 장바구니 체크 OnOff
+	
+	/**
+	 * @Method Name : nonUserCheckOnOff
+	 * @작성일 : 2021. 5. 5.
+	 * @작성자 : 김도연
+	 * @변경이력 : 
+	 * @Method 설명 : 장바구니 체크 OnOff
+	 * @param ssid
+	 * @param product_id
+	 * @return
+	 */
 	@RequestMapping("/cart/no/check/{ssid}/{product_id}")
 	public @ResponseBody ResponseEntity<Integer> nonUserCheckOnOff(@PathVariable("ssid") String ssid, @PathVariable("product_id") int product_id) {
 		logger.info("비회원 장바구니 체크 상태 바꿈");

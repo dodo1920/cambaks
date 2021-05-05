@@ -832,7 +832,7 @@
 	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="goModi(\'1\',' + item.prodQA_no + ');"/>';
 		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
-		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
+		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret"  placeholder="비밀번호"/>'; 
 		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
 	                } else if(userGrade == 'M') {
 	                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
@@ -891,8 +891,9 @@
 	    			output += '<li><a href="javascript:void(0);" onclick="prodQAListAll(' + prodId + ',' + data.endPage + ',0,\'' + cate + '\');"> >> </a></li>';
 	    		}
 	    		
+	    		output += '</ul>';
 	    		if(loginUser.length != 0) {
-	    			output += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
+	    			output += '<button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
 	    		}
 	    		
 	    		$("#pagingParamTb").html(output);
@@ -948,18 +949,29 @@
 		    	} else { // 데이터가 있다면,
 					let output = '';
 					
-					$(result).each(function(index, item){		
+					$(result).each(function(index, item){	
+						let date = new Date(item.prodQA_date);
+			        	let dateFormat = date.toLocaleString(); // 날짜 형식 변환
+			        	
 						let writer = $("#writer" + item.prodQA_ref).text();
-			    		
-						output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + '" style="display: none">';
-		                output += '<td colspan="6">';
-		                
-		                if(userGrade == 'M') {
-		                	output += '<div><p>[cambak21 관리자]</p></div>'
+						
+						if(item.prodQA_category == '답변') {
+							output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + '" style="display: none">';
 		                } else {
-		                	output += '<div><p>' + item.prodQA_member_id + '</p></div>'	
+		                	output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + ' content" style="display: none">';
 		                }
+			    		
+						
+		                output += '<td colspan="6"><div><p>';
 		                
+		                if(item.prodQA_category == '답변') {
+		                	output += '[cambak21 관리자]'
+		                } else {
+		                	output += '[' + item.member_id + ']'	
+		                }		  
+		                
+		                output += '<span class="replyDate">' + dateFormat + '</span></p></div>';
+		      
 		                output +='<div class="imgs">';
 		                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
 		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
@@ -977,7 +989,7 @@
 		                output += '<p>' + item.prodQA_content + '</p></div>';
 		                
 		                output += '<div>';
-		                if(item.prodQA_category == 'reply' && loginUser == writer) {
+		                if(item.prodQA_category == '답변' && loginUser == writer) {
 		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
 		                }
 		                
@@ -1416,7 +1428,7 @@
 			$("#bucket_no").val(obj.nonUserBucket_no);
 			$("#bucket_buyQty").val(obj.nonUserBucket_buyQty);
 		} else {
-			$("#bucketQty").html(obj.bucket_buyQty);
+			$("#bucketQty").html("장바구니 수량 : " + obj.bucket_buyQty + " 개");
 			$("#bucket_no").val(obj.bucket_no);
 			$("#bucket_buyQty").val(obj.bucket_buyQty);
 		}	
@@ -1609,6 +1621,15 @@
 		background : #f8f9fa;
 	}
 	
+	.replyDate {
+		margin-left : 20px;
+		font-size: 7px;
+		font-style: italic;
+	}
+	
+	#pageP {
+		text-align : center;
+	}
 
 </style>
 <body>
@@ -1628,14 +1649,6 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-<<<<<<< HEAD
-                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
-                        <c:choose>
-                        	<c:when test="${prodDetail.mainCategory_id } == 9">
-                        		<a href="#">기타</a><span>기타</span>
-                        	</c:when>
-                        </c:choose>                     
-=======
                         <a href="./main/"><i class="fa fa-home"></i> Home</a>
                         <c:choose>
 	                        <c:when test="${prodDetail.mainCategory_id == 1 and prodDetail.middleCategory_id == 1}">
@@ -1687,8 +1700,6 @@
 	                        	<a href="#">기타</a><span>기타</span>
 	                        </c:when>
                         </c:choose>
-
->>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
                     </div>
                 </div>
             </div>

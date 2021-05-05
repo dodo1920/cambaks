@@ -75,6 +75,8 @@
 <script>
 	
 	let loginUser = '${loginMember.member_id}';
+	let userGrade = '${loginMember.grade_name}';
+	console.log(userGrade);
 	
 	$(function() {
 
@@ -141,9 +143,11 @@
 			output += '<option value="교환">교환</option>';
 			output += '<option value="기타">기타</option>';
 			output += '</select>';
+		} else if(window.name == "writeReply" && userGrade == "M"){
+			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="답변" readonly>';
 		} else if(window.name == "writeReply") {
-			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="reply" readonly>';
-		}
+			output += '<input type="text" class="form-control" id="prodQA_category" name="prodQA_category" value="문의" readonly>';
+		} 
 		
 		$("#prodQA_categoryDiv").html(output);
 	}
