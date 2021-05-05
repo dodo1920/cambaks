@@ -809,12 +809,6 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.update(ns + ".modifyCsStatusPayment", param);
 	}
 
-<<<<<<< HEAD
-=======
-	
-
-
->>>>>>> 7238519ca87045e7d69db22c522a5581a10cb184
 	
 
 	
