@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
 import com.cambak21.domain.MemberVO;
@@ -27,6 +29,7 @@ import com.cambak21.domain.MyPointVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.service.cambakMain.MyMallService;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.PagingParam;
@@ -91,34 +94,101 @@ public class MyMallController {
 		return "cambakMain/myPage/myOrder";
 	}
 	
-	@RequestMapping(value="/detail/{buyProduct_no}", method = RequestMethod.GET)
-	public String orderDetail(@SessionAttribute("loginMember") MemberVO member, @PathVariable("buyProduct_no") int buyProduct_no, Model model) throws Exception{
+	@RequestMapping(value="/detail/{payment_serialNo}", method = RequestMethod.GET)
+	public String orderDetail(@SessionAttribute("loginMember") MemberVO member, @PathVariable("payment_serialNo") int payment_serialNo, Model model) throws Exception{
 		
 		//주문 정보 가져오기 서비스단호출
-		model.addAttribute("order", service.getOrder(member.getMember_id(),buyProduct_no));
-		System.out.println(service.getOrder(member.getMember_id(),buyProduct_no).toString());
+		model.addAttribute("order", service.getOrder(member.getMember_id(),payment_serialNo));
+		System.out.println(service.getOrder(member.getMember_id(),payment_serialNo).toString());
 		//주소 정보 가져오기 서비스단 호출
-		int destNo = service.getDest(member.getMember_id(),buyProduct_no);
+		int destNo = service.getDest(member.getMember_id(),payment_serialNo);
 		model.addAttribute("dest", service.getDestOne(destNo));
 		System.out.println(service.getDestOne(destNo).toString());
 		
 		//결제 정보 가져오기
-		int payNo = service.getPayno(member.getMember_id(),buyProduct_no);
+		int payNo = service.getPayno(member.getMember_id(),payment_serialNo);
 		model.addAttribute("payInfo", service.getPayInfo(payNo));
 		System.out.println(service.getPayInfo(payNo).toString());
 		
 		return "cambakMain/myPage/orderDetail";
 	}
 	
+	@Transactional
 	@RequestMapping(value = "myOrder/purchaseSubmit", method = RequestMethod.GET)
-	public ResponseEntity<String> purchaseSubmit(@PathVariable("serialNo") int payment_serialNo) {
+	public ResponseEntity<String> purchaseSubmit(@RequestParam("payInfo_no") int payInfo_no, @RequestParam("payment_date") String payment_date, @RequestParam("member_id") String member_id, @RequestParam("payment_no") int payment_no) {
+		
+		System.out.println("여기옵니까?");
 		ResponseEntity<String> entity = null;
 		
-		service.purchaseSubmit(payment_serialNo);
+		try {
+			service.purchaseSubmit(payInfo_no, payment_date);
+			System.out.println("구매확정 1단계 완료");
+			service.changePointDate(member_id, payment_date);
+			System.out.println("구매확정 2단계 완료");
+			int pointVal = service.getPointVal(member_id, payment_date);
+			
+			service.plusPoint(member_id, pointVal);
+			System.out.println("구매확정 3단계 완료");
+			int totPrice = service.plusTotPurchase(payment_no);
+			service.insertTotPurchase(member_id, totPrice);
+			
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		
 		return entity;
 		
 	}
+	
+	@RequestMapping(value = "myOrder/checkReview", method = RequestMethod.GET)
+	public ResponseEntity<String> checkReview(@RequestParam("payment_isComit") String payment_isComit,@RequestParam("payment_isChecked") String payment_isChecked, @RequestParam("member_id") String member_id, @RequestParam("buyProduct_no") int buyProduct_no ){
+		
+		ResponseEntity<String> entity = null;
+		
+		try {
+			CheckReviewVO vo = service.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+			if(vo == null) {
+				entity = new ResponseEntity<String>("noValue", HttpStatus.OK);
+			}else {
+				entity = new ResponseEntity<String>("hasValue", HttpStatus.OK);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	
+	@Transactional
+	@RequestMapping(value = "myOrder/insertRefund", method = RequestMethod.POST)
+	public ResponseEntity<String> insertRefund(@RequestParam("payment_no") int payment_no, @RequestParam("refundnExchange_reason") String refundnExchange_reason, @RequestParam("refundnExchange_status") String refundnExchange_status, @RequestParam("member_id") String member_id, @RequestParam("payment_date") String payment_date){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			List<paymentVO> vo = service.getPaymentSerialNo(payment_no);
+			int paymentNoCnt = service.getpaymentNoCnt(payment_no);
+			for(int i=0; i < paymentNoCnt; i++) {
+				int serialNo = vo.get(i).getPayment_serialNo();
+				service.insertRnE(serialNo, member_id, refundnExchange_reason, refundnExchange_status);
+				System.out.println();
+				service.changePayComit(refundnExchange_status, payment_no);
+				
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return entity;
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/refund/{payment_serialNo}", method = RequestMethod.GET)
 	public String addRefund() {

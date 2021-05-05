@@ -205,7 +205,6 @@ $('#endDate').datepicker({
    </div>
 </div>
 <div id="main-wrapper">
-<%@ include file="adminTop.jsp"%>
 <%@ include file="adminAside.jsp"%>
 <div class="page-wrapper">
    <div class="page-breadcrumb">
@@ -427,11 +426,11 @@ $('#endDate').datepicker({
                                     <th style="font-weight: bold; width: 180px;">상품명</th>
                                     <th style="font-weight: bold; width: 85px;">받는사람</th>
                                     <th style="font-weight: bold; width: 130px;">배송지 연락처</th>
-                                    <th style="font-weight: bold; width: 102px;">사용 포인트</th>
                                     <th style="font-weight: bold; width: 102px;">결제수단</th>
                                     <th style="font-weight: bold; width: 102px;">총 주문금액</th>
                                     <th style="font-weight: bold; width: 90px;">배송 상태</th>
                                     <th style="font-weight: bold; width: 100px;">교환, 환불 여부</th>
+                                    <th style="font-weight: bold; width: 50px;">주문 관리</th>
                                  </tr>
                               </thead>
                               <tbody>
@@ -454,11 +453,11 @@ $('#endDate').datepicker({
                                     </td>
                                     <td>${orderList.destination_toUser }</td>
                                     <td>${orderList.destination_mobile }</td>
-                                    <td><fmt:formatNumber value="${orderList.point_usedPoint }" pattern="#,###" />P</td>
                                     <td>${orderList.payInfo_way }</td>
                                     <td><fmt:formatNumber value="${orderList.buyProduct_totPrice }" pattern="#,###" />원</td>
                                     <td>${orderList.delivery_status }</td>
                                     <td>${orderList.payment_isComit }</td>
+                                    <td><button type="button" class="btn btn-success btn-sm" onclick="window.open('/admin/orderManagement/detail?prodNo=${orderList.payment_no}')">상세보기</button></td>
                                  </tr>
                                  </c:forEach>
                               </tbody>

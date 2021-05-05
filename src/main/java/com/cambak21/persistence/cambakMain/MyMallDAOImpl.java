@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -20,6 +21,7 @@ import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -87,10 +89,10 @@ public class MyMallDAOImpl implements MyMallDAO {
 	}
 	
 	@Override
-	public BuyProductVO getOrder(String member_id, int buyProduct_no) throws Exception {
+	public BuyProductVO getOrder(String member_id, int payment_serialNo) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member_id", member_id);
-		params.put("buyProduct_no", buyProduct_no);
+		params.put("payment_serialNo", payment_serialNo);
 		
 		return ses.selectOne(ns + ".getOrder", params);
 	}
@@ -122,10 +124,104 @@ public class MyMallDAOImpl implements MyMallDAO {
 		return ses.selectOne(ns + ".getPayInfo", payInfo_no);
 	}
 
-
-
+	@Override
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception{
+		// TODO Auto-generated method stub
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("payInfo_no", payInfo_no);
+		params.put("payment_date", payment_date);
+		ses.update(ns + ".purchaseSubmit", params);
+	}
+	@Override
+	public void changePointDate(String member_id, String payment_date) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("payment_date", payment_date);
+		ses.update(ns + ".changePointDate", params);
+		
+	}
 	
+	@Override
+	public int getPointVal(String member_id, String payment_date) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("payment_date", payment_date);
+		return ses.selectOne(ns + ".getPointVal", params);
+		
+	}
 
+	@Override
+	public void plusPoint(String member_id, int pointVal) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("pointVal", pointVal);
+		ses.update(ns + ".plusPoint", params);
+		
+	}
+
+	@Override
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no) throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("payment_isComit", payment_isComit);
+		params.put("payment_isChecked", payment_isChecked);
+		params.put("buyProduct_no", buyProduct_no);
+		return ses.selectOne(ns + ".checkReview", params);
+	}
+	
+	@Override
+	public int plusTotPurchase(int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".plusTotPurchase", payment_no);
+	}
+	
+	@Override
+	public void insertTotPurchase(String member_id, int totPrice) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("totPrice", totPrice);
+		
+		ses.update(ns + ".insertTotPurchase", params);
+	}
+	
+	@Override
+	public int getpaymentNoCnt(int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(ns + ".getpaymentNoCnt", payment_no);
+	}
+	
+	@Override
+	public List<paymentVO> getPaymentSerialNo(int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectList(ns + ".getPaymentSerialNo", payment_no);
+	}
+	
+	@Override
+	public void insertRnE(int serialNo, String member_id, String refundnExchange_reason,
+			String refundnExchange_status) throws Exception{
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member_id", member_id);
+		params.put("serialNo", serialNo);
+		params.put("refundnExchange_reason", refundnExchange_reason);
+		params.put("refundnExchange_status", refundnExchange_status);
+		
+		ses.insert(ns + ".insertRnE", params);
+	}
+	
+	@Override
+	public void changePayComit(String refundnExchange_status, int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("refundnExchange_status", refundnExchange_status);
+		params.put("payment_no", payment_no);
+		
+		ses.update(ns +".changePayComit", params);
+		
+	}
+	
+	
 
 
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -249,15 +345,24 @@ public class MyMallDAOImpl implements MyMallDAO {
 
 
 	
+
+
+	
+
+
+
+	
+
+
+	
+
+
 	
 
 
 
 	
 
-
-
-	
 
 
 

@@ -33,6 +33,7 @@
 let engJ = /[a-zA-Z]/;  // 영문 정규표현식
 let koreanJ = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; //  한글 정규표현식
 let specialJ = /[.,/~!@#$%^&*()_+|<>?:{}]/; // 특수문자 정규표현식
+let blankJ = /\s/; // 공백 정규표현식
 
 let mainCategory_id = '${param.mainCategory_id}';
 let middleCategory_id = '${param.middleCategory_id}';
@@ -241,12 +242,14 @@ function priceViewMove(priceRange, min, max) {
 		max = $("#maxPrice").val();
 		min = $("#minPrice").val();
 		
-		if (specialJ.test(max) || specialJ.test(min) || engJ.test(max) || engJ.test(min) || koreanJ.test(max) || koreanJ.test(min)) {
+		if (specialJ.test(max) || specialJ.test(min) || engJ.test(max) || engJ.test(min) || koreanJ.test(max) || koreanJ.test(min) || blankJ.test(max) || blankJ.test(min)) {
 			alert("가격 입력 창에는 숫자만 입력가능합니다.");
 			return;
 		} else if (parseInt(min) > parseInt(max)) {
 			alert("입력하신 가격 범위는 최대 가격이 최소 가격보다 적습니다.");
 			return;
+		} else if (min.length == 0 || max.length == 0) {
+			alert("검색하실 가격 범위를 모두 작성바랍니다.");
 		} else {
 			location.href="/mall/search?prodRankOrder=" + prodRankOrder + "&priceRangeOrder=avgInput&minPrice=" + min + "&maxPrice=" + max + "&ratingSorter=" + ratingSorter + "&prodScore=" + prodScore + "&page=1&perPageNum=" + perPageNum + "&keyword=" + keyword;
 		}
@@ -411,7 +414,7 @@ function categoryMove(main, middle) {
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
 	                <a href="/mall/main/"><i class="fa fa-home"></i> Cambak's Mall</a>
-	                <span>상품 검색 결과</span>
+	                <span><span style="color: #555555;; font-weight: bold;">'${param.keyword }'</span>에 대한 <span style="color: #555555;; font-weight: bold;">${searchResultNum }</span>개의 검색결과</span>
                 </div>
             </div>
         </div>
@@ -427,11 +430,22 @@ function categoryMove(main, middle) {
         <div class="row">
         	<c:forEach var="item" items="${popularList }">
 	            <div class="col-lg-2 col-md-4 col-sm-4 p-0" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-	                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
-	                    <div class="instagram__text">
-	                        <a>More View</a>
-	                    </div>
-	                </div>
+	                <c:choose>
+	                	<c:when test="${item.product_id <= 605 }">
+			                <div class="instagram__item set-bg" data-setbg="${item.product_img1 }">
+			                    <div class="instagram__text">
+			                        <a>More View</a>
+			                    </div>
+			                </div>
+			        	</c:when>
+			        	<c:otherwise>
+			                <div class="instagram__item set-bg" data-setbg="../../resources/uploads/${item.product_img1 }">
+			                    <div class="instagram__text">
+			                        <a>More View</a>
+			                    </div>
+			                </div>
+			        	</c:otherwise>
+	                </c:choose>
 	            </div>
             </c:forEach>
         </div>

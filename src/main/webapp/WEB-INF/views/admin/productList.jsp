@@ -211,17 +211,17 @@ function checkDate(Date, obj) {
 	console.log(obj);
 	//스트링 형식의 날짜를 잘라서 비교하기 위한 변수 선언
 	let lowDate = $("#checkLowDate").val();
-	console.log(typeof(lowDate));
+	console.log(typeof("lowDate : " + lowDate));
 	let lowDateCheck = stringToDate(lowDate);
-	//console.log(lowDateCheck);
+	console.log(lowDateCheck);
 	
 	let highDate = $("#checkHighDate").val();
-	console.log(highDate);
+	console.log("highDate : " + highDate);
 	let highDateCheck = stringToDate(highDate);
-	//console.log(highDateCheck);
+	console.log(highDateCheck);
 	
 	let dateDiff = Math.ceil(lowDateCheck.getTime() - highDateCheck.getTime());
-	//console.log(dateDiff);
+	console.log("dateDiff : " + dateDiff);
 	
 	
 	
@@ -338,15 +338,102 @@ function status() {
     }
  }
  
+ 
+	//쿼리문에서 해당 항목 값을 찾아주는 함수
+	function getParameter(param) {
+		var returnVal; //리턴할 값을 저장하는 변수
+		var url = location.href; //url주소
+		// console.log(url);
+		var params = url.slice(url.indexOf("?") + 1, url.length).split("&");
+		// console.log(params);
+
+		for (var i in params) {
+			var paraName = params[i].split("=")[0]; // 매개변수명 얻음
+			if (param.toLowerCase() == paraName.toLowerCase()) {
+				returnVal = params[i].split("=")[1];
+				return decodeURIComponent(returnVal);
+			}
+		}
+
+		return -1; // 모든 배열 요소를 다 검색해도 매개변수가 없을때
+	}
+
+	// 파라미터를 가져오기 위한 변수 선언
+	let page= getParameter("page");
+	let searchType = getParameter("searchType");
+	let searchWord = getParameter("searchWord");
+	let mainCategory_id = getParameter("mainCategory_id");
+	let middleCategory_id = getParameter("middleCategory_id");
+	let checkLowDate = getParameter("checkLowDate");
+	let checkHighDate = getParameter("checkHighDate");
+	let product_show = getParameter("product_show");
+	console.log(page, searchType, searchWord, mainCategory_id, middleCategory_id, checkLowDate, checkHighDate, product_show);
+
+	
+		// 위 파라메터로 검색 조건 버튼을 유지하는 함수
+		function showSelected() {
+			if(page == -1){
+				page = 1;
+				$("#page" + page).attr("class", "page-item active");
+			}
+			else {
+				$("#page" + page).attr("class", "page-item active");
+				console.log(page);
+			}
+			
+		
+		// 검색어 유지 부분
+		if(searchWord != -1){
+			console.log(searchWord);
+			console.log(typeof(searchWord));
+
+			$("#searchWord").val(searchWord);
+		}
+		
+		// select option 유지 부분
+		console.log(searchType);
+		if(searchType != -1){
+			console.log("전체보기가 아니다.");
+			$("#searchType").val(searchType).prop("selected", true);
+		}
+		
+		/*// 메인 카테고리 유지 부분
+		if(mainCategory_id != -1){
+			console.log(mainCategory_id);
+			console.log(typeof(mainCategory_id));
+			console.log("메인카테고리를 선택했다!");
+			$("#checkOption").val(mainCategory_id).prop("selected", true);
+		}*/
+	}
+
+	
+	
 $(document).ready(function() {
 	console.log(lastWeek());
 	status();
+	showSelected();
 });
 
 </script>
 
 
 <style>
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
 
 </style>
 </head>
@@ -389,7 +476,7 @@ $(document).ready(function() {
 							
 							
 							<div class="col-md-1" style="padding-left: 0px;">
-								<select class="select form-control" name="searchType" style="height:36px;">
+								<select class="select form-control" id="searchType" name="searchType" style="height:36px;">
 											<option value="searchAll">전체</option>
 											<option value="product_name">상품명</option>
 											<option value="product_factory">제조사명</option>
@@ -397,7 +484,7 @@ $(document).ready(function() {
 								
 							</div>
 							<div class="col-md-3">
-								<input type="text" class="form-control" name="searchWord" placeholder="검색어를 입력해주세요.">
+								<input type="text" class="form-control" name="searchWord" id="searchWord" placeholder="검색어를 입력해주세요.">
 								<!-- ajax로 가져온 mainCategory_id, middleCategory_id 값을 넣어놓는 부분 -->
 								<input type="hidden" id="mainCategory_id" name="mainCategory_id" value="mainCategory_id"/>
 								<input type="hidden" id="middleCategory_id" name="middleCategory_id" value="middleCategory_id"/>
@@ -481,9 +568,12 @@ $(document).ready(function() {
 													<th style="font-weight: bold; width: 100px;">하위카테고리</th>
 													<th style="font-weight: bold; width: 150px;">상품명</th>
 													<th style="font-weight: bold; width: 75px;">판매가</th>
-													<th style="font-weight: bold; width: 180px;">진열상태</th>
-													<th style="font-weight: bold; width: 130px;">제조사</th>
-													<th style="font-weight: bold; width: 102px;">상품등록일</th>
+													<th style="font-weight: bold; width: 75px;">진열상태</th>
+													<th style="font-weight: bold; width: 100px;">구매수량</th>
+													<th style="font-weight: bold; width: 100px;">판매수량</th>
+													<th style="font-weight: bold; width: 100px;">총수량</th>
+													<th style="font-weight: bold; width: 100px;">제조사</th>
+													<th style="font-weight: bold; width: 150px;">상품등록일</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -498,6 +588,9 @@ $(document).ready(function() {
 																<td>${board.product_name }</td>
 																<td><fmt:formatNumber type="number" maxFractionDigits="3" value="${board.product_sellPrice }" />&#8361;</td>
 																<td>${board.product_show }</td>
+																<td>${board.product_purchaseQty }</td>
+																<td>${board.product_saleQty }</td>
+																<td>${board.product_totQty }</td>
 																<td>${board.product_factory }</td>
 																<td><fmt:formatDate value="${board.product_date }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /></td>
 															</tr>
@@ -529,7 +622,7 @@ $(document).ready(function() {
 												</li>
 												</c:if>
 												<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-												<li class="page-item active">
+												<li id="page${pageNo }" class="page-item">
 													<a href="searchProdList?page=${pageNo }&searchType=${SearchCriteria.searchType }&searchWord=${SearchCriteria.searchWord }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 												</li>
 												</c:forEach>
@@ -552,7 +645,7 @@ $(document).ready(function() {
 													</li>
 													</c:if>
 													<c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-													<li class="page-item active">
+													<li id="page${pageNo }" class="page-item">
 														<a href="prodList?page=${pageNo }&mainCategory_id=${dto.mainCategory_id}&middleCategory_id=${dto.middleCategory_id}&checkLowDate=${dto.checkLowDate}&checkHighDate=${dto.checkHighDate}&product_show=${dto.product_show}" class="page-link">${pageNo }</a>
 													</li>
 													</c:forEach>

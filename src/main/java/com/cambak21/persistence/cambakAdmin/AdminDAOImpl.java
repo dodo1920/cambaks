@@ -14,6 +14,7 @@ import com.cambak21.domain.AdminMemberListVO;
 import com.cambak21.domain.AdminOrderListVO;
 import com.cambak21.domain.MainCategoryVO;
 import com.cambak21.domain.BoardVO;
+import com.cambak21.domain.BuyProductVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.MiddleCategoryVO;
@@ -467,11 +468,42 @@ public class AdminDAOImpl implements AdminDAO {
 		}
 		
 		
+		@Override
+		public void deleteBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteBoardAdmin", no);
+		}
+
+		@Override
+		public void deleteReplyBoardAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyBoardAdmin", no);
+		}
+		@Override
+		public void deleteReplyAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyAdmin", no);
+		}
+
+		public List<BoardVO> admin_PreviewRead(int no) throws Exception{
+			return ses.selectList(ns + ".admin_PreviewRead", no);
+		}
 		
-		
-		
-		
-		
+		@Override
+		public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception {
+			return ses.selectList(ns + ".replyBoard_admin_Preview", no);
+		}
+
+		@Override
+		public void recoveryReplyBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryReplyBoard", recoveryNum);
+			
+		}
+
+		@Override
+		public void recoveryBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryBoard", recoveryNum);
+			
+		}
+
+
 		
 		
 		
@@ -601,6 +633,73 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("payment_no", payment_no);
 		return ses.update(ns + ".modifyDestinationMsg", param);
 	}
+
+	@Override
+	public int getOrderSerialNo(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".getOrderSerialNo", payment_no);
+	}
+
+	@Override
+	public int modifyDeliveryInfo(int payment_serialNo, String delivery_status) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("delivery_status", delivery_status);
+		return ses.update(ns + ".modifyDeliveryInfo", param);
+	}
+
+	@Override
+	public int modifyPurchaseInfo(int payment_no, String payment_isComit, String payment_isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_no", payment_no);
+		param.put("payment_isComit", payment_isComit);
+		param.put("payment_isChecked", payment_isChecked);
+		return ses.update(ns + ".modifyPurchaseInfo", param);
+	}
+
+	@Override
+	public List<Integer> getOrderBuyProductList(int payment_no) throws Exception {
+		return ses.selectList(ns + ".getOrderBuyProductList", payment_no);
+	}
+
+	@Override
+	public List<BuyProductVO> getOrderProductIdList(int buyProduct_no) throws Exception {
+		return ses.selectList(ns + ".getOrderProductIdList", buyProduct_no);
+	}
+	
+	@Override
+	public int modifyProductQty(int buyProduct_qty, int product_id) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("buyProduct_qty", buyProduct_qty);
+		param.put("product_id", product_id);
+		return ses.update(ns + ".modifyProductQty", param);
+	}
+
+	@Override
+	public List<Integer> getOrderProductSerialNo(int payment_no) throws Exception {
+		return ses.selectList(ns + ".getOrderProductSerialNo", payment_no);
+	}
+	
+	@Override
+	public int modifyCsStatusRnE(int payment_serialNo, String modifyContent, String isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("modifyContent", modifyContent);
+		param.put("isChecked", isChecked);
+		return ses.update(ns + ".modifyCsStatusRnE", param);
+	}
+
+	@Override
+	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_serialNo", payment_serialNo);
+		param.put("modifyContent", modifyContent);
+		param.put("isChecked", isChecked);
+		return ses.update(ns + ".modifyCsStatusPayment", param);
+	}
+
+	
+
+	
 
 		
 		

@@ -29,7 +29,7 @@
 <script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
 
 <script>
-let member_id = '${loginMember.member_id}'; // 페이지 로딩 시 로그인 아이디 가져오기
+// let member_id = '${loginMember.member_id}'; // 페이지 로딩 시 로그인 아이디 가져오기  // 종진 생략 (중복)
 let board_category;
 
 $(document).ready(function() {

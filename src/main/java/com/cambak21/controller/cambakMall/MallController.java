@@ -641,8 +641,13 @@ public class MallController {
 		ResponseEntity<Integer> entity = null;
 		
 		try {
-			bucketService.goOrder(member_id);
-			entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+			if(bucketService.deletePastCart(member_id)) {
+				bucketService.goOrder(member_id);
+				entity = new ResponseEntity<Integer>(1, HttpStatus.OK);
+			} else {
+				bucketService.goOrder(member_id);
+				entity = new ResponseEntity<Integer>(0, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

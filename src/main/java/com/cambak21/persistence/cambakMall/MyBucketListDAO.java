@@ -35,4 +35,6 @@ public interface MyBucketListDAO {
 	void nonUserDeleteItem(String ssid, int product_id) throws Exception;
 
 	Integer nonUserCheckOnOff(String ssid, int product_id) throws Exception;
+
+	int deletePastCart(String member_id) throws Exception;
 }

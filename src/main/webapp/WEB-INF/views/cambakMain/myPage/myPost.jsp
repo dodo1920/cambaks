@@ -37,6 +37,8 @@
 	
 	<!-- 템플릿 js, css 파일 -->
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
+	<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+	
 	<script>
 	function loginOK(){
 		if(document.getElementById('chkCookie').checked){
@@ -44,6 +46,8 @@
 			return true;
 		}
 	}
+	
+
 	</script>
 	<style>
 		@import url(../../resources/cambak21/css/SHWtamplet.css);
@@ -106,7 +110,9 @@
 margin-top: 10px;
 }
 
-
+.clickBtnHover:hover {
+	cursor: pointer;
+}
 
 	</style>
 
@@ -262,24 +268,24 @@ margin-top: 10px;
 								<div class="text-center">
 									<ul class="pagination">
 										<li class="page-item">
-						            	    <a class="page-link" href="myPost?member_id=${loginMember.member_id }&page=1">처음 페이지로</a>
+						            	    <a class="clickBtnHover" href="myPost?member_id=${loginMember.member_id }&page=1">처음 페이지</a>
 						            	</li>
 						            	<c:if test="${pagingParam.prev }">
 						                  <li class="page-item">
-						                     <a class="page-link" href="myPost?member_id=${loginMember.member_id }&page=${param.page -1 }">prev</a>
+						                     <a class="clickBtnHover" href="myPost?member_id=${loginMember.member_id }&page=${param.page -1 }">prev</a>
 						                  </li>
 						                </c:if>
 						                <c:forEach begin="${pagingParam.startPage }" end="${pagingParam.endPage }" var="pageNo">
-						                     <li class="page-item"><a class="page-link" href="myPost?member_id=${loginMember.member_id }&page=${pageNo }">${pageNo }</a>
+						                     <li class="page-item"><a class="clickBtnHover" href="myPost?member_id=${loginMember.member_id }&page=${pageNo }">${pageNo }</a>
 						                     </li>
 					                    </c:forEach>
 						                <c:if test="${pagingParam.next }">
 						                  <li class="page-item">
-						                     <a class="page-link" href="myPost?member_id=${loginMember.member_id }&page=${param.page + 1 }">next</a>
+						                     <a class="clickBtnHover" href="myPost?member_id=${loginMember.member_id }&page=${param.page + 1 }">next</a>
 						                  </li>
 						               </c:if>
 						               <li class="page-item">
-					            	     <a class="page-link" href="myPost?member_id=${loginMember.member_id }&page=${pagingParam.tempEndPage }">마지막 페이지로</a>
+					            	     <a class="clickBtnHover" href="myPost?member_id=${loginMember.member_id }&page=${pagingParam.tempEndPage }">마지막 페이지로</a>
 					            	   </li>
 									</ul>
 								</div>
@@ -297,7 +303,6 @@ margin-top: 10px;
    
       </div>
   
-	</div>
 	</div>
 	</div>
 	</div>

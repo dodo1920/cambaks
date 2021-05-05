@@ -15,7 +15,7 @@ let checkedCnt = 0;
 let noncheckedCnt = 0;
 
   function checkWriteNumber(){
-	  console.log("1");
+
 	   let checkLength = $(".checkListInputBox").val();
 	   if(checkLength.length >= 26){
 		   $("#checkLimitNum").html("<span style='color:red; font-weight: bold;'>" + checkLength.length + "</span> / 26");
@@ -98,9 +98,9 @@ let noncheckedCnt = 0;
 	 
 $(function(){
 		
-	console.log(member_id);
+
 	 if(member_id != ""){
-		 console.log("접속한 유저가 있다");
+
 		 getChkListYet();
 		 getAjaxCheckListAll();
  		 	 

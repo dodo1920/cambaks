@@ -11,8 +11,8 @@
 							</div>
 							<div class="profileCategory">
 								<ul>
-									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
-									<li class="profileMenu2"><a href="/user/modify" class="profileMenu">회원 정보 수정</a></li>
+									<li class="profileMenu1"><a href="/user/pwdCheck" class="profileMenu">회원 정보 수정</a></li>
+									<li class="profileMenu2"><a href="/user/resign" class="res">회원 탈퇴</a></li>
 								</ul>
 							</div>
 						</div>
@@ -45,7 +45,7 @@
 					</div>
 					<ul class="nav nav-pills nav-stacked">
 						<li id="#"><a href="/myMall/myPoint">적립금 관리</a></li>
-						<li id="#"><a href="">주문 목록</a></li>
+						<li id="#"><a href="/myMall/myOrder">주문 목록</a></li>
 						<li id="#"><a href="/myMall/myRefund">취소 / 반품</a></li>
 						<li id="#"><a href="/myMall/myQnA?page=1">상품 문의</a></li>
 						<li id="#"><a href="/mall/destinationsList">배송지 관리</a></li>

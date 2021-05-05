@@ -47,12 +47,6 @@ $(document).ready(function() {
 
    $("body,html").animate({scrollTop: 300}, 1);
    
-   if ('${param.result }' == "success") {
-	   alert("회원정보 수정이 완료되었습니다.");
-   } else if ('${param.result }' == "fail") {
-	   alert("회원정보 수정을 실패했습니다. 다시 시도 후 문의바랍니다.");
-   }
-   
 });
 
 function changeBasicProfilePic() {
@@ -201,12 +195,12 @@ function checkAllContent() {
     
     if (phoneSecond.length != 0 && phoneThird.length != 0) {
     	
-    	if (phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
+    	if (phoneSecond.length < 3 || phoneThird.length < 4 || koreanJ.test(phoneSecond) || koreanJ.test(phoneThird) || StringJ.test(phoneSecond) || StringJ.test(phoneThird) || specialJ.test(phoneSecond) || specialJ.test(phoneThird) || blankJ.test(phoneSecond) || blankJ.test(phoneThird)) {
     		alert("휴대전화 번호를 확인해주세요.");
        		result = false;
        		return;
         }
-        
+    	
         // submit 실행 시 휴대폰 번호가 전달될 수 있도록 value에 넣기
         $("#member_mobile").val(phoneFirst + "-" + phoneSecond + "-" + phoneThird);
         
@@ -272,31 +266,26 @@ function checkUserPwdSize() {
 	    $("#pwdChkBar1").css("display", "inline-block");
 	    $("#pwdChkContent").attr("class", "changeTextBarMsg");
    		$("#pwdChkContent").text("최소 8자 이상으로 입력해 주세요.");
-   		$("#member_password").focus();
    		result = false;
    } else if (userPwd.length > 16) {
 	   $("#pwdChkBar1").css("display", "inline-block");
 	   $("#pwdChkContent").attr("class", "changeTextBarMsg");
    	   $("#pwdChkContent").text("최소 16자 이하로 입력해 주세요.");
-   	   $("#member_password").focus();
    	   result = false;
    } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
 	   $("#pwdChkBar1").css("display", "inline-block");
 	   $("#pwdChkContent").attr("class", "changeTextBarMsg");
    	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-   	   $("#member_password").focus();
    	   result = false;
    } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
 	   $("#pwdChkBar1").css("display", "inline-block");
 	   $("#pwdChkContent").attr("class", "changeTextBarMsg");
    	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-   	   $("#member_password").focus();
    	   result = false;
    } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
 	   $("#pwdChkBar1").css("display", "inline-block");
 	   $("#pwdChkContent").attr("class", "changeTextBarMsg");
    	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-   	   $("#member_password").focus();
    	   result = false;
    }
    
@@ -497,6 +486,9 @@ function checkUserPwdSize() {
 	min-width: 300px;
 }
 
+.textBarInfo {
+	font-size: 12px;
+}
 
 </style>
 </head>
@@ -516,7 +508,7 @@ function checkUserPwdSize() {
 						<div class="registerTitle">
 							<h2 class="registerTitleHead">회원 정보 수정</h2>
 						</div>
-					<form id="saveNewMember" action="modify" method="post">
+					<form id="saveNewMember" action="modifyUserInfo" method="post">
 						<table class="registerTable">
 							<tr>
 								<th class="tableTitleSize">아이디</th>
@@ -643,7 +635,7 @@ function checkUserPwdSize() {
 						</table>
 						
 						<div class="registerBtn">
-							<button type="button" class="registerBtnCancle">취소</button>
+							<button type="button" class="registerBtnCancle" onclick="location.href='/user/pwdCheck'">취소</button>
 							<button type="button" class="registerBtnSubmit" onclick="checkAllContent();">정보수정</button>
 						</div>
 						</form>

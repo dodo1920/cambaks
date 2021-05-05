@@ -111,7 +111,7 @@
   	</update>
   	
   	<select id="checkBucketQty" resultType="int">
-  		select count(*) from Buckets where member_id = #{member_id}
+  		select count(*) from Buckets where member_id = #{member_id} and bucket_isDelete = 'N'
   	</select>
   	
   	<select id="checkNonUserBucket" resultType="com.cambak21.domain.NonUserBucketVO">
@@ -119,7 +119,7 @@
   	</select>
   	
   	<select id="checkNonUserBucketQty" resultType="int">
-  		select count(*) from NonUserBuckets where nonUserBucket_ssid = #{member_id}
+  		select count(*) from NonUserBuckets where nonUserBucket_ssid = #{nonUserBucket_ssid}
   	</select>
   	
   	<insert id="insertNonUserBucket">
@@ -368,7 +368,7 @@
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
-	and (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%')) group by prod.product_id
+	and prod.product_name like concat('%',#{keyword},'%') group by prod.product_id
 	
 	<if test="prodRankOrder == 'cmRank'">
 		order by prod.product_saleQty desc, prod.product_prodAvgScore desc
@@ -405,7 +405,7 @@
 		and prod.product_prodAvgScore = #{prodScore}
 	</if>
 	
-	and (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%')) group by prod.product_id) as searchResult
+	and prod.product_name like concat('%',#{keyword},'%') group by prod.product_id) as searchResult
 	
   	</select>
   	
@@ -415,7 +415,7 @@
   	(select pr.product_id, count(pr.product_id) as p_review from Products p inner join ProdReviews pr on pr.product_id = p.product_id group by pr.product_id) as num
 	on prod.product_id = num.product_id	inner join MainCategories mc on prod.mainCategory_id = mc.mainCategory_id inner join MiddleCategories mic on prod.middleCategory_id = mic.middleCategory_id
 	
-	where (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%'))
+	where prod.product_name like concat('%',#{keyword},'%') and prod.product_show = 'Y'
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000
@@ -441,7 +441,7 @@
 	select pr.product_id, count(pr.product_id) as p_review from Products p inner join ProdReviews pr on pr.product_id = p.product_id group by pr.product_id) as num
 	on prod.product_id = num.product_id inner join MainCategories mc on prod.mainCategory_id = mc.mainCategory_id inner join MiddleCategories mic on prod.middleCategory_id = mic.middleCategory_id
 	
-	where (prod.product_name like concat('%',#{keyword},'%') or prod.product_factory like concat('%',#{keyword},'%') or prod.product_title like concat('%',#{keyword},'%'))
+	where prod.product_name like concat('%',#{keyword},'%') and prod.product_show = 'Y'
 	
 	<if test="priceRangeOrder == 'less'">
 		and prod.product_sellPrice <![CDATA[<=]]> 50000

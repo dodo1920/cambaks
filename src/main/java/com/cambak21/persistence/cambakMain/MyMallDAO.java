@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -13,6 +14,7 @@ import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
 
@@ -32,7 +34,7 @@ public interface MyMallDAO {
 	
 	public int searchOrderCnt(SearchCriteria scri, String member_id);
 	
-	public BuyProductVO getOrder(String member_id, int buyProduct_no)throws Exception;
+	public BuyProductVO getOrder(String member_id, int payment_serialNo)throws Exception;
 	
 	public int getDest(String member_id, int buyProduct_no)throws Exception;
 	
@@ -41,7 +43,30 @@ public interface MyMallDAO {
 	public int getPayno(String member_id, int buyProduct_no)throws Exception;
 	
 	public PayInfoVO getPayInfo(int payInfo_no)throws Exception;
+	
+	public void purchaseSubmit(int payInfo_no, String payment_date)throws Exception;
+	
+	public void changePointDate(String member_id, String payment_date)throws Exception;
+	
+	public int getPointVal(String member_id, String payment_date)throws Exception;
+	
+	public void plusPoint(String member_id, int pointVal)throws Exception;
+	
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no)throws Exception;
 
+	public int plusTotPurchase(int payment_no)throws Exception;
+	
+	public void insertTotPurchase(String member_id, int totPrice)throws Exception;
+	
+	public int getpaymentNoCnt(int payment_no)throws Exception;
+	
+	public List<paymentVO> getPaymentSerialNo(int payment_no)throws Exception;
+	
+	public void insertRnE(int serialNo, String member_id, String refundnExchange_reason, String refundnExchange_status)throws Exception;
+	
+	public void changePayComit(String refundnExchange_status, int payment_no)throws Exception;
+	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -88,6 +113,18 @@ public interface MyMallDAO {
 	public List<MemberLittleOrderVO> MemberLittleOrder(PagingCriteria cri,String userName);
 
 	public MemberOrderVO MemberDetailOrder(int serialNo, String userName);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 

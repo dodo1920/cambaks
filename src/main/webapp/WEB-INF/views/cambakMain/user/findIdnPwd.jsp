@@ -64,8 +64,23 @@
 	<script>
 		function showCheckbox(where) {
 			if(where == "id") {
+				let output = '<input type="text" id="id_userUUID" class="form-control userUUID" />';
+				output += '<input type="button" id="id_checkUUID" value="확인" onclick="checkUuid(\'id\');" />'
+				output += '<span id="id_timer"></span>';
+				output += '<input type="hidden" id="id_hiddenUUID" />';
+				output += '<input type="hidden" id="id_status" />';
+				
+				$("#id_hiddenCheckbox").html(output);
 				$("#id_hiddenCheckbox").show();
+			      	
 			} else if(where == "pwd") {
+				let output = '<input type="text" id="pwd_userUUID" class="form-control userUUID" />';
+				output += '<input type="button" id="pwd_checkUUID" value="확인" onclick="checkUuid(\'pwd\');" />'
+				output += '<span id="pwd_timer"></span>';
+				output += '<input type="hidden" id="pwd_hiddenUUID" />';
+				output += '<input type="hidden" id="pwd_status" />';
+				
+				$("#pwd_hiddenCheckbox").html(output);
 				$("#pwd_hiddenCheckbox").show();
 			}
 			
@@ -94,9 +109,6 @@
 				alert("아이디 또는 이메일을 입력해주세요");
 			} else {
 				
-				alert("입력해 주신 메일로 인증번호를 전송했습니다");
-				showCheckbox(where);
-				
 				$.ajax({
 					url: '/user/find_idPwd',
 					headers: {	// 요청 하는 데이터의 헤더에 전송
@@ -114,12 +126,11 @@
 					success : function(result) {
 						if(result == "fail") {
 							alert("저장되지 않은 이름 또는 이메일입니다. 다시 확인해 주세요");
-							$("#" + where + "_hiddenCheckbox").hide();
 						} else if(result == "sendFail") {
 							alert("이메일이 전송되지 않았습니다");
-							$("#" + where + "_hiddenCheckbox").hide();
 						} else {
-							
+							alert("입력해 주신 메일로 인증번호를 전송했습니다");
+							showCheckbox(where);
 							setTimer(where);
 							
 							console.log(result);
@@ -159,15 +170,14 @@
 					$("#" + where + "_hiddenCheckbox").hide();
 					
 				} else {
-					alert("인증번호가 다릅니다. 이메일 인증을 다시 시도해 주세요");
-					$("#" + where + "_hiddenCheckbox").hide();
+					alert("인증번호가 다릅니다.");
 				}
 			}
 					
 		}
 		
 		function setTimer(where) {
-			let limit = 300;
+			let limit = 180;
 			let min = 0;
 			let sec = 0;
 			
@@ -184,10 +194,11 @@
 				if(limit < 0) {
 					setTimeout(function() {
 						alert("인증 시간이 초과되었습니다. 재인증해주세요");
-						$("#" + where + "_hiddenCheckbox").hide();
-						$("#" + where + "_timer").hide();
+						$("#" + where + "_hiddenCheckbox").empty();
+						
+						clearInterval(timer);
 					}, 0);
-					clearInterval(timer);
+					
 				}
 				
 			}, 1000);
@@ -241,11 +252,6 @@
 						      <input type="email" class="form-control" id="id_member_email" placeholder="Enter email" name="member_email">
 						      <input type="button" id="id_checkEmail" value="인증" onclick="sendMail('id');" />
 						      <div id="id_hiddenCheckbox" style="display:none">
-						      	<input type="text" id="id_userUUID" class="form-control userUUID" />
-						      	<input type="button" id="id_checkUUID" value="확인" onclick="checkUuid('id');" />
-						      	<span id="id_timer"></span>
-						      	<input type="hidden" id="id_hiddenUUID" />
-						      	<input type="hidden" id="id_status" />
 						      </div>
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('id');">찾기</button>
@@ -269,11 +275,6 @@
 						      <input type="email" class="form-control" id="pwd_member_email" placeholder="Enter email" name="member_email">
 						      <input type="button" id="pwd_checkEmail" value="인증" onclick="sendMail('pwd');" />
 						      <div id="pwd_hiddenCheckbox" style="display:none">
-						      	<input type="text" id="pwd_userUUID" class="form-control userUUID" />
-						      	<input type="button" id="pwd_checkUUID" value="확인" onclick="checkUuid('pwd');" />
-						      	<span id="pwd_timer"></span>
-						      	<input type="hidden" id="pwd_hiddenUUID" />
-						      	<input type="hidden" id="pwd_status" />
 						      </div>						    	
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('pwd');" >찾기</button>

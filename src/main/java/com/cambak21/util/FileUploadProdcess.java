@@ -18,10 +18,14 @@ public class FileUploadProdcess {
 	private static final Logger logger = LoggerFactory.getLogger(FileUploadProdcess.class);
 	
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
+		logger.info("이미지 파일 업로드");
+		
 		UUID uuid = UUID.randomUUID();
 		
-		String savedName = uuid.toString() + "_" + originalName;
-		String savePath = calPath(uploadPath);
+		String savedName = uuid.toString() + "_" + originalName; // 'UUID_업로드 파일이름' 형식으로 파일 이름 생성 
+		String savePath = calPath(uploadPath); 
+		System.out.println("savePath : " + savePath);
+		System.out.println("uploadPath : " + uploadPath);
 		
 		File target = new File(uploadPath + savePath, savedName);
 		FileCopyUtils.copy(fileDate, target); // 실제 저장
@@ -47,6 +51,8 @@ public class FileUploadProdcess {
 	}
 	
 	public static String calPath(String uploadPath) {
+		logger.info("이미지 파일 폴더명 만들기");
+		
 		// ************************현재 연/월/일 을 폴더로 만들기 위해 처리
 		Calendar cal = Calendar.getInstance();
 		
@@ -56,13 +62,14 @@ public class FileUploadProdcess {
 		
 		makeDir(uploadPath, yearPath, monthPath, datePath); // 폴더 생성 메서드 호출
 		
-		logger.info(datePath);
 		// ***********************************************************************
 		
 		return datePath; // "/2021/03/04"
 	}
 	
 	private static String makeThumbnail(String uploadPath, String path, String fileName) throws IOException {
+		logger.info("이미지 파일 썸네일 만들기");
+		
 		System.out.println(new File(uploadPath + path, fileName));
 		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100); // 높이 100px 리사이징
@@ -78,10 +85,12 @@ public class FileUploadProdcess {
 	}
 	
 	private static void makeDir(String uploadPath, String... paths) { 
+		logger.info("만든 폴더명으로 폴더 생성");
 		// String... paths는 가변인자. 동일한 String 타입의 yearpath, monthPath, datePath의 변수 값을 paths의 배열 값으로 받음
 //		for(String s : paths) {
 //			System.out.println(s);
 //		}
+		
 		if(new File(uploadPath + paths[paths.length - 1]).exists()) { // 해당 경로에 해당 폴더가 존재한다면, 돌아가
 			return;
 		}

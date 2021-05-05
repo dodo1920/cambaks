@@ -188,17 +188,15 @@ public class ProdDetail {
 		
 		// 상품후기 게시글 작성
 		@RequestMapping(value="/writingProdReviews", method = RequestMethod.POST)
-		public String writingProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		public String writingProdReviewPost(ProdReviewVO vo) throws Exception {
 			// 상품후기 게시글 작성 페이지에서 등록 버튼 클릭 시
 			//logger.info("/writingProdReviews의 post방식 호출");
-			System.out.println("/writingProdReviews의 post방식 호출");
+			System.out.println("/writingProdReviews의 post방식 호출입니다.");
 			//logger.info(vo.toString());
 			System.out.println("vo.toString: " + vo.toString());
 			int prodId=vo.getProduct_id();
 			
-			if(service.insert(vo) == 1) {
-				rttr.addFlashAttribute("result", "success");
-			}
+			service.insert(vo);
 			
 			// return 할 페이지에 product_id를 보내서 해당 상품에 대한 게시판으로 가도록 처리 필요..
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
@@ -234,27 +232,24 @@ public class ProdDetail {
 		
 		// 상품후기 게시글 수정 업데이트
 		@RequestMapping(value="/prodReviewsModify", method=RequestMethod.POST)
-		public String modifyProdReviewPost(ProdReviewVO vo, RedirectAttributes rttr) throws Exception {
+		public String modifyProdReviewPost(ProdReviewVO vo) throws Exception {
 			logger.info("/prodReviewsModify의 post방식 호출");
-//			System.out.println("vo : " + vo);
-//			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
-			if(service.updateProdBoard(vo) == 1) {
-				rttr.addFlashAttribute("result", "updateSuccess");
-			}
+			System.out.println("/prodReviewsModify의 post방식 호출");
 			int prodId=vo.getProduct_id();
-			
+			System.out.println("prodId: " + prodId);
+			System.out.println("vo : " + vo);
+//			System.out.println("service.updateProdBoard(vo) :" + service.updateProdBoard(vo));
+			service.updateProdBoard(vo);
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
 		
 		
 		// 상품후기 게시글 삭제
 		@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
-		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId, RedirectAttributes rttr) throws Exception {
+		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId) throws Exception {
 			logger.info("/prodReviewsDelete의 post방식 호출");
 			System.out.println("/prodReviewsDelete의 post방식 호출");
-			if(service.deleteProdBoard(prodReview_no) ==1) {
-				rttr.addFlashAttribute("result", "deleteSuccess");
-			}
+			service.deleteProdBoard(prodReview_no);
 			
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
@@ -678,7 +673,7 @@ public class ProdDetail {
 	}
 	
 	@RequestMapping(value="/prodQAForm", method=RequestMethod.POST)
-	public ResponseEntity<String> uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
+	public String uploadForm(@RequestParam("prodId") int prodId, @RequestParam("page") int page, @ModelAttribute ProdQAInsertDTO insertQA) throws Exception {
 		logger.info("QA 글쓰기 저장");
 		
 		ResponseEntity<String> entity = null;
@@ -686,10 +681,10 @@ public class ProdDetail {
 		
 		System.out.println(insertQA.toString());
 
-		if(insertQA.getProdQA_isSecret() != null) {
-			insertQA.setProdQA_isSecret("Y");
-		} else {
+		if(insertQA.getProdQA_isSecret() == null) {
 			insertQA.setProdQA_isSecret("N");
+		} else {
+			insertQA.setProdQA_isSecret("Y");
 		}
 		
 		int getMaxNo = QAService.getMaxNo();
@@ -700,13 +695,13 @@ public class ProdDetail {
 		insertQA.setProdQA_refOrder(1);
 		insertQA.setProdQA_step(1);
 		
+		System.out.println(insertQA.toString());
+		
 		if(QAService.insertProdQA(insertQA)) {
-			entity = new ResponseEntity<String>("Success", HttpStatus.OK);
-		} else {
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST);
+			return "redirect:/mall/prodDetail/main?prodId=" + prodId + "&page=" + page;
 		}
 		
-		return entity;
+		return "error";
 	}
 	
 	/**
@@ -777,7 +772,7 @@ public class ProdDetail {
 		ResponseEntity<List<String>> entity = null;
 		
 		System.out.println(request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA"));
-		System.out.println(request.getRealPath("resources/uploads/boardProdQA"));
+//		System.out.println(request.getRealPath("resources/uploads/boardProdQA"));
 		
 		String path = request.getSession().getServletContext().getRealPath("resources/uploads/boardProdQA");
 		

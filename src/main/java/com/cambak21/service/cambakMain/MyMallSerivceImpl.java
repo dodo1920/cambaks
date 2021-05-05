@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.cambak21.domain.BuyProductPaymentVO;
 import com.cambak21.domain.BuyProductVO;
+import com.cambak21.domain.CheckReviewVO;
 import com.cambak21.domain.DestinationVO;
 import com.cambak21.domain.MemberLittleOrderVO;
 import com.cambak21.domain.MemberOrderVO;
@@ -17,6 +18,7 @@ import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProdQAVO;
 import com.cambak21.domain.RefundVO;
+import com.cambak21.domain.paymentVO;
 import com.cambak21.persistence.cambakMain.MyMallDAO;
 import com.cambak21.util.PagingCriteria;
 import com.cambak21.util.SearchCriteria;
@@ -64,9 +66,9 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public BuyProductVO getOrder(String member_id, int buyProduct_no) throws Exception {
+	public BuyProductVO getOrder(String member_id, int payment_serialNo) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.getOrder(member_id, buyProduct_no);
+		return dao.getOrder(member_id, payment_serialNo);
 	}
 	
 	@Override
@@ -94,11 +96,74 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public void purchaseSubmit(int payment_serialNo) throws Exception {
-		dao.purchaseSubmit(payment_serialNo);
+	public void purchaseSubmit(int payInfo_no, String payment_date) throws Exception {
+		dao.purchaseSubmit(payInfo_no, payment_date);
 		
 	}
 
+	@Override
+	public void changePointDate(String member_id, String payment_date) throws Exception {
+		dao.changePointDate(member_id, payment_date);
+		
+	}
+	@Override
+	public int getPointVal(String member_id, String payment_date) throws Exception {
+		
+		return dao.getPointVal(member_id, payment_date);
+	}
+
+	@Override
+	public void plusPoint(String member_id, int pointVal) throws Exception {
+		dao.plusPoint(member_id, pointVal);
+		
+	}
+	
+	@Override
+	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+			int buyProduct_no) throws Exception {
+		
+		return dao.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+	}
+	
+	@Override
+	public int plusTotPurchase(int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.plusTotPurchase(payment_no);
+	}
+	
+	@Override
+	public void insertTotPurchase(String member_id, int totPrice) throws Exception {
+		dao.insertTotPurchase(member_id, totPrice);
+		
+	}
+	
+	@Override
+	public int getpaymentNoCnt(int payment_no) throws Exception {
+		
+		return dao.getpaymentNoCnt(payment_no);
+	}
+
+	@Override
+	public List<paymentVO> getPaymentSerialNo(int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		return dao.getPaymentSerialNo(payment_no);
+	}
+
+	@Override
+	public void insertRnE(int serialNo, String member_id, String refundnExchange_reason, String refundnExchange_status)
+			throws Exception {
+		// TODO Auto-generated method stub
+		dao.insertRnE(serialNo, member_id, refundnExchange_reason, refundnExchange_status);
+	}
+
+	@Override
+	public void changePayComit(String refundnExchange_status, int payment_no) throws Exception {
+		// TODO Auto-generated method stub
+		dao.changePayComit(refundnExchange_status, payment_no);
+		
+	}
+
+	
 	
 	// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
@@ -198,6 +263,22 @@ public class MyMallSerivceImpl implements MyMallService {
 		return dao.MemberDetailOrder(serialNo, userName);
 	}
 
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+
+	
+
+	
+	
+	
 	
 
 	

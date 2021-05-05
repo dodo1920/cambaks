@@ -27,16 +27,85 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
 <script type="text/javascript">
+function refundnExchange(payment_no,payment_date) {
+	let refundnExchange_reason = $('input[name="refundnExchange_reason"]:checked').val();
+	let refundnExchange_status = $('select[name="refundnExchange_status"]').val();
+	let member_id = "${loginMember.member_id}";
+	
+	$.ajax({
+		type : "POST",
+		dataType : "text", // 받을 데이터
+		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+		url : "/myMall/myOrder/insertRefund",// 서블릿 주소
+		data : {payment_no : payment_no, refundnExchange_reason : refundnExchange_reason, member_id : member_id, refundnExchange_status : refundnExchange_status, payment_date:payment_date},
+		success : function(result) {
+			location.reload();
+		}, // 통신 성공시
+		error : function(result) {
+			
+		}, // 통신 실패시
+		complete : function(result) {
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(result);
+//			if(result != null){
+				
+//			}
+			
+			
+		} // 통신 완료시
+	});		
+	
+}
+
+function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_serialNo, product_id) {
+	
+	let member_id = "${loginMember.member_id}";
+	console.log(payment_serialNo);
+	console.log(product_id);
+	
+	
+	$.ajax({
+		type : "get",
+		dataType : "text", // 받을 데이터
+		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+		url : "/myMall/myOrder/checkReview",// 서블릿 주소
+		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
+		success : function(result) {
+			if (result == 'noValue'){
+				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+			}else{
+				alert("이미 작성한 리뷰입니다.");
+			}
+		}, // 통신 성공시
+		error : function(result) {
+			
+		}, // 통신 실패시
+		complete : function(result) {
+			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			console.log(result);
+//			if(result != null){
+				
+//			}
+			
+			
+		} // 통신 완료시
+	});		
+}
 
 function check_date(date, idNum) {
 	
+	dateArr = date.split("-");
+	day = dateArr[2];
+	day = day.split(' ');
+	console.log(day);
+	date =+ new Date(dateArr[0], dateArr[1]-1, day[0]);
 	
 	
 	let today =+ new Date();
 	
 	let dayAgo = (today - date) / 86400000;
 	
-	console.log(date);
+	console.log(dayAgo);
 	
 	if(dayAgo > 7){
 		let output = '<div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal">&times;</button>';
@@ -47,18 +116,19 @@ function check_date(date, idNum) {
 
 }
 
-function purchaseSubmit(payInfo_no, payment_date) {
-	let member_id = ${loginMember.member_id};
+function purchaseSubmit(payInfo_no, payment_date, payment_no) {
+	console.log(payment_date);
+	let member_id = "${loginMember.member_id}";
 	
 	$.ajax({
 		type : "get",
-		dataType : "json", // 받을 데이터
+		dataType : "text", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
-		url : "myOrder/purchaseSubmit",// 서블릿 주소
-		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id},
+		url : "/myMall/myOrder/purchaseSubmit",// 서블릿 주소
+		data : {payInfo_no : payInfo_no, payment_date : payment_date, member_id : member_id, payment_no:payment_no},
 		success : function(result) {
 			console.log(result);
-			
+			location.reload();
 		}, // 통신 성공시
 		error : function(result) {
 			
@@ -75,9 +145,11 @@ function purchaseSubmit(payInfo_no, payment_date) {
 	});
 }
 
+
+
+
 $(document).ready(function(){
-	
-	
+
 	});
 
 </script>
@@ -118,66 +190,7 @@ $(document).ready(function(){
 			<div class="row">
 
 
-<div>
-
-			<!--  효원이 디자인 시작 -->
-				<div class="profile">
-						<div>
-							<div class="profileSize">
-								<a href=""></a><img src="../../resources/cambak21/img/trip.jpg" class="userProfileImg">
-								<h4>${loginMember.member_id }</h4>
-								<div class="profileEmail">${loginMember.member_email }</div>
-							</div>
-							<div class="profileCategory">
-								<ul>
-									<li class="profileMenu1"><a href="#" class="profileMenu">마이 페이지</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">회원 정보 수정</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-		<!--  효원이 디자인 끝  -->
-
-	<!-- Sidebar top -->
-	<div id="sidebar" class="4u">
-		<div class="sidebar">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<p class="category-title" id="category-title" style="margin-bottom: 0px;">나의 캠박이일</p>
-				</div>
-			</div>
-			<ul class="nav nav-pills nav-stacked">
-				<li id="myPost"><a href="/myPage/myPost?member_id=${loginMember.member_id }&page=1">내가 쓴 글</a></li>
-				<li id="humorAside"><a href="#">내 댓글</a></li>
-				<li id="QnAAside"><a href="#">내 좋아요 글</a></li>
-				<li id="resellAside"><a href="#">나의 문의</a></li>
-		
-			</ul>
-		</div>
-	</div>
-
-	<!-- Sidebar -->
-	<div id="sidebar" class="4u">
-		<div class="sidebar">
-			<div class="panel panel-success">
-				<div class="panel-heading">
-					<p class="category-title" id="category-title"  style="margin-bottom: 0px;">캠박몰</p>
-				</div>
-			</div>
-			<ul class="nav nav-pills nav-stacked">
-				<li id="#"><a href="#">적립금 관리</a></li>
-				<li id="#"><a href="#">주문 목록</a></li>
-				<li id="#"><a href="#">취소 / 반품</a></li>
-				<li id="#"><a href="#">구매 목록</a></li>
-			</ul>
-		</div>
-	</div>
-
-
-
-
-</div>
-			
+<%@include file="myPageAside.jsp"%>
 		
 		<!-- Content -->
 				<div id="content" class="8u skel-cell-important">
@@ -211,7 +224,7 @@ $(document).ready(function(){
 									
 									
 										<c:choose>
-											<c:when test="${order.payment_isComit == '결제완료' }">
+											<c:when test="${order.payment_isComit == '결제완료' and order.payment_isChecked eq 'N' }">
 											<div align="center"
 											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
 
@@ -248,9 +261,18 @@ $(document).ready(function(){
 																	보기</button>
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
+<<<<<<< HEAD
 																
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
 																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+=======
+
+
+																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
+
+																	
+
+>>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
 																
 																
 
@@ -266,6 +288,7 @@ $(document).ready(function(){
 													<div class="modal-dialog" id="modalChange${order.payment_serialNo }">
 
 														<!-- Modal content-->
+														
 														<div class="modal-content">
 															<div class="modal-header">
 																<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -273,22 +296,24 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-body">
 																<p>교환 환불 선택</p>
-																<select>
-																	<option value="교환신청">교환</option>
-																	<option value="환불신청">환불</option>
+																<select name="refundnExchange_status">
+																	<option value="교환요청">교환</option>
+																	<option value="환불요청">환불</option>
 																</select>
 																<p>사유를 선택해 주세요</p>
-																<input type="radio" value="단순변심" checked="checked">단순변심
-																<input type="radio" value="배송문제">배송문제
-																<input type="radio" value="상품문제">상품문제
+																<input type="radio" value="단순변심" checked="checked" name="refundnExchange_reason">단순변심
+																<input type="radio" value="배송문제" name="refundnExchange_reason">배송문제
+																<input type="radio" value="상품문제" name="refundnExchange_reason">상품문제
 																
 															</div>
 															<div class="modal-footer">
+																<button type="submit" class="btn btn-default"
+																	data-dismiss="modal" onclick="refundnExchange(${order.payment_no}, '${order.payment_date }');">교환, 환불신청</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
 														</div>
-
+														
 													</div>
 												</div>
 												<!-- Modal 주문확정 모달 -->
@@ -307,7 +332,7 @@ $(document).ready(function(){
 															</div>
 															<div class="modal-footer">
 															<button type="button" class="btn btn-default"
-																	data-dismiss="modal" onclick="purchaseSubmit(${order.payInfo_no },${order.payment_date },${order.payInfo_no });">주문확정</button>
+																	data-dismiss="modal" onclick='purchaseSubmit(${order.payInfo_no },"${order.payment_date}", ${order.payment_no });'>주문확정</button>
 																<button type="button" class="btn btn-default"
 																	data-dismiss="modal">Close</button>
 															</div>
@@ -324,7 +349,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(주문확정)</strong></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -354,7 +379,7 @@ $(document).ready(function(){
 																	보기</button>
 																
 																
-																<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+																<button type="button" class="btn btn-info" onclick="checkReview('${order.payment_isComit}', '${order.payment_isChecked }', ${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
 																
 																
 
@@ -422,7 +447,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(환불)</strong></td>
 													</tr>
 												</thead>
 												<tbody>
@@ -470,7 +495,7 @@ $(document).ready(function(){
 											<table style="margin-left: 10px">
 												<thead>
 													<tr>
-														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">환불 상품</strong></td>
+														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }(교환)</strong></td>
 													</tr>
 												</thead>
 												<tbody>

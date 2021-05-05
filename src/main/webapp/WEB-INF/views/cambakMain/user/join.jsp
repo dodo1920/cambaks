@@ -48,13 +48,19 @@
 	}
 	
    $(document).ready(function() {
+	   let loginMember = '${loginMember}';
+	   
+	   if (loginMember != "") {
+		   alert("잘못된 접근입니다.");
+		   location.href="/index/main";
+	   }
 	   
 	   $('#clickFileSelector').click(function (e) {
 			// 업로드 버튼이 클릭되면 파일 찾기 창을 띄운다.
 			e.preventDefault();
 			$('#profile').click();
 		});
-   
+	   
    });
    
    function changeBasicProfilePic() {
@@ -267,7 +273,7 @@
 	    let phoneSecond = $("#phoneSecond").val();
 	    let phoneThird = $("#phoneThird").val();
 	    
-	    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || !numberJ.test(phoneSecond) || !numberJ.test(phoneThird)) {
+	    if (phoneSecond.length == 0 || phoneThird.length == 0 || phoneSecond.length < 3 || phoneThird.length < 4 || koreanJ.test(phoneSecond) || koreanJ.test(phoneThird) || StringJ.test(phoneSecond) || StringJ.test(phoneThird) || specialJ.test(phoneSecond) || specialJ.test(phoneThird) || blankJ.test(phoneSecond) || blankJ.test(phoneThird)) {
 			alert("휴대전화 번호를 확인해주세요.");
 	   		result = false;
 	   		return;
@@ -356,31 +362,26 @@
 		    $("#pwdChkBar1").css("display", "inline-block");
 		    $("#pwdChkContent").attr("class", "changeTextBarMsg");
 	   		$("#pwdChkContent").text("최소 8자 이상으로 입력해 주세요.");
-	   		$("#member_password").focus();
 	   		result = false;
 	   } else if (userPwd.length > 16) {
 		   $("#pwdChkBar1").css("display", "inline-block");
 		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
 	   	   $("#pwdChkContent").text("최소 16자 이하로 입력해 주세요.");
-	   	   $("#member_password").focus();
 	   	   result = false;
 	   } else if (!numberJ.test(userPwd) && !StringJ.test(userPwd)) {
 		   $("#pwdChkBar1").css("display", "inline-block");
 		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
 	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-	   	   $("#member_password").focus();
 	   	   result = false;
 	   } else if (!numberJ.test(userPwd) && !specialJ.test(userPwd)) {
 		   $("#pwdChkBar1").css("display", "inline-block");
 		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
 	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-	   	   $("#member_password").focus();
 	   	   result = false;
 	   } else if (!specialJ.test(userPwd) && !StringJ.test(userPwd)) {
 		   $("#pwdChkBar1").css("display", "inline-block");
 		   $("#pwdChkContent").attr("class", "changeTextBarMsg");
 	   	   $("#pwdChkContent").text("비밀번호는 영문 대소문자/숫자/특수문자 중 2가지 이상 조합하여 작성바랍니다.");
-	   	   $("#member_password").focus();
 	   	   result = false;
 	   }
 	   
@@ -424,7 +425,6 @@
 								 $("#idChkBar").css("display", "inline-block");
 								 $("#idChkResult").attr("class", "changeTextBarMsg");
 								 $("#idChkResult").text("이미 등록된 아이디입니다. 다른 아이디를 입력해 주세요.");
-								 $("#userId").focus();
 							 }
 							 
 						  }, error : function(data) {
@@ -437,24 +437,20 @@
 				   $("#idChkBar").css("display", "inline-block");
 				   $("#idChkResult").attr("class", "changeTextBarMsg");
 				   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-				   $("#userId").focus();
 			   } // 아이디 정규식 체크
 			   
 		   } else if (blankJ.test(userId) == true) { // 작성한 아이디에 공백이 포함되었을 경우
 			   $("#idChkBar").css("display", "inline-block");
 			   $("#idChkResult").attr("class", "changeTextBarMsg");
 			   $("#idChkResult").text("아이디는 공백없이 작성바랍니다.");
-			   $("#userId").focus();
 		   } else if (userId.length < 4) { // 작성한 아이디의 길이가 4자 이하일 때
 			   $("#idChkBar").css("display", "inline-block");
 			   $("#idChkResult").attr("class", "changeTextBarMsg");
 			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-			   $("#userId").focus();
 		   } else if (userId.length > 20) { // 작성한 아이디의 길이가 20자 이상일 때
 			   $("#idChkBar").css("display", "inline-block");
 			   $("#idChkResult").attr("class", "changeTextBarMsg");
 			   $("#idChkResult").text("아이디는 영문소문자/숫자로 최대 20자까지만 사용가능합니다.");
-			   $("#userId").focus();
 		   } // 아이디 길이 체크
 		   
 	   }

@@ -30,6 +30,7 @@ import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
 public interface adminService {
@@ -178,13 +179,17 @@ public interface adminService {
 		
 		public int getsearchReply_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 		
+		public void deleteBoardAdmin(int no) throws Exception;
+
+		public void deleteReplyAdmin(int no) throws Exception;
 		
+		public List<BoardVO> admin_PreviewRead(int no) throws Exception;
 		
+		public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception;
 		
-		
-		
-		
-		
+		public void recoveryReplyBoard(int recoveryNum) throws Exception;
+
+		public void recoveryBoard(int recoveryNum) throws Exception;
 		
 		
 		
@@ -208,7 +213,7 @@ public interface adminService {
 		
 		public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception;
 		
-		
+		public boolean orderStatusModi(int payment_no, OrderInfoModifyDTO dto) throws Exception;
 		
 		
 		

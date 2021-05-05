@@ -34,7 +34,7 @@
 	 SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d %H:%i:%s') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
@@ -47,7 +47,7 @@
 	SELECT bp.buyProduct_no, bp.member_id, bucket_no, prod.product_name,
 	buyProduct_qty, prod.product_sellPrice,
 	buyProduct_deliveriPay, buyProduct_totPrice, buyProduct_isFinished, prod.product_id, payment_no,
-	payment_serialNo, payInfo_no, destination_no, payment_date, product_img1,
+	payment_serialNo, payInfo_no, destination_no, date_format(payment_date,'%Y-%m-%d %H:%i:%s') as payment_date, product_img1,
 	payment_deliveryMsg, payment_isComit,
 	payment_isChecked
 	FROM goot6.Payments pay join goot6.BuyProducts bp on pay.buyProduct_no =
@@ -63,7 +63,7 @@
 		
 		SELECT * FROM goot6.BuyProducts bp join goot6.Products prod on bp.product_name = prod.product_name
 join goot6.Payments pay on pay.buyProduct_no = bp.buyProduct_no
-where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyProduct_isFinished='Y' order by bp.buyProduct_no desc; 
+where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		
 	</select>
 	<select id="getDest" resultType="int">
@@ -78,6 +78,48 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<select id="getPayInfo" resultType="com.cambak21.domain.PayInfoVO">
 		SELECT * FROM goot6.PayInfos where payInfo_no = #{payInfo_no}
 	</select>
+	
+	<update id="purchaseSubmit">
+		UPDATE goot6.Payments SET payment_comitDate = now(), payment_isChecked = 'Y' WHERE payInfo_no = #{payInfo_no} and payment_date = #{payment_date}
+		
+	</update>
+	<update id="changePointDate">
+		UPDATE goot6.Points SET point_savingDate = now() WHERE member_id = #{member_id} and payment_date = #{payment_date}
+		
+	</update>
+	<select id="getPointVal" resultType="int">
+		select point_futurePoint from goot6.Points where member_id = #{member_id} and payment_date = #{payment_date}
+	</select>
+	<update id="plusPoint">
+		update goot6.Members set member_totPoint = member_totPoint + #{pointVal}  where member_id = #{member_id}
+	</update>
+	
+	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
+		select * from goot6.Payments pay join goot6.ProdReviews re on pay.member_id = re.member_id where payment_isComit=#{payment_isComit} and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} and re.buyProduct_no = #{buyProduct_no}
+	</select>
+	<select id="plusTotPurchase" resultType="int">
+		select sum(buyProduct_totPrice) from goot6.BuyProducts buy join goot6.Payments pay on pay.buyProduct_no = buy.buyProduct_no where payment_no = #{payment_no} group by payment_no;
+	</select>
+	<update id="insertTotPurchase">
+		UPDATE goot6.Members SET member_payment = #{totPrice} WHERE member_id = #{member_id}
+	</update>
+	
+	<!-- 환불 시작  -->
+	<select id="getpaymentNoCnt" resultType="int">
+		select count(payment_no) as payment_no from Payments where payment_no = #{payment_no}
+	</select>
+	<select id="getPaymentSerialNo" resultType="com.cambak21.domain.paymentVO">
+		select * from Payments where payment_no = #{payment_no}
+	</select>
+	<insert id="insertRnE">
+		INSERT INTO goot6.RefundnExchanges (refundnExchange_reason, refundnExchange_status, member_id, payment_serialNo) VALUES (#{refundnExchange_reason}, #{refundnExchange_status}, #{member_id}, #{serialNo});
+	</insert>
+	<update id="changePayComit">
+		update goot6.Payments set payment_isComit = #{refundnExchange_status} where payment_no = #{payment_no}
+	</update>
+	<select id="getUsedPoint" resultType="int">
+		select point_usedPoint from goot6.Points where payment_date = #{payment_date} and member_id = #{member_id}
+	</select>
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
@@ -88,10 +130,13 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 	<!-- 마이페이지-나의 적립금 포인트 적립 내역 가져오기 -->
 	<select id="getPointList"
 		resultType="com.cambak21.domain.MyPointVO">
-		select p.point_no, p.member_id, p.grade_name, p.buyProduct_totPrice, p.point_reason, p.point_usedPoint, 
-		p.point_savingDate, p.point_futurePoint, p.payment_date, b.product_name from Points p, BuyProducts b 
-		where p.buyProduct_no = b.buyProduct_no and p.member_id = #{member_id} order by payment_date desc 
-		limit #{pageStart}, #{perPageNum} 
+		select p.point_no, p.member_id, p.point_usedPoint, p.point_futurePoint, p.point_reason, p.point_savingDate, 
+		p.payment_date, group_concat(b.product_name) as product_name 
+		from Points p, Payments pm, BuyProducts b
+		where p.member_id = pm.member_id and p.payment_date = pm.payment_date 
+		and pm.buyProduct_no = b.buyProduct_no
+		and p.member_id = #{member_id}
+		group by point_no;
 	</select>
 	<!-- 마이페이지-나의 적립금 총 게시물 개수 가져오기 -->
 	<select id="getPointListCnt" resultType="int">
@@ -187,7 +232,7 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 		inner join Products p
 		on b.product_id = p.product_id
 		where b.member_id = #{member_id}
-		and b.bucket_isChecked = 'Y';
+		and b.bucket_isChecked = 'Y' and b.bucket_isDelete = 'N';
 	</select>
 	<!-- BuyProducts테이블에 insert -->
 	<insert id="insertBP" parameterType="java.util.Map"> <!-- DAO에서 Map을 보냈기 때문에 -->
@@ -196,6 +241,10 @@ where pay.member_id=#{member_id} and payment_serialNo=#{buyProduct_no} and buyPr
 			(#{item.member_id}, #{item.bucket_no}, #{item.product_name}, #{item.bucket_buyQty}, #{item.bucket_sellPrice}, #{item.bucket_totBuyPrice}, #{item.product_id})
 		</foreach>
 	</insert>
+	
+	<delete id="deletePastCart">
+		update BuyProducts set buyProduct_isFinished = replace(buyProduct_isFinished, 'N', 'Y') where member_id = #{member_id}
+	</delete>
 	
 	<!-- @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 

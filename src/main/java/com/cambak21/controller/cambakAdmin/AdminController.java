@@ -52,6 +52,7 @@ import com.cambak21.dto.AdminBoardDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
+import com.cambak21.dto.OrderInfoModifyDTO;
 
 import org.springframework.web.util.WebUtils;
 
@@ -68,6 +69,7 @@ import com.cambak21.domain.RevenueEachWeekVO;
 
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
+import com.cambak21.service.boardNotice.BoardNoticeService;
 import com.cambak21.service.cambakAdmin.adminService;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.ChattingImageUploads;
@@ -83,6 +85,8 @@ public class AdminController {
    @Inject
    private adminService service;
    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+   
+  
    
    @RequestMapping(value = "/index", method = RequestMethod.GET)
    public String adminIndex() {
@@ -573,12 +577,84 @@ public class AdminController {
       
       return "/admin/board_admin";
    }
+   @RequestMapping(value = "/board_admin_Preview", method = RequestMethod.GET)
+   public void board_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+      
+	   model.addAttribute("adminBoard", service.admin_PreviewRead(no));
+	   
+   }
+   @RequestMapping(value = "/replyBoard_admin_Preview", method = RequestMethod.GET)
+   public void replyBoard_admin_Preview(@RequestParam("no") int no, Model model) throws Exception{
+	   
+	   model.addAttribute("adminReply", service.replyBoard_admin_Preview(no));
+	   
+   }
+  
+   @RequestMapping(value = "/board_admin/ajax/recovery", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_recovery(@RequestParam("recoveryNum") int recoveryNum, @RequestParam("recoveryType") String recoveryType) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	 
+	   if(recoveryType.equals("B")) {
+		   service.recoveryBoard(recoveryNum);
+		 
+	   }else if(recoveryType.equals("R")) {
+		   service.recoveryReplyBoard(recoveryNum);
+	   }
+	   
+	   
+	   try {
+	    entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
+   
+   @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
+   public ResponseEntity<String> board_admin_delete(@RequestParam("deleteAllNum") String deleteAllNum, @RequestParam("deleteType") String deleteType) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	   String[] array = deleteAllNum.split("-");
+	   
+	  
+	   	   if(deleteType.equals("B")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }else if(deleteType.equals("R")) {
+		   
+		   for(int i=0; i < array.length; i++) {
+				
+			    if(array[i] != "") {
+			    	System.out.println(array[i]);
+			    	service.deleteReplyAdmin(Integer.parseInt(array[i]));
+			    }
+			}
+		   
+	   }
+   	 try {
+	   		 
+	      entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
    
    
 
    
-   @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
-   public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+   @RequestMapping(value = "/board_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}/{perPageCnt}", method = RequestMethod.GET)
+   public ResponseEntity<Map<String, Object>> getRecentlyProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;
 //	   System.out.println(goStartDate + "," + goEndDate + "," + board_category + "," + searchselectedCategory + "," + searchboardType + "," + searchTxtValue + "," + page);
 //	   SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
@@ -590,6 +666,7 @@ public class AdminController {
 	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
+	   pc.setPerPageNum(perPageCnt);
 	   pc.setPage(page);
 	   PagingParam pp = new PagingParam();
 	   pp.setCri(pc);
@@ -715,7 +792,7 @@ public class AdminController {
    }
    
    @RequestMapping(value="/orderManagement/detail")
-   public String OrderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
+   public String orderView(@RequestParam("prodNo") int payment_no, Model model) throws Exception{
 	  
 	  model.addAttribute("buyProdInfo", service.readBuyOrderInfo(payment_no));
 	  
@@ -723,7 +800,7 @@ public class AdminController {
    }
    
    @RequestMapping(value="/orderManagement/destinationModi", method = RequestMethod.POST)
-   public String OrderView(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
+   public String orderDestinationModi(@RequestParam("prodNo") int payment_no, OrderDetailDestinationModifyDTO dto, RedirectAttributes rttr) throws Exception{
 	  
 	  if (service.modifyDestinationInfo(dto, payment_no)) {
 		  rttr.addFlashAttribute("destinationModi", "success");
@@ -734,6 +811,93 @@ public class AdminController {
       return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
    }
    
-   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   @RequestMapping(value="/orderManagement/orderStatusModi", method = RequestMethod.POST)
+   public String orderStatusModi(@RequestParam("prodNo") int payment_no , OrderInfoModifyDTO dto, RedirectAttributes rttr) throws Exception{
 
+	  if (service.orderStatusModi(payment_no, dto)) {
+		  rttr.addFlashAttribute("orderStatusModi", "success");
+	  } else {
+		  rttr.addFlashAttribute("orderStatusModi", "fail");
+	  }
+	  
+	  System.out.println(payment_no);
+	  System.out.println(dto.toString());
+	  
+      return "redirect:/admin/orderManagement/detail?prodNo=" + payment_no;
+   }
+   
+   
+   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+   
+   @RequestMapping(value = "/QA", method = RequestMethod.GET)
+   public String QA_option() throws Exception{
+      
+      return "/admin/QA_admin";
+   }
+   
+   @RequestMapping(value = "/QA/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
+   public ResponseEntity<Map<String, Object>> getNewProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+	   ResponseEntity<Map<String, Object>> entity = null;
+	   
+	   Map<String, Object> para = new HashMap<String, Object>();
+	   List<AdminBoardDTO> Boardlst = new ArrayList<AdminBoardDTO>();
+	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
+	   
+	   PagingCriteria pc = new PagingCriteria();
+	   pc.setPerPageNum(perPageCnt);
+	   pc.setPage(page);
+	   PagingParam pp = new PagingParam();
+	   pp.setCri(pc);
+	   
+	   BoardAdminSearchCriteria BAcri1 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category);
+	   BoardAdminSearchCriteria BAcri2 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue);
+
+			   try {
+			if(searchTxtValue.equals("none")) {
+				
+			
+			    if(searchselectedCategory.equals("board")) {
+			    	Boardlst = service.goGetBoard_admin(BAcri1, pc);
+			    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+			    	para.put("Boardlst", Boardlst);
+			    }
+				
+			    if(searchselectedCategory.equals("reply")) {
+			    	replyBoardlst = service.goGetreply_admin(BAcri1, pc);
+			    	pp.setTotalCount(service.getReply_adminCnt(BAcri1));
+			    	para.put("replyBoardlst", replyBoardlst);
+			    }
+			
+			}else {
+			
+				 if(searchselectedCategory.equals("board")) {
+				    	Boardlst = service.searchGetBoard_admin(BAcri2,pc);
+				    	pp.setTotalCount(service.getsearchBoard_adminCnt(BAcri2));
+				    	para.put("Boardlst", Boardlst);	
+				    }
+					
+				    if(searchselectedCategory.equals("reply")) {
+				    	replyBoardlst = service.searchGetreply_admin(BAcri2, pc);
+				    	pp.setTotalCount(service.getsearchReply_adminCnt(BAcri2));
+				    	para.put("replyBoardlst", replyBoardlst);	
+				    }
+		
+			    
+			  
+			}
+			 para.put("todayTotCnt", service.getTodayTotCnt());
+			 para.put("todayreplyTotCnt", service.getTodayreplyTotCnt());
+			 para.put("pagingParam", pp);
+			 entity = new ResponseEntity<Map<String, Object>>(para, HttpStatus.OK);
+			 
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   
+	   	
+
+			return entity;
+	   }
+   
 }

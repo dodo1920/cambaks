@@ -146,16 +146,16 @@
                       
                     </span>
         
-                    <a href="../find_idPwd" class="txt2">
+                    <a href="./find_idPwd" class="txt2">
                       아이디 / 비밀번호 찾기
                     </a>
                   </div>
                   
-                  <div class="w-full text-center">
-                    <a href="buggo_signUp.html" class="txt3">
-                      회원 가입
-                    </a>
-                  </div>
+<!--                   <div class="w-full text-center"> -->
+<!--                     <a href="buggo_signUp.html" class="txt3"> -->
+<!--                       회원 가입 -->
+<!--                     </a> -->
+<!--                   </div> -->
                   
                </form>
                          
