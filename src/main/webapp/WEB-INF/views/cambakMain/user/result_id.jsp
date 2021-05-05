@@ -49,7 +49,8 @@
 						</header>
 						<c:forEach var="userId" items="${findId }">
 							<p>${userId.member_name}님의 아이디는 '<span>${userId.member_id}</span>' 입니다</p>
-							<input type="button" id="goLogin" value="로그인하러 가기" onclick="location.href='../user/login/yet'" />
+							<input type="button" id="goLogin" value="로그인하러 가기" onclick="location.href='../user/login'" />
+							<input type="button" id="goFindPwd" value="비밀번호 찾으러 가기" onclick="location.href='../user/find_idPwd'" />
 						</c:forEach>
 					</section>
 				</div>

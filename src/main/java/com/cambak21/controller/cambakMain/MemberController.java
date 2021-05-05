@@ -280,7 +280,7 @@ public class MemberController {
 		System.out.println(fId.toString());
 		
 		if(service.updatePwd(fId)) {
-			return "redirect:/user/login/yet";
+			return "redirect:/user/login";
 		}
 		
 		return "error";

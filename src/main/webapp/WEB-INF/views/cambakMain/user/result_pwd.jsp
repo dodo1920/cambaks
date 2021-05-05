@@ -102,7 +102,7 @@
 						      <span id="result"></span>
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkPwd();">저장</button>
-						    <button type="button" class="btn btn-default" onclick="location.href='../user/login/yet'">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../user/login'">취소</button>
 						  </form>
 						</div>
 					</section>
