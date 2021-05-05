@@ -1,5 +1,6 @@
 package com.cambak21.persistence.cambakAdmin;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.OrderProductInfoVO;
 import com.cambak21.domain.OrderStatusInfo;
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.RevenueVO;
 import com.cambak21.util.BoardAdminSearchCriteria;
 import com.cambak21.util.PagingCriteria;
@@ -287,6 +289,32 @@ public interface AdminDAO {
 	
 	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
 	
+	
+	public Date getOrderDate(int payment_no) throws Exception;
+	
+	
+	public int modifyPurchaseConfirmationBefore(Date orderDate, Date defaultDate) throws Exception;
+	
+	
+	public int modifyPurchaseConfirmation(Date orderDate) throws Exception;
+	
+	
+	public PointVO getOrderUsedPoint(Date orderDate) throws Exception;
+	
+	
+	public int infoCanclePoint(String point_reason, PointVO pointHistory) throws Exception;
+	
+	
+	public int getOrderTotPrice(int payment_no) throws Exception;
+	
+	
+	public int changeMemberPoint(int totPrice, PointVO pointHistory) throws Exception;
+	
+	
+	public int memberTotalPayment(String member_id) throws Exception;
+	
+	
+	public int updateMemberGrade(String member_id, String grade_name) throws Exception;
 	
 //	---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------
 }

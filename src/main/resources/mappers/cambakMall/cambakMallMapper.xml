@@ -463,7 +463,7 @@
   	
   	<!--   	캠박몰 상품 리스트 페이지 상품의 리뷰 개수 출력 -->
   	<select id="getProductReviewNum" resultType="int">
-  		select count(*) as prouctReview_count from ProdReviews where product_id = #{product_id}
+  		select count(*) as prouctReview_count from ProdReviews where product_id = #{product_id} and prodReview_isDelete = 'N'
   	</select>
   	
   	<!--   	캠박몰 인기 상품 6개 출력 -->

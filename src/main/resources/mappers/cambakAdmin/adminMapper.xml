@@ -1402,7 +1402,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   <select id="readOrderRequestInfo" resultType="com.cambak21.domain.RefundnExchangeVO">
   	select refund.refundnExchange_status, refund.refundnExchange_reason, refund.refundnExchange_date, refund.refundnExchange_isChecked, refund.refundnExchange_checkedDate
-  	from RefundnExchanges refund, Payments pay where refund.payment_serialNo = pay.payment_serialNo and payment_no = #{payment_no}
+  	from RefundnExchanges refund, Payments pay where refund.payment_serialNo = pay.payment_serialNo and payment_no = #{payment_no} limit 1
   </select>
   
   
@@ -1476,6 +1476,50 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 	update Payments set 
 	payment_isComit = #{modifyContent}, payment_comitDate = now(), payment_isChecked = #{isChecked} 
 	where payment_serialNo = #{payment_serialNo}
+  </update>
+  
+  <select id="getOrderDate" resultType="Date">
+  	select distinct payment_date from Payments where payment_no = #{payment_no}
+  </select>
+  
+  <update id="modifyPurchaseConfirmationBefore">
+	update Points set 
+	point_savingDate = #{defaultDate}
+	where payment_date = #{orderDate}
+  </update>
+  
+  <update id="modifyPurchaseConfirmation">
+	update Points set 
+	point_savingDate = now() 
+	where payment_date = #{orderDate}
+  </update>
+  
+  <select id="getOrderUsedPoint" resultType="com.cambak21.domain.PointVO">
+  	select * from Points where payment_date = #{orderDate}
+  </select>
+  
+  <insert id="infoCanclePoint">
+  	insert into Points (member_id, grade_name, point_reason, point_usedPoint, point_savingDate, payment_date) values (#{member_id}, #{grade_name}, #{point_reason}, #{point_usedPoint}, now(), #{payment_date})
+  </insert>
+  
+  <select id="getOrderTotPrice" resultType="int">
+  	select sum(buyProduct_totPrice) from BuyProducts buy, Payments pay where buy.buyProduct_no = pay.buyProduct_no and pay.payment_no = #{payment_no}
+  </select>
+  
+  <update id="changeMemberPoint">
+	update Members set 
+	member_payment = member_payment - #{totPrice}, member_totPoint = member_totPoint + #{point_usedPoint} 
+	where member_id = #{member_id}
+  </update>
+  
+  <select id="memberTotalPayment" resultType="int">
+  	select member_payment from Members where member_id = #{member_id}
+  </select>
+  
+  <update id="updateMemberGrade">
+	update Members set 
+	grade_name = #{grade_name}
+	where member_id = #{member_id}
   </update>
   
   

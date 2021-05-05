@@ -489,6 +489,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '주문취소요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>
@@ -498,6 +499,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '교환요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>
@@ -507,6 +509,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '환불요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>
