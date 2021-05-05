@@ -834,7 +834,7 @@ table {
 	</div>
 	<div id="main-wrapper">
 		<!-- 헤더 -->
-		<%@ include file="adminTop.jsp"%>
+		
 		<!-- 어사이드 -->
 		<%@ include file="adminAside.jsp"%>
 

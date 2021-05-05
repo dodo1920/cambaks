@@ -127,19 +127,30 @@ public interface AdminDAO {
 	
 //	============================================== 원영 ==============================================================================
 	
+	public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
+
+	public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 	
 	
+	public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 	
+	public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 	
+	public int getTodayTotalCnt();
+
+	public int getTodayreplyTotalCnt();
 	
+	public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 	
+	public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 	
+	public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 	
+	public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
 	
+	public void deleteBoardQAAdmin(int no) throws Exception;
 	
-	
-	
-	
+	public void deleteReplyBoardQAAdmin(int no) throws Exception;	
 	
 	
 //	---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
@@ -286,6 +297,8 @@ public interface AdminDAO {
 	
 	
 	public int modifyCsStatusPayment(int payment_serialNo, String modifyContent, String isChecked) throws Exception;
+
+	
 	
 	
 //	---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------
