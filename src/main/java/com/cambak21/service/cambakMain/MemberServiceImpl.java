@@ -168,7 +168,7 @@ public class MemberServiceImpl implements MemberService {
 		if(i == 1) {
 			result = true;
 		}
-		
+		System.out.println(result);
 		return result;
 	}
 	

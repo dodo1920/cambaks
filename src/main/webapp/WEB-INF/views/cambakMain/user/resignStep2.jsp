@@ -48,27 +48,18 @@
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 <script>
-		/* function checkPw() {
-			
-			let chkPw = document.getElementById('chkPw').value;
-			if (chkPw.length < 8 || chkPw.length > 20) { // 잘못된 패스워드
-				document.getElementById("checkPwMessage").innerHTML = "잘못된 패스워드 양식입니다.";
-				document.getElementById("chkPw").focus()
-			} 
-		} */
-		
-		function checkPw() {
+	function checkPw() {
 			let member_id = $("#member_id").val();
-			let member_password = #("#member_password").val();
+			let member_password = $("#member_password").val();
 			
 			$.ajax({
 				type : "post",
 				dataType : "text", // 받을 데이터
 				//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
 				url : "/user/resignStep3",// 서블릿 주소
-				data : {member_id : member_id, member_password : member_password},
+				data : $("#checkPw").serialize(),
 				success : function(result) {
-					
+					console.log(result);
 				}, // 통신 성공시
 				error : function(result) {
 					
@@ -85,49 +76,13 @@
 			});		
 			return false;
 		}
+	
 	</script>
 
 <body>
 
 	<!-- Header -->
-	<div id="header">
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="http://zinsimi.cafe24.com/1_project/Do_main5.html">Logo</a>
-				</div>
-				<div class="collapse navbar-collapse" id="myNavbar">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">MENU<span
-									class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="glory-login.html" id="loginBtn">로그인
-									</a></li>
-								<li><a href="Do_bbsList.html">게시판</a></li>
-								<li><a href="SHW_myCamping.html">마이페이지</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-
-
-		<div class="container">
-
-			<!-- Logo -->
-			<div id="logo">
-				<h1>캠박이일</h1>
-				<span class="tag">We are specialized in camping</span>
-			</div>
-		</div>
-	</div>
+	 <%@include file="../cambak21Header.jsp"%>
 	<!-- Header -->
 
 	<!-- Main -->
@@ -149,7 +104,7 @@
 							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
 						</header>
 						<div>
-						<form action="/user/resignStep4" method="POST" onsubmit="return checkPw();">
+						<form action="/user/resignStep4" method="POST" id="checkPw" onsubmit="return checkPw()">
 							<input type="hidden" name="member_id" id="member_id" value = "${loginMember.member_id }"/>
 							<input type="password" name="member_password" id="member_password" size="25">
 							<input type="submit" value="확인">
