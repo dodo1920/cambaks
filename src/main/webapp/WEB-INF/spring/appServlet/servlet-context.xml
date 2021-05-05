@@ -67,6 +67,11 @@
          <mapping path="/board/campingTip/modifyRereply"/>
          <mapping path="/board/campingTip/deleteRereply"/>
          <mapping path="/myPage/myReply"/>
+         <mapping path="/user/pwdCheck"/>
+         <mapping path="/user/modify"/>
+         <mapping path="/admin/orderManagement"/>
+         <mapping path="/admin/orderManagement/search"/>
+         <mapping path="/admin/orderManagement/detail"/>
 	<!-- **************************************** 백승권 매핑 스캔 ********************************************** -->
 		
 		

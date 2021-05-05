@@ -2,6 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -181,7 +189,7 @@
     line-height: 60px;
     border: 1px solid #888;
     font-size: 17px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     display: block;
     text-align: center;
     background-color: #fafafa;
@@ -208,6 +216,7 @@
     padding: 0 0 0 19px;
     color: #999;
     line-height: 20px;
+    font-size: 12px;
 }
 
 .modal-header, h4, .close {
@@ -258,7 +267,7 @@
 	<%@include file="../cambak21Header.jsp"%>
 
 
-	<div id="main">
+	<div id="main" ondragstart="return false">
 		<div id="content" class="container">
 			<div class="contentPlace">
 				<div>
@@ -268,9 +277,9 @@
 					<div class="registerSite">
 						<div class="registerBar">
 							<a class="registerBtn" data-toggle="modal" data-target="#myModal">캠박's 통합 회원가입</a>
-							<a class="kakaoRegisterBtn">Daum Kakao 아이디 회원가입</a>
+							<a href="#"><img src="/resources/cambak21/img/kakaoLogin.png" style="width: 470px;" /></a>
 							<p class="kakaoInfo">
-								카카오톡 로그인 할 끼니?
+								* 카카오톡 로그인 연동 서비스는 아직 준비 중입니다. 이용에 불편드려 죄송합니다.
 							</p>
 							
 							<!-- Modal -->

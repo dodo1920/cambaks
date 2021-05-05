@@ -256,9 +256,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                     <h6>서효원</h6>
                     <ul>
                         <li><a href="/user/register">회원가입</a></li>
-                        <li><a href="/board/campingreview/listcri?page=1">캡핑팁 게시판</a></li>
-                        <li><a href="/myPage/myReply">마이페이지 - 내가 작성한 댓글</a></li>
+                        <li><a href="/user/pwdCheck">회원정보수정</a></li>
+                        <li><a href="/board/campingTip/list?page=1">캡핑팁 게시판</a></li>
+                        <li><a href="/myPage/myReply">내가 작성한 댓글</a></li>
                         <li><a href="/mall/categories">상품 리스트</a></li>
+                        <li><a href="/admin/orderManagement?page=1">관리자-주문목록</a></li>
                     </ul>
                 </div>
             </div>
