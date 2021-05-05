@@ -258,7 +258,7 @@ public class ProdDetail {
 		@RequestMapping(value="/insertLikeProdReviews/{loginUser}/{prodReview_no}", method=RequestMethod.POST)
 		public @ResponseBody int insertLikeProdReviews(@PathVariable("loginUser") String member_id, @PathVariable("prodReview_no") int prodReview_no) {
 			logger.info("/insertLikeProdReviews의 post방식 호출");
-//			System.out.println(member_id);
+			System.out.println(member_id);
 //			System.out.println(prodReview_no);
 			int result = 0;
 			try {

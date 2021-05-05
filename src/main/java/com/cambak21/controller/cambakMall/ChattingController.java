@@ -128,9 +128,9 @@ public class ChattingController {
 				entity = new ResponseEntity<String>(uploadFile, HttpStatus.OK);
 				
 				if(who.equals("admin")) { // 운영자가 이미지 보냄
-					service.fromAdmin(member_id, "<img src='../resources/uploads/chatting/"+uploadFile+"'>");
+					service.fromAdmin(member_id, "<img src='../resources/uploads/chatting/"+uploadFile+"' style='max-width:300px'>");
 				} else { // 유저가 이미지 보냄
-					service.fromUser(member_id, "<img src='../resources/uploads/chatting/"+uploadFile+"'>");
+					service.fromUser(member_id, "<img src='../resources/uploads/chatting/"+uploadFile+"' style='max-width:300px'>");
 				}
 			} else {
 				// 이미지 파일 아닌것

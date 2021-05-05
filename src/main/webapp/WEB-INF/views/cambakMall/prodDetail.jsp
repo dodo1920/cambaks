@@ -34,6 +34,7 @@
 </head>
 <script type="text/javascript">
 	let loginUser = '${loginMember.member_id}'; // 로그인한 유저의 아이디 값 저장
+	let userGrade = '${loginMember.grade_name}';
 	let prodId = '${param.prodId}'; // 유저가 접속한 상세 페이지의 상품 아이디 값 저장
 	let page = '${param.page}'; // 현재 페이지 값 저장
 	let cate = '${param.cate}'; // 카테고리 값 저장
@@ -41,6 +42,7 @@
 	let ssid = '${ssid}';
 	
 	console.log('${topReviews}');
+	console.log('${loginMember.grade_name}')
 	console.log('${prodDetail.mainCategory_id}');
 	console.log('${prodDetail.middleCategory_id}');
 	
@@ -199,6 +201,7 @@
 	        success 	: function(data) {
 // 	        	console.log(data);
 	        	let prodList = data.prodList;
+	        	console.log(prodList);
 	        	let pagingParam = data.pagingParam;
 	        	
 	        	totalReviews = data.pagingParam.totalCount;
@@ -236,11 +239,16 @@
 	                 }
 	                 
 	                 // display:none 되어있는 Content 내용
-	                 output += '<div>' + item.prodReview_content + '</div>';
+	                 output += '<div>' + item.prodReview_content + '</div><div class="likeProdReviews">';
 	                 // --------------상품후기 좋아요 표시 부분-----------------
-	                 output += '<div class="likeProdReviews"><span id="likeProd' + item.prodReview_no + '"></span></div>';
+	                 if(loginUser != null){
+	                	 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ item.prodReview_no +')";/>' + item.prodReview_likeCnt + '</span>';  
+						 }
+					 else{
+						 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + item.prodReview_likeCnt + '</span>';
+						}
 	                 
-	                 output += '<div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
+	                 output += '</div><div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
 	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
@@ -308,8 +316,10 @@
 	              $("#totalReviews").html(totalReviews);
 	              
 	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
+	              // showContent 를 이용해서 열어주면 가능할 수도
 	              if(checkPoint == 1){
-	            	  $("#content" + prodReviewNo).show();
+	            	  showContent(prodReviewNo);
+	            	 // $("#content" + prodReviewNo).show();
 	              }
 	              
 	        }, // end of Success
@@ -433,6 +443,7 @@
 		 		if(loginUser == ""){
 		 			loginUser = "a";
 		 		}
+		 		
 				// 좋아요 표시 가져오기
 				$.ajax({
 					  method: "post",
@@ -444,17 +455,21 @@
 					  dataType: "json", // 응답 받는 데이터 타입
 					  success : function(data) {
 					      	let myLike = data.myLike;
+					      	console.log("myLike : " + myLike);
 					      	let likeCnt = data.likeCnt;
 					      // 좋아요를 클릭 안 했으면,
 					      if(myLike==0){
 					    	  if(loginUser != "a"){
+					    		  // 로그인한 경우, 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;  
 					    	  }else{
+					    		  // 로그인 하지 않은 경우에도 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + likeCnt;
 					    	  }
 					    	  
 					    	  $("#likeProd" + prodReview_no).html(showLike);
-					      }else{// 좋아요를 클릭했으면
+					      }else{
+					    	  //해당 글에 좋아요를 클릭했으면
 					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;
 					    	  $("#likeProd" + prodReview_no).html(showLike);
 					      }
@@ -464,8 +479,7 @@
 					}); // end of ajax
 					
 		}
-
-
+	
 	 // 별점에 따른 별 개수를 표현하는 부분
 	 function showStars(grade) {
 		var output1 = '';
@@ -562,6 +576,7 @@
 				      console.log("#checkcheck" + replyProdReview_no);
 					  //$("#replyName" + replyProdReview_no).html(replyMember_id);
 					  showProdList(prodId, currentPage, 1, orderList);
+					  console.log("prodReview_no : " + prodReview_no);
 				  }, complete : function (result) {
 					  
 				}
@@ -650,7 +665,7 @@
 					  
 					  //수정 후 리스트를 다시 출력하라
 					  showProdList(prodId, currentPage, 1, orderList);
-					  
+					  console.log(prodReviewNo);
 				  }
 				  
 				});
@@ -785,17 +800,21 @@
 		        	let dateFormat = date.toLocaleString(); // 날짜 형식 변환
 		        	
 		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
+		        	
+		        	if(item.prodQA_isSecret == 'N') { // 비밀글이 아닐 경우,
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
+		        	} else if((loginUser == item.member_id && item.prodQA_isSecret == 'Y') || userGrade == 'M') { // 비밀글이지만, 로그인한 유저와 글쓴이가 같거나, 관리자일 경우
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');"><span class="lockImg"><img src="../../resources/img/unlock.png" width="18px" height="18px"/></span>' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
+		        	} else if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데, 로그인한 유저와 글쓴이가 다를 경우
 		        		output += '<td><div id="' + item.prodQA_no + '" ><span class="lockImg"><img src="../../resources/img/lock.png" width="18px" height="18px"/></span>비밀글입니다</div></td>';
-		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';	
 		        	}
+		        	
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
 	                output += '<td>' + item.prodQA_likeCnt + '</td>';
 	                output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
 	                
-	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
+	                output += '<tr class="content" id="content' + item.prodQA_no + '" style="display: none">';
 	                output += '<td colspan="6"><div id="imgs">';
 	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) { // img1에 데이터가 있다면,
 	                	output += '<img class= "contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
@@ -815,6 +834,9 @@
 		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
 		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+	                } else if(userGrade == 'M') {
+	                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
+		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 	                }
 	                
 	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span></div></td></tr>';
@@ -930,7 +952,15 @@
 						let writer = $("#writer" + item.prodQA_ref).text();
 			    		
 						output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + '" style="display: none">';
-		                output += '<td colspan="6"><div class="imgs">';
+		                output += '<td colspan="6">';
+		                
+		                if(userGrade == 'M') {
+		                	output += '<div><p>[cambak21 관리자]</p></div>'
+		                } else {
+		                	output += '<div><p>' + item.prodQA_member_id + '</p></div>'	
+		                }
+		                
+		                output +='<div class="imgs">';
 		                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
 		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
 		                }
@@ -941,13 +971,21 @@
 		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 		                }
 		                output += '</div>';
-		                output += '<div>' + item.prodQA_content + '</div></td></tr>';
+		                
+		                output += '<div class="contentDiv">';
+		                output += '<p><b>' + item.prodQA_title + '</b></p>';
+		                output += '<p>' + item.prodQA_content + '</p></div>';
+		                
+		                output += '<div>';
 		                if(item.prodQA_category == 'reply' && loginUser == writer) {
 		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
 		                }
-		                if(loginUser == item.member_id) {
-	                		output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goModi(\'2\','+ item.prodQA_no +');" value="수정"/></div></div></td></tr>';
+		                
+		                if(loginUser == item.member_id || userGrade == 'M') {
+	                		output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goModi(\'2\','+ item.prodQA_no +');" value="수정"/></div>';
 	                	}
+		                
+		                output += '</td></tr>';
 		               
 		                
 					});	
@@ -1512,9 +1550,9 @@
 		padding-top : 0px;
 	}
 
-	p {
-		text-align : center;
-	}
+ 	#product_detail { 
+ 		text-align : center; 
+ 	}
 	
 	.hiddenSecretDiv {
 		display : none;
@@ -1551,10 +1589,6 @@
 		height : 100%;
 	}
 	
-	span {
-		margin-top : 10px;
-	}
-	
 	#prodQATb {
 		min-height : 338px;
 	}
@@ -1570,6 +1604,11 @@
 	.lockImg {
 		margin : 0px 5px;
 	}
+	
+	.content {
+		background : #f8f9fa;
+	}
+	
 
 </style>
 <body>
@@ -1589,6 +1628,14 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
+<<<<<<< HEAD
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <c:choose>
+                        	<c:when test="${prodDetail.mainCategory_id } == 9">
+                        		<a href="#">기타</a><span>기타</span>
+                        	</c:when>
+                        </c:choose>                     
+=======
                         <a href="./main/"><i class="fa fa-home"></i> Home</a>
                         <c:choose>
 	                        <c:when test="${prodDetail.mainCategory_id == 1 and prodDetail.middleCategory_id == 1}">
@@ -1641,6 +1688,7 @@
 	                        </c:when>
                         </c:choose>
 
+>>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
                     </div>
                 </div>
             </div>
@@ -1756,7 +1804,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>상품 상세</h6>
-                                <p><img src="${prodDetail.product_detail }" /></p>
+                                <p id="product_detail"><img src="${prodDetail.product_detail }" /></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>상품평</h6>

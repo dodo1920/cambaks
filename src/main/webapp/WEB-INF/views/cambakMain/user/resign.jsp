@@ -76,9 +76,8 @@
 			let chkBox = document.getElementById("chkBox");
 			if (chkBox.checked == false) {
 				document.getElementById('chkBoxComment').innerHTML = "※안내 사항 확인여부에 동의해주세요."
-			} else {
-				location.href = "/user/quitMemberStep2";
-			}
+				return false
+			} 
 		}
 
 		function prevPg() {
@@ -136,44 +135,7 @@
 	<div id="main">
 		<div class="container">
 			<div class="row">
-				<!-- Sidebar -->
-				<div>
-					<div class="profile">
-						<div>
-							<div class="profileSize">
-								<a href=></a><img src="img/profileDefualt.png" class="userProfileImg"></a>
-								<h4>서효원</h4>
-								<div class="profileEmail">hyoniki@gmail.com</div>
-							</div>
-							<div class="profileCategory">
-								<ul>
-									<li class="profileMenu1"><a href="SHW_accountInfo.html" class="profileMenu">회원 정보
-											수정</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">캠핑장 찜 리스트</a></li>
-									<li class="profileMenu2"><a href="#" class="profileMenu">좋아요 표시한 게시글</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-
-
-
-					<!-- Sidebar -->
-					<div id="sidebar" class="4u">
-						<div class="sidebar">
-							<h3 class="myPage">MY PAGE</h3>
-							<ul class="nav nav-pills nav-stacked">
-								<li><a href="SHW_myCamping.html" id="categoryFont">마이캠핑</a></li>
-								<li><a href="buggo_checkBox.html" id="categoryFont">여행계획</a></li>
-								<li><a href="glory_diarylist.html" id="categoryFont">여행일기</a></li>
-								<li><a href="#" id="categoryFont">작성한 게시글</a></li>
-								<li class="active"><a href="KJM_userOut1.html" id="categoryFont">회원 탈퇴</a></li>
-								
-							</ul>
-						</div>
-					</div>
-				</div>
-
+				
 				<!-- Content -->
 				
 				<div id="content" class="8u skel-cell-important" style="padding-bottom: 200px;">
@@ -196,14 +158,10 @@
 									<span id="chkBoxComment"></span>
 								</li>
 							</ul>
-							 <form action="?" method="POST">
-      <div class="g-recaptcha" data-sitekey="your_site_key"></div>
-      <br/>
-      <input type="submit" value="Submit">
-    </form>
+							
 						</div>
 						<div>
-						<form action="/user/resignStep2" method="POST">
+						<form action="/user/resignStep2" method="POST" onsubmit="return withdrawal();">
 						<input type="submit" class="btn btn-info" value="회원탈퇴">
 							<input type="button" class="btn btn-info" value="되돌아가기" onclick="history.back()">
 							
@@ -230,54 +188,9 @@
 	</div>
 	<!-- /Main -->
 
-	<!-- Tweet -->
-	<div id="tweet">
-		<div class="container">
-			<section>
-				<blockquote>&ldquo;진정한 여행은 새로운 풍경을 보러가는 것이 아니라, <br />세상을 바라보는 또 하나의 눈을 얻어오는 것이다.&rdquo;</blockquote>
-			</section>
-		</div>
-	</div>
-	<!-- /Tweet -->
-
+	
 	<!-- Footer -->
-	<footer class="text-center" id="foot">
-		<div id="contact" class="container">
-			<h3 class="text-center">Contact</h3>
-			<p class="text-center"><em>We love our fans!</em></p>
-
-			<div class="row">
-				<div class="col-md-4">
-					<p>Feel free to contact us:)</p>
-					<p><span class="glyphicon glyphicon-map-marker"></span>서울, 대한민국</p>
-					<p><span class="glyphicon glyphicon-phone"></span>Phone: +00 1515151515</p>
-					<p><span class="glyphicon glyphicon-envelope"></span>Email: mail@mail.com</p>
-					<p><span class="glyphicon glyphicon-envelope"></span>SNS</p>
-				</div>
-				<div class="col-md-8">
-					<div class="row">
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-						</div>
-						<div class="col-sm-6 form-group">
-							<input class="form-control" id="email" name="email" placeholder="Email" type="email"
-								required>
-						</div>
-					</div>
-					<textarea class="form-control" id="comments" name="comments" placeholder="Comment"
-						rows="5"></textarea>
-					<br>
-					<div class="row">
-						<div class="col-md-12 form-group">
-							<button class="btn pull-right" type="submit">Send</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 위로 가기 버튼-->
-			<a href="#" class="top"><img src="images/top.png" class="topMove"></a>
-			<!-- 위로 가기 버튼-->
-	</footer>
+	<%@include file="../cambak21Footer.jsp"%>
 	<!-- /Footer -->
 </body>
 

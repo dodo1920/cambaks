@@ -835,6 +835,29 @@ public class AdminController {
       return "/admin/QA_admin";
    }
    
+   @RequestMapping(value = "/board_QAadmin/ajax/delete", method = RequestMethod.POST)
+   public ResponseEntity<String> board_QA_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{
+	  
+	   ResponseEntity<String> entity = null;
+	   String[] array = deleteAllNum.split("-");
+	   
+	   for(int i=0; i < array.length; i++) {
+			
+		    if(array[i] != "") {
+		    	System.out.println(array[i]);
+		    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
+		    }
+		}
+	   
+	   try {
+		   entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	   } catch (Exception e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+	   }
+	   return entity;	
+   }
+   
    @RequestMapping(value = "/QA/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
    public ResponseEntity<Map<String, Object>> getNewProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;

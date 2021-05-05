@@ -88,9 +88,9 @@ let PagingResultList = new Array();
 		let recoveryType = "";
 	
 		if($("#isoutputType").val() == "B"){
-			deleteType = "B";
+			recoveryType = "B";
 		}else if($("#isoutputType").val() == "R"){
-			deleteType = "R";
+			recoveryType = "R";
 		}	
 			
 		 if (confirm("해당 항목을 복구 하시겠습니까? 게시판을 복구 할 경우 모든 댓글은 별도 복구 작업이 필요합니다.") == true) { //확인
@@ -103,7 +103,7 @@ let PagingResultList = new Array();
 						{recoveryNum : recoveryNum,
 						recoveryType : recoveryType},
 					success : function(result){
-							alert(data + "항목 복구 완료");
+							alert(data + "번 글 복구 완료");
 							goBoardListAll();
 					}
 				});
@@ -162,7 +162,6 @@ let PagingResultList = new Array();
 					checkBoxCount++;
 					deleteAllNum += $("input[name=bbs_no]")[i].value;
 					deleteAllNum += "-";
-					
 					
 					}else{
 						checkBoxCount = 100;

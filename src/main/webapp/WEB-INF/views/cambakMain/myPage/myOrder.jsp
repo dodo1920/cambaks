@@ -39,7 +39,9 @@ function refundnExchange(payment_no,payment_date) {
 		url : "/myMall/myOrder/insertRefund",// 서블릿 주소
 		data : {payment_no : payment_no, refundnExchange_reason : refundnExchange_reason, member_id : member_id, refundnExchange_status : refundnExchange_status, payment_date:payment_date},
 		success : function(result) {
+			
 			location.reload();
+			alert("환불, 교환 신청이 완료되었습니다.")
 		}, // 통신 성공시
 		error : function(result) {
 			
@@ -261,12 +263,18 @@ $(document).ready(function(){
 																	보기</button>
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
+<<<<<<< HEAD
+																
+																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
+																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
+=======
 
 
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
 
 																	
 
+>>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
 																
 																
 
