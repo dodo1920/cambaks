@@ -39,7 +39,9 @@ function refundnExchange(payment_no,payment_date) {
 		url : "/myMall/myOrder/insertRefund",// 서블릿 주소
 		data : {payment_no : payment_no, refundnExchange_reason : refundnExchange_reason, member_id : member_id, refundnExchange_status : refundnExchange_status, payment_date:payment_date},
 		success : function(result) {
+			
 			location.reload();
+			alert("환불, 교환 신청이 완료되었습니다.")
 		}, // 통신 성공시
 		error : function(result) {
 			
