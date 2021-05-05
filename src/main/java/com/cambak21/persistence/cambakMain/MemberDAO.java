@@ -35,6 +35,8 @@ public interface MemberDAO {
 	 */
 	public int memberDelete(String member_id) throws Exception;
 	
+	public int memberDelCheck(LoginDTO dto)throws Exception;
+	
 	/**
 	 * @Method Name : memberInsert
 	 * @작성일 : 2021. 3. 16.
@@ -176,4 +178,6 @@ public interface MemberDAO {
 	public MemberVO sesUserInfoChange(String member_id) throws Exception;
 	public int modifyCheckUser(String member_id, String member_password) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
+
+
 }

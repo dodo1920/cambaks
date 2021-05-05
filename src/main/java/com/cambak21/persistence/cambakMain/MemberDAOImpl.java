@@ -39,6 +39,13 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public int memberDelCheck(LoginDTO dto) throws Exception {
+		// TODO Auto-generated method stub
+		return ses.selectOne(namespace + ".memberDelCheck", dto);
+	}
+
 
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	@Override
@@ -127,5 +134,5 @@ public class MemberDAOImpl implements MemberDAO {
 	public int memberDel(LoginDTO dto) throws Exception {
 		return ses.update(namespace + ".MemberDelete", dto);
 	}
-
+	
 }

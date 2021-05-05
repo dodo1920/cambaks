@@ -179,14 +179,12 @@ public class MemberController {
 		return "cambakMain/user/resignStep2";
 	}
 	
-	
 	@RequestMapping(value = "/resignStep3", method = RequestMethod.POST)
-	public ResponseEntity<String>  quitMemberStep2(LoginDTO dto, RedirectAttributes rttr) {
+	public ResponseEntity<String>  memberDelCheck(LoginDTO dto, RedirectAttributes rttr) {
+		ResponseEntity<String> entity = null;
 		
-		 ResponseEntity<String> entity = null;
-		System.out.println(dto.toString());
 		try {
-			if(service.memberDelete(dto)) {
+			if(service.memberDelCheck(dto)) {
 				entity = new ResponseEntity<String>("success", HttpStatus.OK);
 			}else {
 				entity = new ResponseEntity<String>("fail", HttpStatus.OK);
@@ -195,7 +193,26 @@ public class MemberController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return entity;
+	}
+	
+	@RequestMapping(value = "/resignStep4", method = RequestMethod.POST)
+	public String quitMemberStep2(LoginDTO dto, RedirectAttributes rttr, HttpSession session) {
+		
+		 
+		System.out.println(dto.toString());
+		
+			try {
+				service.memberDelete(dto);
+				session.removeAttribute("loginMember");
+		         session.invalidate();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		return "cambakMain/user/resignStep3";
 	}
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 김대기 멤버 탈퇴
 	
