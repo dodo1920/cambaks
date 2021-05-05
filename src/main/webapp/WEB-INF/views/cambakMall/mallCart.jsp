@@ -92,6 +92,7 @@ button.btn.btn-default.cntCh {
 <script type="text/javascript">
 	let ssid = '${ssid}';
 	let sameBucketLst = '${sameBucketLst}';
+	let bucketQty = '${bucketQty}';
 	console.log(ssid);
 	
 	function updateBucket(flag, prodId) {
@@ -140,11 +141,15 @@ button.btn.btn-default.cntCh {
 	
 	$(document).ready(function() {
 		console.log(sameBucketLst);
+		console.log(sameBucketLst.length);
 		
-		if(sameBucketLst.length != 0) {
-			$("#checkModal").modal();
-		} else {
+		
+		if(bucketQty == 11) {
+			$("#overQty").modal();
+		} else if(sameBucketLst.length == 0) {
 			cartList();	
+		} else {
+			$("#checkModal").modal();
 		}
 	})
 	
@@ -538,9 +543,27 @@ button.btn.btn-default.cntCh {
 					</ul>
 				</div>
 				<div class="modal-footer">
-<!-- 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('add');">추가하기</button> -->
-<!-- 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="updateBucket('modi');">변경하기</button> -->
 					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cartList();">장바구니로</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<!-- modal -->
+	<div id="overQty" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">장바구니</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="modalText">
+					<p>장바구니에 등록 가능한 수량은 최대 10개 입니다!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="cartList();">장바구니 보기</button>
 				</div>
 			</div>
 

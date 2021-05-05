@@ -541,17 +541,23 @@ public class MallController {
 					dto.setBucket_buyQty(nonUserBucket.getNonUserBucket_buyQty());
 					dto.setBucket_totBuyPrice(nonUserBucket.getNonUserBucket_totBuyPrice());
 					
-					if(prodDetailService.insertBucket(dto)) {
-						logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
+					if(prodDetailService.checkBucketQty(vo.getMember_id()) < 10) {
+						logger.info("장바구니 상품 수량이 10개 이하");
+						if(prodDetailService.insertBucket(dto)) {
+							logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
+						} else {
+							return "errer";
+						}
 					} else {
-						return "errer";
-					}
+						logger.info("장바구니 상품 수량이 10개 초과!!");
+						bucketService.nonUserDeleteItem(ssid, dto.getProduct_id());
+						model.addAttribute("bucketQty", 11);
+					}					
 				} else {
 					System.out.println("동일 상품 존재");
+					model.addAttribute("sameBucketLst", sameBucketLst);
 				}
 			}
-			
-			model.addAttribute("sameBucketLst", sameBucketLst);
 		}		
 		
 		return "cambakMall/mallCart";
@@ -658,8 +664,12 @@ public class MallController {
 	
 	// **************************************** 김도연 비회원 장바구니 컨트롤러
 	@RequestMapping(value="cart/updateBucekt", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> updateBucekt(@RequestParam("status") String status, @RequestBody InsertintoBucketDTO dto) throws Exception {
+	public @ResponseBody ResponseEntity<String> updateBucekt(@RequestParam("status") String status, @RequestBody InsertintoBucketDTO dto, HttpServletRequest request) throws Exception {
 		logger.info("비회원 장바구니와 회원 장바구니 겹치는 상품 상태 결정");
+		
+		HttpSession ses = request.getSession();
+
+		String ssid = (String) ses.getAttribute("ssid");
 		
 		ResponseEntity<String> entity = null;
 		
@@ -669,6 +679,7 @@ public class MallController {
 			logger.info("비회원 장바구니로 회원 장바구니 수량 변경");
 			
 			if(prodDetailService.updateBucketQty(dto)) {
+				bucketService.nonUserDeleteItem(ssid, dto.getProduct_id());
 				entity = new ResponseEntity<String>("modiSuccess", HttpStatus.OK);
 			} else {
 				entity = new ResponseEntity<String>("modiFail", HttpStatus.BAD_REQUEST);
@@ -677,6 +688,7 @@ public class MallController {
 			logger.info("비회원 장바구니와 회원 장바구니 수량 합침");
 			
 			if(prodDetailService.updateAddBucketQty(dto)) {
+				bucketService.nonUserDeleteItem(ssid, dto.getProduct_id());
 				entity = new ResponseEntity<String>("addSuccess", HttpStatus.OK);
 			} else {
 				entity = new ResponseEntity<String>("addFail", HttpStatus.BAD_REQUEST);
