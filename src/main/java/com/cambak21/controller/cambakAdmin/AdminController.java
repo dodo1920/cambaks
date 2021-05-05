@@ -835,7 +835,7 @@ public class AdminController {
       return "/admin/QA_admin";
    }
    
-   @RequestMapping(value = "/board_admin/ajax/delete", method = RequestMethod.POST)
+   @RequestMapping(value = "/board_QAadmin/ajax/delete", method = RequestMethod.POST)
    public ResponseEntity<String> board_QA_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{
 	  
 	   ResponseEntity<String> entity = null;

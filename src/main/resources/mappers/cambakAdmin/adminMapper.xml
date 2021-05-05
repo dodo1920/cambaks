@@ -396,7 +396,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
    
   <!-- ***************************************** 원영 ********************************************************************************* -->
   
-  <select id="goGetBoard_admin" resultType="com.cambak21.dto.AdminBoardDTO">
+  <select id="goGetBoard_QAadmin" resultType="com.cambak21.dto.AdminBoardDTO">
   		select * from Boards where
 	  		<if test="board_category != 'all'">
 	  			board_category = #{board_category} and 
@@ -404,7 +404,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by board_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   	
-  	<select id="goGetreply_admin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
+  	<select id="goGetreply_QAadmin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
   		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where r.board_no = b.board_no and 
 	  		<if test="board_category != 'all'">
 	  			 b.board_category = #{board_category} and 
@@ -415,7 +415,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   
   
-  	<select id="searchGetBoard_admin" resultType="com.cambak21.dto.AdminBoardDTO">
+  	<select id="searchGetBoard_QAadmin" resultType="com.cambak21.dto.AdminBoardDTO">
   		select * from Boards where
   		
 	  		<if test="board_category == 'all' and searchboardType == 'title'">
@@ -494,7 +494,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	</select>
   	
   	
-  	<select id="searchGetreply_admin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
+  	<select id="searchGetreply_QAadmin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
   		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where
   		
   			<if test="board_category == 'all' and searchboardType == 'title'">
@@ -561,16 +561,16 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		</select>
   
   
-  	<select id="getTodayTotCnt" resultType="int">
+  	<select id="getTodayTotCntQA" resultType="int">
   		select count(*) from Boards where date_format(board_writeDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
   	</select>
   
-  	<select id="getTodayreplyTotCnt" resultType="int">
+  	<select id="getTodayreplyTotCntQA" resultType="int">
   		select count(*) from ReplyBoards where date_format(replyBoard_writeDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
   	</select>
   
   
-   <select id="getBoard_adminCnt" resultType="int">
+   <select id="getBoard_QAadminCnt" resultType="int">
   		select count(*) from Boards where
 	  		<if test="board_category != 'all'">
 	  			board_category = #{board_category} and 
@@ -578,7 +578,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}
   	</select>
   	
-  	<select id="getReply_adminCnt" resultType="int">
+  	<select id="getReply_QAadminCnt" resultType="int">
   		select count(*) from ReplyBoards r, Boards b where r.board_no = b.board_no and 
 	  		<if test="board_category != 'all'">
 	  			 b.board_category = #{board_category} and 
@@ -589,7 +589,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   
   
-  	<select id="getsearchBoard_adminCnt" resultType="int">
+  	<select id="getsearchBoard_QAadminCnt" resultType="int">
   		select count(*) from Boards where
   		
 	  		<if test="board_category == 'all' and searchboardType == 'title'">
@@ -668,7 +668,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	</select>
   	
   	
-  	<select id="getsearchReply_adminCnt" resultType="int">
+  	<select id="getsearchReply_QAadminCnt" resultType="int">
   		select count(*) from ReplyBoards r, Boards b where
   		
   			<if test="board_category == 'all' and searchboardType == 'title'">
@@ -735,11 +735,11 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		</select>
    
   
-  		<update id="deleteBoardAdmin">
+  		<update id="deleteBoardQAadmin">
   			update Boards set board_isDelete ='Y', board_updateDate = now() where board_no = #{no} 
   		</update>
   
-  		<update id="deleteReplyBoardAdmin">
+  		<update id="deleteReplyBoardQAAdmin">
   			update ReplyBoards set replyBoard_isdelete ='Y', replyBoard_updateDate = now() where board_no = #{no} 
   		</update>  
   
