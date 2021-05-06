@@ -52,10 +52,7 @@ $(document).ready(function() {
 function contentTopCategory(board_category) {
 	
 	$("#totalBar").attr("class", "");
-	$("#campingBar").attr("class", "");
-	$("#humorBar").attr("class", "");
 	$("#QABar").attr("class", "");
-	$("#ResellBar").attr("class", "");
 	$("#TipBar").attr("class", "");
 	$("#noticeBar").attr("class", "");
 	$("#CSBar").attr("class", "");
@@ -145,7 +142,6 @@ function MyReplyCategory(page, board_category) {
 			let paging = data.paging;
 			
 			$("#myPageBoardList").empty();
-			console.log(data.myReplyList.length);
 			
 			if (data.myReplyList.length == 0) {
 				
@@ -216,11 +212,11 @@ function MyReplyCategory(page, board_category) {
 				getTotalCount(); // 내 총 개수 목록 새로고침
 				textLimitBoard(); // 글 제목 글자수 20개 이상은 짤라주기
 				textLimitReply(); // 댓글 내용 글자수 20개 이상은 짤라주기
-				contentTopCategory(board_category);
+				
 				$("#paging" + page).attr("class", "active");
 				
 			}
-			
+			contentTopCategory(board_category);
 
 			
 		}, error : function(data) {
@@ -334,9 +330,6 @@ function getDateParam(millisecond) {
 							<p class="myPost">
 								좋아요 누른 글 : <a href="/myPage/myLike.mp" class="myPostCnt" id="totalLike">0</a>개
 							</p>
-							<p class="myPost">
-								나의 문의 : <a href="#" class="myPostCnt" id="totalQuestion">0</a>개
-							</p>
 						</div>
 						<!-- 위에 카테고리 -->
 						<div class="small-category">
@@ -344,8 +337,6 @@ function getDateParam(millisecond) {
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
 										<li id="totalBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'total')">전체보기</a></li>
-										<li id="campingBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'camping')">캠핑 후기</a></li>
-										<li id="humorBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'humor')">유머</a></li>
 										<li id="QABar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'QA')">Q&amp;A</a></li>
 										<li id="TipBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'Tip')">캠핑Tip</a></li>
 										<li id="noticeBar"><a class="clickBtnHover" onclick="MyReplyCategory(1, 'notice')">공지사항</a></li>

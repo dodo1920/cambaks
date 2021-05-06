@@ -485,7 +485,7 @@ $('#endDate').datepicker({
                                  <ul class="pagination">
                                     <c:if test="${order.paging.prev }">
                                     <li class="page-item">
-                                       <a class="page-link" href="/admin/orderManagement?page=${param.page - 1 }" aria-label="Previous">
+                                       <a class="page-link" href="/admin/orderManagement/search?checkOption=${param.checkOption}&checkOptionSearch=${param.checkOptionSearch}&checkDate=${param.checkDate}&checkLowDate=${param.checkLowDate}&checkHighDate=${param.checkHighDate}&productInfo=${param.productInfo}&productInfoSearch=${param.productInfoSearch}&purchaseStatus=${param.purchaseStatus}&orderStatus=${param.orderStatus}&csStatus=${param.csStatus}&page=${param.page - 1 }" aria-label="Previous">
                                           <span aria-hidden="true">«</span>
                                           <span class="sr-only">Previous</span>
                                        </a>
@@ -493,12 +493,12 @@ $('#endDate').datepicker({
                                     </c:if>
                                     <c:forEach begin="${order.paging.startPage }" end="${order.paging.endPage }" var="pageNo">
                                     <li class="page-item" id="pageNum${pageNo }">
-                                       <a href="/admin/orderManagement?page=${pageNo }" class="page-link">${pageNo }</a>
+                                       <a href="/admin/orderManagement/search?checkOption=${param.checkOption}&checkOptionSearch=${param.checkOptionSearch}&checkDate=${param.checkDate}&checkLowDate=${param.checkLowDate}&checkHighDate=${param.checkHighDate}&productInfo=${param.productInfo}&productInfoSearch=${param.productInfoSearch}&purchaseStatus=${param.purchaseStatus}&orderStatus=${param.orderStatus}&csStatus=${param.csStatus}&page=${pageNo }" class="page-link">${pageNo }</a>
                                     </li>
                                     </c:forEach>
                                     <c:if test="${order.paging.next }">
                                     <li class="page-item">
-                                       <a class="page-link" href="/admin/orderManagement?page=${param.page + 1 }" aria-label="Next">
+                                       <a class="page-link" href="/admin/orderManagement/search?checkOption=${param.checkOption}&checkOptionSearch=${param.checkOptionSearch}&checkDate=${param.checkDate}&checkLowDate=${param.checkLowDate}&checkHighDate=${param.checkHighDate}&productInfo=${param.productInfo}&productInfoSearch=${param.productInfoSearch}&purchaseStatus=${param.purchaseStatus}&orderStatus=${param.orderStatus}&csStatus=${param.csStatus}&page=${param.page + 1 }" aria-label="Next">
                                           <span aria-hidden="true">»</span>
                                           <span class="sr-only">Next</span>
                                        </a>

@@ -142,7 +142,7 @@ function userCheck() {
 					<div class="userChkContent">
 						<div class="userChkBox">
 							<h2 class="pwdChkInfoMsg">비밀번호 확인</h2>
-							<div style="width: 330px; margin: 0 auto;">
+							<div style="width: 420px; margin: 0 auto;">
 								<p class="pwdChkInfoContent">
 									<strong style="color: #008bcc;">${loginMember.member_id }</strong>님의 회원정보를 안전하게 보호하기 위해<br />비밀번호를 한번 더 확인해 주세요.
 								</p>

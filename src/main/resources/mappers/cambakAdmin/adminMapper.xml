@@ -1345,31 +1345,31 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
 		
 		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
-			and pay.payment_no = #{checkOptionSearch}
+			and pay.payment_no like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
-			and mem.member_name = #{checkOptionSearch}
+			and mem.member_name like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
-			and pay.member_id = #{checkOptionSearch}
+			and pay.member_id like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
-			and mem.member_email = #{checkOptionSearch}
+			and mem.member_email like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
-			and mem.member_mobile = #{checkOptionSearch}
+			and mem.member_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
-			and des.destination_toUser = #{checkOptionSearch}
+			and des.destination_toUser like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
-			and des.destination_mobile = #{checkOptionSearch}
+			and des.destination_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
@@ -1422,31 +1422,31 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
 		
 		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
-			and pay.payment_no = #{checkOptionSearch}
+			and pay.payment_no like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
-			and mem.member_name = #{checkOptionSearch}
+			and mem.member_name like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
-			and pay.member_id = #{checkOptionSearch}
+			and pay.member_id like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
-			and mem.member_email = #{checkOptionSearch}
+			and mem.member_email like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
-			and mem.member_mobile = #{checkOptionSearch}
+			and mem.member_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
-			and des.destination_toUser = #{checkOptionSearch}
+			and des.destination_toUser like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
-			and des.destination_mobile = #{checkOptionSearch}
+			and des.destination_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
@@ -1527,31 +1527,31 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
 		
 		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
-			and pay.payment_no = #{checkOptionSearch}
+			and pay.payment_no like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
-			and mem.member_name = #{checkOptionSearch}
+			and mem.member_name like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
-			and pay.member_id = #{checkOptionSearch}
+			and pay.member_id like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
-			and mem.member_email = #{checkOptionSearch}
+			and mem.member_email like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
-			and mem.member_mobile = #{checkOptionSearch}
+			and mem.member_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
-			and des.destination_toUser = #{checkOptionSearch}
+			and des.destination_toUser like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
-			and des.destination_mobile = #{checkOptionSearch}
+			and des.destination_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
@@ -1605,31 +1605,31 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
 		and pay.payment_serialNo = del.payment_serialNo and pay.payment_date = poin.payment_date and mem.member_id = poin.member_id and buy.product_id = pro.product_id
 		
 		<if test="checkOption == 'orderNum' and checkOptionSearch != null">
-			and pay.payment_no = #{checkOptionSearch}
+			and pay.payment_no like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseName' and checkOptionSearch != null">
-			and mem.member_name = #{checkOptionSearch}
+			and mem.member_name like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseId' and checkOptionSearch != null">
-			and pay.member_id = #{checkOptionSearch}
+			and pay.member_id like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchaseEmail' and checkOptionSearch != null">
-			and mem.member_email = #{checkOptionSearch}
+			and mem.member_email like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'PurchasePhone' and checkOptionSearch != null">
-			and mem.member_mobile = #{checkOptionSearch}
+			and mem.member_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientName' and checkOptionSearch != null">
-			and des.destination_toUser = #{checkOptionSearch}
+			and des.destination_toUser like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientPhone' and checkOptionSearch != null">
-			and des.destination_mobile = #{checkOptionSearch}
+			and des.destination_mobile like concat('%', #{checkOptionSearch}, '%')
 		</if>
 		
 		<if test="checkOption == 'RecipientAddr' and checkOptionSearch != null">
