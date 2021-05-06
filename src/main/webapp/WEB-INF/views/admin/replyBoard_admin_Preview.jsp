@@ -153,7 +153,7 @@ html {
 
 <div class="mBoard gSmall">
         <table border="1" summary="">
-            <caption>댓글 내용 미리보기</caption>
+          
             <tbody>
             <tr>
                 <th scope="row">댓글 내용</th>

@@ -1457,7 +1457,7 @@ table {
 			 <div class="mLayer ui-draggable ui-resizable"
 					style="width: auto; display: none;  width: 450px; position: absolute; z-index: 200; left: 35%; top: 10%;" id="layerPreview">
 					
-					<h2>게시글 내용 미리보기</h2>
+					<h2>게시글 & 댓글 미리보기</h2>
 					<div class="wrap" style="width: 430px; height: 430px; margin:10px;"
 						id="eBulletinContentWrap">
 						<iframe id="eBulletinContent" frameborder="0" width="430px"
