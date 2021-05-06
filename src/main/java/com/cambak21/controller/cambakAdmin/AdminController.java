@@ -642,7 +642,7 @@ public class AdminController {
 	   }
    	 try {
 	   		 
-	      entity = new ResponseEntity<String>("1", HttpStatus.OK);
+	      entity = new ResponseEntity<String>("success", HttpStatus.OK);
 	   } catch (Exception e) {
 		   // TODO Auto-generated catch block
 		   e.printStackTrace();
