@@ -277,13 +277,13 @@ public class MyPostController {
 	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 사이드 템플릿에서 세션값 쓸껄 map에 넣어줌
-		map.put("member_id", loginMember.getMember_id());
-		map.put("member_email", loginMember.getMember_email());
+//		map.put("member_id", loginMember);
+//		map.put("member_email", loginMember.getMember_email());
 		
 		// 각 갯수 들을 담아줌
 		map.put("allCnt", service.myPageAllCount(loginMember.getMember_id()));
 		
-		model.addAttribute("loginMember", map);
+		model.addAttribute("cnt", map);
 		
 		return "cambakMain/myPage/myLikeBoard";
 	}
