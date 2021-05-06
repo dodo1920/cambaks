@@ -1,5 +1,6 @@
 package com.cambak21.persistence.cambakAdmin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import com.cambak21.domain.ProductAnalysisVO;
 import com.cambak21.domain.OrderManagementSearchVO;
 import com.cambak21.domain.OrderProductInfoVO;
 import com.cambak21.domain.OrderStatusInfo;
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.domain.RefundnExchangeVO;
 import com.cambak21.domain.ReplyBoardVO;
@@ -809,11 +811,66 @@ public class AdminDAOImpl implements AdminDAO {
 		return ses.update(ns + ".modifyCsStatusPayment", param);
 	}
 
-	
+	@Override
+	public Date getOrderDate(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".getOrderDate", payment_no);
+	}
 
+	@Override
+	public int modifyPurchaseConfirmationBefore(Date orderDate, Date defaultDate) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("orderDate", orderDate);
+		param.put("defaultDate", defaultDate);
+		return ses.update(ns + ".modifyPurchaseConfirmationBefore", param);
+	}
 	
+	@Override
+	public int modifyPurchaseConfirmation(Date orderDate) throws Exception {
+		return ses.update(ns + ".modifyPurchaseConfirmation", orderDate);
+	}
 
-		
+	@Override
+	public PointVO getOrderUsedPoint(Date orderDate) throws Exception {
+		return ses.selectOne(ns + ".getOrderUsedPoint", orderDate);
+	}
+
+	@Override
+	public int infoCanclePoint(String point_reason, PointVO pointHistory) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payment_date", pointHistory.getPayment_date());
+		param.put("point_usedPoint", pointHistory.getPoint_usedPoint());
+		param.put("member_id", pointHistory.getMember_id());
+		param.put("grade_name", pointHistory.getGrade_name());
+		param.put("point_reason", point_reason);
+		return ses.insert(ns + ".infoCanclePoint", param);
+	}
+
+	@Override
+	public int changeMemberPoint(int totPrice, PointVO pointHistory) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("point_usedPoint", pointHistory.getPoint_usedPoint());
+		param.put("member_id", pointHistory.getMember_id());
+		param.put("totPrice", totPrice);
+		return ses.insert(ns + ".changeMemberPoint", param);
+	}
+
+	@Override
+	public int getOrderTotPrice(int payment_no) throws Exception {
+		return ses.selectOne(ns + ".getOrderTotPrice", payment_no);
+	}
+
+	@Override
+	public int memberTotalPayment(String member_id) throws Exception {
+		return ses.selectOne(ns + ".memberTotalPayment", member_id);
+	}
+
+	@Override
+	public int updateMemberGrade(String member_id, String grade_name) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("grade_name", grade_name);
+		return ses.update(ns + ".updateMemberGrade", param);
+	}
 		
 		
 		

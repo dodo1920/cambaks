@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,6 +54,7 @@
 
 <link rel="stylesheet" href="/resources/cambak21/css/style.css" />
 <link rel="stylesheet" href="/resources/cambak21/css/style-desktop.css" />
+<link rel="stylesheet" href="/resources/cambak21/css/SHWtamplet.css" />
 
 <!-- bbskCSS -->
 <link rel="stylesheet" href="/resources/cambak21/css/bbskCSS.css" />
@@ -73,14 +81,16 @@
 						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Logo</a> <a class="navbar-brand"
-						href="/">캠박몰 바로가기</a>
+					<a class="navbar-brand" href="/index/main" id="tampletHeaderTitle" style="color : black;">Cambark's</a>
+					<span class="tampletHeaderBar"></span>
+					<a class="navbar-brand" href="/mall/main/" id="tampletHeaderTitle" style="color : black;">CambakMall</a>
 				</div>
 				<div class="collapse navbar-collapse" id="myNavbar">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">MENU<span class="caret"></span></a>
+							data-toggle="dropdown" href="#" style="font-size: 17px;">MENU<span class="caret"></span></a>
 							<ul class="dropdown-menu">
+	                            
 	                             <!-- 유저가 로그인 하지 않았다면 -->
 	                            <c:if test="${loginMember == null }">
 	                            	<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>

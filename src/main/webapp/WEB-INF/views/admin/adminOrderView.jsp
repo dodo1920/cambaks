@@ -2,6 +2,14 @@
    pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,8 +60,15 @@
 <script>
 
 $(document).ready(function() {
-	destinationModiResult();
-	
+let member_isAdmin = '${loginMember.member_isAdmin}';
+
+if (member_isAdmin != 'Y') {
+	alert("잘못된 접근입니다.");
+	location.href="/index/main";
+}
+
+destinationModiResult();
+
 });
 
 function destinationModiResult() {
@@ -489,6 +504,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '주문취소요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>
@@ -498,6 +514,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '교환요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>
@@ -507,6 +524,7 @@ function sample6_execDaumPostcode() {
 											<c:when test="${buyProdInfo.orderRequestInfo.refundnExchange_status == '환불요청'}">
 											<p>
 											<select class="select form-control" name="csStatus" id="csStatusSelect" style="display : none;">
+												<option value="noRequest">---선택---</option>
 												<option value="csCancelCompleted">주문취소완료</option>
 												<option value="csChangeCompleted">교환완료</option>
 												<option value="csRefundCompleted">환불완료</option>

@@ -1,6 +1,8 @@
 package com.cambak21.service.cambakAdmin;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ import com.cambak21.domain.OrderManagementPayInfoVO;
 import com.cambak21.domain.ProductAnalysisVO;
 
 import com.cambak21.domain.OrderManagementSearchVO;
-
+import com.cambak21.domain.PointVO;
 import com.cambak21.domain.RevRefundVO;
 import com.cambak21.domain.RevenueEachWeekVO;
 import com.cambak21.domain.RevenueMonthVO;
@@ -580,6 +582,7 @@ public class adminServiceImpl implements adminService {
 		String delivery_status = "";
 		String payment_isComit = "";
 		String payment_isChecked = "";
+		Date orderDate = dao.getOrderDate(payment_no);
 		
 		int payment_serialNo = dao.getOrderSerialNo(payment_no);
 		
@@ -591,12 +594,20 @@ public class adminServiceImpl implements adminService {
 		if (dao.modifyDeliveryInfo(payment_serialNo, delivery_status) == 0) result = false;
 		
 		if (!dto.getPurchaseStatus().equals("noChange")) {
+			
 			if (dto.getPurchaseStatus().equals("purchaseConfirmationBefore")) {
 				payment_isComit = "결제완료";
 				payment_isChecked = "N";
+				
+				String tmpDate = "2000-12-31 00:00:00";
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date defaultDate = format.parse(tmpDate);
+				
+				if (dao.modifyPurchaseConfirmationBefore(orderDate, defaultDate) == 0) result = false;
 			} else if (dto.getPurchaseStatus().equals("purchaseConfirmation")) {
 				payment_isComit = "결제완료";
 				payment_isChecked = "Y";
+				if (dao.modifyPurchaseConfirmation(orderDate) == 0) result = false;
 			}
 			
 			// 구매 확정 업데이트
@@ -606,6 +617,8 @@ public class adminServiceImpl implements adminService {
 		if (!dto.getCsStatus().equals("noRequest")) {
 			String modifyContent = "";
 			String isChecked = "Y";
+			String point_reason = "";
+			PointVO pointHistory = dao.getOrderUsedPoint(orderDate);
 			
 			// 주문 취소, 환불 시 상품 판매 재고 변경
 			if (dto.getCsStatus().equals("csCancelRequest") || dto.getCsStatus().equals("csRefundRequest")) {
@@ -623,33 +636,45 @@ public class adminServiceImpl implements adminService {
 			// 교환, 취소, 환불 처리
 			if (dto.getCsStatus().equals("csCancelCompleted")) {
 				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
-				
 				modifyContent = "주문취소완료";
-				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
+				point_reason = "주문취소";
+				
+				if(dao.infoCanclePoint(point_reason, pointHistory) == 0) result = false;
 				
 				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if (dao.modifyCsStatusRnE(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 				}
 			} else if (dto.getCsStatus().equals("csChangeCompleted")) {
 				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
-				
 				modifyContent = "교환완료";
-				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
 				
 				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if (dao.modifyCsStatusRnE(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 				}
 			} else if (dto.getCsStatus().equals("csRefundCompleted")) {
 				List<Integer> paymentSerialNoList = dao.getOrderProductSerialNo(payment_no);
-				
 				modifyContent = "환불완료";
-				if (dao.modifyCsStatusRnE(payment_serialNo, modifyContent, isChecked) == 0) result = false;
+				point_reason = "환불";
+				
+				if(dao.infoCanclePoint(point_reason, pointHistory) == 0) result = false;
+				if(dao.changeMemberPoint(dao.getOrderTotPrice(payment_no), pointHistory) == 0) result = false;
 				
 				for (int i = 0; i < paymentSerialNoList.size(); i++) {
+					if (dao.modifyCsStatusRnE(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 					if(dao.modifyCsStatusPayment(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
 				}
 			}
 			
+			String grade_name = "";
+			int totalPay = dao.memberTotalPayment(pointHistory.getMember_id());
+			
+			if (totalPay < 100000) grade_name = "C";
+			else if (totalPay < 300000 && totalPay > 100000) grade_name = "B";
+			else if (totalPay < 500000) grade_name = "A";
+			
+			if(dao.updateMemberGrade(pointHistory.getMember_id(), grade_name) == 0) result = false;
 		}
 		
 		return result;
