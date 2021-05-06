@@ -26,6 +26,8 @@
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+
 
 <script>
 
@@ -246,6 +248,11 @@ function goToTop() {
 $(function() {
 	showPointList();
 	showMyPointInfo();
+
+	// 글씨 색깔 효과
+	let myPageUri = myMallAddress();
+	myPageAsideBarDraw(myPageUri);
+	$("body,html").animate({scrollTop: 300}, 1);
 });
 </script>
 <style>

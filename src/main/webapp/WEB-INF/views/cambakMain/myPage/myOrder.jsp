@@ -26,6 +26,8 @@
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+
 <script type="text/javascript">
 function refundnExchange(payment_no,payment_date) {
 	let refundnExchange_reason = $('input[name="refundnExchange_reason"]:checked').val();
@@ -152,8 +154,11 @@ function purchaseSubmit(payInfo_no, payment_date, payment_no) {
 
 
 $(document).ready(function(){
-
-	});
+	// 글씨 색깔 효과
+	let myPageUri = myMallAddress();
+	myPageAsideBarDraw(myPageUri);
+	$("body,html").animate({scrollTop: 300}, 1);
+});
 
 </script>
 
