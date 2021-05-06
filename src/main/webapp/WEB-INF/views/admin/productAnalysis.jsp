@@ -33,6 +33,50 @@
 
 google.charts.load("current", {packages:["corechart"]});
 
+function checkDates() {
+	
+	let startDate = $("#startDate").val();
+	
+	let endDate =  $("#endDate").val();
+	
+	if(startDate == '' || endDate == ''){
+		alert("날짜를 입력해 주세요");
+		
+	}else {
+		 $.ajax({
+	  			type : "get",
+	  			dataType : "json", // 받을 데이터
+	  			//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
+	  			url : "productAnalysis/selectDate",// 서블릿 주소
+	  			data : {startDate : startDate,
+	  				endDate: endDate},
+	  			success : function(result) {
+	  				if (result != null) {
+	  					console.log(result);
+	  					window.setTimeout(200);
+	  					google.charts.setOnLoadCallback(drawChart(result));
+	  				}
+	  				
+	  				
+	  				console.log("1");
+	  			}, // 통신 성공시
+	  			error : function(result) {
+	  				
+	  			}, // 통신 실패시
+	  			complete : function(result) {
+	  				console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+	  				console.log(result);
+//	   				if(result != null){
+	  					
+//	   				}
+	  				
+	  				
+	  			} // 통신 완료시
+	  		});
+	}
+	
+	
+}
 
 function testAjax(obj) {
 	let dateVal = 0;
@@ -222,7 +266,7 @@ $(function(){
     </thead>
    
   </table>
-  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="checkDate();"/>
+  <input type="button" class="btn btn-primary btn-lg" style="position: absolute; left: 50%; " value="검색" onclick="checkDates();"/>
 </div>
 
 <div>

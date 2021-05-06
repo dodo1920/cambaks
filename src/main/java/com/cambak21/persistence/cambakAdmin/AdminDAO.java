@@ -106,7 +106,7 @@ public interface AdminDAO {
 	public List<ProductAnalysisVO> productAnalysis(int perDate)throws Exception;
 	
 
-	
+	public List<RevenueVO> productSelectDate(String startDate, String endDate)throws Exception;
 	
 //	---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
 	
@@ -328,6 +328,8 @@ public interface AdminDAO {
 	
 	
 	public int updateMemberGrade(String member_id, String grade_name) throws Exception;
+
+
 	
 //	---------------------------------------------- 효원 끝 ---------------------------------------------------------------------------------------------
 }
