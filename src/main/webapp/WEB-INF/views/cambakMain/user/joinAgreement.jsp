@@ -38,10 +38,11 @@
 	   let userEmail = '${param.email }';
 	   let checkId = '${registerUUID }';
 	   let checkEmail = '${registerEmail }';
+	   let loginMember = '${loginMember}';
 	   
-	   if (user != checkId || userEmail != checkEmail || checkId == "" || checkEmail == "") {
+	   if (user != checkId || userEmail != checkEmail || checkId == "" || checkEmail == "" || loginMember != "") {
 		   alert("잘못된 접근입니다.");
-		   history.back();
+		   location.href="/index/main";
 	   }
 	   
 	   $("#check_all").on("change", function () {

@@ -47,6 +47,34 @@ let AfterResultList = new Array();
 	
 	});
 	
+	// 페이지 클릭시 페이지 값 저장 후 다시 불러오기
+	function changePage(pageNum){
+		$("#pageSave").val(pageNum);
+		goBoardListAll();
+		
+	}
+	
+	// 페이징 처리하는 부분	
+	function outputPagingParam(data){
+		let outputPaging = "";
+
+		outputPaging += '<div class="pagingAdmin" style="display: flex; justify-content: center;"><ul class="pagination" style="margin:20px 0px;">';
+		if(data.prev){
+			outputPaging += '<li class="page-item"><a class="page-link" href="javascript:changePage(' +  (data.cri.page - 1) + ');">Prev</a></li>';
+		}
+		
+		for(let i = data.startPage; i <= data.endPage; i++){
+			outputPaging += '<li class="page-item" ><a class="page-link" href="javascript:changePage(' + i + ');">' + i + '</a>';
+		}
+		
+		if(data.next){
+			outputPaging += '<li class="page-item"><a class="page-link" href="javascript:changePage(' + (data.cri.page + 1) + ');">Next</a></li>';
+		}
+			outputPaging += '</ul></div>';
+			$("#PagingFrame").html(outputPaging);
+			
+	}
+	
 	// 오름차순 정렬 후 게시판만 출력 함수
 	function BoardOutputGo(data){
 		let outputList = "";
@@ -806,7 +834,7 @@ table {
 	</div>
 	<div id="main-wrapper">
 		<!-- 헤더 -->
-		<%@ include file="adminTop.jsp"%>
+		
 		<!-- 어사이드 -->
 		<%@ include file="adminAside.jsp"%>
 
@@ -921,12 +949,12 @@ table {
 						<div class="gRight">
 							<select class="fSelect" id="eSearchSort" name="searchSort"
 								onchange="changeResultViewList(this);" align="absmiddle">
-								<option value=""> - 정렬 조건</option>
-								<option value="basic" selected="selected">최신</option>
-								<option value="categorydesc">분류</option>
-								<option value="titledesc">제목</option>
-								<option value="writerdesc">작성자</option>
-								<option value="updatedaydesc">수정일</option>
+<!-- 								<option value=""> - 정렬 조건</option> -->
+								<option value="basic" selected="selected">최신순</option>
+								<option value="categorydesc">분류순</option>
+								<option value="titledesc">제목순</option>
+								<option value="writerdesc">작성자순</option>
+								<option value="updatedaydesc">수정일순</option>
 								<option value="viewCnt">조회순</option>
 								<option value="replyCnt">댓글순</option>
 								<option value="likeCnt">좋아요순</option>
@@ -1002,6 +1030,7 @@ table {
 <!-- 								</tr> -->
 							</tbody>
 						</table>
+						<div id="PagingFrame"></div>
 					</div>
 
 

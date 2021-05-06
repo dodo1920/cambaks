@@ -322,29 +322,60 @@
                     <c:forEach var="item" items="${prodList }">
                     <div class="col-lg-4 col-md-6">
                         <c:choose>
-                        <c:when test="${item.product_info == 'soldOut' }">
-                        	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-                            	<div class="label stockout stockblue">일시품절</div>
-                            </div>
-                        </c:when>
-                        <c:when test="${item.product_info == 'popular' }">
-                        	<div class="product__item sale">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-                            	<div class="label">HOT</div>
-                            </div>
-                        </c:when>
-                        <c:when test="${item.product_info == 'new' }">
-                        	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-                            <div class="label new">New</div>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                        	<div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
-                            </div>
-                        </c:otherwise>
+                        	<c:when test="${item.product_id <= 605 }">
+		                        <c:choose>
+			                        <c:when test="${item.product_info == 'soldOut' }">
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            	<div class="label stockout stockblue">일시품절</div>
+			                            </div>
+			                        </c:when>
+			                        <c:when test="${item.product_info == 'popular' }">
+			                        	<div class="product__item sale">
+			                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            	<div class="label">HOT</div>
+			                            </div>
+			                        </c:when>
+			                        <c:when test="${item.product_info == 'new' }">
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            <div class="label new">New</div>
+			                            </div>
+			                        </c:when>
+			                        <c:otherwise>
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            </div>
+			                        </c:otherwise>
+		                        </c:choose>
+	                        </c:when>
+	                        <c:otherwise>
+	                        	<c:choose>
+			                        <c:when test="${item.product_info == 'soldOut' }">
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="../../resources/uploads/${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            	<div class="label stockout stockblue">일시품절</div>
+			                            </div>
+			                        </c:when>
+			                        <c:when test="${item.product_info == 'popular' }">
+			                        	<div class="product__item sale">
+			                            <div class="product__item__pic set-bg" data-setbg="../../resources/uploads/${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            	<div class="label">HOT</div>
+			                            </div>
+			                        </c:when>
+			                        <c:when test="${item.product_info == 'new' }">
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="../../resources/uploads/${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            <div class="label new">New</div>
+			                            </div>
+			                        </c:when>
+			                        <c:otherwise>
+			                        	<div class="product__item">
+			                            <div class="product__item__pic set-bg" data-setbg="../../resources/uploads/${item.product_img1 }" style="cursor: pointer;" onclick="location.href='/mall/prodDetail/main?prodId=${item.product_id }'">
+			                            </div>
+			                        </c:otherwise>
+		                        </c:choose>
+	                        </c:otherwise>
                         </c:choose>
                             <div class="product__item__text">
                                 <h6 class="prodName"><a href="/mall/prodDetail/main?prodId=${item.product_id }">${item.product_name }</a></h6>

@@ -261,20 +261,132 @@ public class AdminDAOImpl implements AdminDAO {
 		
 //		============================================== 원영 ==============================================================================
 		
+		@Override
+		public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".goGetBoard_QAadmin", param);
+		}
+
+		@Override
+		public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".goGetreply_QAadmin", param);
+		}
+
+		@Override
+		public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchGetBoard_QAadmin", param);
+		}
+
+		@Override
+		public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchGetreply_QAadmin", param);
+		}
+
+		@Override
+		public int getTodayTotalCnt() {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".getTodayTotalCnt");
+		}
+
+		@Override
+		public int getTodayreplyTotalCnt() {
+			// TODO Auto-generated method stub
+			return ses.selectOne(ns + ".getTodayreplyTotalCnt");
+		}
+
+		@Override
+		public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			return ses.selectOne(ns + ".getBoard_QAadminCnt", param);
+		}
+
+		@Override
+		public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+
+			return ses.selectOne(ns + ".getReply_QAadminCnt", param);
+		}
+
+		@Override
+		public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+	
+			return ses.selectOne(ns + ".getsearchBoard_QAadminCnt", param);
+		}
+
+		@Override
+		public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			// TODO Auto-generated method stub
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+
+			return ses.selectOne(ns + ".getsearchReply_QAadminCnt", param);
+		}
+
+		@Override
+		public void deleteBoardQAAdmin(int no) throws Exception {
+			// TODO Auto-generated method stub
+			ses.update(ns + ".deleteBoardQAAdmin", no);
+		}
+
+		@Override
+		public void deleteReplyBoardQAAdmin(int no) throws Exception {
+			// TODO Auto-generated method stub
+			ses.update(ns + ".deleteReplyBoardQAAdmin", no);
+		}		
 		
 //		---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
 		
@@ -477,11 +589,33 @@ public class AdminDAOImpl implements AdminDAO {
 		public void deleteReplyBoardAdmin(int no) throws Exception {
 			ses.update(ns + ".deleteReplyBoardAdmin", no);
 		}
+		@Override
+		public void deleteReplyAdmin(int no) throws Exception {
+			ses.update(ns + ".deleteReplyAdmin", no);
+		}
 
+		public List<BoardVO> admin_PreviewRead(int no) throws Exception{
+			return ses.selectList(ns + ".admin_PreviewRead", no);
+		}
 		
-		
-		
-		
+		@Override
+		public List<ReplyBoardVO> replyBoard_admin_Preview(int no) throws Exception {
+			return ses.selectList(ns + ".replyBoard_admin_Preview", no);
+		}
+
+		@Override
+		public void recoveryReplyBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryReplyBoard", recoveryNum);
+			
+		}
+
+		@Override
+		public void recoveryBoard(int recoveryNum) throws Exception {
+			ses.update(ns + ".recoveryBoard", recoveryNum);
+			
+		}
+
+
 		
 		
 		
@@ -674,7 +808,6 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("isChecked", isChecked);
 		return ses.update(ns + ".modifyCsStatusPayment", param);
 	}
-
 
 	
 

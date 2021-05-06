@@ -147,8 +147,6 @@
 			alert("없습니다.");
 			
 			}
-		
-		console.log("체크리스트 열기");
 	
 		
 		$(data).each(function(index, item){

@@ -34,6 +34,7 @@
 </head>
 <script type="text/javascript">
 	let loginUser = '${loginMember.member_id}'; // 로그인한 유저의 아이디 값 저장
+	let userGrade = '${loginMember.grade_name}';
 	let prodId = '${param.prodId}'; // 유저가 접속한 상세 페이지의 상품 아이디 값 저장
 	let page = '${param.page}'; // 현재 페이지 값 저장
 	let cate = '${param.cate}'; // 카테고리 값 저장
@@ -41,6 +42,7 @@
 	let ssid = '${ssid}';
 	
 	console.log('${topReviews}');
+	console.log('${loginMember.grade_name}')
 	console.log('${prodDetail.mainCategory_id}');
 	console.log('${prodDetail.middleCategory_id}');
 	
@@ -69,6 +71,8 @@
 		
 		// 상품평 리스트 출력
 		showProdList(prodId);
+		
+		checkProductImg();
 		
 		futurePoints(); // 예상 적립급 계산 함수 호출
 		
@@ -197,6 +201,7 @@
 	        success 	: function(data) {
 // 	        	console.log(data);
 	        	let prodList = data.prodList;
+	        	console.log(prodList);
 	        	let pagingParam = data.pagingParam;
 	        	
 	        	totalReviews = data.pagingParam.totalCount;
@@ -234,11 +239,16 @@
 	                 }
 	                 
 	                 // display:none 되어있는 Content 내용
-	                 output += '<div>' + item.prodReview_content + '</div>';
+	                 output += '<div>' + item.prodReview_content + '</div><div class="likeProdReviews">';
 	                 // --------------상품후기 좋아요 표시 부분-----------------
-	                 output += '<div class="likeProdReviews"><span id="likeProd' + item.prodReview_no + '"></span></div>';
+	                 if(loginUser != null){
+	                	 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ item.prodReview_no +')";/>' + item.prodReview_likeCnt + '</span>';  
+						 }
+					 else{
+						 output += '<span id="likeProd' + item.prodReview_no + '"><img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + item.prodReview_likeCnt + '</span>';
+						}
 	                 
-	                 output += '<div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
+	                 output += '</div><div class="likeProdReviews">상품후기가 도움이 되었어요!</div>'
 	                 // display:none 되어있는 댓글 내용
 	                 output += '<div class="replyBox" id="replyBox' + item.prodReview_no + '"></div>';
 	                  
@@ -306,8 +316,10 @@
 	              $("#totalReviews").html(totalReviews);
 	              
 	              // --------열어놨던 페이지를 열어준 채로 로딩하는 부분-------------
+	              // showContent 를 이용해서 열어주면 가능할 수도
 	              if(checkPoint == 1){
-	            	  $("#content" + prodReviewNo).show();
+	            	  showContent(prodReviewNo);
+	            	 // $("#content" + prodReviewNo).show();
 	              }
 	              
 	        }, // end of Success
@@ -431,6 +443,7 @@
 		 		if(loginUser == ""){
 		 			loginUser = "a";
 		 		}
+		 		
 				// 좋아요 표시 가져오기
 				$.ajax({
 					  method: "post",
@@ -442,17 +455,21 @@
 					  dataType: "json", // 응답 받는 데이터 타입
 					  success : function(data) {
 					      	let myLike = data.myLike;
+					      	console.log("myLike : " + myLike);
 					      	let likeCnt = data.likeCnt;
 					      // 좋아요를 클릭 안 했으면,
 					      if(myLike==0){
 					    	  if(loginUser != "a"){
+					    		  // 로그인한 경우, 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;  
 					    	  }else{
+					    		  // 로그인 하지 않은 경우에도 빈 하트를 보여준다.
 					    		  showLike = '<img src=\'../../resources/img/heartProdReviewsEmpty.png\' />' + likeCnt;
 					    	  }
 					    	  
 					    	  $("#likeProd" + prodReview_no).html(showLike);
-					      }else{// 좋아요를 클릭했으면
+					      }else{
+					    	  //해당 글에 좋아요를 클릭했으면
 					    	  showLike = '<img src=\'../../resources/img/heartProdReviews.png\' onclick="clickLike('+ prodReview_no +')";/>' + likeCnt;
 					    	  $("#likeProd" + prodReview_no).html(showLike);
 					      }
@@ -462,8 +479,7 @@
 					}); // end of ajax
 					
 		}
-
-
+	
 	 // 별점에 따른 별 개수를 표현하는 부분
 	 function showStars(grade) {
 		var output1 = '';
@@ -560,6 +576,7 @@
 				      console.log("#checkcheck" + replyProdReview_no);
 					  //$("#replyName" + replyProdReview_no).html(replyMember_id);
 					  showProdList(prodId, currentPage, 1, orderList);
+					  console.log("prodReview_no : " + prodReview_no);
 				  }, complete : function (result) {
 					  
 				}
@@ -648,7 +665,7 @@
 					  
 					  //수정 후 리스트를 다시 출력하라
 					  showProdList(prodId, currentPage, 1, orderList);
-					  
+					  console.log(prodReviewNo);
 				  }
 				  
 				});
@@ -700,7 +717,16 @@
 	//----------------------------------------------------------------------------정민오빠 js 끝!!!---------------------------------------------------------------------
 	
 	// **************************************************************************** 도연 상품 문의 js ******************************************************************
-	
+	//
+	function checkProductImg() {
+		let imgUrl = '${prodDetail.product_img1}';
+		console.log(imgUrl);
+		
+		if(imgUrl.substr(0,3) == "htt") {
+			$("#productImg").html('<img id="prodImg" data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="${prodDetail.product_name }">');
+		}
+		
+	}
 	// 해당 상품의 판매가를 불러와 등급별 예상 적립금을 구하는 함수
 	function futurePoints() { 
 		let sellPrice = '${prodDetail.product_sellPrice}';
@@ -755,7 +781,7 @@
 	    		
 	    	if(data.length == 0) { // 해당 카테고리에서 등록된 상품 문의가 없다면,  
 	    		console.log("데이터 없음");
-	    		output += '<tr><td colspan="6">상품 문의사항이 없습니다</td></tr>';
+	    		output += '<tr><td colspan="6" id="nodata">상품 문의사항이 없습니다</td></tr>';
 	    		
 	    		if(loginUser.length != 0) {
 	    			cOutput += '</ul><button type="button" class="btn btn-info" style="float: right;" onclick="goWrite(\'1\');">글쓰기</button>';	
@@ -774,37 +800,46 @@
 		        	let dateFormat = date.toLocaleString(); // 날짜 형식 변환
 		        	
 		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-		        	if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데 로그인이 되어있지 않거나, 로그인 유저 아이디와 글쓴이가 다르다면, 
-		        		output += '<td><div id="' + item.prodQA_no + '" >비밀글입니다</div></td>';
-		        	} else { // 비밀글인데 로그인 유저 아이디와 글쓴이가 같다면,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';	
+		        	
+		        	if(item.prodQA_isSecret == 'N') { // 비밀글이 아닐 경우,
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
+		        	} else if((loginUser == item.member_id && item.prodQA_isSecret == 'Y') || userGrade == 'M') { // 비밀글이지만, 로그인한 유저와 글쓴이가 같거나, 관리자일 경우
+		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');"><span class="lockImg"><img src="../../resources/img/unlock.png" width="18px" height="18px"/></span>' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
+		        	} else if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데, 로그인한 유저와 글쓴이가 다를 경우
+		        		output += '<td><div id="' + item.prodQA_no + '" ><span class="lockImg"><img src="../../resources/img/lock.png" width="18px" height="18px"/></span>비밀글입니다</div></td>';
 		        	}
+		        	
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
 	                output += '<td>' + item.prodQA_likeCnt + '</td>';
 	                output += '<td>' + item.prodQA_viewCnt + '</td></tr>';
 	                
-	                output += '<tr id="content' + item.prodQA_no + '" style="display: none">';
-	                output += '<td colspan="6"><div>' + item.prodQA_content + '</div><div>';
+	                output += '<tr class="content" id="content' + item.prodQA_no + '" style="display: none">';
+	                output += '<td colspan="6"><div id="imgs">';
 	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) { // img1에 데이터가 있다면,
-	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+	                	output += '<img class= "contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
 	                }
 	                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) { // img2에 데이터가 있다면,
-	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+	                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
 	                }
 	                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {// img3에 데이터가 있다면,
-	                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+	                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 	                }
+	                
+	                output += '<div class="contentDiv">' + item.prodQA_content + '</div>';
 	                
 	                if(loginUser == item.member_id) { // 로그인 유저와 글쓴이가 같아면, 수정/삭제 가능한 버튼 보여주도록
 	                	output += '</div><div><input type="button" id="modi" value="수정" onclick="goModi(\'1\',' + item.prodQA_no + ');"/>';
 		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
-		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
+		                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span>';
 		                output += '<div class="hiddenSecretDiv" id="' + item.prodQA_no + '"><input type="password" class="hiddenSecret" id="secretPwdBox"  placeholder="비밀번호"/>'; 
 		                output += '<input type="button" class="hiddenSecret" id="checkSecretPwd" onclick="chcekSecretPwd(this);" value="확인"/></div></div></td></tr>';
+	                } else if(userGrade == 'M') {
+	                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
+		                output += '<input type="button" id="del" onclick="showHiddenSecret(this);" value="삭제"/>';
 	                }
 	                
-	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span></div></td></tr>';
+	                output += '<span id="likeCnt' + item.prodQA_no + '"><img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + item.prodQA_no + ',\'' + category + '\');"/></span></div></td></tr>';
 	    		});
 			    
 	    	}
@@ -820,11 +855,11 @@
 	        } else if(flag == 2) { // 좋아요 누를 경우, 좋아요 표시 변경(채워진 하트로)
 	        	$("#content" + no).show();
 	        	getReply(no, flag);
-	        	$("#likeCnt" + no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + no + ',\'' + cate + '\');"/>');
+	        	$("#likeCnt" + no).html('<img src="../../resources/img/heart2.png" width="30px" height="30px" onclick="deleteLike(' + no + ',\'' + cate + '\');"/>');
 	        } else { // 좋아요를 풀 경우, 좋아요 표시 변경(빈 하트로)
 	        	$("#content" + no).show();
 	        	getReply(no, flag);
-	        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart.png" width="50==40px" height="40px" onclick="updateLike(' + no + ',\'' + cate + '\');"/>');
+	        	$("#likeCnt" + no).html('<img src="../../resources/img/emptyHeart2.png" width="30px" height="30px" onclick="updateLike(' + no + ',\'' + cate + '\');"/>');
 	        }
 	    });
 	}
@@ -917,23 +952,42 @@
 						let writer = $("#writer" + item.prodQA_ref).text();
 			    		
 						output += '<tr id="reply' + item.prodQA_no + '" class="reply' + item.prodQA_ref + '" style="display: none">';
-		                output += '<td colspan="6"><div>' + item.prodQA_content + '</div><div>';
+		                output += '<td colspan="6">';
+		                
+		                if(userGrade == 'M') {
+		                	output += '<div><p>[cambak21 관리자]</p></div>'
+		                } else {
+		                	output += '<div><p>' + item.prodQA_member_id + '</p></div>'	
+		                }
+		                
+		                output +='<div class="imgs">';
 		                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
-		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
 		                }
 		                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) {
-		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
 		                }
 		                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
-		                	output += '<img src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
 		                }
+		                output += '</div>';
+		                
+		                output += '<div class="contentDiv">';
+		                output += '<p><b>' + item.prodQA_title + '</b></p>';
+		                output += '<p>' + item.prodQA_content + '</p></div>';
+		                
+		                output += '<div>';
 		                if(item.prodQA_category == 'reply' && loginUser == writer) {
 		                	output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goWrite(\'2\','+ item.prodQA_no +');" value="답글"/>';
 		                }
-		                if(loginUser == item.member_id) {
-	                		output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goModi(\'2\','+ item.prodQA_no +');" value="수정"/></div></div></td></tr>';
+		                
+		                if(loginUser == item.member_id || userGrade == 'M') {
+	                		output += '<input type="button" class="replyBtn" id="replyBtn" onclick="goModi(\'2\','+ item.prodQA_no +');" value="수정"/></div>';
 	                	}
-		                output += '</div></td></tr>'
+		                
+		                output += '</td></tr>';
+		               
+		                
 					});	
 					$(output).insertAfter("#content"+no);	
 					
@@ -1014,7 +1068,7 @@
 			if(data.length != 0) {
 				console.log(data);
 				$(data).each(function(index, item){
-					$("#likeCnt" + item.prodQA_no).html('<img src="../../resources/img/heart.png" width="50==40px" height="40px" onclick="deleteLike(' + item.prodQA_no + ',\'' + cate + '\');"/>');
+					$("#likeCnt" + item.prodQA_no).html('<img src="../../resources/img/heart2.png" width="30px" height="30px" onclick="deleteLike(' + item.prodQA_no + ',\'' + cate + '\');"/>');
 				});
 			}
 		});
@@ -1460,46 +1514,45 @@
 		width: 160px;
 	}
 
-		.fa {
-		  color: grey;
-		}
-		.checked {
-		  color: orange;
-		}
-		
-		.replyBox{
-		 margin-top: 27px;
-		}
-		
-		textarea{
-			width: 1070px; 
-			height:200px; 
-		    resize:none;/* 크기고정 */ 
-		    margin-top: 30px;
-		/*   resize: horizontal; // 가로크기만 조절가능 
-			resize: vertical;  세로크기만 조절가능  */
-		}
-		/*대댓글 textarea 부분*/
-		.reReply{
-		    border: none;
-		}
-		
-		.orderList{
-			float: left;
-			list-style-type: none;
-			margin-left: 10px;
-		}
-		.likeProdReviews{
-			text-align: center;
-		}
-
+	.fa {
+	  color: grey;
+	}
+	.checked {
+	  color: orange;
+	}
+	
+	.replyBox{
+	 margin-top: 27px;
+	}
+	
+	textarea{
+		width: 1070px; 
+		height:200px; 
+	    resize:none;/* 크기고정 */ 
+	    margin-top: 30px;
+	/*   resize: horizontal; // 가로크기만 조절가능 
+		resize: vertical;  세로크기만 조절가능  */
+	}
+	/*대댓글 textarea 부분*/
+	.reReply{
+	    border: none;
+	}
+	
+	.orderList{
+		float: left;
+		list-style-type: none;
+		margin-left: 10px;
+	}
+	.likeProdReviews{
+		text-align: center;
+	}
 	.product__details__widget {
 		padding-top : 0px;
 	}
-	
-	p {
-		<!-- text-align : center; -->
-	}
+
+ 	#product_detail { 
+ 		text-align : center; 
+ 	}
 	
 	.hiddenSecretDiv {
 		display : none;
@@ -1526,6 +1579,36 @@
 	.modal-header {
  		display: inline;
 	}
+	
+	.product__details__widget {
+		padding-top : 35px;
+	}
+	
+	#prodImg {
+		width : 100%;
+		height : 100%;
+	}
+	
+	#prodQATb {
+		min-height : 338px;
+	}
+	
+	.contentImg {
+		margin : 3px;
+	}
+	
+	.contentDiv {
+		margin : 20px 3px;
+	}
+	
+	.lockImg {
+		margin : 0px 5px;
+	}
+	
+	.content {
+		background : #f8f9fa;
+	}
+	
 
 </style>
 <body>
@@ -1545,7 +1628,15 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
+<<<<<<< HEAD
                         <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <c:choose>
+                        	<c:when test="${prodDetail.mainCategory_id } == 9">
+                        		<a href="#">기타</a><span>기타</span>
+                        	</c:when>
+                        </c:choose>                     
+=======
+                        <a href="./main/"><i class="fa fa-home"></i> Home</a>
                         <c:choose>
 	                        <c:when test="${prodDetail.mainCategory_id == 1 and prodDetail.middleCategory_id == 1}">
 	                        	<a href="#">텐트/타프</a><span>텐트</span>
@@ -1596,6 +1687,8 @@
 	                        	<a href="#">기타</a><span>기타</span>
 	                        </c:when>
                         </c:choose>
+
+>>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
                     </div>
                 </div>
             </div>
@@ -1609,33 +1702,16 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="product__details__pic">
-<!--                         <div class="product__details__pic__left product__thumb nice-scroll"> -->
-<!--                             <a class="pt active" href="#product-1"> -->
-<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-1.jpg" alt=""> -->
-<!--                             </a> -->
-<!--                             <a class="pt" href="#product-2"> -->
-<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-2.jpg" alt=""> -->
-<!--                             </a> -->
-<!--                             <a class="pt" href="#product-3"> -->
-<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-3.jpg" alt=""> -->
-<!--                             </a> -->
-<!--                             <a class="pt" href="#product-4"> -->
-<!--                                 <img src="../../resources/mallMain/img/product/details/thumb-4.jpg" alt=""> -->
-<!--                             </a> -->
-<!--                         </div> -->
                         <div class="product__details__slider__content">
-                            <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="">
-                                <img data-hash="product-2" class="product__big__img" src="../../resources/mallMain/img/product/details/product-3.jpg" alt="">
-                                <img data-hash="product-3" class="product__big__img" src="../../resources/mallMain/img/product/details/product-2.jpg" alt="">
-                                <img data-hash="product-4" class="product__big__img" src="../../resources/mallMain/img/product/details/product-4.jpg" alt="">
+                            <div class="product__details__pic__slider owl-carousel" id="productImg">
+                                
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="product__details__text">
-                        <h3>${prodDetail.product_title }<span>${prodDetail.product_factory }</span></h3>
+                        <h3>${prodDetail.product_name }<span>${prodDetail.product_factory }</span></h3>
                         <!--  prodDetail 상단의 별점 및 후기 개수 표시 -->
                         <div class="stars" id="star">
                             <span id="getStarRating" style="margin-left: 0px;"></span>
@@ -1643,7 +1719,6 @@
                             <span id="totalReviews">0</span><span>Reviews</span>
                         </div>
                         <div class="product__details__price" > <strong id="sellPrice"><fmt:formatNumber value="${prodDetail.product_sellPrice}" pattern="#,###" /></strong></div>
-<%--                         <p>${prodDetail.product_detail }</p> --%>
                         <div class="product__details__button">
                             <div class="quantity" >
                                 <span>Quantity:</span>
@@ -1652,29 +1727,27 @@
                                 </div>
                             </div>
                              <button type="button" class="cart-btn" id="buyingBtn" ><span class="icon_bag_alt" ></span> 주문하기</button>
-                            <ul>
-                                <li><button type="button" id="bucketBtn"><span class="icon_heart_alt"></span></button></li>
-                            </ul>
+                             <button type="button" class="cart-btn" id="bucketBtn" ><span class="icon_heart_alt" ></span></button>
                         </div>
                         <div class="product__details__widget">
                             <ul>
                                 <li>
                                     <span>예상 적립금:</span>
-                                    <div class="size__btn">
-                                        <label for="xs-btn" id="A">
+                                    <div>
+                                        <label id="A">
                                         </label>
                                         / 
-                                        <label for="xs-btn" id="B">
+                                        <label id="B">
                                         </label>
                                         /
-                                        <label for="xs-btn" id="C">
+                                        <label id="C">
                                         </label>
                                     </div>
                                 </li>
                                 <li>
                                     <span>예상 적립일:</span>
-                                    <div class="color__checkbox">
-                                        <label for="red">
+                                    <div>
+                                        <label>
                                             구매확정일 / 구매일로부터 7일 후
                                         </label>
                                     </div>
@@ -1731,7 +1804,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <h6>상품 상세</h6>
-                                <p><img src="${prodDetail.product_detail }" /></p>
+                                <p id="product_detail"><img src="${prodDetail.product_detail }" /></p>
                             </div>
                             <div class="tab-pane" id="tabs-2" role="tabpanel">
                                 <h6>상품평</h6>
@@ -1771,11 +1844,11 @@
 						     					<th>
 						     					<select id="prodQA_category" name="prodQA_category">
 						     						<option value="*">분류</option>
-						     						<option value="product">상품</option>
-						     						<option value="delivery">배송</option>
-						     						<option value="refund">환불</option>
-						     						<option value="exchange">교환</option>
-						     						<option value="etc">기타</option>
+						     						<option value="상품">상품</option>
+						     						<option value="배송">배송</option>
+						     						<option value="환불">환불</option>
+						     						<option value="교환">교환</option>
+						     						<option value="기타">기타</option>
 						     					</select>
 						     					</th>
 						     					<th>글제목</th>
