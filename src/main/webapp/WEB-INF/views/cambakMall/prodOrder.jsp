@@ -273,7 +273,7 @@ function usePoint() {
 	let totalPoint = '${loginMember.member_totPoint }';
 	
 	dis = parseInt(dis);
-	usePointVar = dis;
+// 	usePointVar = dis;
 	console.log(Number.isInteger(dis * 0.01));
 	
 	if (!Number.isInteger(dis * 0.01)) {
