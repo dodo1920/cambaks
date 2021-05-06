@@ -37,6 +37,9 @@ public interface MemberService {
 	 */
 	public boolean memberDelete(String member_id) throws Exception;
 	
+
+	public boolean memberDelCheck(LoginDTO dto)throws Exception;
+	
 	/**
 	 * @Method Name : memberInsert
 	 * @작성일 : 2021. 3. 16.
@@ -148,4 +151,5 @@ public interface MemberService {
 	public MemberVO sesUserInfoChange(String member_id) throws Exception;
 	public boolean modifyCheckUser(String member_id, String member_password) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
+
 }

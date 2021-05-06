@@ -60,10 +60,8 @@ function refundnExchange(payment_no,payment_date) {
 }
 
 function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_serialNo, product_id) {
-	
-	let member_id = "${loginMember.member_id}";
-	console.log(payment_serialNo);
-	console.log(product_id);
+
+	console.log(payment_isComit);
 	
 	
 	$.ajax({
@@ -73,7 +71,9 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 		url : "/myMall/myOrder/checkReview",// 서블릿 주소
 		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
 		success : function(result) {
+
 			console.log("result:" + result);
+
 			if (result == 'noValue'){
 				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else{
@@ -264,19 +264,10 @@ $(document).ready(function(){
 																	보기</button>
 																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
-<<<<<<< HEAD
-																
-																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
-																	<button type="button" class="btn btn-info" onclick="location.href='http://localhost:8081/cambakMall/writingProdReviews?payment_serialNo=${order.payment_serialNo }'">리뷰작성하기</button>
-=======
-
 
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
 
-																	
 
->>>>>>> 38f4b9ef0245e40aba2524b342ae9a205ca3e9d7
-																
 																
 
 															</div>

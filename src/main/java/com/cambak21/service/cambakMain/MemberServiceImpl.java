@@ -33,12 +33,18 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO memberSelect(String memberId) throws Exception{
 		return dao.memberSelect(memberId);
 	}
-	@Override
-	public boolean memberDelete(String member_id) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
+	@Override
+	public boolean memberDelCheck(LoginDTO dto) throws Exception {
+		boolean result = false;
+		int i = dao.memberDelCheck(dto);
+		if(i == 1) {
+			result = true;
+		}
+		return result;
+	}
+	
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	@Override
 	public boolean checkUserId(String member_id) throws Exception {
@@ -166,10 +172,17 @@ public class MemberServiceImpl implements MemberService {
 		boolean result = false;
 		int i = dao.memberDel(dto);
 		if(i == 1) {
+			
 			result = true;
+			
 		}
 		System.out.println(result);
 		return result;
+	}
+	@Override
+	public boolean memberDelete(String member_id) throws Exception {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 

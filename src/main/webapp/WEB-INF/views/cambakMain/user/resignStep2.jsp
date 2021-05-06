@@ -14,9 +14,9 @@
 	rel='stylesheet' type='text/css'>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="/resources/cambak21/js/skel.min.js"></script>
-<script src="/resources/cambak/21js/skel-panels.min.js"></script>
-<script src="/resources/cambak21/js/init.js"></script>
+<script src="../resources/cambak21/js/skel.min.js"></script>
+<script src="../resources/cambak/21js/skel-panels.min.js"></script>
+<script src="../resources/cambak21/js/init.js"></script>
 
 <link rel="icon" type="image/x-icon"
 	href="/resources/cambak21/assets/favicon.ico" />
@@ -41,16 +41,16 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <!-- 템플릿 js, css 파일 -->
-<script src="/resources/cambak21/js/SHWtamplet.js"></script>
-<script src="/resources/cambak21/js/rolling.js"></script>
-<script src="/resources/cambak21/js/bbskJS.js"></script>
+<script src="../resources/cambak21/js/SHWtamplet.js"></script>
+<script src="../resources/cambak21/js/rolling.js"></script>
+<script src="../resources/cambak21/js/bbskJS.js"></script>
 <style>
 @import url(/resources/cambak21/css/SHWtamplet.css);
 </style>
 <script>
-	function checkPw() {
-			let member_id = $("#member_id").val();
-			let member_password = $("#member_password").val();
+	function checkPws() {
+			
+			
 			
 			$.ajax({
 				type : "post",
@@ -60,6 +60,12 @@
 				data : $("#checkPw").serialize(),
 				success : function(result) {
 					console.log(result);
+					if(result == "success"){
+						document.checkPw.submit();
+						
+					}else{
+						$("#checkPwMessage").html("비밀번호가 일치하지 않습니다.")
+					}
 				}, // 통신 성공시
 				error : function(result) {
 					
@@ -73,8 +79,9 @@
 					
 					
 				} // 통신 완료시
-			});		
-			return false;
+			});	
+			
+			
 		}
 	
 	</script>
@@ -104,10 +111,10 @@
 							<span class="byline">안전한 홈페이지 이용을 위해 비밀번호를 다시 한 번 입력해주세요.</span>
 						</header>
 						<div>
-						<form action="/user/resignStep4" method="POST" id="checkPw" onsubmit="return checkPw()">
+						<form action="/user/resignStep4" method="POST" id="checkPw" name="checkPw" onsubmit="return false">
 							<input type="hidden" name="member_id" id="member_id" value = "${loginMember.member_id }"/>
 							<input type="password" name="member_password" id="member_password" size="25">
-							<input type="submit" value="확인">
+							<input type="button" onclick="checkPws();" value="확인">
 							<span id="checkPwMessage"></span>
 						</form>
 					</div>

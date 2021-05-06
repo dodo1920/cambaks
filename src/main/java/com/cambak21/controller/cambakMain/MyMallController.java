@@ -122,13 +122,13 @@ public class MyMallController {
 		
 		try {
 			service.purchaseSubmit(payInfo_no, payment_date);
-			System.out.println("구매확정 1단계 완료");
+			
 			service.changePointDate(member_id, payment_date);
-			System.out.println("구매확정 2단계 완료");
+			
 			int pointVal = service.getPointVal(member_id, payment_date);
 			
 			service.plusPoint(member_id, pointVal);
-			System.out.println("구매확정 3단계 완료");
+		
 			int totPrice = service.plusTotPurchase(payment_no);
 			service.insertTotPurchase(member_id, totPrice);
 			
@@ -147,6 +147,7 @@ public class MyMallController {
 	public ResponseEntity<String> checkReview(@RequestParam("payment_isComit") String payment_isComit,@RequestParam("payment_isChecked") String payment_isChecked, @RequestParam("member_id") String member_id, @RequestParam("buyProduct_no") int buyProduct_no ){
 		
 		ResponseEntity<String> entity = null;
+		System.out.println(payment_isComit);
 		
 		try {
 			CheckReviewVO vo = service.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
@@ -171,17 +172,20 @@ public class MyMallController {
 		
 		try {
 			List<paymentVO> vo = service.getPaymentSerialNo(payment_no);
-			int paymentNoCnt = service.getpaymentNoCnt(payment_no);
-			for(int i=0; i < paymentNoCnt; i++) {
+			
+			System.out.println(vo.size());
+			for(int i=0; i < vo.size(); i++) {
 				int serialNo = vo.get(i).getPayment_serialNo();
 				service.insertRnE(serialNo, member_id, refundnExchange_reason, refundnExchange_status);
-				System.out.println();
+				
 				service.changePayComit(refundnExchange_status, payment_no);
+				entity = new ResponseEntity<String>("success", HttpStatus.OK);
 				
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 		
 		return entity;
