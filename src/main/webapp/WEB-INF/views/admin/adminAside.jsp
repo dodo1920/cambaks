@@ -26,19 +26,19 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../admin/memberList" aria-expanded="false">
                         <i class="mdi mdi-chart-bubble"></i>
-                        <span class="hide-menu">회원 관리 (도연)</span>
+                        <span class="hide-menu">회원 관리</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/admin/orderManagement?page=1" aria-expanded="false">
                         <i class="mdi mdi-chart-bubble"></i>
-                        <span class="hide-menu">주문 목록 (효원)</span>
+                        <span class="hide-menu">주문 목록</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="/admin/board_admin" aria-expanded="false">
                         <i class="mdi mdi-relative-scale"></i>
-                        <span class="hide-menu">캠박이일 게시판 (종진)</span>
+                        <span class="hide-menu">캠박이일 게시판</span>
                     </a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item">
@@ -58,7 +58,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
                         <i class="mdi mdi-view-dashboard"></i>
-                        <span class="hide-menu"> 상품관리 (정민&승권)</span>
+                        <span class="hide-menu"> 상품관리</span>
                     </a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item">
@@ -78,13 +78,13 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="../admin/QA" aria-expanded="false">
                         <i class="mdi mdi-chart-bubble"></i>
-                        <span class="hide-menu">상품 리뷰 및 Q&A (원영)</span>
+                        <span class="hide-menu">상품 리뷰 및 Q&A</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                 	<a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">
 	                	<i class="mdi mdi-chart-bar"></i>
-	                	<span class="hide-menu">매출 (대기)</span>
+	                	<span class="hide-menu">매출</span>
                 	</a>
                     <ul aria-expanded="false" class="collapse  first-level">
                         <li class="sidebar-item">
@@ -104,7 +104,7 @@
                 <li class="sidebar-item">
                 	<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/admin/chattingList" aria-expanded="false">
                 		<i class="mdi mdi-chart-bubble"></i>
-                		<span class="hide-menu">채팅 관리 (승권)</span>
+                		<span class="hide-menu">채팅 관리</span>
                 	</a>
                 </li>
 				<li class="sidebar-item">
