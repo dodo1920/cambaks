@@ -770,6 +770,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   						and middleCategory_id = #{middleCategory_id} 
   					</if>
   				</if>
+
   			</when>
   			<!-- 회사명 검색-->
   			<when test="searchType == 'product_factory'">
@@ -782,6 +783,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   						and middleCategory_id = #{middleCategory_id} 
   					</if>
   				</if>
+
   			</when>
   			<!-- 전체 검색 조건 -->
   			<when test="searchType == 'searchAll'">
@@ -793,22 +795,23 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   						and middleCategory_id = #{middleCategory_id} 
   					</if>
   				</if>
-  				<!-- 진열 검색 여부 -->
-  				<if test='product_show == "Y"'>
-		  			and product_show in('Y')
-		  		</if>
-		  		<if test='product_show == "N"'>
-		  			and product_show in('N')
-		  		</if>
-		  		<if test='product_show == "all"'>
-		  			and product_show in('Y','N')
-  				</if>
+
   			</when>
   			
   		</choose>
+  		<!-- 진열 검색 여부 -->
+  		<if test='product_show == "Y"'>
+		  	and product_show in('Y')
+		</if>
+		<if test='product_show == "N"'>
+		  	and product_show in('N')
+		</if>
+		<if test='product_show == "all"'>
+		  	and product_show in('Y','N')
+  		</if>
   		<!-- 날짜에 따른 검색조건 -->
 
-  		and #{checkLowDate} <![CDATA[<=]]> product_date <![CDATA[<=]]> #{checkHighDate}
+  		and product_date between #{checkLowDate} and #{checkHighDate} 
   		
   		and product_isDelete = 'N'
   	</select>
@@ -848,27 +851,25 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   						and middleCategory_id = #{middleCategory_id} 
   					</if>
   				</if>
-  				<!-- 진열 검색 여부 -->
-  				<if test='product_show == "Y"'>
-		  			and product_show in('Y')
-		  		</if>
-		  		<if test='product_show == "N"'>
-		  			and product_show in('N')
-		  		</if>
-		  		<if test='product_show == "all"'>
-		  			and product_show in('Y','N')
-  				</if>
-  				
-  				
-
   				
   			</when>
   			
   		</choose>
   		
+  		<!-- 진열 검색 여부 -->
+  		<if test='product_show == "Y"'>
+		  	and product_show in('Y')
+		</if>
+		<if test='product_show == "N"'>
+		  	and product_show in('N')
+		</if>
+		<if test='product_show == "all"'>
+		  	and product_show in('Y','N')
+  		</if>
+  				
   		<!-- 날짜에 따른 검색조건 -->
 
-  		and #{checkLowDate} <![CDATA[<=]]> product_date <![CDATA[<=]]> #{checkHighDate}
+  		and product_date between #{checkLowDate} and #{checkHighDate} 
   		
   		and product_isDelete = 'N'
   		

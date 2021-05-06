@@ -628,17 +628,14 @@
 			$(".replies").hide();
 			// 수정하려는 댓글 및 대댓글 read
 			$.ajax({
-				  method: "post",
+				  method: "get",
 				  url: "/mall/prodDetail/readProdReviewReply/" + replyProdReview_no,
-				  headers: {	// 요청하는 데이터의 헤더에 전송
-					  "Content-Type" : "application/json",
-					  "X-HTTP-Method-Override" : "POST"
-				  },
+				  contentType : "application/json",
 				  dataType: "text", // 응답 받는 데이터 타입
 				  success : function(readResult) {
- 					  console.log(readResult);
+					  // 한글의 경우 ??로 나오는 것 해결 필요
+ 					  console.log(typeof(readResult));
 					 $("#replyContentModi" + replyProdReview_no).html(readResult);
-					 // 귀신 잡은 포인트.
 				  }
 				});
 		}

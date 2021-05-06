@@ -114,15 +114,15 @@ public class BoardProdReviewReply {
 		}
 		
 		// 수정하려는 댓글 조회
-		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.POST)
+		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.GET, produces = "text/html; charset=utf8")
 		public @ResponseBody String readProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no) throws Exception {
-			System.out.println("modifyProdReviewReply... POST...");
+			System.out.println("modifyProdReviewReply... GET...");
 			System.out.println(replyProdReview_no);
 			String result = null;
 			try {
 				
 				result = service.readProdReviewReply(replyProdReview_no);
-				System.out.println("modifyProdReviewReply... POST... result :" + result);
+				System.out.println("modifyProdReviewReply... GET... result :" + result);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -133,14 +133,14 @@ public class BoardProdReviewReply {
 		// 댓글 수정
 				@RequestMapping(value="/modifyProdReviewReply/{replyProdReview_no}/{replyProdReview_content}", method=RequestMethod.POST)
 				public @ResponseBody boolean modifyProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no, @PathVariable("replyProdReview_content") String replyProdReview_content) throws Exception {
-					System.out.println("modifyProdReviewReply... GET...");
+					System.out.println("modifyProdReviewReply... POST...");
 					System.out.println(replyProdReview_no);
 					System.out.println("replyProdReview_content : " + replyProdReview_content);
 					boolean modifyResult = false;
 					try {
 						
 						modifyResult = service.modifyProdReviewReply(replyProdReview_no, replyProdReview_content);
-						
+						System.out.println("modifyResult : " + modifyResult);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

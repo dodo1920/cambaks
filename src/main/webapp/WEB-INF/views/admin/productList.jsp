@@ -434,7 +434,6 @@ $(document).ready(function() {
 
 .pagination a:hover:not(.active) {background-color: #ddd;}
 
-
 </style>
 </head>
 <body>
@@ -445,13 +444,12 @@ $(document).ready(function() {
 	</div>
 </div>
 <div id="main-wrapper">
-<%@ include file="adminTop.jsp"%>
 <%@ include file="adminAside.jsp"%>
 <div class="page-wrapper">
 	<div class="page-breadcrumb">
 		<div class="row">
 			<div class="col-12 d-flex no-block align-items-center">
-				<h4 class="page-title">상품목록 게시판</h4>
+				<h4 class="page-title"  onclick="location.href='/admin/prodList?page=1'" style="cursor: pointer;">상품목록 게시판</h4>
 				<div class="ml-auto text-right">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
@@ -580,7 +578,7 @@ $(document).ready(function() {
 												<c:forEach var="board" items="${boardList }" varStatus="status">
 													<c:choose>
 														<c:when test="${board.product_isDelete == 'N' }">
-															<tr role="row" onclick="location.href='/admin/productModify?product_id=${board.product_id}'">
+															<tr role="row" onclick="location.href='/admin/productModify?product_id=${board.product_id}'" style="cursor: pointer;">
 																<td onclick='event.cancelBubble=true;'><input type="checkbox" name="chk" id="${board.product_id }" value="${board.product_id }" onclick=""/></td>
 																<td>${board.product_id }</td>
 																<td>${board.mainCategory_id }</td>
