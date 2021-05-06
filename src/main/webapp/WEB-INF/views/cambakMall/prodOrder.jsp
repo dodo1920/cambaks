@@ -273,7 +273,7 @@ function usePoint() {
 	let totalPoint = '${loginMember.member_totPoint }';
 	
 	dis = parseInt(dis);
-	usePointVar = dis;
+// 	usePointVar = dis;
 	console.log(Number.isInteger(dis * 0.01));
 	
 	if (!Number.isInteger(dis * 0.01)) {
@@ -409,7 +409,7 @@ function addPoint() {
 							<div class="modal-footer">
 								
 									<button type="button" class="btn btn-default"
-									onclick="location.href='http://localhost:8081/mall/destinationsList'">배송지 수정하기</button>
+									onclick="location.href='/mall/destinationsList'">배송지 수정하기</button>
 									<button type="button" class="btn btn-default"
 									data-dismiss="modal">Close</button>
 							</div>

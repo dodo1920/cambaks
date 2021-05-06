@@ -38,6 +38,8 @@
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 <script src="/resources/cambak21/js/bbskJS.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+
 <script>
 	$(document).ready(function() {
 		// 탭 눌러서 들어갈시 기본으로 보여주는 리스트
@@ -45,6 +47,11 @@
 		
 		// 텍스트 말줄임...
 		textLimit(20);
+		
+		// 글씨 색깔 효과
+    	let myPageUri = searchMyPageUriAddress();
+        myPageAsideBarDraw(myPageUri);
+        $("body,html").animate({scrollTop: 300}, 1);
 	})
 
 	// 리스트 출력 페이지
@@ -59,8 +66,12 @@
 					pagingBtn(data, category); // 컨트롤러 단에서 받아온 데이터로 페이징 버튼 동적 생성 
 				} else {
 					// 좋아요 누른글이 없다면...
-					$("#modalText").text("좋아요 누른 글이 존재하지 않습니다");
-					$("#myModal").modal();
+					let output = "<tr>";
+					output += "<td colspan='6' style='text-align: center;'>좋아요 누른글이 존재하지 않습니다</td></tr>";
+					$(".list-content").html(output);
+					
+// 					$("#modalText").text("좋아요 누른 글이 존재하지 않습니다");
+// 					$("#myModal").modal();
 				}
 			}, // 통신 성공시
 			error : function(data) {
@@ -88,6 +99,9 @@
 		let output = "";
 		
 		$.each(data, function(index, item) {
+			
+			console.log(item);
+			
 			if(item.board_no != null && item.board_isDelete == "N") {
 				output += "<tr>";
 				output += "<td>" + item.board_no + "</td>";
@@ -140,7 +154,7 @@
 				<div id="content" class="8u skel-cell-important">
 					<div class="welcome-wrap">
 						<div class="welcome">
-							<span class="bsk-owner">${loginMember.member_id } </span>
+							<span class="bsk-owner">${loginMember.member_name }</span>
 							<c:if test="${loginMember.grade_name == 'M'}">
 								<img alt="" src="../../resources/cambak21/img/admin.png"
 									class="gradeImg">
@@ -162,17 +176,17 @@
 					<div class="myActivity-wrap">
 						<div class="myActivity">
 							<p class="myPost">
-								작성한 게시글 : <a href="../myPage/myPost" class="myPostCnt">${loginMember.allCnt.boardCnt }</a>개
+								작성한 게시글 : <a href="../myPage/myPost" class="myPostCnt">${cnt.allCnt.boardCnt }</a>개
 							</p>
 							<p class="myPost">
-								작성한 댓글 : <a href="../myPage/myReply.mp" class="myPostCnt">${loginMember.allCnt.replyCnt }</a>개
+								작성한 댓글 : <a href="../myPage/myReply.mp" class="myPostCnt">${cnt.allCnt.replyCnt }</a>개
 							</p>
 							<p class="myPost">
-								좋아요 누른 글 : <a href="../myPage/myLike" class="myPostCnt">${loginMember.allCnt.likeCnt }</a>개
+								좋아요 누른 글 : <a href="../myPage/myLike" class="myPostCnt">${cnt.allCnt.likeCnt }</a>개
 							</p>
-							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">${loginMember.allCnt.myQuestion }</a>개
-							</p>
+<!-- 							<p class="myPost"> -->
+<%-- 								나의 문의 : <a href="" class="myPostCnt">${cnt.allCnt.myQuestion }</a>개 --%>
+<!-- 							</p> -->
 						</div>
 						<!-- 위에 카테고리 -->
 						<div class="small-category">

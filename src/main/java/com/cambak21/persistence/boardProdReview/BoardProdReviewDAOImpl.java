@@ -88,6 +88,13 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 		return ses.update(namespace + ".updateProductAvgStarScore", product_id);
 	}
 	
+	// 게시글 삭제 시 평점 업데이트
+	@Override
+	public int deleteProductAvgStarScore(int prodId) throws Exception {
+		return ses.update(namespace + ".deleteProductAvgStarScore", prodId);
+	}
+	
+	
 	// 게시글 삭제
 	@Override
 	public int deleteProdBoard(int prodReview_no)  throws Exception{
@@ -189,6 +196,8 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 		dto = ses.selectOne(namespace + ".getReviewInfo", payment_serialNo);
 		return dto;
 	}
+
+
 
 
 	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기

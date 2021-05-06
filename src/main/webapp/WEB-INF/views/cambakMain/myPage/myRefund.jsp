@@ -37,6 +37,8 @@
 	
 	<!-- 템플릿 js, css 파일 -->
 	<script src="/resources/cambak21/js/SHWtamplet.js"></script>
+	
+	<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
 	<script>
 	function loginOK(){
 		if(document.getElementById('chkCookie').checked){
@@ -47,7 +49,12 @@
 	
 	$(document).ready(function() {
 		let item = "${refundList}";
-		console.log(item)
+		console.log(item.length);
+		
+		// 글씨 색깔 효과
+		let myPageUri = myMallAddress();
+		myPageAsideBarDraw(myPageUri);
+		$("body,html").animate({scrollTop: 300}, 1);
 	});
 	</script>
 	<style>
@@ -145,7 +152,13 @@ margin-top: 10px;
 
 								<!-- 게시물 리스트 출력 부분 -->
 								<div>
+								<c:choose>
+									
+									<c:when test="${refundList != null }">
 								<c:forEach var="item" items="${refundList }">
+									
+										
+									
 									<table class="table">
 									
 										<thead>
@@ -194,7 +207,14 @@ margin-top: 10px;
 										
 										</tbody>
 									</table>
-										</c:forEach>
+									</c:forEach>
+									</c:when>
+									<c:when test="${refundList == null }">
+											환불, 교환 신청한 상품이 없습니다.
+									</c:when>
+										
+										</c:choose>
+										
 								</div>
 							</div>
 							

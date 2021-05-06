@@ -169,7 +169,7 @@ function showWritingList(pageNum, board_category) {
           		  next = tempEndPage;
           	  }
 
-          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + prev + ",\'" + board_category +'\'); return false;">prev</a></li>';
+          	  pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + prev + ",\'" + board_category +'\'); return false;">이전 페이지</a></li>';
           	  
             });
             //console.log(startPage);
@@ -179,7 +179,7 @@ function showWritingList(pageNum, board_category) {
           	  pageOutput += '<li id="page' + num + '" class="page-item"><a class="page-link" href="" onclick="showWritingList(' + num + ",\'" + board_category +'\'); return false;">' + num + '</a></li>';
       	  }
             
-            pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + next + ",\'" + board_category +'\'); return false;">next</a></li>';
+            pageOutput += '<li class="page-item"><a class="page-link" href="" onclick="showWritingList(' + next + ",\'" + board_category +'\'); return false;">다음 페이지</a></li>';
             pageOutput += '<li class="page-item"><a class="page-link" onclick="showWritingList(' + tempEndPage + ",\'" + board_category +'\');  return false;">마지막페이지로</a></li>';
           	  
             
@@ -276,7 +276,7 @@ function showWritingList(pageNum, board_category) {
 				<div id="content" class="8u skel-cell-important">
 					<div class="welcome-wrap">
 						<div class="welcome">
-							<span class="bsk-owner">${loginMember.member_id } </span>
+							<span class="bsk-owner">${loginMember.member_name } </span>
 							<c:if test="${loginMember.grade_name == 'M'}">
 								<img alt="" src="../../resources/cambak21/img/admin.png"
 									class="gradeImg">
@@ -306,9 +306,6 @@ function showWritingList(pageNum, board_category) {
 							<p class="myPost">
 								좋아요 누른 글 : <a href="/myPage/myLike.mp" class="myPostCnt" id="totalLike">0</a>개
 							</p>
-							<p class="myPost">
-								나의 문의 : <a href="#" class="myPostCnt" id="totalQuestion">0</a>개
-							</p>
 						</div>
 						<!-- 위에 카테고리 -->
 						<div class="small-category">
@@ -316,8 +313,6 @@ function showWritingList(pageNum, board_category) {
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
 										<li id="allBar" class="bsk-focus catagory-name"><a href="#" onclick="showWritingList(); return false;">전체보기</a></li>
-										<li id="campingBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'camping'); return false;">캠핑 후기</a></li>
-										<li id="humorBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'humor'); return false;">유머</a></li>
 										<li id="QABar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'QA'); return false;">Q&A</a></li>
 										<li id="TipBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'Tip'); return false;">캠핑Tip</a></li>
 										<li id="noticeBar" class="catagory-name"><a href="#" onclick="showWritingList(1, 'notice'); return false;">공지사항</a></li>

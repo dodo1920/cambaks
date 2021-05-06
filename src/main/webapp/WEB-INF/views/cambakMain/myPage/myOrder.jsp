@@ -26,6 +26,8 @@
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+
 <script type="text/javascript">
 function refundnExchange(payment_no,payment_date) {
 	let refundnExchange_reason = $('input[name="refundnExchange_reason"]:checked').val();
@@ -75,7 +77,7 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 			console.log("result:" + result);
 
 			if (result == 'noValue'){
-				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+				location.href='/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else{
 				alert("이미 작성한 리뷰입니다.");
 			}
@@ -152,8 +154,11 @@ function purchaseSubmit(payInfo_no, payment_date, payment_no) {
 
 
 $(document).ready(function(){
-
-	});
+	// 글씨 색깔 효과
+	let myPageUri = myMallAddress();
+	myPageAsideBarDraw(myPageUri);
+	$("body,html").animate({scrollTop: 300}, 1);
+});
 
 </script>
 
@@ -434,7 +439,7 @@ $(document).ready(function(){
 												
 											</div>
 											</c:when>
-											<c:when test="${order.payment_isComit == '환불요청'}">
+											<c:when test="${order.payment_isComit == '환불요청' or order.payment_isComit == '환불완료'}">
 												<div align="center"
 											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
 
@@ -482,7 +487,7 @@ $(document).ready(function(){
 											</div>
 											</c:when>
 										
-										<c:when test="${order.payment_isComit == '교환요청'}">
+										<c:when test="${order.payment_isComit == '교환요청' or order.payment_isComit == '교환완료'}">
 										<div align="center"
 											style="width: 90%; border: 1px solid gray; border-radius: 1em; text-align: left; margin: 10px;">
 

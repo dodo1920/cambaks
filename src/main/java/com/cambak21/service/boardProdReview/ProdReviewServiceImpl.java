@@ -79,8 +79,16 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 	// 게시글 삭제
 	@Override
-	public int deleteProdBoard(int prodReview_no) throws Exception {
-		return dao.deleteProdBoard(prodReview_no);
+	public int deleteProdBoard(int prodReview_no, int prodId) throws Exception {
+
+		int result =0;
+		if(dao.deleteProdBoard(prodReview_no)==1) {
+			result = 1;
+			System.out.println("updateProductAvgStarScore : " + dao.deleteProductAvgStarScore(prodId));
+			dao.deleteProductAvgStarScore(prodId);
+			System.out.println("Service deleteProdBoard : " + result);
+		}
+		return result;
 		
 	}
 
@@ -139,6 +147,7 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception {
 		return dao.getReviewInfo(payment_serialNo);
 	}
+
 
 
 	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기

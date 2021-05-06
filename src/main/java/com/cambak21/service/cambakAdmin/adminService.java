@@ -94,6 +94,9 @@ public interface adminService {
 	
 	public List<ProductAnalysisVO> productAnalysis(int perDate)throws Exception;
 	
+	public List<RevenueVO> productSelectDate(String startDate, String endDate)throws Exception;
+	
+	
 
 		
 //		---------------------------------------------- 대기 끝 ---------------------------------------------------------------------------------------------
@@ -223,7 +226,8 @@ public interface adminService {
 		public boolean modifyDestinationInfo(OrderDetailDestinationModifyDTO dto, int payment_no) throws Exception;
 		
 		public boolean orderStatusModi(int payment_no, OrderInfoModifyDTO dto) throws Exception;
-		
+
+
 		
 		
 		

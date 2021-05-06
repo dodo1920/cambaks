@@ -32,7 +32,10 @@ public interface BoardProdReviewDAO {
 
 	// 게시글 작성, 수정 시 상품 평점 업데이트
 	public int updateProductAvgStarScore(int product_id) throws Exception;
-		
+	
+	// 게시글 삭제 시 업데이트
+	public int deleteProductAvgStarScore(int prodId) throws Exception;
+	
 	// 게시글 삭제
 	public int deleteProdBoard(int prodReview_no) throws Exception;
 
@@ -60,6 +63,9 @@ public interface BoardProdReviewDAO {
 
 	// 상품후기 게시글 작성을 위한 prodId, buyProduct_no 가져오기
 	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception;
+
+
+
 	
 	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
 	//public int getWrittenReviewCnt(String member_id, int prodId) throws Exception;

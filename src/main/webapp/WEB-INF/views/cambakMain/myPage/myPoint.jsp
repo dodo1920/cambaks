@@ -26,6 +26,8 @@
 <!-- tamplet js -->
 <script src="/resources/cambak21/js/SHWtamplet.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
+
 
 <script>
 
@@ -79,8 +81,8 @@ function showPointList(pageNum) {
             //1.주문이 취소된 건인 경우,
             if(item.point_reason == "주문취소" || item.point_reason == "환불"){
             	
-            	 //1-1.주문취소된 건이고, 구매시 포인트 사용한 경우이고, 적립예정 포인트가 0이 아닌 경우
-            	 if(item.point_usedPoint != 0  && item.point_futurePoint != 0){
+            	 //1-1.주문취소된 건이고, 구매시 포인트 사용한 경우이고,
+            	 if(item.point_usedPoint != 0){
                  	//사용했던 포인트를 돌려준다.
                  	output += '<tr><td><img src="../../../resources/img/money-saving-dollar.png" class="pointImg" style="width: 50px;" /><div style="color: red;">사용취소</div></td>';
                  	output += '<td><div>구매제품</div><div class="prodName">' + textLimitBoard(item.product_name) +'</div></td>';
@@ -88,8 +90,8 @@ function showPointList(pageNum) {
                  	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                  	output += '<td><div>포인트</div><div  style="color: red;">+' + item.point_usedPoint +'</div></td></tr>';
             	 
-            	 if(item.point_savingDate == 978188400000) {
-                	 //주문취소된 건이고, 구매 포인트 적립 예정던 경우
+            	 if(item.point_savingDate == 978188400000 && item.point_futurePoint != 0) {
+                	//주문취소된 건이고, 구매 포인트 적립 예정이고, 적립예정 포인트가 0이 아닌 경우
                  	//적립 예정 포인트의 회수를 표시
                  	
                  	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: blue;"">적립예정포인트회수</div></td>';
@@ -103,16 +105,15 @@ function showPointList(pageNum) {
                  //1-2.주문취소이면서, 사용자가 포인트를 사용하지 않았을 경우
                  else
                  {
-                      //주문취소+포인트 적립 예정
-                      
+                	 	//주문 취소된 건이고, 포인트를 사용하지 않았고, 적립예정 포인트가 0이 아닌 경우
                       	//적립 예정 포인트 회수 표시
-                      	
+                      	if(item.point_savingDate == 978188400000 && item.point_futurePoint != 0) {
                       	output += '<tr><td><img src="../../../resources/img/red-x-line.png" class="pointImg" style="width: 50px;" /><div style="color: blue;">적립예정포인트회수</div></td>';
                       	output += '<td><div>구매제품</div><div class="prodName">' + textLimitBoard(item.product_name) +'</div></td>';
                       	output += '<td><div>사유</div><div>' + item.point_reason + '</div></td>';
                       	output += '<td><div>일시</div><div>' + showThisDate +'</div></td>';
                       	output += '<td><div>포인트</div><div  style="color: blue;">-' + item.point_futurePoint +'</div></td></tr>';
-                      
+                      	}
     			}
             	 
             }// end of  1.주문이 취소된 건인 경우,
@@ -247,6 +248,11 @@ function goToTop() {
 $(function() {
 	showPointList();
 	showMyPointInfo();
+
+	// 글씨 색깔 효과
+	let myPageUri = myMallAddress();
+	myPageAsideBarDraw(myPageUri);
+	$("body,html").animate({scrollTop: 300}, 1);
 });
 </script>
 <style>

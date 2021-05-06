@@ -110,36 +110,6 @@ if (request.getProtocol().equals("HTTP/1.1"))
 	   
    }
    
-   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
-   function changeCheckbox(){
-	   
-	      $("#searchCheckbox").on("click", function() {
-	    	  clickResult = $("#searchCheckbox").prop("checked");
-	    	  console.log(typeof(clickResult));
-	    	  
-	    	  if (clickResult) {
-	    		  $("#searchWord").attr("placeholder", "");
-	    		  $("#searchTipBtn").attr("type", "button");
-	    		  $("#searchTipBtn").attr("onclick", "searchMore();");
-	    	  } else {
-	    		  $("#searchWord").attr("placeholder", "전체검색");
-	    		  $("#searchTipBtn").attr("type", "submit");
-	    		  $("#searchTipBtn").attr("onclick", "");
-	    	  }
-	    	  
-	      });
-	   
-   }
-   
-   // 검색 완료 후 검색 결과내에 재검색 체크박스 생성
-   function getSearchPage() {
-	   let searchType = getParameter("searchType");
-	   if (searchType != -1) {
-		   $("#formAction").attr("action", "search");
-		   $(".searchBar").append('<div><input type="checkbox" id="searchCheckbox"> 검색 내 재검색</div>');
-	   }
-   }
-   
     // 파라메터 값 가져오기
 	function getParameter(param) {
 		var returnVal; //리턴할 값을 저장하는 변수
