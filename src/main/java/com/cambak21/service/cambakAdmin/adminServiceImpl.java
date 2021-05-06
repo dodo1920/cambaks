@@ -129,6 +129,14 @@ public class adminServiceImpl implements adminService {
 	      
 	      return dao.selectDate(startDate, endDate);
 	   }
+	   
+	   @Override
+		public List<RevenueVO> productSelectDate(String startDate, String endDate) throws Exception {
+			// TODO Auto-generated method stub
+			return dao.productSelectDate(startDate, endDate);
+		}
+
+		
 
 
 	   @Override
