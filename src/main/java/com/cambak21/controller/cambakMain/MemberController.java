@@ -206,7 +206,7 @@ public class MemberController {
 			try {
 				service.memberDelete(dto);
 				session.removeAttribute("loginMember");
-		         session.invalidate();
+		        session.invalidate();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
