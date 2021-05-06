@@ -839,6 +839,7 @@ public class AdminDAOImpl implements AdminDAO {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("payment_date", pointHistory.getPayment_date());
 		param.put("point_usedPoint", pointHistory.getPoint_usedPoint());
+		param.put("point_futurePoint", pointHistory.getPoint_futurePoint());
 		param.put("member_id", pointHistory.getMember_id());
 		param.put("grade_name", pointHistory.getGrade_name());
 		param.put("point_reason", point_reason);
@@ -846,11 +847,10 @@ public class AdminDAOImpl implements AdminDAO {
 	}
 
 	@Override
-	public int changeMemberPoint(int totPrice, PointVO pointHistory) throws Exception {
+	public int changeMemberPoint(PointVO pointHistory) throws Exception {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("point_usedPoint", pointHistory.getPoint_usedPoint());
 		param.put("member_id", pointHistory.getMember_id());
-		param.put("totPrice", totPrice);
 		return ses.insert(ns + ".changeMemberPoint", param);
 	}
 

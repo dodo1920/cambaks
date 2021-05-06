@@ -640,6 +640,7 @@ public class adminServiceImpl implements adminService {
 				point_reason = "주문취소";
 				
 				if(dao.infoCanclePoint(point_reason, pointHistory) == 0) result = false;
+				if(dao.changeMemberPoint(pointHistory) == 0) result = false;
 				
 				for (int i = 0; i < paymentSerialNoList.size(); i++) {
 					if (dao.modifyCsStatusRnE(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
@@ -659,7 +660,7 @@ public class adminServiceImpl implements adminService {
 				point_reason = "환불";
 				
 				if(dao.infoCanclePoint(point_reason, pointHistory) == 0) result = false;
-				if(dao.changeMemberPoint(dao.getOrderTotPrice(payment_no), pointHistory) == 0) result = false;
+				if(dao.changeMemberPoint(pointHistory) == 0) result = false;
 				
 				for (int i = 0; i < paymentSerialNoList.size(); i++) {
 					if (dao.modifyCsStatusRnE(paymentSerialNoList.get(i), modifyContent, isChecked) == 0) result = false;
