@@ -191,6 +191,13 @@ public class BoardProdReviewDAOImpl implements BoardProdReviewDAO {
 	}
 
 
+	// 게시글 삭제시 평균 별점 업데이트
+	@Override
+	public int updateProductAvgStarScoreAfterDelete(int prodId) throws Exception {
+		return ses.update(namespace + ".updateProductAvgStarScoreAfterDelete", prodId);
+	}
+
+
 	// 아이디, 상품번호로 해당 상품에 작성된 후기 수 가져오기
 	/*@Override
 	public int getWrittenReviewCnt(String member_id, int prodId) throws Exception {

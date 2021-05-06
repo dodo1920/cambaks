@@ -249,7 +249,7 @@ public class ProdDetail {
 		public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId) throws Exception {
 			logger.info("/prodReviewsDelete의 post방식 호출");
 			System.out.println("/prodReviewsDelete의 post방식 호출");
-			service.deleteProdBoard(prodReview_no);
+			service.deleteProdBoard(prodReview_no, prodId);
 			
 			return "redirect:/mall/prodDetail/main?prodId=" + prodId;
 		}
