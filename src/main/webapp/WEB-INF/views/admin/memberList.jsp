@@ -445,9 +445,9 @@
 								</select>
 							</div>
 						    <div class="col-md-7">
-							    <input type="number" id="checkLowNum" name="checkLowNum" onchange="" />
+							    <input type="number" id="checkLowNum" name="checkLowNum" onchange="" placeholder="최소 금액"/>
 							    <span>~</span>
-							    <input type="number" id="checkHighNum" name="checkHighNum" onchange="" /> <span id="unit">원</span>
+							    <input type="number" id="checkHighNum" name="checkHighNum" onchange="" placeholder="최대 금액"/> <span id="unit">원</span>
 <!-- 							    <div id="checkOrderDate"> -->
 <!-- 								    <input type="hidden" value="" name="checkNum"/> -->
 <!-- 								    <input type="hidden" value="" name="checkLowNum"/> -->
@@ -558,12 +558,12 @@
 												<td>${memberList.member_email }</td>
 												<td>${memberList.member_mobile }</td>
 												<td>
-												<fmt:formatNumber value="${memberList.member_payment }" type="currency"  />
+												<fmt:formatNumber value="${memberList.member_payment }" type="number" maxFractionDigits="3" /> 원
 												</td>
 												<td>
 													<span id="spTotPoint${status.index }"><fmt:formatNumber value="${memberList.member_totPoint }" type="number" maxFractionDigits="3" /></span>
 													<span id="inputTotPoint${status.index }" style="display:none"><input type='number' id='member_totPoint${status.index }' value='${memberList.member_totPoint }' /></span>
-													point
+													Point
 												</td>
 												<td><fmt:formatDate value="${memberList.member_registerDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 											</tr>
