@@ -72,8 +72,6 @@
 		// 상품평 리스트 출력
 		showProdList(prodId);
 		
-		checkProductImg();
-		
 		futurePoints(); // 예상 적립급 계산 함수 호출
 		
 		totProdQACnt(prodId); // 해당 페이지의 상품 문의글 총 개수 호출하는 함수
@@ -718,15 +716,15 @@
 	
 	// **************************************************************************** 도연 상품 문의 js ******************************************************************
 	//
-	function checkProductImg() {
-		let imgUrl = '${prodDetail.product_img1}';
-		console.log(imgUrl);
+// 	function checkProductImg() {
+// 		let imgUrl = '${prodDetail.product_img1}';
+// 		console.log(imgUrl);
 		
-		if(imgUrl.substr(0,3) == "htt") {
-			$("#productImg").html('<img id="prodImg" data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="${prodDetail.product_name }">');
-		}
+// 		if(imgUrl.substr(0,3) == "htt") {
+// 			$("#productImg").html('<img id="prodImg" data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="${prodDetail.product_name }">');
+// 		}
 		
-	}
+// 	}
 	// 해당 상품의 판매가를 불러와 등급별 예상 적립금을 구하는 함수
 	function futurePoints() { 
 		let sellPrice = '${prodDetail.product_sellPrice}';
@@ -1715,7 +1713,14 @@
                     <div class="product__details__pic">
                         <div class="product__details__slider__content">
                             <div class="product__details__pic__slider owl-carousel" id="productImg">
-                                
+                                <c:choose>
+                                	<c:when test="${prodDetail.product_id < 606}">
+                                		<img id="prodImg" data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="${prodDetail.product_name }">
+                                	</c:when>
+                                	<c:otherwise>
+                                		<img id="prodImg" data-hash="product-1" class="product__big__img" src="../resources/uploads/${prodDetail.product_img1 }" alt="${prodDetail.product_name }">
+                                	</c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
