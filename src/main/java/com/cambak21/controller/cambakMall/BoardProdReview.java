@@ -117,9 +117,9 @@ public class BoardProdReview {
 	
 	// 상품후기 게시글 삭제
 	@RequestMapping(value="/prodReviewsDelete", method=RequestMethod.GET)
-	public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, RedirectAttributes rttr) throws Exception {
+	public String prodReviewsDelete(@RequestParam("prodReview_no") int prodReview_no, @RequestParam("prodId") int prodId, RedirectAttributes rttr) throws Exception {
 		logger.info("/prodReviewsDelete의 post방식 호출");
-		if(service.deleteProdBoard(prodReview_no) ==1) {
+		if(service.deleteProdBoard(prodReview_no, prodId) ==1) {
 			rttr.addFlashAttribute("result", "deleteSuccess");
 		}
 

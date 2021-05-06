@@ -42,8 +42,15 @@
 	
 	<!--  게시글 작성, 수정 시 상품 평점 업데이트 -->
 	<update id="updateProductAvgStarScore">
-		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) 
-		FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
+	
+		update Products set product_prodAvgScore = if(product_prodAvgScore is not null, (select round(AVG(prodReview_grade)) 
+		FROM ProdReviews where product_id = #{product_id} and prodReview_isDelete='N'), 0) where product_id = #{product_id}
+	</update>
+	
+	<!--  게시글 삭제 시 상품 평점 업데이트 -->
+	<update id="deleteProductAvgStarScore">
+		update Products set product_prodAvgScore = if(product_prodAvgScore is not null, 0, (select round(AVG(prodReview_grade)) 
+		FROM ProdReviews where product_id = #{prodId} and prodReview_isDelete='N')) where product_id = #{prodId}
 	</update>
 	
 	<!-- 게시글 삭제 -->
@@ -51,11 +58,6 @@
 		update goot6.ProdReviews set prodReview_isDelete = 'Y' where prodReview_no = #{prodReview_no}
 	</update>
 	
-	<!-- 게시글 삭제시 상품 평점 업데이트 -->
-	<update id="updateProductAvgStarScoreAfterDelete">
-		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) 
-		FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
-	</update>
 	<!-- 게시글 좋아요 인서트-->
 	<insert id="insertLikeProdReviews">
 		insert into goot6.ProdReviewsLike(member_id, prodReview_no) values(#{member_id}, #{prodReview_no})
@@ -97,7 +99,7 @@
 	
 	<!-- 해당 상품 평균 별점 가져오기 -->
 	<select id="getStarRating" resultType="int">
-		select round(avg(prodReview_grade)) from ProdReviews where product_id = #{product_id}
+		select product_prodAvgScore from Products where product_id = #{product_id}
 	</select>
 	
 	<!--  -->
