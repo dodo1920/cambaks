@@ -38,9 +38,15 @@
 <script src="../../../resources/cambak21/js/SHWtamplet.js"></script>
 <script src="../../../resources/cambak21/js/bbskJS.js"></script>
 
+<script src="/resources/cambak21/js/myPage.js"></script> <!-- 마이페이지 공동 js파일 -->
 <script>
 	$(document).ready(function() {
 		textLimit(25);
+		
+		// 글씨 색깔 효과
+    	let myPageUri = myMallAddress();
+        myPageAsideBarDraw(myPageUri);
+        $("body,html").animate({scrollTop: 300}, 1);
 	});
 	
 	function showQa(no) {
@@ -167,20 +173,20 @@ th.myPageThead {
 						</div>
 					</div>
 					<div class="myActivity-wrap">
-						<div class="myActivity">
-							<p class="myPost">
-								보유 포인트 : <a href="" class="myPostCnt">0 </a>Point
-							</p>
-							<p class="myPost">
-								주문 목록 : <a href="" class="myPostCnt">0</a> 개
-							</p>
-							<p class="myPost">
-								취소 / 반품 : <a href="" class="myPostCnt">0</a> 개
-							</p>
-							<p class="myPost">
-								상품 문의 : <a href="" class="myPostCnt">0</a> 개
-							</p>
-						</div>
+<!-- 						<div class="myActivity"> -->
+<!-- 							<p class="myPost"> -->
+<!-- 								보유 포인트 : <a href="" class="myPostCnt">0 </a>Point -->
+<!-- 							</p> -->
+<!-- 							<p class="myPost"> -->
+<!-- 								주문 목록 : <a href="" class="myPostCnt">0</a> 개 -->
+<!-- 							</p> -->
+<!-- 							<p class="myPost"> -->
+<!-- 								취소 / 반품 : <a href="" class="myPostCnt">0</a> 개 -->
+<!-- 							</p> -->
+<!-- 							<p class="myPost"> -->
+<!-- 								상품 문의 : <a href="" class="myPostCnt">0</a> 개 -->
+<!-- 							</p> -->
+<!-- 						</div> -->
 						<!-- 위에 카테고리 -->
 						<div class="small-category">
 							<nav class="navbar navbar-default" id="bsk-nav">

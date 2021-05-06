@@ -154,7 +154,7 @@
 				<div id="content" class="8u skel-cell-important">
 					<div class="welcome-wrap">
 						<div class="welcome">
-							<span class="bsk-owner">${loginMember.member_id }</span>
+							<span class="bsk-owner">${loginMember.member_name }</span>
 							<c:if test="${loginMember.grade_name == 'M'}">
 								<img alt="" src="../../resources/cambak21/img/admin.png"
 									class="gradeImg">
@@ -184,9 +184,9 @@
 							<p class="myPost">
 								좋아요 누른 글 : <a href="../myPage/myLike" class="myPostCnt">${cnt.allCnt.likeCnt }</a>개
 							</p>
-							<p class="myPost">
-								나의 문의 : <a href="" class="myPostCnt">${cnt.allCnt.myQuestion }</a>개
-							</p>
+<!-- 							<p class="myPost"> -->
+<%-- 								나의 문의 : <a href="" class="myPostCnt">${cnt.allCnt.myQuestion }</a>개 --%>
+<!-- 							</p> -->
 						</div>
 						<!-- 위에 카테고리 -->
 						<div class="small-category">
