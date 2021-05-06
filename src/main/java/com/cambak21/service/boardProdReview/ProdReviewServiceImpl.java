@@ -79,8 +79,13 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 
 	// 게시글 삭제
 	@Override
-	public int deleteProdBoard(int prodReview_no) throws Exception {
-		return dao.deleteProdBoard(prodReview_no);
+	public int deleteProdBoard(int prodReview_no, int prodId) throws Exception {
+		int result = dao.deleteProdBoard(prodReview_no);
+		System.out.println("Service deleteProdBoard : " + result);
+		if (result == 1) {
+			dao.updateProductAvgStarScoreAfterDelete(prodId);
+		}
+		return result;
 		
 	}
 
@@ -138,6 +143,13 @@ public class ProdReviewServiceImpl implements ProdReviewService {
 	@Override
 	public ProdReviewWritingInfoDTO getReviewInfo(int payment_serialNo) throws Exception {
 		return dao.getReviewInfo(payment_serialNo);
+	}
+
+
+
+	@Override
+	public int updateProductAvgStarScoreAfterDelete(int prodId) throws Exception {
+		return dao.updateProductAvgStarScoreAfterDelete(prodId);
 	}
 
 

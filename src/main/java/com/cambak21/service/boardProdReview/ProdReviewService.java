@@ -29,8 +29,11 @@ public interface ProdReviewService {
 		// 게시글 수정
 		public int updateProdBoard(ProdReviewVO vo) throws Exception;
 		
+		// 게시글 삭제 시 평점 업데이트
+		public int updateProductAvgStarScoreAfterDelete(int prodId) throws Exception;
+		
 		// 게시글 삭제
-		public int deleteProdBoard(int prodReview_no) throws Exception;
+		public int deleteProdBoard(int prodReview_no, int prodId) throws Exception;
 
 		// 게시글 좋아요 인서트
 		public int insertLikeProdReviews(String member_id, int prodReview_no) throws Exception;

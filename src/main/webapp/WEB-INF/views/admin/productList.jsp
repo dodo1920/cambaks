@@ -85,27 +85,6 @@ function selectMainCategories() {
 }
 
 
-// 수정 삭제를 위한 체크 박스 설정
-$(document).ready(function(){
-	
-    //최상단 체크박스 클릭
-    $("#allChecked").click(function(){
-        //클릭되었으면
-        if($("#allChecked").prop("checked")){
-            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
-            $("input[name=chk]").prop("checked",true);
-            //클릭이 안되있으면
-        }else{
-            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
-            $("input[name=chk]").prop("checked",false);
-        }
-    });
-    
-    //메인 카테고리 목록을 ajax로 호출
-    selectMainCategories();
-    
-
-});
 
 
 //메인카테고리의 셀렉트박스가 선택되었을 때, 해당 카테고리의 id로 미들 카테고리 출력
@@ -320,23 +299,23 @@ function getCheckBoxList() {
 	}
 	
 }
-function status() {
-    let status = "${status}"
+// function status() {
+//     let status = "${status}"
     
-    if(status == "insertOk") {
-       $("#modalText").text("상품이 등록 되었습니다.")
-       $("#productModal").show();
-    } else if(status == "insertFail") {
-       $("#modalText").text("상품 등록에 실패하였습니다.")
-       $("#productModal").show();
-    } else if(status == "modiOk") {
-       $("#modalText").text("상품이 수정 되었습니다.")
-       $("#productModal").show();
-    } else if(status == "modiFail") {
-       $("#modalText").text("상품 수정에 실패하였습니다.");
-       $("#productModal").show();
-    }
- }
+//     if(status == "insertOk") {
+//        $("#modalText").text("상품이 등록 되었습니다.")
+//        $("#productModal").show();
+//     } else if(status == "insertFail") {
+//        $("#modalText").text("상품 등록에 실패하였습니다.")
+//        $("#productModal").show();
+//     } else if(status == "modiOk") {
+//        $("#modalText").text("상품이 수정 되었습니다.")
+//        $("#productModal").show();
+//     } else if(status == "modiFail") {
+//        $("#modalText").text("상품 수정에 실패하였습니다.");
+//        $("#productModal").show();
+//     }
+//  }
  
  
 	//쿼리문에서 해당 항목 값을 찾아주는 함수
@@ -409,8 +388,24 @@ function status() {
 	
 	
 $(document).ready(function() {
+	
+    //최상단 체크박스 클릭
+    $("#allChecked").click(function(){
+        //클릭되었으면
+        if($("#allChecked").prop("checked")){
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 true로 정의
+            $("input[name=chk]").prop("checked",true);
+            //클릭이 안되있으면
+        }else{
+            //input태그의 name이 chk인 태그들을 찾아서 checked옵션을 false로 정의
+            $("input[name=chk]").prop("checked",false);
+        }
+    });
+    
+    //메인 카테고리 목록을 ajax로 호출
+    selectMainCategories();
 	console.log(lastWeek());
-	status();
+// 	status();
 	showSelected();
 });
 
@@ -671,22 +666,22 @@ $(document).ready(function() {
 	</div>
 </div>
 <!-- modal -->
-   <div id="productModal" class="modal fade" role="dialog">
-      <div class="modal-dialog modal-sm">
-         <!-- Modal content-->
-         <div class="modal-content">
-            <div class="modal-header">
-               <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <h4 class="modal-title">알림</h4>
-            </div>
-            <div class="modal-body" id="modalText"></div>
-            <div class="modal-footer">
-               <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-            </div>
-         </div>
+<!--    <div id="productModal" class="modal fade" role="dialog"> -->
+<!--       <div class="modal-dialog modal-sm"> -->
+<!--          Modal content -->
+<!--          <div class="modal-content"> -->
+<!--             <div class="modal-header"> -->
+<!--                <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+<!--                <h4 class="modal-title">알림</h4> -->
+<!--             </div> -->
+<!--             <div class="modal-body" id="modalText"></div> -->
+<!--             <div class="modal-footer"> -->
+<!--                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button> -->
+<!--             </div> -->
+<!--          </div> -->
 
-      </div>
-   </div>
+<!--       </div> -->
+<!--    </div> -->
 <%@ include file="adminFooter.jsp"%>
 </div>
 </body>

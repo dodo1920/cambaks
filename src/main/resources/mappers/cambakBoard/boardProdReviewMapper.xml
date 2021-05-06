@@ -42,7 +42,8 @@
 	
 	<!--  게시글 작성, 수정 시 상품 평점 업데이트 -->
 	<update id="updateProductAvgStarScore">
-		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
+		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) 
+		FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
 	</update>
 	
 	<!-- 게시글 삭제 -->
@@ -50,6 +51,11 @@
 		update goot6.ProdReviews set prodReview_isDelete = 'Y' where prodReview_no = #{prodReview_no}
 	</update>
 	
+	<!-- 게시글 삭제시 상품 평점 업데이트 -->
+	<update id="updateProductAvgStarScoreAfterDelete">
+		update Products set product_prodAvgScore = (select round(AVG(prodReview_grade)) 
+		FROM ProdReviews where product_id = #{product_id}) where product_id = #{product_id};
+	</update>
 	<!-- 게시글 좋아요 인서트-->
 	<insert id="insertLikeProdReviews">
 		insert into goot6.ProdReviewsLike(member_id, prodReview_no) values(#{member_id}, #{prodReview_no})
