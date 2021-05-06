@@ -112,7 +112,7 @@
 		let hostname = $(location).attr("hostname");
 		
 		// 해당 주소로 웹소켓 객체 생성
-		webSocket = new WebSocket("ws://"+hostname+":8081/adminChatting/"+ member_id);
+		webSocket = new WebSocket("ws://"+hostname+"/adminChatting/"+ member_id);
 		webSocket.onopen = function(event) {
 			socketOpen(event);
 		};
