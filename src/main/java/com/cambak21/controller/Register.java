@@ -101,7 +101,6 @@ public class Register {
 				entity = new ResponseEntity<String>("fail", HttpStatus.OK);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
        return entity;
@@ -156,7 +155,7 @@ public class Register {
 				String subject = "Cambak's 회원가입을 환영합니다"; // 메일 제목
 				String message = "<p>안녕하세요 회원님! 캠박이일 입니다.</p>"; // 메일 본문
 				message += "<p><a href='http://localhost:8081/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
-				+ " 오른쪽 버튼을 클릭하여 회원가입을 진행해주세요."
+				+ " 왼쪽 링크를 클릭하여 회원가입을 진행해주세요."
 				+ "</p><p>감사합니다:)</p>";
 				
 				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -171,7 +170,7 @@ public class Register {
 		HttpSession ses = request.getSession();
 		ses.setAttribute("registerUUID", uuid);
 		ses.setAttribute("registerEmail", userEmail);
-		ses.setMaxInactiveInterval(60 * 5);
+		ses.setMaxInactiveInterval(60 * 5); // 회원가입 가능 시간 5분 설정
    }
    
    @RequestMapping(value="/deleteProfile", method=RequestMethod.POST)

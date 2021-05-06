@@ -321,7 +321,7 @@ public interface AdminDAO {
 	public int getOrderTotPrice(int payment_no) throws Exception;
 	
 	
-	public int changeMemberPoint(int totPrice, PointVO pointHistory) throws Exception;
+	public int changeMemberPoint(PointVO pointHistory) throws Exception;
 	
 	
 	public int memberTotalPayment(String member_id) throws Exception;

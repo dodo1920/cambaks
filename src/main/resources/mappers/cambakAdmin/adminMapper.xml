@@ -1820,7 +1820,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   </select>
   
   <insert id="infoCanclePoint">
-  	insert into Points (member_id, grade_name, point_reason, point_usedPoint, point_savingDate, payment_date) values (#{member_id}, #{grade_name}, #{point_reason}, #{point_usedPoint}, now(), #{payment_date})
+  	insert into Points (member_id, grade_name, point_reason, point_usedPoint, point_futurePoint, point_savingDate, payment_date) values (#{member_id}, #{grade_name}, #{point_reason}, #{point_usedPoint}, #{point_futurePoint}, now(), #{payment_date})
   </insert>
   
   <select id="getOrderTotPrice" resultType="int">
@@ -1829,7 +1829,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   <update id="changeMemberPoint">
 	update Members set 
-	member_payment = member_payment - #{totPrice}, member_totPoint = member_totPoint + #{point_usedPoint} 
+	member_totPoint = member_totPoint - #{point_usedPoint} 
 	where member_id = #{member_id}
   </update>
   
