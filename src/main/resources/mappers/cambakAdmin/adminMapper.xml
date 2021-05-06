@@ -204,6 +204,10 @@
    where buyProduct_isFinished = 'y' and payment_date between #{startDate} and #{endDate} group by date_format(p.payment_date,'%Y-%m-%d');
 
   </select>
+  <select id="productSelectDate" resultType="com.cambak21.domain.ProductAnalysisVO">
+  	select sum(buyProduct_totPrice) as buyProduct_totPrice, sum(buyProduct_qty) as product_count, product_name, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
+where payment_isComit = '결제완료' and payment_date between #{startDate} and #{endDate} group by product_name limit 0, 9;
+  </select>
   <select id="selectMonthly" resultType="com.cambak21.domain.RevenueMonthVO">
      select sum(buyProduct_totPrice) as buyProduct_totPrice, date_format(p.payment_date,'%Y-%m-%d') as payment_date from BuyProducts b join Payments p on b.buyProduct_no = p.buyProduct_no 
 where buyProduct_isFinished = 'y' and  now() > payment_date and payment_date > (SELECT DATE_ADD(NOW(), INTERVAL -${revenueMonthly} MONTH)) group by date_format(p.payment_date,'%Y-%m')

@@ -141,6 +141,15 @@ public class AdminDAOImpl implements AdminDAO {
 	      
 	      return ses.selectList(ns + ".betweenDayRevenue", params);
 	   }
+	   
+	   @Override
+		public List<RevenueVO> productSelectDate(String startDate, String endDate) throws Exception {
+		   
+		      Map<String, Object> params = new HashMap<String, Object>();
+		      params.put("startDate", startDate);
+		      params.put("endDate", endDate);
+			return ses.selectList(ns + ".productSelectDate", params);
+		}
 
 	   @Override
 	   public List<RevenueMonthVO> selectMothly(int revenueMonthly) throws Exception {
@@ -871,6 +880,8 @@ public class AdminDAOImpl implements AdminDAO {
 		param.put("grade_name", grade_name);
 		return ses.update(ns + ".updateMemberGrade", param);
 	}
+
+	
 		
 		
 		

@@ -47,7 +47,7 @@
 	
 	$(document).ready(function() {
 		let item = "${refundList}";
-		console.log(item)
+		console.log(item.length);
 	});
 	</script>
 	<style>
@@ -145,7 +145,13 @@ margin-top: 10px;
 
 								<!-- 게시물 리스트 출력 부분 -->
 								<div>
+								<c:choose>
+									
+									<c:when test="${refundList != null }">
 								<c:forEach var="item" items="${refundList }">
+									
+										
+									
 									<table class="table">
 									
 										<thead>
@@ -194,7 +200,14 @@ margin-top: 10px;
 										
 										</tbody>
 									</table>
-										</c:forEach>
+									</c:forEach>
+									</c:when>
+									<c:when test="${refundList == null }">
+											환불, 교환 신청한 상품이 없습니다.
+									</c:when>
+										
+										</c:choose>
+										
 								</div>
 							</div>
 							
