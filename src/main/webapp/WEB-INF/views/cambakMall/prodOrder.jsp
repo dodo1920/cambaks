@@ -216,6 +216,29 @@ function default_addr() {
 //김대기 script end
 
 // 장원영 script Start
+function usedPoint() {
+// 	alert("!");
+	let member_id = "${loginMember.member_id}";
+	let dis = parseInt($("#addPoint").val());
+	let result = false;
+	
+	$.ajax({
+		  method: "POST",
+		  url: "/mall/usedPoint" ,
+		  headers : { // 요청하는 데이터의 헤더에 전송
+			  "Content-Type" : "application/json",
+			  "X-HTTP-Method-Override" : "POST)"
+		  },
+		  dataType: "JSON", // 응답 받는 데이터 타입
+		  data : {memeber_id : memeber_id, dis : dis},
+		  success : function(data){
+			console.log(data);
+		  }
+		});
+
+	return result;
+}
+
 function oderFin() {
 // 	alert("결제하기");
 	let member_id = "${loginMember.member_id}";
@@ -652,7 +675,7 @@ function addPoint() {
     	</div>
     </div>
     <div>
-    	<button type="submit" class="btn btn-default">결제하기</button>
+    	<button type="submit" class="btn btn-default" onclick="usedPoint()">결제하기</button>
     	<button class="btn btn-default" onclick="goCart()">취소</button>
     	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
     	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />

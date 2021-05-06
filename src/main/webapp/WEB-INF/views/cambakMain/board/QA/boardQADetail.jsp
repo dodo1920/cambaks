@@ -151,6 +151,8 @@
 			dataType : "json", // 응답을 어떤 형식으로 받을지	
 			url : "/board/qa/reply/all/" + ${board.board_no}, // 서블릿 주소
 			success : function(data) {
+				// 댓글 갯수 ajax로 가져오기
+				$(".replyCnt").text(data.replyCnt);
 				listOutput(data);
 			}, // 통신 성공시
 			error : function(data) {
@@ -498,7 +500,7 @@
 									추천수 <span>${board.board_likeCnt }</span>
 								</p>
 								<p class="reply">
-									댓글 <span>${board.board_replyCnt }</span>
+									댓글 <span class="replyCnt">${board.board_replyCnt }</span>
 								</p>
 							</div>
 						</div>
