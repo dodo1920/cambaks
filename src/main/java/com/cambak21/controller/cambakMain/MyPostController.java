@@ -277,13 +277,13 @@ public class MyPostController {
 	public String myPageLikeBoards(Model model, @SessionAttribute("loginMember") MemberVO loginMember) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		// 사이드 템플릿에서 세션값 쓸껄 map에 넣어줌
-//		map.put("member_id", loginMember);
-//		map.put("member_email", loginMember.getMember_email());
+		map.put("member_id", loginMember.getMember_id());
+		map.put("member_email", loginMember.getMember_email());
 		
 		// 각 갯수 들을 담아줌
 		map.put("allCnt", service.myPageAllCount(loginMember.getMember_id()));
 		
-		model.addAttribute("cnt", map);
+		model.addAttribute("loginMember", map);
 		
 		return "cambakMain/myPage/myLikeBoard";
 	}
@@ -398,7 +398,7 @@ public class MyPostController {
 
 		@RequestMapping(value = "/checkList/ajax/change/{checkList_checked}/{checkList_no}", method = RequestMethod.GET)
 		public ResponseEntity<String> changeCheckList(@PathVariable("checkList_checked") String checkList_checked, @PathVariable("checkList_no") int checkList_no) throws Exception{
-			logger.info("종진 / 체크리스트 체크여부 수정하기");
+			logger.info("종진 / 체크리스트 체크 상태 수정하기");
 			ResponseEntity<String> entity = null;
 			
 			if(ckservice.changeCheckList(checkList_checked, checkList_no)) {
@@ -413,7 +413,7 @@ public class MyPostController {
 		
 		@RequestMapping(value = "/checkList/ajax/deleteThis/{checkList_no}", method = RequestMethod.GET)
 		public ResponseEntity<String> deleteCheckList(@PathVariable("checkList_no") int checkList_no) throws Exception{
-			logger.info("종진 / 체크리스트 체크여부 수정하기");
+			logger.info("종진 / 체크리스트 체크 항목 삭제하기");
 			ResponseEntity<String> entity = null;
 			
 			if(ckservice.deleteThis(checkList_no)) {
