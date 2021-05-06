@@ -815,13 +815,13 @@
 	                output += '<tr class="content" id="content' + item.prodQA_no + '" style="display: none">';
 	                output += '<td colspan="6"><div id="imgs">';
 	                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) { // img1에 데이터가 있다면,
-	                	output += '<img class= "contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+	                	output += '<img class= "contentImg" src="' + item.prodQA_img1 + '" width:"120px" height:"100px"/>';
 	                }
 	                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) { // img2에 데이터가 있다면,
-	                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+	                	output += '<img class="contentImg" src="' + item.prodQA_img2 + '" width:"120px" height:"100px"/>';
 	                }
 	                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {// img3에 데이터가 있다면,
-	                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+	                	output += '<img class="contentImg" src="' + item.prodQA_img3 + '" width:"120px" height:"100px"/>';
 	                }
 	                
 	                output += '<div class="contentDiv">' + item.prodQA_content + '</div>';
@@ -972,13 +972,13 @@
 		      
 		                output +='<div class="imgs">';
 		                if(item.prodQA_img1 != '' && item.prodQA_img1 != null) {
-		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img1 + '" />';
+		                	output += '<img class="contentImg" src="' + item.prodQA_img1 + '" />';
 		                }
 		                if(item.prodQA_img2 != '' && item.prodQA_img2 != null) {
-		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img2 + '" />';
+		                	output += '<img class="contentImg" src="' + item.prodQA_img2 + '" />';
 		                }
 		                if(item.prodQA_img3 != '' && item.prodQA_img3 != null) {
-		                	output += '<img class="contentImg" src="/mall/prodDetail/displayFile?fileName=' + item.prodQA_img3 + '" />';
+		                	output += '<img class="contentImg" src="' + item.prodQA_img3 + '" />';
 		                }
 		                output += '</div>';
 		                
@@ -1605,6 +1605,8 @@
 	
 	.contentImg {
 		margin : 3px;
+		width: 120px;
+    	height: 100px;
 	}
 	
 	.contentDiv {

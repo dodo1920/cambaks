@@ -61,6 +61,7 @@
 			
 			for(let i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
+				encodingBase64(i, files[i]);
 			}
 			
 			for (let value of formData.values()) {
@@ -82,13 +83,6 @@
 						if(checkImgType(item)) {
 							output += "<img id='" + index + "' src='displayFile?fileName=" + item + "'/>";
 							output += "<span id='" + item + "' onclick='deleteFile(this)'>X</span>"; 
-							if(index == 0) {
-								$("#prodQA_img1").attr("value", item);
-							} else if(index == 1) {
-								$("#prodQA_img2").attr("value", item);
-							} else {
-								$("#prodQA_img3").attr("value", item);
-							}
 						}		
 					});
 					
@@ -144,6 +138,24 @@
 		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
 		
 		return fileName.match(imgPattern);
+	}
+	
+	function encodingBase64(num, file) {
+		let FR = new FileReader();
+		
+		FR.onload = function(file) {
+			console.log(file);
+			
+			if(num == 0) {
+				$("#prodQA_img1").attr("value", file.target.result);
+			} else if(num == 1) {
+				$("#prodQA_img2").attr("value", file.target.result);
+			} else {
+				$("#prodQA_img3").attr("value", file.target.result);
+			}
+		};
+		
+		FR.readAsDataURL(file);
 	}
 	
 	function deleteFile(obj) {

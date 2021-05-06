@@ -81,7 +81,7 @@
 	$(function() {
 
 		if(loginUser.length == 0) {
-			location.href="user/login";
+			location.href="../user/login";
 		}
 		
 		checkCategory();
@@ -99,6 +99,7 @@
 			console.log(files);			
 			for(let i = 0; i < files.length; i++) {
 				formData.append("files", files[i]); // "file"(key)이란 이름으로, file(value)을 전송
+				encodingBase64(i, files[i]);
 			}
 			
 			for (let value of formData.values()) {
@@ -119,7 +120,6 @@
 						if(checkImgType(item)) {
 							output += "<img id='img" + item + "' src='displayFile?fileName=" + item + "'/>";
 							output += "<span id='" + item + "' onclick='deleteFile(this)'>X</span>"; 
-							$("#prodQA_img" + index).attr("value", item);
 						}		
 					});
 					
@@ -157,6 +157,17 @@
 		let imgPattern = /jpg$|gif$|png$|jpeg$/i; // /i = 앞의 것이면 무엇이든
 		
 		return fileName.match(imgPattern);
+	}
+	
+	function encodingBase64(num, file) {
+		let FR = new FileReader();
+		
+		FR.onload = function(file) {
+			console.log(file);
+			$("#prodQA_img" + num).attr("value", file.target.result);
+		};
+		
+		FR.readAsDataURL(file);
 	}
 	
 	function deleteFile(obj) {
@@ -261,7 +272,9 @@
 		            <div class="form-group">
 		               <label class="control-label col-sm-2" for="file1">파 일 :</label>
 		               <div class="col-sm-10">
-		               	<div id="fDrop"></div>
+		               	<div id="fDrop">
+		               		
+		               	</div>
 		                  <input type="hidden" id="prodQA_img0" name="prodQA_img1" />
 		                  <input type="hidden" id="prodQA_img1" name="prodQA_img2" />
 		                  <input type="hidden" id="prodQA_img2" name="prodQA_img3" />
