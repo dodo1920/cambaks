@@ -141,7 +141,7 @@ public class BoardCsController {
 	public String BoardModi(@RequestParam("no") int no, Model model) throws Exception {
 		logger.info("승권 / 글 수정 get 방식 호출");
 
-		model.addAttribute("board", service.readBoardCS(no, null));
+		model.addAttribute("board", service.readBoardCS(no, ""));
 
 		return "cambakMain/board/cs/boardCsModi";
 	}

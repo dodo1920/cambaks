@@ -58,7 +58,7 @@ public class MyMallController {
 		
 		model.addAttribute("pp", pp);
 		model.addAttribute("refundList", service.getRefundList(member.getMember_id(), cri));
-		
+		System.out.println("@@@@@@@@@@@@@@@@@@@"+service.getRefundList(member.getMember_id(), cri).toString());
 		return "cambakMain/myPage/myRefund";
 	}
 	
