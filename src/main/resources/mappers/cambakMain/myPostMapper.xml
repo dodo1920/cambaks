@@ -285,7 +285,7 @@
 	
 <!-- 	내가 작성한 총 댓글 -->
 	<select id="bringReplyCnt" resultType="int">
-		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and b.board_isDelete = 'N' and b.member_id = #{member_id} and r.replyBoard_isdelete = 'N'
+		select count(*) from Boards b, ReplyBoards r where b.board_no = r.board_no and b.board_isDelete = 'N' and r.replyBoard_isdelete = 'N' and r.member_id = #{member_id}
 	</select>
 	
 <!-- 	내가 작성한 중고마켓 총 댓글 -->
