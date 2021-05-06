@@ -15,7 +15,7 @@
 
 <!-- 	메인페이지에 캠핑 리뷰 게시판의 최신 게시글 5개 출력 -->
 	<select id="readNoticeReview" resultType="com.cambak21.domain.BoardVO">
-		select * from Boards where board_category = 'CS' order by board_writeDate desc limit 0, 5
+		select * from Boards where board_category = 'notice' order by board_writeDate desc limit 0, 5
 	</select>
 
 <!-- 	메인페이지에 캠핑팁 게시판의 최신 게시글 5개 출력 -->
