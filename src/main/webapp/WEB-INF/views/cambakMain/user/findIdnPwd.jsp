@@ -255,7 +255,7 @@
 						      </div>
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('id');">찾기</button>
-						    <button type="button" class="btn btn-default" onclick="location.href='../login/yet'">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../login'">취소</button>
 						  </form>
 						</div>
 					</section>
@@ -278,7 +278,7 @@
 						      </div>						    	
 						    </div>
 						    <button type="submit" class="btn btn-default" onclick="return checkStatus('pwd');" >찾기</button>
-						    <button type="button" class="btn btn-default" onclick="location.href='../user/login/yet'">취소</button>
+						    <button type="button" class="btn btn-default" onclick="location.href='../user/login'">취소</button>
 						  </form>
 						</div>
 					</section>
