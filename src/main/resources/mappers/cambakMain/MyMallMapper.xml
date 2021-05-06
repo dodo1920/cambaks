@@ -95,8 +95,12 @@ where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 	</update>
 	
 	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
-		select * from goot6.Payments pay join goot6.ProdReviews re on pay.member_id = re.member_id where payment_isComit=#{payment_isComit} and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} and re.buyProduct_no = #{buyProduct_no}
+		select * from goot6.Payments pay join goot6.ProdReviews re 
+		on pay.buyProduct_no  = re.buyProduct_no where payment_isComit=#{payment_isComit} 
+		and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} 
+		and re.buyProduct_no = #{buyProduct_no}
 	</select>
+	
 	<select id="plusTotPurchase" resultType="int">
 		select sum(buyProduct_totPrice) from goot6.BuyProducts buy join goot6.Payments pay on pay.buyProduct_no = buy.buyProduct_no where payment_no = #{payment_no} group by payment_no;
 	</select>
@@ -139,6 +143,7 @@ where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		group by point_no
 		order by p.payment_date desc;
 	</select>
+	
 	<!-- 마이페이지-나의 적립금 총 게시물 개수 가져오기 -->
 	<select id="getPointListCnt" resultType="int">
 		select count(*) from Points where member_id = #{member_id}

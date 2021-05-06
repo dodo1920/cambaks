@@ -73,6 +73,7 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 		url : "/myMall/myOrder/checkReview",// 서블릿 주소
 		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
 		success : function(result) {
+			console.log("result:" + result);
 			if (result == 'noValue'){
 				location.href='http://localhost:8081/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else{

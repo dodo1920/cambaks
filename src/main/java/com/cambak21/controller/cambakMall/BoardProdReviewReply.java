@@ -114,7 +114,7 @@ public class BoardProdReviewReply {
 		}
 		
 		// 수정하려는 댓글 조회
-		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.GET)
+		@RequestMapping(value="/readProdReviewReply/{replyProdReview_no}", method=RequestMethod.GET, produces = "text/html; charset=utf8")
 		public @ResponseBody String readProdReviewReply(@PathVariable("replyProdReview_no") int replyProdReview_no) throws Exception {
 			System.out.println("modifyProdReviewReply... GET...");
 			System.out.println(replyProdReview_no);
