@@ -40,7 +40,7 @@ let loginUser = '${loginMember.member_id}';
  });
 
  
- if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권 : 채팅창에서 띄우기 위해 코드 추가했습니다 !
+ if($(location).attr("href") != "http://goot6.cafe24.com/mall/userChatting") { // 승권 : 채팅창에서 띄우기 위해 코드 추가했습니다 !
 	 $(window).on("scroll", function(){
 	   if($(window).scrollTop() > 500){
 	      $(".top").css("display","block");

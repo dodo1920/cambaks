@@ -349,8 +349,13 @@ input[type="text"] {
 										<!-- Create the editor container -->
 										<div id="toolbar">
 										</div>
-										<div id="editor" style="height: 300px;">
-											${product.product_detail }
+										<div id="editor" style="height: 800px;">
+											<c:if test="${product.product_id <= 605 }">
+												<img alt="" src="${product.product_detail }">
+											</c:if> 
+											<c:if test="${product.product_id > 605 }">
+												${product.product_detail }
+											</c:if>
 										</div>
 										<input type="hidden" name="product_detail" id="product_detail" value="">
 									</div>
@@ -367,7 +372,12 @@ input[type="text"] {
 							</tr>
 							<tr>
 								<td class="table_title">미리보기</td>
-								<td><img alt="" src="../resources/uploads/${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
+								<c:if test="${product.product_id <= 605 }">
+									<td><img alt="" src="${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
+								</c:if> 
+								<c:if test="${product.product_id > 605 }">
+									td><img alt="" src="../resources/uploads/${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
+								</c:if>
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
