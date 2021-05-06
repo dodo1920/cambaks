@@ -55,6 +55,7 @@ function checkDates() {
 	  					console.log(result);
 	  					window.setTimeout(200);
 	  					google.charts.setOnLoadCallback(drawChart(result));
+	  					google.charts.setOnLoadCallback(drawChart1(result));
 	  				}
 	  				
 	  				
@@ -97,7 +98,6 @@ function testAjax(obj) {
 				console.log(result);
 				if (result != null) {
 					
-					window.setTimeout(200);
 					google.charts.setOnLoadCallback(drawChart(result));
 					google.charts.setOnLoadCallback(drawChart1(result));
 				}
@@ -143,10 +143,11 @@ function drawChart(result) {
   }
 
 function drawChart1(result) {
+	console.log("@@@#@#@#@#@#@#@#@#@" +result);
 	 var data = new google.visualization.DataTable();
   	
 	 data.addColumn('string', '제품명');
-	 data.addColumn('number', '판매수량');
+	 data.addColumn('number', '판매금액');
 	 
 	for(i = 0; i < result.length; i++){
 		var buyProduct_totPrice = result[i].buyProduct_totPrice;
@@ -250,7 +251,7 @@ $(function(){
       <tr style="height:80px;background-color:#ddd;margin-top: 50px">
         <td style="vertical-align: middle;text-align: center" class="w-25">기간</td>
         <td style="vertical-align: middle;text-align: left">  <div class="btn-group btn-group-lg">
-    <button type="button" class="btn btn-primary" id="0" onclick='testAjax(this);'>오늘</button>
+    <button type="button" class="btn btn-primary" id="1" onclick='testAjax(this);'>오늘</button>
     <button type="button" class="btn btn-primary" id="3" onclick='testAjax(this);'>3일</button>
     <button type="button" class="btn btn-primary" id="7" onclick='testAjax(this);'>7일</button>
     <button type="button" class="btn btn-primary" id="30" onclick='testAjax(this);'>30일</button>
