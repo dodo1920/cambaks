@@ -1923,9 +1923,9 @@
                 <c:forEach var="review" items="${topReviews}">
                 	<div class="col-lg-3 col-md-4 col-sm-6">
                 		<div class="product__item">
-	                        <div class="product__item__pic set-bg" data-setbg="${review.product_img1 }">
-<!-- 	                            <div class="label new">New</div> -->
-	                        </div>
+	                        <a href="../prodDetail/main?prodId=${review.product_id }"><div class="product__item__pic set-bg" data-setbg="${review.product_img1 }">
+<!-- 	                            <div class="label new">hot</div> -->
+	                        </div></a>
 	                        <div class="product__item__text">
 	                            <h6><a href="../prodDetail/main?prodId=${review.product_id }">${review.product_name }</a></h6>
 	                            <div class="rating">

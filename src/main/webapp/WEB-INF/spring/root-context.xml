@@ -18,7 +18,7 @@
       <!-- <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>  -->
       <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
       <!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Seoul"></property>  -->
-      <property name="url" value="jdbc:log4jdbc:mysql://localhost/goot6?serverTimezone=Asia/Seoul"></property>
+      <property name="url" value="jdbc:log4jdbc:mysql://goot6.cafe24.com:3306/goot6?serverTimezone=Asia/Seoul"></property>
       <property name="username" value="goot6"></property>
       <property name="password" value="goot6321"></property>
    </bean>   
