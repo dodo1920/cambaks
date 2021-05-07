@@ -89,12 +89,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
-                	<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/admin/chattingList" aria-expanded="false">
-                		<i class="mdi mdi-chart-bubble"></i>
-                		<span class="hide-menu">채팅 관리</span>
-                	</a>
-                </li>
+<!--                 <li class="sidebar-item"> -->
+<!--                 	<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/admin/chattingList" aria-expanded="false"> -->
+<!--                 		<i class="mdi mdi-chart-bubble"></i> -->
+<!--                 		<span class="hide-menu">채팅 관리</span> -->
+<!--                 	</a> -->
+<!--                 </li> -->
 				<li class="sidebar-item">
                 	<a class="sidebar-link waves-effect waves-dark sidebar-link" href="/user/logout" aria-expanded="false">
                 		<i class="mdi mdi-chart-bubble"></i>
