@@ -42,8 +42,11 @@ import com.cambak21.domain.RevenueMonthVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
+import com.cambak21.dto.AdminProdQADTO;
+import com.cambak21.dto.AdminProdReviewDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.AdminReplyProdReviewDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.util.PagingCriteria;
 
@@ -271,133 +274,144 @@ public class AdminDAOImpl implements AdminDAO {
 //		---------------------------------------------- 승권 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 원영 ==============================================================================
+		@Override
+		public List<AdminProdQADTO> getAdmin_ProdQA(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".getAdmin_ProdQA", param);
+		}
+
+		@Override
+		public List<AdminProdReviewDTO> getAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".getAdmin_ProdReviewlst", param);
+		}
+
+		@Override
+		public List<AdminReplyProdReviewDTO> getAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".getAdmin_ReplyProdReviewlst", param);
+		}
+
+		@Override
+		public List<AdminProdQADTO> searchgetAdmin_ProdQA(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchgetAdmin_ProdQA", param);
+		}
+
+		@Override
+		public List<AdminProdReviewDTO> searchgetAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchgetAdmin_ProdReviewlst", param);
+		}
+
+		@Override
+		public List<AdminReplyProdReviewDTO> searchgetAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri2,
+				PagingCriteria pc) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+			param.put("searchboardType", BAcri2.getSearchboardType());
+			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
+			param.put("pageStart", pc.getPageStart());
+			param.put("perPageNum", pc.getPerPageNum());
+			return ses.selectList(ns + ".searchgetAdmin_ReplyProdReviewlst", param);
+		}
+
+		@Override
+		public int ProdQA_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri1.getGoStartDate());
+			param.put("goEndDate", BAcri1.getGoEndDate());
+			param.put("board_category", BAcri1.getBoard_category());
 		
-		@Override
-		public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
-			// TODO Auto-generated method stub
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", BAcri1.getGoStartDate());
-			param.put("goEndDate", BAcri1.getGoEndDate());
-			param.put("board_category", BAcri1.getBoard_category());
-			param.put("pageStart", pc.getPageStart());
-			param.put("perPageNum", pc.getPerPageNum());
-			return ses.selectList(ns + ".goGetBoard_QAadmin", param);
+			return ses.selectOne(ns + ".ProdQA_adminCnt", param);
 		}
 
 		@Override
-		public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
-				throws Exception {
-			// TODO Auto-generated method stub
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", BAcri1.getGoStartDate());
-			param.put("goEndDate", BAcri1.getGoEndDate());
-			param.put("board_category", BAcri1.getBoard_category());
-			param.put("pageStart", pc.getPageStart());
-			param.put("perPageNum", pc.getPerPageNum());
-			return ses.selectList(ns + ".goGetreply_QAadmin", param);
-		}
-
-		@Override
-		public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
-				throws Exception {
-			// TODO Auto-generated method stub
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", BAcri2.getGoStartDate());
-			param.put("goEndDate", BAcri2.getGoEndDate());
-			param.put("board_category", BAcri2.getBoard_category());
-			param.put("searchboardType", BAcri2.getSearchboardType());
-			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
-			param.put("pageStart", pc.getPageStart());
-			param.put("perPageNum", pc.getPerPageNum());
-			return ses.selectList(ns + ".searchGetBoard_QAadmin", param);
-		}
-
-		@Override
-		public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
-				throws Exception {
-			// TODO Auto-generated method stub
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("goStartDate", BAcri2.getGoStartDate());
-			param.put("goEndDate", BAcri2.getGoEndDate());
-			param.put("board_category", BAcri2.getBoard_category());
-			param.put("searchboardType", BAcri2.getSearchboardType());
-			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
-			param.put("pageStart", pc.getPageStart());
-			param.put("perPageNum", pc.getPerPageNum());
-			return ses.selectList(ns + ".searchGetreply_QAadmin", param);
-		}
-
-		@Override
-		public int getTodayTotalCnt() {
-			// TODO Auto-generated method stub
-			return ses.selectOne(ns + ".getTodayTotalCnt");
-		}
-
-		@Override
-		public int getTodayreplyTotalCnt() {
-			// TODO Auto-generated method stub
-			return ses.selectOne(ns + ".getTodayreplyTotalCnt");
-		}
-
-		@Override
-		public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
-			// TODO Auto-generated method stub
+		public int ProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri1.getGoStartDate());
 			param.put("goEndDate", BAcri1.getGoEndDate());
 			param.put("board_category", BAcri1.getBoard_category());
 		
-			return ses.selectOne(ns + ".getBoard_QAadminCnt", param);
+			return ses.selectOne(ns + ".ProdReviewlst_adminCnt", param);
 		}
 
 		@Override
-		public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
-			// TODO Auto-generated method stub
+		public int ReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri1.getGoStartDate());
 			param.put("goEndDate", BAcri1.getGoEndDate());
 			param.put("board_category", BAcri1.getBoard_category());
-
-			return ses.selectOne(ns + ".getReply_QAadminCnt", param);
+		
+			return ses.selectOne(ns + ".ReplyProdReviewlst_adminCnt", param);
 		}
 
 		@Override
-		public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
-			// TODO Auto-generated method stub
+		public int searchProdQA_adminCnt_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri2.getGoStartDate());
 			param.put("goEndDate", BAcri2.getGoEndDate());
 			param.put("board_category", BAcri2.getBoard_category());
-			param.put("searchboardType", BAcri2.getSearchboardType());
-			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
-	
-			return ses.selectOne(ns + ".getsearchBoard_QAadminCnt", param);
+		
+			return ses.selectOne(ns + ".searchProdQA_adminCnt_adminCnt", param);
 		}
 
 		@Override
-		public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
-			// TODO Auto-generated method stub
+		public int searchProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
 			Map<String, Object> param = new HashMap<String, Object>();
 			param.put("goStartDate", BAcri2.getGoStartDate());
 			param.put("goEndDate", BAcri2.getGoEndDate());
 			param.put("board_category", BAcri2.getBoard_category());
-			param.put("searchboardType", BAcri2.getSearchboardType());
-			param.put("searchTxtValue", BAcri2.getSearchTxtValue());
-
-			return ses.selectOne(ns + ".getsearchReply_QAadminCnt", param);
+		
+			return ses.selectOne(ns + ".searchProdReviewlst_adminCnt", param);
 		}
 
 		@Override
-		public void deleteBoardQAAdmin(int no) throws Exception {
-			// TODO Auto-generated method stub
-			ses.update(ns + ".deleteBoardQAAdmin", no);
+		public int searchReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			Map<String, Object> param = new HashMap<String, Object>();
+			param.put("goStartDate", BAcri2.getGoStartDate());
+			param.put("goEndDate", BAcri2.getGoEndDate());
+			param.put("board_category", BAcri2.getBoard_category());
+		
+			return ses.selectOne(ns + ".searchReplyProdReviewlst_adminCnt", param);
 		}
 
-		@Override
-		public void deleteReplyBoardQAAdmin(int no) throws Exception {
-			// TODO Auto-generated method stub
-			ses.update(ns + ".deleteReplyBoardQAAdmin", no);
-		}		
+		
 		
 //		---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
 		

@@ -90,7 +90,7 @@
 	<!-- 게시글 상세보기 -->
 	<select id="readBoardQA" resultType="com.cambak21.domain.BoardQAVO">
 		select board_no, b.member_id, board_title, board_content, board_writeDate, board_updateDate, board_likeCnt, board_viewCnt,
-		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as replyCnt
+		(select count(*) from ReplyBoards rb where b.board_no = rb.board_no) as board_replyCnt
 		from Boards b
 		where board_no = #{board_no};
 	</select>

@@ -400,181 +400,73 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
    
   <!-- ***************************************** 원영 ********************************************************************************* -->
   
-  <select id="goGetBoard_QAadmin" resultType="com.cambak21.dto.AdminBoardDTO">
-  		select * from Boards where
-	  		<if test="board_category != 'all'">
-	  			board_category = #{board_category} and 
-	  		</if>
-  		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by board_no desc limit #{pageStart}, #{perPageNum}
+  	<select id="getAdmin_ProdQA" resultType="com.cambak21.dto.AdminQADTO">
+  		select * from ProdQAs where date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by prodReview_no desc limit #{pageStart}, #{perPageNum}
+  	</select>
+
+  	<select id="getAdmin_ProdReviewlst" resultType="com.cambak21.dto.AdminProdReviewDTO">
+  		select * from ReplyProdReviews where date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by replyProdReview_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   	
-  	<select id="goGetreply_QAadmin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
-  		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where r.board_no = b.board_no and 
-	  		<if test="board_category != 'all'">
-	  			 b.board_category = #{board_category} and 
-	  		</if>
-  		date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by replyBoard_no desc limit #{pageStart}, #{perPageNum}
+  	<select id="getAdmin_ReplyProdReviewlst" resultType="com.cambak21.dto.AdminReplyProdReviewDTO">
+  		select p.prodReview_no, p.product_id, p.member_id, p.prodReview_title, p.prodReview_grade, p.prodReview_postDate, p.prodReview_isDelete, p.prodReview_updateDate, p.prodReview_likeCnt, p.prodReview_replyCnt, r.replyProdReview_no, r.prodReview_no as RprodReview_no, r.member_id as Rmember_id, r. replyProdReview_content, r.replyProdReview_date, r.replyProdReview_isDelete, r.replyProdReview_repMember_id from ReplyProdReviews r, ProdReviews p where p.prodReview_no = r.prodReview_no and date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} order by RprodReview_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   
   
-  
-  
-  	<select id="searchGetBoard_QAadmin" resultType="com.cambak21.dto.AdminBoardDTO">
-  		select * from Boards where
+  	<select id="searchgetAdmin_ProdQA" resultType="com.cambak21.dto.AdminQADTO">
+  		select * from ProdQAs where
   		
-	  		<if test="board_category == 'all' and searchboardType == 'title'">
-	  			board_category = any (select board_category from Boards) and board_title like concat('%', #{searchTxtValue}, '%') and
+	  		<if test="searchboardType == 'title'">
+	  			prodQA_title like concat('%', #{searchTxtValue}, '%') and
 	  		</if>
 	  		
-	  		<if test="board_category == 'all' and searchboardType == 'content'">
-	  			board_category = any (select board_category from Boards) and board_content like concat('%', #{searchTxtValue}, '%') and
+	  		<if test="searchboardType == 'content'">
+	  			prodQA_content like concat('%', #{searchTxtValue}, '%') and
 	  		</if>
 	  		
-	  		<if test="board_category == 'all' and searchboardType == 'member_id'">
-	  			board_category = any (select board_category from Boards) and member_id like concat('%', #{searchTxtValue}, '%') and
+	  		<if test="searchboardType == 'member_id'">
+	  			member_id like concat('%', #{searchTxtValue}, '%') and
 	  		</if>
 	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		
-  		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by board_no desc limit #{pageStart}, #{perPageNum}
+  		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by prodQA_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   	
-  	
-  	<select id="searchGetreply_QAadmin" resultType="com.cambak21.dto.AdminReplyBoardDTO">
-  		select b.board_no, b.member_id as Bmember_id, b.board_title, b.board_category, b.board_writeDate, b.board_updateDate, b.board_likeCnt, b.board_viewCnt, b.board_isDelete, b.board_replyCnt, r.replyBoard_no, r.member_id as Rmember_id, r.replyBoard_content, r.replyBoard_writeDate, r.replyBoard_updateDate, r.replyBoard_isdelete from ReplyBoards r, Boards b where
+  
+  	<select id="searchgetAdmin_ProdReviewlst" resultType="com.cambak21.dto.AdminProdReviewDTO">
+  		select * from ProdReviews where
   		
-  			<if test="board_category == 'all' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'all' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'all' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-
-			<if test="board_category == 'Tip' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'Tip' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-
-			<if test="board_category == 'QA' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'QA' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'QA' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-
-			<if test="board_category == 'humor' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'humor' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'humor' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-
-			<if test="board_category == 'notice' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'notice' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'notice' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-
-			<if test="board_category == 'CS' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'CS' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'CS' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
+	  		<if test="searchboardType == 'title'">
+	  			prodReview_title like concat('%', #{searchTxtValue}, '%') and
 	  		</if>
 	  		
-		(date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by r.replyBoard_no desc limit #{pageStart}, #{perPageNum}
-  		</select>
-  
-  
-  	<select id="getTodayTotCntQA" resultType="int">
-  		select count(*) from Boards where date_format(board_writeDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+	  		<if test="searchboardType == 'content'">
+	  			prodReview_content like concat('%', #{searchTxtValue}, '%') and
+	  		</if>
+	  		
+	  		<if test="searchboardType == 'member_id'">
+	  			member_id like concat('%', #{searchTxtValue}, '%') and
+	  		</if>
+	  		
+  		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by prodReview_no desc limit #{pageStart}, #{perPageNum}
   	</select>
+  	
   
-  	<select id="getTodayreplyTotCntQA" resultType="int">
-  		select count(*) from ReplyBoards where date_format(replyBoard_writeDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+  	<select id="searchgetAdmin_ReplyProdReviewlst" resultType="com.cambak21.dto.AdminReplyProdReviewDTO">
+  		select p.prodReview_no, p.product_id, p.member_id, p.prodReview_title, p.prodReview_grade, p.prodReview_postDate, p.prodReview_isDelete, p.prodReview_updateDate, p.prodReview_likeCnt, p.prodReview_replyCnt, r.replyProdReview_no, r.prodReview_no as RprodReview_no, r.member_id as Rmember_id, r. replyProdReview_content, r.replyProdReview_date, r.replyProdReview_isDelete, r.replyProdReview_repMember_id from ReplyProdReviews r, ProdReviews p where p.prodReview_no = r.prodReview_no and
+  		
+	  		<if test="searchboardType == 'content'">
+	  			replyProdReview_content like concat('%', #{searchTxtValue}, '%') and
+	  		</if>
+	  		
+	  		<if test="searchboardType == 'member_id'">
+	  			member_id like concat('%', #{searchTxtValue}, '%') and
+	  		</if>
+	  		
+  		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by replyProdReview_no desc limit #{pageStart}, #{perPageNum}
   	</select>
-  
-  
-   <select id="getBoard_QAadminCnt" resultType="int">
+  	
+<!-- 여기서 부터 이건 검색값 없을 때 총 갯수(페이징 처리를 위해서)-->
+   <select id="getBoard_adminCnt" resultType="int">
   		select count(*) from Boards where
 	  		<if test="board_category != 'all'">
 	  			board_category = #{board_category} and 
@@ -582,7 +474,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}
   	</select>
   	
-  	<select id="getReply_QAadminCnt" resultType="int">
+  	<select id="getReply_adminCnt" resultType="int">
   		select count(*) from ReplyBoards r, Boards b where r.board_no = b.board_no and 
 	  		<if test="board_category != 'all'">
 	  			 b.board_category = #{board_category} and 
@@ -592,8 +484,8 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   
   
   
-  
-  	<select id="getsearchBoard_QAadminCnt" resultType="int">
+  <!-- 여기서 부터 이건 검색값 있을 때 총 갯수(페이징 처리를 위해서)-->
+  	<select id="getsearchBoard_adminCnt" resultType="int">
   		select count(*) from Boards where
   		
 	  		<if test="board_category == 'all' and searchboardType == 'title'">
@@ -672,7 +564,7 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   	</select>
   	
   	
-  	<select id="getsearchReply_QAadminCnt" resultType="int">
+  	<select id="getsearchReply_adminCnt" resultType="int">
   		select count(*) from ReplyBoards r, Boards b where
   		
   			<if test="board_category == 'all' and searchboardType == 'title'">
@@ -739,13 +631,11 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		</select>
    
   
-  		<update id="deleteBoardQAadmin">
-  			update Boards set board_isDelete ='Y', board_updateDate = now() where board_no = #{no} 
-  		</update>
+  		
   
-  		<update id="deleteReplyBoardQAAdmin">
-  			update ReplyBoards set replyBoard_isdelete ='Y', replyBoard_updateDate = now() where board_no = #{no} 
-  		</update>  
+  
+  
+  
   
   <!-- ***************************************** 원영 끝 ********************************************************************************* -->
   

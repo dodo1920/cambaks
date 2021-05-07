@@ -49,8 +49,11 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
+import com.cambak21.dto.AdminProdQADTO;
+import com.cambak21.dto.AdminProdReviewDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.AdminReplyProdReviewDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.dto.OrderInfoModifyDTO;
 
@@ -847,42 +850,24 @@ public class AdminController {
    
    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ 원영@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
    
+   
+   
    @RequestMapping(value = "/QA", method = RequestMethod.GET)
-   public String QA_option() throws Exception{
+   public String adminQA() throws Exception{
       
       return "/admin/QA_admin";
    }
+  
    
-   @RequestMapping(value = "/board_QAadmin/ajax/delete", method = RequestMethod.POST)
-   public ResponseEntity<String> board_QA_delete(@RequestParam("deleteAllNum") String deleteAllNum) throws Exception{
-	  
-	   ResponseEntity<String> entity = null;
-	   String[] array = deleteAllNum.split("-");
-	   
-	   for(int i=0; i < array.length; i++) {
-			
-		    if(array[i] != "") {
-		    	System.out.println(array[i]);
-		    	service.deleteBoardAdmin(Integer.parseInt(array[i]));
-		    }
-		}
-	   
-	   try {
-		   entity = new ResponseEntity<String>("1", HttpStatus.OK);
-	   } catch (Exception e) {
-		   // TODO Auto-generated catch block
-		   e.printStackTrace();
-	   }
-	   return entity;	
-   }
    
-   @RequestMapping(value = "/QA/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}", method = RequestMethod.GET)
-   public ResponseEntity<Map<String, Object>> getNewProduct(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
+   @RequestMapping(value = "/QA_admin/ajax/{goStartDate}/{goEndDate}/{board_category}/{searchselectedCategory}/{searchboardType}/{searchTxtValue}/{page}/{perPageCnt}", method = RequestMethod.GET)
+   public ResponseEntity<Map<String, Object>> getRecentlyQAboard(@PathVariable("goStartDate") String goStartDate, @PathVariable("goEndDate") String goEndDate, @PathVariable("board_category") String board_category, @PathVariable("searchselectedCategory") String searchselectedCategory, @PathVariable("searchboardType") String searchboardType, @PathVariable("searchTxtValue") String searchTxtValue, @PathVariable("page") int page, @PathVariable("perPageCnt") int perPageCnt, Locale locale, Model model, HttpServletRequest request, HttpServletResponse response) throws ParseException {
 	   ResponseEntity<Map<String, Object>> entity = null;
-	   
+
 	   Map<String, Object> para = new HashMap<String, Object>();
-	   List<AdminBoardDTO> Boardlst = new ArrayList<AdminBoardDTO>();
-	   List<AdminReplyBoardDTO> replyBoardlst = new ArrayList<AdminReplyBoardDTO>();
+	   List<AdminProdQADTO> ProdQalst = new ArrayList<AdminProdQADTO>();
+	   List<AdminProdReviewDTO> ProdReviewlst = new ArrayList<AdminProdReviewDTO>();
+	   List<AdminReplyProdReviewDTO> ReplyProdReviewlst = new ArrayList<AdminReplyProdReviewDTO>();
 	   
 	   PagingCriteria pc = new PagingCriteria();
 	   pc.setPerPageNum(perPageCnt);
@@ -893,35 +878,99 @@ public class AdminController {
 	   BoardAdminSearchCriteria BAcri1 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category);
 	   BoardAdminSearchCriteria BAcri2 = new BoardAdminSearchCriteria(goStartDate, goEndDate, board_category, searchboardType, searchTxtValue);
 
-			   try {
+	   try {
 			if(searchTxtValue.equals("none")) {
 				
-			
-			    if(searchselectedCategory.equals("board")) {
-			    	Boardlst = service.goGetBoard_admin(BAcri1, pc);
-			    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
-			    	para.put("Boardlst", Boardlst);
-			    }
+				if(board_category.equals("QA")) {
+					
+					if(searchselectedCategory.equals("board")) {
+						
+						ProdQalst = service.getAdmin_ProdQA(BAcri1, pc);
+				    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+				    	para.put("ProdQalst", ProdQalst);
+						
+					}
+					
+					
+				}else if(board_category.equals("review")) {
+					
+					if(searchselectedCategory.equals("board")) {
+						
+						ProdReviewlst = service.getAdmin_ProdReviewlst(BAcri1, pc);
+				    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+				    	para.put("ProdReviewlst", ProdReviewlst);
+						
+					}
+					
+					 if(searchselectedCategory.equals("reply")) {
+						 ReplyProdReviewlst = service.getAdmin_ReplyProdReviewlst(BAcri1, pc);
+				      	 pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+				    	 para.put("AdminReplyProdReviewDTO", ReplyProdReviewlst);
+					 }
+					
+				}
 				
-			    if(searchselectedCategory.equals("reply")) {
-			    	replyBoardlst = service.goGetreply_admin(BAcri1, pc);
-			    	pp.setTotalCount(service.getReply_adminCnt(BAcri1));
-			    	para.put("replyBoardlst", replyBoardlst);
-			    }
+				
 			
+//			    if(searchselectedCategory.equals("board")) {
+//			    	Boardlst = service.goGetBoard_admin(BAcri1, pc);
+//			    	pp.setTotalCount(service.getBoard_adminCnt(BAcri1));
+//			    	para.put("Boardlst", Boardlst);
+//			    }
+//				
+//			    if(searchselectedCategory.equals("reply")) {
+//			    	replyBoardlst = service.goGetreply_admin(BAcri1, pc);
+//			    	pp.setTotalCount(service.getReply_adminCnt(BAcri1));
+//			    	para.put("replyBoardlst", replyBoardlst);
+//			    }
+//			
 			}else {
 			
-				 if(searchselectedCategory.equals("board")) {
-				    	Boardlst = service.searchGetBoard_admin(BAcri2,pc);
-				    	pp.setTotalCount(service.getsearchBoard_adminCnt(BAcri2));
-				    	para.put("Boardlst", Boardlst);	
-				    }
+				
+				if(board_category.equals("QA")) {
 					
-				    if(searchselectedCategory.equals("reply")) {
-				    	replyBoardlst = service.searchGetreply_admin(BAcri2, pc);
-				    	pp.setTotalCount(service.getsearchReply_adminCnt(BAcri2));
-				    	para.put("replyBoardlst", replyBoardlst);	
-				    }
+					
+						if(searchselectedCategory.equals("board")) {
+							
+							ProdQalst = service.searchgetAdmin_ProdQA(BAcri1, pc);
+					    	pp.setTotalCount(service.searchProdQA_adminCnt_adminCnt(BAcri1));
+					    	para.put("ProdQalst", ProdQalst);
+							
+						}
+					
+					
+				}else if(board_category.equals("review")) {
+					
+						if(searchselectedCategory.equals("board")) {
+							
+							ProdReviewlst = service.searchgetAdmin_ProdReviewlst(BAcri1, pc);
+					    	pp.setTotalCount(service.searchProdReviewlst_adminCnt(BAcri1));
+					    	para.put("ProdReviewlst", ProdReviewlst);
+						 	
+						}
+						
+						 if(searchselectedCategory.equals("reply")) {
+						
+							 ReplyProdReviewlst = service.searchgetAdmin_ReplyProdReviewlst(BAcri2, pc);
+					      	 pp.setTotalCount(service.searchReplyProdReviewlst_adminCnt(BAcri2));
+					    	 para.put("AdminReplyProdReviewDTO", ReplyProdReviewlst);
+						 }
+					
+				}
+
+
+
+//				 if(searchselectedCategory.equals("board")) {
+//				    	Boardlst = service.searchGetBoard_admin(BAcri2,pc);
+//				    	pp.setTotalCount(service.getsearchBoard_adminCnt(BAcri2));
+//				    	para.put("Boardlst", Boardlst);	
+//				    }
+//					
+//				    if(searchselectedCategory.equals("reply")) {
+//				    	replyBoardlst = service.searchGetreply_admin(BAcri2, pc);
+//				    	pp.setTotalCount(service.getsearchReply_adminCnt(BAcri2));
+//				    	para.put("replyBoardlst", replyBoardlst);	
+//				    }
 		
 			    
 			  
@@ -941,4 +990,33 @@ public class AdminController {
 			return entity;
 	   }
    
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+
+
+
+
 }

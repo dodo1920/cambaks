@@ -34,8 +34,11 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
+import com.cambak21.dto.AdminProdQADTO;
+import com.cambak21.dto.AdminProdReviewDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.AdminReplyProdReviewDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.dto.OrderInfoModifyDTO;
 import com.cambak21.persistence.cambakAdmin.AdminDAO;
@@ -276,78 +279,72 @@ public class adminServiceImpl implements adminService {
 //		---------------------------------------------- 승권 끝 ---------------------------------------------------------------------------------------------
 		
 //		============================================== 원영 ==============================================================================
-		
+
 		@Override
-		public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.goGetBoard_QAadmin(BAcri1, pc);
+		public List<AdminProdQADTO> getAdmin_ProdQA(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception {
+			return dao.getAdmin_ProdQA(BAcri1, pc);
 		}
 
 		@Override
-		public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
+		public List<AdminProdReviewDTO> getAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
-			// TODO Auto-generated method stub
-			return dao.goGetreply_QAadmin(BAcri1, pc);
+			return dao.getAdmin_ProdReviewlst(BAcri1, pc);
 		}
 
 		@Override
-		public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+		public List<AdminReplyProdReviewDTO> getAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc)
 				throws Exception {
-			// TODO Auto-generated method stub
-			return dao.searchGetBoard_QAadmin(BAcri2, pc);
+			return dao.getAdmin_ReplyProdReviewlst(BAcri1, pc);
 		}
 
 		@Override
-		public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+		public List<AdminProdQADTO> searchgetAdmin_ProdQA(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
 				throws Exception {
-			// TODO Auto-generated method stub
-			return dao.searchGetreply_QAadmin(BAcri2, pc);
+			return dao.searchgetAdmin_ProdQA(BAcri2, pc);
 		}
 
 		@Override
-		public int getTodayTotalCnt() throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getTodayTotalCnt();
+		public List<AdminProdReviewDTO> searchgetAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri2, PagingCriteria pc)
+				throws Exception {
+			return dao.searchgetAdmin_ProdReviewlst(BAcri2, pc);
 		}
 
 		@Override
-		public int getTodayreplyTotalCnt() throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getTodayreplyTotalCnt();
+		public List<AdminReplyProdReviewDTO> searchgetAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri2,
+				PagingCriteria pc) throws Exception {
+			return dao.searchgetAdmin_ReplyProdReviewlst(BAcri2, pc);
 		}
 
 		@Override
-		public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getBoard_QAadminCnt(BAcri1);
+		public int ProdQA_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			return dao.ProdQA_adminCnt(BAcri1);
 		}
 
 		@Override
-		public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getReply_QAadminCnt(BAcri1);
+		public int ProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			return dao.ProdReviewlst_adminCnt(BAcri1);
 		}
 
 		@Override
-		public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getsearchBoard_QAadminCnt(BAcri2);
+		public int ReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception {
+			return dao.ReplyProdReviewlst_adminCnt(BAcri1);
 		}
 
 		@Override
-		public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
-			// TODO Auto-generated method stub
-			return dao.getsearchReply_QAadminCnt(BAcri2);
+		public int searchProdQA_adminCnt_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			return dao.searchProdQA_adminCnt_adminCnt(BAcri2);
 		}
 
-		@Transactional
 		@Override
-		public void deleteBoardQAAdmin(int no) throws Exception {
-			// TODO Auto-generated method stub
-			dao.deleteBoardQAAdmin(no);
-			dao.deleteReplyBoardQAAdmin(no);
+		public int searchProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			return dao.searchProdReviewlst_adminCnt(BAcri2);
 		}
-		
+
+		@Override
+		public int searchReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception {
+			return dao.searchReplyProdReviewlst_adminCnt(BAcri2);
+		}
+
 		
 				
 //		---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
@@ -689,7 +686,6 @@ public class adminServiceImpl implements adminService {
 		return result;
 	}
 
-	
 
 
 

@@ -3,7 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="true" %>
-
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -680,7 +686,7 @@ function addPoint() {
     	<button class="btn btn-default" onclick="goCart()">취소</button>
     	<input type="hidden" name="member_id" id="member_id" value="${loginMember.member_id}" />
     	<input type="hidden" name="payInfo_no" id="payinfo_no" value="" />
-    	<input type="hidden" name="usePointNum" id="usePointNum" value=""/>
+    	<input type="hidden" name="usePointNum" id="usePointNum" value="0"/>
 		<input type="hidden" name="savePointNum" id="savePointNum" value=""/>
 		<input type="hidden" name="totPriceNum" id="totPriceNum" value=""/>
     </div>

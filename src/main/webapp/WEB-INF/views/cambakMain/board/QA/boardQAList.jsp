@@ -2,6 +2,13 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%> 
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -188,8 +195,12 @@
 								</form>
 							</div>
 							<c:if test="${loginMember.member_id != null}">
-								<button class="btn btn-danger write"
-									onclick="location.href='/board/qa/write?page=${param.page}'">글쓰기</button>
+								<c:if test="${param.page != null}">
+									<button class="btn btn-danger write" onclick="location.href='/board/qa/write?page=${param.page}'">글쓰기</button>
+								</c:if>
+								<c:if test="${param.page == null}">
+									<button class="btn btn-danger write" onclick="location.href='/board/qa/write?page=1'">글쓰기</button>
+								</c:if>
 							</c:if>
 							
 							<div class="pageBtn">

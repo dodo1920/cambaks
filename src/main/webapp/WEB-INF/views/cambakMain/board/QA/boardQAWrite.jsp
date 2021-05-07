@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%> 
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -85,10 +92,10 @@
 								type="hidden" name="board_category" value="QA">
 							
 							<c:if test="${param.searchType != null }">
-								<a href="/board/cs/search?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}"><button type="button" class="btn btn-danger" >취소</button></a>
+								<a href="/board/qa/search?page=${param.page }&searchType=${param.searchType }&searchWord=${param.searchWord}"><button type="button" class="btn btn-danger" >취소</button></a>
 							</c:if>
 							<c:if test="${param.searchType == null }">
-								<a href="/board/cs/list?page=${param.page }"><button type="button" class="btn btn-danger" >취소</button></a>
+								<a href="/board/qa/list?page=${param.page }"><button type="button" class= "btn btn-danger" >취소</button></a>
 							</c:if>
 							
 							<button type="submit" class="btn btn-success">작성하기</button>

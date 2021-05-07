@@ -96,6 +96,8 @@ public class BoardQAController {
 		}
 		
 		BoardQAVO vo = service.readBoardQA(board_no);
+		
+		
 		model.addAttribute("board", vo);
 		return "cambakMain/board/QA/boardQADetail";
 	}

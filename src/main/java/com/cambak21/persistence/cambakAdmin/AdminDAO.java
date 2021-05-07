@@ -34,8 +34,11 @@ import com.cambak21.domain.RevenueVO;
 import com.cambak21.domain.RevenueWeeklyVO;
 import com.cambak21.dto.UpdateAdminMemberDTO;
 import com.cambak21.dto.AdminBoardDTO;
+import com.cambak21.dto.AdminProdQADTO;
+import com.cambak21.dto.AdminProdReviewDTO;
 import com.cambak21.dto.AdminProductListDTO;
 import com.cambak21.dto.AdminReplyBoardDTO;
+import com.cambak21.dto.AdminReplyProdReviewDTO;
 import com.cambak21.dto.OrderDetailDestinationModifyDTO;
 import com.cambak21.domain.ProductsVO;
 import com.cambak21.util.PagingCriteria;
@@ -129,30 +132,31 @@ public interface AdminDAO {
 	
 //	============================================== 원영 ==============================================================================
 	
-	public List<AdminBoardDTO> goGetBoard_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 
-	public List<AdminReplyBoardDTO> goGetreply_QAadmin(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
-	
-	
-	public List<AdminBoardDTO> searchGetBoard_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
-	
-	public List<AdminReplyBoardDTO> searchGetreply_QAadmin(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
-	
-	public int getTodayTotalCnt();
+	public List<AdminProdQADTO> getAdmin_ProdQA(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 
-	public int getTodayreplyTotalCnt();
+	public List<AdminProdReviewDTO> getAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
+
+	public List<AdminReplyProdReviewDTO> getAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri1, PagingCriteria pc) throws Exception;
 	
-	public int getBoard_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
+	public List<AdminProdQADTO> searchgetAdmin_ProdQA(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
+
+	public List<AdminProdReviewDTO> searchgetAdmin_ProdReviewlst(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 	
-	public int getReply_QAadminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
+	public List<AdminReplyProdReviewDTO> searchgetAdmin_ReplyProdReviewlst(BoardAdminSearchCriteria BAcri2, PagingCriteria pc) throws Exception;
 	
-	public int getsearchBoard_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+	public int ProdQA_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 	
-	public int getsearchReply_QAadminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+	public int ProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 	
-	public void deleteBoardQAAdmin(int no) throws Exception;
+	public int ReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri1) throws Exception;
 	
-	public void deleteReplyBoardQAAdmin(int no) throws Exception;	
+	public int searchProdQA_adminCnt_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+	
+	public int searchProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+
+	public int searchReplyProdReviewlst_adminCnt(BoardAdminSearchCriteria BAcri2) throws Exception;
+	
 	
 	
 //	---------------------------------------------- 원영 끝 ---------------------------------------------------------------------------------------------
