@@ -154,7 +154,7 @@ public class Register {
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				String subject = "Cambak's 회원가입을 환영합니다"; // 메일 제목
 				String message = "<p>안녕하세요 회원님! 캠박이일 입니다.</p>"; // 메일 본문
-				message += "<p><a href='http://localhost:8081/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
+				message += "<p><a href='http://goot6.cafe24.com/user/joinAgreement?user=" + uuid + "&email=" + userEmail + "'>" + "<strong>캠박이일 가입</strong>" + "</a>"
 				+ " 왼쪽 링크를 클릭하여 회원가입을 진행해주세요."
 				+ "</p><p>감사합니다:)</p>";
 				

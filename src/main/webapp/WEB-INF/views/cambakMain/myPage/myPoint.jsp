@@ -227,7 +227,11 @@ function showMyPointInfo() {
 	    	myTotFuturePoint = String(data.myTotFuturePoint);
 
 	    	console.log(myTotPoint);
+	    	console.log(myTotFuturePoint);
 	    	console.log(typeof(myTotPoint));
+	    	if(myTotFuturePoint="undefined"){
+	    		myTotFuturePoint="0";
+	    	}
 	    	// 포인트 출력
 			$("#myTotAvlPoint").html(myTotPoint);
 			$("#myFuturePoint").html(myTotFuturePoint);
