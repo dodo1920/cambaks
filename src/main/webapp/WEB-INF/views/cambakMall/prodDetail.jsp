@@ -1733,7 +1733,7 @@
                                 		<img id="prodImg" data-hash="product-1" class="product__big__img" src="${prodDetail.product_img1 }" alt="${prodDetail.product_name }">
                                 	</c:when>
                                 	<c:otherwise>
-                                		<img id="prodImg" data-hash="product-1" class="product__big__img" src="../resources/uploads/${prodDetail.product_img1 }" alt="${prodDetail.product_name }">
+                                		<img id="prodImg" data-hash="product-1" class="product__big__img" src="../../resources/uploads/${prodDetail.product_img1 }" alt="${prodDetail.product_name }">
                                 	</c:otherwise>
                                 </c:choose>
                             </div>
