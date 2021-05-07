@@ -62,8 +62,9 @@
 			url : "/myPage/myLike/" + category + "/" + page, // 서블릿 주소
 			success : function(data) {
 				if (data != null) {
+					contentTopCategory(category);
 					listOutput(data); // 컨트롤러 단에서 받아온 데이터로 리스트 출력
-					pagingBtn(data, category); // 컨트롤러 단에서 받아온 데이터로 페이징 버튼 동적 생성 
+					pagingBtn(data, category); // 컨트롤러 단에서 받아온 데이터로 페이징 버튼 동적 생성
 				} else {
 					// 좋아요 누른글이 없다면...
 					let output = "<tr>";
@@ -73,6 +74,7 @@
 // 					$("#modalText").text("좋아요 누른 글이 존재하지 않습니다");
 // 					$("#myModal").modal();
 				}
+				contentTopCategory(category);
 			}, // 통신 성공시
 			error : function(data) {
 			}, // 통신 실패시
@@ -99,8 +101,6 @@
 		let output = "";
 		
 		$.each(data, function(index, item) {
-			
-			console.log(item);
 			
 			if(item.board_no != null && item.board_isDelete == "N") {
 				output += "<tr>";
@@ -131,6 +131,16 @@
 		$(".list-content").html(output);
 	}
 	
+	function contentTopCategory(board_category) {
+		$("#allBar").attr("style", "");
+		$("#QnABar").attr("style", "");
+		$("#tipBar").attr("style", "");
+		$("#noticeBar").attr("style", "");
+		$("#csBar").attr("style", "");
+		
+		$("#" + board_category + "Bar").attr("style", "background-color:#D3D3D3");
+		
+	}
 </script>
 
 <style type="text/css">
@@ -193,21 +203,21 @@
 							<nav class="navbar navbar-default" id="bsk-nav">
 								<div class="container-fluid" id="bsk-smallCat">
 									<ul class="nav navbar-nav">
-										<li class="bsk-focus catagory-name" onclick="getList('all', 1);"><a
+										<li class="catagory-name" onclick="getList('all', 1);" id="allBar"><a
 											class="mini-category">전체보기</a></li>
-										<li class="catagory-name" onclick="getList('camping', 1);"><a
-											class="mini-category">캠핑 후기</a></li>
-										<li class="catagory-name" onclick="getList('humor', 1);"><a
-											class="mini-category">유머</a></li>
-										<li class="catagory-name" onclick="getList('QnA', 1);"><a
+<!-- 										<li class="catagory-name" onclick="getList('camping', 1);"><a -->
+<!-- 											class="mini-category">캠핑 후기</a></li> -->
+<!-- 										<li class="catagory-name" onclick="getList('humor', 1);"><a -->
+<!-- 											class="mini-category">유머</a></li> -->
+										<li class="catagory-name" onclick="getList('QnA', 1);" id="QnABar"><a
 											class="mini-category">Q&A</a></li>
-										<li class="catagory-name" onclick="getList('resell', 1);"><a
-											class="mini-category">중고거래</a></li>
-										<li class="catagory-name" onclick="getList('tip', 1);"><a
+<!-- 										<li class="catagory-name" onclick="getList('resell', 1);"><a -->
+<!-- 											class="mini-category">중고거래</a></li> -->
+										<li class="catagory-name" onclick="getList('tip', 1);" id="tipBar"><a
 											class="mini-category">캠핑Tip</a></li>
-										<li class="catagory-name" onclick="getList('notice', 1);"><a
+										<li class="catagory-name" onclick="getList('notice', 1);" id="noticeBar"><a
 											class="mini-category">공지사항</a></li>
-										<li class="catagory-name" onclick="getList('cs', 1);"><a
+										<li class="catagory-name" onclick="getList('cs', 1);" id="csBar"><a
 											class="mini-category">고객센터</a></li>
 									</ul>
 								</div>
