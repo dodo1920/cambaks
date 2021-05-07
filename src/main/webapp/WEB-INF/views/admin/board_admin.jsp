@@ -101,25 +101,46 @@ let PagingResultList = new Array();
 			recoveryType = "R";
 		}	
 			
-		 if (confirm("해당 항목을 복구 하시겠습니까? 게시판을 복구 할 경우 모든 댓글은 별도 복구 작업이 필요합니다.") == true) { //확인
+		if(recoveryType == "B"){
+			
+			 if (confirm("해당 항목을 복구 하시겠습니까? 게시판을 복구 할 경우 모든 댓글은 별도 복구 작업이 필요합니다.") == true) { //확인
 
-				$.ajax({
-					method: "post",
-					url: "/admin/board_admin/ajax/recovery",
-					dataType: "text", // 응답 받는 데이터 타입
-					data : 	// 요청하는 데이터
-						{recoveryNum : recoveryNum,
-						recoveryType : recoveryType},
-					success : function(result){
-							alert(data + "번 글 복구 완료");
-							goBoardListAll();
-					}
-				});
-			 
-	        } else { //취소
-	       		 return false;
-	        }
-		
+					$.ajax({
+						method: "post",
+						url: "/admin/board_admin/ajax/recovery",
+						dataType: "text", // 응답 받는 데이터 타입
+						data : 	// 요청하는 데이터
+							{recoveryNum : recoveryNum,
+							recoveryType : recoveryType},
+						success : function(result){
+								alert(data + "번 글 복구 완료");
+								goBoardListAll();
+						}
+					});
+				 
+		        } else { //취소
+		       		 return false;
+		        }
+			
+		}else{
+			
+			$.ajax({
+				method: "post",
+				url: "/admin/board_admin/ajax/recovery",
+				dataType: "text", // 응답 받는 데이터 타입
+				data : 	// 요청하는 데이터
+					{recoveryNum : recoveryNum,
+					recoveryType : recoveryType},
+				success : function(result){
+						alert(data + "번 댓글 복구 완료");
+						goBoardListAll();
+				}
+			});
+			
+			
+		}
+
+		 
 	
 	}
 	
