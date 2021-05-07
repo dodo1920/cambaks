@@ -141,9 +141,6 @@ function purchaseSubmit(payInfo_no, payment_date, payment_no) {
 		complete : function(result) {
 			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			console.log(result);
-//			if(result != null){
-				
-//			}
 			
 			
 		} // 통신 완료시
