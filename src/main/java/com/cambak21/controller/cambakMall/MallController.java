@@ -107,6 +107,7 @@ public class MallController {
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
 	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception 
 	{
+		System.out.println("PaymentsInfoVO : " + vo);
 		Calendar cal = Calendar.getInstance();
 		
 		int year = cal.get(cal.YEAR);
@@ -121,24 +122,30 @@ public class MallController {
 		
 		String tmpPaymentNo = String.valueOf(year) + month + String.valueOf(date) + String.valueOf(serialNo);
 		int payment_no = Integer.parseInt(tmpPaymentNo);
+		System.out.println("payment_no : " + payment_no);
 		
 		OrderCompleteInfoSessionVO successVO = new OrderCompleteInfoSessionVO();
 		successVO.setPayment_no(payment_no);
 		successVO.setTotPrice(vo.getTotPriceNum());
-		
+		System.out.println("successVO" + successVO.toString());
 		session.removeAttribute("orderInfo");
 		session.setAttribute("orderInfo", successVO);
 		
 		// 이더리움
 		// 사용 포인트
-		vo.getUsePointNum();
+		//vo.getUsePointNum();
 		// 해당 멤버 아이디
-		memberVo.getMember_id();
+		//memberVo.getMember_id();
+		
 		
 		System.out.println("멤버 차감 포인트! :" + service.controllTotPoint(vo.getUsePointNum(), memberVo.getMember_id()));
-		
 		vo.setGrade_name(memberVo.getGrade_name());
 		if (service.payInfoSave(vo, payment_no, serialNo)) {
+			
+			MemberVO memVo = service.refreshLoginMember(payment_no);
+			session.removeAttribute("loginMember");
+			session.setAttribute("loginMember", memVo);
+			
 			return "redirect: /mall/orderFinally";
 		} else {
 			return "redirect: /mall/main/";

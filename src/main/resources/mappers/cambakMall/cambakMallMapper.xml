@@ -87,6 +87,10 @@
 		update Members set member_totPoint = member_totPoint - #{usePointNum} where member_id = #{member_id}
 	</update>
 	
+	<select id="refreshLoginMember" resultType="com.cambak21.domain.MemberVO">
+		select mem.member_id, mem.member_password, mem.grade_name, mem.member_name, mem.member_gender, mem.member_birth, mem.member_postCode, mem.member_addr, mem.member_addrDetail, mem.member_email, mem.member_mobile, mem.member_img, mem.member_payment, mem.member_isAdmin, mem.member_totPoint, mem.member_isDelete, mem.member_cookie, mem.member_cookieAge, mem.member_registerDate from Members mem, Payments pay where mem.member_id = pay.member_id and pay.payment_no = #{payment_no} group by member_id
+	</select>
+	
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where product_id = #{product_id}

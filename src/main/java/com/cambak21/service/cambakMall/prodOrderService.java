@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.cambak21.domain.DestinationVO;
+import com.cambak21.domain.MemberVO;
 import com.cambak21.domain.OrderCompleteInfoSessionVO;
 import com.cambak21.domain.PayInfoVO;
 import com.cambak21.domain.PaymentsInfoVO;
@@ -38,6 +39,8 @@ public interface prodOrderService {
 	
 	// 결제 완료 시 멤버 토탈 포인트 업데이트
 	public int controllTotPoint(int usePointNum, String member_id) throws Exception;
+	
+	public MemberVO refreshLoginMember(int payment_no) throws Exception;
 	
 //  	<!-- 김도연 DAO -->
   	

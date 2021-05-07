@@ -180,7 +180,6 @@ function checkForm(){
 	if (result == true) {
 		let totPriceNum = '${totPrice }';
 		
-		$("#usePointNum").val(usePointVar);
 		$("#savePointNum").val(savePointVar);
 		$("#totPriceNum").val(Number(totPriceNum));
 	}
@@ -285,6 +284,8 @@ function usePoint() {
 		let finallyPrice = totalPrice - dis + 2500;
 		$("#finalPay").text(String(finallyPrice).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인된 총 결제해야할 금액
 		$("#disCnt").text(String(dis).replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")); // 할인 금액에 사용 포인트 넣어주기
+		let myPoint = $("#myPoint").val();
+		$("#usePointNum").val(Number(myPoint));
 	} else {
 		alert("보유 포인트보다 많음")
 	}

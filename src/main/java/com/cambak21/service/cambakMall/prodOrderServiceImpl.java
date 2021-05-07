@@ -244,10 +244,13 @@ public class prodOrderServiceImpl implements prodOrderService {
 		if (dao.deleteBucketHistory(vo.getMember_id()) == 0) return false;
 		
 		result = true;
-		
 		return result;
 	}
 		  	
+	@Override
+	public MemberVO refreshLoginMember(int payment_no) throws Exception {
+		return dao.refreshLoginMember(payment_no);
+	}
 	
 	// 결제 완료 시 멤버 토탈 포인트 업데이트
 	@Override

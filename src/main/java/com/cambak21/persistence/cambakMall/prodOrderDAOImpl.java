@@ -115,6 +115,10 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		return ses.selectOne(namespace + ".orderCompleteInfoVO", payment_no);
 	}
 	
+	@Override
+	public MemberVO refreshLoginMember(int payment_no) throws Exception {
+		return ses.selectOne(namespace + ".refreshLoginMember", payment_no);
+	}
 	
 	// 결제 완료 시 멤버 토탈 포인트 업데이트
 	@Override
@@ -123,7 +127,7 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		param.put("usePointNum", usePointNum);
 		param.put("member_id", member_id);
 		
-		return ses.selectOne(namespace + ".controllTotPoint", param);
+		return ses.update(namespace + ".controllTotPoint", param);
 	}
 	
 //  	<!-- 김도연 DAO -->
