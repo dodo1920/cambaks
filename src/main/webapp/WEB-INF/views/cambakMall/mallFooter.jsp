@@ -233,10 +233,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>김도연</h6>
                     <ul>
-                        <li><a href="#">상품 전체 보기</a></li>
-                        <li><a href="#">1:1문의</a></li>
-                        <li><a href="#">캠박이일</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="/find_idPwd">ID/Password 찾기</a></li>
+                        <li><a href="/index/result?keyword=봄">캠핑장 검색 결과</a></li>
+                        <li><a href="/mall/prodDetail/main?prodId=400">상품 상세</a></li>
+                        <li><a href="/mall/prodDetail/main?prodId=400">상품 문의</a></li>
+                        <li><a href="/admin/memberList">관리자(회원관리)</a></li>
                     </ul>
                 </div>
             </div>
@@ -244,10 +245,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>백승권</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                    	<li><a href="/board/cs/list">고객센터</a></li>
+                        <li><a href="/mall/cart">회원 장바구니</a></li>
+                        <li><a href="/myPage/myLike">마이-좋아요</a></li>
+                        <li><a href="/myMall/myQnA">마이-상품 문의</a></li>
+                        <li><a href="/admin/prodRegister">상품등록 및 수정</a></li>
                     </ul>
                 </div>
             </div>
@@ -268,10 +270,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>김대기</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/user/resign">회원 탈퇴</a></li>
+                        <li><a href="/myMall/myOrder">구매 확정</a></li>
+                        <li><a href="/myMall/myRefund">상품환불 교환</a></li>
+                        <li><a href="/board/cs/list">고객센터 게시판</a></li>
+                        <li><a href="/admin/productAnalysis">관리자-매출관리</a></li>
                     </ul>
                 </div>
             </div>
@@ -279,10 +282,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>장원영</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/user/logout">로그인/로그아웃</a></li>
+                        <li><a href="/board/qa/list">Q&A 게시판</a></li>
+                        <li><a href="/mall/prodOrder">상품 주문</a></li>
+                        <li><a href="/mall/orderFin">주문 결과</a></li>
+                        <li><a href="/admin/QA">관리자-QA&리뷰</a></li>
                     </ul>
                 </div>
             </div>
@@ -290,10 +294,11 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>김정민</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/index/detail?contentId=9">캠핑장 상세</a></li>
+                        <li><a href="/mall/prodDetail/main?prodId=400">상품후기 게시판</a></li>
+                        <li><a href="/myPage/myPost">마이-내가쓴글</a></li>
+                        <li><a href="/myMall/myPoint">마이-포인트</a></li>
+                        <li><a href="/admin/prodList">관리자-상품게시판</a></li>
                     </ul>
                 </div>
             </div>
@@ -301,10 +306,12 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
                 <div class="footer__widget">
                     <h6>박종진</h6>
                     <ul>
-                        <li><a href="#">게시판 관리</a></li>
-                        <li><a href="#">주문 현황</a></li>
-                        <li><a href="#">결제 내역</a></li>
-                        <li><a href="#">배송지 관리</a></li>
+                        <li><a href="/mall/main/">캠박몰 메인</a></li>
+                        <li><a href="/admin/board_admin">관리자-게시판관리</a></li>
+                        <li><a href="/mall/main/">최근 본 상품</a></li>
+                        <li><a href="/mall/destinationsList">배송지 관리</a></li>
+                        <li><a href="/board/notice/listCri">공지사항 게시판</a></li>
+                        <li><a href="/index/main">체크리스트</a></li>
                     </ul>
                 </div>
             </div>
