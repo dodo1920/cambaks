@@ -80,12 +80,10 @@ public class MallMainController {
 			try {
 				lst = service.getNewProduct4(i);
 				
-				
 				for(int j = 0; j < lst.size(); j++) {
 					ProductsVO vo = service.getBasicInfo(lst.get(j).getProduct_id());
 					lst.get(j).setStar(service.getStar(lst.get(j).getProduct_id()));
 					lst.get(j).setTotal_reviewNum(service.getTotalReviewsNum(lst.get(j).getProduct_id()));
-					
 					
 					if (vo.getProduct_totQty() == 0) {
 						lst.get(j).setProduct_info("soldOut");

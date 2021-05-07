@@ -36,24 +36,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link has-arrow waves-effect waves-dark" href="/admin/board_admin" aria-expanded="false">
-                        <i class="mdi mdi-relative-scale"></i>
-                        <span class="hide-menu">캠박이일 게시판</span>
+
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="/admin/board_admin" aria-expanded="false">
+                        <i class="mdi mdi-chart-bubble"></i>
+                        <span class="hide-menu">캠박이일 게시판 (종진)</span>
+
                     </a>
-                    <ul aria-expanded="false" class="collapse  first-level">
-                        <li class="sidebar-item">
-                            <a href="icon-material.html" class="sidebar-link">
-                                <i class="mdi mdi-note-outline"></i>
-                                <span class="hide-menu"> 게시판 설정 </span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a href="icon-fontawesome.html" class="sidebar-link">
-                                <i class="mdi mdi-note-plus"></i>
-                                <span class="hide-menu"> 게시판 관리 </span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false">

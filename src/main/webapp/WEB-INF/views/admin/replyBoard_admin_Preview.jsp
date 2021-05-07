@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<% 
+response.setHeader("Cache-Control","no-store"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader("Expires",0); 
+if (request.getProtocol().equals("HTTP/1.1"))
+        response.setHeader("Cache-Control", "no-cache");
+%> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -156,15 +164,17 @@ html {
             <caption>댓글 내용 미리보기</caption>
             <tbody>
             <tr>
-                <th scope="row">댓글 내용</th>
-                <td>
-                    <div id="eSubject">${adminReply[0].replyBoard_content}</div>
-                    
-                </td>
-            </tr>
-            <tr>
                 <th scope="row">작성자</th>
                 <td>${adminReply[0].member_id}</td>
+            
+             
+            </tr>
+            <tr>
+     		   <th scope="row">댓글 내용</th>
+              	  <td>
+                    <div id="eSubject">${adminReply[0].replyBoard_content}</div>
+                    
+              	  </td>
             </tr>
            
            
