@@ -83,6 +83,10 @@
 		and pay.payment_no = #{payment_no}) as lst
 	</select>
 	
+	<update id="controllTotPoint">
+		update Members set member_totPoint = member_totPoint - #{usePointNum} where member_id = #{member_id}
+	</update>
+	
   	<!-- 김도연 맵퍼 -->
   	<select id="getProdDetail" resultType="com.cambak21.domain.ProductsVO">
   		select * from Products where product_id = #{product_id}

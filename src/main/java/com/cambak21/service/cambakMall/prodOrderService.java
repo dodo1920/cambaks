@@ -23,7 +23,7 @@ public interface prodOrderService {
 	
 	public DestinationVO defaultDest(String member_id) throws Exception;
 
-	// 장원영 DAO
+	// 장원영 service
 	public List<ProdInfoVO> prodOrderInfo(String member_id) throws Exception;
 	
 	public int payInfo(PayInfoVO vo) throws Exception;
@@ -35,6 +35,9 @@ public interface prodOrderService {
 	public int readSerialNo() throws Exception;
 	
 	public orderCompleteInfoVO orderCompleteInfo(OrderCompleteInfoSessionVO vo) throws Exception;
+	
+	// 결제 완료 시 멤버 토탈 포인트 업데이트
+	public int controllTotPoint(int usePointNum, String member_id) throws Exception;
 	
 //  	<!-- 김도연 DAO -->
   	
@@ -68,6 +71,7 @@ public interface prodOrderService {
   	public boolean insertDestiny(DestinationVO vo) throws Exception;
 
   	public DestinationVO GetModifydst(int dstno) throws Exception;
+
 
   	
 //  	<!-- 이영광 DAO -->

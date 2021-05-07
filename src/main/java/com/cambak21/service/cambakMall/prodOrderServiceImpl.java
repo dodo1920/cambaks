@@ -248,6 +248,14 @@ public class prodOrderServiceImpl implements prodOrderService {
 		return result;
 	}
 		  	
+	
+	// 결제 완료 시 멤버 토탈 포인트 업데이트
+	@Override
+	public int controllTotPoint(int usePointNum, String member_id) throws Exception {
+		return dao.controllTotPoint(usePointNum, member_id);
+	}
+
+
 //		  	<!-- 김도연 DAO -->
 		  	
 		  	
@@ -354,7 +362,6 @@ public class prodOrderServiceImpl implements prodOrderService {
 	public DestinationVO GetModifydst(int dstno) throws Exception {
 		return dao.GetModifydst(dstno);
 	}
-
 
 	
 

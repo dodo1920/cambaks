@@ -115,6 +115,17 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 		return ses.selectOne(namespace + ".orderCompleteInfoVO", payment_no);
 	}
 	
+	
+	// 결제 완료 시 멤버 토탈 포인트 업데이트
+	@Override
+	public int controllTotPoint(int usePointNum, String member_id) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("usePointNum", usePointNum);
+		param.put("member_id", member_id);
+		
+		return ses.selectOne(namespace + ".controllTotPoint", param);
+	}
+	
 //  	<!-- 김도연 DAO -->
   	
   	
@@ -234,6 +245,8 @@ public class prodOrderDAOImpl implements prodOrderDAO {
 	public DestinationVO GetModifydst(int dstno) throws Exception {
 		return ses.selectOne(namespace + ".GetModifydst", dstno);
 	}
+
+
 
 
 	

@@ -105,7 +105,8 @@ public class MallController {
 	
 	@Transactional
 	@RequestMapping(value = "/orderFin", method = RequestMethod.POST)
-	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String orderFin(@SessionAttribute("loginMember") MemberVO memberVo, PaymentsInfoVO vo, HttpSession session, RedirectAttributes rttr) throws Exception 
+	{
 		Calendar cal = Calendar.getInstance();
 		
 		int year = cal.get(cal.YEAR);
@@ -127,6 +128,14 @@ public class MallController {
 		
 		session.removeAttribute("orderInfo");
 		session.setAttribute("orderInfo", successVO);
+		
+		// 이더리움
+		// 사용 포인트
+		vo.getUsePointNum();
+		// 해당 멤버 아이디
+		memberVo.getMember_id();
+		
+		System.out.println("멤버 차감 포인트! :" + service.controllTotPoint(vo.getUsePointNum(), memberVo.getMember_id()));
 		
 		vo.setGrade_name(memberVo.getGrade_name());
 		if (service.payInfoSave(vo, payment_no, serialNo)) {
