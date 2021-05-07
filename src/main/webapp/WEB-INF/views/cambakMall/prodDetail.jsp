@@ -794,16 +794,25 @@
 		        	let date = new Date(item.prodQA_date);
 		        	let dateFormat = date.toLocaleString(); // 날짜 형식 변환
 		        	
-		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
-		        	
-		        	if(item.prodQA_isSecret == 'N') { // 비밀글이 아닐 경우,
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');">' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
-		        	} else if((loginUser == item.member_id && item.prodQA_isSecret == 'Y') || userGrade == 'M') { // 비밀글이지만, 로그인한 유저와 글쓴이가 같거나, 관리자일 경우
-		        		output += '<td><div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');"><span class="lockImg"><img src="../../resources/img/unlock.png" width="18px" height="18px"/></span>' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div></td>';
-		        	} else if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데, 로그인한 유저와 글쓴이가 다를 경우
-		        		output += '<td><div id="' + item.prodQA_no + '" ><span class="lockImg"><img src="../../resources/img/lock.png" width="18px" height="18px"/></span>비밀글입니다</div></td>';
+		        	let result = "";
+		        	if(item.prodQA_isComplet == "Y") {
+		        		result = "답변완료";
+		        	} else {
+		        		result = "답변대기";
 		        	}
 		        	
+		        	output += '<tr id="prodQA' + item.prodQA_no + '"><td><input type="hidden" id="produQA_no" value="' + item.prodQA_no + '"/>' + item.prodQA_category + '</td>';
+		        	output += '<td>';
+		        	
+		        	if(item.prodQA_isSecret == 'N') { // 비밀글이 아닐 경우,
+		        		output += '<div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');"><span class="isComplete" id="isComplete' + item.prodQA_no + '">' + result + '</span>' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div>';
+		        	} else if((loginUser == item.member_id && item.prodQA_isSecret == 'Y') || userGrade == 'M') { // 비밀글이지만, 로그인한 유저와 글쓴이가 같거나, 관리자일 경우
+		        		output += '<div id="' + item.prodQA_no + '" onclick="updateView(' + item.prodQA_no + ',\'' + category + '\');"><span class="isComplete" id="isComplete' + item.prodQA_no + '">' + result + '</span><span class="lockImg"><img src="../../resources/img/unlock.png" width="18px" height="18px"/></span>' + item.prodQA_title + ' <span id="replyCnt' + item.prodQA_no + '"></span></div>';
+		        	} else if(loginUser != item.member_id && item.prodQA_isSecret == 'Y') { // 비밀글인데, 로그인한 유저와 글쓴이가 다를 경우
+		        		output += '<div id="' + item.prodQA_no + '" ><span class="isComplete" id="isComplete' + item.prodQA_no + '">' + result + '</span><span class="lockImg"><img src="../../resources/img/lock.png" width="18px" height="18px"/></span>비밀글입니다</div>';
+		        	}
+		        	
+		        	output += '</td>';
 	                output += '<td id="writer' + item.prodQA_no + '">' + item.member_id + '</td>';
 	                output += '<td>' + dateFormat + '</td>';
 	                output += '<td>' + item.prodQA_likeCnt + '</td>';
@@ -1626,6 +1635,13 @@
 	
 	#pageP {
 		text-align : center;
+	}
+	
+	.isComplete {
+		margin-right : 20px;
+		padding : 3px;
+		background : slateblue;
+		color : white;		
 	}
 
 </style>
