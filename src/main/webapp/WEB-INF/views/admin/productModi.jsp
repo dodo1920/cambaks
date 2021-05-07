@@ -388,7 +388,7 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">소분류</td>
 								<td>
-									<select id="middle-wrap" name="middleCategory_id">
+									<select id="middle-wrap" name="middleCategory_id" style="width: 130px;">
 									</select>
 								</td>
 							</tr>
