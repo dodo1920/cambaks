@@ -113,6 +113,25 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 	
+	@Override
+	public boolean userKakaoInterlock(Date interlockDate, String userKakaoId, String member_id) throws Exception {
+		boolean result = false;
+		if (dao.userKakaoInterlock(interlockDate, userKakaoId, member_id) != 0) result = true;
+		return result;
+	}
+	
+	@Override
+	public boolean kakaoRelease(String member_id, Date defaultDate) throws Exception {
+		boolean result = false;
+		if (dao.kakaoRelease(member_id, defaultDate) != 0) result = true;
+		return result;
+	}
+	
+	@Override
+	public MemberVO kakaoLogin(String userKakaoId) throws Exception {
+		return dao.kakaoLogin(userKakaoId);
+	}
+	
 	//--------------------------------------------------------------- 서효원 service ---------------------------------------------------------------
 	
 	@Override

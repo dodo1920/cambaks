@@ -640,8 +640,29 @@ function checkUserPwdSize() {
 									<div class="textBarInfo" style="color : #ea2940; margin-top: 7px;">* 프로필사진은 이미지(jpg/jpeg/png) 파일만 가능하며, 10MB이하의 파일만 가능합니다.</div>
 								</td>
 							</tr>
+							<tr>
+								<th class="tableTitleSize">SNS 연동관리</th>
+								<td class="tableContentSize">
+									<c:choose>
+										<c:when test="${loginMember.member_kakaoId == NULL }">
+										<img src="/resources/img/kakaoInerlock.png" style="width: 25px;">
+										<p style="display: inline-block; font-size: 18px; font-weight: bold; margin-bottom: 0px; margin-left: 3px;">kakao</p>
+										<p style="display: inline-block; float: right;">
+											<button type="button" class="changePhoneNumBtn" onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=b3f3cf086449d274d79c8ab8a463ea84&redirect_uri=http://goot6.cafe24.com/user/kakaoInterlock&response_type=code'">연결하기</button>
+										</p>
+										</c:when>
+										<c:when test="${loginMember.member_kakaoId != NULL }">
+										<img src="/resources/img/kakaoInerlock.png" style="width: 25px;">
+										<p style="display: inline-block; font-size: 18px; font-weight: bold; margin-bottom: 0px; margin-left: 3px;">kakao</p>
+										<p style="display: inline-block; font-size: 12px; font-weight: bold; margin-bottom: 0px; margin-left: 50px;"><fmt:formatDate value="${loginMember.member_kakaoInterlockDate }" pattern="yyyy-MM-dd HH:mm:ss" type="DATE" /> 연결완료</p>
+										<p style="display: inline-block; float: right;">
+											<button type="button" class="changePhoneNumBtn" onclick="location.href='/user/kakaoRelease'">연결해제</button>
+										</p>
+										</c:when>
+									</c:choose>
+								</td>
+							</tr>
 						</table>
-						
 						<div class="registerBtn">
 							<button type="button" class="registerBtnCancle" onclick="location.href='/user/pwdCheck'">취소</button>
 							<button type="button" class="registerBtnSubmit" onclick="checkAllContent();">정보수정</button>

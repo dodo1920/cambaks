@@ -1,5 +1,6 @@
 package com.cambak21.controller.cambakMain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +40,7 @@ import com.cambak21.dto.ChangeMemberInfoDTO;
 import com.cambak21.dto.LoginDTO;
 import com.cambak21.dto.UpdateMemberDTO;
 import com.cambak21.service.cambakMain.MemberService;
+import com.cambak21.util.KakaoLoginService;
 
 @Controller
 @RequestMapping(value="/user")
@@ -384,6 +386,66 @@ public class MemberController {
 		   return "redirect:/user/pwdCheck";
 	   }
 	
+	   @RequestMapping(value="/kakaoInterlock", method=RequestMethod.GET)
+	   public String kakaoInterlock(@RequestParam(value = "code", required = false) String code, HttpSession session, RedirectAttributes rttr) throws Exception {
+		   String requestUri = "user/kakaoInterlock";
+		   String userKakaoId = KakaoLoginService.getUserKakaoID(code, requestUri);
+		   Date interlockDate = new Date();
+		   
+		   MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
+		   if (service.userKakaoInterlock(interlockDate, userKakaoId, loginMember.getMember_id())) {
+			   session.removeAttribute("loginMember");
+			   session.setAttribute("loginMember", service.sesUserInfoChange(loginMember.getMember_id()));
+			   rttr.addFlashAttribute("kakaoInterlock", "interlockSuccess");
+		   } else {
+			   rttr.addFlashAttribute("kakaoInterlock", "interlockFail");
+		   }
+		   
+		   return "redirect:/user/pwdCheck";
+	   }
+	   
+	   @RequestMapping(value="/kakaoRelease", method=RequestMethod.GET)
+	   public String kakaoRelease(HttpSession session, RedirectAttributes rttr) throws Exception {
+		   String tmpDate = "2000-12-31 00:00:00";
+		   SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		   Date defaultDate = format.parse(tmpDate);
+		   
+		   MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
+		   if (service.kakaoRelease(loginMember.getMember_id(), defaultDate)) {
+			   session.removeAttribute("loginMember");
+			   session.setAttribute("loginMember", service.sesUserInfoChange(loginMember.getMember_id()));
+			   rttr.addFlashAttribute("kakaoInterlock", "releaseSuccess");
+		   } else {
+			   rttr.addFlashAttribute("kakaoInterlock", "releaseFail");
+		   }
+		   
+		   return "redirect:/user/pwdCheck";
+	   }
+	   
+	   @RequestMapping(value="/kakaoLogin", method=RequestMethod.GET)
+	   public String kakaoLogin(@RequestParam(value = "code", required = false) String code, HttpSession session, RedirectAttributes rttr) throws Exception {
+		   String requestUri = "user/kakaoLogin";
+		   String userKakaoId = KakaoLoginService.getUserKakaoID(code, requestUri);
+		   
+		   MemberVO loginMember = (MemberVO)session.getAttribute("loginMember");
+		   MemberVO vo = service.kakaoLogin(userKakaoId);
+		   
+		   if (vo != null) {
+			   if (loginMember != null) session.removeAttribute("loginMember");
+			   session.setAttribute("loginMember", vo);
+			   
+			   String tempPrevUrl = (String)session.getAttribute("prevPage");
+			   tempPrevUrl = tempPrevUrl.substring(7);
+			   String prevUrl = tempPrevUrl.substring(tempPrevUrl.indexOf("/"));
+			   
+			   return "redirect:" + prevUrl;
+		   } else {
+			   rttr.addFlashAttribute("kakaoLogin", "fail");
+			   return "redirect:/user/login/yet";
+		   }
+		   
+	   }
+	   
 //		<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 	
 	

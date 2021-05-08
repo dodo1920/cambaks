@@ -22,6 +22,8 @@ public class MemberVO {
 	private String member_cookie;
 	private Date member_cookieAge;
 	private Date member_registerDate;
+	private Date member_kakaoInterlockDate;
+	private String member_kakaoId;
 	
 	public String getMember_id() {
 		return member_id;
@@ -130,12 +132,24 @@ public class MemberVO {
 	}
 	public void setMember_cookieAge(Date member_cookieAge) {
 		this.member_cookieAge = member_cookieAge;
-	}	
+	}
 	public Date getMember_registerDate() {
 		return member_registerDate;
 	}
 	public void setMember_registerDate(Date member_registerDate) {
 		this.member_registerDate = member_registerDate;
+	}
+	public Date getMember_kakaoInterlockDate() {
+		return member_kakaoInterlockDate;
+	}
+	public void setMember_kakaoInterlockDate(Date member_kakaoInterlockDate) {
+		this.member_kakaoInterlockDate = member_kakaoInterlockDate;
+	}
+	public String getMember_kakaoId() {
+		return member_kakaoId;
+	}
+	public void setMember_kakaoId(String member_kakaoId) {
+		this.member_kakaoId = member_kakaoId;
 	}
 	
 	@Override
@@ -147,7 +161,8 @@ public class MemberVO {
 				+ member_mobile + ", member_img=" + member_img + ", member_payment=" + member_payment
 				+ ", member_isAdmin=" + member_isAdmin + ", member_totPoint=" + member_totPoint + ", member_isDelete="
 				+ member_isDelete + ", member_cookie=" + member_cookie + ", member_cookieAge=" + member_cookieAge
-				+ ", member_registerDate=" + member_registerDate + "]";
-	}	
-
+				+ ", member_registerDate=" + member_registerDate + ", member_kakaoInterlockDate="
+				+ member_kakaoInterlockDate + ", member_kakaoId=" + member_kakaoId + "]";
+	}
+	
 }

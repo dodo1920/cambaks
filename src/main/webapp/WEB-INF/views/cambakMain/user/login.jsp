@@ -37,6 +37,10 @@
    <!-- 템플릿 js, css 파일 -->
    <script src="/resources/cambak21/js/SHWtamplet.js"></script>
    <script>
+   $(document).ready(function() {
+	   modifyResultMsg(); 
+   });
+   
    function loginOK(){
       let member_id = $("#member_id").val();
       let member_password = $("#member_password").val();
@@ -68,6 +72,12 @@
            
       });
    }
+   
+   function modifyResultMsg() {
+		if ('${kakaoLogin }' == "fail") {
+			   alert("등록되지 않은 회원입니다.");
+		   }
+	}
    
    function chkCookie() {
       chkCookie = $("#chkCookie").prop("checked");
@@ -142,10 +152,7 @@
                   </div>
                   
                     <div class="w-full text-center p-t-27 p-b-239">
-                    <span class="txt1">
-                      
-                    </span>
-        
+					<p><a href="https://kauth.kakao.com/oauth/authorize?client_id=b3f3cf086449d274d79c8ab8a463ea84&redirect_uri=http://goot6.cafe24.com/user/kakaoLogin&response_type=code"><img src="/resources/img/kakaoLogin.png"></a></p>
                     <a href="../find_idPwd" class="txt2">
                       아이디 / 비밀번호 찾기
                     </a>
