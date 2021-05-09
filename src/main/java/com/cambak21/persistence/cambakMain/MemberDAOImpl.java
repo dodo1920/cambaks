@@ -89,6 +89,23 @@ public class MemberDAOImpl implements MemberDAO {
 		return ses.selectOne(namespace + ".modifyCheckUser", param);
 	}
 	
+	@Override
+	public int userKakaoInterlock(Date interlockDate, String userKakaoId, String member_id) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("interlockDate", interlockDate);
+		param.put("userKakaoId", userKakaoId);
+		return ses.update(namespace + ".userKakaoInterlock", param);
+	}
+	
+	@Override
+	public int kakaoRelease(String member_id, Date defaultDate) throws Exception {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("member_id", member_id);
+		param.put("defaultDate", defaultDate);
+		return ses.update(namespace + ".kakaoRelease", param);
+	}
+	
 	//--------------------------------------------------------------- 서효원 dao ---------------------------------------------------------------
 	
 	@Override
@@ -133,6 +150,10 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int memberDel(LoginDTO dto) throws Exception {
 		return ses.update(namespace + ".MemberDelete", dto);
+	}
+	@Override
+	public MemberVO kakaoLogin(String userKakaoId) throws Exception {
+		return ses.selectOne(namespace + ".kakaoLogin", userKakaoId);
 	}
 	
 }

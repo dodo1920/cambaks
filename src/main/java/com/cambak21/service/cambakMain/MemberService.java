@@ -150,6 +150,9 @@ public interface MemberService {
 	public boolean updateMemberInfo(ChangeMemberInfoDTO dto) throws Exception;
 	public MemberVO sesUserInfoChange(String member_id) throws Exception;
 	public boolean modifyCheckUser(String member_id, String member_password) throws Exception;
+	public boolean userKakaoInterlock(Date interlockDate, String userKakaoId, String member_id) throws Exception;
+	public boolean kakaoRelease(String member_id, Date defaultDate) throws Exception;
+	public MemberVO kakaoLogin(String userKakaoId) throws Exception;
 //	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 서효원 파트
 
 }

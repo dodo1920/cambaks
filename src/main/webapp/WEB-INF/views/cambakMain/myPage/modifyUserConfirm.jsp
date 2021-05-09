@@ -40,6 +40,7 @@ if (request.getProtocol().equals("HTTP/1.1"))
 $(document).ready(function() {
     $("body,html").animate({scrollTop: 300}, 1);
     modifyResultMsg();
+    kakaoInterlockMsg();
 });
 
 function modifyResultMsg() {
@@ -47,6 +48,18 @@ function modifyResultMsg() {
 		   alert("회원정보 수정이 완료되었습니다.");
 	   } else if ('${result }' == "fail") {
 		   alert("회원정보 수정을 실패했습니다. 다시 시도 후 문의바랍니다.");
+	   }
+}
+
+function kakaoInterlockMsg() {
+	if ('${kakaoInterlock }' == "interlockSuccess") {
+		   alert("카카오 로그인 연결이 완료되었습니다.");
+	   } else if ('${kakaoInterlock }' == "interlockFail") {
+		   alert("카카오 로그인 연결이 실패되었습니다. 다시 시도 후 관리자에게 문의바랍니다.");
+	   } else if ('${kakaoInterlock }' == "releaseSuccess") {
+		   alert("카카오 로그인 해제가 완료되었습니다.");
+	   } else if ('${kakaoInterlock }' == "releaseFail") {
+		   alert("카카오 로그인 해제를 실패했습니다. 다시 시도 후 관리자에게 문의바랍니다.");
 	   }
 }
 

@@ -95,7 +95,7 @@ if (request.getProtocol().equals("HTTP/1.1"))
 	                            <c:if test="${loginMember == null }">
 	                            	<li><a href="/user/login/yet" id="loginBtn">로그인</a></li>
 	                            	<li><a href="/user/register">회원가입</a></li>
-			                        <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+			                        <li><a href="/board/qa/list?page=1">게시판</a></li>
 			                        <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 			                        <li><a href="/board/cs/list?page=1">고객센터</a></li>
 	                            </c:if>
@@ -104,7 +104,7 @@ if (request.getProtocol().equals("HTTP/1.1"))
 	                            	<!-- 로그인한 유저가 어드민인 경우 -->
 	                            	<c:if test="${loginMember.member_isAdmin == 'Y' }">
 	                            		<li><a href="/admin/productAnalysis">관리자 페이지</a></li>
-			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+			                            <li><a href="/board/qa/list?page=1">게시판</a></li>
 			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
 			                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
@@ -112,7 +112,7 @@ if (request.getProtocol().equals("HTTP/1.1"))
 	                            	<!-- 로그인한 유저가 일반 회원인 경우 -->
 	                            	<c:if test="${loginMember.member_isAdmin == 'N' }">
 	                            		<li><a href="/myPage/myPost">마이페이지</a></li>
-			                            <li><a href="/board/campingreview/listcri?page=1">게시판</a></li>
+			                            <li><a href="/board/qa/list?page=1">게시판</a></li>
 			                            <li><a href="/board/notice/listCri?page=1">공지사항</a></li>
 			                            <li><a href="/board/cs/list?page=1">고객센터</a></li>
 			                            <li><a href="/user/logout" id="loginBtn">로그아웃</a></li>
