@@ -71,16 +71,6 @@
 	
 	<select id="getTotBoardCnt" resultType="int">
 			select count(*) from Boards
-			<if test='flag == 1'>
-				where (board_category = 'camping' and board_title like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'camping' and  board_content like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'camping' and member_id like concat('%', #{searchWord} ,'%'))
-			</if>
-			<if test='flag == 2'>
-				where (board_category = 'humor' and board_title like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'humor' and  board_content like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'humor' and member_id like concat('%', #{searchWord} ,'%'))
-			</if>
 			<if test='flag == 3'>
 				where (board_category = 'QA' and board_title like concat('%', #{searchWord} ,'%')) or 
 				(board_category = 'QA' and  board_content like concat('%', #{searchWord} ,'%')) or 
@@ -105,16 +95,6 @@
 	
 	<select id="getBoards" resultType="com.cambak21.domain.BoardVO">
 			select * from Boards
-			<if test='flag == 1'>
-				where (board_category = 'camping' and board_title like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'camping' and  board_content like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'camping' and member_id like concat('%', #{searchWord} ,'%'))
-			</if>
-			<if test='flag == 2'>
-				where (board_category = 'humor' and board_title like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'humor' and  board_content like concat('%', #{searchWord} ,'%')) or 
-				(board_category = 'humor' and member_id like concat('%', #{searchWord} ,'%'))
-			</if>
 			<if test='flag == 3'>
 				where (board_category = 'QA' and board_title like concat('%', #{searchWord} ,'%')) or 
 				(board_category = 'QA' and  board_content like concat('%', #{searchWord} ,'%')) or 

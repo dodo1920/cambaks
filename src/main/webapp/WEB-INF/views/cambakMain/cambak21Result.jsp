@@ -492,11 +492,7 @@
     			let date = new Date(item.board_updateDate);
 		        let dateFormat = date.toLocaleString(); // 날짜 형식 변환
     			
-        		if(index == 1) { // 인덱스가 1이면, '캠핑 후기 게시판'의 검색 결과 보여줌
-        			url = '/board/campingreview/detail?no=' + item.board_no + '&page=1'; 
-        		} else if(index == 2) { // 인덱스가 2이면, '유머 게시판'의 검색 결과 보여줌
-        			url = '/board/humor/read?no=' + item.board_no + '&page=1';
-        		} else if(index == 3) { // 인덱스가 3이면, 'QA 게시판'의 검색 결과 보여줌
+				if(index == 3) { // 인덱스가 3이면, 'QA 게시판'의 검색 결과 보여줌
         			url = '/board/qa/detail?no=' + item.board_no + '&page=1';
         		} else if(index == 5) { // 인덱스가 5이면, '캠핑 팁 게시판'의 검색 결과 보여줌
         			url = '/board/campingTip/view?id=Tip&no=' + item.board_no + '&page=1';
@@ -604,8 +600,6 @@
 						<div class="container-fluid" id="bsk-smallCat">
 							<ul class="nav navbar-nav">
 								<li class="bsk-focus catagory-name"><a href="http://localhost:8081/index/result?keyword=${param.keyword }">전체보기</a></li>
-								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('1');">캠핑 후기</a></li>
-								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('2');">유머</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('3');">Q&A</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('5');">캠핑Tip</a></li>
 								<li class="catagory-name"><a href="javascript:void(0);" onclick="showBoard('6');">공지사항</a></li>
