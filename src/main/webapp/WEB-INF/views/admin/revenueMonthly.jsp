@@ -236,7 +236,7 @@ $(function(){
 	<div id="columnchart_values" style="width: 100%; height: 300px;"></div>
 </div>
 <div style="margin-bottom: 120px"></div>
-<div style="margin-top: 20px">
+<%-- <div style="margin-top: 20px">
 	<h2>증감 추이</h2>
 	<div style="border: 1px;">
 		<table class="table table-bordered" style="text-align: center;">
@@ -296,7 +296,7 @@ $(function(){
 		</table>
 	</div>
 	
-</div>
+</div> --%>
 <!-- <div style="margin-top: 30px">
 	<h2>월별 통계</h2>
 	<table class="table table-bordered" style="text-align: center;">

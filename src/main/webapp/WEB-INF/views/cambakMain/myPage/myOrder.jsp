@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -254,7 +256,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -264,7 +266,7 @@ $(document).ready(function(){
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
-																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
+																<button type="button" id="check_date${order.payment_serialNo }" onclick="check_date('${order.payment_date}',${order.payment_serialNo } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
 
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
@@ -363,7 +365,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -414,7 +416,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -461,7 +463,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -509,7 +511,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
