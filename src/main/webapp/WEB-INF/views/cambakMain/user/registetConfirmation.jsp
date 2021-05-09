@@ -65,9 +65,14 @@ if (request.getProtocol().equals("HTTP/1.1"))
 		   if (checkResultEmail) { // 중복이메일 확인
 			   if (googleCapchaChk()) { // 구글 캡챠 통과 확인
 				   if (emailJ.test(userEmail) && !koreanJ.test(userEmail)) { // 작성한 이메일 유효성 검사
-					   sendEamil();
-					   alert("작성해주신 주소로 메일이 전송되었습니다.");
-					   location.reload();
+					   if (sendEamil()) {
+						   alert("작성해주신 주소로 메일이 전송되었습니다.");
+						   location.reload();
+					   } else {
+						   alert("메일 전송을 실패했습니다. 다시 시도 후 실패 시 문의바랍니다.");
+						   location.reload();
+					   }
+					   
 				   }
 			   }
 		   } else {
@@ -88,9 +93,8 @@ if (request.getProtocol().equals("HTTP/1.1"))
             dataType: "text",
             data: { userEmail : userEmail },
             success: function(data) {
-            	if (data == "impossibility") {
-            		result = false;
-            	}
+            	if (data == "sendOK") result = true;
+            	else if (data == "sendFAIL") result = false;
             }
         });
 		return result;

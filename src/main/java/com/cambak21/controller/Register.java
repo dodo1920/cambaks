@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -142,8 +143,9 @@ public class Register {
    }
    
    @RequestMapping(value="register/sendRegisterEmail", method = RequestMethod.POST)
-   public void sendRegisterEmail(@RequestParam("userEmail") String userEmail, HttpServletRequest request) throws Exception {
+   public ResponseEntity<String> sendRegisterEmail(@RequestParam("userEmail") String userEmail, HttpServletRequest request) throws Exception {
 	   // 유저가 작성한 이메일 주소로 메일 발송
+	   ResponseEntity<String> entity = null;
 	   
 	   String uuid = UUID.randomUUID().toString();
 	   System.out.println(uuid);
@@ -166,11 +168,17 @@ public class Register {
 			}
 		};
 		
-		mailSender.send(preparator); // 메일 발송
-		HttpSession ses = request.getSession();
-		ses.setAttribute("registerUUID", uuid);
-		ses.setAttribute("registerEmail", userEmail);
-		ses.setMaxInactiveInterval(60 * 5); // 회원가입 가능 시간 5분 설정
+		try {
+			mailSender.send(preparator); // 메일 발송
+			HttpSession ses = request.getSession();
+			ses.setAttribute("registerUUID", uuid);
+			ses.setAttribute("registerEmail", userEmail);
+			ses.setMaxInactiveInterval(60 * 5); // 회원가입 가능 시간 5분 설정
+			entity = new ResponseEntity<String>("sendOK", HttpStatus.OK);
+		} catch (MailException e) {
+			entity = new ResponseEntity<String>("sendFAIL", HttpStatus.OK);
+		}
+		return entity;
    }
    
    @RequestMapping(value="/deleteProfile", method=RequestMethod.POST)
