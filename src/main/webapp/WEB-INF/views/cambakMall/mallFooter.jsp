@@ -121,7 +121,7 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
  <style>
  /* *********************** 종진 수정 부분 ************************** */   
  .top{
-    left: 88.5%;
+    left: 90%;
     width: 40px;
     position: fixed;
     bottom: 80px;
@@ -360,9 +360,9 @@ if($(location).attr("href") != "http://localhost:8081/userChatting") { // 승권
       <img src="/resources/img/pageUp.png" />
       </a>
       <!-- --------------------------승권 채팅 버튼------------------------ -->
-      <a class="top" title="채팅 하러 가기" style="margin-left: 50px" onclick="goChatting()" id="btnGoChatting">
-      <img src="/resources/img/chatting.png" />
-      </a>
+<!--       <a class="top" title="채팅 하러 가기" style="margin-left: 50px" onclick="goChatting()" id="btnGoChatting"> -->
+<!--       <img src="/resources/img/chatting.png" /> -->
+<!--       </a> -->
       <!-- ----------------------------------------------------------- -->
 
         <div class="row">

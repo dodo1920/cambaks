@@ -15,9 +15,11 @@ public class ChattingImageUploads {
 	
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileDate) throws IOException {
 		UUID uuid = UUID.randomUUID();
-		String uploadFileName = uuid.toString();
+		
 		
 		String ext = originalName.substring(originalName.lastIndexOf(".") + 1); // 확장자
+		
+		String uploadFileName = uuid.toString() + "." + ext;
 		
 		// 이미지 파일이면 실제 저장하고 해당 경로 반환
 		if(MediaConfirm.getMediaType(ext) != null) {

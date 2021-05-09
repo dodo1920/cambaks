@@ -376,8 +376,9 @@ input[type="text"] {
 									<td><img alt="" src="${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
 								</c:if> 
 								<c:if test="${product.product_id > 605 }">
-									td><img alt="" src="../resources/uploads/${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
+									<td><img alt="" src="../resources/uploads/${product.product_img1 }" class="preview-thumb" style="max-width: 412px;"></td>
 								</c:if>
+								
 							</tr>
 							<tr>
 								<td class="table_title">대분류</td>
@@ -387,7 +388,7 @@ input[type="text"] {
 							<tr>
 								<td class="table_title">소분류</td>
 								<td>
-									<select id="middle-wrap" name="middleCategory_id">
+									<select id="middle-wrap" name="middleCategory_id" style="width: 130px;">
 									</select>
 								</td>
 							</tr>
