@@ -465,170 +465,170 @@ where payment_isComit = '결제완료' and now() > payment_date and payment_date
   		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) order by replyProdReview_no desc limit #{pageStart}, #{perPageNum}
   	</select>
   	
-<!-- 여기서 부터 이건 검색값 없을 때 총 갯수(페이징 처리를 위해서)-->
-   <select id="getBoard_adminCnt" resultType="int">
-  		select count(*) from Boards where
-	  		<if test="board_category != 'all'">
-	  			board_category = #{board_category} and 
-	  		</if>
-  		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}
-  	</select>
+<!-- 여기서 부터 이건 검색값 없을 때 총 갯수(페이징 처리를 위해서) -->
+<!--    <select id="getBoard_adminCnt" resultType="int"> -->
+<!--   		select count(*) from Boards where -->
+<!-- 	  		<if test="board_category != 'all'"> -->
+<!-- 	  			board_category = #{board_category} and  -->
+<!-- 	  		</if> -->
+<!--   		date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} -->
+<!--   	</select> -->
   	
-  	<select id="getReply_adminCnt" resultType="int">
-  		select count(*) from ReplyBoards r, Boards b where r.board_no = b.board_no and 
-	  		<if test="board_category != 'all'">
-	  			 b.board_category = #{board_category} and 
-	  		</if>
-  		date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}
-  	</select>
+<!--   	<select id="getReply_adminCnt" resultType="int"> -->
+<!--   		select count(*) from ReplyBoards r, Boards b where r.board_no = b.board_no and  -->
+<!-- 	  		<if test="board_category != 'all'"> -->
+<!-- 	  			 b.board_category = #{board_category} and  -->
+<!-- 	  		</if> -->
+<!--   		date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate} -->
+<!--   	</select> -->
   
   
   
-  <!-- 여기서 부터 이건 검색값 있을 때 총 갯수(페이징 처리를 위해서)-->
-  	<select id="getsearchBoard_adminCnt" resultType="int">
-  		select count(*) from Boards where
+  <!-- 여기서 부터 이건 검색값 있을 때 총 갯수(페이징 처리를 위해서) -->
+<!--   	<select id="getsearchBoard_adminCnt" resultType="int"> -->
+<!--   		select count(*) from Boards where -->
   		
-	  		<if test="board_category == 'all' and searchboardType == 'title'">
-	  			board_category = any (select board_category from Boards) and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'all' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = any (select board_category from Boards) and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'all' and searchboardType == 'content'">
-	  			board_category = any (select board_category from Boards) and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'all' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = any (select board_category from Boards) and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'all' and searchboardType == 'member_id'">
-	  			board_category = any (select board_category from Boards) and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'all' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = any (select board_category from Boards) and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'Tip' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'Tip' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'QA' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'QA' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'QA' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'QA' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'humor' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'humor' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'humor' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'humor' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'notice' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'notice' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'notice' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'notice' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'title'">
-	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'CS' and searchboardType == 'title'"> -->
+<!-- 	  			board_category = #{board_category} and board_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'content'">
-	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'CS' and searchboardType == 'content'"> -->
+<!-- 	  			board_category = #{board_category} and board_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-	  		<if test="board_category == 'CS' and searchboardType == 'member_id'">
-	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 	  		<if test="board_category == 'CS' and searchboardType == 'member_id'"> -->
+<!-- 	  			board_category = #{board_category} and member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-  		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate})
-  	</select>
+<!--   		(date_format(board_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) -->
+<!--   	</select> -->
   	
   	
-  	<select id="getsearchReply_adminCnt" resultType="int">
-  		select count(*) from ReplyBoards r, Boards b where
+<!--   	<select id="getsearchReply_adminCnt" resultType="int"> -->
+<!--   		select count(*) from ReplyBoards r, Boards b where -->
   		
-  			<if test="board_category == 'all' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'all' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'all' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!--   			<if test="board_category == 'all' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'all' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'all' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = any (select board_category from Boards) and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 
-			<if test="board_category == 'Tip' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'Tip' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 			<if test="board_category == 'Tip' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'Tip' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'Tip' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 
-			<if test="board_category == 'QA' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'QA' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'QA' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 			<if test="board_category == 'QA' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'QA' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'QA' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 
-			<if test="board_category == 'humor' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'humor' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'humor' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 			<if test="board_category == 'humor' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'humor' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'humor' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 
-			<if test="board_category == 'notice' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'notice' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'notice' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 			<if test="board_category == 'notice' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'notice' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'notice' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 
-			<if test="board_category == 'CS' and searchboardType == 'title'">
-	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'CS' and searchboardType == 'content'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
-	  		<if test="board_category == 'CS' and searchboardType == 'member_id'">
-	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and
-	  		</if>
+<!-- 			<if test="board_category == 'CS' and searchboardType == 'title'"> -->
+<!-- 	  			 r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_title like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'CS' and searchboardType == 'content'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.replyBoard_content like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
+<!-- 	  		<if test="board_category == 'CS' and searchboardType == 'member_id'"> -->
+<!-- 	  			r.board_no = b.board_no and b.board_category = #{board_category} and r.member_id like concat('%', #{searchTxtValue}, '%') and -->
+<!-- 	  		</if> -->
 	  		
-		(date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate})
-  		</select>
+<!-- 		(date_format(replyBoard_writeDate, '%Y-%m-%d') between #{goStartDate} and #{goEndDate}) -->
+<!--   		</select> -->
    
   
   		

@@ -570,6 +570,7 @@ public class MallController {
 					
 					if(prodDetailService.checkBucketQty(vo.getMember_id()) < 10) { // 장바구니에 상품 개수가 10개가 넘지 않는다면,
 						logger.info("장바구니 상품 수량이 10개 이하");
+						
 						if(prodDetailService.insertBucket(dto)) { // 장바구니에 중복되지 않은 상품 추가
 							logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
 						} else {
