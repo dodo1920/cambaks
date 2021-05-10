@@ -3,13 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="true" %>
-<% 
-response.setHeader("Cache-Control","no-store"); 
-response.setHeader("Pragma","no-cache"); 
-response.setDateHeader("Expires",0); 
-if (request.getProtocol().equals("HTTP/1.1"))
-        response.setHeader("Cache-Control", "no-cache");
-%> 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -244,7 +238,7 @@ function usedPoint() {
 	return result;
 }
 
-function oderFin() {
+function orderFin() {
 // 	alert("결제하기");
 	let member_id = "${loginMember.member_id}";
 	let dis = parseInt($("#myPoint").val().replace(',', ''));
@@ -253,7 +247,7 @@ function oderFin() {
 	let payInfo_way = "";
 	let result = false;
 	
-	alert("안녕");
+// 	alert("안녕");
 	
 // 	console.log(member_id);
 // 	console.log(dis);

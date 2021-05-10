@@ -637,67 +637,8 @@ function getPastDate(period){
 			$("#totalpageview").html(data.pagingParam.endPage);
 			
 				
-				if(data.replyBoardlst != null){
-					if(data.replyBoardlst.length == 0){
-						$("#boardListFrame").html('<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>');
-					}
-						$(data.replyBoardlst).each(function(index, item){		
-						
-
-						if(this.board_category == "humor"){
-							this.board_category = "유머";
-							this.CategoryLink = "/board/humor/read?no=";
-						}else if(this.board_category == "QA"){
-							this.board_category = "Q&A";
-							this.CategoryLink = "/board/qa/detail?no=";
-						}else if(this.board_category == "Tip"){
-							this.board_category = "캠핑팁";
-							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
-						}else if(this.board_category == "CS"){
-							this.board_category = "고객센터";
-							this.CategoryLink = "/board/cs/detail?no=";
-						}else if(this.board_category == "notice"){
-							this.board_category = "공지사항";
-							this.CategoryLink = "/board/notice/read?no=";
-						}
-						
-					});
-						ResultList = data;
-						changeResultViewList();
-// 						replyOutputGo(data.replyBoardlst);
-						
-				}else if(data.Boardlst != null){
-					if(data.Boardlst.length == 0){
-						$("#boardListFrame").html('<tr><td style="color:red;" colspan="11">검색값이 없습니다.</td></tr>');
-					}
-					$(data.Boardlst).each(function(index, item){		
-
-						if(this.board_category == "humor"){
-							this.board_category = "유머";
-							this.CategoryLink = "/board/humor/read?no=";
-						}else if(this.board_category == "QA"){
-							this.board_category = "Q&A";
-							this.CategoryLink = "/board/qa/detail?no=";
-						}else if(this.board_category == "Tip"){
-							this.board_category = "캠핑팁";
-							this.CategoryLink = "/board/campingTip/view?id=Tip&no=";
-						}else if(this.board_category == "CS"){
-							this.board_category = "고객센터";
-							this.CategoryLink = "/board/cs/detail?no=";
-						}else if(this.board_category == "notice"){
-							this.board_category = "공지사항";
-							this.CategoryLink = "/board/notice/read?no=";
-						}
-
-					
-					});
-					ResultList = data;
-					changeResultViewList();
-// 					BoardOutputGo(data.Boardlst);
-					
-				}
 				console.log(data);
-				outputPagingParam(data.pagingParam);
+// 				outputPagingParam(data.pagingParam);
 			
 		
 		});
@@ -1332,7 +1273,6 @@ table {
 									<td colspan="3"><select class="fSelect" id="sel_board_no"
 										name="cate_board_type"
 										style="text-align-last: center; width: 155px;">
-											<option value="all" selected >*** 전체 ***</option>
 											<option value="QA">상품 문의</option>
 											<option value="review">상품 리뷰</option>
 									</select></td>
@@ -1376,12 +1316,7 @@ table {
 					</div>
 					<div class="mState">
 					<a id="eBtnSearch" href="javascript:deleteAllChecked();" class="btnInfo"><span>선택 삭제</span></a>
-						<div class="gLeft">
-						
-							<p class="total">
-								[오늘 등록된 새 글 <strong id="newBoardCnt">1</strong>건 & 댓글 <strong id="newReplyCnt">1</strong> 건] <strong>검색 결과</strong> <strong id="totalResultCnt">1</strong> 건 & 총 <strong id="totalpageview">1</strong> 페이지 
-							</p>
-						</div>
+					
 						<div class="gRight">
 <!-- 							<select class="fSelect" id="isDeleteCheck" name="isDeleteCheck" align="absmiddle"> -->
 <!-- 								<option value="all" selected="selected">전체 보기</option> -->
