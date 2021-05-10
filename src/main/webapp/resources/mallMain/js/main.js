@@ -146,7 +146,7 @@ Created: Colorib
         CountDown
     --------------------*/
     // For demo preview start
-    var today = new Date("2021-05-11");
+    var today = new Date("2021-05-12");
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth()).padStart(2, '0'); //January is 0!
     var yyyy = today.getFullYear();
