@@ -117,10 +117,7 @@ public class MallController {
 		int serialNo = service.readSerialNo() + 1;
 		String month;
 		
-		if (tmpMonth < 10) month = "0" + String.valueOf(tmpMonth);
-		else month = String.valueOf(tmpMonth);
-		
-		String tmpPaymentNo = String.valueOf(year) + month + String.valueOf(date) + String.valueOf(serialNo);
+		String tmpPaymentNo = String.valueOf(year) + String.valueOf(tmpMonth) + String.valueOf(date) + String.valueOf(serialNo);
 		int payment_no = Integer.parseInt(tmpPaymentNo);
 		System.out.println("payment_no : " + payment_no);
 		
