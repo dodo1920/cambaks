@@ -117,10 +117,7 @@ public class MallController {
 		int serialNo = service.readSerialNo() + 1;
 		String month;
 		
-		if (tmpMonth < 10) month = "0" + String.valueOf(tmpMonth);
-		else month = String.valueOf(tmpMonth);
-		
-		String tmpPaymentNo = String.valueOf(year) + month + String.valueOf(date) + String.valueOf(serialNo);
+		String tmpPaymentNo = String.valueOf(year) + String.valueOf(tmpMonth) + String.valueOf(date) + String.valueOf(serialNo);
 		int payment_no = Integer.parseInt(tmpPaymentNo);
 		System.out.println("payment_no : " + payment_no);
 		
@@ -570,6 +567,7 @@ public class MallController {
 					
 					if(prodDetailService.checkBucketQty(vo.getMember_id()) < 10) { // 장바구니에 상품 개수가 10개가 넘지 않는다면,
 						logger.info("장바구니 상품 수량이 10개 이하");
+						
 						if(prodDetailService.insertBucket(dto)) { // 장바구니에 중복되지 않은 상품 추가
 							logger.info("비회원 장바구니 상품 로그인 회원 장바구니로 insert 성공!");
 						} else {
