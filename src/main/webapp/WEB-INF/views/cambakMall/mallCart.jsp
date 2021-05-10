@@ -142,13 +142,14 @@ button.btn.btn-default.cntCh {
 	$(document).ready(function() {
 		console.log(sameBucketLst);
 		console.log(sameBucketLst.length);
+		console.log(bucketQty);
 		
 		
-		if(!bucketQty == 11 && sameBucketLst.length == 2) {
-			cartList();	
-		} else if(bucketQty == 11) {
+		if(bucketQty == 11) {
 			$("#overQty").modal();
-		} else {
+		} else if(sameBucketLst.length == 0) {
+			cartList();	
+		} else if(bucketQty != 11 && sameBucketLst.length != 0){
 			$("#checkModal").modal();
 		}
 	})
