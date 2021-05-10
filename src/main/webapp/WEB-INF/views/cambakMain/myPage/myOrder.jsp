@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -237,6 +239,7 @@ $(document).ready(function(){
 												<thead>
 													<tr>
 														<td><span style="font-size: 25px; font: normal;font-weight: bold;">주문번호  </span><strong style="font-size: 25px;font-weight: bold; font: normal;color: gray">${order.payment_serialNo }</strong></td>
+														
 													</tr>
 												</thead>
 												<tbody>
@@ -244,17 +247,19 @@ $(document).ready(function(){
 													<tr>
 														<td>
 															<div style="float: left; width: 120px; margin-top: 15px">
+																
 																<img
 																	src= ${order.product_img1 }
 																	width="100" height="100" />
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<span>주문일자 : ${order.payment_date }</span><br>
 																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -264,7 +269,7 @@ $(document).ready(function(){
 																style="float: right; margin-left: 60px; margin-bottom: 35px">
 																<button type="button" class="btn btn-info" onclick="location.href='detail/${order.payment_serialNo }'">주문상세
 																	보기</button>
-																<button type="button" id="check_date${order.buyProduct_no }" onclick="check_date('${order.payment_date}',${order.buyProduct_no } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
+																<button type="button" id="check_date${order.payment_serialNo }" onclick="check_date('${order.payment_date}',${order.payment_serialNo } )" class="btn btn-info" data-toggle="modal" data-target="#myModal${order.payment_serialNo }">교환
 																	반품 신청</button>
 
 																	<button type="button" class="btn btn-info" data-toggle="modal" data-target="#purchase${order.payment_serialNo }">구매확정</button>
@@ -353,17 +358,19 @@ $(document).ready(function(){
 													<tr>
 														<td>
 															<div style="float: left; width: 120px; margin-top: 15px">
+															
 																<img
 																	src= ${order.product_img1 }
 																	width="100" height="100" />
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<span>주문일자 : ${order.payment_date }</span><br>
 																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -410,11 +417,12 @@ $(document).ready(function(){
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<span>주문일자 : ${order.payment_date }</span><br>
 																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -461,7 +469,7 @@ $(document).ready(function(){
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>
@@ -499,17 +507,19 @@ $(document).ready(function(){
 													<tr>
 														<td>
 															<div style="float: left; width: 120px; margin-top: 15px">
+															
 																<img
 																	src= ${order.product_img1 }
 																	width="110" height="110" />
 															</div>
 															<div
 																style="float: left; width: 300px; margin-top: 15px; margin-left: 10px">
+																<span>주문일자 : ${order.payment_date }</span><br>
 																<a href="http://localhost:8081/mall/prodDetail/main?prodId=${order.product_id }"><span style="font-size: 20px;color: gray;font-weight: bold;" >${order.product_name }</span></a>
 																<div style="text-align: left">
 																	<div class="emptySpace"></div>
 																	<div style="margin-top: 60px">
-																		<span style="font-size: 20px; font-weight: bold;">결제금액 ${order.buyProduct_totPrice }<em>원</em></span>
+																		<span style="font-size: 20px; font-weight: bold;">결제금액 <fmt:formatNumber type="number" maxFractionDigits="3" value="${order.buyProduct_totPrice }" /><em>원</em></span>
 																	</div>
 																</div>
 															</div>

@@ -43,7 +43,7 @@ public class BoardCsController {
 
 	@RequestMapping("/cs/list")
 	public String BoardCsList(Model model, PagingCriteria cri) throws Exception {
-		logger.info("승권 / 게시글 리스트 get방식 호출");
+		logger.info("  / 게시글 리스트 get방식 호출");
 
 		PagingParam pp = new PagingParam();
 		pp.setCri(cri);
@@ -58,14 +58,14 @@ public class BoardCsController {
 
 	@RequestMapping("/cs/write")
 	public String BoardCsWrite() {
-		logger.info("승권 / 글 쓰기 폼 get 방식 호출");
+		logger.info("  / 글 쓰기 폼 get 방식 호출");
 
 		return "cambakMain/board/cs/boardCsWrite";
 	}
 
 	@RequestMapping(value = "/cs/write", method = RequestMethod.POST)
 	public String BoardCsWrite(InsertCSBoardDTO dto, RedirectAttributes ra) throws Exception {
-		logger.info("승권 / 글 작성 POST 방식 호출");
+		logger.info("  / 글 작성 POST 방식 호출");
 
 		ra.addFlashAttribute("status", "writeOk");
 
@@ -75,7 +75,7 @@ public class BoardCsController {
 	@RequestMapping(value = "/cs/detail", method = RequestMethod.GET)
 	public String BoardCsDetail(@RequestParam("no") int no, Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		logger.info("승권 / 게시글 detail GET 호출");
+		logger.info("  / 게시글 detail GET 호출");
 
 		// 클라이언트에 등록된 쿠키 정보들
 		Cookie[] cookies = request.getCookies();
@@ -128,7 +128,7 @@ public class BoardCsController {
 
 	@RequestMapping(value = "/cs/delete", method = RequestMethod.GET)
 	public String BoardCsDelete(@RequestParam("no") int board_no, RedirectAttributes ra) throws Exception {
-		logger.info("승권 / 글 삭제 get방식 호출");
+		logger.info("  / 글 삭제 get방식 호출");
 
 		service.deleteBoardCS(board_no);
 
@@ -139,7 +139,7 @@ public class BoardCsController {
 
 	@RequestMapping("/cs/modi")
 	public String BoardModi(@RequestParam("no") int no, Model model) throws Exception {
-		logger.info("승권 / 글 수정 get 방식 호출");
+		logger.info("  / 글 수정 get 방식 호출");
 
 		model.addAttribute("board", service.readBoardCS(no, ""));
 
@@ -148,7 +148,7 @@ public class BoardCsController {
 
 	@RequestMapping(value = "/cs/modi", method = RequestMethod.POST)
 	public String BoardModi(UpdateCSBoardDTO dto, RedirectAttributes ra) throws Exception {
-		logger.info("승권 / 글 수정 post 방식 호출");
+		logger.info("  / 글 수정 post 방식 호출");
 
 		service.modiBoardCS(dto);
 
@@ -159,7 +159,7 @@ public class BoardCsController {
 
 	@RequestMapping("/cs/search")
 	public String BoardSearch(SearchCriteria scri, PagingCriteria cri, Model model) throws Exception {
-		logger.info("승권 / 검색 결과 페이지 호출");
+		logger.info("  / 검색 결과 페이지 호출");
 
 		PagingParam searchPP = new PagingParam();
 		searchPP.setCri(cri);
@@ -174,7 +174,7 @@ public class BoardCsController {
 	/**
 	 * @Method Name : handleFileUpload
 	 * @작성일 : 2021. 3. 25.
-	 * @작성자 : 승권
+	 * @작성자 :  
 	 * @변경이력 :
 	 * @Method 설명 : 서버에 이미지 업로드
 	 * @param file    : view단에서 ajax로 넘어온 파일
@@ -185,7 +185,7 @@ public class BoardCsController {
 	@ResponseBody
 	public ResponseEntity<String> BoardCsFileUpload(@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
-		logger.info("승권 / 게시글 이미지 업로드 호출");
+		logger.info("  / 게시글 이미지 업로드 호출");
 		try {
 			// 파일 업로드 될 서버 경로
 			String uploadPath = request.getSession().getServletContext().getRealPath("resources/uploads/boardCs");
@@ -209,7 +209,7 @@ public class BoardCsController {
 	/**
 	 * @Method Name : BoardCsLike
 	 * @작성일 : 2021. 4. 2.
-	 * @작성자 : 승권
+	 * @작성자 :  
 	 * @변경이력 :
 	 * @Method 설명 : 추천하기 버튼 클릭시 on-off 기능을 위한 ...
 	 * @param dto : 테이블에 좋아요 기록 insert
@@ -218,7 +218,7 @@ public class BoardCsController {
 	@RequestMapping(value = "/cs/like", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> BoardCsLike(@RequestBody InsertLikeBoard dto) {
-		logger.info("승권 / 게시글 좋아요 누르기 호출");
+		logger.info("  / 게시글 좋아요 누르기 호출");
 		ResponseEntity<Map<String, Object>> entity = null;
 
 		try {
@@ -238,7 +238,7 @@ public class BoardCsController {
 	/**
 	 * @Method Name : LikeCheck
 	 * @작성일 : 2021. 4. 2.
-	 * @작성자 : 승권
+	 * @작성자 :  
 	 * @변경이력 :
 	 * @Method 설명 : 게시글 상세페이지 들어갈 시 유저가 좋아요를 눌렀나 안눌렀나 표시하기 위한 ...
 	 * @param member_id : 유저
@@ -249,7 +249,7 @@ public class BoardCsController {
 	@ResponseBody
 	public ResponseEntity<Integer> LikeCheck(@RequestParam("member_id") String member_id,
 			@RequestParam("board_no") int board_no) {
-		logger.info("승권 / 게시글 좋아요 누르기 호출");
+		logger.info("  / 게시글 좋아요 누르기 호출");
 		ResponseEntity<Integer> entity = null;
 
 		try {
