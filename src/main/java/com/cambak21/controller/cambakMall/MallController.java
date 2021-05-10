@@ -538,19 +538,25 @@ public class MallController {
 		List<MyNonUserBucketVO> nonUserBucketLst = bucketService.getNonUserBucketList(ssid); // 가져온 ssid의 비회원 장바구니 상품들 가져옴 
 		
 		if(nonUserBucketLst.size() != 0) { // 비회원 장바구니에 상품이 있을 때,
+			logger.info("비회원장바구니에 상품 있음");
+			
 			List<MyBucketListVO> bucketLst = bucketService.getBucketList(vo.getMember_id()); // 장바구니의 상품들을 가져옴
 			List<MyBucketListVO> sameBucketLst = new ArrayList<MyBucketListVO>();
-			boolean result = false;
+			boolean result = true;
+			
 			
 			for(MyNonUserBucketVO nonUserBucket : nonUserBucketLst) { // 비회원 상품들을 하나씩 반복
 				for(MyBucketListVO bucket : bucketLst) { // 장바구니 상품들 하나씩 반복
+					
+					System.out.println(bucket.toString());
+					
 					if(nonUserBucket.getProduct_id() == bucket.getProduct_id()) { // 비회원 상품들과 장바구니 상품들 중 중복이 있다면,
 						System.out.println(nonUserBucket.getProduct_id() + "가 같습니다");
 						sameBucketLst.add(bucket); // sameBucketLst에 해당 상품 add
 						result = false;
 						break;
 					} else {
-//						System.out.println("동일 상품 아님");
+						System.out.println("동일 상품 아님");
 						result = true;
 					}
 				}

@@ -144,10 +144,10 @@ button.btn.btn-default.cntCh {
 		console.log(sameBucketLst.length);
 		
 		
-		if(bucketQty == 11) {
-			$("#overQty").modal();
-		} else if(sameBucketLst.length == 0) {
+		if(!bucketQty == 11 && sameBucketLst.length == 2) {
 			cartList();	
+		} else if(bucketQty == 11) {
+			$("#overQty").modal();
 		} else {
 			$("#checkModal").modal();
 		}
