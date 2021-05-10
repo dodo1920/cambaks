@@ -132,7 +132,7 @@ let PagingResultList = new Array();
 					{recoveryNum : recoveryNum,
 					recoveryType : recoveryType},
 				success : function(result){
-						alert(data + "번 댓글 복구 완료");
+						alert(data + "번 댓글b 복구 완료");
 						goBoardListAll();
 				}
 			});

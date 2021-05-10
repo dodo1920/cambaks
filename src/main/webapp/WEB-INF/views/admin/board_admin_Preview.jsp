@@ -87,6 +87,7 @@ table {
 .mBoard tbody th {
     border: 1px solid #d9dadc;
     text-align: left;
+    font-weight: bold;
 }
 
 .mBoard th {
@@ -105,6 +106,7 @@ table {
 
 
 .mBoard tbody td {
+    font-weight: bold;
     border: 1px solid #d9dadc;
 }
 
@@ -149,7 +151,7 @@ html {
 }
 
 .board_contentPreview * {
-	max-width: 250px;
+	max-width: 385px;
 }
 
 </style>
