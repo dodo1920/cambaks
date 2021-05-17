@@ -51,7 +51,7 @@ public interface MyMallService {
 	
 	public void plusPoint(String member_id, int pointVal)throws Exception;
 	
-	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id, int buyProduct_no)throws Exception;
+	public CheckReviewVO checkReview(String payment_isComit, int buyProduct_no)throws Exception;
 	
 	public int plusTotPurchase(int payment_no)throws Exception;
 	

@@ -144,13 +144,12 @@ public class MyMallController {
 	}
 	
 	@RequestMapping(value = "myOrder/checkReview", method = RequestMethod.GET)
-	public ResponseEntity<String> checkReview(@RequestParam("payment_isComit") String payment_isComit,@RequestParam("payment_isChecked") String payment_isChecked, @RequestParam("member_id") String member_id, @RequestParam("buyProduct_no") int buyProduct_no ){
+	public ResponseEntity<String> checkReview(@RequestParam("member_id") String member_id, @RequestParam("buyProduct_no") int buyProduct_no ){
 		
 		ResponseEntity<String> entity = null;
-		System.out.println(payment_isComit);
 		
 		try {
-			CheckReviewVO vo = service.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+			CheckReviewVO vo = service.checkReview(member_id, buyProduct_no);
 			if(vo == null) {
 				entity = new ResponseEntity<String>("noValue", HttpStatus.OK);
 			}else {

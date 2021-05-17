@@ -159,13 +159,12 @@ public class MyMallDAOImpl implements MyMallDAO {
 		
 	}
 
+	// 정민
 	@Override
-	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+	public CheckReviewVO checkReview(String member_id,
 			int buyProduct_no) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member_id", member_id);
-		params.put("payment_isComit", payment_isComit);
-		params.put("payment_isChecked", payment_isChecked);
 		params.put("buyProduct_no", buyProduct_no);
 		return ses.selectOne(ns + ".checkReview", params);
 	}

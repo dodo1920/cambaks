@@ -94,12 +94,14 @@ where pay.member_id=#{member_id} and payment_serialNo=#{payment_serialNo}
 		update goot6.Members set member_totPoint = member_totPoint + #{pointVal}  where member_id = #{member_id}
 	</update>
 	
+	<!-- 정민 -->
 	<select id="checkReview" resultType="com.cambak21.domain.CheckReviewVO">
 		select * from goot6.Payments pay join goot6.ProdReviews re 
-		on pay.buyProduct_no  = re.buyProduct_no where payment_isComit=#{payment_isComit} 
-		and payment_isChecked = #{payment_isChecked} and re.member_id = #{member_id} 
+		on pay.buyProduct_no  = re.buyProduct_no where payment_isComit='결제완료'
+		and payment_isChecked = 'Y' and re.member_id = #{member_id} 
 		and re.buyProduct_no = #{buyProduct_no}
 	</select>
+	<!-- 정민 -->
 	
 	<select id="plusTotPurchase" resultType="int">
 		select sum(buyProduct_totPrice) from goot6.BuyProducts buy join goot6.Payments pay on pay.buyProduct_no = buy.buyProduct_no where payment_no = #{payment_no} group by payment_no;

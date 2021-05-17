@@ -63,23 +63,22 @@ function refundnExchange(payment_no,payment_date) {
 	
 }
 
-function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_serialNo, product_id) {
+// 상품후기 작성 시, 해당 주문 건에 대해 이미 작성한 후기글인지 확인하는 함수
+function checkReview(buyProduct_no, payment_serialNo, product_id) {
 
-	console.log(payment_isComit);
-	
-	
 	$.ajax({
 		type : "get",
 		dataType : "text", // 받을 데이터
 		//contentType : "application/json", // 보낼 데이터, json 밑에 데이터를 제이슨으로 보냈기 때문에
 		url : "/myMall/myOrder/checkReview",// 서블릿 주소
-		data : {payment_isComit : payment_isComit, payment_isChecked : payment_isChecked, member_id : member_id, buyProduct_no : buyProduct_no},
+		data : {member_id : member_id, buyProduct_no : buyProduct_no},
 		success : function(result) {
 
 			console.log("result:" + result);
 
 			if (result == 'noValue'){
-				location.href='/mall/prodDetail/writingProdReviews?payment_serialNo='+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
+				location.href='/mall/prodDetail/writingProdReviews?payment_serialNo='
+						+payment_serialNo +'&prodId='+product_id +'&buyProduct_no='+buyProduct_no;
 			}else{
 				alert("이미 작성한 리뷰입니다.");
 			}
@@ -88,13 +87,7 @@ function checkReview(payment_isComit, payment_isChecked, buyProduct_no, payment_
 			
 		}, // 통신 실패시
 		complete : function(result) {
-			console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 			console.log(result);
-//			if(result != null){
-				
-//			}
-			
-			
 		} // 통신 완료시
 	});		
 }
@@ -382,7 +375,7 @@ $(document).ready(function(){
 																	보기</button>
 																
 																
-																<button type="button" class="btn btn-info" onclick="checkReview('${order.payment_isComit}', '${order.payment_isChecked }', ${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
+																<button type="button" class="btn btn-info" onclick="checkReview(${order.buyProduct_no }, ${order.payment_serialNo }, ${order.product_id });">리뷰작성하기</button>
 																
 																
 

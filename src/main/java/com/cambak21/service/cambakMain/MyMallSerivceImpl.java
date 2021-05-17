@@ -119,10 +119,10 @@ public class MyMallSerivceImpl implements MyMallService {
 	}
 	
 	@Override
-	public CheckReviewVO checkReview(String payment_isComit, String payment_isChecked, String member_id,
+	public CheckReviewVO checkReview(String member_id,
 			int buyProduct_no) throws Exception {
 		
-		return dao.checkReview(payment_isComit, payment_isChecked, member_id, buyProduct_no);
+		return dao.checkReview(member_id, buyProduct_no);
 	}
 	
 	@Override
