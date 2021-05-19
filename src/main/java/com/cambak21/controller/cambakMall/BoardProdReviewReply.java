@@ -54,17 +54,12 @@ public class BoardProdReviewReply {
 				try {
 					int getMaxReplyProdReview_no = service.getMaxNo();
 					
-					//ReplyProdReview_no
 					dto.setReplyProdReview_no(getMaxReplyProdReview_no);
-					//ReplyProdReview_reforder
-					//dto.setReplyProdReview_ref(dto.getReplyProdReview_no());
 					System.out.println("ref : " + dto.getReplyProdReview_ref());
 					//reforder의 경우, ref=첫부모pk인 조건에서, maxReforder를 set
-					//ReplyProdReview_refOrder
 					
 					int ref = dto.getReplyProdReview_ref();
 					System.out.println("int ref : " + ref);
-//					System.out.println(dto);
 					int reforder = service.getMaxReforder(ref);
 					System.out.println("reforder : " + reforder);
 					dto.setReplyProdReview_refOrder(reforder);
@@ -74,7 +69,6 @@ public class BoardProdReviewReply {
 					}
 				} 
 				catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} // end of else
