@@ -148,7 +148,7 @@ function drawChart(result) {
   }
   
 $(function(){
-   calcIncrease();
+   
 });
 </script>
 
